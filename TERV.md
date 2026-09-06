@@ -46,6 +46,8 @@ A kiigazítás célja az eltérés világos és tanulságos bemutatása.
 
 # 1. mérföldkő – MI, intelligencia és alkalmazások
 
+**Állapot:** kész. Ellenőrzés: `ELLENORZES-01.md`.
+
 **Forrás:** PDF 1–35. oldal.
 
 **Oldal:** `fejezetek/01-mi-es-intelligencia.html`

@@ -14,7 +14,7 @@ Az algoritmusokat és a nehéz fogalmakat példával is el kell magyarázni.
 
 | Mérföldkő | PDF-oldalak | Forrástéma | Állapot |
 |---|---:|---|---|
-| 1 | 1–35 | Bevezetés, intelligencia, MI-területek, alkalmazások | tervezve |
+| 1 | 1–35 | Bevezetés, intelligencia, MI-területek, alkalmazások | kész |
 | 2 | 36–64 | Tudásbázis, tudáskinyerés, szabályalapú rendszerek | tervezve |
 | 3 | 65–88 | Szemantikus háló, keret, esetalapú rendszer | tervezve |
 | 4 | 89–121 | Propozíciós és predikátumlogika, rezolúció | tervezve |
@@ -33,16 +33,19 @@ Az 1–307. oldal mindegyike pontosan egy mérföldkőhöz tartozik.
 
 ### 1. mérföldkő
 
-- [ ] Intelligencia-meghatározások.
-- [ ] Intelligenciatesztek története és mérési elvei.
-- [ ] Turing-teszt és kritikák.
-- [ ] Az MI meghatározásai.
-- [ ] Az összes felsorolt MI-terület.
-- [ ] Játék, tételbizonyítás, programozás és szimbolikus számítás.
-- [ ] Látás, beszéd, fordítás és robotika.
-- [ ] Korlátkielégítés és tervezés.
-- [ ] Szakértőrendszerek és DENDRAL.
-- [ ] A PDF összes hétköznapi alkalmazási példája.
+- [x] Intelligencia-meghatározások.
+- [x] Intelligenciatesztek története és mérési elvei.
+- [x] Turing-teszt és kritikák.
+- [x] Az MI meghatározásai.
+- [x] Az összes felsorolt MI-terület.
+- [x] Játék, tételbizonyítás, programozás és szimbolikus számítás.
+- [x] Látás, beszéd, fordítás és robotika.
+- [x] Korlátkielégítés és tervezés.
+- [x] Szakértőrendszerek és DENDRAL.
+- [x] A PDF összes hétköznapi alkalmazási példája.
+- [x] A 35. oldal előrejelzési ábrája, teljes feladatlistája és kritikai értelmezése.
+
+Ellenőrzési nyom: [ELLENORZES-01.md](ELLENORZES-01.md).
 
 ### 2. mérföldkő
 

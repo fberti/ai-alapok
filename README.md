@@ -13,7 +13,18 @@ A forrás 307 oldalból áll.
 - [x] A PDF tartalmának felosztása elkészült.
 - [x] A tíz fejezet és mérföldkő terve elkészült.
 - [x] A teljes lefedettségi térkép elkészült.
-- [ ] Az alkalmazás megvalósítása még nem kezdődött el.
+- [x] 1. mérföldkő: kezdőlap, közös alkalmazásváz és az első fejezet.
+- [ ] 2–10. mérföldkő: további fejezetek.
+
+## Az elkészült alkalmazás
+
+Nyisd meg az `index.html` fájlt.
+
+Használat, tesztelés és GitHub Pages: [HASZNALAT.md](HASZNALAT.md).
+
+Az első fejezet hat interaktív bemutatót és tíz opcionális kvízkérdést tartalmaz.
+
+A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.
 
 ## Parancs
 
