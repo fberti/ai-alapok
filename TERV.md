@@ -129,6 +129,8 @@ Az első fejezet minden felsorolt része működik.
 
 # 2. mérföldkő – Tudásbázisok és szakértőrendszerek
 
+**Állapot:** kész. Ellenőrzés: `ELLENORZES-02.md`.
+
 **Forrás:** PDF 36–64. oldal.
 
 **Oldal:** `fejezetek/02-tudasbazisok.html`

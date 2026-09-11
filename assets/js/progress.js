@@ -1,5 +1,6 @@
 const CourseProgress = (() => {
-  const key = 'ai-alapok:chapter-1:complete';
+  const chapter = typeof document !== 'undefined' ? document.body.dataset.chapter || '1' : '1';
+  const key = `ai-alapok:chapter-${chapter}:complete`;
   /** @param {Pick<Storage, 'getItem'> | null} store */
   function readProgress(store) {
     try {return store?.getItem(key) === 'true';} catch {return false;}

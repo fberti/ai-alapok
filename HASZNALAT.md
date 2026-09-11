@@ -8,6 +8,10 @@ Az első fejezet külön fájlból is megnyitható:
 
 `fejezetek/01-mi-es-intelligencia.html`
 
+A második fejezet: `fejezetek/02-tudasbazisok.html`.
+
+A kész jelölést a két fejezet külön tárolja.
+
 A tananyag, a bemutatók és a kvíz nem igényelnek internetet.
 
 A külső szakmai források megnyitásához internet kell.
@@ -72,8 +76,8 @@ A `node_modules/` könyvtár nem kell a közzétett oldalhoz.
 
 ## Jelenlegi hatókör
 
-Az 1. fejezet készült el.
+Az 1–2. fejezet készült el.
 
-A 2–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
+A 3–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
 
-A következő fejezethez: `/implement #2`.
+A következő fejezethez: `/implement #3`.

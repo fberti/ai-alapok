@@ -12,22 +12,22 @@ const CourseQuiz = (() => {
     {prompt:'A gép jól ír le beszédet. Következik ebből minden emberi munka megszűnése?', options:['Igen, minden feladat ugyanaz.','Nem. Egy részfeladat sikere nem a teljes munkakör átvétele.','Igen, ha elég gyors.'], answer:1, explanation:'Egy munkakör több feladatból, felelősségből és emberi kapcsolatból áll. A technikai képesség és a munkapiaci hatás külön kérdés.'}
   ];
   /** @param {number} index @param {number | null} choice */
-  function grade(index, choice) {
-    const q = questions[index];
+  function grade(index, choice, bank = questions) {
+    const q = bank[index];
     if (!q || choice === null || !Number.isInteger(choice) || choice < 0 || choice >= q.options.length) {
       return {correct:false, text:'Válassz egy választ, vagy hagyd ki ezt a kérdést.'};
     }
     const correct = choice === q.answer;
     return {correct, text:`${correct ? 'Így van!' : 'Még nem egészen.'} ${q.explanation}`};
   }
-  function mount() {
+  function mount(bank = questions) {
     const container = document.getElementById('quiz-questions');
     const score = document.getElementById('quiz-score');
     if (!container || !score) return;
     /** @type {Map<number, boolean>} */
     const results = new Map();
-    const showScore = () => {score.textContent = `${results.size}/10 kérdés ellenőrizve. ${[...results.values()].filter(Boolean).length} helyes válasz. Bármikor továbbléphetsz.`;};
-    questions.forEach((q,index) => {
+    const showScore = () => {score.textContent = `${results.size}/${bank.length} kérdés ellenőrizve. ${[...results.values()].filter(Boolean).length} helyes válasz. Bármikor továbbléphetsz.`;};
+    bank.forEach((q,index) => {
       const fieldset = document.createElement('fieldset');
       const legend = document.createElement('legend');
       legend.textContent = `${index + 1}. ${q.prompt}`; fieldset.append(legend);
@@ -44,7 +44,7 @@ const CourseQuiz = (() => {
       button.addEventListener('click', () => {
         const selected = fieldset.querySelector('input:checked');
         const choice = selected instanceof HTMLInputElement ? Number(selected.value) : null;
-        const result = grade(index,choice);
+        const result = grade(index,choice,bank);
         feedback.hidden = false; feedback.textContent = result.text;
         if (choice !== null) results.set(index,result.correct);
         showScore();
@@ -61,4 +61,4 @@ const CourseQuiz = (() => {
   return {questions, grade, mount};
 })();
 if (typeof module !== 'undefined') module.exports = CourseQuiz;
-if (typeof document !== 'undefined') CourseQuiz.mount();
+if (typeof document !== 'undefined' && document.body.dataset.quiz !== 'manual') CourseQuiz.mount();

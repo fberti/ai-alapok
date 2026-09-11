@@ -15,7 +15,7 @@ Az algoritmusokat és a nehéz fogalmakat példával is el kell magyarázni.
 | Mérföldkő | PDF-oldalak | Forrástéma | Állapot |
 |---|---:|---|---|
 | 1 | 1–35 | Bevezetés, intelligencia, MI-területek, alkalmazások | kész |
-| 2 | 36–64 | Tudásbázis, tudáskinyerés, szabályalapú rendszerek | tervezve |
+| 2 | 36–64 | Tudásbázis, tudáskinyerés, szabályalapú rendszerek | kész |
 | 3 | 65–88 | Szemantikus háló, keret, esetalapú rendszer | tervezve |
 | 4 | 89–121 | Propozíciós és predikátumlogika, rezolúció | tervezve |
 | 5 | 122–141 | Prolog és fuzzy logika | tervezve |
@@ -49,17 +49,19 @@ Ellenőrzési nyom: [ELLENORZES-01.md](ELLENORZES-01.md).
 
 ### 2. mérföldkő
 
-- [ ] Tudás és reprezentációs követelmények.
-- [ ] Tudásfeldolgozási folyamat.
-- [ ] Tudásgyűjtés és tudáskézikönyv.
-- [ ] Szakértők forrásai, típusai és motivációja.
-- [ ] Előzetes és részletes tudás.
-- [ ] Az összes tudáskinyerési technika.
-- [ ] K1–K6 és a villámlásos példa.
-- [ ] Elemzés, kódolás és dokumentálás.
-- [ ] Automatikus tudáskinyerés.
-- [ ] Szabályok, láncolás és konfliktusfeloldás.
-- [ ] Előnyök és hátrányok.
+- [x] Tudás és reprezentációs követelmények.
+- [x] Tudásfeldolgozási folyamat.
+- [x] Tudásgyűjtés és tudáskézikönyv.
+- [x] Szakértők forrásai, típusai és motivációja.
+- [x] Előzetes és részletes tudás.
+- [x] Az összes tudáskinyerési technika.
+- [x] K1–K6 és a villámlásos példa.
+- [x] Elemzés, kódolás és dokumentálás.
+- [x] Automatikus tudáskinyerés.
+- [x] Szabályok, láncolás és konfliktusfeloldás.
+- [x] Előnyök és hátrányok.
+
+Ellenőrzési nyom: [ELLENORZES-02.md](ELLENORZES-02.md).
 
 ### 3. mérföldkő
 

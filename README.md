@@ -14,7 +14,8 @@ A forrás 307 oldalból áll.
 - [x] A tíz fejezet és mérföldkő terve elkészült.
 - [x] A teljes lefedettségi térkép elkészült.
 - [x] 1. mérföldkő: kezdőlap, közös alkalmazásváz és az első fejezet.
-- [ ] 2–10. mérföldkő: további fejezetek.
+- [x] 2. mérföldkő: tudásbázisok és szakértőrendszerek.
+- [ ] 3–10. mérföldkő: további fejezetek.
 
 ## Az elkészült alkalmazás
 
@@ -23,6 +24,10 @@ Nyisd meg az `index.html` fájlt.
 Használat, tesztelés és GitHub Pages: [HASZNALAT.md](HASZNALAT.md).
 
 Az első fejezet hat interaktív bemutatót és tíz opcionális kvízkérdést tartalmaz.
+
+A második fejezet öt interaktív bemutatót és kilenc opcionális kvízkérdést tartalmaz.
+
+Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md).
 
 A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.
 

@@ -1,0 +1,13 @@
+const ChapterTwoQuiz = [
+  {prompt:'Miért számít a tudás kódolása?', options:['Csak a betűk színe miatt.','Meghatározza a tárolást és az elvégezhető műveleteket.','Minden kódolás egyformán gyors.'], answer:1, explanation:'A szerkezet hat a keresésre, illesztésre és tárigényre. A rendezett telefonkönyvben könnyebb nevet keresni.'},
+  {prompt:'Mi a tudásmérnök feladata?', options:['A szakértővel együtt géppel kezelhető tudásleírást készít.','Minden szakmai döntést ellenőrzés nélkül átvesz.','Csak a gépet szereli.'], answer:0, explanation:'A terület tudását és a gépi leírást össze kell kapcsolni, majd közösen ellenőrizni.'},
+  {prompt:'Melyik kérdés tár fel alternatív döntést?', options:['K1: Miért?','K2: Hogyan?','K4: Milyen más lehetőség van?'], answer:2, explanation:'K4 más döntési utakat kér. K1 az indokot, K2 a részlépéseket tárja fel.'},
+  {prompt:'A munkát egy másik szakértő kommentálja közben. Mi ez?', options:['Offline önbeszámoló.','Online árnyékbeszámoló.','Szövegrész-indexelés.'], answer:1, explanation:'Online itt a munkával egyidejű rögzítést jelent. Az árnyékbeszámolót másik szakértő adja.'},
+  {prompt:'Melyik leíró tudás?', options:['Két billentyű hibás.','Előbb kérdezz rá a hibák számára.','Kapcsold be a hűtést.'], answer:0, explanation:'A leíró tudás állítást rögzít. A másik két válasz műveletet vagy sorrendet ír elő.'},
+  {prompt:'R1: a és b → e; R2: c és d → f; R3: e és f → g. Csak a,b,c ismert. Mi vezethető le?', options:['e, f és g.','Csak g.','e; f és g nem igazolható.'], answer:2, explanation:'R1 minden feltétele teljesül. R2-höz hiányzik d, így R3-hoz sem lesz f. Ez nem bizonyítja g tagadását.'},
+  {prompt:'Van egy g hipotézisünk. Melyik irány vizsgálja célzottan a feltételeit?', options:['Csak az előreláncolás.','A hátraláncolás.','A szabályok törlése.'], answer:1, explanation:'A hátraláncolás a célból indul és részcélokat ellenőriz. Nem fordítja meg az implikációt.'},
+  {prompt:'Mit jelent a konfliktushalmaz?', options:['Az éppen alkalmazható szabályok halmazát.','Csak az egymásnak ellentmondó állításokat.','Az összes hibás szabályt.'], answer:0, explanation:'Több szabály is alkalmazható lehet egyszerre. A konfliktusfeloldás a következőként futót választja ki.'},
+  {prompt:'Mit vált ki általában a gépi tanulás?', options:['Minden szakértőt és minden ellenőrzést.','Minden adatgyűjtést.','Egyes kézi lépéseket; a cél és az eredmény ellenőrzése megmarad.'], answer:2, explanation:'Automatikus tanulás mellett is ellenőrizni kell az adatok és a következtetések használhatóságát.'}
+];
+if (typeof module !== 'undefined') module.exports = ChapterTwoQuiz;
+if (typeof document !== 'undefined') CourseQuiz.mount(ChapterTwoQuiz);

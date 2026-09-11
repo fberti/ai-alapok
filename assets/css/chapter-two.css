@@ -1,0 +1,18 @@
+/* Chapter 2 keeps the shared notebook layout and adds a blue accent. */
+.chapter-two{--green:#245778;--soft:#e7eef2;--lime:#d9e9f3}
+:root[data-theme=dark] .chapter-two{--green:#96caeb;--soft:#202d36;--lime:#d9e9f3}
+.process-map li{padding:.6rem .3rem}.process-map span{display:block}
+.rule-map,.system-map{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+.rule-map>div,.system-map>div{padding:1.1rem;border:1px solid var(--green);background:var(--white);border-radius:5px}
+.rule-map>div:last-child,.system-map .engine{grid-column:1/-1}
+.rule-map{font-family:Georgia,serif;font-size:1.25rem}
+.system-map p{margin:.5rem 0}.system-map span{font-size:1.5rem}
+#process-order{padding-left:1.5rem}#process-order li{padding:.7rem 0;border-bottom:1px solid var(--line)}
+#process-order .lab-controls{margin:.4rem 0}
+.trace{padding-left:1.5rem}.trace li{padding:.35rem;overflow-wrap:anywhere}
+.trace li:last-child{background:var(--soft);border-left:3px solid var(--green);animation:trace-enter .25s ease-out}
+.chapter-two button:disabled{opacity:.5}
+.chapter-two select{max-width:100%;padding:.5rem;background:var(--white);color:var(--ink);border:1px solid var(--line)}
+@keyframes trace-enter{from{transform:translateY(5px);opacity:.4}to{transform:translateY(0);opacity:1}}
+@media(max-width:760px){.rule-map,.system-map{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.trace li:last-child{animation:none}}
