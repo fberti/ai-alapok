@@ -32,6 +32,8 @@ Az átdolgozott második fejezet a PDF nélkül is követhető. Látható lépé
 
 A harmadik fejezet négy interaktív labort és nyolc opcionális kvízkérdést tartalmaz.
 
+Az átdolgozott harmadik fejezet a PDF 65–88. oldalát önállóan olvasható leckévé szervezi. A kanári útvonalai, Pityuka adatlapja és a két biztosítási ág segítik a hálók megértését. A keretek teljes adatlapokat, az öröklés és az esethasonlóság végigvezetett megoldásokat kapott. Minden szükséges magyarázat kattintás és JavaScript nélkül is olvasható.
+
 Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md).
 
 A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.

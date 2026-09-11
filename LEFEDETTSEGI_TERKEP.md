@@ -90,6 +90,8 @@ A második fejezet átdolgozása megőrzi a PDF 36–64. oldalának lefedését 
 
 Ellenőrzési nyom: [ELLENORZES-03.md](ELLENORZES-03.md).
 
+Az átdolgozott harmadik fejezet a PDF 65–88. oldalának összes példáját és a 12 kiigazítást megőrzi. A kanári kérdései útvonalakat, Pityuka adatai külön adatlapot, az öröklési konfliktus két látható ágat kapott. Az előadáskeretek teljes mezőkészlete egymás mellett olvasható. Az esetfolyamat két döntési ága és mindhárom mintaeset pontszáma JavaScript nélkül is követhető. A négy labor változatlanul használható. Az olvasási elemeket telefonon, mindkét témában és nyomtatásban is ellenőriztük.
+
 ### 4. mérföldkő
 
 - [ ] Logikatörténet minden felsorolt személlyel.
