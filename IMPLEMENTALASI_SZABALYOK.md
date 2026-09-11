@@ -96,6 +96,42 @@ A szövegtípus legyen jól olvasható hosszabb tanulás közben is.
 
 A képletek, algoritmusok és kódok kapjanak külön vizuális rendszert.
 
+A fejezet ne legyen hosszú, egyforma bekezdések sora.
+
+A forrás teljes magyarázata maradjon meg, de a szöveget a tartalomhoz illő vizuális olvasási elemek tagolják.
+
+Időrendi anyaghoz idővonalat kell használni.
+
+Összevethető fogalmakhoz párhuzamos összehasonlítást kell használni.
+
+Egy folyamatot számozott lépések, folyamatábra vagy egymásra épülő sorok mutassanak be.
+
+Egy párbeszéd kapjon beszélgetést segítő vizuális formát.
+
+Egy fontos forrásmondat idézetként is kiemelhető.
+
+Egy fontos következtetés kapjon rövid, jól látható kiemelést.
+
+A vizuális elemnek tanulási feladata legyen.
+
+A vizuális elem ne legyen puszta dísz.
+
+A forma tegye könnyebbé az összehasonlítást, az időrend, a kapcsolat vagy a fő gondolat felismerését.
+
+Ugyanazt a vizuális mintát nem kell minden részben ismételni.
+
+A fejezet használjon több, a tartalomhoz illő tagolási módot.
+
+Az idézet csak szó szerinti vagy egyértelműen idézetként közölt forrásszöveget tartalmazhat.
+
+Az átfogalmazott magyarázat nem jelenhet meg idézetként.
+
+Az idézet mellett fel kell tüntetni a forrást vagy a PDF-oldalt.
+
+A vizuális tagolás nem rövidítheti felsorolássá a magyarázatot.
+
+A teljes mondatokból álló, összefüggő magyarázatot meg kell tartani.
+
 A felület ne használjon sablonos lila színátmenetet.
 
 A felület működjön telefonon, táblagépen és asztali gépen.
@@ -104,15 +140,16 @@ A felület működjön telefonon, táblagépen és asztali gépen.
 
 1. Rövid nyitó kérdés vagy hétköznapi helyzet.
 2. Tanulási célok.
-3. A fogalmak fokozatos magyarázata.
-4. „Egyszerűen mondva” doboz a nehéz részeknél.
-5. Fogalomkártyák az új szavakhoz.
-6. Legalább egy interaktív elem, ha a témához értelmesen illik.
-7. Legalább egy végigvezetett példa.
-8. Opcionális kvíz.
-9. Rövid összefoglaló.
-10. Kapcsolat az előző és a következő fejezettel.
-11. Forrás- és pontosítási megjegyzések.
+3. A fogalmak fokozatos, önállóan olvasható magyarázata.
+4. A szöveget tagoló, tartalmi célú vizuális elemek, például idővonal, összehasonlítás, idézet, folyamatábra vagy lépéssor.
+5. „Egyszerűen mondva” doboz a nehéz részeknél.
+6. Fogalomkártyák az új szavakhoz.
+7. Legalább egy interaktív elem, ha a témához értelmesen illik.
+8. Legalább egy végigvezetett példa.
+9. Opcionális kvíz.
+10. Rövid összefoglaló.
+11. Kapcsolat az előző és a következő fejezettel.
+12. Forrás- és pontosítási megjegyzések.
 
 A fejezet kidolgozása előtt át kell tekinteni a `resources/code/` mappában található, a fejezet témájához kapcsolódó kódokat.
 
@@ -136,6 +173,12 @@ Minden felhasználói szöveg magyar legyen.
 
 A hang legyen közvetlen és nyugodt.
 
+A fejezet önmagában legyen érthető.
+
+Az olvasónak ne kelljen mellette megnyitnia a forrás PDF-et.
+
+A PDF érdemi állításait, példáit és szükséges hátterét szervesen kell beépíteni a magyarázatba.
+
 A magyarázat használjon rövid mondatokat.
 
 Az első előfordulásnál minden nehéz szót meg kell magyarázni.
@@ -158,6 +201,14 @@ Minden interaktív elem működjön billentyűzettel is.
 
 Minden grafika kapjon szöveges magyarázatot.
 
+A vizuális olvasási elemek JavaScript nélkül is adják át a teljes tartalmat.
+
+Telefonon nem okozhatnak vízszintes oldalmozgatást.
+
+Világos és sötét témában is olvashatók legyenek.
+
+Nyomtatáskor se rejtsenek el szükséges magyarázatot.
+
 A mozgás kikapcsolható legyen a rendszer „kevesebb mozgás” beállításával.
 
 A kvízek legyenek kihagyhatók.
@@ -179,6 +230,11 @@ Minden mérföldkő végén ellenőrizni kell:
 - a magyar ékezeteket;
 - a belső hivatkozásokat;
 - a telefonos elrendezést;
+- a világos és sötét téma olvashatóságát;
+- a szöveg vizuális tagolását;
+- azt, hogy az idővonalak, összehasonlítások, idézetek és folyamatábrák valódi tartalmi kapcsolatot mutatnak;
+- azt, hogy az idézetek forrása látható, és az átfogalmazás nem idézetként jelenik meg;
+- azt, hogy a teljes anyag a PDF párhuzamos megnyitása nélkül is érthető;
 - a billentyűzetes használatot;
 - a képletek helyességét;
 - a kvíz válaszait;

@@ -10,6 +10,16 @@ A puszta említés nem mindig elég.
 
 Az algoritmusokat és a nehéz fogalmakat példával is el kell magyarázni.
 
+A fejezet akkor sem kész, ha csak a PDF mellett olvasható érthetően.
+
+A forrás érdemi anyagát önállóan olvasható magyarázatba kell beépíteni.
+
+A hosszabb szöveget a tartalomhoz illő vizuális olvasási elemekkel kell tagolni.
+
+Ilyen elem lehet az idővonal, az összehasonlítás, a forrással jelölt idézet, a folyamatábra, a számozott lépéssor vagy a fő következtetés kiemelése.
+
+A vizuális elem nem lehet puszta dísz, és nem helyettesítheti a teljes magyarázatot.
+
 ## Forrás és felosztás
 
 | Mérföldkő | PDF-oldalak | Forrástéma | Állapot |
@@ -212,5 +222,10 @@ Egy mérföldkő állapota csak akkor lehet „kész”, ha:
 - minden kiigazítás indoklást és kellő alátámasztást kapott;
 - minden kiigazítás lehetőség szerint példát vagy ellenpéldát is kapott;
 - a fejezet mobilon és billentyűzettel is használható;
+- a fejezet a PDF párhuzamos megnyitása nélkül is érthető;
+- a hosszabb szöveget változatos, tartalmi célú vizuális elemek tagolják;
+- az időrendi részek idővonalat, az összevetések összehasonlító formát, a folyamatok pedig lépéssort vagy folyamatábrát kapnak, amikor ez segíti a tanulást;
+- a vizuális tagolás JavaScript nélkül, telefonon, nyomtatásban, valamint világos és sötét témában is megőrzi a teljes tartalmat;
+- a szó szerinti idézetek forrása látható, és az átfogalmazott magyarázat nem idézetként jelenik meg;
 - nincs ismert JavaScript-hiba;
 - a következő fejezetre mutató kapcsolat világos.

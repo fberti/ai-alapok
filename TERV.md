@@ -18,6 +18,20 @@ A sorrend a PDF rendjét követi.
 
 A magyarázatok a fogalmaktól haladnak az algoritmusok felé.
 
+Minden fejezet önállóan érthető legyen.
+
+Az olvasónak ne kelljen párhuzamosan megnyitnia a forrás PDF-et.
+
+A forrás érdemi anyaga szervesen simuljon bele a magyarázatba.
+
+A fejezeteket ne hosszú, egyforma bekezdéssorok alkossák.
+
+A tartalmat idővonalak, összehasonlítások, hiteles forrásidézetek, folyamatábrák, lépéssorok és rövid kiemelések tagolják, amikor ezek segítik a megértést.
+
+A vizuális tagolás nem válthatja fel az összefüggő magyarázatot rövid felsorolásokkal.
+
+Minden vizuális formának valós tartalmi feladata legyen.
+
 A teljes kurzus végén a tanuló értse a klasszikus MI fő ötleteit.
 
 A tanuló tudja azt is, hogy ezek hogyan kapcsolódnak a mai MI-hez.

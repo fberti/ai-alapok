@@ -34,6 +34,28 @@ Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZE
 
 A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.
 
+## Tartalmi forma
+
+Minden fejezet önállóan érthető tananyag legyen.
+
+Az olvasónak ne kelljen mellette megnyitnia a forrás PDF-et.
+
+A forrás érdemi anyaga szervesen simuljon bele a magyarázatba.
+
+A hosszabb szöveget tartalmi célú vizuális elemek tagolják.
+
+Időrendi anyaghoz idővonal tartozik.
+
+Összevetéshez párhuzamos elrendezés tartozik.
+
+Folyamathoz lépéssor vagy folyamatábra tartozik.
+
+A hiteles forrásmondatok idézetet és látható forrásjelölést kaphatnak.
+
+A vizuális tagolás nem válthatja fel a teljes, összefüggő magyarázatot.
+
+A részletes szabályokat az `IMPLEMENTALASI_SZABALYOK.md` tartalmazza.
+
 ## Parancs
 
 Egy fejezet megvalósításához ezt a formát használd:
