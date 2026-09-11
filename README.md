@@ -28,6 +28,8 @@ Az első fejezet hat interaktív bemutatót és tíz opcionális kvízkérdést 
 
 A második fejezet öt interaktív bemutatót és kilenc opcionális kvízkérdést tartalmaz.
 
+Az átdolgozott második fejezet a PDF nélkül is követhető. Látható lépéssorok, összevetések és szerkesztett párbeszéd tagolják. A kézikönyv és a részletes tudás teljes tartalma kattintás nélkül olvasható. Mindkét láncolási irányhoz írásos levezetés tartozik. Az oktatói `resources/code/12_Logika.py` szabályait a kapcsolódó magyarázat mutatja be.
+
 A harmadik fejezet négy interaktív labort és nyolc opcionális kvízkérdést tartalmaz.
 
 Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md).

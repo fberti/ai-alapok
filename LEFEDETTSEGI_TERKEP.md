@@ -73,6 +73,8 @@ Ellenőrzési nyom: [ELLENORZES-01.md](ELLENORZES-01.md).
 
 Ellenőrzési nyom: [ELLENORZES-02.md](ELLENORZES-02.md).
 
+A második fejezet átdolgozása megőrzi a PDF 36–64. oldalának lefedését és mind a kilenc kiigazítást. A nyolc reprezentációs elv, a kézikönyv kilenc eleme és a részletes tudás tizenhárom összetevője teljes, látható magyarázatot kapott. A folyamatok, a K1–K6 kérdések, a szerkesztett párbeszéd és a két láncolási irány külön olvasási formát használ. A `resources/code/12_Logika.py` példája közvetlenül a szabályláncolásnál szerepel. A vizuális elemek telefonon, mindkét témában, JavaScript nélkül és nyomtatásban is ellenőrzöttek.
+
 ### 3. mérföldkő
 
 - [x] Szemantikus háló története és szerkezete.

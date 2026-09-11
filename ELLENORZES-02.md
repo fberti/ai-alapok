@@ -2,6 +2,37 @@
 
 A fejezet: `fejezetek/02-tudasbazisok.html`.
 
+## Átdolgozás az első fejezet olvasási mintája szerint
+
+A PDF 36–64. oldalát újra összevetettük a fejezettel. A 41., 60. és 62. oldal ábráját renderelt képen is ellenőriztük. Az alábbi eredmények a mostani átdolgozásra vonatkoznak; a későbbi szakaszok az eredeti mérföldkő ellenőrzési nyomát őrzik.
+
+- A nyolc reprezentációs elv teljes, közös hibakeresési példára épülő magyarázatot kapott.
+- A fejlesztés öt lépése, a tudásgyűjtés négy szakasza, az elemzés négy lépése és a következtetés háromrészes ciklusa számozott, összekötött lépéssort használ. A fejlesztés visszautai is láthatók.
+- A kézikönyv kilenc eleme és a részletes tudás tizenhárom összetevője nem összecsukható részben, hanem folyamatosan látható magyarázatban szerepel.
+- A szakértőtípusok és a K1–K6 kérdések keskeny képernyőn is teljes szélességben olvashatók. Nem kell táblázatot oldalra görgetni.
+- A villámlásos párbeszéd beszélgetési formát kapott. A képaláírás átfogalmazásként jelöli, ezért nem `blockquote` elem.
+- Az egyetlen kiemelt idézet a PDF 40. oldalának szó szerinti mondata. Mellette látható az oldalszám.
+- Az előre- és hátraláncoláshoz külön, kattintás nélkül olvasható levezetés tartozik. Mindkettő kitér a hiányzó d tényre. A hátraláncolás nem fordítja meg az implikációt.
+- Mind a 46 eredeti HTML-azonosító és mind a kilenc kiigazítás szövege megmaradt. Az öt labor és a kilenckérdéses kvíz vezérlőkódját nem módosítottuk.
+- A `resources/code/` fájljai közül áttekintettük a `12_Logika.py` szabályláncolását és a `11_Fuzzy.py` szabályozási példáját. A közvetlenül ide tartozó három pyDatalog-szabály változatlanul bekerült a láncolás magyarázatához. A fuzzy szabályok részletes tárgyalása az ötödik fejezet témája marad.
+- A kódhoz megadott saját bemenet eltérését jelezzük. A két apai tényből levezetett szülőkapcsolatokat és az `Andras`–`Csaba` nagyszülőkapcsolatot pyDataloggal is ellenőriztük. A kódrészlet sorai egyeznek az oktatói fájl soraival. Az oldal nem futtat Pythont.
+
+Ellenőrzések:
+
+- `npm test`: 19 sikeres teszt.
+- `npm run typecheck`: sikeres.
+- Playwright: 72 sikeres böngészőteszt, asztali és telefonos beállításokkal. Az új `tesztek/bongeszo/chapter-two-layout.spec.cjs` hat tesztje mindkét beállítással lefutott.
+- A böngészőtesztek a munkafát kiszolgáló ideiglenes `/ai-alapok/` útvonalon futottak: `npx playwright test --config /tmp/featherstar-ch01/playwright.config.cjs`. Ez a meglévő konfiguráció kiszolgálási gyökerét igazítja a `featherstar` munkafanévhez. A tároló alapkonfigurációját nem változtattuk meg.
+- Az új elrendezéseket 320, 390, 768, 1024 és 1365 px szélességen, világos és sötét témában ellenőriztük. Nincs vízszintes túllógás.
+- A teljes új olvasási tartalom JavaScript nélkül is látható. A nyomtatási stílus világos és sötét oldalból is olvasható papírt készít, a kézikönyv és a levezetések nem tűnnek el.
+- Két A4-es próba-PDF készült, háttérnyomtatás és JavaScript nélkül. A szövegkinyerés ellenőrizte a kézikönyv, a részletes tudás, a párbeszéd, a kód, a hátraláncolás és az összegzés jelenlétét. A kézikönyvet, a kódot és a hátraláncolást nyomtatott oldalképen is megvizsgáltuk.
+- Asztali világos folyamat- és szabályábra, valamint telefonos sötét párbeszéd-, kód- és kézikönyvnézet képi ellenőrzése megtörtént.
+- Axe-core WCAG A/AA: mindkét témában 0 biztos hiba. A nyilak kontrasztját az automata kézi vizsgálatra hagyta; a nyilak olvashatók, és jelentésüket szöveg is megadja. Ez nem teljes akadálymentességi tanúsítás.
+- Szigorú HTML5-feldolgozás: sikeres. A helyi hivatkozásokat és az egyedi azonosítókat az egységtesztek is ellenőrzik.
+- `git diff --check`: sikeres.
+
+A képernyőképek, próba-PDF-ek és futási naplók helyi ellenőrzési anyagai a `/tmp/featherstar-ch02/` könyvtárban vannak. Nem részei a kiadásnak.
+
 ## Forráslefedés
 
 A PDF 36–64. oldalának szövegét a `pdftotext -layout` eszközzel olvastuk ki. A 60. és 62. oldal nem szöveges ábráját renderelt képen is ellenőriztük. Az ábrák HTML-változata mellett szöveges magyarázat áll.

@@ -99,8 +99,9 @@ test('A tananyag JavaScript nélkül is olvasható, külső fájlt nem tölt be'
   page.on('request', request => {if (!request.url().startsWith(baseURL)) external.push(request.url());});
   await page.goto(baseURL+chapter);
   await expect(page.locator('#osszegzes')).toContainText('A tudásból működő lépések lesznek.');
-  await page.getByText('A Tudás Kézikönyv teljes kezdeti tartalma',{exact:true}).click();
-  await expect(page.getByText('A prototípusban közreműködő szakértők neve.',{exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'A Tudás Kézikönyv teljes kezdeti tartalma'})).toBeVisible();
+  await expect(page.locator('#tudas-kezikonyv')).toContainText('prototípusban közreműködő szakértők nevét');
+  await expect(page.locator('#tudas-kezikonyv dd').nth(1)).toBeVisible();
   expect(external).toEqual([]); await context.close();
 });
 test('Tiltott tároló és csökkentett mozgás mellett is működik', async ({page}) => {
