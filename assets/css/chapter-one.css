@@ -1,0 +1,314 @@
+/* First chapter only: reading aids use the shared light/dark notebook palette. */
+.chapter-one .chapter-section > p {
+  max-width: 72ch;
+}
+.chapter-one .chapter-section > h3 {
+  margin-top: 2.5rem;
+}
+.chapter-one .chapter-section > figure {
+  margin-inline: 0;
+}
+.chapter-one mark {
+  color: inherit;
+  background: var(--soft);
+  box-shadow: inset 0 -.35em 0 var(--line);
+  padding: 0 .12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.chapter-one .reading-label {
+  display: block;
+  color: var(--green);
+  font-size: .75rem;
+  font-weight: bold;
+  letter-spacing: .08em;
+  margin-bottom: .75rem;
+}
+
+/* A scene in the margin, rather than another section heading. */
+.chapter-one .scene {
+  display: grid;
+  grid-template-columns: 125px minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  margin: 1.5rem 0 2rem;
+  border-block: 1px dashed var(--line);
+}
+.chapter-one .scene-label {
+  font-family: Georgia, serif;
+  font-size: 1.45rem;
+  line-height: 1.3;
+  color: var(--green);
+}
+.chapter-one .scene p { margin: 0; }
+
+/* Four viewpoints and paired concepts remain full, readable paragraphs. */
+.chapter-one .perspectives,
+.chapter-one .comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 2rem 0;
+  border-block: 1px solid var(--line);
+}
+.chapter-one .perspective,
+.chapter-one .comparison > div {
+  min-width: 0;
+  padding: 1.4rem 1.5rem;
+}
+.chapter-one .perspective:nth-child(odd),
+.chapter-one .comparison > div:first-child { border-right: 1px solid var(--line); }
+.chapter-one .perspective:nth-child(n+3) { border-top: 1px solid var(--line); }
+.chapter-one .perspective:nth-child(2),
+.chapter-one .perspective:nth-child(3) { background: var(--soft); }
+.chapter-one .perspective p,
+.chapter-one .comparison p { margin-bottom: 0; }
+.chapter-one .comparison .reading-label {
+  font-family: Georgia, serif;
+  font-weight: normal;
+  font-size: 1.5rem;
+  letter-spacing: -.02em;
+}
+.chapter-one .takeaway {
+  margin: 2rem 0;
+  border-left: 4px solid var(--green);
+  padding: .5rem 0 .5rem 1.5rem;
+  max-width: 65ch;
+}
+.chapter-one .takeaway p {
+  font: 1.4rem/1.5 Georgia, serif;
+  margin: 0;
+}
+.chapter-one .source-quote {
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  border-block: 1px solid var(--green);
+  background: var(--soft);
+}
+.chapter-one .source-quote blockquote {
+  margin: 0;
+  font: italic clamp(1.6rem, 3vw, 2.3rem)/1.4 Georgia, serif;
+  color: var(--green);
+}
+.chapter-one .source-quote blockquote p { margin: 0; }
+.chapter-one .source-quote figcaption {
+  margin-top: .8rem;
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+/* A real time axis. Dates are text, not decorative generated content. */
+.chapter-one .history-timeline {
+  margin: 2rem 0 2rem .45rem;
+  padding-left: 1.9rem;
+}
+.chapter-one .history-timeline article { margin: 0 0 2.5rem; }
+.chapter-one .history-timeline article:last-child { margin-bottom: 0; }
+.chapter-one .history-timeline article::before {
+  left: calc(-1.9rem - 7px);
+  width: 12px;
+  height: 12px;
+  top: .6rem;
+  box-shadow: 0 0 0 5px var(--paper);
+}
+.chapter-one .history-timeline h4 {
+  color: var(--green);
+  font-size: 1.12rem;
+  margin: 0 0 .85rem;
+  line-height: 1.45;
+}
+.chapter-one .history-timeline time {
+  font: 1.65rem/1.2 Georgia, serif;
+  margin-right: .5rem;
+}
+.chapter-one .history-timeline p:last-child { margin-bottom: 0; }
+.chapter-one .history-context {
+  padding: 1.5rem;
+  background: var(--soft);
+  margin: 2rem 0;
+}
+.chapter-one .history-context p:last-child { margin-bottom: 0; }
+
+/* Explanations with a stable left-hand label: process, distinction, meaning. */
+.chapter-one .explanation-rows {
+  margin: 2rem 0;
+  border-top: 1px solid var(--line);
+}
+.chapter-one .explanation-row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.chapter-one .explanation-row > p { margin: 0; }
+.chapter-one .row-label {
+  color: var(--green);
+  font-size: .9rem;
+  line-height: 1.5;
+}
+.chapter-one .row-label b { display: block; }
+.chapter-one .row-label span { display: block; margin-top: .35rem; color: var(--muted); }
+.chapter-one .process-list {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  counter-reset: process;
+}
+.chapter-one .process-list > li {
+  counter-increment: process;
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 1rem;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+.chapter-one .process-list > li::before {
+  content: counter(process, decimal-leading-zero);
+  color: var(--green);
+  border: 1px solid var(--green);
+  background: var(--paper);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  font-size: .8rem;
+  z-index: 1;
+}
+.chapter-one .process-list > li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 1.25rem;
+  top: 2.5rem;
+  bottom: 0;
+  border-left: 1px solid var(--line);
+}
+.chapter-one .process-list p { margin: .2rem 0 0; }
+.chapter-one .process-list > li:last-child { padding-bottom: 0; }
+
+/* Small, explicit diagrams complement the prose; none requires JavaScript. */
+.chapter-one .flow-figure {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+.chapter-one .flow {
+  display: flex;
+  align-items: stretch;
+  gap: .75rem;
+}
+.chapter-one .flow-node {
+  flex: 1;
+  min-width: 0;
+  padding: .85rem;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+.chapter-one .flow-node strong { display: block; color: var(--green); }
+.chapter-one .flow-node small { display: block; line-height: 1.5; margin-top: .4rem; }
+.chapter-one .flow-arrow {
+  align-self: center;
+  color: var(--green);
+  font-size: 1.5rem;
+}
+.chapter-one .flow-figure figcaption {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: .85rem;
+}
+.chapter-one .formula-sheet {
+  margin: 1.5rem 0;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+.chapter-one .formula-line {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  align-items: baseline;
+}
+.chapter-one .formula-line + .formula-line { border-top: 1px dashed var(--line); }
+.chapter-one .formula-line small { color: var(--muted); }
+.chapter-one .formula-line span { font: 1.4rem/1.5 Georgia, serif; }
+.chapter-one .chapter-section pre {
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--green);
+  background: var(--soft);
+  font-size: .9rem;
+  overflow: auto;
+}
+.chapter-one .dialogue-scene { margin: 2rem 0; }
+.chapter-one .dialogue-scene blockquote { margin: 0; padding: 0; border: 0; }
+.chapter-one .dialogue-scene blockquote p {
+  width: fit-content;
+  max-width: 88%;
+  padding: .8rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px 12px 12px 0;
+  background: var(--soft);
+}
+.chapter-one .dialogue-scene blockquote p:nth-child(even) {
+  margin-left: auto;
+  border-radius: 12px 12px 0 12px;
+  background: var(--white);
+}
+.chapter-one .dialogue-scene figcaption { font-size: .8rem; color: var(--muted); }
+.chapter-one .spectrum-sheet {
+  padding: 1.5rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+.chapter-one .spectrum-sheet svg { display: block; margin: auto; }
+.chapter-one .forecast-reading {
+  margin: 2rem 0;
+  padding: 0 1.5rem;
+  border-left: 2px dashed var(--green);
+}
+.chapter-one .forecast-reading > p { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+.chapter-one .forecast-reading > p:last-child { border-bottom: 0; }
+
+@media (max-width: 1050px) {
+  .chapter-one .flow { flex-direction: column; gap: .35rem; }
+  .chapter-one .flow-arrow { transform: rotate(90deg); line-height: 1; }
+  .chapter-one .perspectives,
+  .chapter-one .comparison { grid-template-columns: 1fr; }
+  .chapter-one .perspective:nth-child(odd),
+  .chapter-one .comparison > div:first-child { border-right: 0; }
+  .chapter-one .perspective + .perspective,
+  .chapter-one .comparison > div + div { border-top: 1px solid var(--line); }
+  .chapter-one .perspective:nth-child(3) { background: transparent; }
+  .chapter-one .perspective:nth-child(even) { background: var(--soft); }
+}
+@media (max-width: 600px) {
+  .chapter-one .scene,
+  .chapter-one .explanation-row,
+  .chapter-one .formula-line { grid-template-columns: minmax(0, 1fr); gap: .65rem; }
+  .chapter-one .scene-label { font-size: 1.2rem; }
+  .chapter-one .perspective,
+  .chapter-one .comparison > div,
+  .chapter-one .source-quote,
+  .chapter-one .flow-figure,
+  .chapter-one .history-context,
+  .chapter-one .spectrum-sheet { padding: 1.1rem; }
+  .chapter-one .takeaway { padding-left: 1rem; }
+  .chapter-one .takeaway p { font-size: 1.25rem; }
+  .chapter-one .row-label span { margin-top: 0; }
+  .chapter-one .history-timeline { padding-left: 1.5rem; }
+  .chapter-one .history-timeline article::before { left: calc(-1.5rem - 7px); }
+  .chapter-one .formula-line { padding: 1rem; }
+  .chapter-one .process-list > li { gap: .7rem; }
+}
+@media print {
+  .chapter-one .perspectives,
+  .chapter-one .comparison { display: block; }
+  .chapter-one .flow-figure,
+  .chapter-one .source-quote,
+  .chapter-one .takeaway { break-inside: avoid; }
+  .chapter-one .history-timeline article,
+  .chapter-one .perspective { break-inside: auto; }
+  .chapter-one .explanation-row { grid-template-columns: 120px minmax(0, 1fr); }
+}
