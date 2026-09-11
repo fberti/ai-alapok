@@ -11,6 +11,19 @@ test('Közvetlen fájlmegnyitásnál is működnek a játékok', async ({page}) 
   await expect(page.locator('#queens-status')).toContainText('Megoldva!');
   await expect(page.locator('#quiz-questions fieldset')).toHaveCount(10);
 });
+test('A sötét téma váltható és megmarad az oldalak között', async ({page}) => {
+  await page.goto('');
+  const toggle = page.getByRole('switch', {name:'Sötét mód'});
+  await expect(toggle).toHaveAttribute('aria-checked', 'false');
+  await toggle.click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(toggle).toHaveAttribute('aria-checked', 'true');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(18, 24, 21)');
+  await page.getByRole('link',{name:/Kezdjük az alapokkal/}).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await page.getByRole('switch', {name:'Sötét mód'}).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+});
 test('A fejezet közvetlenül és a kezdőlapról is működik alkönyvtárban', async ({page}) => {
   const errors=[]; page.on('pageerror',error=>errors.push(error.message));
   await page.goto('');
