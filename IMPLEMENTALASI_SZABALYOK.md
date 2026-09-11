@@ -114,6 +114,22 @@ A felület működjön telefonon, táblagépen és asztali gépen.
 10. Kapcsolat az előző és a következő fejezettel.
 11. Forrás- és pontosítási megjegyzések.
 
+A fejezet kidolgozása előtt át kell tekinteni a `resources/code/` mappában található, a fejezet témájához kapcsolódó kódokat.
+
+A kapcsolódó kódokat fel kell használni a tananyag megértésének segítésére.
+
+A kódpéldák szervesen illeszkedjenek a magyarázatba, közvetlenül annál a fogalomnál, példánál vagy algoritmusnál, amelyről szólnak.
+
+Nem elegendő a kódokat külön gyűjteményként vagy a fejezet végén elhelyezett hivatkozásként megadni.
+
+A releváns kódrészletek mellett rövid, magyar magyarázat mutassa be a bemenetet, a fontos lépéseket és az eredményt.
+
+A magyarázat kapcsolja össze a kód működését az éppen tárgyalt elmélettel.
+
+A felhasznált kód forrásfájlját meg kell nevezni a `resources/code/` mappán belüli pontos útvonalával.
+
+A kód szükség esetén egyszerűsíthető vagy a statikus bemutatóhoz igazítható, de az eltérést jelezni kell.
+
 ## Nyelv és hang
 
 Minden felhasználói szöveg magyar legyen.
@@ -159,6 +175,7 @@ Ne legyen szükség fiókra.
 Minden mérföldkő végén ellenőrizni kell:
 
 - a hozzá tartozó PDF-oldalak teljes lefedését;
+- a `resources/code/` kapcsolódó kódjainak felhasználását és beillesztését a megfelelő magyarázatokhoz;
 - a magyar ékezeteket;
 - a belső hivatkozásokat;
 - a telefonos elrendezést;
