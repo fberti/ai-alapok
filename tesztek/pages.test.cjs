@@ -15,6 +15,13 @@ test('A kezdőlap elérhetővé teszi az első magyar fejezetet', () => {
     assert.match(html, /<main/);
   }
 });
+test('Az eredeti oktatói források a fejezetlista előtt elérhetők', () => {
+  const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  assert.ok(home.indexOf('id="eredeti-forrasok"') < home.indexOf('id="fejezetek"'));
+  assert.match(home, /href="resources\/presentation\/Mesterseges_intelligencia_alapjai_levelezo_01-10\.pdf" download/);
+  assert.match(home, /href="https:\/\/github\.com\/fberti\/ai-alapok\/tree\/master\/resources\/code"/);
+  assert.match(home, /A tananyagban hivatkozott PDF az eredeti oktató előadása/);
+});
 test('A téma fájljai verzióval kerülik el a régi böngésző-gyorsítótárat', () => {
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
