@@ -16,7 +16,7 @@ Az algoritmusokat és a nehéz fogalmakat példával is el kell magyarázni.
 |---|---:|---|---|
 | 1 | 1–35 | Bevezetés, intelligencia, MI-területek, alkalmazások | kész |
 | 2 | 36–64 | Tudásbázis, tudáskinyerés, szabályalapú rendszerek | kész |
-| 3 | 65–88 | Szemantikus háló, keret, esetalapú rendszer | tervezve |
+| 3 | 65–88 | Szemantikus háló, keret, esetalapú rendszer | kész |
 | 4 | 89–121 | Propozíciós és predikátumlogika, rezolúció | tervezve |
 | 5 | 122–141 | Prolog és fuzzy logika | tervezve |
 | 6 | 142–221 | Mesterséges neurális hálózatok | tervezve |
@@ -65,16 +65,18 @@ Ellenőrzési nyom: [ELLENORZES-02.md](ELLENORZES-02.md).
 
 ### 3. mérföldkő
 
-- [ ] Szemantikus háló története és szerkezete.
-- [ ] A PDF összes szó- és állatpéldája.
-- [ ] Egyed, osztály, alosztály és öröklés.
-- [ ] Célháló és illesztés.
-- [ ] Jelentés, kivétel és konfliktus.
-- [ ] Típus–példány és intenzió–extenzió.
-- [ ] Keretek minden PDF-beli elemükkel.
-- [ ] Bútor- és előadáskeret.
-- [ ] Esetalapú következtetés négy lépése.
-- [ ] Előnyök és hátrányok.
+- [x] Szemantikus háló története és szerkezete.
+- [x] A PDF összes szó- és állatpéldája.
+- [x] Egyed, osztály, alosztály és öröklés.
+- [x] Célháló és illesztés.
+- [x] Jelentés, kivétel és konfliktus.
+- [x] Típus–példány és intenzió–extenzió.
+- [x] Keretek minden PDF-beli elemükkel.
+- [x] Bútor- és előadáskeret.
+- [x] Esetalapú következtetés négy lépése.
+- [x] Előnyök és hátrányok.
+
+Ellenőrzési nyom: [ELLENORZES-03.md](ELLENORZES-03.md).
 
 ### 4. mérföldkő
 

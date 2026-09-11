@@ -3,11 +3,12 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const pages = ['index.html', 'fejezetek/01-mi-es-intelligencia.html', 'fejezetek/02-tudasbazisok.html'];
+const pages = ['index.html', 'fejezetek/01-mi-es-intelligencia.html', 'fejezetek/02-tudasbazisok.html', 'fejezetek/03-tudasreprezentacio.html'];
 test('A kezdőlap elérhetővé teszi az első magyar fejezetet', () => {
   const home = fs.readFileSync(path.join(root, pages[0]), 'utf8');
   assert.match(home, /href="fejezetek\/01-mi-es-intelligencia.html"/);
   assert.match(home, /href="fejezetek\/02-tudasbazisok.html"/);
+  assert.match(home, /href="fejezetek\/03-tudasreprezentacio.html"/);
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
     assert.match(html, /lang="hu"/);

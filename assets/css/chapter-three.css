@@ -1,0 +1,23 @@
+/* Shared notebook layout, with a warm ink accent for knowledge representation. */
+.chapter-three{--green:#80502c;--soft:#f2e9df;--lime:#f0ddc3}
+:root[data-theme=dark] .chapter-three{--green:#e5b98e;--soft:#332b24;--lime:#f0ddc3}
+.taxonomy{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
+.taxonomy>div{border:1px solid var(--green);border-radius:5px;padding:1.2rem;background:var(--white)}
+.taxonomy .taxonomy-root{grid-column:1/-1;text-align:center;font:1.6rem Georgia,serif;border-top:4px solid var(--green)}
+.taxonomy small{display:block;font-size:1rem;line-height:1.7;font-family:inherit}.taxonomy p{font-size:1rem}
+.taxonomy-leaves{display:grid;gap:.7rem;border-top:1px solid var(--line);padding-top:1rem}
+.taxonomy-leaves>span{border-left:3px solid var(--green);padding-left:.8rem}
+.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.2rem 0;align-items:end}
+.editor-grid label{display:grid;gap:.4rem;min-width:0}
+.chapter-three input:not([type=checkbox]):not([type=radio]),.chapter-three select{max-width:100%;min-width:0;width:100%;padding:.55rem;background:var(--white);color:var(--ink);border:1px solid var(--line);border-radius:3px;font:inherit}
+.chapter-three input[type=range]{padding:.5rem 0;accent-color:var(--green)}
+.chapter-three .lab>label{display:block;margin:1rem 0}
+.chapter-three .lab>label select{display:block;margin-top:.5rem}
+.edge-list{list-style:none;padding:0;margin:1.5rem 0}.edge-list li{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.edge-list span,.feedback{overflow-wrap:anywhere}.edge-list button{flex-shrink:0}
+.case-results{padding-left:1.5rem}.case-results li{padding:.8rem .4rem;border-bottom:1px solid var(--line)}
+.chapter-three pre{max-width:100%;overflow:auto;padding:1.3rem;background:var(--soft);border-left:3px solid var(--green);font-size:.9rem;line-height:1.7}
+.chapter-three output{font-weight:700;color:var(--green)}
+.chapter-three a code{overflow-wrap:anywhere}
+.chapter-three pre:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
+@media(max-width:760px){.taxonomy,.editor-grid{grid-template-columns:1fr}.edge-list li{align-items:start}.edge-list button{padding:.5rem}.chapter-three .math{overflow-wrap:anywhere}}

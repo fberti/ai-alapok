@@ -15,7 +15,8 @@ A forrás 307 oldalból áll.
 - [x] A teljes lefedettségi térkép elkészült.
 - [x] 1. mérföldkő: kezdőlap, közös alkalmazásváz és az első fejezet.
 - [x] 2. mérföldkő: tudásbázisok és szakértőrendszerek.
-- [ ] 3–10. mérföldkő: további fejezetek.
+- [x] 3. mérföldkő: tudásreprezentáció, hálók, keretek és esetek.
+- [ ] 4–10. mérföldkő: további fejezetek.
 
 ## Az elkészült alkalmazás
 
@@ -27,7 +28,9 @@ Az első fejezet hat interaktív bemutatót és tíz opcionális kvízkérdést 
 
 A második fejezet öt interaktív bemutatót és kilenc opcionális kvízkérdést tartalmaz.
 
-Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md).
+A harmadik fejezet négy interaktív labort és nyolc opcionális kvízkérdést tartalmaz.
+
+Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md).
 
 A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.
 
