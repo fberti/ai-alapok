@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const pages = ['index.html', 'fejezetek/01-mi-es-intelligencia.html', 'fejezetek/02-tudasbazisok.html', 'fejezetek/03-tudasreprezentacio.html'];
+const pages = ['index.html', 'eloadasfelvetelek.html', 'fejezetek/01-mi-es-intelligencia.html', 'fejezetek/02-tudasbazisok.html', 'fejezetek/03-tudasreprezentacio.html'];
 test('A kezdőlap elérhetővé teszi az első magyar fejezetet', () => {
   const home = fs.readFileSync(path.join(root, pages[0]), 'utf8');
   assert.match(home, /href="fejezetek\/01-mi-es-intelligencia.html"/);
@@ -20,7 +20,21 @@ test('Az eredeti oktatói források a fejezetlista előtt elérhetők', () => {
   assert.ok(home.indexOf('id="eredeti-forrasok"') < home.indexOf('id="fejezetek"'));
   assert.match(home, /href="resources\/presentation\/Mesterseges_intelligencia_alapjai_levelezo_01-10\.pdf" download/);
   assert.match(home, /href="https:\/\/github\.com\/fberti\/ai-alapok\/tree\/master\/resources\/code"/);
+  assert.match(home, /href="https:\/\/edu\.iit\.uni-miskolc\.hu\/mesterseges_intelligencia_alapjai_gtk"/);
+  assert.match(home, /Az oktató által megosztott összes anyag/);
   assert.match(home, /A tananyagban hivatkozott PDF az eredeti oktató előadása/);
+});
+test('A kezdőlapról elérhetők a magyar nyelvű előadásfelvételek', () => {
+  const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const recordings = fs.readFileSync(path.join(root, 'eloadasfelvetelek.html'), 'utf8');
+  assert.ok(home.indexOf('id="eloadasfelvetelek"') > home.indexOf('id="eredeti-forrasok"'));
+  assert.ok(home.indexOf('id="eloadasfelvetelek"') < home.indexOf('id="fejezetek"'));
+  assert.match(home, /href="eloadasfelvetelek\.html"/);
+  assert.match(recordings, /href="https:\/\/mega\.nz\/folder\/IKQyTSBS#6poeyE_D9RKM5w9HgGcc7w"/);
+  assert.match(recordings, /href="https:\/\/www\.youtube\.com\/watch\?v=TvYmsF3XGj8"/);
+  assert.match(recordings, /href="https:\/\/www\.youtube\.com\/watch\?v=0ROR8cW7tMk"/);
+  assert.match(recordings, /Első előadás · 1\. rész/);
+  assert.match(recordings, /Első előadás · 2\. rész/);
 });
 test('A téma fájljai verzióval kerülik el a régi böngésző-gyorsítótárat', () => {
   for (const file of pages) {
