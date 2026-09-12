@@ -1,0 +1,94 @@
+/* Chapter 4: blue ink, proof margins, and explicit parent links. */
+.chapter-four { --green: #245b7a; --soft: #e6eef2; --lime: #d9eaf2; }
+:root[data-theme=dark] .chapter-four { --green: #97c9e4; --soft: #202f39; --lime: #d9eaf2; }
+:root[data-theme=dark] .chapter-four .brand-mark,
+:root[data-theme=dark] .chapter-four .finish { background: #264b63; }
+.chapter-four figure { margin: 2rem 0; }
+.chapter-four figcaption { color: var(--muted); font-size: .85rem; margin-bottom: 1.2rem; }
+.chapter-four .chapter-section > p { max-width: 72ch; }
+.chapter-four .proof-cover { display: grid; grid-template-columns: 1.4fr 1fr; margin: 2rem 0; border: 1px solid var(--green); background: var(--white); }
+.chapter-four .proof-cover > div { padding: 1.7rem; }
+.chapter-four .proof-cover > div + div { border-left: 1px solid var(--green); background: var(--soft); }
+.chapter-four .proof-cover span { font-size: .7rem; letter-spacing: .13em; font-weight: bold; color: var(--green); }
+.chapter-four .proof-cover p { font: normal 2.7rem/1.5 Georgia, serif; margin: .8rem 0; color: var(--green); }
+.chapter-four .proof-cover small { display: block; color: var(--muted); }
+.chapter-four .logic-history { list-style: none; padding: 0 0 0 1.7rem; margin: 2rem 0; border-left: 2px solid var(--line); }
+.chapter-four .logic-history li { position: relative; padding: .3rem 0 1rem; }
+.chapter-four .logic-history li::before { content: ''; position: absolute; width: .7rem; height: .7rem; border: 2px solid var(--paper); background: var(--green); border-radius: 50%; top: .8rem; left: -2.1rem; }
+.chapter-four .logic-history strong { color: var(--green); }
+.chapter-four .logic-pair { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); border-block: 1px solid var(--line); margin: 2rem 0; }
+.chapter-four .logic-pair > div { padding: 1.4rem; min-width: 0; }
+.chapter-four .logic-pair > div + div { border-left: 1px solid var(--line); background: var(--soft); }
+.chapter-four .logic-pair > div > strong { display: block; color: var(--green); font: normal 1.4rem/1.4 Georgia, serif; }
+.chapter-four .logic-pair p:last-child { margin-bottom: 0; }
+.chapter-four .logic-ledger { border-top: 1px solid var(--line); margin: 1.6rem 0; }
+.chapter-four .logic-ledger > div { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,2.8fr); gap: 1.5rem; border-bottom: 1px solid var(--line); padding: 1.2rem 0; }
+.chapter-four .logic-ledger dt { font-weight: bold; color: var(--green); }
+.chapter-four .logic-ledger dd { margin: 0; min-width: 0; }
+.chapter-four .logic-ledger dd p:first-child { margin-top: 0; }
+.chapter-four .logic-ledger dd p:last-child { margin-bottom: 0; }
+.chapter-four .proof-sheet { padding: 1.5rem; background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--green); }
+.chapter-four .proof-steps { list-style: none; padding: 0; counter-reset: proof; }
+.chapter-four .proof-steps > li { position: relative; counter-increment: proof; padding: .2rem 0 1.6rem 3.5rem; }
+.chapter-four .proof-steps > li::before { content: counter(proof,decimal-leading-zero); position: absolute; left: 0; top: .1rem; color: var(--green); border-bottom: 2px solid var(--green); font: normal 1.3rem/1.6 Georgia,serif; }
+.chapter-four .proof-steps > li:last-child { padding-bottom: 0; }
+.chapter-four .proof-steps p { margin: .5rem 0 0; }
+.chapter-four .takeaway { border-left: 4px solid var(--green); padding: .6rem 0 .6rem 1.2rem; font: normal 1.3rem/1.6 Georgia,serif; margin: 2rem 0; }
+.chapter-four .clause-strip { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: 2rem 0; }
+.chapter-four .clause-strip span { padding: .6rem .8rem; background: var(--soft); border: 1px solid var(--green); font-family: Georgia,serif; }
+.chapter-four .clause-strip b { color: var(--green); }
+.chapter-four .inference-rule { display: grid; width: fit-content; max-width: 100%; text-align: center; margin: 2rem auto; font: normal 1.4rem/1.5 Georgia,serif; }
+.chapter-four .inference-rule span { border-bottom: 2px solid var(--green); padding: .6rem; }
+.chapter-four .inference-rule strong { padding: .6rem; font-weight: normal; }
+.chapter-four .formula { font-family: Georgia,serif; overflow-wrap: anywhere; }
+.chapter-four code,.chapter-four .feedback { overflow-wrap: anywhere; }
+.chapter-four input:not([type=radio]),.chapter-four select { display: block; width: 100%; max-width: 100%; min-width: 0; background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: 3px; padding: .6rem; margin: .4rem 0 1rem; }
+.chapter-four input:not([type=radio]) { font-family: monospace; }
+.chapter-four .control-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; align-items: end; }
+.chapter-four .control-grid select { margin-bottom: 0; }
+.chapter-four .generated-steps { padding-left: 1.5rem; }
+.chapter-four .generated-steps li { padding: .7rem .2rem; overflow-wrap: anywhere; }
+.chapter-four .generated-steps code { display: block; margin-top: .4rem; }
+.chapter-four .resolution-tree { list-style: none; padding: 0; }
+.chapter-four .resolution-tree li { margin: .8rem 0; padding: .7rem 1rem; border-left: 3px solid var(--line); background: var(--paper); overflow-wrap: anywhere; }
+.chapter-four .resolution-tree li[data-derived] { border-color: var(--green); }
+.chapter-four .resolution-tree strong { display: block; font: normal 1.25rem/1.5 Georgia,serif; }
+.chapter-four .resolution-tree small { display: block; color: var(--muted); }
+.chapter-four .scope-formula { font: normal 1.7rem/2.2 Georgia,serif; overflow-wrap: anywhere; padding: 1rem; border: 1px solid var(--line); }
+.chapter-four .scope-formula .scope-active { background: var(--soft); outline: 2px solid var(--green); }
+.chapter-four .scope-formula b { font-weight: normal; }
+.chapter-four .scope-formula .binding-active { color: var(--green); font-weight: bold; text-decoration: underline double; text-underline-offset: .15em; }
+.chapter-four pre { max-width: 100%; background: var(--soft); border-left: 3px solid var(--green); padding: 1.2rem; font-size: .85rem; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+.chapter-four pre:focus-visible,.chapter-four .table-wrap:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+.chapter-four table { table-layout: fixed; }
+.chapter-four th,.chapter-four td { overflow-wrap: anywhere; }
+.chapter-four .table-wrap { margin-inline: 0; }
+.chapter-four button:disabled { opacity: .6; }
+@media(max-width:1100px) {
+  .chapter-four .logic-pair { grid-template-columns: minmax(0,1fr); }
+  .chapter-four .logic-pair > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+@media(max-width:600px) {
+  .chapter-four .proof-cover,.chapter-four .control-grid,.chapter-four .logic-ledger > div { grid-template-columns: minmax(0,1fr); }
+  .chapter-four .proof-cover > div + div { border-left: 0; border-top: 1px solid var(--green); }
+  .chapter-four .proof-cover > div { padding: 1.2rem; }
+  .chapter-four .proof-cover p { font-size: 2.2rem; }
+  .chapter-four .logic-ledger > div { gap: .5rem; }
+  .chapter-four .logic-pair > div,.chapter-four .proof-sheet { padding: 1rem; }
+  .chapter-four .proof-steps > li { padding-left: 2.5rem; }
+  .chapter-four .scope-formula { font-size: 1.35rem; padding: .6rem; }
+  .chapter-four th,.chapter-four td { font-size: .8rem; padding: .6rem .3rem; }
+}
+@media print {
+  @page { background: #fff; }
+  :root:has(.chapter-four) { color-scheme: light; background: #fff; }
+  .chapter-four,:root[data-theme=dark] .chapter-four { --paper: #fff; --white: #fff; --ink: #000; --muted: #333; --green: #23475c; --soft: #f0f3f5; --line: #999; --orange: #71350f; --orange-bg: #fff; }
+  .chapter-four .finish,:root[data-theme=dark] .chapter-four .finish { background: #fff; color: #000; border: 1px solid var(--line); }
+  .chapter-four .finish h2,.chapter-four .finish a,.chapter-four .finish .small,
+  :root[data-theme=dark] .chapter-four .finish a,:root[data-theme=dark] .chapter-four .finish .small { color: #000; }
+  .chapter-four .logic-pair { display: block; }
+  .chapter-four .logic-pair > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .chapter-four .proof-sheet,.chapter-four .lab { break-inside: auto; }
+  .chapter-four .proof-steps > li,.chapter-four .logic-history li,.chapter-four .logic-ledger > div,.chapter-four .resolution-tree li,.chapter-four .takeaway { break-inside: avoid; }
+  .chapter-four .lab form,.chapter-four .lab input,.chapter-four .lab select,.chapter-four .lab button,.chapter-four .lab label { display: none; }
+}

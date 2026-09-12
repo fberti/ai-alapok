@@ -27,7 +27,7 @@ A vizuális elem nem lehet puszta dísz, és nem helyettesítheti a teljes magya
 | 1 | 1–35 | Bevezetés, intelligencia, MI-területek, alkalmazások | kész |
 | 2 | 36–64 | Tudásbázis, tudáskinyerés, szabályalapú rendszerek | kész |
 | 3 | 65–88 | Szemantikus háló, keret, esetalapú rendszer | kész |
-| 4 | 89–121 | Propozíciós és predikátumlogika, rezolúció | tervezve |
+| 4 | 89–121 | Propozíciós és predikátumlogika, rezolúció | kész |
 | 5 | 122–141 | Prolog és fuzzy logika | tervezve |
 | 6 | 142–221 | Mesterséges neurális hálózatok | tervezve |
 | 7 | 222–255 | P, NP és nevezetes számítási problémák | tervezve |
@@ -94,18 +94,22 @@ Az átdolgozott harmadik fejezet a PDF 65–88. oldalának összes példáját �
 
 ### 4. mérföldkő
 
-- [ ] Logikatörténet minden felsorolt személlyel.
-- [ ] Klasszikus és nem klasszikus logikák.
-- [ ] Propozíciós szintaxis és szemantika.
-- [ ] Igazságtábla és interpretáció.
-- [ ] Érvényesség és kielégíthetőség.
-- [ ] Minden felsorolt bizonyítási módszer.
-- [ ] Konjunktív normálforma.
-- [ ] Propozíciós rezolúció és példa.
-- [ ] Predikátumlogikai szintaxis és szemantika.
-- [ ] Term, atom, formula, változó és kvantor.
-- [ ] Mindkét PDF-beli formalizálási példa.
-- [ ] Predikátumlogikai rezolúció teljes példája.
+- [x] Logikatörténet minden felsorolt személlyel.
+- [x] Klasszikus és nem klasszikus logikák.
+- [x] Propozíciós szintaxis és szemantika.
+- [x] Igazságtábla és interpretáció.
+- [x] Érvényesség és kielégíthetőség.
+- [x] Minden felsorolt bizonyítási módszer.
+- [x] Konjunktív normálforma.
+- [x] Propozíciós rezolúció és példa.
+- [x] Predikátumlogikai szintaxis és szemantika.
+- [x] Term, atom, formula, változó és kvantor.
+- [x] Mindkét PDF-beli formalizálási példa.
+- [x] Predikátumlogikai rezolúció teljes példája.
+
+Ellenőrzési nyom: [ELLENORZES-04.md](ELLENORZES-04.md).
+
+Az öt labor mellett minden számítás és levezetés JavaScript nélkül is olvasható. A 104. PDF-oldal képi szövege is szerepel. A 12 kiigazítás külön kezeli a kategóriák átfedését, a kielégíthetőséget, a klózforma elírását, a rezolúció leállását és teljességét, valamint a predikátumok, függvények és változók jelentését. Az új tanúállandó és az egyesítések a teljes elsőrendű bizonyításban látszanak.
 
 ### 5. mérföldkő
 

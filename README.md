@@ -16,7 +16,8 @@ A forrás 307 oldalból áll.
 - [x] 1. mérföldkő: kezdőlap, közös alkalmazásváz és az első fejezet.
 - [x] 2. mérföldkő: tudásbázisok és szakértőrendszerek.
 - [x] 3. mérföldkő: tudásreprezentáció, hálók, keretek és esetek.
-- [ ] 4–10. mérföldkő: további fejezetek.
+- [x] 4. mérföldkő: formális logika, igazságtáblák, kvantorok és rezolúció.
+- [ ] 5–10. mérföldkő: további fejezetek.
 
 ## Az elkészült alkalmazás
 
@@ -34,7 +35,9 @@ A harmadik fejezet négy interaktív labort és nyolc opcionális kvízkérdést
 
 Az átdolgozott harmadik fejezet a PDF 65–88. oldalát önállóan olvasható leckévé szervezi. A kanári útvonalai, Pityuka adatlapja és a két biztosítási ág segítik a hálók megértését. A keretek teljes adatlapokat, az öröklés és az esethasonlóság végigvezetett megoldásokat kapott. Minden szükséges magyarázat kattintás és JavaScript nélkül is olvasható.
 
-Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md).
+A negyedik fejezet a PDF 89–121. oldalát dolgozza fel. Öt labor segíti a tanulást: igazságtábla-generátor, mondatból képlet, KNF-lépésgép, rezolúciós fa és kvantorhatókör. Tizenkét választható kvízkérdés tartozik hozzá. A forrás mindkét elsőrendű példája és a pyDatalog családi kapcsolatai teljes magyarázatot kaptak. A tananyag JavaScript nélkül és nyomtatva is olvasható.
+
+Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md).
 
 A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.
 

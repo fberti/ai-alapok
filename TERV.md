@@ -282,6 +282,8 @@ Legyen benne hálóolvasási és keretöröklési feladat.
 
 # 4. mérföldkő – Formális logika
 
+**Állapot:** kész. Ellenőrzés: `ELLENORZES-04.md`.
+
 **Forrás:** PDF 89–121. oldal.
 
 **Oldal:** `fejezetek/04-formalis-logika.html`
