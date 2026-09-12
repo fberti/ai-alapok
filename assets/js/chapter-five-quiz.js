@@ -1,0 +1,14 @@
+const ChapterFiveQuiz = [
+  {prompt:'Mi Kowalski képletének értelme?',options:['A programhoz tudás és keresési stratégia is kell.','A vezérlés nem befolyásolja a futást.','Minden algoritmus fuzzy.'],answer:0,explanation:'Algoritmus = logika + vezérlés. A kapcsolatok és a keresési rend külön szerepet kapnak.'},
+  {prompt:'Mi a sokkal_szebb(A,C) :- szebb(A,B), szebb(B,C) szabály feje?',options:['szebb(A,B), szebb(B,C)','sokkal_szebb(A,C)','Csak B.'],answer:1,explanation:'A fej a :- bal oldalán áll. A törzs két részcélja ugyanazt a B értéket használja.'},
+  {prompt:'A Gina–Ursula tény áll elöl. Mi az első zsákutca a vágás nélküli példában?',options:['szebb(gina,ursula)','szebb(kleopatra,gina)','szebb(ursula,ursula)'],answer:2,explanation:'Az első részcél Valaki = gina, B = ursula kötést ad. A második ezért szebb(ursula,ursula), amelyhez nincs tény.'},
+  {prompt:'Ugyanebben a fordított sorrendben cut kerül az első részcél után. Mi a teljes válaszhalmaz?',options:['Üres; Kleopátra ága már nem érhető el.','Csak Gina.','Kleopátra és Gina.'],answer:0,explanation:'A vágás a Gina–Ursula választást rögzíti. A második cél elbukik, és nem lehet visszatérni Kleopátrához.'},
+  {prompt:'[Fej|Farok] = [gina,ursula]. Mi Farok?',options:['ursula, lista nélkül.','[ursula]','[]'],answer:1,explanation:'A farok a maradék lista. A fej gina, a farok az egyelemű [ursula].'},
+  {prompt:'SWI-Prologban melyik számolja ki X = 35 értékét?',options:['5*7 = X','35 is X*7, ismeretlen X-szel.','X is 5*7'],answer:2,explanation:'Az is kiértékeli a jobb oldalt. Az = egyesít, így az első alak X-et az 5*7 termhez köti.'},
+  {prompt:'A hórihorgas tagsági fok 0,9. Mit jelent?',options:['Erősen illik a választott hórihorgas fogalomhoz.','90% eséllyel létezik.','Biztosan a népesség 90%-ánál magasabb.'],answer:0,explanation:'A fok a fogalomhoz tartozást írja le. Nem valószínűség és nem rangsorbeli százalék.'},
+  {prompt:'A két tagság 0,7 és 0,4. Mennyi a fejezetbeli fuzzy ÉS és VAGY?',options:['ÉS: 1,1; VAGY: 0,3.','ÉS: 0,4; VAGY: 0,7.','ÉS: 0,7; VAGY: 0,4.'],answer:1,explanation:'Az itt választott ÉS minimum, a VAGY maximum. Más fuzzy rendszerekben más műveletek is lehetnek.'},
+  {prompt:'A vizsgapéldában R1 = 0,5, R2 = 0,25. Mi az 5 és 4 csúcshelyek súlyozott átlaga?',options:['4,217, ami mindig ugyanaz, mint a súlyozott átlag.','0,75.','Körülbelül 4,667.'],answer:2,explanation:'(0,5·5 + 0,25·4)/(0,5+0,25) = 4,667. A teljes görbe területközéppontja ettől eltér: 4,217.'},
+  {prompt:'Mindkét vizsgaszabály aktiválási foka nulla. Mi a helyes eredmény?',options:['Nincs defuzzifikált jegy; hiányzik az aktív kimenet.','Automatikusan nulla a jegy.','Automatikusan jeles a jegy.'],answer:0,explanation:'Nulla kimeneti területnél a területközéppont nevezője nulla. A hiányzó esethez külön szabály vagy hibakezelés kell.'}
+];
+if (typeof module !== 'undefined') module.exports = ChapterFiveQuiz;
+if (typeof document !== 'undefined') CourseQuiz.mount(ChapterFiveQuiz);

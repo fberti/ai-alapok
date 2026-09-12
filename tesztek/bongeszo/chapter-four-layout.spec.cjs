@@ -78,5 +78,5 @@ test('A kezdőlap és az előző fejezet kapcsolódik, a haladás külön menthe
   await page.getByRole('link', {name:'← Előző: Tudásreprezentáció'}).click();
   await expect(page.getByRole('button', {name:'Késznek jelölöm a fejezetet'})).toHaveAttribute('aria-pressed','false');
   await page.getByRole('link', {name:'Következő: 04 · Formális logika →'}).click();
-  await expect(page.locator('a[href*="05-prolog"]')).toHaveCount(0);
+  await expect(page.getByRole('link', {name:'Következő: 05 · Prolog és fuzzy logika →'})).toHaveAttribute('href','05-prolog-es-fuzzy.html');
 });

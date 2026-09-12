@@ -10,7 +10,9 @@ Az első fejezet külön fájlból is megnyitható:
 
 A második fejezet: `fejezetek/02-tudasbazisok.html`.
 
-A kész jelölést a két fejezet külön tárolja.
+Az ötödik fejezet: `fejezetek/05-prolog-es-fuzzy.html`.
+
+A kész jelölést minden fejezet külön tárolja.
 
 A tananyag, a bemutatók és a kvíz nem igényelnek internetet.
 
@@ -68,7 +70,9 @@ A következő lépésekhez saját GitHub-tár szükséges.
 6. A GitHub által megadott címen nyisd meg a kezdőlapot.
 7. Nyisd meg közvetlenül az első fejezet címét is.
 
-A szükséges futási fájlok: `index.html`, `fejezetek/` és `assets/`.
+A szükséges kiadási fájlok: `index.html`, `eloadasfelvetelek.html`, `fejezetek/`, `assets/` és `resources/`.
+
+A `resources/` mappa a helyben hivatkozott oktatói PDF-et és kódokat is tartalmazza.
 
 Nincs fordítási lépés, háttérszerver, adatbázis vagy API-kulcs.
 
@@ -76,8 +80,8 @@ A `node_modules/` könyvtár nem kell a közzétett oldalhoz.
 
 ## Jelenlegi hatókör
 
-Az 1–2. fejezet készült el.
+Az 1–5. fejezet készült el.
 
-A 3–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
+A 6–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
 
-A következő fejezethez: `/implement #3`.
+A következő fejezethez: `/implement #6`.

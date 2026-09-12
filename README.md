@@ -17,7 +17,8 @@ A forrás 307 oldalból áll.
 - [x] 2. mérföldkő: tudásbázisok és szakértőrendszerek.
 - [x] 3. mérföldkő: tudásreprezentáció, hálók, keretek és esetek.
 - [x] 4. mérföldkő: formális logika, igazságtáblák, kvantorok és rezolúció.
-- [ ] 5–10. mérföldkő: további fejezetek.
+- [x] 5. mérföldkő: Prolog, keresési sorrend, vágás és fuzzy szabályozás.
+- [ ] 6–10. mérföldkő: további fejezetek.
 
 ## Az elkészült alkalmazás
 
@@ -37,7 +38,9 @@ Az átdolgozott harmadik fejezet a PDF 65–88. oldalát önállóan olvasható 
 
 A negyedik fejezet a PDF 89–121. oldalát dolgozza fel. Öt labor segíti a tanulást: igazságtábla-generátor, mondatból képlet, KNF-lépésgép, rezolúciós fa és kvantorhatókör. Tizenkét választható kvízkérdés tartozik hozzá. A forrás mindkét elsőrendű példája és a pyDatalog családi kapcsolatai teljes magyarázatot kaptak. A tananyag JavaScript nélkül és nyomtatva is olvasható.
 
-Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md).
+Az ötödik fejezet a PDF 122–141. oldalát dolgozza fel. Három labor tartozik hozzá: Prolog-léptető ténysorrenddel és vágással, állítható tagságifüggvény-rajzoló, valamint élő vizsgajegy-példa három kimeneti módszerrel. Tíz választható kérdés segít az ellenőrzésben. Mindkét keresőfa, a listafeldolgozás, a fuzzy számítás és az oktató két kapcsolódó kódpéldája JavaScript nélkül is olvasható. A hiányos szabálybázis nem ad kitalált jegyet.
+
+Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md).
 
 A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.
 

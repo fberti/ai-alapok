@@ -28,7 +28,7 @@ A vizuális elem nem lehet puszta dísz, és nem helyettesítheti a teljes magya
 | 2 | 36–64 | Tudásbázis, tudáskinyerés, szabályalapú rendszerek | kész |
 | 3 | 65–88 | Szemantikus háló, keret, esetalapú rendszer | kész |
 | 4 | 89–121 | Propozíciós és predikátumlogika, rezolúció | kész |
-| 5 | 122–141 | Prolog és fuzzy logika | tervezve |
+| 5 | 122–141 | Prolog és fuzzy logika | kész |
 | 6 | 142–221 | Mesterséges neurális hálózatok | tervezve |
 | 7 | 222–255 | P, NP és nevezetes számítási problémák | tervezve |
 | 8 | 256–275 | Evolúciós és genetikus algoritmusok | tervezve |
@@ -113,17 +113,21 @@ Az öt labor mellett minden számítás és levezetés JavaScript nélkül is ol
 
 ### 5. mérföldkő
 
-- [ ] Prolog története és deklaratív jellege.
-- [ ] Tény, szabály, cél és Horn-klóz.
-- [ ] Mintaillesztés és visszalépés.
-- [ ] `cut`, lista, `assert` és `retract`.
-- [ ] A Kleopátra-példa mindkét keresőfája.
-- [ ] Fuzzy halmaz és tagsági függvény.
-- [ ] A hórihorgas példa.
-- [ ] Fuzzy ÉS és VAGY.
-- [ ] Fuzzifikálás, következtetés és defuzzifikálás.
-- [ ] A vizsgajegy-példa.
-- [ ] A szabályozórendszer vázlata.
+- [x] Prolog története és deklaratív jellege.
+- [x] Tény, szabály, cél és Horn-klóz.
+- [x] Mintaillesztés és visszalépés.
+- [x] `cut`, lista, `assert` és `retract`.
+- [x] A Kleopátra-példa mindkét keresőfája.
+- [x] Fuzzy halmaz és tagsági függvény.
+- [x] A hórihorgas példa.
+- [x] Fuzzy ÉS és VAGY.
+- [x] Fuzzifikálás, következtetés és defuzzifikálás.
+- [x] A vizsgajegy-példa.
+- [x] A szabályozórendszer vázlata.
+
+Ellenőrzési nyom: [ELLENORZES-05.md](ELLENORZES-05.md).
+
+A PDF 129., 135., 136. és 140. oldalának képi tartalma is szerepel. A Prolog-labor mindkét ténysorrendet vágással és nélküle játssza le. A tagsági görbék billentyűvel állíthatók. A vizsgalabor három kimeneti módszert és az üres kimenet esetét is kezeli. A teljes statikus számítás saját, világosan jelölt skálát használ. A `resources/code/11_Fuzzy.py` kimenetét scikit-fuzzy 0.5.0-val ellenőriztük. A `resources/code/12_Logika.py` szabálya a közös változók szerepét magyarázza. A tananyag telefonon, mindkét témában és nyomtatásban is olvasható.
 
 ### 6. mérföldkő
 
