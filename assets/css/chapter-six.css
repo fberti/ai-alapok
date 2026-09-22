@@ -1,0 +1,24 @@
+.chapter-six{--green:#315f75;--soft:#e5f0ef;--lime:#e4e9b0}
+:root[data-theme=dark] .chapter-six{--green:#9dd2de;--soft:#1f3440;--lime:#e4e9b0}
+:root[data-theme=dark] .chapter-six .brand-mark,:root[data-theme=dark] .chapter-six .finish{background:#234353}
+.chapter-six .comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-block:1px solid var(--line);margin:2rem 0}
+.chapter-six .comparison>div{padding:1.2rem;min-width:0}.chapter-six .comparison>div+div{border-left:1px solid var(--line);background:var(--soft)}
+.chapter-six .comparison strong{color:var(--green);font:normal 1.45rem/1.4 Georgia,serif}
+.chapter-six .comparison p:last-child{margin-bottom:0}
+.chapter-six .takeaway{padding:.7rem 0 .7rem 1.2rem;border-left:4px solid var(--green);font:normal 1.3rem/1.6 Georgia,serif}
+.chapter-six .worked{background:var(--white);border:1px solid var(--line);border-top:3px solid var(--green);padding:1.5rem;margin:1.5rem 0}
+.chapter-six .steps{counter-reset:step;list-style:none;padding:0}.chapter-six .steps li{counter-increment:step;padding:.8rem 0 .8rem 3rem;position:relative;border-bottom:1px solid var(--line)}
+.chapter-six .steps li:before{content:counter(step,decimal-leading-zero);position:absolute;left:0;color:var(--green);font:normal 1.3rem Georgia,serif}
+.chapter-six .lab{margin:2rem 0}.chapter-six .lab label{display:block;margin:.8rem 0;font-weight:600}.chapter-six .lab input[type=range]{display:block;width:100%;min-height:44px;accent-color:var(--green)}
+.chapter-six .lab select{display:block;max-width:100%;min-height:44px;padding:.6rem;background:var(--white);color:var(--ink);border:1px solid var(--line)}
+.chapter-six .lab button{margin:.4rem .4rem .4rem 0}.chapter-six .lab p[role=status]{border-left:3px solid var(--green);padding:.8rem;background:var(--soft);overflow-wrap:anywhere}
+.chapter-six .controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 1.5rem}
+.chapter-six .plot{display:block;max-width:100%;width:100%;height:auto;background:var(--soft);border:1px solid var(--line);margin:1rem 0}
+.chapter-six .axis{fill:none;stroke:var(--muted);stroke-width:1}.chapter-six .curve{fill:none;stroke:var(--green);stroke-width:3}
+.chapter-six .plot text{fill:var(--ink);font:13px system-ui,sans-serif}.chapter-six .plot circle{stroke:var(--ink);stroke-width:1}
+.chapter-six .math{display:inline-block;max-width:100%;font-size:1rem;overflow-wrap:anywhere}.chapter-six .worked code,.chapter-six .correction code{overflow-wrap:anywhere}
+.chapter-six a,.chapter-six code{overflow-wrap:anywhere;word-break:break-word}
+.chapter-six pre{max-width:100%;white-space:pre-wrap;overflow-wrap:anywhere;overflow:auto;background:var(--soft);border-left:3px solid var(--green);padding:1rem}
+.chapter-six .table-wrap{max-width:100%;overflow-x:auto}
+@media(max-width:760px){.chapter-six .comparison,.chapter-six .controls{grid-template-columns:1fr}.chapter-six .comparison>div+div{border-left:0;border-top:1px solid var(--line)}}
+@media print{.chapter-six .comparison{break-inside:avoid}.chapter-six .lab{break-inside:avoid}.chapter-six .plot{max-height:130px}.chapter-six .lab button,.chapter-six .lab input,.chapter-six .lab select{display:none}.chapter-six .worked{break-inside:avoid}.chapter-six .table-wrap{overflow:visible}.chapter-six table{table-layout:fixed;font-size:.8rem}.chapter-six td,.chapter-six th{overflow-wrap:anywhere}}

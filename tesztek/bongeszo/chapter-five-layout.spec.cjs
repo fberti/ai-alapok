@@ -57,7 +57,7 @@ test('A kezdőlap és a negyedik fejezet ide vezet, a haladás külön mentődik
   await page.getByRole('link', {name:'← Előző: Formális logika'}).click();
   await expect(page.getByRole('button', {name:'Késznek jelölöm a fejezetet'})).toHaveAttribute('aria-pressed','false');
   await page.getByRole('link', {name:'Következő: 05 · Prolog és fuzzy logika →'}).click();
-  await expect(page.locator('a[href*="06-neuralis"]')).toHaveCount(0);
+  await expect(page.getByRole('link', {name:'Következő: 06 · Mesterséges neurális hálózatok →'})).toHaveAttribute('href','06-neuralis-halozatok.html');
 });
 
 test('Fájlmegnyitásból is működik a vizsgalabor', async ({page}) => {

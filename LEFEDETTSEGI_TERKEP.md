@@ -131,6 +131,8 @@ A PDF 129., 135., 136. és 140. oldalának képi tartalma is szerepel. A Prolog-
 
 ### 6. mérföldkő
 
+A PDF 142–221. oldalának önállóan olvasható feldolgozása elkészült: motiváció és alkalmazások, neuron és valamennyi felsorolt aktiváció, rétegek és visszacsatolások, perceptron/Adaline/MLP, tanulási módok, gradiens és láncszabály, tervezés és teljesítmény. Nyolc labor és tizenkét opcionális kvízkérdés tartozik hozzá. A 13-as és 14-es oktatói kód tanítási és értékelési korlátait látható kiigazítások jelzik. A statikus példák, források és számítások JavaScript nélkül is olvashatók.
+
 - [ ] Motiváció és minden felsorolt alkalmazás.
 - [ ] Neuron, súly, aktiváció és jel.
 - [ ] Az összes aktivációs függvény.

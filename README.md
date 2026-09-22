@@ -18,7 +18,8 @@ A forrás 307 oldalból áll.
 - [x] 3. mérföldkő: tudásreprezentáció, hálók, keretek és esetek.
 - [x] 4. mérföldkő: formális logika, igazságtáblák, kvantorok és rezolúció.
 - [x] 5. mérföldkő: Prolog, keresési sorrend, vágás és fuzzy szabályozás.
-- [ ] 6–10. mérföldkő: további fejezetek.
+- [x] 6. mérföldkő: mesterséges neurális hálózatok.
+- [ ] 7–10. mérföldkő: további fejezetek.
 
 ## Az elkészült alkalmazás
 
@@ -40,7 +41,9 @@ A negyedik fejezet a PDF 89–121. oldalát dolgozza fel. Öt labor segíti a ta
 
 Az ötödik fejezet a PDF 122–141. oldalát dolgozza fel. Három labor tartozik hozzá: Prolog-léptető ténysorrenddel és vágással, állítható tagságifüggvény-rajzoló, valamint élő vizsgajegy-példa három kimeneti módszerrel. Tíz választható kérdés segít az ellenőrzésben. Mindkét keresőfa, a listafeldolgozás, a fuzzy számítás és az oktató két kapcsolódó kódpéldája JavaScript nélkül is olvasható. A hiányos szabálybázis nem ad kitalált jegyet.
 
-Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md).
+A hatodik fejezet a PDF 142–221. oldalát dolgozza fel. Nyolc laborban állítható a neuron, az aktiváció, a háló topológiája, a döntési határ, a perceptron tanulása, a modell bonyolultsága, a gradienslépés és a két rétegű háló hibavisszaterjesztése. Tizenkét választható kérdés tartozik hozzá. A kézi és Keras-oktatói példák eltéréseit kiigazítások tárgyalják; a számítások és a kulcskövetkeztetések JavaScript nélkül is olvashatók.
+
+Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md), [ELLENORZES-06.md](ELLENORZES-06.md).
 
 A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.
 
