@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3eb">
+<meta name="description" content="Formális logika: hogyan dönti el a gép, hogy egy következtetés helyes-e? Új, önálló feldolgozás a PDF 89–121. oldalához.">
+<title>04 · Formális logika (új változat) | MI-alapok</title>
+<script>document.documentElement.classList.add('js')</script>
+<script src="../assets/js/theme.js?v=2"></script>
+<link rel="stylesheet" href="../assets/css/course.css?v=2">
+<link rel="stylesheet" href="../assets/css/chapter-four-uj.css">
+<script defer src="../assets/js/chapter-four-uj.js"></script>
+</head>
+<body class="chapter-four-uj" data-chapter="4">
+<a class="skip" href="#tartalom">Ugrás a tananyaghoz</a>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">mi.</span> ALAPOK <span class="brand-note">/ interaktív jegyzet</span></a><div class="header-actions"><a href="../index.html#fejezetek">← Összes fejezet</a><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle><span class="theme-toggle-icon" aria-hidden="true"></span><span class="visually-hidden">Sötét mód</span></button></div></header>
+
+<div class="chapter-layout">
+<nav class="toc" aria-label="Fejezet tartalomjegyzéke"><p class="eyebrow">04 / ÚJ VÁLTOZAT</p><ol>
+<li><a href="#logika">Mi a logika?</a></li>
+<li><a href="#tortenet">A szimbolikus logika útja</a></li>
+<li><a href="#iranyok">Új irányzatok</a></li>
+<li><a href="#propozicio">Állítás és atom</a></li>
+<li><a href="#szintaxis">Jelek és formulák</a></li>
+<li><a href="#szemantika">Interpretáció, kiértékelés</a></li>
+<li><a href="#ervenyes">Érvényes és kielégíthetetlen</a></li>
+<li><a href="#bizonyitas">Tételbizonyítás</a></li>
+<li><a href="#knf">Konjunktív normálforma</a></li>
+<li><a href="#rezolucio">A rezolúció algoritmusa</a></li>
+<li><a href="#predikatum">Miért kell több?</a></li>
+<li><a href="#pl-szintaxis">Term, atom, formula</a></li>
+<li><a href="#formalizalas">Mondatból formula</a></li>
+<li><a href="#pl-szemantika">Végtelen sok világ</a></li>
+<li><a href="#pl-rezolucio">Rezolúció változókkal</a></li>
+<li><a href="#fogalmak">Fogalomkártyák</a></li>
+<li><a href="#kviz">Kvíz · szabadon választható</a></li>
+<li><a href="#osszegzes">Összefoglaló</a></li>
+<li><a href="#forrasok">Források</a></li>
+</ol></nav>
+
+<main id="tartalom" class="chapter-main">
+<header class="chapter-hero">
+<p class="eyebrow">04. FEJEZET / ÚJ, ÖNÁLLÓ FELDOLGOZÁS</p>
+<h1>Honnan tudja a gép,<br><em>hogy egy következtetés helyes?</em></h1>
+<p class="lead">Az előző fejezetekben a tudás szabályokba, hálókba és keretekbe került. Most olyan nyelvet tanulunk, amelyben minden jelnek pontos jelentése van. Ezen a nyelven a gép nemcsak tárolni tud, hanem bizonyítani is.</p>
+<div class="u-scene"><p><strong>Egy menzai rejtvény.</strong> A menza pultján ez a tábla áll: „Aki desszertet kér, levest is kap.” Kati tálcáján nincs leves.</p>
+<p>Kért-e Kati desszertet? A legtöbben habozás nélkül rávágják, hogy nem. Igazuk is van. De honnan ilyen biztos ez? Nem ismerjük Katit, és a menzát sem. A válasz mégis kényszerítő, mert csak a két mondat <em>formájából</em> következik, a tartalmából nem.</p>
+<p>Ha a „desszert” és a „leves” helyére bármi mást írunk, a következtetés ugyanúgy helyes marad. Ez a fejezet arról szól, hogyan lehet ezt a formát jelekkel leírni, és hogyan ellenőrzi egy gép lépésről lépésre. A rejtvényt a 10. részben a gép is megoldja.</p></div>
+<ul class="u-meta"><li>Forrás: PDF 89–121. oldal</li><li>3 kipróbálható bemutató</li><li>12 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>12_Logika.py</code></li></ul>
+<div class="u-goals"><strong>A fejezet végére…</strong><ul>
+<li>el tudod helyezni a formális logikát a logika ágai között, és ismered a fejlődésének fő állomásait Arisztotelésztől Russellig;</li>
+<li>tudod, mit jelent a modális, a deontikus, a többértékű és a valószínűségi logika;</li>
+<li>helyes propozíciós formulát tudsz írni, és igazságtáblával ki tudod értékelni;</li>
+<li>meg tudod különböztetni az érvényes, a kielégíthető és a kielégíthetetlen formulát;</li>
+<li>konjunktív normálformára tudsz alakítani egy formulát, és rezolúcióval be tudsz bizonyítani egy tételt;</li>
+<li>egyszerű magyar mondatokat le tudsz írni kvantoros predikátumlogikai formulával;</li>
+<li>érted, hogyan dolgozik a rezolúció változókkal, és hol vannak a határai.</li>
+</ul></div>
+<noscript><p class="u-simple"><strong>JavaScript nélkül</strong>A teljes magyarázat, minden táblázat, levezetés és ábra olvasható. Csak a három kipróbálható bemutató és a kvíz ellenőrzése igényel JavaScriptet.</p></noscript>
+</header>
+
+<!-- 01 · MI A LOGIKA -->
+<section id="logika" class="chapter-section"><span class="section-index">01 / PDF 89–90.</span>
+<h2>A helyes gondolkodás tudománya.</h2>
+<p>A PDF a logikát így határozza meg:</p>
+<figure class="u-quote"><blockquote><p>„A logika a bölcselés tudománya, a helyes gondolkodás művészetének tana.”</p></blockquote><figcaption>PDF 90. oldal</figcaption></figure>
+<p>A <em>bölcselés</em> régies szó, a filozófiát jelenti. A meghatározás két fontos dolgot mond. A logika nem azt vizsgálja, hogy <em>miről</em> gondolkodunk, hanem azt, hogy <em>helyesen</em> gondolkodunk-e. A menzai rejtvényben sem a leves számított, hanem a mondatok szerkezete. Ezért lehet a logikát géppel is művelni: a gépnek nem kell értenie a levest, elég, ha a szerkezetet követi.</p>
+<p>A logikának ma sok ága van. A PDF 90. oldala négy nagy csoportba sorolja őket.</p>
+<figure class="u-tree-fig" id="logika-fa">
+<ul class="u-tree">
+<li><span class="u-tree-root">Logika</span>
+<ul>
+<li><span>Arisztotelészi<small>hagyományos</small></span></li>
+<li><span>Szimbolikus<small>formális</small></span>
+<ul><li><span>Propozíciós logika</span></li><li><span>Predikátumlogika</span></li></ul></li>
+<li><span>Nem klasszikus szimbolikus logika</span>
+<ul class="u-tree-list"><li>modális</li><li>temporális</li><li>többértékű</li><li>intuicionista</li><li>valószínűségi</li></ul></li>
+<li><span>Fuzzy</span></li>
+</ul></li>
+</ul>
+<figcaption>A logika osztályozása a PDF 90. oldala alapján. A fejezet nagy része a kiemelt szimbolikus ágról szól. A nem klasszikus ágakat a 3. rész, a fuzzy logikát az 5. fejezet mutatja be.</figcaption>
+</figure>
+<p>Az <strong>arisztotelészi (hagyományos) logika</strong> Arisztotelész Kr. e. 4. századi műveiből indul. Ezeket később <em>Organon</em>, vagyis „eszköz” néven gyűjtötték össze. Középpontjában a <strong>szillogizmus</strong> áll: két előfeltételből, azaz <strong>premisszából</strong> egy harmadik állítás, a <strong>konklúzió</strong> következik. A leghíresebb példa: „Minden ember halandó. Szókratész ember. Tehát Szókratész halandó.” A szillogizmust szavakkal írták le, és kétezer évig ez volt a logika.</p>
+<p>A <strong>szimbolikus (formális) logika</strong> a szavak helyett jeleket használ, és a következtetést a matematikához hasonló számolássá teszi. Két fő ága van. A <strong>propozíciós logika</strong> egész állításokkal dolgozik, a belsejükbe nem néz bele. A <strong>predikátumlogika</strong> az állítások belsejét is leírja: kiről szól, milyen tulajdonsága van, és „mindenkire” vagy „valakire” igaz-e. A fejezet ebben a sorrendben halad.</p>
+<p class="u-key">A logika a gondolatmenet formáját vizsgálja, nem a tartalmát. Ezért válhatott a gépi következtetés alapjává.</p>
+</section>
+
+<!-- 02 · TÖRTÉNET -->
+<section id="tortenet" class="chapter-section"><span class="section-index">02 / PDF 91–94.</span>
+<h2>Kétezer év a szavaktól a jelekig.</h2>
+<p>A PDF tizenegy gondolkodót nevez meg, akik a szimbolikus logikát előkészítették vagy megalapozták. Az idővonal a fő művük megjelenése szerint rendezi őket. Néhány állomást, amely a mai MI felé vezet, a jegyzet egészített ki. Ezeket a <em>kiegészítés</em> jelzi.</p>
+<ol class="u-timeline" id="idovonal">
+<li><span class="u-year">Kr. e. 4. sz.</span><p><strong>Arisztotelész</strong> leírja a szillogizmusokat. A hagyományos logika alapja.</p></li>
+<li><span class="u-year">1555</span><p><strong>Petrus Ramus</strong> (1515–1572) francia nyelvű <em>Dialectique</em> című művében bírálja az arisztotelészi logikát.</p></li>
+<li><span class="u-year">1620</span><p><strong>Francis Bacon</strong> (1561–1626) <em>Novum Organum</em>, azaz „új eszköz” című műve a kísérletet és a mérést állítja a középpontba.</p></li>
+<li><span class="u-year">1637</span><p><strong>René Descartes</strong> (1596–1650): <em>Értekezés a módszerről</em>.</p></li>
+<li><span class="u-year">1666</span><p><strong>Gottfried Wilhelm Leibniz</strong> (1646–1716) <em>De Arte Combinatoria</em> című munkája: a gondolkodás mint jelekkel végzett számolás.</p></li>
+<li><span class="u-year">1847</span><p><strong>George Boole</strong> (1815–1864): <em>A logika matematikai analízise</em>. Ugyanebben az évben jelenik meg <strong>Augustus De Morgan</strong> (1806–1871) <em>Formal Logic</em> című könyve.</p></li>
+<li><span class="u-year">1869</span><p><strong>William Stanley Jevons</strong> (1835–1882) megépíti a logikai zongorát.</p></li>
+<li><span class="u-year">1879</span><p><strong>Gottlob Frege</strong> (1848–1925): <em>Fogalomírás</em>. Az első teljes predikátumlogika, kvantorokkal.</p></li>
+<li><span class="u-year">1880</span><p><strong>John Venn</strong> (1834–1923) közli diagramjait, 1881-ben megjelenik <em>Symbolic Logic</em> című könyve. <strong>Charles Sanders Peirce</strong> (1839–1914) kéziratban leírja, hogy egyetlen művelet elég minden másikhoz.</p></li>
+<li><span class="u-year">1902</span><p><strong>Bertrand Russell</strong> (1872–1970) levélben közli Fregével a nevét viselő paradoxont.</p></li>
+<li><span class="u-year">1920–1921</span><p><strong>Jan Łukasiewicz</strong> (1878–1956) háromértékű logikája, <strong>Emil Post</strong> (1897–1954) többértékű rendszerei és <strong>John Maynard Keynes</strong> (1883–1946) valószínűség-elmélete.</p></li>
+<li><span class="u-year">1936</span><p><em>Kiegészítés:</em> Alonzo Church és Alan Turing bebizonyítja, hogy a predikátumlogikában nincs minden formulára működő döntési eljárás.</p></li>
+<li><span class="u-year">1938</span><p><em>Kiegészítés:</em> Claude Shannon megmutatja, hogy Boole algebrája leírja a relés kapcsolóáramköröket. Ebből lesz a digitális számítógép logikája.</p></li>
+<li><span class="u-year">1965</span><p><em>Kiegészítés:</em> John Alan Robinson közli a rezolúció elvét. A fejezet bizonyítási módszere innen származik.</p></li>
+<li><span class="u-year">1972</span><p><em>Kiegészítés:</em> Alain Colmerauer és Philippe Roussel megalkotja a Prolog nyelvet, amely rezolúcióval számol.</p></li>
+</ol>
+<p>A korai szerzők a logika <em>célját</em> keresték. A PDF két rövid jelmondattal foglalja össze a nézetüket. Ramus szerint:</p>
+<div class="u-quote-grid">
+<figure class="u-quote"><blockquote><p>„A logika: a helyes érvelés eszköze.”</p></blockquote><figcaption>Ramus nézete a PDF 91. oldalán</figcaption></figure>
+<figure class="u-quote"><blockquote><p>„A logika az új ismeretek megszerzésének eszköze.”</p></blockquote><figcaption>Bacon nézete a PDF 91. oldalán</figcaption></figure>
+</div>
+<p>Ramus tehát a vitában használt érvelést akarta rendbe tenni. Bacon viszont a természet megismerését: nála a logika kísérletekből és mérésekből von le általános tanulságot. Ezt ma <strong>indukciónak</strong> nevezzük, szemben a szillogizmus <strong>dedukciójával</strong>, amely az általánosból következtet az egyedire.</p>
+<p>Descartes a gondolkodás módszerét négy szabályba foglalta. A PDF mind a négyet felsorolja. Itt abban a sorrendben állnak, ahogy az <em>Értekezés a módszerről</em> második részében szerepelnek.</p>
+<ol class="u-steps" id="descartes">
+<li><p><strong>Bizonyosság.</strong> Csak azt fogadjuk el igaznak, aminek az igazsága megkérdőjelezhetetlen.</p></li>
+<li><p><strong>Felbontás.</strong> A problémát osszuk független vagy kevéssé összefüggő részekre.</p></li>
+<li><p><strong>Sorrend.</strong> Az egyszerűtől haladjunk a bonyolultabb felé.</p></li>
+<li><p><strong>Teljesség.</strong> Törekedjünk a teljes felsorolásra, hogy semmi se maradjon ki.</p></li>
+</ol>
+<p>A négy szabály ma is minden algoritmus tervezésének alapja. Ebben a fejezetben is ezt követjük: a bonyolult formulát egyszerű részekre bontjuk, és minden lehetőséget végignézünk.</p>
+<p><strong>Leibniz</strong> a PDF szerint a szimbolikus logika előfutára. Úgy gondolta, hogy a logika a matematikához hasonló, rutinszerűen alkalmazható műveletekkel kezelhető. A PDF ezt a „Logika ≅ matematika” jellel fejezi ki. Egy vitát szerinte úgy lehetne eldönteni, hogy a felek leülnek, és kiszámolják, kinek van igaza. Tőle származik az azonosság híres meghatározása is:</p>
+<figure class="u-quote"><blockquote><p>„Azok a terminusok tekintendők azonosnak, vagy egybeesőnek, amelyek egymással tetszés szerint felcserélhetők anélkül, hogy ezáltal bármelyik állítás igazsága megváltozna.”</p></blockquote><figcaption>Leibniz azonosság-meghatározása, PDF 92. oldal</figcaption></figure>
+<p>A <em>terminus</em> itt egy fogalom vagy név. Ha például „Magyarország fővárosa” és „Budapest” minden mondatban felcserélhető úgy, hogy a mondat igazsága nem változik, akkor a kettő ugyanazt jelöli. A 15. részben ezt az elvet használjuk ki, amikor egy változó helyére konstanst írunk.</p>
+<p><strong>Boole</strong> a PDF szerint a szimbolikus logika megalapítója. Megmutatta, hogy a matematikai és más kijelentések formailag hasonlóan kezelhetők, a tartalmuktól függetlenül. Bevezette a <strong>logikai szorzást</strong> (ÉS) és a <strong>logikai összeadást</strong> (VAGY). Nála az <em>x</em> egy osztályt jelölt, például a „fehér dolgok” osztályát, az <em>x·y</em> pedig a két osztály közös részét. Ebből rögtön adódott egy furcsa szabály: <em>x·x = x</em>. A fehér és fehér dolgok ugyanis éppen a fehér dolgok.</p>
+<p>Boole összeadása azonban csak akkor volt értelmezve, ha a két osztálynak nem volt közös eleme. Ez a <em>kizáró vagy</em>: vagy az egyik, vagy a másik, de nem mindkettő. <strong>Jevons</strong> ezt változtatta meg. A PDF szerint tőle ered a <strong>„megengedő vagy”</strong>: a „p vagy q” akkor is igaz, ha mindkettő igaz. Ma a logika ezt a jelentést használja. Jevons építette a <strong>logikai zongorát</strong> is. Ez egy billentyűs szerkezet volt, amely négy fogalomból álló következtetési feladatokat oldott meg mechanikusan.</p>
+<aside class="u-add"><h3>Kiegészítés · Valóban az első logikai gép volt?</h3><p>A PDF „első logikai gépnek” nevezi Jevons zongoráját. Martin Gardner logikai gépekről írt könyve szerint azonban már 1775-ben elkészült egy egyszerűbb eszköz. Ez Charles Stanhope angol főnemes és államférfi „demonstrátora” volt, amely eltolható lapokkal oldott meg egyszerű szillogizmusokat. Jevons gépét Gardner úgy jellemzi, mint az első olyan gépet, amely egy bonyolult logikai feladatot gyorsabban oldott meg, mint egy ember kézzel. <a href="#s-gardner">Forrás: Gardner, 1958;</a> <a href="#s-jevons">Jevons, 1870.</a></p></aside>
+<p><strong>Venn</strong> a PDF szerint diagramokkal szemléltette az állításokat. A teljes eseményt téglalap, az egyes fogalmakat körök jelölik. A körök mindenféle módon metszhetik egymást. Az alábbi három ábra Boole három alapműveletét rajzolja le.</p>
+<figure class="u-venn" id="venn">
+<div class="u-venn-row">
+<div><svg viewBox="0 0 160 104" role="img" aria-labelledby="venn-es"><title id="venn-es">p ÉS q: csak a két kör közös része van kiemelve.</title>
+<defs><clipPath id="clip-p"><circle cx="62" cy="52" r="34"/></clipPath></defs>
+<rect x="4" y="4" width="152" height="96" rx="4" class="u-venn-box"/>
+<circle cx="98" cy="52" r="34" class="u-venn-fill" clip-path="url(#clip-p)"/>
+<circle cx="62" cy="52" r="34" class="u-venn-line"/><circle cx="98" cy="52" r="34" class="u-venn-line"/>
+<text x="40" y="56">p</text><text x="120" y="56">q</text></svg><p><strong>p ∧ q</strong><br>logikai szorzás</p></div>
+<div><svg viewBox="0 0 160 104" role="img" aria-labelledby="venn-vagy"><title id="venn-vagy">p VAGY q: mindkét kör teljes területe ki van emelve.</title>
+<rect x="4" y="4" width="152" height="96" rx="4" class="u-venn-box"/>
+<circle cx="62" cy="52" r="34" class="u-venn-fill"/><circle cx="98" cy="52" r="34" class="u-venn-fill"/>
+<circle cx="62" cy="52" r="34" class="u-venn-line"/><circle cx="98" cy="52" r="34" class="u-venn-line"/>
+<text x="40" y="56">p</text><text x="120" y="56">q</text></svg><p><strong>p ∨ q</strong><br>logikai összeadás, megengedő</p></div>
+<div><svg viewBox="0 0 160 104" role="img" aria-labelledby="venn-nem"><title id="venn-nem">NEM p: a téglalap ki van emelve, a p kör kivételével.</title>
+<rect x="4" y="4" width="152" height="96" rx="4" class="u-venn-box u-venn-fill"/>
+<circle cx="80" cy="52" r="34" class="u-venn-hole"/><circle cx="80" cy="52" r="34" class="u-venn-line"/>
+<text x="80" y="56">p</text></svg><p><strong>¬p</strong><br>tagadás</p></div>
+</div>
+<figcaption>A téglalap a „teljes esemény”, vagyis minden lehetséges eset. A kiemelt terület azokat az eseteket mutatja, amelyekben a formula igaz. A megengedő VAGY a közös részt is tartalmazza.</figcaption>
+</figure>
+<p><strong>Peirce</strong> felfedezte, hogy Boole összes művelete kiváltható egyetlen művelettel. Ez a „sem…, sem…” művelet, angol nevén <strong>NOR</strong> (not or). A „p NOR q” akkor igaz, ha sem p, sem q nem igaz. A táblázat megmutatja, hogyan rakható össze belőle a másik három művelet. 1913-ban Henry Sheffer ugyanezt igazolta a „nem mindkettő” műveletre, a NAND-ra is.</p>
+<div class="u-table-wrap"><table class="u-table" id="nor-tabla">
+<caption>Minden művelet NOR-ból. A jobb oszlop képlete bármelyik sorban behelyettesítéssel ellenőrizhető.</caption>
+<thead><tr><th>Művelet</th><th>Csak NOR-ral kifejezve</th><th>Miért?</th></tr></thead>
+<tbody>
+<tr><td>¬p</td><td>p NOR p</td><td>„Sem p, sem p” pontosan akkor igaz, ha p hamis.</td></tr>
+<tr><td>p ∨ q</td><td>(p NOR q) NOR (p NOR q)</td><td>A NOR a VAGY tagadása. Ha a tagadást még egyszer tagadjuk, visszakapjuk a VAGY-ot.</td></tr>
+<tr><td>p ∧ q</td><td>(p NOR p) NOR (q NOR q)</td><td>„Sem nem-p, sem nem-q” azt jelenti: p is és q is igaz.</td></tr>
+</tbody></table></div>
+<p>Ez nem csak érdekesség. A mai számítógép-processzorok áramköreit is egyetlen fajta kapuból, NAND-ból vagy NOR-ból lehet felépíteni. <strong>De Morgan</strong> nevét a PDF a reláció-azonosságok kapcsán említi. Ő kezdte vizsgálni a kapcsolatok, más néven <strong>relációk</strong> logikáját, például a „szülője” vagy „nagyobb, mint” viszonyt. Ez a predikátumlogika előzménye. Két azonosságát ma De Morgan-azonosságoknak hívjuk, és a 9. részben használjuk őket.</p>
+<p><strong>Frege</strong> a PDF szerint integrálta a korábbi eredményeket, és bevezette a <strong>logikai függvény</strong> fogalmát. Ezért nevezik „a szimbolikus logika atyjának”. Fő műve, a <em>Fogalomírás</em> alcíme: „a tiszta gondolkodás aritmetika mintájára megalkotott formanyelve”. Frege nemcsak ÉS-t és VAGY-ot használt, hanem a „minden” és a „van olyan” jelét, a <strong>kvantorokat</strong> is. Ezzel lett a logika elég erős ahhoz, hogy a matematikát leírja.</p>
+<p><strong>Russell</strong> a PDF szerint Fregétől függetlenül hasonló eredményre jutott, de hézagokat talált az elődök munkájában: <strong>logikai paradoxonokat</strong>. A paradoxon olyan gondolatmenet, amely helyes lépésekkel ellentmondáshoz vezet. A magyarázatra Russell a <strong>típuselméletet</strong> dolgozta ki.</p>
+<aside class="u-fix"><h3>Kiigazítás · Mit kérdez valójában Russell paradoxona?</h3>
+<p><strong>A PDF-ben:</strong> „Az osztályok osztálya eleme-e önmagának?” (PDF 94. oldal).</p>
+<p><strong>Helyesen:</strong> a paradoxon azoknak az osztályoknak az osztályáról szól, amelyek <em>nem</em> elemei önmaguknak. Jelöljük ezt R-rel. Ha R eleme önmagának, akkor a meghatározása szerint nem lehet eleme. Ha nem eleme önmagának, akkor éppen teljesíti a feltételt, tehát eleme. Mindkét válasz ellentmondáshoz vezet.</p>
+<p><strong>Miért fontos?</strong> A PDF kérdésére van egyszerű válasz, és ebből nem következik ellentmondás. Az „összes osztály osztálya” maga is osztály, tehát a naiv halmazelméletben eleme önmagának. A paradoxon ereje éppen a tagadásban rejlik. Hétköznapi változata a borbély, aki a faluban mindenkit megborotvál, aki nem maga borotválkozik, és senki mást. Borotválja-e önmagát? Russell a típuselmélettel úgy oldotta fel, hogy egy osztály csak alacsonyabb típusú dolgokat tartalmazhat. Így az „eleme-e önmagának” kérdés fel sem tehető. <a href="#s-sep-russell">Forrás: Stanford Encyclopedia of Philosophy, Russell’s Paradox;</a> <a href="#s-heijenoort">Russell levele Fregének, 1902.</a></p></aside>
+</section>
+
+<!-- 03 · ÚJ IRÁNYZATOK -->
+<section id="iranyok" class="chapter-section"><span class="section-index">03 / PDF 90, 95.</span>
+<h2>Amikor az igaz és a hamis kevés.</h2>
+<p>A klasszikus logikában minden állítás vagy igaz, vagy hamis. A 20. században több olyan logika is született, amely ezt a merev kettősséget kiterjeszti vagy feloldja. A PDF ezeket <strong>nem klasszikus logikáknak</strong> nevezi. A legjobban úgy érthetők meg, ha ugyanazt a helyzetet írjuk le mindegyikkel.</p>
+<div class="u-table-wrap"><table class="u-table" id="logikak-tabla">
+<caption>A jegyzet saját összehasonlítása. A p itt a „Holnap esni fog” állítást jelöli, kivéve a deontikus sort.</caption>
+<thead><tr><th>Logika</th><th>Mit tud kifejezni?</th><th>Példa</th></tr></thead>
+<tbody>
+<tr><td>Klasszikus</td><td>Csak igaz vagy hamis értéket.</td><td>p vagy igaz, vagy hamis. Hogy melyik, azt ma még nem tudjuk.</td></tr>
+<tr><td>Modális</td><td>A „lehetséges” és a „szükségszerű” fogalmát. A PDF szerint a klasszikus logika kiterjesztése.</td><td>◇p: „Lehetséges, hogy holnap esni fog.” □p: „Szükségszerű, hogy holnap esni fog.”</td></tr>
+<tr><td>Deontikus</td><td>Etikai és jogi kifejezéseket: kötelező, megengedett, tilos.</td><td>O(b): „Kötelező holnapig beadni a beadandót.” F(m): „Tilos a vizsgán mobilt használni.”</td></tr>
+<tr><td>Temporális</td><td>Időbeli viszonyokat: valamikor, mindig, azóta.</td><td>F p: „Valamikor a jövőben esni fog.”</td></tr>
+<tr><td>Többértékű</td><td>Kettőnél több igazságértéket.</td><td>p = ½: „Még eldöntetlen, hogy esni fog-e.”</td></tr>
+<tr><td>Valószínűségi</td><td>Mennyire támogatják az ismert tények az állítást.</td><td>P(p) = 0,7: „70% az esély, hogy esni fog.”</td></tr>
+</tbody></table></div>
+<p>A <strong>modális logika</strong> két új jele között szoros kapcsolat van. Ami <em>lehetséges</em>, annak a tagadása nem szükségszerű: ◇p ugyanazt jelenti, mint ¬□¬p. A modern modális logikát Clarence Irving Lewis alapozta meg 1918-ban. A <strong>deontikus logika</strong> ugyanilyen párokat használ. Ami <em>megengedett</em>, arra nem kötelező a tilalom, és ami <em>tilos</em>, annak a tagadása kötelező. Rendszerét Georg Henrik von Wright finn filozófus írta le 1951-ben. Jogi szakértőrendszerekben ma is használják.</p>
+<p>A <strong>többértékű logika</strong> megalkotója a PDF szerint <strong>Jan Łukasiewicz</strong> lengyel logikus. Háromértékű logikájában az igazságérték 0, ½ vagy 1 lehet, ahol az ½ a bizonytalanságot fejezi ki. Łukasiewiczt egy arisztotelészi kérdés foglalkoztatta: igaz vagy hamis-e ma az, hogy holnap tengeri csata lesz? Ha már ma igaz, akkor a jövő eldőlt. Ha ma még egyik sem, akkor kell egy harmadik érték. A műveletek így számolnak.</p>
+<div class="u-table-wrap"><table class="u-table" id="lukasiewicz">
+<caption>Łukasiewicz háromértékű logikájának műveletei. A képletek 0 és 1 között minden értékre működnek, ezért a rendszer a végtelen sok értékre is kiterjeszthető.</caption>
+<thead><tr><th>Művelet</th><th>Képlet</th><th>Példa: a = ½, b = 1</th></tr></thead>
+<tbody>
+<tr><td>¬a</td><td>1 − a</td><td>1 − ½ = ½</td></tr>
+<tr><td>a ∧ b</td><td>a és b közül a kisebb</td><td>½</td></tr>
+<tr><td>a ∨ b</td><td>a és b közül a nagyobb</td><td>1</td></tr>
+<tr><td>a → b</td><td>1 és (1 − a + b) közül a kisebb</td><td>1</td></tr>
+</tbody></table></div>
+<p>Érdekes következmény: ha p = ½, akkor p ∨ ¬p értéke is csak ½. A „vagy esik, vagy nem esik” itt nem biztosan igaz. A PDF azt is megjegyzi, hogy Łukasiewicz eljutott a <strong>végtelen értékű logikáig</strong>. Ebben 0 és 1 között bármilyen érték megengedett. Ennek közeli rokona a fuzzy logika, amely az 5. fejezet témája. <strong>Emil Post</strong> Łukasiewicztől függetlenül, vele egy időben dolgozott ki többértékű logikát. A <strong>valószínűségi logika</strong> megalkotójának a PDF szerint <strong>Keynest</strong> tartják, Peirce-szel együtt. A közgazdászként ismert Keynes 1921-es könyvében a valószínűséget két állítás közötti logikai viszonynak tekintette: mennyire támasztja alá az egyik a másikat.</p>
+<aside class="u-add"><h3>Kiegészítés · Temporális és intuicionista logika</h3><p>A PDF osztályozása két további ágat is említ. A <strong>temporális logika</strong> az idő kifejezésére szolgál. Arthur Prior dolgozta ki az 1950-es években, ma programok és hardverek helyességének ellenőrzésére használják. Egy ilyen állítás például: „a kérésre <em>előbb-utóbb</em> mindig jön válasz”. Az <strong>intuicionista logika</strong> Luitzen Brouwer matematikai nézeteiből nőtt ki. Arend Heyting 1930-ban formalizálta. Egy állítást csak akkor fogad el igaznak, ha van rá konkrét bizonyítás. Ezért nem fogadja el általános törvényként a p ∨ ¬p formulát. <a href="#s-sep-manyvalued">Forrás: Stanford Encyclopedia of Philosophy, Many-Valued Logic;</a> <a href="#s-sep-modal">Modal Logic;</a> <a href="#s-sep-deontic">Deontic Logic.</a></p></aside>
+</section>
+
+<!-- 04 · PROPOZÍCIÓ -->
+<section id="propozicio" class="chapter-section"><span class="section-index">04 / PDF 96–97.</span>
+<h2>Az állítás mint építőkocka.</h2>
+<p>A <strong>propozíciós logikának</strong> több magyar neve is van: <strong>kijelentéskalkulus</strong>, <strong>ítéletkalkulus</strong> és <strong>nulladrendű predikátumkalkulus</strong>. A <em>kalkulus</em> itt számolási rendszert jelent. Az alapegysége a <strong>propozíció</strong>. A PDF meghatározása:</p>
+<figure class="u-quote"><blockquote><p>„Propozíció: egy kijelentő mondat formában megadott állítás, mely az adott kontextusban egyértelmű igaz, vagy hamis logikai értékkel bír.”</p></blockquote><figcaption>PDF 96. oldal</figcaption></figure>
+<p>A kérdő mondat („Hány óra van?”) és a felszólító mondat („Csukd be az ablakot!”) tehát nem propozíció, mert nem lehet igaz vagy hamis. Az „x nagyobb 3-nál” sem az, amíg nem tudjuk, mi az x. A legegyszerűbb propozíciókat <strong>atomi mondatoknak</strong> hívják, mert nem bonthatók kisebb állításokra. A PDF két példát ad:</p>
+<div class="u-compare" id="atomok">
+<div><span class="u-tag">A</span><h3>„A víz száz fokon forr.”</h3><p>Általános tapasztalat szerint <strong>igaz</strong>.</p></div>
+<div><span class="u-tag">B</span><h3>„A macskák ugatnak.”</h3><p>Általános tapasztalat szerint <strong>hamis</strong>.</p></div>
+</div>
+<p>A meghatározás fontos kikötése: „az adott kontextusban”. A víz csak tengerszinti légnyomáson forr 100 °C-on. A Kékestetőn, körülbelül ezer méter magasan, már 97 °C körül forr. Az A állítás tehát egy hallgatólagosan rögzített helyzetben igaz. A logika ezt a helyzetet nem vizsgálja, csak az igazságértéket veszi át.</p>
+<p>A propozíciós logika célja a PDF szerint az, hogy <strong>formális szabályt adjon az összetett szerkezetek kiértékelésére</strong>. Az atomi mondatokat az <em>és</em>, a <em>vagy</em> és a <em>nem</em> köti össze. A kiértékelésben csak az atomi összetevők igazságértéke számít, a jelentésüktől eltekintünk. Ezért az atomi mondatokat egyszerűen egy betűvel helyettesítjük: „Esik az eső.” ⇒ A.</p>
+<p>Ennek ára van. A PDF egy beszédes példával mutatja meg, hogy az átalakítás nem mindig természetes.</p>
+<div class="u-compare" id="joska">
+<div><span class="u-tag">A TERMÉSZETES NYELVBEN</span><h3>A sorrend jelentést hordoz</h3><p>A: „Jóska megbetegedett.” B: „Jóska elment az orvoshoz.”</p><p>„Jóska megbetegedett, és elment az orvoshoz.” Itt a betegség az ok.</p><p>„Jóska elment az orvoshoz, és megbetegedett.” Itt mintha az orvosnál kapta volna el a betegséget.</p></div>
+<div><span class="u-tag">A LOGIKÁBAN</span><h3>A sorrend közömbös</h3><p>A ∧ B és B ∧ A pontosan ugyanakkor igaz: ha mindkét állítás igaz.</p><p>Csak az A és a B igazságértéke számít. Az idő, az ok és a szándék kimarad.</p></div>
+</div>
+<div class="u-simple"><strong>Egyszerűen mondva</strong><p>A propozíciós logika úgy néz egy mondatra, mint egy villanykapcsolóra: vagy be van kapcsolva (igaz), vagy ki (hamis). Hogy a kapcsoló mit kapcsol, az nem érdekli.</p></div>
+</section>
+
+<!-- 05 · SZINTAXIS -->
+<section id="szintaxis" class="chapter-section"><span class="section-index">05 / PDF 98–99.</span>
+<h2>A jelek nyelvtana.</h2>
+<p>Minden formális nyelvnek két oldala van. A <strong>szintaxis</strong> a nyelvtan: megmondja, mely jelsorozatok helyesek. A <strong>szemantika</strong> a jelentés: megmondja, mikor igaz egy helyes jelsorozat. Ez a rész a szintaxisról szól. A propozíciós logika <strong>jelkészlete</strong> a PDF szerint négyféle jelből áll.</p>
+<dl class="u-rows" id="jelkeszlet">
+<div><dt>Elválasztójelek</dt><dd><p>A vessző és a zárójelek: <code>,  ( )  [ ]</code>. A zárójel csoportosít, mint az algebrában.</p></dd></div>
+<div><dt>Logikai operátorok</dt><dd><p>A műveleti jelek, csökkenő <strong>precedencia</strong>, azaz erősségi sorrendben: ¬, ∧, ∨, →, ≡. Részletesen lásd a táblázatban.</p></dd></div>
+<div><dt>Logikai változók</dt><dd><p>Más néven ítéletváltozók: <em>p, q, r, …</em> Mindegyik egy atomi állítást helyettesít.</p></dd></div>
+<div><dt>Logikai konstansok</dt><dd><p>A két rögzített érték: <strong>T</strong> (True, igaz) és <strong>F</strong> (False, hamis).</p></dd></div>
+</dl>
+<div class="u-table-wrap"><table class="u-table" id="operatorok">
+<caption>A műveleti jelek a PDF 98. oldala alapján, erősségi sorrendben. A ¬ köt a legerősebben, a ≡ a leggyengébben.</caption>
+<thead><tr><th>Jel</th><th>Neve</th><th>Kiolvasása</th><th>Példa</th></tr></thead>
+<tbody>
+<tr><td>¬</td><td>negáció</td><td>nem</td><td>¬p: „nem esik”</td></tr>
+<tr><td>∧</td><td>konjunkció</td><td>és</td><td>p ∧ q: „esik és fúj”</td></tr>
+<tr><td>∨</td><td>diszjunkció</td><td>vagy</td><td>p ∨ q: „esik vagy fúj”</td></tr>
+<tr><td>→</td><td>implikáció</td><td>ha … akkor …, következik</td><td>p → q: „ha esik, akkor vizes az út”</td></tr>
+<tr><td>≡</td><td>ekvivalencia</td><td>akkor és csak akkor, azonos</td><td>p ≡ q: „akkor és csak akkor esik, ha felhős az ég”</td></tr>
+</tbody></table></div>
+<p>Hogy melyik jelsorozat helyes, azt a <strong>szintaxis szabályai</strong> döntik el. A PDF két fokozatban építi fel a formulákat.</p>
+<ol class="u-stack" id="formula-epites">
+<li><strong>Atomi formula (atom)</strong><p>Minden ítéletkonstans atom: T, F. Minden ítéletváltozó atom: p, q, r, …</p></li>
+<li><strong>Formula (jól formált formula)</strong><p>Minden atomi formula egyben formula. Ha A és B formulák, akkor a ¬A, A ∧ B, A ∨ B, A → B és A ≡ B kifejezések is formulák.</p></li>
+</ol>
+<p>A második szabály önmagára hivatkozik. Az ilyen meghatározást <strong>rekurzívnak</strong> nevezzük. Ezért lehet a formulákat tetszőlegesen mélyre egymásba építeni. Nézzük meg, hogyan épül fel a <code>(p ∧ q) → ¬r</code> formula! A p és a q atom, tehát formula. Akkor a <code>p ∧ q</code> is formula. Az r atom, tehát a <code>¬r</code> is formula. Végül a kettő implikációja is formula. A <code>p ∧ → q</code> viszont nem formula, mert a ∧ után nem formula következik.</p>
+<p>A precedencia arra jó, hogy kevesebb zárójel kelljen. A <code>¬p ∧ q ∨ r → s</code> formulát teljes zárójelezéssel így kell olvasni: <code>(((¬p) ∧ q) ∨ r) → s</code>. Először a ¬ köt, aztán a ∧, aztán a ∨, végül a →. Ez ugyanaz a szokás, mint az algebrában, ahol a szorzás erősebben köt az összeadásnál.</p>
+<aside class="u-add"><h3>Kiegészítés · Hogyan olvasunk több egymás utáni nyilat?</h3><p>A <code>p → q → r</code> formulában a precedencia nem dönt, mert két egyforma jel áll egymás mellett. A szokásos megállapodás szerint a nyíl <strong>jobbra köt</strong>, vagyis a formula jelentése <code>p → (q → r)</code>. Ez nem ugyanaz, mint a <code>(p → q) → r</code>. Ha p, q és r is hamis, az első igaz, a második hamis. Kétes esetben ezért mindig érdemes zárójelet tenni. A lenti bemutató is a jobbra kötést használja.</p></aside>
+</section>
+
+<!-- 06 · SZEMANTIKA -->
+<section id="szemantika" class="chapter-section"><span class="section-index">06 / PDF 100–101.</span>
+<h2>Mitől lesz igaz egy formula?</h2>
+<p>A PDF szerint egy logikai formulának az <strong>igazságértéke</strong> ad jelentést. Ezt az értéket a szemantika szabályai szerint kapja meg, két lépésben.</p>
+<ol class="u-flow" id="jelentesadas">
+<li><strong>1 · INTERPRETÁLÁS</strong>Minden ítéletváltozóhoz igaz vagy hamis értéket rendelünk.</li>
+<li><strong>2 · KIÉRTÉKELÉS</strong>A műveleti jelek szabályai szerint belülről kifelé kiszámoljuk az egész formula értékét.</li>
+</ol>
+<p>Egy hozzárendelés egy <strong>interpretációt</strong>, más szóval értelmezést ad. Ha minden lehetséges módon hozzárendelünk, megkapjuk az összes interpretációt. Minden változó kétféle értéket kaphat, ezért n változónál az interpretációk száma <strong>2<sup>n</sup></strong>. Ez véges szám: a propozíciós logikában minden interpretáció végignézhető. A 14. részben látjuk majd, hogy a predikátumlogikában ez nem így van.</p>
+<p>A PDF példaformulája négy változót tartalmaz, tehát 2<sup>4</sup> = 16 interpretációja van: <code>A := (p ∧ q) → (r ≡ (¬s))</code>. A PDF ezek közül kettőt ír fel. I<sub>1</sub>: (p, q, r, s) ← (T, T, F, F) és I<sub>2</sub>: (p, q, r, s) ← (F, T, T, F). A kiértékeléshez a műveleti jelek jelentését kell ismerni. Ezt az <strong>igazságtábla</strong> adja meg.</p>
+<div class="u-table-wrap"><table class="u-table u-truth" id="alap-igazsagtabla">
+<caption>A műveleti jelek szemantikája a PDF 101. oldala alapján. T = igaz, F = hamis.</caption>
+<thead><tr><th>A</th><th>B</th><th>¬A</th><th>A ∧ B</th><th>A ∨ B</th><th>A → B</th><th>A ≡ B</th></tr></thead>
+<tbody>
+<tr><td>T</td><td>T</td><td>F</td><td>T</td><td>T</td><td>T</td><td>T</td></tr>
+<tr><td>T</td><td>F</td><td>F</td><td>F</td><td>T</td><td>F</td><td>F</td></tr>
+<tr><td>F</td><td>T</td><td>T</td><td>F</td><td>T</td><td>T</td><td>F</td></tr>
+<tr><td>F</td><td>F</td><td>T</td><td>F</td><td>F</td><td>T</td><td>T</td></tr>
+</tbody></table></div>
+<p>A tábla legtöbb oszlopa magától értetődik. Az implikáció a kivétel. Az <code>A → B</code> csak akkor hamis, ha A igaz és B hamis. Ha A hamis, az implikáció mindig igaz.</p>
+<aside class="u-add"><h3>Kiegészítés · Miért igaz a „ha” hamis feltétel mellett?</h3><p>Gondolj egy ígéretre: „Ha jövök, hozok sütit.” Mikor szegted meg? Csak akkor, ha jöttél, és nem hoztál sütit. Ha nem jöttél, az ígéreted nem sérült, akár hoztál sütit, akár nem. A logika ezért a hamis feltételű implikációt igaznak tekinti. Ennek furcsa következménye, hogy „Ha a Hold sajtból van, akkor 2 + 2 = 5” is igaz állítás. A logikai → ugyanis nem ok-okozati kapcsolatot jelent, csak azt, hogy nem fordul elő igaz feltétel hamis következménnyel. Ennek neve <strong>materiális implikáció</strong>. <a href="#s-aima">Forrás: Russell–Norvig, 7.4 szakasz.</a></p></aside>
+<div class="u-example" id="kiertekeles-pelda"><strong>Végigvezetett példa · A PDF formulája két interpretációban</strong>
+<p>A formula: <code>A := (p ∧ q) → (r ≡ (¬s))</code>. A PDF felírja a két interpretációt, a kiértékelést a jegyzet végzi el. Minden lépésben a legbelső műveleteket számoljuk ki.</p>
+<div class="u-duo">
+<div class="u-trace"><p class="u-trace-title">I<sub>1</sub>: p = T, q = T, r = F, s = F</p><ol>
+<li><code>(T ∧ T) → (F ≡ (¬F))</code></li>
+<li><code>T → (F ≡ T)</code></li>
+<li><code>T → F</code></li>
+<li><code>F</code>: az A formula <strong>hamis</strong>.</li></ol></div>
+<div class="u-trace"><p class="u-trace-title">I<sub>2</sub>: p = F, q = T, r = T, s = F</p><ol>
+<li><code>(F ∧ T) → (T ≡ (¬F))</code></li>
+<li><code>F → (T ≡ T)</code></li>
+<li><code>F → T</code></li>
+<li><code>T</code>: az A formula <strong>igaz</strong>.</li></ol></div>
+</div>
+<p>A második esetben már a második sorban látszik az eredmény. A bal oldal hamis, és hamis feltételből az implikáció mindig igaz.</p>
+<p>A PDF 101. oldalának saját példája egy mondat: <em>„Ha süt a nap, nem tanul Péter.”</em> Legyen p = „süt a nap”, q = „tanul Péter”. A formula: <code>A := p → (¬q)</code>. A négy lehetséges interpretáció egyike: p = T, q = F. A kiértékelés: <code>T → (¬F)</code>, azaz <code>T → T</code>, azaz <code>T</code>. Az A állítás tehát ebben az interpretációban igaz. A formula egyetlen interpretációban hamis: ha süt a nap, és Péter mégis tanul.</p></div>
+<div class="u-lab" id="formula-labor"><span class="u-lab-label">PRÓBÁLD KI / FORMULAVIZSGÁLÓ</span><h3>Írj be egy formulát, és nézd meg az összes interpretációját!</h3>
+<p>A bemutató először a szintaxist ellenőrzi, aztán elkészíti a teljes igazságtáblát. Egy interpretációt kiválasztva lépésenként is kiértékeli a formulát. A jeleket a gombokkal is beírhatod. Billentyűzettel ezek is jók: <code>!</code> vagy <code>~</code> (nem), <code>&amp;</code> (és), <code>|</code> (vagy), <code>-&gt;</code> (ha… akkor), <code>&lt;-&gt;</code> (akkor és csak akkor).</p>
+<div class="u-js-only">
+<div class="u-form-row"><label class="u-grow">Formula <input type="text" id="formula-be" value="(p ∧ q) → (r ≡ ¬s)" spellcheck="false" autocomplete="off"></label></div>
+<div class="u-controls" id="formula-jelek" aria-label="Jelek beszúrása">
+<button type="button" class="u-ghost" data-jel="¬">¬</button><button type="button" class="u-ghost" data-jel="∧">∧</button><button type="button" class="u-ghost" data-jel="∨">∨</button><button type="button" class="u-ghost" data-jel="→">→</button><button type="button" class="u-ghost" data-jel="≡">≡</button><button type="button" class="u-ghost" data-jel="(">(</button><button type="button" class="u-ghost" data-jel=")">)</button>
+</div>
+<div class="u-form-row"><label>Minta <select id="formula-minta">
+<option value="(p ∧ q) → (r ≡ ¬s)">A PDF példája (100. oldal)</option>
+<option value="p → ¬q">„Ha süt a nap, nem tanul Péter.”</option>
+<option value="p ∨ ¬p">Esik vagy nem esik</option>
+<option value="p ∧ ¬p">Esik és nem esik</option>
+<option value="((p → q) ∧ p) → q">A menzai rejtvény formája</option>
+<option value="¬(p ∨ q) ≡ ¬p ∧ ¬q">Egy De Morgan-azonosság</option>
+</select></label></div>
+<div class="u-out" id="formula-ki" role="status" aria-live="polite"></div>
+<div class="u-table-wrap u-js-only"><table class="u-table u-truth" id="formula-tabla"></table></div>
+<div class="u-form-row"><label>Interpretáció a lépésenkénti kiértékeléshez <select id="formula-sor"></select></label></div>
+<div class="u-out" id="formula-lepesek" aria-live="polite"></div>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. A kiértékelés menetét a fenti példa írásban tartalmazza.</p>
+</div>
+</section>
+
+<!-- 07 · ÉRVÉNYES -->
+<section id="ervenyes" class="chapter-section"><span class="section-index">07 / PDF 102.</span>
+<h2>Mindig igaz, néha igaz, soha.</h2>
+<p>Ha egy formula összes interpretációját végignézzük, háromféle eredmény lehet. A PDF kettőt emel ki közülük, mert ezeknek a <strong>tételbizonyításban</strong> van szerepük.</p>
+<div class="u-compare" id="harom-fajta">
+<div><span class="u-tag">ÉRVÉNYES · TAUTOLÓGIA</span><h3>Minden interpretációban igaz</h3><p>A PDF szerint a kifejezés tautológia, azaz érvényes kifejezés, ha minden lehetséges helyettesítése igaz.</p><p><em>Példa:</em> <code>p ∨ ¬p</code>, „esik vagy nem esik”.</p></div>
+<div><span class="u-tag">KIELÉGÍTHETŐ</span><h3>Van, amelyikben igaz</h3><p>A formulák többsége egyes interpretációkban igaz, másokban hamis.</p><p><em>Példa:</em> <code>p → q</code>. Igaz, ha p = F, és hamis, ha p = T és q = F.</p></div>
+<div><span class="u-tag">KIELÉGÍTHETETLEN · KONTRADIKCIÓ</span><h3>Minden interpretációban hamis</h3><p>A PDF szerint a kifejezés kontradikció, ha minden lehetséges helyettesítésre hamis értéket ad.</p><p><em>Példa:</em> <code>p ∧ ¬p</code>, „esik és nem esik”.</p></div>
+</div>
+<p>A <strong>kielégíthető</strong> szó azt jelenti: van legalább egy interpretáció, amely igazzá teszi. Az érvényes formula tehát egyben kielégíthető is. Érdemes megfigyelni a kapcsolatot is: egy formula pontosan akkor érvényes, ha a tagadása kielégíthetetlen. Ha <code>p ∨ ¬p</code> mindig igaz, akkor <code>¬(p ∨ ¬p)</code> mindig hamis.</p>
+<p>A PDF két egyszerűsítési törvényt is megad. Ezekkel egy formulából kihagyható egy mindig igaz vagy mindig hamis rész.</p>
+<div class="u-compare" id="torvenyek">
+<div><span class="u-tag">TAUTOLOGIKUS TÖRVÉNY</span><h3>Ha A tautológia</h3><p><code>A ∨ B = A</code>: a „vagy” mindig igaz lesz, mint A.</p><p><code>A ∧ B = B</code>: az „és” értékét egyedül B dönti el.</p></div>
+<div><span class="u-tag">KIELÉGÍTHETETLENSÉGI TÖRVÉNY</span><h3>Ha A kielégíthetetlen</h3><p><code>A ∨ B = B</code>: a „vagy” értékét egyedül B dönti el.</p><p><code>A ∧ B = A</code>: az „és” mindig hamis lesz, mint A.</p></div>
+</div>
+<p>Hétköznapi párhuzam: az „esik vagy nem esik, és hideg van” mondat pontosan annyit mond, mint a „hideg van”. Az első fele semmilyen információt nem hordoz.</p>
+<p>Miért fontos mindez? A PDF szerint a <strong>tétel</strong> azt jelenti, hogy állításokból logikailag következik a konklúzió. A <em>logikai következés</em> pontos jelentése: nincs olyan interpretáció, amelyben a premisszák mind igazak, a konklúzió pedig hamis. Ebből két egyenértékű vizsgálat adódik.</p>
+<ol class="u-flow" id="kovetkezes">
+<li><strong>A TÉTEL</strong>Az α, β, γ premisszákból következik δ.</li>
+<li><strong>ÉRVÉNYESSÉG</strong>Az <code>(α ∧ β ∧ γ) → δ</code> formula tautológia.</li>
+<li><strong>KIELÉGÍTHETETLENSÉG</strong>Az <code>α ∧ β ∧ γ ∧ ¬δ</code> formula kontradikció.</li>
+</ol>
+<p class="u-key">Egy tétel igazolható úgy is, hogy megmutatjuk: a premisszák és a konklúzió tagadása együtt lehetetlenek. A rezolúció pontosan ezt teszi.</p>
+</section>
+
+<!-- 08 · BIZONYÍTÁS -->
+<section id="bizonyitas" class="chapter-section"><span class="section-index">08 / PDF 103–104.</span>
+<h2>Öt út ugyanahhoz a bizonyossághoz.</h2>
+<p>A PDF szerint a <strong>tétel</strong> igaz állításokból és egy, azokból állítólag következő konklúzióból áll. A jelölése egy tört: a vonal fölött a premisszák, alatta a konklúzió.</p>
+<div class="u-formula" id="tetel-jeloles"><span class="u-frac"><span>α, β, γ</span><span>δ</span></span><span>ahol α, β, γ tények, δ a konklúzió (PDF 104. oldal).</span></div>
+<p>A <strong>tételbizonyítás</strong> feladata a PDF szerint az, hogy formális szabályok gépies alkalmazásával igazolja: a konklúzió a premisszák következménye. A PDF öt módszert sorol fel egy propozíciós formula érvényességének igazolására. A jegyzet mindet ugyanazon a formulán mutatja be. Ez a menzai rejtvény formája: ha p → q és p, akkor q. Formulaként: <code>((p → q) ∧ p) → q</code>.</p>
+<div class="u-compare" id="modszerek">
+<div><span class="u-tag">1 · IGAZSÁGTÁBLA</span><h3>Mindent végignézünk</h3><p>A 2<sup>2</sup> = 4 interpretáció mindegyikében kiértékeljük a formulát. Mind a négyben igaz, tehát érvényes. Egyszerű, de n változónál 2<sup>n</sup> sor kell: 30 változónál már egymilliárdnál is több.</p></div>
+<div><span class="u-tag">2 · FORMÁLIS LEVEZETÉS</span><h3>Szabályokkal lépünk</h3><p>Kiinduló igazságokból, azaz axiómákból, és következtetési szabályokból építünk egy láncot. A leghíresebb szabály a <strong>modus ponens</strong>: p → q és p ismeretében leírhatjuk q-t. Itt egyetlen lépés elég.</p></div>
+<div><span class="u-tag">3 · QUINE ALGORITMUSA</span><h3>Esetszétválasztás</h3><p>Egy változót előbb igaznak, aztán hamisnak veszünk, és mindkét esetben egyszerűsítünk. p = F: a bal oldal hamis, a formula igaz. p = T: a formula <code>q → q</code> lesz, ami mindig igaz. Willard Van Orman Quine írta le 1950-ben.</p></div>
+<div><span class="u-tag">4 · WANG ALGORITMUSA</span><h3>Szekvenciák bontása</h3><p>A „premisszák ⊢ konklúzió” alakú sort, az úgynevezett <strong>szekvenciát</strong> szabályokkal bontja, amíg minden ágon ugyanaz a változó áll mindkét oldalon. Hao Wang 1960-ban ezzel géppel igazolta a <em>Principia Mathematica</em> propozíciós tételeit, néhány perc alatt.</p></div>
+<div><span class="u-tag">5 · REZOLÚCIÓ</span><h3>Ellentmondást keresünk</h3><p>Tagadjuk a konklúziót, és megmutatjuk, hogy a premisszákkal együtt ellentmondásra vezet. Klózok: <code>¬p ∨ q</code>, <code>p</code>, <code>¬q</code>. Az első kettőből q, ebből és a <code>¬q</code>-ból az üres klóz. Részletesen a 10. rész mutatja be.</p></div>
+</div>
+<p>A PDF szerint a rezolúció kiemelkedik a többi közül, mert a <strong>predikátumlogikában is alkalmazható</strong>. Egyetlen szabályból áll:</p>
+<div class="u-formula" id="rezolucio-szabaly"><span class="u-frac"><span>α ∨ β,  ¬β ∨ γ</span><span>α ∨ γ</span></span><span>A rezolúció szabálya (PDF 103. oldal).</span></div>
+<p>Az indoklás a PDF szerint egyszerű. A β nem lehet egyszerre igaz és hamis. Ha β hamis, akkor az első premisszában α-nak kell igaznak lennie. Ha β igaz, akkor ¬β hamis, tehát a második premisszában γ-nak kell igaznak lennie. Valamelyik tehát biztosan igaz: α ∨ γ. Hétköznapi példa: „Moziba megyünk, vagy esik.” és „Nem esik, vagy otthon olvasunk.” Ebből következik: „Moziba megyünk, vagy otthon olvasunk.”</p>
+<p>A rezolúciós módszer a PDF szerint két lépésből áll.</p>
+<ol class="u-steps" id="rezolucios-modszer">
+<li><p><strong>Tagadás.</strong> A bizonyítandó tétel tagadott alakját vesszük alapul. Feltesszük, hogy a konklúzió ellentettje igaz a premisszák igaz értékei mellett. Ha az így kapott összetett formula kielégíthetetlen, akkor az eredeti tétel igaz. Ezt a gondolatmenetet <strong>indirekt bizonyításnak</strong> nevezzük.</p></li>
+<li><p><strong>Rezolválás.</strong> Az összetett formulát <strong>konjunktív normálforma (KNF)</strong> alakra hozzuk. Aztán a rezolúció ismételt alkalmazásával, fokozatos egyszerűsítéssel eljutunk az ellentmondáshoz.</p></li>
+</ol>
+<p>A PDF megjegyzi azt is, hogy a propozíciós logikában a rezolúció alkalmazása korlátozott. Ez a logika ugyanis nem ad eszközt bonyolultabb problémák leírására. Ezt a 11. rész mutatja meg.</p>
+</section>
+
+<!-- 09 · KNF -->
+<section id="knf" class="chapter-section"><span class="section-index">09 / PDF 105–106.</span>
+<h2>Egy közös alak minden formulának.</h2>
+<p>A rezolúció csak egyféle formájú formulával dolgozik. Ez a <strong>konjunktív normálforma</strong>, röviden KNF. Három egymásba ágyazott fogalomból áll össze.</p>
+<ol class="u-stack" id="knf-fogalmak">
+<li><strong>Literál</strong><p>Egy ítéletváltozó vagy annak negáltja. Például <code>p</code> vagy <code>¬p</code>.</p></li>
+<li><strong>Klóz</strong><p>Literálok diszjunkciója, azaz VAGY-kapcsolata, vagy egyetlen literál. Például <code>¬p ∨ r</code> vagy <code>q</code>.</p></li>
+<li><strong>Konjunktív normálforma</strong><p>Klózok konjunkciója, azaz ÉS-kapcsolata. A PDF szerint az eredeti formulával ekvivalens, és egyszerű felépítése miatt gépiesen kezelhető.</p></li>
+</ol>
+<figure class="u-knf" id="knf-pelda">
+<p class="u-knf-line"><span class="u-clause">p ∨ q</span><span class="u-and">∧</span><span class="u-clause">¬p ∨ r</span><span class="u-and">∧</span><span class="u-clause">¬r ∨ s</span><span class="u-and">∧</span><span class="u-clause">q</span><span class="u-and">∧</span><span class="u-clause">s</span></p>
+<figcaption>A PDF 105. oldalának KNF-példája. Minden keretezett rész egy klóz, a klózokat ∧ köti össze. Az utolsó két klóz egyetlen literálból áll.</figcaption>
+</figure>
+<p>A KNF azért kényelmes, mert egy ÉS-kapcsolat pontosan akkor igaz, ha minden tagja igaz. Az ∧ jeleket így el is hagyhatjuk. A formula egy <strong>klózhalmazra</strong> esik szét, amelynek minden eleme egyszerre igaz. A PDF négy lépésben alakítja át a formulát KNF-re.</p>
+<ol class="u-steps" id="knf-lepesek">
+<li><p><strong>Azonosságok kiküszöbölése.</strong> <code>A ≡ B</code> helyett <code>(A → B) ∧ (B → A)</code>.</p></li>
+<li><p><strong>Implikációk kiküszöbölése.</strong> <code>A → B</code> helyett <code>¬A ∨ B</code>. A két formula igazságtáblája azonos: mindkettő csak akkor hamis, ha A igaz és B hamis.</p></li>
+<li><p><strong>A negálás hatáskörének redukálása.</strong> A De Morgan-azonosságok a tagadást a zárójelen belülre viszik: <code>¬(A ∨ B)</code> helyett <code>¬A ∧ ¬B</code>, és <code>¬(A ∧ B)</code> helyett <code>¬A ∨ ¬B</code>. Így a végén a ¬ csak változók előtt áll.</p></li>
+<li><p><strong>Klózok konjunkciójának létrehozása.</strong> A disztributív szabállyal a VAGY-okat az ÉS-ek alá visszük: <code>A ∨ (B ∧ C)</code> helyett <code>(A ∨ B) ∧ (A ∨ C)</code>.</p></li>
+</ol>
+<aside class="u-add"><h3>Kiegészítés · Két apró, de szükséges szabály</h3><p>A négy lépés mellé két egyszerű szabály kell. A 3. lépés közben kettős tagadás keletkezhet. Ezt a <code>¬¬A = A</code> szabállyal tüntetjük el. A 4. lépés után pedig kialakulhat olyan klóz, amely egy változót tagadva és tagadás nélkül is tartalmaz, például <code>p ∨ ¬p ∨ q</code>. Ez tautológia, tehát a tautologikus törvény szerint elhagyható. <a href="#s-aima">Forrás: Russell–Norvig, 7.5.2 szakasz.</a></p></aside>
+<div class="u-example" id="knf-atalakitas"><strong>Végigvezetett példa · A négy lépés egy formulán</strong>
+<p>Alakítsuk KNF-re a <code>(p ≡ q) → r</code> formulát! Jelentése: „ha p és q egyforma értékű, akkor r”.</p>
+<ol class="u-steps">
+<li><p><strong>Azonosság:</strong> <code>((p → q) ∧ (q → p)) → r</code></p></li>
+<li><p><strong>Implikációk</strong> (belül és kívül is): <code>¬((¬p ∨ q) ∧ (¬q ∨ p)) ∨ r</code></p></li>
+<li><p><strong>Negálás befelé:</strong> előbb <code>(¬(¬p ∨ q) ∨ ¬(¬q ∨ p)) ∨ r</code>, aztán még egyszer, a kettős tagadást is eltüntetve: <code>(p ∧ ¬q) ∨ (q ∧ ¬p) ∨ r</code></p></li>
+<li><p><strong>Disztribúció:</strong> a két ÉS-tag szétosztása négy klózt ad: <code>(p ∨ q) ∧ (p ∨ ¬p) ∧ (¬q ∨ q) ∧ (¬q ∨ ¬p)</code>. A középső kettő tautológia, elhagyjuk. Végül mindkét klózhoz hozzávesszük az r-t: <code>(p ∨ q ∨ r) ∧ (¬p ∨ ¬q ∨ r)</code></p></li>
+</ol>
+<p><strong>Ellenőrzés:</strong> az eredeti formula csak akkor hamis, ha p ≡ q igaz és r hamis. A KNF pontosan ugyanekkor hamis: ha r hamis, és p, q egyszerre igaz vagy egyszerre hamis. A formulavizsgálóba beírva a két formula igazságtáblája megegyezik.</p></div>
+<p>A PDF szerint a konjunktív normálformából elhagyva a konjunkció operátorokat, a formula klózokra esik szét. Ezek halmazára alkalmazzuk ciklusban a rezolúció szabályát. Így a rezolúció könnyen automatizálható eljárás lesz. Segítségével egy klózhalmaz, illetve a neki megfelelő KNF kielégíthetetlensége belátható.</p>
+</section>
+
+<!-- 10 · REZOLÚCIÓ -->
+<section id="rezolucio" class="chapter-section"><span class="section-index">10 / PDF 106–108.</span>
+<h2>Klózpárok, amíg el nem fogy minden.</h2>
+<p>A klózhalmaz egyszerűsítése a PDF szerint <strong>rezolválható klózpárokon</strong> keresztül történik. Rezolválható az a klózpár, amely <em>egyetlen</em> ellentett literálpárt tartalmaz: az egyikben p, a másikban ¬p. A rezolválás eredménye a <strong>rezolvens</strong>: a két klóz összes többi literálja VAGY-gyal összekötve. A rezolvenst a halmazhoz adjuk. A PDF szerint a klózhalmaz kielégíthetetlenségét az jelzi, hogy végül <strong>üres klózt</strong> kapunk. Ennek jele a NIL vagy a □.</p>
+<p>Az üres klóz két egymásnak ellentmondó, egyliterálos klózból keletkezik, például <code>s</code>-ből és <code>¬s</code>-ből. Egy VAGY-kapcsolat akkor igaz, ha legalább egy tagja igaz. Az üres klóznak nincs tagja, ezért soha nem lehet igaz. Ha tehát a halmazból levezethető, a halmaz nem lehet egyszerre igaz.</p>
+<p>A PDF az algoritmust ezzel a pszeudokóddal adja meg:</p>
+<figure class="u-code"><pre><code>Procedure Rezolúció
+1. KLÓZHALMAZ feltöltése
+2. do
+3.     Rezolválható klózpár Ci, Cj kiválasztása a KLÓZHALMAZ-ból
+4.     Rezolválás: Cij ⇐ R(Ci,Cj)
+5.     KLÓZHALMAZ bővítése Cij rezolvenssel
+6. while Cij ≠ NIL
+end</code></pre>
+<figcaption>A PDF 107. oldalának pszeudokódja változatlanul.</figcaption></figure>
+<aside class="u-fix"><h3>Kiigazítás · Az algoritmusnak akkor is meg kell állnia, ha nincs ellentmondás</h3>
+<p><strong>A PDF-ben:</strong> a ciklus egyetlen kilépési feltétele, hogy a rezolvens NIL legyen: <code>while Cij ≠ NIL</code> (PDF 107. oldal).</p>
+<p><strong>Helyesen:</strong> a ciklusnak akkor is meg kell állnia, ha már nincs olyan rezolválható klózpár, amelynek rezolvense új klóz lenne. Ezt az állapotot <strong>telítődésnek</strong> nevezzük. Ha a halmaz úgy telítődik, hogy üres klóz nem keletkezett, akkor a klózhalmaz kielégíthető, és a bizonyítandó tétel nem igaz.</p>
+<p><strong>Miért fontos?</strong> A PDF változata csak akkor ér véget, ha a tétel igaz. Vegyük a <code>p ∨ q</code>, <code>¬p ∨ r</code>, <code>¬q ∨ r</code> klózhalmazt. Ebből levezethető <code>q ∨ r</code>, <code>p ∨ r</code> és <code>r</code>, de üres klóz soha. A halmaz ugyanis kielégíthető, például p = T és r = T mellett. A PDF ciklusa itt vagy újra és újra ugyanazokat a rezolvenseket állítaná elő, vagy a 3. lépésben elakadna, mert nincs új pár. A propozíciós logikában a telítődés mindig bekövetkezik, mert n változóból legfeljebb 3<sup>n</sup> különböző, tautológiát nem tartalmazó klóz készíthető. Minden változó ugyanis háromféleképpen szerepelhet: igenlő literálként, tagadva vagy sehogy. <a href="#s-robinson">Forrás: Robinson, 1965;</a> <a href="#s-aima">Russell–Norvig, 7.5.2 szakasz (PL-RESOLUTION).</a></p></aside>
+<p>A javított algoritmus lépései:</p>
+<ol class="u-steps" id="javitott-algoritmus">
+<li><p>Töltsük fel a klózhalmazt a premisszák és a <em>tagadott</em> konklúzió KNF-jének klózaival.</p></li>
+<li><p>Keressünk egy rezolválható klózpárt, amelynek a rezolvense még nincs a halmazban.</p></li>
+<li><p>Ha nincs ilyen pár, <strong>állj meg</strong>: a halmaz kielégíthető, a tétel nem bizonyítható.</p></li>
+<li><p>Rezolváljuk a párt. Ha a rezolvens az üres klóz, <strong>állj meg</strong>: a halmaz kielégíthetetlen, a tétel igaz.</p></li>
+<li><p>Egyébként adjuk a rezolvenst a halmazhoz, és folytassuk a 2. lépéssel.</p></li>
+</ol>
+<div class="u-example" id="rezolucio-pelda"><strong>Végigvezetett példa · A PDF 108. oldalának levezetése</strong>
+<p>A kiinduló KNF: <code>(p ∨ ¬q) ∧ (¬p ∨ r) ∧ (¬r ∨ ¬s) ∧ q ∧ s</code>. Ez öt klóz. A PDF levezetése egy lépcső: minden lépés az előző rezolvenst egy újabb eredeti klózzal rezolválja.</p>
+<ol class="u-ladder" id="pdf-letra">
+<li><span class="u-clause">p ∨ ¬q</span><span class="u-plus">+</span><span class="u-clause">¬p ∨ r</span><span class="u-res">⇒ <span class="u-clause">¬q ∨ r</span></span><small>kiesik: p, ¬p</small></li>
+<li><span class="u-clause">¬q ∨ r</span><span class="u-plus">+</span><span class="u-clause">¬r ∨ ¬s</span><span class="u-res">⇒ <span class="u-clause">¬q ∨ ¬s</span></span><small>kiesik: r, ¬r</small></li>
+<li><span class="u-clause">¬q ∨ ¬s</span><span class="u-plus">+</span><span class="u-clause">q</span><span class="u-res">⇒ <span class="u-clause">¬s</span></span><small>kiesik: ¬q, q</small></li>
+<li><span class="u-clause">¬s</span><span class="u-plus">+</span><span class="u-clause">s</span><span class="u-res">⇒ <span class="u-clause u-nil">NIL</span></span><small>kiesik: ¬s, s</small></li>
+</ol>
+<p>Megkaptuk az üres klózt, tehát a kiinduló formula kielégíthetetlen. Ezt józan ésszel is ellenőrizhetjük. A q és az s igaz kell legyen. A <code>p ∨ ¬q</code> miatt ekkor p is igaz, a <code>¬p ∨ r</code> miatt r is. A <code>¬r ∨ ¬s</code> viszont azt követeli, hogy r vagy s hamis legyen. Ez lehetetlen.</p></div>
+<p>A PDF levezetése mellett egy fontos tétel áll, a <strong>rezolúció teljességének tétele</strong>. Ennek pontos megfogalmazásához egy kiigazítás szükséges.</p>
+<aside class="u-fix"><h3>Kiigazítás · Üres klóz, nem üres klózhalmaz</h3>
+<p><strong>A PDF-ben:</strong> a rezolúció teljességének tétele garantálja, hogy egy kielégíthetetlen formula klózhalmazából kiindulva véges sok lépésben „eljutunk az üres klózhalmazhoz” (PDF 108. oldal).</p>
+<p><strong>Helyesen:</strong> véges sok lépésben eljutunk az <strong>üres klózhoz</strong> (NIL, □). A klózhalmaz nem ürül ki, sőt, minden lépéssel bővül.</p>
+<p><strong>Miért fontos?</strong> A két fogalom éppen ellentétes jelentésű. Az üres <em>klóz</em> egy üres VAGY-kapcsolat, ezért mindig hamis. Ez jelzi az ellentmondást. Az üres <em>klózhalmaz</em> egy üres ÉS-kapcsolat: nincs benne egyetlen feltétel sem, ezért mindig igaz. Ha valaki a PDF szövegét szó szerint követné, az ellentmondás helyett éppen a „nincs semmi, ami hamis lehetne” állapotot keresné. A PDF saját ábrája és 106. oldala helyesen az üres klózt említi. Csak a tétel megfogalmazása csúszott el. <a href="#s-robinson">Forrás: Robinson, 1965;</a> <a href="#s-aima">Russell–Norvig, 7.5.2 szakasz.</a></p></aside>
+<p>Most már a menzai rejtvényt is megoldhatja a gép. Legyen d = „Kati desszertet kért”, l = „Kati levest kapott”. A tábla szövege: <code>d → l</code>, KNF-ben <code>¬d ∨ l</code>. A megfigyelés: <code>¬l</code>. A konklúzió <code>¬d</code>, ennek tagadása <code>d</code>. A klózhalmaz: <code>¬d ∨ l</code>, <code>¬l</code>, <code>d</code>. Az első kettőből <code>¬d</code> lesz, ebből és a <code>d</code>-ből pedig NIL. Kati tehát nem kért desszertet. Ezt a következtetési formát <strong>modus tollensnek</strong> hívják.</p>
+<div class="u-lab" id="rezolucio-labor"><span class="u-lab-label">PRÓBÁLD KI / REZOLÚCIÓS MŰHELY</span><h3>Válassz két klózt, és rezolváld őket!</h3>
+<p>Jelölj ki két klózt, és kattints a rezolválás gombra. Használhatod a gépi lépést is, vagy lefuttathatod a javított algoritmust a végéig. Saját klózhalmazt is megadhatsz: a klózokat pontosvessző, a literálokat ∨ vagy | választja el, a tagadás jele ¬, ! vagy ~.</p>
+<div class="u-js-only">
+<div class="u-form-row"><label>Klózhalmaz <select id="rez-keszlet">
+<option value="p ∨ ¬q; ¬p ∨ r; ¬r ∨ ¬s; q; s">A PDF példája (108. oldal)</option>
+<option value="¬d ∨ l; ¬l; d">A menzai rejtvény</option>
+<option value="p ∨ q; ¬p ∨ r; ¬q ∨ r">Kielégíthető halmaz (a kiigazítás példája)</option>
+<option value="p ∨ q; ¬p ∨ ¬q">Két ellentett pár egy klózpárban</option>
+</select></label></div>
+<div class="u-form-row"><label class="u-grow">Saját klózhalmaz <input type="text" id="rez-sajat" spellcheck="false" autocomplete="off" placeholder="például: a ∨ b; ¬a; ¬b"></label><button type="button" id="rez-betolt" class="u-ghost">Betöltés</button></div>
+<fieldset class="u-radios u-clauses" id="rez-klozok"><legend>Klózhalmaz · jelölj ki kettőt</legend></fieldset>
+<div class="u-controls"><button type="button" id="rez-par">Rezolválás a két kijelölttel</button><button type="button" id="rez-lepes" class="u-ghost">Gépi lépés</button><button type="button" id="rez-vegig" class="u-ghost">Futtatás a végéig</button><button type="button" id="rez-uj" class="u-ghost">Újrakezdés</button></div>
+</div>
+<div class="u-out" id="rez-ki" role="status" aria-live="polite"><p>A bemutatóhoz JavaScript szükséges. A PDF példájának és a menzai rejtvénynek a levezetését a fenti szöveg tartalmazza.</p></div>
+</div>
+</section>
+
+<!-- 11 · PREDIKÁTUM -->
+<section id="predikatum" class="chapter-section"><span class="section-index">11 / PDF 109–110.</span>
+<h2>Amit a propozíciós logika nem lát.</h2>
+<p>Próbáljuk meg propozíciós logikával leírni a PDF 110. oldalának feladatát!</p>
+<div class="u-example" id="szocseples-feladat"><strong>A feladat (PDF 110. oldal)</strong>
+<p>Premisszák, ismert tények:<br>(1) Van olyan hallgató, aki minden tárgyat szeret.<br>(2) A szócséplést egyik hallgató sem szereti.</p>
+<p>Igaz-e a fenti állítások ismeretében a következő állítás?<br>(3) Egyik tárgy sem szócséplés.</p></div>
+<p>A <em>szócséplés</em> üres, tartalmatlan beszédet jelent. A következtetés ösztönösen helyesnek tűnik. Ha lenne olyan tárgy, amely szócséplés, akkor az (1) hallgatója azt is szeretné. Csakhogy a (2) szerint szócséplést egyetlen hallgató sem szeret. Propozíciós logikában azonban a három mondat három <em>különálló</em> atom: p, q és r. Közöttük semmilyen kapcsolat nem látszik, és <code>(p ∧ q) → r</code> nem tautológia. A propozíciós logika nem tud belenézni a mondatok belsejébe. Nem látja, hogy mindháromban ugyanazok a hallgatók és tárgyak szerepelnek, és azt sem, mit jelent a „van olyan” és az „egyik sem”.</p>
+<p>Ezt oldja meg a <strong>predikátumlogika</strong>. További nevei a PDF szerint: <strong>elsőrendű predikátumkalkulus</strong>, vagy egyszerűen <strong>predikátumkalkulus</strong>. Az alapfogalma a predikátum:</p>
+<figure class="u-quote"><blockquote><p>„Predikátum: objektumok sajátságainak és az objektumok közötti kapcsolatok, viszonyok, relációk szimbolikus formában való megadására alkalmas állítás, mely egy adott interpretációban egyértelmű igaz, vagy hamis minősítéssel bír.”</p></blockquote><figcaption>PDF 109. oldal</figcaption></figure>
+<p>A <code>hallgató(x)</code> tehát egy sajátság: „x hallgató”. A <code>szereti(x, y)</code> egy kapcsolat: „x szereti y-t”. A PDF a predikátumlogika öt jellemzőjét sorolja fel. Az alábbi összevetés mindegyiket a propozíciós logikával párosítja.</p>
+<div class="u-table-wrap"><table class="u-table" id="pl-jellemzok">
+<caption>A predikátumlogika jellemzői a PDF 109. oldala alapján, a propozíciós logikával összevetve.</caption>
+<thead><tr><th>Jellemző</th><th>Propozíciós logika</th><th>Predikátumlogika</th></tr></thead>
+<tbody>
+<tr><td>Alkalmazás</td><td>Egyszerű feltételek, kapcsolóáramkörök.</td><td>MI-feladatok leírására alkalmas. A Prolog nyelv is erre épül.</td></tr>
+<tr><td>Tartalom</td><td>Csak az állítás igazságértéke számít.</td><td>A kijelentések tartalmát is leírja. Az állítások egy <strong>tartomány</strong> elemeire vonatkozhatnak, más néven alaphalmazra vagy domainre.</td></tr>
+<tr><td>Paraméterek</td><td>Az állítás értéke rögzített.</td><td>A predikátumok, más néven logikai függvények igazsága paraméterektől függhet.</td></tr>
+<tr><td>Kvantorok</td><td>Nincsenek.</td><td>Kifejezhető a „minden” és a „létezik” fordulat.</td></tr>
+<tr><td>Interpretáció</td><td>Véges sok: 2<sup>n</sup>.</td><td>Végtelen sok lehet, mert az alaphalmaz, valamint az azon értelmezett függvények és predikátumok tetszőlegesen választhatók.</td></tr>
+</tbody></table></div>
+<p>A PDF szerint így <strong>bonyolultabb tételek bizonyíthatók</strong>, mint a propozíciós logikában. A szócséplés-feladat megoldását a 13–15. rész vezeti végig.</p>
+</section>
+
+<!-- 12 · PL SZINTAXIS -->
+<section id="pl-szintaxis" class="chapter-section"><span class="section-index">12 / PDF 111–115.</span>
+<h2>Term, atom, formula: három emelet.</h2>
+<p>A predikátumlogika jelkészlete a propozíciós logikáét bővíti ki. A PDF 111. oldala ezeket a jeleket sorolja fel.</p>
+<dl class="u-rows" id="pl-jelkeszlet">
+<div><dt>Elválasztójelek, operátorok</dt><dd><p>Ugyanazok, mint eddig: <code>, ( ) [ ]</code> és ¬, ∧, ∨, →, ≡.</p></dd></div>
+<div><dt>Kvantorok</dt><dd><p><strong>Univerzális kvantor</strong>, „minden”: ∀. <strong>Egzisztenciális kvantor</strong>, „létezik” vagy „van olyan”: ∃. A ∀ egy fejjel lefelé fordított A (angolul All), a ∃ egy tükrözött E (Exists).</p></dd></div>
+<div><dt>Elemkonstansok</dt><dd><p>Más néven individuumkonstansok: <em>a, b, c, …</em> vagy nevek, például János, asztal. Egy konkrét dolgot jelölnek.</p></dd></div>
+<div><dt>Elemváltozók</dt><dd><p>Más néven individuumváltozók: <em>x, y, z, …</em> A tartomány bármelyik elemét jelölhetik.</p></dd></div>
+<div><dt>Függvényszimbólumok</dt><dd><p>Más néven individuumfüggvények: <em>f, g, h, …</em> Egy dologhoz egy másik dolgot rendelnek. Például <code>testvére(Józsi)</code> ⇒ Laci.</p></dd></div>
+<div><dt>Ítéletkonstansok, ítéletváltozók</dt><dd><p>True, False, illetve <em>p, q, r, …</em> mint a propozíciós logikában.</p></dd></div>
+<div><dt>Predikátumszimbólumok</dt><dd><p>Más néven logikai függvények: <em>P, Q, R, …</em> vagy például <code>testvérek(x, y)</code>. Igaz vagy hamis értéket adnak.</p></dd></div>
+</dl>
+<p>A műveletek erősségi sorrendje a PDF szerint: <strong>∀ ∃ ¬ ∧ ∨ → ≡</strong>. A kvantorok tehát a legerősebben kötnek. A jelkészlet elemeiből a kifejezések három osztálya építhető fel. Mindegyik a korábbira épül, mint egy ház emeletei.</p>
+<ol class="u-stack" id="harom-emelet">
+<li><strong>1. emelet · Term: egy dolgot jelöl</strong>
+<p>Minden elemkonstans term, például <code>a</code>, <code>asztal</code>, <code>szék</code>. Minden elemváltozó term, például <code>x</code>, <code>y</code>. Ha <em>f</em> egy n-argumentumú függvényszimbólum, és t<sub>1</sub>, …, t<sub>n</sub> termek, akkor <code>f(t<sub>1</sub>, …, t<sub>n</sub>)</code> is term. Az <em>n-argumentumú</em> azt jelenti, hogy n bemenete van.</p>
+<p>A PDF példái: <code>f(a, x)</code>. <code>gyereke(Pál, x)</code>: x = Bori esetén az eredmény Józsi, x = Julcsi esetén Béla. <code>színe(haj, időskorban)</code> ⇒ ősz, <code>színe(haj, fiatalkorban)</code> ⇒ szőke.</p></li>
+<li><strong>2. emelet · Atomi formula: egy állítás, amely igaz vagy hamis</strong>
+<p>Minden ítéletkonstans (True, False) és minden ítéletváltozó (p, q, r, …) atomi formula. Ha <em>P</em> egy n-argumentumú predikátumszimbólum, és t<sub>1</sub>, …, t<sub>n</sub> termek, akkor <code>P(t<sub>1</sub>, …, t<sub>n</sub>)</code> atomi formula.</p>
+<p>A PDF példái: <code>házaspár(Pál, Irén)</code> ⇒ True. A <code>gyereke(Pál, x)</code> itt predikátumként szerepel: x = Józsi esetén igaz, x = Bori esetén hamis.</p></li>
+<li><strong>3. emelet · Formula: atomokból építkezik</strong>
+<p>Minden atomi formula egyben formula, például True, p, P(a, b). Ha A és B formulák, akkor a (¬A), (A ∧ B), (A ∨ B), (A → B) és (A ≡ B) kifejezések is formulák. Ha A formula és x elemváltozó, akkor <code>(∀x) A</code> és <code>(∃x) A</code> is formula. Például: <code>(∀x) testvére(x, Pál)</code>.</p></li>
+</ol>
+<p>A term és az atom közötti különbség a legfontosabb. A <strong>term egy dolog</strong>: „Pál gyereke” egy ember. Az <strong>atom egy állítás</strong>: „Pál és Irén házaspár” igaz vagy hamis. Ezért nem írhatunk <code>¬gyereke(Pál, Bori)</code>-t, ha a <code>gyereke</code> függvény. Egy embert nem lehet tagadni, csak egy állítást.</p>
+<aside class="u-add"><h3>Kiegészítés · Egy név, két szerep, és a függvény egyértelműsége</h3><p>A PDF a <code>gyereke(Pál, x)</code> kifejezést egyszer függvényként, egyszer predikátumként használja. Egy formulán belül ez nem megengedett: minden szimbólum vagy függvény, vagy predikátum. A két példa ezért két külön nyelvet szemléltet. Van egy további feltétel is. A függvénynek minden bemenethez <em>pontosan egy</em> eredményt kell adnia. A <code>gyereke(Pál, Bori)</code> ⇒ Józsi csak akkor függvény, ha Pálnak és Borinak egyetlen gyereke van. Ugyanez igaz a <code>testvére(Józsi)</code> ⇒ Laci példára. Ha Józsinak két testvére van, a kapcsolatot predikátummal kell leírni: <code>testvérek(Józsi, Laci)</code>. <a href="#s-aima">Forrás: Russell–Norvig, 8.2 szakasz.</a></p></aside>
+<p>A kvantoros formulák olvasásában a precedencia sokat segít. A PDF példája szerint az <code>(((∃x)A) ∨ (B))</code> helyett elég annyit írni: <code>(∃x)A ∨ B</code>. A kvantor erősebben köt, ezért csak A-ra vonatkozik. A PDF egy mondatot is lefordít: <em>„Vagy van egy részeg, vagy nem volt már ital.”</em> Legyen R(x) = „x részeg”, C = „volt ital”. A formula: <code>(∃x)R(x) ∨ ¬C</code>.</p>
+<p>A kvantor <strong>hatásköre</strong> az a formularész, amelyre vonatkozik. Egy változó egy előfordulása <strong>kötött</strong>, ha egy rá vonatkozó kvantor hatáskörében áll. Egyébként <strong>szabad</strong>. A PDF két példája az alábbi ábrán látható. A kötött előfordulás aláhúzva, <sup>k</sup> jellel, a szabad szaggatott kerettel, <sup>sz</sup> jellel szerepel.</p>
+<div class="u-bind" id="kotott-szabad">
+<p><code>(∀x) P(<span class="u-bound">x<sup>k</sup></span>, <span class="u-free">y<sup>sz</sup></span>)</code></p>
+<p class="u-bind-note">Az x kötött, mert a ∀x hatáskörében áll. Az y szabad, mert nincs rá vonatkozó kvantor.</p>
+<p><code>(∀x) [P(<span class="u-bound">x<sup>k</sup></span>, <span class="u-free">y<sup>sz</sup></span>) ∧ (∃y) Q(<span class="u-bound">x<sup>k</sup></span>, <span class="u-bound">y<sup>k</sup></span>)]</code></p>
+<p class="u-bind-note">Mindkét x kötött, mert a szögletes zárójel a ∀x hatáskörét az egész kifejezésre kiterjeszti. Az y első előfordulása szabad. A második kötött, mert a ∃y hatáskörében áll.</p>
+</div>
+<p>A második példa mutatja, hogy a kötöttség az <em>előfordulás</em> tulajdonsága, nem a változóé. Ugyanaz az y egyszer szabad, egyszer kötött. A PDF úgy fogalmaz, hogy egy változó akkor kötött, ha minden előfordulása kvantor hatása alatt áll. <strong>Mondatnak</strong> nevezzük azt a formulát, amelyben minden változó összes előfordulása kötött. A PDF példája: <code>(∀x) [P(x) ∨ (∃y) Q(x, y)]</code>. A PDF szerint csak mondatokkal foglalkozunk. Ennek oka, hogy egy szabad változós formula, például „x hallgató”, nem igaz és nem hamis, amíg meg nem mondjuk, ki az x.</p>
+</section>
+
+<!-- 13 · FORMALIZÁLÁS -->
+<section id="formalizalas" class="chapter-section"><span class="section-index">13 / PDF 116.</span>
+<h2>Magyar mondatból formula.</h2>
+<p>A <strong>formalizálás</strong> azt jelenti, hogy egy természetes nyelvi szöveget logikai formulává alakítunk. Az első lépés mindig a predikátumok kiválasztása. A PDF a szócséplés-feladathoz ezt a négyet használja:</p>
+<ul class="u-triples" id="predikatumok">
+<li class="u-head" aria-hidden="true"><span>Predikátum</span><span>Argumentum</span><span>Jelentése</span></li>
+<li><span>H</span><span>(x)</span><span>az x egy hallgató</span></li>
+<li><span>T</span><span>(y)</span><span>az y egy tárgy</span></li>
+<li><span>C</span><span>(y)</span><span>az y egy szócséplés</span></li>
+<li><span>S</span><span>(x, y)</span><span>az x szereti y-t</span></li>
+</ul>
+<p>A formalizált állítások a PDF 116. oldala szerint:</p>
+<div class="u-table-wrap"><table class="u-table" id="formalizalt">
+<thead><tr><th></th><th>Mondat</th><th>Formula</th><th>Kiolvasva</th></tr></thead>
+<tbody>
+<tr><td>F1</td><td>Van olyan hallgató, aki minden tárgyat szeret.</td><td><code>(∃x)[H(x) ∧ (∀y)(T(y) → S(x, y))]</code></td><td>Van egy x, aki hallgató, és minden y-ra: ha y tárgy, akkor x szereti y-t.</td></tr>
+<tr><td>F2</td><td>A szócséplést egyik hallgató sem szereti.</td><td><code>(∀x)[H(x) → (∀y)(C(y) → ¬S(x, y))]</code></td><td>Minden x-re: ha x hallgató, akkor minden y-ra: ha y szócséplés, akkor x nem szereti y-t.</td></tr>
+<tr><td>F3</td><td>Egyik tárgy sem szócséplés.</td><td><code>(∀x)[T(x) → ¬C(x)]</code></td><td>Minden x-re: ha x tárgy, akkor x nem szócséplés.</td></tr>
+</tbody></table></div>
+<p>Figyeld meg a mintát! A „minden” mellé implikáció, a „van olyan” mellé konjunkció tartozik. Ez a formalizálás leggyakoribb buktatója, ezért érdemes egymás mellé tenni a helyes és a hibás változatot.</p>
+<div class="u-compare" id="kvantor-minta">
+<div><span class="u-tag">„MINDEN HALLGATÓ SZORGALMAS”</span><h3>Helyes: <code>(∀x)(H(x) → Sz(x))</code></h3><p>Mindenkire igaz, hogy <em>ha</em> hallgató, akkor szorgalmas. A nem hallgatókról nem mond semmit.</p><p><strong>Hibás:</strong> <code>(∀x)(H(x) ∧ Sz(x))</code>. Ez azt állítja, hogy a tartományban mindenki hallgató és szorgalmas, a tanárok és a padok is.</p></div>
+<div><span class="u-tag">„VAN SZORGALMAS HALLGATÓ”</span><h3>Helyes: <code>(∃x)(H(x) ∧ Sz(x))</code></h3><p>Van valaki, aki hallgató <em>és</em> szorgalmas.</p><p><strong>Hibás:</strong> <code>(∃x)(H(x) → Sz(x))</code>. Ez már akkor is igaz, ha a tartományban van egyetlen nem hallgató, például egy pad. A hamis feltételű implikáció ugyanis igaz.</p></div>
+</div>
+<p>A PDF 110. oldala a konklúziót (4)-es, a 116. oldala (3)-as számmal jelöli. A jegyzet a 116. oldal számozását követi: F1, F2 a premissza, F3 a bizonyítandó állítás. Hogy F3 valóban következik-e, azt kétféleképpen vizsgáljuk meg. A 14. részben megpróbálunk ellenpéldát építeni, a 15. részben pedig rezolúcióval bizonyítunk.</p>
+</section>
+
+<!-- 14 · PL SZEMANTIKA -->
+<section id="pl-szemantika" class="chapter-section"><span class="section-index">14 / PDF 117–118.</span>
+<h2>Egy formula, végtelen sok világ.</h2>
+<p>A predikátumlogika formuláinak a PDF szerint hasonlóan adunk jelentést, mint a propozíciós logikában: először interpretáljuk, aztán kiértékeljük őket. Az eredmény itt is True vagy False. Az <strong>interpretáció</strong> azonban sokkal több döntést kíván. Egy kis „világot” kell felépíteni, amelyben a formula értelmet nyer.</p>
+<ol class="u-steps" id="pl-interpretacio">
+<li><p><strong>Az alaphalmaz megválasztása.</strong> Ez az <strong>individuumtartomány</strong>, az értelmezés alaphalmaza. Jele D, és nem lehet üres. Például D = {Pál, Irén, Jutka, asztal}.</p></li>
+<li><p><strong>A konstansok hozzárendelése.</strong> Minden individuumkonstans-szimbólumnak D egy elemét feleltetjük meg. Például <code>a := asztal</code>.</p></li>
+<li><p><strong>A függvények hozzárendelése.</strong> Minden n-argumentumú individuumfüggvényhez egy D<sup>n</sup> → D leképezést rendelünk. A D<sup>n</sup> az n elemű sorozatok halmaza. Például <code>gyermeke(Pál, Irén)</code> ⇒ Jutka.</p></li>
+<li><p><strong>A predikátumok hozzárendelése.</strong> Minden n-argumentumú predikátumhoz egy D<sup>n</sup> → {T, F} leképezést rendelünk. Például <code>házaspár(Pál, Irén)</code> ⇒ True.</p></li>
+</ol>
+<p>A kvantorok kiértékelése ezután természetes. A <code>(∀x)A</code> akkor igaz, ha A a D <em>minden</em> elemére igaz. A <code>(∃x)A</code> akkor igaz, ha A a D <em>legalább egy</em> elemére igaz. A fogalmak ugyanazok, mint a 7. részben. A PDF 118. oldala szerint:</p>
+<div class="u-compare" id="pl-harom-fajta">
+<div><span class="u-tag">KIELÉGÍTHETŐ</span><p>Az a formula, amelyik valamely interpretációban igaz.</p></div>
+<div><span class="u-tag">ÉRVÉNYES</span><p>Az a formula, amelyik minden interpretációban igaz.</p><p><em>Példa:</em> <code>(∀x)P(x) ∨ (∃y)¬P(y)</code>. Vagy minden elemre igaz P, vagy van, amelyikre nem.</p></div>
+<div><span class="u-tag">KIELÉGÍTHETETLEN</span><p>Az a formula, amelyik minden interpretációban hamis.</p><p><em>Példa:</em> <code>(∀x)P(x) ∧ (∃y)¬P(y)</code>. Nem lehet egyszerre minden elemre igaz, és egy elemre hamis.</p></div>
+</div>
+<p>A PDF szerint az érvényes, illetve a kielégíthetetlen formulák a fontosak, mert a tételbizonyítás ezek belátására vezethető vissza. Itt jön a <strong>probléma</strong>. Egy elsőrendű formulát nem tudunk az összes lehetséges interpretációban kiértékelni, mert végtelen sok alaphalmazt lehet megadni. Az alaphalmaz lehet egyelemű, százelemű vagy akár a természetes számok végtelen halmaza. Igazságtábla itt nem készíthető.</p>
+<div class="u-lab" id="vilag-labor"><span class="u-lab-label">PRÓBÁLD KI / ÉPÍTS ELLENPÉLDÁT</span><h3>Keress olyan világot, ahol F1 és F2 igaz, de F3 hamis!</h3>
+<p>Az alaphalmaz négy elemű: Anna, Bence, logika és szócséplés. Kapcsold ki és be a predikátumokat, és figyeld az F1, F2, F3 értékét! Ha F3 nem következne F1-ből és F2-ből, akkor lenne olyan világ, amelyben F1 és F2 igaz, F3 pedig hamis. Ez lenne az <strong>ellenpélda</strong>.</p>
+<div class="u-js-only">
+<div class="u-table-wrap"><table class="u-table u-world" id="vilag-egy"><caption>Egyargumentumú predikátumok: H(x) hallgató, T(x) tárgy, C(x) szócséplés.</caption><thead><tr><th>x</th><th>H(x)</th><th>T(x)</th><th>C(x)</th></tr></thead><tbody></tbody></table></div>
+<div class="u-table-wrap"><table class="u-table u-world" id="vilag-ket"><caption>S(x, y): a sor eleme (x) szereti az oszlop elemét (y).</caption><thead></thead><tbody></tbody></table></div>
+<div class="u-controls"><button type="button" id="vilag-trukk" class="u-ghost">Legyen a szócséplés is tárgy</button><button type="button" id="vilag-alap" class="u-ghost">Alapállapot</button></div>
+</div>
+<div class="u-out" id="vilag-ki" role="status" aria-live="polite"><p>A bemutatóhoz JavaScript szükséges. A következtetés rezolúciós bizonyítását a 15. rész írásban tartalmazza.</p></div>
+</div>
+<p>A bemutatóban hiába keresel, ellenpéldát nem fogsz találni. Ha a szócséplést tárggyá teszed, az F1 hallgatójának szeretnie kell. Ekkor viszont F2 lesz hamis. Ez azonban nem bizonyítás: ez a négy elem csak egyetlen alaphalmaz a végtelen sok közül. A PDF erre a problémára a rezolúciót adja megoldásként.</p>
+<figure class="u-quote"><blockquote><p>„Megoldás: a rezolúciós eljárás, mellyel egy formula érvényessége, vagy kielégíthetetlensége belátható.”</p></blockquote><figcaption>PDF 118. oldal (a mondat a dia alsó szélén túlnyúlik, a szöveg a PDF szövegrétegéből való)</figcaption></figure>
+<aside class="u-fix"><h3>Kiigazítás · A rezolúció nem dönt el mindent</h3>
+<p><strong>A PDF-ben:</strong> a rezolúció olyan eljárás, amellyel egy formula érvényessége vagy kielégíthetetlensége belátható (PDF 118. oldal). A mondat azt sugallja, hogy a rezolúció a végtelen sok interpretáció problémáját általánosan megoldja.</p>
+<p><strong>Helyesen:</strong> a rezolúció <strong>cáfolás-teljes</strong>. Ha a klózhalmaz kielégíthetetlen, vagyis a tétel igaz, akkor véges sok lépésben eljut az üres klózig. Ha viszont a klózhalmaz kielégíthető, vagyis a tétel nem igaz, akkor az eljárás a predikátumlogikában nem mindig áll meg. Ezen semmilyen más módszer sem segít. Alonzo Church és Alan Turing 1936-ban bebizonyította, hogy nincs olyan algoritmus, amely minden elsőrendű formuláról eldönti, érvényes-e.</p>
+<p><strong>Miért fontos?</strong> A 10. részben láttuk, hogy a propozíciós logikában a telítődés mindig bekövetkezik. A predikátumlogikában ez nem igaz. Vegyük a <code>P(a)</code> és a <code>¬P(x) ∨ P(f(x))</code> klózt, vagyis „a-ra igaz P, és ha x-re igaz, akkor f(x)-re is”. Ez kielégíthető. A rezolúció mégis végtelen sok új klózt állít elő: <code>P(f(a))</code>, <code>P(f(f(a)))</code>, és így tovább. Üres klóz soha nem jön, és a halmaz soha nem telítődik. Ha tehát a gép sokáig nem talál bizonyítást, abból nem következik, hogy a tétel hamis. <a href="#s-church">Forrás: Church, 1936;</a> <a href="#s-turing">Turing, 1936;</a> <a href="#s-aima">Russell–Norvig, 9. fejezet.</a></p></aside>
+</section>
+
+<!-- 15 · PL REZOLÚCIÓ -->
+<section id="pl-rezolucio" class="chapter-section"><span class="section-index">15 / PDF 119–121.</span>
+<h2>Rezolúció, amely választ is ad.</h2>
+<p>A PDF szerint a predikátumlogikában bonyolultabb tételek bizonyíthatók, de a bizonyítás lépései is jóval összetettebbek. Van viszont egy különleges erőssége. A bizonyítás során a rezolúció <strong>változó–konstans hozzárendeléseket</strong> is végez, így arra is választ kapunk, hogy milyen feltételek mellett igaz a tétel. A PDF szerint ennek igazi erejét a Prolog nyelvben tapasztalhatjuk meg.</p>
+<p>Két új művelet kell hozzá. Az <strong>egyesítés (unification)</strong> két atomot helyettesítéssel azonossá tesz. Az <code>érti(x, y)</code> és az <code>érti(a, Rezolúció)</code> például az <code>{x ← a, y ← Rezolúció}</code> helyettesítéssel lesz azonos. Ezután a két ellentett literál kieshet, mint a propozíciós logikában. A <strong>Skolem-konstans</strong> pedig a „van olyan” kvantort tünteti el. Ha létezik valaki, akinek egy tulajdonsága van, adjunk neki egy új nevet, amely másutt nem szerepel. Így a ∃ helyett konstans áll. A kvantorok kiküszöbölése után a klózokban maradt változók mind „minden”-t jelentenek. A módszer Thoralf Skolem norvég matematikus nevét viseli.</p>
+<div class="u-example" id="ertik-feladat"><strong>A feladat (PDF 119. oldal): Értik-e a hallgatók a rezolúciót?</strong>
+<p>Premisszák, ismert tények:<br>(1) A hallgatók értelmesek.<br>(2) Az értelmesek mindent értenek, ami egyszerű.<br>(3) Az értelmeseknek a rezolúció egyszerű.</p>
+<p>Bizonyítandó állítás:<br>(4) A hallgatók értik a rezolúciót.</p>
+<p>Alkalmazott predikátumok: hallgató(x), értelmes(x), érti(x, y) és egyszerű(y).</p></div>
+<p>A PDF 120. oldala a premisszákat rögtön klózalakban írja fel:</p>
+<ol class="u-rows-num" id="ertik-klozok">
+<li><code>¬hallgató(x) ∨ értelmes(x)</code>, azaz „ha x hallgató, akkor értelmes”.</li>
+<li><code>¬értelmes(x) ∨ érti(x, y) ∨ ¬egyszerű(y)</code>, azaz „ha x értelmes és y egyszerű, akkor x érti y-t”.</li>
+<li><code>¬értelmes(x) ∨ egyszerű(Rezolúció)</code>, azaz „ha x értelmes, akkor neki a rezolúció egyszerű”.</li>
+</ol>
+<p>A bizonyítandó (4) állítás: <code>¬hallgató(x) ∨ érti(x, Rezolúció)</code>. Ezt kell tagadni. Itt a PDF egy lényeges ponton pontatlan.</p>
+<aside class="u-fix"><h3>Kiigazítás · A tagadott konklúzióban nem maradhat „minden”-t jelentő változó</h3>
+<p><strong>A PDF-ben:</strong> a (4) tagadása <code>hallgató(x) ∧ ¬érti(x, Rezolúció)</code>. A klózhalmazba ez két klózként, <code>hallgató(x)</code> és <code>¬érti(x, Rezolúció)</code> alakban kerül be (PDF 120–121. oldal).</p>
+<p><strong>Helyesen:</strong> a (4) teljes alakja <code>(∀x)(hallgató(x) → érti(x, Rezolúció))</code>. A tagadása: <code>(∃x)(hallgató(x) ∧ ¬érti(x, Rezolúció))</code>, vagyis „van olyan hallgató, aki nem érti”. Ezt a ∃-t egy új Skolem-konstanssal kell eltüntetni. Legyen ez <code>a</code>, egy ismeretlen hallgató. A két klóz: <code>hallgató(a)</code> és <code>¬érti(a, Rezolúció)</code>.</p>
+<p><strong>Miért fontos?</strong> A klózban maradt x „minden x”-et jelent. A <code>hallgató(x)</code> klóz tehát azt állítja, hogy mindenki hallgató, a <code>¬érti(x, Rezolúció)</code> pedig azt, hogy senki sem érti a rezolúciót. Ez sokkal erősebb, mint a konklúzió tagadása, és hamis bizonyításhoz vezethet. Egy ellenpélda: az egyetlen premissza legyen <code>érti(Anna, Rezolúció)</code>, a konklúzió pedig „minden hallgató érti a rezolúciót”. Ez nem következik, mert lehet egy Bence nevű hallgató, aki nem érti. A PDF módszerével a <code>¬érti(x, Rezolúció)</code> és az <code>érti(Anna, Rezolúció)</code> az <code>x ← Anna</code> helyettesítéssel mégis üres klózt ad. Ez egy hamis „bizonyítás”. Skolem-konstanssal ez nem történhet meg: a <code>¬érti(a, Rezolúció)</code> nem egyesíthető az <code>érti(Anna, Rezolúció)</code> atommal, mert <code>a</code> és <code>Anna</code> két különböző konstans. A PDF feladatában a végeredmény helyes, mert a premisszák valóban maguk után vonják a konklúziót. A módszer azonban csak Skolem-konstanssal megbízható. <a href="#s-robinson">Forrás: Robinson, 1965;</a> <a href="#s-aima">Russell–Norvig, 9.5.1 szakasz.</a></p></aside>
+<div class="u-example" id="ertik-levezetes"><strong>Végigvezetett példa · A levezetés Skolem-konstanssal</strong>
+<p>A klózhalmaz: (1), (2), (3), valamint (4a) <code>hallgató(a)</code> és (4b) <code>¬érti(a, Rezolúció)</code>.</p>
+<div class="u-table-wrap"><table class="u-table" id="ertik-tabla">
+<thead><tr><th>Lépés</th><th>Rezolvált klózok</th><th>Helyettesítés</th><th>Rezolvens</th></tr></thead>
+<tbody>
+<tr><td>5</td><td>(4a) és (1)</td><td>x ← a</td><td><code>értelmes(a)</code></td></tr>
+<tr><td>6</td><td>(5) és (2)</td><td>x ← a</td><td><code>érti(a, y) ∨ ¬egyszerű(y)</code></td></tr>
+<tr><td>7</td><td>(6) és (4b)</td><td>y ← Rezolúció</td><td><code>¬egyszerű(Rezolúció)</code></td></tr>
+<tr><td>8</td><td>(7) és (3)</td><td>–</td><td><code>¬értelmes(x)</code></td></tr>
+<tr><td>9</td><td>(8) és (5)</td><td>x ← a</td><td><strong>NIL</strong></td></tr>
+</tbody></table></div>
+<p>A PDF 121. oldalának levezetése ugyanezt az utat járja be, csak x-szel <code>a</code> helyett. A 8. lépés után a PDF még egyszer rezolvál az (1) klózzal, és <code>¬hallgató(x)</code>, majd NIL következik. Ez is helyes, csak egy lépéssel hosszabb, mert a 9. lépés <code>értelmes(a)</code> klóza már rendelkezésre áll. A lényeg a 7. lépés helyettesítése: <code>y ← Rezolúció</code>. A bizonyítás itt „rájön”, hogy a (2) szabály általános y-ját a rezolúcióra kell alkalmazni.</p></div>
+<p>A 13. rész szócséplés-feladata ugyanígy bizonyítható. A PDF ezt nem vezeti le, a jegyzet itt pótolja. A Skolem-konstansok: <code>a</code> az F1 hallgatója, <code>b</code> a tagadott F3 szócséplés-tárgya.</p>
+<div class="u-example" id="szocseples-bizonyitas"><strong>Végigvezetett példa · Egyik tárgy sem szócséplés</strong>
+<ol class="u-steps">
+<li><p><strong>F1 klózai:</strong> <code>H(a)</code> és <code>¬T(y) ∨ S(a, y)</code>. Az a egy Skolem-konstans, az a hallgató, aki minden tárgyat szeret.</p></li>
+<li><p><strong>F2 klóza:</strong> <code>¬H(x) ∨ ¬C(y) ∨ ¬S(x, y)</code>.</p></li>
+<li><p><strong>F3 tagadása:</strong> <code>(∃x)(T(x) ∧ C(x))</code>, vagyis van egy tárgy, amely szócséplés. Skolem-konstanssal: <code>T(b)</code> és <code>C(b)</code>.</p></li>
+<li><p><code>¬T(y) ∨ S(a, y)</code> és <code>T(b)</code>, y ← b: <code>S(a, b)</code>. Az a hallgató szereti a b tárgyat.</p></li>
+<li><p><code>¬H(x) ∨ ¬C(y) ∨ ¬S(x, y)</code> és <code>H(a)</code>, x ← a: <code>¬C(y) ∨ ¬S(a, y)</code>.</p></li>
+<li><p>Ez és <code>C(b)</code>, y ← b: <code>¬S(a, b)</code>. Az a nem szereti a b szócséplést.</p></li>
+<li><p><code>S(a, b)</code> és <code>¬S(a, b)</code>: <strong>NIL</strong>. F3 tehát következik F1-ből és F2-ből.</p></li>
+</ol></div>
+<p>Ha a konklúzió nem „minden”-t, hanem „ki?”-t kérdez, a helyettesítésekből a válasz is kiolvasható. Pontosan ezt teszi a kurzus logikai kódja. A <code>pyDatalog</code> Python-könyvtár a Prologhoz hasonló logikai programozást tesz lehetővé. Tényeket és szabályokat adunk meg, aztán kérdezünk.</p>
+<figure class="u-code"><pre><code>from pyDatalog import pyDatalog
+
+def igaz_e(kifejezes):
+    return len(kifejezes) &gt; 0
+
+pyDatalog.clear()
+
+pyDatalog.create_terms('Apa, Anya, Szulo, Nagyszulo, X,Y,Z')
+
+#Tények
++Apa("Szokratesz","Platon")
++Apa("Platon", "Arisztotelesz")
++Anya("Diado","Platon")
+
+#Szabályok
+Szulo(X,Y) &lt;= Apa(X,Y)
+Szulo(X,Y) &lt;= Anya(X,Y)
+
+
+Nagyszulo(X,Z) &lt;= Szulo(X,Y) &amp; Szulo(Y,Z)
+
+print("Ki Platon szuloje")
+print(Szulo(X,"Platon"))
+
+print("\n")
+print("Ki Arisztotelesz nagyszülője")
+print(Nagyszulo(X,"Arisztotelesz"))
+
+
+print("\n")
+print("Szokratesz Arisztotelesz nagyszülője?")
+print(igaz_e(Nagyszulo("Szokratesz","Arisztotelesz")))</code></pre>
+<figcaption>A <code>resources/code/12_Logika.py</code> fájl változatlanul.</figcaption></figure>
+<figure class="u-code"><pre><code>Ki Platon szuloje
+X
+----------
+Diado
+Szokratesz
+
+
+Ki Arisztotelesz nagyszülője
+X
+----------
+Diado
+Szokratesz
+
+
+Szokratesz Arisztotelesz nagyszülője?
+True</code></pre>
+<figcaption>A kód valódi kimenete pyDatalog 0.22.4 és Python 3.12 alatt futtatva. A sorvégi szóközöket elhagytuk.</figcaption></figure>
+<p>A <strong>bemenet</strong> három tény és három szabály. Minden szabály egy predikátumlogikai formula. A <code>Szulo(X,Y) &lt;= Apa(X,Y)</code> jelentése <code>(∀x)(∀y)(Apa(x, y) → Szulo(x, y))</code>, klózként <code>¬Apa(x, y) ∨ Szulo(x, y)</code>. A <code>Nagyszulo</code> szabály klóza: <code>¬Szulo(x, y) ∨ ¬Szulo(y, z) ∨ Nagyszulo(x, z)</code>. A tények egyliterálos klózok. A <code>Nagyszulo(X,"Arisztotelesz")</code> kérdés a rezolúcióval megegyező lépéseket tesz. Az egyesítés először <code>z ← Arisztotelesz</code>, aztán a <code>Szulo(y, Arisztotelesz)</code> tényből <code>y ← Platon</code>, végül <code>x ← Szokratesz</code> vagy <code>x ← Diado</code>. A <strong>kimenetben</strong> ezek a helyettesítések jelennek meg válaszként. Az utolsó kérdésnél nincs változó, ezért a válasz egyszerűen igaz. Az <code>igaz_e</code> segédfüggvény azt nézi meg, hogy a válaszok listája nem üres-e. A tények egyébként játékosak: a valóságban Platón apja Arisztón volt.</p>
+<p>Ugyanezzel a szerkezettel a PDF 119. oldalának feladata is megírható. Két konkrét hallgatót veszünk fel. A (3) premisszát kétargumentumú predikátummal írjuk le, mert a rezolúció nem általában egyszerű, hanem az értelmeseknek.</p>
+<figure class="u-code"><pre><code>from pyDatalog import pyDatalog
+
+pyDatalog.clear()
+pyDatalog.create_terms('Hallgato, Ertelmes, EgyszeruNeki, Erti, X, Y')
+
+# Tények: két konkrét hallgató
++Hallgato("Anna")
++Hallgato("Bence")
+
+# Szabályok: a PDF 119. oldalának három premisszája
+Ertelmes(X) &lt;= Hallgato(X)                                # (1)
+Erti(X, Y) &lt;= Ertelmes(X) &amp; EgyszeruNeki(X, Y)            # (2)
+EgyszeruNeki(X, "rezolúció") &lt;= Ertelmes(X)               # (3)
+
+print("Ki érti a rezolúciót?")
+print(Erti(X, "rezolúció"))
+print("Anna érti a rezolúciót?", len(Erti("Anna", "rezolúció")) &gt; 0)</code></pre>
+<figcaption>A jegyzet saját kódja a <code>resources/code/12_Logika.py</code> mintájára.</figcaption></figure>
+<figure class="u-code"><pre><code>Ki érti a rezolúciót?
+X
+-----
+Bence
+Anna
+Anna érti a rezolúciót? True</code></pre>
+<figcaption>Valódi kimenet, pyDatalog 0.22.4 és Python 3.12 alatt futtatva. A válaszok sorrendje futtatásonként eltérhet.</figcaption></figure>
+<p>A kérdés, <code>Erti(X, "rezolúció")</code>, a rezolúció nyelvén a <code>¬érti(x, Rezolúció)</code> célklóz. A rendszer ezt egyesíti a (2) szabály fejével, és <code>Y ← rezolúció</code> helyettesítést kap. Ez ugyanaz, mint a levezetés 7. lépése. Aztán az <code>Ertelmes(X)</code> és az <code>EgyszeruNeki(X, "rezolúció")</code> feltételt a (1) és a (3) szabályon át a <code>Hallgato</code> tényekig vezeti vissza. Minden sikeres ág egy <code>X</code> értéket ad. A PDF levezetése azt bizonyította, hogy <em>minden</em> hallgató érti a rezolúciót. A program azt sorolja fel, <em>kik</em> értik. Ez a különbség a tételbizonyítás és a logikai programozás között. A következő fejezet a Prologgal ezt az utat folytatja.</p>
+<aside class="u-add"><h3>Kiegészítés · Mit tud a Datalog, és mit nem?</h3><p>A pyDatalog szabályai <strong>Horn-klózok</strong>: legfeljebb egy nem tagadott literál van bennük. A <code>¬Szulo(x, y) ∨ ¬Szulo(y, z) ∨ Nagyszulo(x, z)</code> ilyen. Horn-klózokra a rezolúció sokkal gyorsabb és célirányosabb, ezért épül rájuk a Prolog is. Az ára, hogy nem minden formula írható le így. Az F1 formula „van olyan hallgató” része például csak Skolem-konstanssal, a „vagy van egy részeg, vagy nem volt ital” pedig egyáltalán nem fejezhető ki Datalog-szabállyal. <a href="#s-aima">Forrás: Russell–Norvig, 7.5.3 és 9.4 szakasz;</a> <a href="#s-pydatalog">pyDatalog dokumentáció.</a></p></aside>
+</section>
+
+<!-- FOGALMAK -->
+<section id="fogalmak" class="chapter-section"><span class="section-index">FOGALOMKÁRTYÁK</span>
+<h2>Az új szavak egy helyen.</h2>
+<dl class="u-cards">
+<div><dt>Szillogizmus</dt><dd>Arisztotelészi következtetés két premisszából egy konklúzióra.</dd></div>
+<div><dt>Premissza, konklúzió</dt><dd>Az előfeltételek és a belőlük levont következtetés.</dd></div>
+<div><dt>Propozíció</dt><dd>Kijelentő mondat, amely az adott kontextusban egyértelműen igaz vagy hamis.</dd></div>
+<div><dt>Atomi formula</dt><dd>A legkisebb formula: ítéletkonstans, ítéletváltozó, vagy predikátum termekkel.</dd></div>
+<div><dt>Szintaxis és szemantika</dt><dd>A szintaxis dönti el, mely jelsorozat helyes. A szemantika dönti el, mikor igaz.</dd></div>
+<div><dt>Precedencia</dt><dd>A műveletek erősségi sorrendje: ∀ ∃ ¬ ∧ ∨ → ≡.</dd></div>
+<div><dt>Interpretáció</dt><dd>Értékadás: a propozíciós logikában a változóknak, a predikátumlogikában egy egész világnak.</dd></div>
+<div><dt>Tautológia (érvényes)</dt><dd>Minden interpretációban igaz formula. Például p ∨ ¬p.</dd></div>
+<div><dt>Kielégíthető</dt><dd>Legalább egy interpretációban igaz formula.</dd></div>
+<div><dt>Kontradikció (kielégíthetetlen)</dt><dd>Minden interpretációban hamis formula. Például p ∧ ¬p.</dd></div>
+<div><dt>Materiális implikáció</dt><dd>Az A → B csak akkor hamis, ha A igaz és B hamis.</dd></div>
+<div><dt>Literál, klóz</dt><dd>A literál egy változó vagy a tagadása. A klóz literálok VAGY-kapcsolata.</dd></div>
+<div><dt>Konjunktív normálforma (KNF)</dt><dd>Klózok ÉS-kapcsolata. Minden formula átalakítható ilyenné.</dd></div>
+<div><dt>Rezolvens</dt><dd>Két klózból, egy ellentett literálpár elhagyásával kapott új klóz.</dd></div>
+<div><dt>Üres klóz (NIL, □)</dt><dd>Literál nélküli, ezért mindig hamis klóz. Az ellentmondás jele.</dd></div>
+<div><dt>Telítődés</dt><dd>Állapot, amelyben már nem keletkezik új rezolvens. Üres klóz nélkül a halmaz kielégíthető.</dd></div>
+<div><dt>Predikátum</dt><dd>Tulajdonságot vagy kapcsolatot kifejező logikai függvény, amely igaz vagy hamis értéket ad.</dd></div>
+<div><dt>Term</dt><dd>Egy dolgot jelölő kifejezés: konstans, változó vagy függvény termekkel.</dd></div>
+<div><dt>Kvantor</dt><dd>∀: minden. ∃: létezik, van olyan.</dd></div>
+<div><dt>Kötött és szabad előfordulás</dt><dd>Kötött, ha egy rá vonatkozó kvantor hatáskörében áll. Egyébként szabad.</dd></div>
+<div><dt>Mondat</dt><dd>Olyan formula, amelyben minden változó minden előfordulása kötött.</dd></div>
+<div><dt>Egyesítés (unification)</dt><dd>Olyan helyettesítés keresése, amely két atomot azonossá tesz.</dd></div>
+<div><dt>Skolem-konstans</dt><dd>Új név, amely egy „van olyan” kvantor által állított dolgot jelöl.</dd></div>
+</dl>
+</section>
+
+<!-- KVÍZ -->
+<section id="kviz" class="chapter-section"><span class="section-index">KVÍZ · SZABADON VÁLASZTHATÓ</span>
+<h2>Ellenőrizd magad.</h2>
+<p>A kvíz kihagyható, az eredménye semmit sem zár le. Az eredményt csak a böngésződ tárolja.</p>
+<form class="u-quiz" id="kviz-urlap" novalidate>
+<fieldset data-helyes="c"><legend>1. Melyik propozíció az alábbiak közül?</legend>
+<label><input type="radio" name="k1" value="a"> „Hány óra van?”</label>
+<label><input type="radio" name="k1" value="b"> „x nagyobb 3-nál.”</label>
+<label><input type="radio" name="k1" value="c"> „A macskák ugatnak.”</label>
+<p class="u-feedback" data-magyarazat="Kijelentő mondat, és egyértelműen hamis. A kérdés nem lehet igaz vagy hamis, az x-es mondat értéke pedig x-től függ."></p></fieldset>
+<fieldset data-helyes="b"><legend>2. Hogyan kell zárójelezni a ¬p ∨ q ∧ r formulát?</legend>
+<label><input type="radio" name="k2" value="a"> ¬(p ∨ q) ∧ r</label>
+<label><input type="radio" name="k2" value="b"> (¬p) ∨ (q ∧ r)</label>
+<label><input type="radio" name="k2" value="c"> ((¬p) ∨ q) ∧ r</label>
+<p class="u-feedback" data-magyarazat="A ¬ köt a legerősebben, utána a ∧, és csak aztán a ∨."></p></fieldset>
+<fieldset data-helyes="a"><legend>3. Mikor hamis az A → B implikáció?</legend>
+<label><input type="radio" name="k3" value="a"> Csak akkor, ha A igaz és B hamis.</label>
+<label><input type="radio" name="k3" value="b"> Ha A hamis.</label>
+<label><input type="radio" name="k3" value="c"> Ha A és B is hamis.</label>
+<p class="u-feedback" data-magyarazat="Hamis feltételből az implikáció mindig igaz. Csak az igaz feltétel és hamis következmény sérti meg."></p></fieldset>
+<fieldset data-helyes="c"><legend>4. Hány interpretációja van egy 5 változós propozíciós formulának?</legend>
+<label><input type="radio" name="k4" value="a"> 10</label>
+<label><input type="radio" name="k4" value="b"> 25</label>
+<label><input type="radio" name="k4" value="c"> 32</label>
+<p class="u-feedback" data-magyarazat="Minden változó kétféle értéket kaphat: 2⁵ = 32."></p></fieldset>
+<fieldset data-helyes="b"><legend>5. Milyen a p → q formula?</legend>
+<label><input type="radio" name="k5" value="a"> Tautológia.</label>
+<label><input type="radio" name="k5" value="b"> Kielégíthető, de nem érvényes.</label>
+<label><input type="radio" name="k5" value="c"> Kielégíthetetlen.</label>
+<p class="u-feedback" data-magyarazat="Igaz például p = F esetén, és hamis p = T, q = F esetén."></p></fieldset>
+<fieldset data-helyes="a"><legend>6. Mi a rezolvense a p ∨ ¬q és a q ∨ r klóznak?</legend>
+<label><input type="radio" name="k6" value="a"> p ∨ r</label>
+<label><input type="radio" name="k6" value="b"> p ∨ q ∨ r</label>
+<label><input type="radio" name="k6" value="c"> ¬q ∨ r</label>
+<p class="u-feedback" data-magyarazat="Az ellentett pár (¬q, q) kiesik, a többi literál VAGY-gyal összekapcsolódik."></p></fieldset>
+<fieldset data-helyes="c"><legend>7. Mi a ¬(p ∧ ¬q) KNF-je?</legend>
+<label><input type="radio" name="k7" value="a"> ¬p ∧ q</label>
+<label><input type="radio" name="k7" value="b"> p ∨ ¬q</label>
+<label><input type="radio" name="k7" value="c"> ¬p ∨ q</label>
+<p class="u-feedback" data-magyarazat="De Morgan: ¬p ∨ ¬¬q, a kettős tagadás eltüntetése után ¬p ∨ q. Ez egyetlen klóz."></p></fieldset>
+<fieldset data-helyes="b"><legend>8. Mit jelez a rezolúció végén az üres klóz?</legend>
+<label><input type="radio" name="k8" value="a"> Hogy a klózhalmaz kiürült, tehát igaz.</label>
+<label><input type="radio" name="k8" value="b"> Hogy a klózhalmaz kielégíthetetlen, tehát a tétel igaz.</label>
+<label><input type="radio" name="k8" value="c"> Hogy a tétel hamis.</label>
+<p class="u-feedback" data-magyarazat="Az üres klóz mindig hamis, ezért a halmaz nem lehet egyszerre igaz. Mivel a konklúzió tagadásából indultunk, a tétel igaz."></p></fieldset>
+<fieldset data-helyes="a"><legend>9. Mi történik, ha a klózhalmaz telítődik, és üres klóz nem keletkezett?</legend>
+<label><input type="radio" name="k9" value="a"> A halmaz kielégíthető, a tétel nem bizonyítható.</label>
+<label><input type="radio" name="k9" value="b"> Tovább kell futtatni, amíg NIL nem jön.</label>
+<label><input type="radio" name="k9" value="c"> A tétel igaz.</label>
+<p class="u-feedback" data-magyarazat="Ez a PDF 107. oldalán hiányzó leállási feltétel. A propozíciós logikában a telítődés mindig bekövetkezik."></p></fieldset>
+<fieldset data-helyes="c"><legend>10. Hogyan formalizálható a „Van szorgalmas hallgató” mondat?</legend>
+<label><input type="radio" name="k10" value="a"> (∀x)(H(x) → Sz(x))</label>
+<label><input type="radio" name="k10" value="b"> (∃x)(H(x) → Sz(x))</label>
+<label><input type="radio" name="k10" value="c"> (∃x)(H(x) ∧ Sz(x))</label>
+<p class="u-feedback" data-magyarazat="A „van olyan” mellé konjunkció tartozik. Az implikációs változat már egyetlen nem hallgató elemtől is igaz lenne."></p></fieldset>
+<fieldset data-helyes="b"><legend>11. A (∀x)[P(x, y) ∧ (∃y)Q(x, y)] formulában melyik előfordulás szabad?</legend>
+<label><input type="radio" name="k11" value="a"> A második x.</label>
+<label><input type="radio" name="k11" value="b"> Az első y.</label>
+<label><input type="radio" name="k11" value="c"> A második y.</label>
+<p class="u-feedback" data-magyarazat="Az első y nem áll egyetlen y-ra vonatkozó kvantor hatáskörében sem. A második y-t a ∃y köti, mindkét x-et a ∀x."></p></fieldset>
+<fieldset data-helyes="a"><legend>12. Miért kell Skolem-konstans a „nem minden hallgató érti” tagadásban?</legend>
+<label><input type="radio" name="k12" value="a"> Mert a klózban maradt x „minden x”-et jelentene, ami túl erős állítás.</label>
+<label><input type="radio" name="k12" value="b"> Mert a Prolog nem ismeri a változókat.</label>
+<label><input type="radio" name="k12" value="c"> Mert a konstans gyorsítja a számolást.</label>
+<p class="u-feedback" data-magyarazat="A ¬érti(x, R) klóz azt állítaná, hogy senki sem érti. A tagadás csak annyit mond, hogy van valaki, aki nem érti: ¬érti(a, R)."></p></fieldset>
+<div class="u-controls"><button type="submit">Válaszok ellenőrzése</button><button type="reset" class="u-ghost">Újrakezdés</button></div>
+<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1c, 2b, 3a, 4c, 5b, 6a, 7c, 8b, 9a, 10c, 11b, 12a.</p>
+</form>
+</section>
+
+<!-- ÖSSZEGZÉS -->
+<section id="osszegzes" class="chapter-section"><span class="section-index">ÖSSZEFOGLALÓ</span>
+<h2>Amit most már tudsz.</h2>
+<p>A logika a gondolkodás formáját vizsgálja, nem a tartalmát. Arisztotelész szavakkal írta le a szillogizmusokat. Leibniz, Boole, Jevons, Venn, Peirce és De Morgan jelekkel számolható algebrát csináltak belőle. Frege a kvantorokkal teljessé tette, Russell pedig megmutatta a paradoxonok veszélyét. A 20. században született nem klasszikus logikák a lehetőséget, a kötelességet, az időt és a bizonytalanságot is kezelik.</p>
+<p>A propozíciós logikában az atomi állítások betűk. A szintaxis rekurzív szabályokkal építi fel belőlük a formulákat. A szemantika minden interpretációban igazságértéket ad nekik, n változó esetén 2<sup>n</sup>-féleképpen. Egy formula lehet érvényes, kielégíthető vagy kielégíthetetlen. Egy tétel pontosan akkor igaz, ha a premisszák és a tagadott konklúzió együtt kielégíthetetlenek. A rezolúció ezt KNF-re hozott klózhalmazon, egyetlen szabály ismételgetésével mutatja meg. Ha üres klóz keletkezik, a tétel igaz. Ha a halmaz üres klóz nélkül telítődik, akkor nem.</p>
+<p>A predikátumlogika a mondatok belsejébe is belenéz: termekkel dolgokat, predikátumokkal tulajdonságokat és kapcsolatokat ír le, kvantorokkal pedig „minden”-t és „van olyan”-t. Interpretációja egy egész világ, és ilyen világ végtelen sok van. A rezolúció itt egyesítéssel és Skolem-konstansokkal dolgozik, és a helyettesítésekből választ is ad. Ha a tétel igaz, a bizonyítást mindig megtalálja. Ha nem, előfordulhat, hogy soha nem áll meg.</p>
+<div class="u-links">
+<a href="03-tudasreprezentacio-uj.html"><small>← Előző fejezet</small>03 · Tudásreprezentáció: a háló élei nem hordoztak pontos jelentést, és a kvantorokat sem tudta kifejezni. A logika mindkettőt megadja.</a>
+<a href="05-prolog-es-fuzzy.html"><small>Következő fejezet →</small>05 · Prolog és fuzzy logika: a rezolúció mint programozási nyelv, és a Łukasiewicz-féle végtelen értékű logika utóda.</a>
+</div>
+</section>
+
+<!-- FORRÁSOK -->
+<section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
+<h2>Honnan tudjuk?</h2>
+<p>A fejezet a kurzus PDF-jének 89–121. oldalát dolgozza fel. A jegyzet önálló feldolgozás, a korábbi 4. fejezet anyagát nem használja fel. Az idézetek szó szerint a PDF-ből származnak. A PDF-ben szereplő művek magyar címe a PDF fordítása. A „Kiigazítás” dobozok a PDF öt lényeges szakmai hibáját javítják. Ezek: Russell paradoxonának megfogalmazása (94. oldal), a rezolúciós ciklus leállási feltétele (107. oldal), az üres klóz és az üres klózhalmaz összekeverése (108. oldal), a rezolúció döntési képessége a predikátumlogikában (118. oldal), végül a tagadott konklúzió Skolem-konstans nélküli klózai (120–121. oldal). A „Kiegészítés” dobozok hátteret adnak.</p>
+<p>A PDF-ben néhány apró elírás is van, ezeket a jegyzet külön doboz nélkül, helyes alakban közli. A 106. oldal a klózokra bontásnál „diszjunktív normál formát” említ, a helyes a konjunktív. A 117. oldalon a predikátumok leképezése D<sup>2</sup> → {T, F} alakban szerepel, az n-argumentumú esetben helyesen D<sup>n</sup> → {T, F}. A 110. és a 116. oldal eltérően számozza a szócséplés-feladat konklúzióját. A PDF 101. oldalán a formula kiértékelése egyetlen interpretációban szerepel. A 100. oldal két interpretációjának kiértékelése, a Venn-ábrák, a NOR-táblázat, a nem klasszikus logikák összehasonlítása, a KNF-átalakítás példája, a menzai rejtvény és a szócséplés-feladat rezolúciós bizonyítása a jegyzet saját anyaga. A kurzus kódgyűjteményéből a <code>resources/code/12_Logika.py</code> kapcsolódik a fejezethez. A 15. részben változatlanul szerepel, a mintájára készült saját példával együtt. Mindkét kód kimenetét futtatással ellenőriztük.</p>
+<ul class="u-sources">
+<li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 89–121. oldal (<code>resources/presentation/</code>).</li>
+<li id="s-aima">S. Russell, P. Norvig: <em>Artificial Intelligence: A Modern Approach</em>, 4. kiadás, Pearson, 2020, 7–9. fejezet.</li>
+<li id="s-robinson">J. A. Robinson: <a href="https://doi.org/10.1145/321250.321253">A Machine-Oriented Logic Based on the Resolution Principle</a>, <em>Journal of the ACM</em> 12(1), 1965, 23–41.</li>
+<li id="s-church">A. Church: <a href="https://doi.org/10.2307/2269326">A Note on the Entscheidungsproblem</a>, <em>Journal of Symbolic Logic</em> 1(1), 1936, 40–41.</li>
+<li id="s-turing">A. M. Turing: <a href="https://doi.org/10.1112/plms/s2-42.1.230">On Computable Numbers, with an Application to the Entscheidungsproblem</a>, <em>Proceedings of the London Mathematical Society</em> s2-42, 1936–1937, 230–265.</li>
+<li id="s-heijenoort">J. van Heijenoort (szerk.): <em>From Frege to Gödel: A Source Book in Mathematical Logic, 1879–1931</em>, Harvard University Press, 1967. Benne Frege <em>Begriffsschrift</em>-je (1879) és Russell 1902-es levele Fregének.</li>
+<li id="s-sep-russell">A. D. Irvine, H. Deutsch: <a href="https://plato.stanford.edu/entries/russell-paradox/">Russell’s Paradox</a>, <em>Stanford Encyclopedia of Philosophy</em>.</li>
+<li id="s-sep-modal">J. Garson: <a href="https://plato.stanford.edu/entries/logic-modal/">Modal Logic</a>, <em>Stanford Encyclopedia of Philosophy</em>.</li>
+<li id="s-sep-deontic">P. McNamara, F. Van De Putte: <a href="https://plato.stanford.edu/entries/logic-deontic/">Deontic Logic</a>, <em>Stanford Encyclopedia of Philosophy</em>.</li>
+<li id="s-sep-manyvalued">S. Gottwald: <a href="https://plato.stanford.edu/entries/logic-manyvalued/">Many-Valued Logic</a>, <em>Stanford Encyclopedia of Philosophy</em>.</li>
+<li id="s-gardner">M. Gardner: <em>Logic Machines and Diagrams</em>, McGraw-Hill, 1958.</li>
+<li id="s-jevons">W. S. Jevons: <a href="https://doi.org/10.1098/rstl.1870.0022">On the Mechanical Performance of Logical Inference</a>, <em>Philosophical Transactions of the Royal Society</em> 160, 1870, 497–518.</li>
+<li id="s-boole">G. Boole: <em>The Mathematical Analysis of Logic</em>, Macmillan, 1847; <em>An Investigation of the Laws of Thought</em>, 1854.</li>
+<li id="s-venn">J. Venn: On the Diagrammatic and Mechanical Representation of Propositions and Reasonings, <em>Philosophical Magazine</em> 10(59), 1880, 1–18.</li>
+<li id="s-sheffer">H. M. Sheffer: <a href="https://doi.org/10.1090/S0002-9947-1913-1500960-1">A Set of Five Independent Postulates for Boolean Algebras</a>, <em>Transactions of the AMS</em> 14, 1913, 481–488.</li>
+<li id="s-shannon">C. E. Shannon: <a href="https://doi.org/10.1109/T-AIEE.1938.5057767">A Symbolic Analysis of Relay and Switching Circuits</a>, <em>Transactions of the AIEE</em> 57(12), 1938, 713–723.</li>
+<li id="s-lukasiewicz">J. Łukasiewicz: O logice trójwartościowej (A háromértékű logikáról), <em>Ruch Filozoficzny</em> 5, 1920, 170–171.</li>
+<li id="s-post">E. L. Post: <a href="https://doi.org/10.2307/2370324">Introduction to a General Theory of Elementary Propositions</a>, <em>American Journal of Mathematics</em> 43(3), 1921, 163–185.</li>
+<li id="s-keynes">J. M. Keynes: <em>A Treatise on Probability</em>, Macmillan, 1921.</li>
+<li id="s-vonwright">G. H. von Wright: <a href="https://doi.org/10.1093/mind/LX.237.1">Deontic Logic</a>, <em>Mind</em> 60(237), 1951, 1–15.</li>
+<li id="s-quine">W. V. O. Quine: <em>Methods of Logic</em>, Holt, 1950.</li>
+<li id="s-wang">H. Wang: <a href="https://doi.org/10.1147/rd.41.0002">Toward Mechanical Mathematics</a>, <em>IBM Journal of Research and Development</em> 4(1), 1960, 2–22.</li>
+<li id="s-pydatalog">pyDatalog: <a href="https://sites.google.com/site/pydatalog/">a könyvtár dokumentációja</a>.</li>
+</ul>
+</section>
+</main>
+</div>
+<footer>MI-alapok / 04 · Formális logika (új változat) <a href="../index.html">Kezdőlap</a></footer>
+</body>
+</html>

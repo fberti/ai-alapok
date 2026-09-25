@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3eb">
+<meta name="description" content="Szemantikus hálók, keretek és esetalapú következtetés: hogyan tárolja a gép, amit egy fogalomról tudunk? Új, önálló feldolgozás a PDF 65–88. oldalához.">
+<title>03 · Tudásreprezentáció (új változat) | MI-alapok</title>
+<script>document.documentElement.classList.add('js')</script>
+<script src="../assets/js/theme.js?v=2"></script>
+<link rel="stylesheet" href="../assets/css/course.css?v=2">
+<link rel="stylesheet" href="../assets/css/chapter-three-uj.css">
+<script defer src="../assets/js/chapter-three-uj.js"></script>
+</head>
+<body class="chapter-three-uj" data-chapter="3">
+<a class="skip" href="#tartalom">Ugrás a tananyaghoz</a>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">mi.</span> ALAPOK <span class="brand-note">/ interaktív jegyzet</span></a><div class="header-actions"><a href="../index.html#fejezetek">← Összes fejezet</a><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle><span class="theme-toggle-icon" aria-hidden="true"></span><span class="visually-hidden">Sötét mód</span></button></div></header>
+
+<div class="chapter-layout">
+<nav class="toc" aria-label="Fejezet tartalomjegyzéke"><p class="eyebrow">03 / ÚJ VÁLTOZAT</p><ol>
+<li><a href="#quillian">Quillian és a kanári</a></li>
+<li><a href="#szoparok">Két szó kapcsolata</a></li>
+<li><a href="#allathalo">Az állatháló</a></li>
+<li><a href="#egyed">Egyed, alosztály, osztály</a></li>
+<li><a href="#elonyok">A háló előnyei</a></li>
+<li><a href="#jelentes">Hol van a jelentés?</a></li>
+<li><a href="#orokles">Kivétel és ellentmondás</a></li>
+<li><a href="#tipus">Típus és egyed</a></li>
+<li><a href="#intenzio">Intenzió, extenzió, kvantorok</a></li>
+<li><a href="#keretek">A keret</a></li>
+<li><a href="#keret-tobb">Amit a keret többet tud</a></li>
+<li><a href="#eloadas">Az előadás kerete</a></li>
+<li><a href="#esetek">Esetalapú rendszerek</a></li>
+<li><a href="#cbr">A négy lépés</a></li>
+<li><a href="#merleg">Mérleg</a></li>
+<li><a href="#fogalmak">Fogalomkártyák</a></li>
+<li><a href="#kviz">Kvíz · szabadon választható</a></li>
+<li><a href="#osszegzes">Összefoglaló</a></li>
+<li><a href="#forrasok">Források</a></li>
+</ol></nav>
+
+<main id="tartalom" class="chapter-main">
+<header class="chapter-hero">
+<p class="eyebrow">03. FEJEZET / ÚJ, ÖNÁLLÓ FELDOLGOZÁS</p>
+<h1>Hogyan tárolja a gép,<br><em>amit egy fogalomról tudunk?</em></h1>
+<p class="lead">Az előző fejezet szabályai azt mondják meg, mit kell tenni. Most azt nézzük meg, hogyan rendezhető el a gépben az, amit a dolgokról tudunk: mi micsoda, milyen tulajdonsága van, és mire hasonlít.</p>
+<div class="u-scene"><p><strong>Egy gyors kísérlet.</strong> Válaszolj fejben, és figyeld, melyik válasz jön a leggyorsabban!</p>
+<p>1. Tud-e énekelni a kanári? 2. Tud-e repülni a kanári? 3. Van-e bőre a kanárinak?</p>
+<p>Mindhárom válasz „igen”. A legtöbb ember mégis az elsőt érzi a legkönnyebbnek, a harmadikon pedig egy pillanatra elgondolkodik. Az 1960-as évek végén ez a kis különbség vezetett el az első gépi fogalomhálóhoz. Ebből a hálóból indul ez a fejezet.</p></div>
+<ul class="u-meta"><li>Forrás: PDF 65–88. oldal</li><li>4 kipróbálható bemutató</li><li>10 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>12_Logika.py</code>, <code>20_Szelessegben_es_melysegben_eloszor.py</code></li></ul>
+<div class="u-goals"><strong>A fejezet végére…</strong><ul>
+<li>tudod, hogyan ábrázol a szemantikus háló fogalmakat és kapcsolatokat, és hogyan válaszol kérdésekre örökléssel és hálóillesztéssel;</li>
+<li>meg tudod különböztetni az egyedet, az alosztályt és az osztályt, és fel tudod oldani az öröklés kivételeit és ellentmondásait;</li>
+<li>ismered a háló gyenge pontjait: a jelentés, a típus és egyed, az intenzió és extenzió, valamint a kvantorok kérdését;</li>
+<li>el tudsz olvasni és ki tudsz egészíteni egy keretrendszert, beleértve az alapértékeket és a démonokat;</li>
+<li>végig tudod vezetni az esetalapú következtetés négy lépését egy hasonlósági számítással;</li>
+<li>meg tudod mondani, mikor melyik ábrázolás erős, és hol korlátozott.</li>
+</ul></div>
+<noscript><p class="u-simple"><strong>JavaScript nélkül</strong>A teljes magyarázat, minden ábra, levezetés és számítás olvasható. Csak a négy kipróbálható bemutató és a kvíz ellenőrzése igényel JavaScriptet.</p></noscript>
+</header>
+
+<!-- 01 · QUILLIAN -->
+<section id="quillian" class="chapter-section"><span class="section-index">01 / PDF 65–66.</span>
+<h2>Egy háló, amely az emlékezetet utánozza.</h2>
+<p>A <strong>szemantikus háló (semantic network)</strong> Ross Quillian amerikai kutató nevéhez kötődik. A PDF 1968-at adja meg évszámként. A háló ötlete egyszerű. A dolgokat, fogalmakat és objektumokat <strong>csomópontok</strong> jelölik. A köztük lévő viszonyokat, kapcsolatokat a csomópontokat összekötő <strong>élek</strong> adják meg. Matematikai szóval ez egy <strong>gráf</strong>: pontok és a pontokat összekötő vonalak együttese.</p>
+<p>Quillian biológiai ihletésből dolgozott. Azt feltételezte, hogy az agy is valahogy így ábrázolja a fogalmakat. Két célt tűzött ki. Az elméleti cél az volt, hogy modellezze, hogyan tárolja és keresi vissza az ember az információt. A gyakorlati cél egy olyan program volt, amely gépi úton modellezi a természetes nyelv megértését.</p>
+<p>Miért éppen <strong>hierarchikus</strong>, azaz szintekbe rendezett a háló? A PDF a kanári-kísérletekre hivatkozik. Ezekben mérték, mennyi idő alatt dönti el valaki, hogy egy állítás igaz-e. Az objektumok <em>specifikus</em>, csak rájuk jellemző tulajdonságaira gyorsabban jött a válasz, mint az általánosabb, magasabb szintű kategóriák tulajdonságaira. Az alábbi lánc mutatja, hol tárolja a háló a nyitó kísérlet három tulajdonságát.</p>
+<figure>
+<ol class="u-chain" id="kanari-lanc">
+<li><span class="u-node">Kanári<small>0 lépés</small></span><ul class="u-chips"><li class="u-own">tud énekelni</li><li>sárga</li></ul></li>
+<li data-el="↑ alosztálya (is_a)"><span class="u-node">Madár<small>1 lépés felfelé</small></span><ul class="u-chips"><li class="u-own">tud repülni</li><li>szárnya van</li><li>tolla van</li></ul></li>
+<li data-el="↑ alosztálya (is_a)"><span class="u-node">Állat<small>2 lépés felfelé</small></span><ul class="u-chips"><li class="u-own">bőre van</li><li>lélegzik</li><li>táplálkozik</li></ul></li>
+</ol>
+<figcaption>A kiemelt tulajdonságok a nyitó kísérlet kérdései. Minél magasabban tárolja a háló a tulajdonságot, annál több élen kell végigmenni a válaszig. A lépések száma a várt válaszidő sorrendjét adja: éneklés, repülés, bőr.</figcaption>
+</figure>
+<p>A magyarázat a <strong>tárolási takarékosság</strong>. Nem kell minden madárnál külön feljegyezni, hogy tud repülni. Elég egyszer, a Madár csomópontnál. Ennek ára van: ha a kanáriról kérdezünk, fel kell „mászni” a Madárig. A PDF következtetése ezért így szól: a kísérletek alapján valószínű, hogy az emlékezetben hierarchikus <strong>egyed – alosztály – osztály</strong> kapcsolat működik.</p>
+<aside class="u-add"><h3>Kiegészítés · Mit mutattak a későbbi kísérletek?</h3><p>A kanári-kísérletet Allan Collins és Ross Quillian 1969-ben közölte. Az igaz–hamis döntések ideje valóban nőtt a hierarchia szintjeivel. Néhány évvel később azonban kiderült, hogy a szintek száma nem minden. Lance Rips, Edward Shoben és Edward Smith 1973-ban azt találták, hogy „a collie egy állat” állítást gyorsabban igazolják az emberek, mint azt, hogy „a collie egy emlős”. A szigorú hierarchia az ellenkezőjét jósolná, mert az emlős közelebb van. A döntés idejét inkább az befolyásolja, mennyire tipikus a példa, és mennyire gyakran gondolunk együtt a két fogalomra.</p><p>Collins és Elizabeth Loftus 1975-ben ezért egy lazább modellt javasolt, a <strong>terjedő aktiváció (spreading activation)</strong> modelljét. Ebben a gyakran együtt használt fogalmak közelebb vannak egymáshoz, függetlenül a szintjüktől. <a href="#s-collins">Források: Collins–Quillian, 1969;</a> <a href="#s-rips">Rips–Shoben–Smith, 1973;</a> <a href="#s-loftus">Collins–Loftus, 1975.</a></p></aside>
+<p class="u-key">A hierarchikus háló ma sem a „valódi agyi térkép”. Mérnöki eszközként viszont kiváló, mert takarékosan tárol, és a hiányzó tudást örökléssel pótolja.</p>
+<p>A szemantikus hálóból induló gondolatmenet a mai napig tart. Az idővonal azokat az állomásokat mutatja, amelyekkel ebben a fejezetben találkozni fogsz.</p>
+<ol class="u-timeline" id="idovonal">
+<li><span class="u-year">1966</span><p>Quillian doktori dolgozata a Carnegie Institute of Technology intézményben: szavak jelentése hálóban.</p></li>
+<li><span class="u-year">1968</span><p>Megjelenik Quillian <em>Semantic Memory</em> című tanulmánya. A PDF ezt az évet adja meg.</p></li>
+<li><span class="u-year">1969</span><p>Collins és Quillian kanári-kísérlete a válaszidőkről.</p></li>
+<li><span class="u-year">1974</span><p>Marvin Minsky leírja a <strong>keretet (frame)</strong> mint a sztereotip helyzetek ábrázolását.</p></li>
+<li><span class="u-year">1975</span><p>William Woods megkérdezi: „mi van egy élben?” A háló élei önmagukban nem hordoznak jelentést.</p></li>
+<li><span class="u-year">1983</span><p>Ronald Brachman szétszedi az <code>is_a</code> él különböző jelentéseit.</p></li>
+<li><span class="u-year">1994</span><p>Agnar Aamodt és Enric Plaza leírja az esetalapú következtetés négylépéses körét.</p></li>
+<li><span class="u-year">2004</span><p>A W3C szabvánnyá teszi az OWL ontológianyelvet. Ez a háló és a keret örököse.</p></li>
+<li><span class="u-year">2012</span><p>Elindul a Google Tudásgráfja és a Wikidata: hatalmas, mai szemantikus hálók.</p></li>
+</ol>
+</section>
+
+<!-- 02 · SZÓPÁROK -->
+<section id="szoparok" class="chapter-section"><span class="section-index">02 / PDF 67–69.</span>
+<h2>Mi köti össze a sírást és a kényelmet?</h2>
+<p>Quillian a szavak jelentéséből indult ki. A felfogását a PDF így idézi:</p>
+<figure class="u-quote"><blockquote><p>„egy szó jelentését meg lehet kapni a szóhoz társított szövegek halmazaként”</p></blockquote><figcaption>Quillian gondolata a PDF 67. oldalán</figcaption></figure>
+<p>A programja az emberi gondolkodás egy jól körülhatárolt részét modellezte: azt, amit akkor végzünk, amikor egy szótár két szava között kapcsolatot keresünk. A szótár minden szava egy csomópont lett, és a szó magyarázatában szereplő többi szóhoz élek vezettek. A program egy szemantikus háló jól definiált eljárásaival bármelyik szópárra össze tudott állítani egy választ. Ez a válasz összevetette és szembeállította a két szót.</p>
+<p>A módszer lényege, hogy a program a két szóhoz kötődő ismeretek <strong>közös részét</strong>, kapcsolódási pontját keresi. Ezért a szemantikus hálót <strong>asszociatív hálónak</strong> is nevezik. Az asszociáció gondolati társítás: az egyik fogalom eszünkbe juttatja a másikat. A keresés menete lépésekre bontható.</p>
+<ol class="u-steps" id="metszet-kereses">
+<li><p><strong>Két kiindulópont.</strong> A program megjelöli a két összevetendő szó csomópontját, például a <em>sírni</em> és a <em>kényelem</em> szót.</p></li>
+<li><p><strong>Terjedés mindkét irányból.</strong> Mindkét szótól kifelé haladva sorra megjelöli a szomszédos csomópontokat, aztán azok szomszédait. Minden jelölés megőrzi, melyik szótól indult.</p></li>
+<li><p><strong>Találkozás.</strong> Ha egy csomópontot mindkét irányból elér a jelölés, megvan a kapcsolat. A két útvonal együtt adja a két szó közötti láncot.</p></li>
+<li><p><strong>Mondatba öntés.</strong> A program a lánc éleiből egyszerű angol mondatokat készít. Ezek magyarázzák el, miért kapcsolódik össze a két szó.</p></li>
+</ol>
+<p>A PDF három valódi kimenetet mutat be Quillian programjától. A mondatok a PDF magyar fordításában szerepelnek.</p>
+<div class="u-quote-grid" id="quillian-peldak">
+<figure class="u-quote"><blockquote><p><strong>Összevetés: Sírni, Kényelem</strong><br>A. Kapcsolat: Szomorú</p><p>„(1) A sírás azon dolgok közül való, amelyek szomorú hanggal párosulnak.<br>(2) A kényelem érdekében valamit kevésbé szomorúvá tehetünk.”</p></blockquote><figcaption>PDF 69. oldal, 1. összevetés</figcaption></figure>
+<figure class="u-quote"><blockquote><p><strong>Összevetés: Növény, Élő</strong><br>A. 1. Kapcsolat: Élő · B. 2. Kapcsolat: Élő</p><p>„(1) A növény élő szervezet.<br>(2) A növény olyan szervezet, amely a levegőből is vesz magához táplálékot. Ez a táplálék olyan dolog, amely kell az életéhez.”</p></blockquote><figcaption>PDF 69. oldal, 2. összevetés</figcaption></figure>
+<figure class="u-quote"><blockquote><p><strong>Összevetés: Növény, Ember</strong><br>A. Kapcsolat: Emlős</p><p>„(1) A növény nem emlős szervezet.”</p></blockquote><figcaption>PDF 69. oldal, 3. összevetés</figcaption></figure>
+</div>
+<p>A három példa háromféle találkozást mutat. Az elsőben a két szó egy harmadik fogalomban, a <em>szomorú</em> szóban találkozik. A két út ellentétes irányú: a sírás szomorúsággal jár, a kényelem csökkenti a szomorúságot. A másodikban a program két különböző utat is talált ugyanahhoz a fogalomhoz. Az egyik közvetlen: a növény élő. A másik hosszabb, a táplálkozáson át vezet. A harmadik példában a kapcsolat <strong>tagadó</strong>: az ember emlős, a növény nem az. A háló tehát nemcsak hasonlóságot, hanem különbséget is fel tud mutatni.</p>
+<p>A kurzus keresőkódja ugyanezt a munkát végzi el. A <code>bfs</code> függvény <strong>szélességi keresés (breadth-first search)</strong>: először a közvetlen szomszédokat nézi meg, aztán a kétlépésnyire lévőket, és így tovább. Ezért mindig a legrövidebb láncot találja meg. A gráf itt egy szótár: minden szóhoz felsoroljuk azokat a szavakat, amelyek a magyarázatában szerepelnek.</p>
+<figure class="u-code"><pre><code>GRAPH = {
+    "sírni": ["szomorú", "könny", "hang"],
+    "könny": ["sírni", "szem"],
+    "hang": ["sírni", "szomorú", "zene"],
+    "szomorú": ["sírni", "kényelem", "hang"],
+    "kényelem": ["szomorú", "fotel", "pihenés"],
+    "fotel": ["kényelem", "bútor"],
+    "pihenés": ["kényelem"],
+}
+
+def bfs(graph, start, goal):
+    queue = []
+    queue.append([start])
+    while queue:
+        path = queue.pop(0)
+        end_node = path[-1]
+        if end_node == goal:
+            return path
+        for adjacent in graph.get(end_node, []):
+            if adjacent not in path:
+                new_path = list(path) + [adjacent]
+                queue.append(new_path)
+    return None
+
+print(bfs(GRAPH, "sírni", "kényelem"))
+print(bfs(GRAPH, "könny", "fotel"))</code></pre>
+<figcaption>A <code>bfs</code> függvény változatlanul a <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code> fájlból való. A betűkből álló gráfot a jegyzet saját szógráfjára cseréltük.</figcaption></figure>
+<figure class="u-code"><pre><code>['sírni', 'szomorú', 'kényelem']
+['könny', 'sírni', 'szomorú', 'kényelem', 'fotel']</code></pre>
+<figcaption>A kód valódi kimenete Python 3.12 alatt futtatva.</figcaption></figure>
+<p>A <strong>bemenet</strong> két szó, a <strong>kimenet</strong> a köztük vezető legrövidebb lánc. A <code>queue</code> nevű sor a még meg nem vizsgált útvonalakat tárolja. A függvény mindig a legrégebbi útvonalat veszi ki, és minden szomszéddal meghosszabbítja. Az <code>if adjacent not in path</code> feltétel megakadályozza, hogy körbe-körbe járjon. Az első eredmény lényegében Quillian első példája: a sírás és a kényelem a <em>szomorú</em> fogalomban találkozik. Quillian programja két irányból indult, és félúton találkozott. Ez nagy hálóban gyorsabb, de ugyanazt a legrövidebb láncot adja.</p>
+</section>
+
+<!-- 03 · ÁLLATHÁLÓ -->
+<section id="allathalo" class="chapter-section"><span class="section-index">03 / PDF 70.</span>
+<h2>Egy kis állatvilág a hálóban.</h2>
+<p>A PDF egy klasszikus példahálót mutat be hét állatfogalommal. A legfelső szinten az <em>Állat</em> áll. Alatta a <em>Madár</em> és a <em>Hal</em>, legalul négy konkrét állatfajta. Minden csomópont mellett ott vannak azok a tulajdonságok, amelyeket a háló <em>ennél</em> a csomópontnál tárol.</p>
+<figure class="u-net" id="allat-halo">
+<div class="u-net-row"><div class="u-net-node"><strong>Állat</strong><ul class="u-chips"><li>mozog</li><li>táplálkozik</li><li>lélegzik</li></ul></div></div>
+<div class="u-net-row">
+<div class="u-net-node"><span class="u-up">↑ is_a · Állat</span><strong>Madár</strong><ul class="u-chips"><li>szárnya van</li><li>tud repülni</li><li>csőre van</li></ul></div>
+<div class="u-net-node"><span class="u-up">↑ is_a · Állat</span><strong>Hal</strong><ul class="u-chips"><li>uszonya van</li><li>tud úszni</li><li>vízben él</li></ul></div>
+</div>
+<div class="u-net-row">
+<div class="u-net-node"><span class="u-up">↑ instance_of · Madár</span><strong>Veréb</strong><ul class="u-chips"><li>szürke</li><li>ugrál</li></ul></div>
+<div class="u-net-node"><span class="u-up">↑ instance_of · Madár</span><strong>Gólya</strong><ul class="u-chips"><li>hosszúlábú</li><li>kéményen fészkel</li><li>fehér</li></ul></div>
+<div class="u-net-node"><span class="u-up">↑ instance_of · Hal</span><strong>Cápa</strong><ul class="u-chips"><li>erős fogú</li><li>veszélyes</li></ul></div>
+<div class="u-net-node"><span class="u-up">↑ instance_of · Hal</span><strong>Angolna</strong><ul class="u-chips"><li>kígyószerű</li><li>fürge</li></ul></div>
+</div>
+<figcaption>A PDF 70. oldalának hálója a jegyzet saját rajzával. Szövegesen: a Madár és a Hal az Állat alosztálya (<code>is_a</code>). A Veréb és a Gólya a Madárhoz, a Cápa és az Angolna a Halhoz kapcsolódik (<code>instance_of</code>). A buborékok a csomópontnál tárolt tulajdonságok (<code>featured_by</code>).</figcaption>
+</figure>
+<p>A PDF háromféle élt különít el. Az <code>instance_of</code> („egyede”) az egyedet köti az osztályához. Az <code>is_a</code> („alosztálya”) az alosztályt köti a fölötte álló osztályhoz. A többi él tulajdonságot rendel a csomóponthoz, ennek neve <code>featured_by</code> („jellemzi”). Ezeken kívül más kapcsolatformák is lehetségesek, például <em>típusa</em>, <em>van neki</em>, <em>tud</em> és <em>azonos vele</em>. A PDF megjegyzi azt is, hogy léteznek ennél gazdagabb kapcsolatkészlettel dolgozó hálók is.</p>
+<p>A tulajdonsághoz tartozó él mindig egy hármast ad: egy <strong>objektumot</strong>, egy <strong>attribútumot</strong> (a tulajdonság nevét) és egy <strong>értéket</strong>. Ezt röviden <strong>O–A–É hármasnak</strong> nevezik. A PDF 71. oldala két példát ad rá.</p>
+<ul class="u-triples" id="oae-harmasok">
+<li class="u-head" aria-hidden="true"><span>Objektum</span><span>Attribútum</span><span>Érték</span></li>
+<li><span>szék</span><span>színe</span><span>piros</span></li>
+<li><span>hitel</span><span>kamata</span><span>13%</span></li>
+<li><span>Gólya</span><span>fészkel</span><span>kéményen</span></li>
+</ul>
+<p>Hogyan válaszol a háló egy kérdésre? A PDF módszere a <strong>hálóillesztés</strong>. Egy tématerület ismereteit egy nagy hálóba írjuk. A kérdést is egy kicsi hálóként adjuk meg, ennek neve <strong>célháló</strong>. A kérdéses részt egy ismeretlen csomópont, egy változó jelöli. Ezután a célhálót a nagy háló azon részére illesztjük, amelynek ugyanazok a csomópontjai. A választ a nagy háló illeszkedő része hordozza.</p>
+<div class="u-example" id="celhalo-pelda"><strong>Végigvezetett példa · Melyik madár fészkel kéményen?</strong>
+<p><strong>A célháló</strong> két élből áll: <code>?X —instance_of→ Madár</code> és <code>?X —jellemzi→ kéményen fészkel</code>. A <code>?X</code> az ismeretlen csomópont.</p>
+<ol class="u-steps">
+<li><p>Az illesztő a célháló ismert csomópontjánál, a <em>Madár</em>nál kezd. A nagy hálóban két csomópont kapcsolódik hozzá <code>instance_of</code> éllel: a Veréb és a Gólya. Ezek a <code>?X</code> jelöltjei.</p></li>
+<li><p><code>?X = Veréb</code>: az első él illeszkedik. A Veréb tulajdonságai között azonban nincs <em>kéményen fészkel</em>, és a Madártól sem örököl ilyet. A jelölt kiesik.</p></li>
+<li><p><code>?X = Gólya</code>: mindkét él illeszkedik. A célháló teljesen ráfektethető a nagy háló egy részére.</p></li>
+<li><p><strong>Válasz:</strong> <code>?X = Gólya</code>.</p></li>
+</ol>
+<p>Egy második kérdés megmutatja, miért kell az öröklés is. <em>Lélegzik-e a cápa?</em> A Cápa csomópontjánál nincs ilyen tulajdonság. Az illesztő ezért felfelé halad: Cápa → Hal → Állat. Az Állatnál megtalálja a <em>lélegzik</em> tulajdonságot, tehát a válasz igen. A PDF is jelzi, hogy a hálókezelő algoritmusnak ennél több a feladata: például elő kell állítania az örökölt tulajdonságokat is.</p></div>
+<aside class="u-add"><h3>Kiegészítés · A hallgatás nem tagadás</h3><p>Ha a háló egy kérdésre nem talál illeszkedő részt, az nem jelenti azt, hogy a válasz „nem”. Csak azt jelenti, hogy a háló nem tud róla. A Gólyánál nincs „tud úszni” tulajdonság, a valódi gólya mégis tud egy kicsit úszni. A „ha nem tudom, akkor hamis” szabályt <strong>zárt világ feltevésnek (closed-world assumption)</strong> nevezik. Egy adatbázisban hasznos, egy hiányos tudású hálóban viszont veszélyes. <a href="#s-aima">Forrás: Russell–Norvig, 10. fejezet.</a></p></aside>
+<div class="u-lab" id="halo-labor"><span class="u-lab-label">PRÓBÁLD KI / KÉRDEZD A HÁLÓT</span><h3>Válasszon a háló, és mutassa meg az útvonalat!</h3>
+<p>Az első sor egy csomópont tulajdonságát kérdezi le öröklés útján. A második sor egy kétélű célhálót illeszt a teljes hálóra.</p>
+<div class="u-form-row u-js-only"><label>Csomópont <select id="halo-csomopont"></select></label><label>Tulajdonság <select id="halo-tulajdonsag"></select></label></div>
+<div class="u-out" id="halo-valasz" role="status" aria-live="polite"><p>A bemutatóhoz JavaScript szükséges. Az öröklés és az illesztés menetét a fenti példa írásban tartalmazza.</p></div>
+<div class="u-form-row u-js-only"><label>Célháló: <code>?X</code> alatta van ennek: <select id="cel-osztaly"></select></label><label>és <code>?X</code> tulajdonsága: <select id="cel-tulajdonsag"></select></label></div>
+<div class="u-out u-js-only" id="cel-valasz" role="status" aria-live="polite"></div>
+</div>
+</section>
+
+<!-- 04 · EGYED -->
+<section id="egyed" class="chapter-section"><span class="section-index">04 / PDF 71.</span>
+<h2>Egyed, alosztály, osztály.</h2>
+<p>A háló hierarchiájában háromféle szerep van. A PDF így határozza meg őket.</p>
+<div class="u-compare" id="harom-szerep">
+<div><span class="u-tag">EGYED</span><h3>Egyetlen dolog</h3><p>A PDF szerint olyan tulajdonsága is van, amely csak rá igaz.</p><p><em>Példa:</em> Pityuka, a papagáj (74. oldal).</p></div>
+<div><span class="u-tag">ALOSZTÁLY</span><h3>Egy osztály szűkebb része</h3><p>Maga is osztály, de egy tágabb osztályba tartozik. Az is_a él köti fölfelé.</p><p><em>Példa:</em> a papagáj a madár alosztálya.</p></div>
+<div><span class="u-tag">OSZTÁLY</span><h3>Közös jellemzők gyűjtőhelye</h3><p>Olyan kategória, amelynek jellemzői több egyedre vagy alsóbb osztályra is igazak. Ezek így közös tulajdonságaik alapján egy magasabb szintű osztályba sorolhatók.</p><p><em>Példa:</em> a madár.</p></div>
+</div>
+<aside class="u-fix"><h3>Kiigazítás · Nem a különleges tulajdonság teszi az egyedet egyeddé</h3>
+<p><strong>A PDF-ben:</strong> „Egyed: van olyan tulajdonsága, amely csak rá igaz” (PDF 71. oldal).</p>
+<p><strong>Helyesen:</strong> az egyed egyetlen, konkrét dolog. Nem kategória, ezért nincsenek példányai: nem köthető alá sem újabb egyed, sem alosztály. Hogy van-e csak rá jellemző tulajdonsága, az nem dönti el a szerepét.</p>
+<p><strong>Miért fontos?</strong> A PDF ismérve két irányban is hibázik. Egyrészt az osztályoknak is lehet csak rájuk igaz tulajdonsága: a 74. oldal hálójában a <em>színes</em> csak a papagájra jellemző, a papagáj mégis osztály. Másrészt két egyforma gyári bárszék a raktárban két külön egyed, akkor is, ha a hálóban egyetlen tulajdonságuk sem különbözik. Ha a szerepet rosszul állapítjuk meg, az öröklés is rossz irányba halad. Ezt a 8. rész típus–egyed problémája mutatja meg. <a href="#s-brachman">Forrás: Brachman, 1983;</a> <a href="#s-aima">Russell–Norvig, 10.2 szakasz (objektumok és kategóriák).</a></p></aside>
+<p>A hierarchia legfontosabb haszna az <strong>öröklés (inheritance)</strong>. A közös tulajdonságot csak az osztálynál kell tárolni, onnan öröklődik az egyedekre és az alosztályokra. A PDF hangsúlyozza, hogy a tulajdonságörökítést általánosan kell érteni. Nemcsak a tulajdonság jellegű kapcsolatok öröklődnek, hanem például a birtoklás is („a madárnak van csőre”), vagy egy érzelem irányulása is („a macska kedveli a halat”, tehát minden egyes macska is).</p>
+<p>Az öröklés nem történik meg magától. A PDF szerint ezt a <strong>hálókezelő programnak</strong> kell elvégeznie. A háló csak éleket tárol, az öröklést egy algoritmus számítja ki belőlük. Ezért kétféle kapcsolatot kell megkülönböztetni.</p>
+<div class="u-compare" id="ket-kapcsolat">
+<div><span class="u-tag">TAXONÓMIAI KAPCSOLAT</span><h3>Osztálybatartozás</h3><p>A <code>instance_of</code> és <code>is_a</code> élek. Ezek mentén halad az öröklés. A <strong>taxonómia</strong> szó osztályozási rendet jelent, mint a biológiai rendszertanban.</p><p><em>Példa:</em> papagáj → madár → állat.</p></div>
+<div><span class="u-tag">TULAJDONSÁG-HOZZÁRENDELÉS</span><h3>Objektum–attribútum–érték hármas</h3><p>Egy csomóponthoz értéket rendel. Ezek az élek öröklődnek, de ők maguk nem vezetik tovább az öröklést.</p><p><em>Példa:</em> madár —jellemzi→ tud repülni.</p></div>
+</div>
+<p>A hálókezelő program munkája néhány szabállyal pontosan leírható. A kurzus logikai kódja a <code>pyDatalog</code> könyvtárat használja. Ugyanazzal a szerkezettel írtuk meg a 74. oldal hálójának egy részét: először tényeket adunk meg, aztán szabályokat, végül kérdezünk.</p>
+<figure class="u-code"><pre><code>from pyDatalog import pyDatalog
+
+pyDatalog.clear()
+pyDatalog.create_terms('Egyede, Alosztalya, Jellemzoje, Ose, Tulajdonsaga, '
+                       'Ellentete, Elnyomott, Q, X, Y, Z, P')
+
+# Tények: a PDF 74. oldalának hálójából
++Alosztalya("madár", "állat")
++Alosztalya("papagáj", "madár")
++Egyede("Pityuka", "papagáj")
++Jellemzoje("állat", "táplálkozik")
++Jellemzoje("madár", "repülni tud")
++Jellemzoje("madár", "csőr")
++Jellemzoje("papagáj", "színes")
++Jellemzoje("Pityuka", "repülni nem tud")
++Ellentete("repülni tud", "repülni nem tud")
+
+# Szabályok: a háló „jelentését” ezek adják
+Ose(X, Y) &lt;= Egyede(X, Y)
+Ose(X, Y) &lt;= Alosztalya(X, Y)
+Ose(X, Z) &lt;= Ose(X, Y) &amp; Ose(Y, Z)
+
+Tulajdonsaga(X, P) &lt;= Jellemzoje(X, P)
+Tulajdonsaga(X, P) &lt;= Ose(X, Y) &amp; Jellemzoje(Y, P) &amp; ~Elnyomott(X, P)
+
+# Kivétel: a saját jellemző elnyomja az örökölt ellentétét
+Elnyomott(X, P) &lt;= Ellentete(P, Q) &amp; Jellemzoje(X, Q)
+
+print("Pityuka ősei:", sorted(r[0] for r in Ose("Pityuka", Y)))
+print("Pityuka tulajdonságai:", sorted(r[0] for r in Tulajdonsaga("Pityuka", P)))
+print("Egy papagáj tulajdonságai:", sorted(r[0] for r in Tulajdonsaga("papagáj", P)))</code></pre>
+<figcaption>A jegyzet saját kódja a <code>resources/code/12_Logika.py</code> mintájára. Az eredeti a <code>Szulo</code> és a <code>Nagyszulo</code> szabállyal családfát kérdez le. Itt az <code>Ose</code> szabály ugyanígy láncolja össze a szinteket, csak rekurzívan, tetszőleges mélységig.</figcaption></figure>
+<figure class="u-code"><pre><code>Pityuka ősei: ['madár', 'papagáj', 'állat']
+Pityuka tulajdonságai: ['csőr', 'repülni nem tud', 'színes', 'táplálkozik']
+Egy papagáj tulajdonságai: ['csőr', 'repülni tud', 'színes', 'táplálkozik']</code></pre>
+<figcaption>Valódi kimenet, pyDatalog 0.22.4 és Python 3.12 alatt futtatva.</figcaption></figure>
+<p>A <strong>bemenet</strong> öt él és egy ellentétpár. Az <code>Ose</code> szabály harmadik sora a lényeg: ha X őse Y, és Y őse Z, akkor Z is őse X-nek. Így jut el Pityuka a papagájon és a madáron át az állatig. A <code>Tulajdonsaga</code> első sora a saját tulajdonságot adja. A második sor az örökölt tulajdonságot, de csak akkor, ha nincs <code>Elnyomott</code> állapotban. A <code>~</code> jel tagadást jelent. A <strong>kimenetben</strong> Pityuka nem kapja meg a <em>repülni tud</em> tulajdonságot, egy általános papagáj viszont igen. Ez a kivételkezelés, amelyet a 7. rész részletesen megmutat.</p>
+<div class="u-simple"><strong>Egyszerűen mondva</strong><p>A háló rajza csak az alapanyag. Az, hogy „a papagáj is repül, mert madár”, egy szabály, amelyet a hálókezelő program alkalmaz. Más szabállyal ugyanaz a rajz mást jelentene.</p></div>
+</section>
+
+<!-- 05 · ELŐNYÖK -->
+<section id="elonyok" class="chapter-section"><span class="section-index">05 / PDF 72.</span>
+<h2>Miért jó a háló?</h2>
+<p>A PDF három előnyt emel ki. Mindhárom a szerkezetből következik.</p>
+<div class="u-compare" id="halo-elonyok">
+<div><span class="u-tag">1 · HATÉKONY TÁROLÁS</span><h3>Egy tulajdonság, egy hely</h3><p>Az osztályhierarchia a tulajdonságok hatékony tárolását segíti. Ami egy osztály minden alosztályára és egyedére érvényes, azt a legmagasabb, legáltalánosabb szinten tároljuk. Az öröklés révén ez az alsóbb osztályokra és egyedekre is érvényes marad.</p></div>
+<div><span class="u-tag">2 · SZEMLÉLETESSÉG</span><h3>Rajzként is olvasható</h3><p>A grafikus ábrázolás szemléletes és könnyen érthető. A PDF szerint közel áll az emberi gondolkodáshoz.</p></div>
+<div><span class="u-tag">3 · GYORS GÉPI ÁBRÁZOLÁS</span><h3>Mutatók listák helyett</h3><p>A csomópontok memóriaterületekre, az élek <strong>mutatókra (pointer)</strong> képezhetők le. A mutató egy memóriacím, amely közvetlenül a kapcsolódó adatra mutat. Így elmarad a listák kimerítő illesztése, amely a szabály- és logikaalapú ábrázolást jellemezte. Az objektumokat <strong>hasítótábla (hash table)</strong> segítségével gyorsan meg lehet találni. A kapcsolatoknak megfelelő mutatók pedig a kapcsolódó ismeretelemek helyét adják meg.</p></div>
+</div>
+<p>A harmadik előny a gyakorlatban így néz ki. A szabályalapú rendszer minden kérdésnél végignézheti az összes szabályt, hogy melyik illeszkedik. A hálóban a hasítótábla egy lépésben megadja a <em>Cápa</em> csomópontot. Onnan két mutatót követve, a <em>Halon</em> át, eljutunk az <em>Állat</em> csomóponthoz. A válasz ideje a lánc hosszától függ, és nem attól, mekkora a teljes tudásbázis.</p>
+<aside class="u-fix"><h3>Kiigazítás · Kevesebb redundancia, de nincs garancia az ellentmondásmentességre</h3>
+<p><strong>A PDF-ben:</strong> az osztályhierarchia „Kiküszöböli a redundanciát, ellentmondás-mentességet eredményez.” (PDF 72. oldal).</p>
+<p><strong>Helyesen:</strong> a közös tulajdonság egyetlen helyen történő tárolása csökkenti a <strong>redundanciát</strong>, vagyis a fölösleges ismétlést. Ezzel megelőzi az ellentmondás egyik fajtáját: nem fordulhat elő, hogy ugyanannak a ténynek két másolata közül csak az egyiket javítják ki. Az öröklés azonban új ellentmondásokat is létrehozhat, ezért önmagában nem biztosít ellentmondásmentességet.</p>
+<p><strong>Miért fontos?</strong> A PDF saját, későbbi példái cáfolják az állítást. A 74. oldalon Pityuka egyszerre „örököl” egy <em>repülni tud</em> és birtokol egy <em>repülni nem tud</em> tulajdonságot. A 75. oldalon a kaszkadőrautó két szülőjétől két ellentétes értéket kap. Mindkét esetben külön feloldási szabály kell. Azt, hogy egy öröklési háló minden következtetése ellentmondásmentes-e, csak külön elemzéssel lehet eldönteni. <a href="#s-touretzky">Forrás: Touretzky, 1986;</a> <a href="#s-aima">Russell–Norvig, 10.5 szakasz.</a></p></aside>
+</section>
+
+<!-- 06 · JELENTÉS -->
+<section id="jelentes" class="chapter-section"><span class="section-index">06 / PDF 73.</span>
+<h2>A nyíl nem tudja, mit jelent.</h2>
+<p>A PDF itt a háló egyik legmélyebb gyengeségére mutat rá. A szemantikus háló <strong>önmagában nem hordozza a teljes jelentést</strong>. A kapcsolatok értelmezése a hálót nézegető emberre, illetve a hálót kezelő algoritmusra hárul.</p>
+<div class="u-compare" id="ember-gep">
+<div><span class="u-tag">AMIT AZ EMBER LÁT</span><h3>Cápa → Hal</h3><p>„A cápa egy hal.” Ez magától értetődőnek tűnik, mert tudjuk, mi a cápa és mi a hal.</p></div>
+<div><span class="u-tag">AMIT A GÉP KAP</span><h3><code>(csomópont_17, él_3, csomópont_9)</code></h3><p>Három azonosítót. A nyíl éppúgy jelenthetné azt is, hogy a Cápa a Hal objektum <em>mellett él</em>. A gépnek csak annyi tudása van, amennyit a háló kapcsolatrendszere és a hálót kezelő algoritmus megtestesít.</p></div>
+</div>
+<p>Az ábra által sugallt értelmezéstől eltérő olvasat az ember számára erőltetettnek tűnik. Ez azonban csak a mi, fogalmakhoz kötődő tudásunk miatt van így. A PDF ezért egy javaslatot is tesz. Az algoritmus szempontjából előnyös lenne, ha az összes lehetséges kapcsolatot már az algoritmus megírása előtt néhány csoportba sorolhatnánk. Ekkor minden csoporthoz egyszer kellene megírni az értelmező eljárást. Az <code>is_a</code> csoportra például az öröklést, a tulajdonság-csoportra a lekérdezést. <em>(A PDF 73. oldalán a mondat vége lemaradt a diáról. A folytatás a jegyzet értelmezése.)</em></p>
+<aside class="u-add"><h3>Kiegészítés · „Mi van egy élben?”</h3><p>William Woods 1975-ben <em>What's in a Link</em> címmel írt tanulmányt erről a problémáról. Kimutatta, hogy a korabeli hálókban ugyanaz a nyíl hol osztálybatartozást, hol tulajdonságot, hol egy konkrét állítást jelentett, és a rajzból ez nem derült ki. A megoldás a PDF javaslatának irányába mutatott: minden éltípusnak pontos, előre rögzített jelentést kell adni. A mai tudásgráfok ezért minden kapcsolattípust külön, dokumentált azonosítóval látnak el. <a href="#s-woods">Forrás: Woods, 1975;</a> <a href="#s-wikidata">Vrandečić–Krötzsch, 2014.</a></p></aside>
+<div class="u-simple"><strong>Egyszerűen mondva</strong><p>A háló olyan, mint egy térkép jelmagyarázat nélkül. Ember kitalálja, mit jelent a kék vonal. A gépnek meg kell mondani.</p></div>
+</section>
+
+<!-- 07 · ÖRÖKLÉSI PROBLÉMÁK -->
+<section id="orokles" class="chapter-section"><span class="section-index">07 / PDF 74–75.</span>
+<h2>Amikor az öröklés rossz választ adna.</h2>
+<p>Az öröklés addig működik simán, amíg minden alsóbb szint pontosan olyan, mint a fölötte lévő. A valóság nem ilyen. A PDF két problémát mutat be: a kivételt és az ellentmondást.</p>
+<h3>Kivétel: Pityuka nem tud repülni</h3>
+<p>A 74. oldal hálójában Pityuka egy papagáj, a papagáj a madár alosztálya, a madár pedig az állaté. A madárnál ez áll: <em>repülni tud</em>. Pityukánál viszont ez: <em>repülni nem tud</em>. Az okot a dia fekete humorú kis története adja meg. Pityuka <em>döglött állapotban</em> van. Ennek oka Mirmur, aki a macska egyede, és az állapot jellemzője, hogy <em>éjfélkor következett be</em>.</p>
+<figure>
+<ol class="u-chain" id="pityuka-lanc">
+<li><span class="u-node">Pityuka<small>egyed</small></span><ul class="u-chips"><li class="u-own">repülni nem tud</li><li>döglött állapot (oka: Mirmur, éjféli bekövetkezés)</li></ul></li>
+<li data-el="↑ egyede"><span class="u-node">Papagáj<small>alosztály</small></span><ul class="u-chips"><li>színes</li></ul></li>
+<li data-el="↑ alosztálya"><span class="u-node">Madár<small>osztály</small></span><ul class="u-chips"><li class="u-own">repülni tud</li><li>szárny</li><li>csőr</li></ul></li>
+<li data-el="↑ alosztálya"><span class="u-node">Állat<small>osztály</small></span><ul class="u-chips"><li>a macska is ide tartozik; Mirmur a macska egyede</li></ul></li>
+</ol>
+<figcaption>A PDF 74. oldalának hálója láncként. A kiemelt két tulajdonság ellentmond egymásnak: a Madártól öröklődő és a Pityukánál tárolt.</figcaption>
+</figure>
+<p>A feloldást a dia maga is megadja egy nyíllal: <strong>a specifikus jellemző elnyomja az örökölt jellemzőt</strong>. A <em>specifikus</em> itt azt jelenti, hogy közelebb van a kérdezett csomóponthoz. Pityuka saját tulajdonsága nulla lépésre van, a madáré kettőre. A közelebbi nyer. Ez a <strong>specifikusság elve</strong>. A 4. rész kódja pontosan ezt valósítja meg.</p>
+<h3>Ellentmondás: biztosítható-e a kaszkadőrautó?</h3>
+<p>A 75. oldal példájában a kaszkadőrautónak két szülője van. A hálóban ez megengedett, és <strong>többszörös öröklésnek</strong> nevezik.</p>
+<figure class="u-svg" id="kaszkador-abra">
+<svg viewBox="0 0 420 262" role="img" aria-labelledby="kaszkador-cim kaszkador-leiras">
+<title id="kaszkador-cim">A kaszkadőrautó öröklési hálója</title>
+<desc id="kaszkador-leiras">A Kaszkadőr_eszköz jellemzője: biztosítása nem lehet. Az Autó jellemzője: biztosítása lehet. A Kaszkadőr_motor a Kaszkadőr_eszköz alosztálya. A Taxi az Autó alosztálya. A Kaszkadőr_autó mindkettőnek alosztálya, ezért két ellentétes értéket örököl.</desc>
+<defs><marker id="nyil" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="u-arrow" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="u-prop" x="6" y="6" width="178" height="34" rx="8"/><text x="95" y="28">biztosítása: nem lehet</text>
+<rect class="u-prop" x="236" y="6" width="178" height="34" rx="8"/><text x="325" y="28">biztosítása: lehet</text>
+<line class="u-edge" x1="95" y1="92" x2="95" y2="44" marker-end="url(#nyil)"/><text class="u-lbl" x="140" y="70">jellemzője</text>
+<line class="u-edge" x1="325" y1="92" x2="325" y2="44" marker-end="url(#nyil)"/><text class="u-lbl" x="280" y="70">jellemzője</text>
+<rect x="16" y="94" width="158" height="36" rx="16"/><text x="95" y="117">Kaszkadőr_eszköz</text>
+<rect x="266" y="94" width="118" height="36" rx="16"/><text x="325" y="117">Autó</text>
+<line class="u-edge" x1="62" y1="208" x2="80" y2="134" marker-end="url(#nyil)"/>
+<line class="u-edge-bad" x1="210" y1="208" x2="130" y2="134" marker-end="url(#nyil)"/>
+<line class="u-edge-bad" x1="210" y1="208" x2="300" y2="134" marker-end="url(#nyil)"/>
+<line class="u-edge" x1="360" y1="208" x2="340" y2="134" marker-end="url(#nyil)"/>
+<text class="u-lbl" x="210" y="170">alosztálya ×2</text>
+<rect x="4" y="210" width="118" height="46" rx="16"/><text x="63" y="229">Kaszkadőr_</text><text x="63" y="247">motor</text>
+<rect x="151" y="210" width="118" height="46" rx="16"/><text x="210" y="229">Kaszkadőr_</text><text x="210" y="247">autó</text>
+<rect x="298" y="210" width="118" height="46" rx="16"/><text x="357" y="238">Taxi</text>
+</svg>
+<figcaption>A PDF 75. oldalának ábrája a jegyzet saját rajzával. A szaggatott piros élek mentén két ellentétes érték érkezik a kaszkadőrautóhoz. A motornak és a taxinak csak egy-egy szülője van, náluk nincs probléma.</figcaption>
+</figure>
+<p>A kaszkadőreszközöket nem lehet biztosítani, az autókat igen. A kaszkadőrautó mindkettő. Itt a specifikusság nem segít, mert mindkét állítás pontosan egy lépésre van. A PDF két <strong>feloldási módszert</strong> nevez meg.</p>
+<div class="u-compare" id="feloldasok">
+<div><span class="u-tag">ALAPÉRTELMEZÉS (DEFAULT)</span><h3>Az egyik állítás csak „általában” igaz</h3><p>Az <em>autó biztosítható</em> állítást <strong>alapértéknek</strong> jelöljük. Ez azt jelenti, hogy tipikusan igaz, de felülírható. A <em>kaszkadőreszköz nem biztosítható</em> állítás szigorú szabály marad. Ha a kettő ütközik, a szigorú nyer. Eredmény: a kaszkadőrautó nem biztosítható.</p></div>
+<div><span class="u-tag">PRIORITÁS</span><h3>A szülők rangsora</h3><p>Megadjuk, melyik szülőtől örökölt értéké az elsőbbség. Ha a Kaszkadőr_eszköz az erősebb, az eredmény: nem biztosítható. Ha az Autó, akkor: biztosítható. A döntést a tudásmérnök hozza meg, a szakterület ismeretében.</p></div>
+</div>
+<aside class="u-add"><h3>Kiegészítés · A „Nixon-gyémánt”</h3><p>A szakirodalom ezt a helyzetet egy híres példán tárgyalja. Richard Nixon kvéker volt, és a kvékerek általában pacifisták. Republikánus is volt, és a republikánusok általában nem pacifisták. Pacifista volt-e Nixon? A két öröklési út ugyanolyan hosszú, és mindkettő csak alapérték. Ezért a rendszer vagy nem dönt, vagy egy külső prioritásra van szüksége. A kaszkadőrautó ugyanennek a „gyémánt” alakú hálónak egy példája. David Touretzky 1986-ban matematikailag is megmutatta, hogy a többszörös öröklésnek több, egymással versengő, értelmes szabályrendszere van. <a href="#s-touretzky">Forrás: Touretzky, 1986.</a></p></aside>
+<div class="u-lab" id="orokles-labor"><span class="u-lab-label">PRÓBÁLD KI / ÖRÖKLÉSI KONFLIKTUS</span><h3>Melyik szabály dönt, és mit mond?</h3>
+<p>Válassz egy objektumot és egy feloldási módszert. A kimenet megmutatja, honnan jön az érték, és mi a végeredmény.</p>
+<div class="u-js-only">
+<div class="u-form-row"><label>Objektum <select id="orokles-objektum"><option value="auto">Kaszkadőr_autó</option><option value="motor">Kaszkadőr_motor</option><option value="taxi">Taxi</option><option value="pityuka">Pityuka (repül-e?)</option></select></label></div>
+<fieldset class="u-radios" id="orokles-modszer"><legend>Feloldási módszer</legend>
+<label><input type="radio" name="modszer" value="naiv" checked> Naiv öröklés: minden elérhető érték</label>
+<label><input type="radio" name="modszer" value="specifikus"> Specifikusság: a közelebbi nyer</label>
+<label><input type="radio" name="modszer" value="alapertek"> Alapértelmezés: az „autó biztosítható” és a „madár repül” csak alapérték</label>
+<label><input type="radio" name="modszer" value="prio-eszkoz"> Prioritás: Kaszkadőr_eszköz &gt; Autó</label>
+<label><input type="radio" name="modszer" value="prio-auto"> Prioritás: Autó &gt; Kaszkadőr_eszköz</label>
+</fieldset>
+</div>
+<div class="u-out" id="orokles-ki" role="status" aria-live="polite"><p>A bemutatóhoz JavaScript szükséges. A két feloldási módszer eredményét a fenti összevetés írásban tartalmazza.</p></div>
+</div>
+</section>
+
+<!-- 08 · TÍPUS ÉS EGYED -->
+<section id="tipus" class="chapter-section"><span class="section-index">08 / PDF 76.</span>
+<h2>Fizikai jellemző-e a piros?</h2>
+<p>A PDF a háló egy újabb problémáját a <strong>típus és egyed megkülönböztetésének (type/token distinction)</strong> nevezi. A <em>típus</em> egy fajta, egy kategória. A <em>token</em>, vagyis az egyed, ennek egy konkrét előfordulása. A dia egy rövid következtetési láncot mutat.</p>
+<figure>
+<ol class="u-chain" id="piros-lanc">
+<li><span class="u-node">piros<small>egyed</small></span><ul class="u-chips"><li>„A piros egy szín.”</li></ul></li>
+<li data-el="↑ egyede"><span class="u-node">szín<small>osztály</small></span><ul class="u-chips"><li>„A szín egy fizikai jellemző.”</li><li>a tulajdonság alosztálya is</li></ul></li>
+<li data-el="↑ alosztálya"><span class="u-node">fizikai jellemző<small>osztály</small></span><ul class="u-chips"><li class="u-own">„A piros egy fizikai jellemző?”</li></ul></li>
+</ol>
+<figcaption>A PDF 76. oldalának hálója láncként. A kérdőjeles mondat az a következtetés, amelyet a háló öröklés útján levonna.</figcaption>
+</figure>
+<p>A PDF szerint az örökölt „fizikai jellemző” mivolta a piros esetében nem tűnik helyesnek. A magyarázat az, hogy a fizikai jellemző tulajdonság a <em>színhez mint osztályhoz</em>, vagyis típushoz kötődik. <em>(A dia magyarázó szövege itt félbeszakad. A folytatás a jegyzet kifejtése.)</em> A „szín egy fizikai jellemző” mondat nem azt állítja, hogy minden egyes szín külön-külön fizikai jellemző. Azt állítja, hogy <em>maga a szín</em>, mint szempont, a fizikai jellemzők egyik fajtája, olyan, mint a súly vagy a hőmérséklet. A piros pedig nem szempont, hanem egy lehetséges érték ezen a szemponton belül.</p>
+<div class="u-compare" id="ket-olvasat">
+<div><span class="u-tag">ÍGY RAJZOLTUK</span><h3>szín —alosztálya→ fizikai jellemző</h3><p>Az alosztály éle öröklést indít. Ami a fizikai jellemzőre igaz, az a szín minden egyedére is igaz lesz. Így lesz a pirosból „fizikai jellemző”.</p></div>
+<div><span class="u-tag">ÍGY KELLENE</span><h3>szín —egyede→ fizikai jellemzők fajtái</h3><p>A szín itt maga is egyed, egy „osztályok osztályának” tagja. Az <code>instance_of</code> él nem vezeti tovább az öröklést a piroshoz. A piros szín marad, de nem lesz belőle fizikai jellemző.</p></div>
+</div>
+<p>Ugyanez a csapda rejtőzik a 70. oldal állathálójában is. Ott a Veréb, a Gólya, a Cápa és az Angolna <code>instance_of</code> éllel kapcsolódik. Ezek azonban fajok, tehát osztályok. Egy valódi egyed például „Kelep, a tetőn fészkelő gólya” lenne. Ha azt mondjuk, hogy „a gólya veszélyeztetett faj”, ez a gólya <em>típusra</em> igaz, nem Kelepre. Ha a Gólya csomópontot egyednek vesszük, az öröklés ezt az állítást is rá akarná húzni Kelepre.</p>
+<aside class="u-add"><h3>Kiegészítés · Mit jelent az IS-A?</h3><p>Ronald Brachman 1983-ban <em>What IS-A Is and Isn't</em> címmel gyűjtötte össze, hány különböző dolgot jelentett a korabeli hálókban az <code>is_a</code> él. Volt, ahol alosztályt, ahol egyedet, ahol hasonlóságot, és volt, ahol egy fogalom definícióját. Azt javasolta, hogy ezeket bontsák külön, egyértelmű éltípusokra. A mai ontológianyelvek ezt teszik: a <code>subClassOf</code> és a <code>type</code> két különböző kapcsolat. <a href="#s-brachman">Forrás: Brachman, 1983;</a> <a href="#s-owl2">W3C OWL 2, 2012.</a></p></aside>
+<p class="u-key">Az alosztály és az egyed éle nem cserélhető fel. Az egyik továbbadja az öröklést, a másik a lánc végét jelöli.</p>
+</section>
+
+<!-- 09 · INTENZIÓ, EXTENZIÓ, KVANTOROK -->
+<section id="intenzio" class="chapter-section"><span class="section-index">09 / PDF 77.</span>
+<h2>Egy fogalom kétféle jelentése.</h2>
+<p>A PDF szerint egy másik, figyelmet igénylő probléma az <strong>intenzionális</strong> és az <strong>extenzionális</strong> értelmezés eltérése ugyanazon dolognál.</p>
+<div class="u-compare" id="intenzio-extenzio">
+<div><span class="u-tag">INTENZIÓ · A LÉNYEG</span><h3>Mit jelent a fogalom?</h3><p>Az intenzionális leírás a dolog lényegét ragadja meg. A <em>kutya</em> intenzionális jelentése mindazok a gondolatok, amelyek a kutyákhoz kapcsolódnak. A PDF szavával: maga a „kutyaság”.</p></div>
+<div><span class="u-tag">EXTENZIÓ · A TERJEDELEM</span><h3>Mire vonatkozik a fogalom?</h3><p>Az extenzionális megadás azoknak a valódi objektumoknak a halmaza, amelyekre a leírás illik. A <em>kutya</em> extenzionális jelentése az összes kutya.</p></div>
+</div>
+<p>A kettő nem mindig jár együtt. Az <em>egyenlő oldalú háromszög</em> és az <em>egyenlő szögű háromszög</em> fogalma más-más dolgot mond, tehát intenziójuk különbözik. Pontosan ugyanazokra a háromszögekre illenek, tehát extenziójuk azonos. Fordítva is előfordul. A „ma élő kutyák” extenziója minden nap változik, a „kutyaság” viszont ugyanaz marad. A hálóban egyetlen <em>Kutya</em> csomópont áll. Ebből nem derül ki, hogy egy rá mutató él a fogalomról vagy a kutyák összességéről mond valamit.</p>
+<p>A PDF végül egy kritikát is felidéz. Egyes szerzők a szemantikus háló hibájául rótták fel, hogy a logikai ábrázolással szemben nem tud olyan fogalmakat kezelni, mint „legalább egy, közelebbről meg nem határozott objektum” vagy „az összes objektum”. Ezeket a logika <strong>kvantoroknak</strong> nevezi. A kvantor azt mondja meg, hány dologra igaz egy állítás.</p>
+<div class="u-example" id="kvantor-pelda"><strong>Végigvezetett példa · „Minden kutya megugatott legalább egy postást.”</strong>
+<p>Próbáljuk meg csomópontokkal lerajzolni! Ha felveszünk egy <em>Kutya</em> és egy <em>Postás</em> csomópontot, és közéjük egy <em>megugatta</em> élt húzunk, az azt sugallja, hogy „a kutya megugatta a postást”. Ez egy kutya és egy postás lenne.</p>
+<p>A mondat azonban két kvantort tartalmaz. A „minden kutya” azt jelenti, hogy <em>minden</em> kutyára igaz. A „legalább egy postás” azt, hogy mindegyik kutyához van <em>egy</em> postás, de kutyánként lehet más. Az egyszerű él egyiket sem tudja kifejezni. Ráadásul azt sem, hogy melyik kvantor „van kívül”. A „van egy postás, akit minden kutya megugatott” egészen mást jelent. A logika ezt pontosan leírja: <code>∀k (Kutya(k) → ∃p (Postás(p) ∧ Megugatta(k, p)))</code>. A jelöléssel a következő fejezet foglalkozik.</p></div>
+<aside class="u-add"><h3>Kiegészítés · A kritikára adott válasz</h3><p>A kritika a korai hálókra igaz volt. Gary Hendrix 1975-ben <strong>particionált hálókat</strong> javasolt, amelyekben a háló egy része egy „dobozba” kerül, és a doboz jelöli a kvantor hatókörét. Később John Sowa fogalmi gráfjai is ezt az utat követték. A mai leíró logikák (description logics) pedig pontosan meghatározzák, melyik kvantorokat engedik meg, és ennek fejében garantáltan kiszámítható következtetést adnak. <a href="#s-hendrix">Forrás: Hendrix, 1975;</a> <a href="#s-aima">Russell–Norvig, 10.5 szakasz.</a></p></aside>
+</section>
+
+<!-- 10 · KERETEK -->
+<section id="keretek" class="chapter-section"><span class="section-index">10 / PDF 78–79.</span>
+<h2>A keret: a tipikus eset sablonja.</h2>
+<p>A <strong>keret (frame)</strong> a szemantikus hálónál gazdagabb ábrázolás. A PDF szerint a keretek úgy ábrázolják a valós világra vonatkozó ismereteket, hogy két dolgot egyesítenek. Az egyik az objektumok, tevékenységek és események <strong>deklaratív</strong>, vagyis leíró megadása. A másik az <strong>eljárások</strong> megadása: hogyan lehet előállítani egy információt, hogyan lehet elérni egy célt vagy megszerezni egy adatot. Ezzel a keret túllép több olyan problémán, amely a szemantikus hálót jellemezte.</p>
+<p>A keret bevezeti a <strong>prototípus</strong> fogalmát. A prototípus egy fogalom tipikus, jellegzetes példája. A „szék” hallatán a legtöbben egy négylábú, háttámlás ülőbútort képzelnek el, nem egy bárszéket vagy egy babzsákot. Ez a felismerés az emberi ismerettárolásról szól, amely a PDF szerint sok <strong>sztereotip leképezést</strong>, vagyis előre gyártott sémát tartalmaz. A keretet Marvin Minsky így írta le:</p>
+<figure class="u-quote"><blockquote lang="en"><p>“A frame is a data-structure for representing a stereotyped situation, like being in a certain kind of living room, or going to a child's birthday party.”</p></blockquote><figcaption>Marvin Minsky: <a href="#s-minsky"><em>A Framework for Representing Knowledge</em>, MIT AI Memo 306, 1974</a>, a „Frames” bevezető rész. Magyarul: „A keret egy adatszerkezet egy sztereotip helyzet ábrázolására, például arra, hogy egy bizonyos fajta nappaliban vagyunk, vagy egy gyerek születésnapi zsúrjára megyünk.” (saját fordítás)</figcaption></figure>
+<p>A valós vagy elvont objektumokat ábrázoló keretek egy <strong>hierarchikus keretrendszerré</strong> kapcsolódnak össze. A PDF ezért a keretalapú ábrázolást a szemantikus háló továbbfejlesztésének tekinti. A 79. oldal egy keretrendszer részletét mutatja be. Minden keret egy név alatt <strong>rekeszeket (slot)</strong> tartalmaz. A rekesz egy attribútum, a benne lévő <strong>kitöltő (filler)</strong> pedig az értéke.</p>
+<div class="u-frames" id="butor-keretek">
+<figure class="u-frame"><p>Bútor<small>legfelső keret</small></p><dl>
+<div><dt>Magasság</dt><dd>&lt; 4 m</dd></div>
+<div><dt>Magasság</dt><dd>&gt; 0,2 m</dd></div>
+<div><dt>Anyag</dt><dd>fa</dd></div>
+<div><dt>Súlya</dt><dd><code>IF-NEEDED:</code> Térfogat × fajsúly</dd></div>
+</dl></figure>
+<figure class="u-frame"><p>Szék<small>alosztálya: Bútor</small></p><dl>
+<div><dt>Szín</dt><dd>barna</dd></div>
+<div><dt>Lábszám</dt><dd>4</dd></div>
+<div><dt>Funkció</dt><dd>ülőhely</dd></div>
+</dl></figure>
+<figure class="u-frame"><p>Asztal<small>alosztálya: Bútor</small></p><dl>
+<div><dt>Funkció</dt><dd>étkezés</dd></div>
+<div class="u-over"><dt>Magasság</dt><dd>&lt; 1,4 m, alapérték (default): 1 m</dd></div>
+<div class="u-over"><dt>Magasság</dt><dd>&gt; 0,4 m</dd></div>
+<div><dt>Lábszám</dt><dd>4</dd></div>
+</dl></figure>
+<figure class="u-frame"><p>Bárszék<small>alosztálya: Szék</small></p><dl>
+<div class="u-over"><dt>Magasság</dt><dd>1,2 m</dd></div>
+<div class="u-over"><dt>Lábszám</dt><dd>3</dd></div>
+<div class="u-over"><dt>Anyag</dt><dd>alumínium</dd></div>
+</dl></figure>
+</div>
+<p>A keretek a PDF 79. oldalának ábráját követik. A ✱ jel a jegyzet kiegészítése: olyan rekeszt jelöl, amely egy fölötte álló keret értékét szűkíti vagy felülírja. A Bútor keretben a PDF pontokkal jelzi, hogy további rekeszek is lehetnek.</p>
+<div class="u-example" id="barszek-pelda"><strong>Végigvezetett példa · Mit tud a rendszer egy bárszékről?</strong>
+<p>A Bárszék keret csak három rekeszt tárol. A többit örökli. A keretkezelő program alulról felfelé halad, és minden rekesznél az első talált értéket használja. Ez ugyanaz a specifikusság elve, amelyet a hálónál láttunk.</p>
+<div class="u-table-wrap"><table class="u-table" id="barszek-tabla">
+<thead><tr><th>Rekesz</th><th>Érték</th><th>Honnan?</th></tr></thead>
+<tbody>
+<tr><td>Magasság</td><td>1,2 m</td><td>saját; a Bútor határain (0,2–4 m) belül van</td></tr>
+<tr><td>Lábszám</td><td>3</td><td>saját; felülírja a Szék 4-es értékét</td></tr>
+<tr><td>Anyag</td><td>alumínium</td><td>saját; felülírja a Bútor „fa” értékét</td></tr>
+<tr><td>Szín</td><td>barna</td><td>örökölt a Széktől</td></tr>
+<tr><td>Funkció</td><td>ülőhely</td><td>örökölt a Széktől</td></tr>
+<tr><td>Súlya</td><td>kiszámítható: Térfogat × fajsúly</td><td>örökölt eljárás a Bútortól</td></tr>
+</tbody>
+<caption>A Bárszék teljes, öröklés utáni képe</caption></table></div>
+<p>Az utolsó sor mutatja a keret újdonságát. A Bútor nem értéket ad át, hanem egy <strong>eljárást</strong>, amely szükség esetén kiszámítja a súlyt. Ha egy konkrét bárszék térfogata 1,1 dm³, és az alumínium fajsúlyát a köznapi szóhasználat szerint 2,7 kg/dm³-nek vesszük, akkor a súlya 1,1 × 2,7 = 2,97 kg, azaz körülbelül 3 kg.</p></div>
+<div class="u-lab" id="keret-labor"><span class="u-lab-label">PRÓBÁLD KI / KERETSZERKESZTŐ</span><h3>Kérdezz le egy keretet, és próbáld ki a démonokat!</h3>
+<p>A lista a PDF négy keretét és egy konkrét bárszéket tartalmaz. A „Bárszék-17” a jegyzet saját egyede, térfogattal és fajsúllyal. Az új magasság beírásakor az <code>IF_ADDED</code> démon ellenőrzi az örökölt határokat. A súly kérésekor az <code>IF_NEEDED</code> démon számol.</p>
+<div class="u-js-only">
+<div class="u-form-row"><label>Keret <select id="keret-valaszto"></select></label></div>
+<div class="u-table-wrap"><table class="u-table" id="keret-tabla"><thead><tr><th>Rekesz</th><th>Érték</th><th>Honnan?</th></tr></thead><tbody></tbody></table></div>
+<div class="u-form-row"><label>Új magasság (m) <input type="number" id="keret-magassag" step="0.05" value="1.6" inputmode="decimal"></label><button type="button" id="keret-beir">Beírás (IF_ADDED)</button><button type="button" class="u-ghost" id="keret-suly">Súly kérése (IF_NEEDED)</button></div>
+</div>
+<div class="u-out" id="keret-ki" role="status" aria-live="polite"><p>A bemutatóhoz JavaScript szükséges. A Bárszék teljes képét a fenti táblázat, a súly kiszámítását a példa tartalmazza.</p></div>
+</div>
+</section>
+
+<!-- 11 · KERET TULAJDONSÁGAI -->
+<section id="keret-tobb" class="chapter-section"><span class="section-index">11 / PDF 80–82.</span>
+<h2>Amiben a keret ugyanaz, és amiben több.</h2>
+<p>A PDF két listában veti össze a keretet a szemantikus hálóval. A táblázat soronként mutatja, mi öröklődik át a hálóból, és mi az új.</p>
+<div class="u-table-wrap"><table class="u-table" id="halo-keret-tabla">
+<thead><tr><th>Szempont</th><th>Közös a szemantikus hálóval (PDF 80.)</th><th>A hálón túlmutató (PDF 81–82.)</th></tr></thead>
+<tbody>
+<tr><td>Szerkezet</td><td>Hierarchikus egyed – alosztály – osztály szerkezet.</td><td><strong>Egységbe zárás</strong>: egy keretben együtt van az objektum, az attribútumai, az értékek, valamint a deklaratív és a procedurális összetevők. Rekesz–kitöltő, azaz attribútum–érték párok. A keret neve maga is egy különleges attribútum.</td></tr>
+<tr><td>Öröklés</td><td>Tulajdonságöröklés, amely a procedurális tulajdonságokra is kiterjed. A konfliktusokat a specifikusság, a prioritás vagy az alapértelmezés oldja fel.</td><td>Az attribútumok és értékeik más keretekre is hivatkozhatnak, akár többszörös egymásba ágyazással. Egy Szoba keret „bútorai” rekeszében például Szék és Asztal keretek állhatnak.</td></tr>
+<tr><td>Gépi ábrázolás</td><td>Hasonló, mint a hálónál: a keretek memóriahelyek, a kapcsolatok mutatók. Ezért gyors a működés.</td><td>Az attribútumok értékkészletére, értéktartományára és alapértékére előírásokat adhatunk meg. Ilyen a Bútor 0,2 és 4 méter közötti magassága.</td></tr>
+<tr><td>Következtetés</td><td>Keretkezelő program végzi a következtetést és a problémamegoldást, de a hálónál jóval gazdagabb feladatkörrel.</td><td>Az <strong>alapértékek</strong> (default) segítenek megválaszolni a kérdéseket, ha nincs pontos adat. Egy asztal magassága 1 m, amíg mást nem tudunk.</td></tr>
+<tr><td>Ábrázolás</td><td>Grafikus ábrázolás is használható, de a grafika inkább a keretleíró nyelvek kiegészítője.</td><td>A procedurális részben értéket előállító függvények és értékváltozásra működésbe lépő mechanizmusok vannak: egy eseményvezérelt <strong>démonrendszer</strong>.</td></tr>
+<tr><td>Karbantartás</td><td>A tudás rugalmasan bővíthető, módosítható és törölhető.</td><td>A démonok működése miatt a keretrendszer dinamikus, „élő” rendszerként viselkedik. <em>(A PDF 81. oldalán ez a mondat is félbemaradt.)</em></td></tr>
+</tbody></table></div>
+<p>A <strong>démon (daemon)</strong> egy rekeszhez kötött kis eljárás. Nem hívja meg senki közvetlenül: magától indul el, ha a rekesszel egy bizonyos esemény történik. A PDF négy fajtát nevez meg. A táblázat példái a jegyzet sajátjai, a fejezet kereteihez igazítva.</p>
+<div class="u-table-wrap"><table class="u-table" id="demonok">
+<thead><tr><th>Démon</th><th>Mikor indul el?</th><th>Példa</th></tr></thead>
+<tbody>
+<tr><td><code>IF_NEEDED</code></td><td>Ha valaki a rekesz értékét kéri, de az üres.</td><td>A Bútor súlya: térfogat × fajsúly. Az előadás befejezése: kezdés + időtartam.</td></tr>
+<tr><td><code>IF_ADDED</code></td><td>Ha a rekesz új értéket kap.</td><td>Az új magasság ellenőrzése az örökölt határokkal szemben. Egy 5 m-es „bútort” elutasít.</td></tr>
+<tr><td><code>IF_MODIFIED</code></td><td>Ha a rekesz meglévő értéke megváltozik.</td><td>Ha egy előadás terme megváltozik, értesíti a hallgatókat, és felszabadítja a régi termet.</td></tr>
+<tr><td><code>IF_DELETED</code></td><td>Ha a rekesz értékét törlik.</td><td>Ha egy széket selejteznek, levonja a leltár darabszámából.</td></tr>
+</tbody></table></div>
+<p>A PDF szerint a keretalapú ábrázolás sokkal elterjedtebb, mint a szemantikus háló, mert gyakorlatilag annak minden tulajdonságát magába foglalja. A keretek használatát speciális <strong>keretkezelő nyelvek</strong> könnyítik meg. A keretek több <strong>hibrid</strong>, azaz többféle ábrázolást egyesítő rendszerben is megjelentek. A PDF által felsorolt nevek a következők.</p>
+<div class="u-compare" id="nyelvek">
+<div><span class="u-tag">KERETKEZELŐ NYELVEK</span><p><strong>FRL</strong> (Frame Representation Language, MIT, 1977), <strong>KRL</strong> (Knowledge Representation Language, Bobrow és Winograd, 1977), <strong>OWL</strong> (MIT, 1977), <strong>NETL</strong> (Fahlman, 1979), <strong>KL-ONE</strong> (Brachman, az 1970-es évek végétől) és <strong>ART</strong> (Automated Reasoning Tool).</p></div>
+<div><span class="u-tag">HIBRID RENDSZEREK</span><p><strong>KappaPC</strong>, <strong>Level5 Object</strong>, <strong>Nexpert Object</strong> (később Smart Elements), <strong>Aion Development System</strong> és <strong>CBR Express</strong>. Ezek kereskedelmi szakértőrendszer-fejlesztő eszközök voltak. A kereteket szabályokkal, az utolsó pedig esetalapú következtetéssel kapcsolta össze.</p></div>
+</div>
+<aside class="u-add"><h3>Kiegészítés · Két OWL, és a háló visszatérése</h3><p>A listában szereplő <strong>OWL</strong> nem azonos a mai, azonos nevű szabvánnyal. Ez Peter Szolovits, Lowell Hawkinson és William Martin 1977-es MIT-s nyelve volt. A ma ismert <strong>W3C OWL</strong> (Web Ontology Language) 2004-ben lett szabvány. Szellemi őse a listában szintén szereplő KL-ONE, amelyből a leíró logikák kinőttek. A NETL pedig inkább szemantikus hálós rendszer volt, mint keretnyelv.</p><p>A „sokkal elterjedtebb” állítás az 1980-as évek szakértőrendszereire igaz. Azóta a háló visszatért: a Google Tudásgráfja és a Wikidata milliárdnyi objektum–attribútum–érték hármasból álló szemantikus háló. A mai ontológiák egyszerre hordozzák a keret rekeszeit és a háló éleit. <a href="#s-owl1977">Források: Szolovits és mtsai., 1977;</a> <a href="#s-owl2">W3C OWL 2;</a> <a href="#s-kg">Google, 2012;</a> <a href="#s-wikidata">Vrandečić–Krötzsch, 2014.</a></p></aside>
+</section>
+
+<!-- 12 · ELŐADÁS KERET -->
+<section id="eloadas" class="chapter-section"><span class="section-index">12 / PDF 83–84.</span>
+<h2>Egy esemény kerete: az előadás.</h2>
+<p>A keret nemcsak tárgyat, hanem <strong>eseményt</strong> is leírhat. A PDF egy általános előadás keretét és a Miskolci Egyetem Alkalmazott Informatikai Tanszékének MI-előadás keretét állítja egymás mellé. A második az első egy konkrétabb változata.</p>
+<div class="u-frames" id="eloadas-keretek">
+<figure class="u-frame"><p>Általános előadás<small>PDF 83. oldal</small></p><dl>
+<div><dt>Megnevezés</dt><dd>előadás</dd></div>
+<div><dt>Terem</dt><dd>Lehetőségek: római számos előadótermek, kb. 20 db; arab számozású kistermek, kb. 200 db; laborok, kb. 40 db.</dd></div>
+<div><dt>Kezdési idő</dt><dd>8:00, 9:00, …, 18:00</dd></div>
+<div><dt>Időtartam</dt><dd>40–180 perc. Default: 50 perc.</dd></div>
+<div><dt>Befejezés időpontja</dt><dd>Ha szükséges: Kezdési idő + Időtartam</dd></div>
+<div><dt>Eszközök</dt><dd>Lehetőségek: krétás tábla, filctollas tábla, számítógép, írásvetítő, diavetítő, projektor, videó, TV, film, modell, laboreszközök.</dd></div>
+</dl></figure>
+<figure class="u-frame"><p>MI előadás<small>ME Alkalmazott Informatikai Tanszék · PDF 84. oldal</small></p><dl>
+<div class="u-over"><dt>Megnevezés</dt><dd>MI előadás</dd></div>
+<div class="u-over"><dt>Terem</dt><dd>Lehetőségek: I, II, XXX. Default: I.</dd></div>
+<div class="u-over"><dt>Kezdési idő</dt><dd>szerda, kb. 14:00</dd></div>
+<div class="u-over"><dt>Időtartam</dt><dd>160–175 perc. Default: 170 perc.</dd></div>
+<div class="u-inh"><dt>Befejezés időpontja</dt><dd>(öröklött függvény) Ha szükséges: Kezdési idő + Időtartam</dd></div>
+<div class="u-over"><dt>Eszközök</dt><dd>Lehetőségek: krétás tábla, számítógép, írásvetítő, projektor.</dd></div>
+</dl></figure>
+</div>
+<p>Az összevetésből három tanulság olvasható ki. Először: az MI-előadás minden lehetőségkészlete <strong>szűkebb</strong>, mint az általánosé. A három terem a római számos termek közül való, a 160–175 perc belefér a 40–180 percbe, az eszközök az általános lista részhalmazai. A specifikus keret tehát nem mond ellent a szülőjének, csak pontosít. Másodszor: mindkét keret <strong>alapértéket</strong> ad, de mást: 50, illetve 170 percet. Harmadszor: a befejezés időpontját az MI-előadás nem tárolja. A szülőtől örökli a kiszámítás <em>módját</em>, egy <code>IF_NEEDED</code> eljárást.</p>
+<div class="u-example" id="eloadas-pelda"><strong>Végigvezetett példa · Mikor ér véget az MI-előadás?</strong>
+<ol class="u-steps">
+<li><p><strong>Kérdés:</strong> a rendszer a „Befejezés időpontja” rekeszt kérdezi le. A rekesz üres, ezért elindul az örökölt <code>IF_NEEDED</code> démon: Kezdési idő + Időtartam.</p></li>
+<li><p><strong>Kezdési idő:</strong> az MI-előadás saját értéke kb. 14:00.</p></li>
+<li><p><strong>Időtartam:</strong> pontos adat nincs, ezért a rendszer az alapértéket használja: 170 perc, azaz 2 óra 50 perc.</p></li>
+<li><p><strong>Eredmény:</strong> 14:00 + 2:50 = <strong>16:50</strong>.</p></li>
+</ol>
+<p>Egy általános előadásnál, amely 10:00-kor kezdődik, ugyanez a függvény az 50 perces alapértékkel 10:50-et adna. A függvény ugyanaz, az adatok keretenként mások.</p></div>
+</section>
+
+<!-- 13 · ESETALAPÚ RENDSZEREK -->
+<section id="esetek" class="chapter-section"><span class="section-index">13 / PDF 85.</span>
+<h2>Tanulni a régi esetekből.</h2>
+<p>A háló és a keret általános tudást tárol: mi micsoda, milyen tulajdonsága van. Az <strong>esetalapú rendszer (case-based reasoning, CBR)</strong> másképp dolgozik. A PDF szerint a célja az, hogy a régebbi feladatok megoldásakor szerzett tapasztalatokat hasznosítsa hasonló, aktuális feladatok megoldásához. Így dolgozik az orvos, aki egy korábbi betegére emlékszik, vagy a szerelő, aki már látott ilyen hibát.</p>
+<p>Egy <strong>eset</strong> három részből áll.</p>
+<ol class="u-steps" id="eset-reszei">
+<li><p><strong>A probléma leírása.</strong> Milyen helyzetben voltunk, mit kellett megoldani?</p></li>
+<li><p><strong>A megoldás leírása.</strong> Mit tettünk?</p></li>
+<li><p><strong>A megoldás minősítése.</strong> Jó volt-e vagy rossz? A rossz eset is érték, mert megmutatja, mit ne ismételjünk meg.</p></li>
+</ol>
+<p>Az esetet bármilyen ismeretábrázolási módszerrel le lehet írni. A PDF szerint a leggyakoribb a keretalapú leírás: egy eset egy keret, a jellemzők a rekeszei. Az eseteket egy <strong>esetbázisban</strong> tároljuk.</p>
+<p>A probléma leírásánál a PDF egy fontos követelményt támaszt. Olyan formát kell választani, amelyhez <strong>metrika</strong>, azaz távolságmérték tartozik. Ennek segítségével két eset problémaleírása számszerűen összehasonlítható. Ez a <strong>közelség</strong>. A PDF három példát ad, és ezek rávilágítanak a nehézségre: eltérő adattípusokra nem egyformán könnyű metrikát találni.</p>
+<div class="u-compare" id="metrika-peldak">
+<div><span class="u-tag">SZÁM · 10 CM ÉS 20 CM</span><h3>Könnyű</h3><p>A különbség kivonással adódik: 10 cm. Még itt is dönteni kell. Egy 10 és 20 cm-es tárgy között kétszeres az arány. Egy 110 és 120 cm-es között ugyanez a 10 cm alig számít.</p></div>
+<div><span class="u-tag">SZÍN · PIROS ÉS NARANCS</span><h3>Közepesen nehéz</h3><p>A színek nevét számmá kell alakítani. Egy lehetőség a <strong>színkör</strong>: a piros 0°, a narancs 30°, a sárga 60°, a zöld 120°, a kék 240°. A távolság a két szög különbsége, legfeljebb 180°.</p></div>
+<div><span class="u-tag">MINŐSÍTÉS · SZÉP ÉS GYÖNYÖRŰ</span><h3>Nehéz</h3><p>Csak a sorrend adott: csúnya &lt; átlagos &lt; szép &lt; gyönyörű. A lépések számát használhatjuk. De ki mondja meg, hogy a szép és a gyönyörű közötti lépés ugyanakkora-e, mint a csúnya és az átlagos közötti?</p></div>
+</div>
+<p>A következő részben egy kis asztalosműhely esetbázisával dolgozunk. A műhely gyerekbútorokat készít, és minden megrendelést esetként rögzít. A jellemzők a PDF három példájához igazodnak: a magasság szám, a festés színe szín, a kidolgozás pedig minősítés.</p>
+<div class="u-table-wrap"><table class="u-table" id="esetbazis">
+<thead><tr><th>Eset</th><th>Probléma</th><th>Megoldás</th><th>Minősítés</th></tr></thead>
+<tbody>
+<tr><td>E1</td><td>gyerekasztal, 58 cm, piros, szép</td><td>bükkfa láb, rétegelt nyírfa lap, vízbázisú festék</td><td>jó: három év után sem kopott</td></tr>
+<tr><td>E2</td><td>étkezőasztal, 76 cm, narancs, gyönyörű</td><td>tömör tölgy, olajozott felület</td><td>jó</td></tr>
+<tr><td>E3</td><td>tanulóasztal, 60 cm, kék, átlagos</td><td>festett MDF lap</td><td>rossz: a festék a szélén lepattogzott</td></tr>
+</tbody>
+<caption>A jegyzet saját esetbázisa. Az új megrendelés: gyerekasztal, 60 cm, narancs, szép.</caption></table></div>
+</section>
+
+<!-- 14 · CBR -->
+<section id="cbr" class="chapter-section"><span class="section-index">14 / PDF 86–87.</span>
+<h2>Keresd meg, használd fel, igazítsd hozzá, jegyezd meg.</h2>
+<p>A PDF az esetalapú következtetés működését négy lépésben írja le. A 87. oldal ábrája folyamatként mutatja, amelynek közepén egy döntés áll. Ennek alapján készült az alábbi folyamatábra.</p>
+<figure class="u-cbr" id="cbr-folyamat" aria-label="Az esetalapú következtetés folyamatábrája">
+<div class="u-cbr-box u-cbr-q"><strong>ÚJ PROBLÉMA</strong><p>gyerekasztal, 60 cm, narancs, szép</p></div>
+<p class="u-cbr-arrow" aria-hidden="true">↓</p>
+<div class="u-cbr-box"><strong>1 · VISSZAKERESÉS</strong><p>Az esetbázisban megkeressük azt a korábbi problémaleírást, amely a metrika szerint a legközelebb van az aktuális problémához.</p></div>
+<p class="u-cbr-arrow" aria-hidden="true">↓</p>
+<div class="u-cbr-box u-cbr-q"><strong>DÖNTÉS</strong><p>Eléri-e a hasonlóság az előre megadott küszöböt?</p></div>
+<div class="u-cbr-split">
+<div><p class="u-cbr-arrow">ha igen ↓</p><div class="u-cbr-box"><strong>2 · ÚJRAFELHASZNÁLÁS</strong><p>A korábbi eset megoldását változtatás nélkül felhasználjuk.</p></div></div>
+<div><p class="u-cbr-arrow">ha nem ↓</p><div class="u-cbr-box"><strong>3 · HOZZÁIGAZÍTÁS</strong><p>A rendszer interaktív módon, emberrel együtt hozzáigazítja az eset problémaleírását az aktuális problémához, és közben a megoldását is módosítja. Az így kapott megoldást használjuk fel.</p></div>
+<p class="u-cbr-arrow" aria-hidden="true">↓</p><div class="u-cbr-box"><strong>4 · TANULÁS</strong><p>Az új, hozzáigazított eset a megoldás minősítésével együtt bekerül az esetbázisba.</p></div></div>
+</div>
+<p class="u-cbr-loop">↻ Az esetbázis minden hozzáigazítással bővül, ezért a következő hasonló problémánál már közelebbi eset lesz benne.</p>
+</figure>
+<p>A PDF 86. oldalán a tanulás lépésének utolsó szavai lemaradtak a diáról. Az ábra alapján egyértelmű, hogy a hozzáigazított eset a jóságát vagy rosszaságát jelző minősítéssel együtt kerül vissza.</p>
+<p>A hasonlóság kiszámításához minden jellemzőre egy 0 és 1 közötti <strong>helyi hasonlóságot</strong> számolunk. Az 1 azonosat, a 0 teljesen eltérőt jelent. Ezekből súlyozott átlagot képezünk. A <strong>súly</strong> azt fejezi ki, mennyire fontos az adott jellemző.</p>
+<ul class="u-steps" id="metrika-kepletek">
+<li><p><strong>Magasság:</strong> 1 − |eltérés| / 40 cm. A 40 cm-nél nagyobb eltérés 0.</p></li>
+<li><p><strong>Szín:</strong> 1 − (szögeltérés a színkörön) / 180°.</p></li>
+<li><p><strong>Kidolgozás:</strong> 1 − (lépések száma a skálán) / 3.</p></li>
+</ul>
+<div class="u-example" id="cbr-pelda"><strong>Végigvezetett példa · Melyik régi asztal hasonlít a legjobban?</strong>
+<p>Új probléma: 60 cm, narancs (30°), szép. Minden súly 1, a küszöb 90%.</p>
+<div class="u-table-wrap"><table class="u-table" id="cbr-szamitas">
+<thead><tr><th>Eset</th><th>Magasság</th><th>Szín</th><th>Kidolgozás</th><th>Összesen</th></tr></thead>
+<tbody>
+<tr><td>E1</td><td>58 cm: 1 − 2/40 = 0,950</td><td>piros 0°: 1 − 30/180 = 0,833</td><td>szép: 1 − 0/3 = 1,000</td><td>2,783 / 3 = <strong>92,8%</strong></td></tr>
+<tr><td>E2</td><td>76 cm: 1 − 16/40 = 0,600</td><td>narancs 30°: 1 − 0/180 = 1,000</td><td>gyönyörű: 1 − 1/3 = 0,667</td><td>2,267 / 3 = 75,6%</td></tr>
+<tr><td>E3</td><td>60 cm: 1 − 0/40 = 1,000</td><td>kék 240°: a színkörön 150° → 1 − 150/180 = 0,167</td><td>átlagos: 1 − 1/3 = 0,667</td><td>1,833 / 3 = 61,1%</td></tr>
+</tbody></table></div>
+<ol class="u-steps">
+<li><p><strong>Visszakeresés:</strong> a legközelebbi eset az E1, 92,8%-kal.</p></li>
+<li><p><strong>Döntés:</strong> 92,8% ≥ 90%, ezért <strong>újrafelhasználás</strong>. Az E1 megoldása, a bükkfa láb, a nyírfa lap és a vízbázisú festék, változtatás nélkül mehet. Csak a festék színe lesz narancs a rendelés szerint.</p></li>
+<li><p><strong>Más súlyokkal:</strong> ha a megrendelőnek a szín a legfontosabb, és a szín súlya 3, akkor E1 = (0,950 + 3 × 0,833 + 1,000) / 5 = 89,0%. Ez a küszöb alatt van, ezért <strong>hozzáigazítás</strong> következik. A műhely a lábakat 2 cm-rel meghosszabbítja, és narancs festéket választ.</p></li>
+<li><p><strong>Tanulás:</strong> a hozzáigazított asztal E4 néven, a leszállítás utáni minősítéssel együtt bekerül az esetbázisba.</p></li>
+</ol>
+<p>Az E3 magassága pontosan egyezik, mégis a sor végére került. A minősítése ráadásul „rossz”. Ha egy rossz eset kerülne az élre, a rendszer figyelmeztetne, hogy ezt a megoldást ne ismételjük meg. A PDF ezt a hibás megoldások elkerülésének nevezi.</p></div>
+<div class="u-lab" id="eset-labor"><span class="u-lab-label">PRÓBÁLD KI / ESETHASONLÓSÁGI CSÚSZKÁK</span><h3>Állítsd be a megrendelést, a súlyokat és a küszöböt!</h3>
+<p>A bemutató ugyanazokkal a képletekkel számol, mint a fenti példa. Figyeld meg, hogyan cserél helyet a sorrend, amikor egy jellemző súlyát növeled.</p>
+<div class="u-js-only">
+<div class="u-sliders">
+<label>Magasság: <output id="uj-magassag-ki">60 cm</output><input type="range" id="uj-magassag" min="40" max="100" step="1" value="60"></label>
+<label>Szín <select id="uj-szin"></select></label>
+<label>Kidolgozás <select id="uj-kidolgozas"></select></label>
+<label>A magasság súlya: <output id="s-magassag-ki">1</output><input type="range" id="s-magassag" min="0" max="3" step="1" value="1"></label>
+<label>A szín súlya: <output id="s-szin-ki">1</output><input type="range" id="s-szin" min="0" max="3" step="1" value="1"></label>
+<label>A kidolgozás súlya: <output id="s-kidolgozas-ki">1</output><input type="range" id="s-kidolgozas" min="0" max="3" step="1" value="1"></label>
+<label>Küszöb: <output id="kuszob-ki">90%</output><input type="range" id="kuszob" min="50" max="100" step="1" value="90"></label>
+</div>
+<ul class="u-bars" id="eset-savok"></ul>
+</div>
+<div class="u-out" id="eset-dontes" role="status" aria-live="polite"><p>A bemutatóhoz JavaScript szükséges. A teljes számítást a fenti példa tartalmazza.</p></div>
+</div>
+<aside class="u-add"><h3>Kiegészítés · A „négy R” köre</h3><p>Az esetalapú következtetés ma legtöbbet idézett leírása Agnar Aamodt és Enric Plaza 1994-es cikke. Ez is négy lépést nevez meg, de kissé máshogy osztja fel őket. <strong>Retrieve</strong>: visszakeresés. <strong>Reuse</strong>: újrafelhasználás, amelybe a hozzáigazítás is beletartozik. <strong>Revise</strong>: a javasolt megoldás kipróbálása a valóságban, és javítása, ha hibásnak bizonyul. <strong>Retain</strong>: megőrzés. Ebben a modellben nemcsak a hozzáigazított, hanem a változatlanul újrafelhasznált és a kudarcba fulladt eseteket is érdemes megőrizni, mert mindegyikből lehet tanulni. A PDF változata ennek egyszerűsített, a hozzáigazításra összpontosító formája. <a href="#s-aamodt">Forrás: Aamodt–Plaza, 1994.</a></p></aside>
+</section>
+
+<!-- 15 · MÉRLEG -->
+<section id="merleg" class="chapter-section"><span class="section-index">15 / PDF 88.</span>
+<h2>Mire jó, és mire nem?</h2>
+<p>A PDF az esetalapú következtetés erősségeit és gyengéit is összefoglalja.</p>
+<div class="u-compare" id="cbr-merleg">
+<div><span class="u-tag">ELŐNYÖK</span><p>Előzetesen kidolgozott problémamodell nélkül is alkalmazható: nem kell tudni, <em>miért</em> működik egy megoldás, elég, hogy működött.</p><p>Használat közben fejlődik, és könnyen bővíthető: minden új eset gazdagítja.</p><p>Robusztus, azaz hibatűrő: hiányos vagy rosszul definiált fogalmakkal is megadhatók esetek.</p><p>Nem algoritmizálható problémáknál is használható, ahol nincs lépésről lépésre leírható megoldási eljárás.</p><p>Segíthet elkerülni a korábbi hibás megoldásokat.</p></div>
+<div><span class="u-tag">HÁTRÁNYOK</span><p>Az esetek többségében emberi közreműködést igényel, főleg a hozzáigazításnál.</p><p>A minősége romolhat a tanulás során, mert a különböző felhasználók igényszintje eltérő. Ami az egyik felhasználónak „jó” megoldás, azt a másik talán elutasítaná. Ha mindkettő minősítése bekerül, az esetbázis következetlenné válik.</p></div>
+</div>
+<p>Most, hogy mindhárom módszert ismered, érdemes egymás mellé tenni őket. A táblázat a jegyzet saját összegzése a fejezet anyagából.</p>
+<div class="u-table-wrap"><table class="u-table" id="harom-modszer">
+<thead><tr><th>Módszer</th><th>Mit tárol?</th><th>Hogyan következtet?</th><th>Erőssége</th><th>Korlátja</th></tr></thead>
+<tbody>
+<tr><td>Szemantikus háló</td><td>Fogalmakat és a köztük lévő éleket.</td><td>Örökléssel és hálóillesztéssel.</td><td>Szemléletes, takarékos, gyors mutatókövetés.</td><td>Az élek jelentése nincs rögzítve, kivétel és ellentmondás, típus–egyed keveredése, gyenge kvantorkezelés.</td></tr>
+<tr><td>Keret</td><td>Prototípusokat rekeszekkel, alapértékekkel és eljárásokkal.</td><td>Örökléssel, alapértékekkel, démonokkal.</td><td>Egységbe zárt, gazdag, az eljárásokat is örökíti.</td><td>Az öröklési konfliktusokat itt is fel kell oldani, és a démonok működését nehéz áttekinteni.</td></tr>
+<tr><td>Esetalapú</td><td>Konkrét eseteket: problémát, megoldást, minősítést.</td><td>Hasonlóság alapján, hozzáigazítással.</td><td>Nem kell általános modell, használat közben tanul.</td><td>Jó metrika kell, gyakran emberi segítséget igényel, és a minősítések következetlenek lehetnek.</td></tr>
+</tbody></table></div>
+<p class="u-key">A háló és a keret az általános tudást rendezi el, az esetalapú rendszer a konkrét tapasztalatot. A jó tudásbázis gyakran mindkettőt használja.</p>
+</section>
+
+<!-- FOGALMAK -->
+<section id="fogalmak" class="chapter-section"><span class="section-index">FOGALOMKÁRTYÁK</span>
+<h2>Az új szavak egy helyen.</h2>
+<dl class="u-cards">
+<div><dt>Szemantikus háló</dt><dd>Gráf, amelyben a csomópontok fogalmak, az élek a köztük lévő kapcsolatok. Asszociatív hálónak is nevezik.</dd></div>
+<div><dt>Csomópont és él</dt><dd>A csomópont egy objektum vagy fogalom. Az él két csomópont közötti, megnevezett kapcsolat.</dd></div>
+<div><dt>instance_of / is_a</dt><dd>Taxonómiai élek. Az első az egyedet köti az osztályához, a második az alosztályt a fölötte álló osztályhoz.</dd></div>
+<div><dt>Egyed</dt><dd>Egyetlen, konkrét dolog, amelynek nincsenek példányai. Példa: Pityuka.</dd></div>
+<div><dt>Osztály, alosztály</dt><dd>Kategória, amelynek jellemzői több egyedre vagy alsóbb osztályra igazak. Az alosztály egy tágabb osztály része.</dd></div>
+<div><dt>Öröklés</dt><dd>A felsőbb szinten tárolt tulajdonság az alsóbb szintekre is érvényes. A hálókezelő program számítja ki.</dd></div>
+<div><dt>O–A–É hármas</dt><dd>Objektum, attribútum, érték. Például szék – színe – piros.</dd></div>
+<div><dt>Célháló</dt><dd>A kérdést ábrázoló kis háló, amelyet a tématerület hálójára illesztünk. Az illeszkedő rész adja a választ.</dd></div>
+<div><dt>Specifikusság</dt><dd>Feloldási elv: a kérdezett csomóponthoz közelebbi érték elnyomja a távolabbról örököltet.</dd></div>
+<div><dt>Alapérték (default)</dt><dd>Tipikusan igaz érték, amely pontosabb adat esetén felülírható.</dd></div>
+<div><dt>Prioritás</dt><dd>Feloldási elv: a szülők előre megadott rangsora dönti el, melyik örökölt érték érvényes.</dd></div>
+<div><dt>Típus és egyed (type/token)</dt><dd>A típus egy fajta, az egyed ennek egy konkrét előfordulása. Ami a típusra igaz, nem feltétlenül öröklődik az egyedre.</dd></div>
+<div><dt>Intenzió</dt><dd>A fogalom lényege, jelentéstartalma. A „kutyaság”.</dd></div>
+<div><dt>Extenzió</dt><dd>Azoknak a valódi dolgoknak a halmaza, amelyekre a fogalom illik. Az összes kutya.</dd></div>
+<div><dt>Kvantor</dt><dd>A „minden” és a „legalább egy” kifejezője. Az egyszerű háló nehezen kezeli.</dd></div>
+<div><dt>Keret (frame)</dt><dd>Egy sztereotip objektum vagy helyzet leírása rekeszekkel, értékekkel és eljárásokkal.</dd></div>
+<div><dt>Prototípus</dt><dd>Egy fogalom tipikus példája. A keret ezt írja le.</dd></div>
+<div><dt>Rekesz és kitöltő (slot, filler)</dt><dd>A keret attribútuma és annak értéke.</dd></div>
+<div><dt>Démon</dt><dd>Rekeszhez kötött eljárás, amely egy eseményre magától indul el: <code>IF_NEEDED</code>, <code>IF_ADDED</code>, <code>IF_MODIFIED</code>, <code>IF_DELETED</code>.</dd></div>
+<div><dt>Esetalapú következtetés (CBR)</dt><dd>Új probléma megoldása a leghasonlóbb korábbi eset alapján.</dd></div>
+<div><dt>Eset</dt><dd>Problémaleírás, megoldás és a megoldás minősítése együtt.</dd></div>
+<div><dt>Metrika, hasonlóság</dt><dd>Távolságmérték, amellyel két eset problémaleírása számszerűen összevethető.</dd></div>
+</dl>
+</section>
+
+<!-- KVÍZ -->
+<section id="kviz" class="chapter-section"><span class="section-index">KVÍZ · SZABADON VÁLASZTHATÓ</span>
+<h2>Ellenőrizd magad.</h2>
+<p>A kvíz kihagyható, az eredménye semmit sem zár le. Az eredményt csak a böngésződ tárolja.</p>
+<form class="u-quiz" id="kviz-urlap" novalidate>
+<fieldset data-helyes="b"><legend>1. Mit ábrázolnak Quillian szemantikus hálójában a csomópontok és az élek?</legend>
+<label><input type="radio" name="k1" value="a"> A csomópontok szabályokat, az élek következtetési lépéseket.</label>
+<label><input type="radio" name="k1" value="b"> A csomópontok fogalmakat és objektumokat, az élek a köztük lévő kapcsolatokat.</label>
+<label><input type="radio" name="k1" value="c"> A csomópontok idegsejteket, az élek szinapszisokat.</label>
+<p class="u-feedback" data-magyarazat="Objektumok, koncepciók, fogalmak: csomópontok; viszonyaik, kapcsolataik: gráfélek (PDF 66)."></p></fieldset>
+<fieldset data-helyes="c"><legend>2. Hálóolvasás: az állatháló alapján melyik tulajdonsága van a Gólyának örökléssel?</legend>
+<label><input type="radio" name="k2" value="a"> Vízben él.</label>
+<label><input type="radio" name="k2" value="b"> Ugrál.</label>
+<label><input type="radio" name="k2" value="c"> Lélegzik.</label>
+<p class="u-feedback" data-magyarazat="Gólya → Madár → Állat: a lélegzik az Állatnál van tárolva. A „vízben él” a Hal, az „ugrál” a Veréb tulajdonsága."></p></fieldset>
+<fieldset data-helyes="a"><legend>3. A Collins–Quillian-modell szerint melyik kérdésre felelünk a leglassabban?</legend>
+<label><input type="radio" name="k3" value="a"> Van-e bőre a kanárinak?</label>
+<label><input type="radio" name="k3" value="b"> Tud-e repülni a kanári?</label>
+<label><input type="radio" name="k3" value="c"> Tud-e énekelni a kanári?</label>
+<p class="u-feedback" data-magyarazat="A „bőre van” az Állatnál tárolódik, két lépésre a kanáritól. A későbbi kísérletek szerint a tipikusság is számít, de a modell ezt jósolja."></p></fieldset>
+<fieldset data-helyes="b"><legend>4. Pityuka papagáj, a madarak tudnak repülni, Pityukánál viszont ez áll: „repülni nem tud”. Mi dönt?</legend>
+<label><input type="radio" name="k4" value="a"> A prioritás: a Madár keret mindig erősebb.</label>
+<label><input type="radio" name="k4" value="b"> A specifikusság: a saját, közelebbi jellemző elnyomja az örököltet.</label>
+<label><input type="radio" name="k4" value="c"> Semmi: a háló ilyenkor hibát jelez.</label>
+<p class="u-feedback" data-magyarazat="A PDF 74. oldala szerint a specifikus jellemző elnyomja az örökölt jellemzőt."></p></fieldset>
+<fieldset data-helyes="c"><legend>5. Miért nem oldja fel a specifikusság a kaszkadőrautó ellentmondását?</legend>
+<label><input type="radio" name="k5" value="a"> Mert a kaszkadőrautó egyed, nem osztály.</label>
+<label><input type="radio" name="k5" value="b"> Mert a hálóban nincs is ellentmondás.</label>
+<label><input type="radio" name="k5" value="c"> Mert a két ellentétes érték egyformán egy lépésre van.</label>
+<p class="u-feedback" data-magyarazat="Mindkét szülő közvetlen: egyik sem specifikusabb. Ilyenkor alapértelmezés vagy prioritás kell."></p></fieldset>
+<fieldset data-helyes="a"><legend>6. „A piros egy szín. A szín egy fizikai jellemző. Tehát a piros egy fizikai jellemző?” Hol a hiba?</legend>
+<label><input type="radio" name="k6" value="a"> A fizikai jellemző a színre mint típusra igaz, nem öröklődik az egyes színekre.</label>
+<label><input type="radio" name="k6" value="b"> A piros nem egyede a színnek.</label>
+<label><input type="radio" name="k6" value="c"> Az öröklés csak két szintig működik.</label>
+<p class="u-feedback" data-magyarazat="Ez a típus/egyed (type/token) probléma: a szín mint szempont fizikai jellemző, a piros ennek egy értéke."></p></fieldset>
+<fieldset data-helyes="b"><legend>7. Az „egyenlő oldalú háromszög” és az „egyenlő szögű háromszög” fogalmára mi igaz?</legend>
+<label><input type="radio" name="k7" value="a"> Az intenziójuk és az extenziójuk is azonos.</label>
+<label><input type="radio" name="k7" value="b"> Az extenziójuk azonos, az intenziójuk különbözik.</label>
+<label><input type="radio" name="k7" value="c"> Az intenziójuk azonos, az extenziójuk különbözik.</label>
+<p class="u-feedback" data-magyarazat="Ugyanazokra a háromszögekre illenek (azonos extenzió), de mást mondanak (eltérő intenzió)."></p></fieldset>
+<fieldset data-helyes="a"><legend>8. Keretöröklés: mennyi a Bárszék lábszáma, és milyen a színe?</legend>
+<label><input type="radio" name="k8" value="a"> 3 láb, saját érték; barna, a Széktől örökölve.</label>
+<label><input type="radio" name="k8" value="b"> 4 láb, a Széktől; a színe ismeretlen.</label>
+<label><input type="radio" name="k8" value="c"> 3 láb; fa színű, a Bútortól örökölve.</label>
+<p class="u-feedback" data-magyarazat="A saját 3-as érték felülírja a Szék 4-es értékét. A szín nincs a Bárszék keretben, ezért a Széktől öröklődik: barna."></p></fieldset>
+<fieldset data-helyes="c"><legend>9. Az MI-előadás 14:00-kor kezdődik, az időtartama nincs megadva. Mit ad a „Befejezés időpontja” rekesz?</legend>
+<label><input type="radio" name="k9" value="a"> 14:50, mert az általános előadás alapértéke 50 perc.</label>
+<label><input type="radio" name="k9" value="b"> Semmit, mert a rekesz üres.</label>
+<label><input type="radio" name="k9" value="c"> 16:50, mert az örökölt IF_NEEDED függvény a saját, 170 perces alapértékkel számol.</label>
+<p class="u-feedback" data-magyarazat="A függvény öröklődik, de az MI-előadás saját alapértékét használja: 14:00 + 170 perc = 16:50."></p></fieldset>
+<fieldset data-helyes="b"><legend>10. A legközelebbi eset hasonlósága 84%, a küszöb 90%. Mi következik?</legend>
+<label><input type="radio" name="k10" value="a"> Újrafelhasználás változtatás nélkül.</label>
+<label><input type="radio" name="k10" value="b"> Hozzáigazítás, majd az új eset tárolása.</label>
+<label><input type="radio" name="k10" value="c"> A rendszer eldobja a problémát.</label>
+<p class="u-feedback" data-magyarazat="A küszöb alatt hozzáigazítás jön, a hozzáigazított eset pedig a tanulás lépésében bekerül az esetbázisba."></p></fieldset>
+<div class="u-controls"><button type="submit">Válaszok ellenőrzése</button><button type="reset" class="u-ghost">Újrakezdés</button></div>
+<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2c, 3a, 4b, 5c, 6a, 7b, 8a, 9c, 10b.</p>
+</form>
+</section>
+
+<!-- ÖSSZEGZÉS -->
+<section id="osszegzes" class="chapter-section"><span class="section-index">ÖSSZEFOGLALÓ</span>
+<h2>Amit most már tudsz.</h2>
+<p>A szemantikus háló Quillian ötlete: a fogalmak csomópontok, a kapcsolataik élek. A hierarchia takarékosan tárol, mert a közös tulajdonságot csak az osztálynál kell rögzíteni, és onnan öröklődik. A háló kérdésekre örökléssel és célháló-illesztéssel válaszol. Az öröklést a hálókezelő program végzi. A háló szemléletes és gyors, de az élek jelentése nincs benne magában. Az öröklés kivételeket és ellentmondásokat is okozhat. Ezeket specifikussággal, alapértelmezéssel vagy prioritással kell feloldani. Az ellentmondásmentesség tehát nem automatikus. Figyelni kell a típus és az egyed, valamint az intenzió és az extenzió különbségére, a kvantorokat pedig az egyszerű háló nem tudja kifejezni.</p>
+<p>A keret a háló továbbfejlesztése. Egy prototípust ír le rekeszekkel, értéktartományokkal és alapértékekkel. Az eljárásokat is örökíti, és démonokkal reagál az eseményekre. A bútor- és az előadáskeret megmutatta, hogyan pontosít a gyerek keret a szülőhöz képest.</p>
+<p>Az esetalapú rendszer nem általános tudást, hanem konkrét tapasztalatot tárol. A leghasonlóbb esetet visszakeresi, újrafelhasználja vagy hozzáigazítja, végül megjegyzi. A módszer akkor erős, ha nincs jó általános modell. Jó metrika és gyakran emberi segítség kell hozzá.</p>
+<div class="u-links">
+<a href="02-tudasbazisok-uj.html"><small>← Előző fejezet</small>02 · Tudásbázisok: ott a tudás HA–AKKOR szabályokba került. Most a fogalmak szerkezetét ábrázoltuk.</a>
+<a href="04-formalis-logika-uj.html"><small>Következő fejezet →</small>04 · Formális logika: a kvantorok és a pontos jelentés, amelyet a háló nem tudott kifejezni.</a>
+</div>
+</section>
+
+<!-- FORRÁSOK -->
+<section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
+<h2>Honnan tudjuk?</h2>
+<p>A fejezet a kurzus PDF-jének 65–88. oldalát dolgozza fel. A jegyzet önálló feldolgozás, a korábbi 3. fejezet anyagát nem használja fel. Az idézetek szó szerint a PDF-ből vagy a megnevezett eredeti forrásból származnak. Minsky mondatának magyar fordítása saját. Ahol a PDF egy diájának szövege félbemaradt (73., 76., 81. és 86. oldal), a jegyzet ezt jelzi, és a folytatást a saját értelmezéseként adja meg. A kanári tulajdonságai közül a „sárga”, a „tolla van”, a „lélegzik” és a „táplálkozik” a jegyzet kiegészítése. A Kelep és a Bárszék-17 egyed, a Nixon-példa bemutatása, a démonok példái, az asztalosműhely esetbázisa és a hasonlósági képletek szintén a jegyzet szemléltető példái. A „Kiigazítás” dobozok a PDF lényeges szakmai hibáit javítják. Ilyen kettő van: az egyed meghatározása és az ellentmondásmentesség állítása. A „Kiegészítés” dobozok hátteret adnak. A kurzus kódgyűjteményéből két fájl kapcsolódik a fejezethez. A <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code> keresőfüggvénye a 2. részben szerepel. A <code>resources/code/12_Logika.py</code> szerkezete a 4. rész öröklési kódjának mintája. Mindkét kód kimenetét futtatással ellenőriztük.</p>
+<ul class="u-sources">
+<li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 65–88. oldal (<code>resources/presentation/</code>).</li>
+<li id="s-quillian">M. R. Quillian: Semantic Memory. In: M. Minsky (szerk.): <em>Semantic Information Processing</em>, MIT Press, 1968, 227–270.</li>
+<li id="s-collins">A. M. Collins, M. R. Quillian: <a href="https://doi.org/10.1016/S0022-5371(69)80069-1">Retrieval time from semantic memory</a>, <em>Journal of Verbal Learning and Verbal Behavior</em> 8(2), 1969, 240–247.</li>
+<li id="s-rips">L. J. Rips, E. J. Shoben, E. E. Smith: <a href="https://doi.org/10.1016/S0022-5371(73)80056-8">Semantic distance and the verification of semantic relations</a>, <em>Journal of Verbal Learning and Verbal Behavior</em> 12(1), 1973, 1–20.</li>
+<li id="s-loftus">A. M. Collins, E. F. Loftus: <a href="https://doi.org/10.1037/0033-295X.82.6.407">A spreading-activation theory of semantic processing</a>, <em>Psychological Review</em> 82(6), 1975, 407–428.</li>
+<li id="s-minsky">M. Minsky: <a href="https://dspace.mit.edu/entities/publication/0eca0164-cb5f-42de-8c86-43f54b23306d">A Framework for Representing Knowledge</a>, MIT AI Laboratory Memo 306, 1974.</li>
+<li id="s-woods">W. A. Woods: What's in a Link: Foundations for Semantic Networks. In: D. G. Bobrow, A. Collins (szerk.): <em>Representation and Understanding</em>, Academic Press, 1975, 35–82.</li>
+<li id="s-hendrix">G. G. Hendrix: Expanding the Utility of Semantic Networks Through Partitioning, <em>Proceedings of IJCAI-75</em>, 1975.</li>
+<li id="s-brachman">R. J. Brachman: <a href="https://doi.org/10.1109/MC.1983.1654194">What IS-A Is and Isn't: An Analysis of Taxonomic Links in Semantic Networks</a>, <em>IEEE Computer</em> 16(10), 1983, 30–36.</li>
+<li id="s-touretzky">D. S. Touretzky: <em>The Mathematics of Inheritance Systems</em>, Pitman–Morgan Kaufmann, 1986.</li>
+<li id="s-owl1977">P. Szolovits, L. B. Hawkinson, W. A. Martin: <a href="https://groups.csail.mit.edu/medg/people/psz/ftp/OWL_overview1.html">An Overview of OWL, A Language for Knowledge Representation</a>, MIT/LCS/TM-86, 1977.</li>
+<li id="s-owl2">W3C: <a href="https://www.w3.org/TR/owl2-overview/">OWL 2 Web Ontology Language Document Overview</a>, 2. kiadás, 2012.</li>
+<li id="s-aamodt">A. Aamodt, E. Plaza: <a href="https://doi.org/10.3233/AIC-1994-7104">Case-Based Reasoning: Foundational Issues, Methodological Variations, and System Approaches</a>, <em>AI Communications</em> 7(1), 1994, 39–59.</li>
+<li id="s-aima">S. Russell, P. Norvig: <em>Artificial Intelligence: A Modern Approach</em>, 4. kiadás, Pearson, 2020, 10. fejezet.</li>
+<li id="s-kg">A. Singhal: <a href="https://blog.google/products/search/introducing-knowledge-graph-things-not/">Introducing the Knowledge Graph: things, not strings</a>, Google, 2012.</li>
+<li id="s-wikidata">D. Vrandečić, M. Krötzsch: <a href="https://doi.org/10.1145/2629489">Wikidata: a free collaborative knowledgebase</a>, <em>Communications of the ACM</em> 57(10), 2014, 78–85.</li>
+<li id="s-pydatalog">pyDatalog: <a href="https://sites.google.com/site/pydatalog/">a könyvtár dokumentációja</a>.</li>
+</ul>
+</section>
+</main>
+</div>
+<footer>MI-alapok / 03 · Tudásreprezentáció (új változat) <a href="../index.html">Kezdőlap</a></footer>
+</body>
+</html>

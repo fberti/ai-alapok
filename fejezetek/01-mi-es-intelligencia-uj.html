@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3eb">
+<meta name="description" content="Mi az intelligencia, hogyan mérjük, mit mér a Turing-teszt, és hol dolgozik ma a mesterséges intelligencia? Új, önálló feldolgozás a PDF 1–35. oldalához.">
+<title>01 · Intelligencia, MI és alkalmazások (új változat) | MI-alapok</title>
+<script>document.documentElement.classList.add('js')</script>
+<script src="../assets/js/theme.js?v=2"></script>
+<link rel="stylesheet" href="../assets/css/course.css?v=2">
+<link rel="stylesheet" href="../assets/css/chapter-one-uj.css">
+<script defer src="../assets/js/chapter-one-uj.js"></script>
+</head>
+<body class="chapter-one-uj" data-chapter="1">
+<a class="skip" href="#tartalom">Ugrás a tananyaghoz</a>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">mi.</span> ALAPOK <span class="brand-note">/ interaktív jegyzet</span></a><div class="header-actions"><a href="../index.html#fejezetek">← Összes fejezet</a><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle><span class="theme-toggle-icon" aria-hidden="true"></span><span class="visually-hidden">Sötét mód</span></button></div></header>
+
+<div class="chapter-layout">
+<nav class="toc" aria-label="Fejezet tartalomjegyzéke"><p class="eyebrow">01 / ÚJ VÁLTOZAT</p><ol>
+<li><a href="#intelligencia">Mi az intelligencia?</a></li>
+<li><a href="#mi">A mesterséges intelligencia</a></li>
+<li><a href="#meres">Hogyan mérünk?</a></li>
+<li><a href="#tesztek">A tesztek története</a></li>
+<li><a href="#turing">A Turing-teszt</a></li>
+<li><a href="#terulete">Az MI területei</a></li>
+<li><a href="#jatekok">Logikai játékok</a></li>
+<li><a href="#szimbolumok">Bizonyítás és algebra</a></li>
+<li><a href="#latas">Gépi látás</a></li>
+<li><a href="#robotika">Robotika</a></li>
+<li><a href="#beszed">Beszédfelismerés</a></li>
+<li><a href="#nyelv">Fordítás és jelentés</a></li>
+<li><a href="#korlatok">Korlátkielégítés</a></li>
+<li><a href="#tervezes">Cselekvéstervezés</a></li>
+<li><a href="#szakerto">Szakértőrendszerek</a></li>
+<li><a href="#hetkoznap">MI a hétköznapokban</a></li>
+<li><a href="#fogalmak">Fogalomkártyák</a></li>
+<li><a href="#kviz">Kvíz · szabadon választható</a></li>
+<li><a href="#osszegzes">Összefoglaló</a></li>
+<li><a href="#forrasok">Források</a></li>
+</ol></nav>
+
+<main id="tartalom" class="chapter-main">
+<header class="chapter-hero">
+<p class="eyebrow">01. FEJEZET / ÚJ, ÖNÁLLÓ FELDOLGOZÁS</p>
+<h1>Okos,<br><em>de mihez képest?</em></h1>
+<p class="lead">A telefonod felismeri az arcodat, a leveleződ kiszűri a kéretlen leveleket, egy csevegőprogram pedig verset ír. Okosak ezek a gépek? A válaszhoz előbb azt kell tisztázni, mit nevezünk egyáltalán intelligenciának.</p>
+<div class="u-scene"><p><strong>Egy hétköznapi helyzet.</strong> Két barátod vitatkozik. Az egyik szerint a sakkprogram intelligens, hiszen legyőzi a világbajnokot. A másik szerint buta, hiszen egy teát sem tud főzni. Mindkettőnek igaza lehet – attól függően, hogy mit értünk intelligencián. Ez a fejezet ezt a vitát bontja ki.</p></div>
+<ul class="u-meta"><li>Forrás: PDF 1–35. oldal</li><li>8 kipróbálható bemutató</li><li>8 opcionális kvízkérdés</li></ul>
+<div class="u-goals"><strong>A fejezet végére…</strong><ul>
+<li>el tudod magyarázni, miért nincs az intelligenciának egyetlen elfogadott meghatározása, és melyek a közös elemek;</li>
+<li>meg tudod különböztetni a teljesítménytesztet a képességteszttől, és az érvényességet a megbízhatóságtól;</li>
+<li>el tudod mondani, hogyan zajlik a Turing-teszt, mit mér, és mit nem;</li>
+<li>minden fontos MI-alkalmazási területhez tudsz egy működő példát mondani, és látod a korlátait is.</li>
+</ul></div>
+<noscript><p class="u-simple"><strong>JavaScript nélkül</strong>A teljes magyarázat és minden megoldott példa olvasható. Csak a kipróbálható bemutatók és a kvíz ellenőrzése igényel JavaScriptet.</p></noscript>
+</header>
+
+<!-- 01 · INTELLIGENCIA -->
+<section id="intelligencia" class="chapter-section"><span class="section-index">01 / PDF 2–3.</span>
+<h2>Egy szó, sok meghatározás.</h2>
+<p>Az <strong>intelligencia</strong> hétköznapi szó, mégis nehéz pontosan körülírni. A pszichológusok több mint száz éve vitatkoznak róla. A PDF négy meghatározást idéz. Érdemes őket egymás mellett olvasni, mert mindegyik mást emel ki.</p>
+<div class="u-quote-grid">
+<figure class="u-quote"><blockquote><p>„Az a képesség, hogy hatékonyan tudjon a tapasztalásból tanulni, vagy megérteni, kinyerni és megőrizni a tudást; mentális (szellemi) képesség; egy új szituációhoz való gyors és sikeres alkalmazkodás képessége; a következtetés használatának a képessége a problémamegoldásban, a viselkedés irányítása, stb.”</p></blockquote><figcaption>Webster’s Dictionary, a PDF fordításában · PDF 2. oldal</figcaption></figure>
+<figure class="u-quote"><blockquote><p>„Mondhatnánk azt: Nem tudom megmondani, mi az intelligencia, de megismerem, ha találkozok vele. Az intelligencia olyan fogalom, amely jelentését a kontextusból, alkalmazási környezetéből nyeri, nem pedig egy felállított modellből, vagy kritériumrendszerből.”</p></blockquote><figcaption>Christopher F. Chabris · PDF 2. oldal</figcaption></figure>
+<figure class="u-quote"><blockquote><p>„Az intelligencia az egyénnek az az összesített, vagy globális képessége, amely lehetővé teszi, hogy célszerűen cselekedjen, hogy racionálisan gondolkodjon és eredményesen bánjon a környezetével.”</p></blockquote><figcaption>David Wechsler · PDF 3. oldal</figcaption></figure>
+<figure class="u-quote"><blockquote><p>„A jó döntés, a jó felfogás és a jó okfejtés az intelligencia lényege.”</p></blockquote><figcaption>Alfred Binet és Théodore Simon, részlet · PDF 3. oldal</figcaption></figure>
+</div>
+<p>Binet és Simon teljes gondolata szerint az intelligenciában van egy alapvető tényező, amelynek megléte vagy hiánya döntő a mindennapi életben. Ide sorolják az ítélőképességet, a józan észt, a gyakorlati érzéket, a kezdeményezőkészséget és a körülményekhez való alkalmazkodást.</p>
+<p>Chabris mondata elsőre kibúvónak tűnik. Valójában fontos figyelmeztetés: ugyanaz a viselkedés az egyik helyzetben okosnak, a másikban butának látszik. Egy villámgyors fejszámoló zseniális a pénztárnál, de ez a képesség kevés egy vita lecsillapításához.</p>
+<p>Ha a négy meghatározást egymásra fektetjük, négy visszatérő elem rajzolódik ki. A táblázat megmutatja, melyik szerző melyiket hangsúlyozza.</p>
+<div class="u-table-wrap"><table class="u-table" id="definicio-tabla">
+<caption>A négy meghatározás közös elemei. A „✓” azt jelzi, hogy az elem kimondva szerepel az idézett szövegben; a „~” azt, hogy csak közvetve.</caption>
+<thead><tr><th scope="col">Elem</th><th scope="col">Webster</th><th scope="col">Chabris</th><th scope="col">Wechsler</th><th scope="col">Binet–Simon</th></tr></thead>
+<tbody>
+<tr><td>Alkalmazkodás új helyzethez</td><td>✓</td><td>~ (a környezet adja a jelentést)</td><td>✓ (eredményesen bánik a környezettel)</td><td>✓</td></tr>
+<tr><td>Tanulás tapasztalatból</td><td>✓</td><td>–</td><td>–</td><td>~ (jó felfogás)</td></tr>
+<tr><td>Célirányos cselekvés</td><td>✓ (viselkedés irányítása)</td><td>–</td><td>✓ (célszerűen cselekszik)</td><td>✓ (kezdeményezés, gyakorlati érzék)</td></tr>
+<tr><td>Következtetés, ítélet</td><td>✓</td><td>–</td><td>✓ (racionálisan gondolkodik)</td><td>✓ (jó döntés, jó okfejtés)</td></tr>
+</tbody></table></div>
+<p class="u-key">Közös mag: az intelligens rendszer tanul, következtet, célja van, és változó környezetben is boldogul. A gépi intelligenciánál is ezeket a képességeket fogjuk keresni.</p>
+<div class="u-simple"><strong>Egyszerűen mondva</strong><p>Az intelligencia nem egyetlen dolog, hanem képességek csokra. Aki csak egyet néz közülük, az mást fog okosnak tartani, mint aki egy másikat.</p></div>
+</section>
+
+<!-- 02 · MI -->
+<section id="mi" class="chapter-section"><span class="section-index">02 / PDF 4.</span>
+<h2>Egy név egy nyári műhelyhez.</h2>
+<p>A <strong>mesterséges intelligencia (artificial intelligence, AI)</strong> kifejezést John McCarthy használta először. A név egy kutatási javaslatban született, amely egy 1956-os nyári műhelyt készített elő a Dartmouth College-ban. Ezt a műhelyt szokás az MI mint kutatási terület születésének tekinteni.</p>
+<figure class="u-quote"><blockquote lang="en"><p>“We propose that a 2 month, 10 man study of artificial intelligence be carried out during the summer of 1956 at Dartmouth College in Hanover, New Hampshire.”</p></blockquote><figcaption>McCarthy, Minsky, Rochester, Shannon: <a href="#s-mccarthy">kutatási javaslat, 1955. augusztus 31.</a> Magyarul: „Javasoljuk, hogy 1956 nyarán egy két hónapos, tízfős vizsgálatot végezzünk a mesterséges intelligenciáról…” (saját fordítás)</figcaption></figure>
+<aside class="u-fix"><h3>Kiigazítás · 1955 vagy 1956?</h3>
+<p><strong>A PDF állítása:</strong> McCarthy 1956-ban alkalmazta először az elnevezést.</p>
+<p><strong>Pontosabban:</strong> a kifejezés írásban már az 1955. augusztus 31-én kelt javaslatban szerepel. Az 1956-os év a Dartmouth-műhely éve, amelyet a javaslat előkészített.</p>
+<p><strong>Miért fontos?</strong> Évszámkérdésben a forrás dönt. A javaslat szövege nyilvános, a fenti idézet belőle származik. A két évszám nem ütközik: az egyik a név, a másik a terület nyilvános indulását jelöli. <a href="#s-mccarthy">Forrás: a Dartmouth-javaslat.</a></p></aside>
+<p>A PDF a magyar Wikipédia meghatározását is idézi:</p>
+<figure class="u-quote"><blockquote><p>„Mesterséges intelligenciának egy gép, program vagy mesterségesen létrehozott tudat által megnyilvánuló intelligenciát nevezzük.”</p></blockquote><figcaption>Wikipédia, a PDF idézetében · PDF 4. oldal</figcaption></figure>
+<aside class="u-fix"><h3>Kiigazítás · A „tudat” szó félrevezet</h3>
+<p><strong>A PDF-ben idézett meghatározás:</strong> MI a gép, a program vagy a „mesterségesen létrehozott tudat” intelligenciája.</p>
+<p><strong>Pontosabban:</strong> a mai MI-rendszerekről nincs tudományosan elfogadott bizonyíték, hogy tudattal rendelkeznének. Az MI-kutatás a viselkedést és a feladatmegoldást vizsgálja, nem a tudatot.</p>
+<p><strong>Példa:</strong> egy levélszemétszűrő naponta milliárdnyi levélről dönt jól, pedig senki sem állítja, hogy „tudja”, mit csinál. Russell és Norvig tankönyve az MI-t olyan ágensek tanulmányozásaként írja le, amelyek érzékelnek és cselekszenek. A tudat kérdése nyitott filozófiai probléma, nem a meghatározás része. <a href="#s-aima">Forrás: Russell–Norvig, 1. fejezet.</a></p></aside>
+<p>A PDF három megközelítést különít el. Ezek nem egymást kizáró iskolák, hanem egyre szigorúbb elvárások. Mindhárom egy-egy kérdésre felel.</p>
+<div class="u-compare" id="harom-megkozelites">
+<div><span class="u-tag">1 · AUTOMATIZÁLTSÁG</span><h3>Reagál magától?</h3><p>A gép állandó emberi beavatkozás nélkül válaszol a környezet hatásaira. Ilyen az egyszerű <strong>szoftverágens (software agent)</strong>, azaz a környezetét figyelő és arra reagáló program.</p><p><em>Példa:</em> a termosztát bekapcsolja a fűtést, ha 20 °C alá hűl a szoba.</p></div>
+<div><span class="u-tag">2 · SZIMULÁLTSÁG</span><h3>Úgy viselkedik, mint egy élőlény?</h3><p>A gép hasonlóan viselkedik, mint egy természetes intelligenciával rendelkező lény, még ha a viselkedés mögött egészen más mechanizmus áll is.</p><p><em>Példa:</em> egy számítógépes játék ellenfele „fedezékbe bújik”, pedig csak néhány előre megírt szabályt követ.</p></div>
+<div><span class="u-tag">3 · TANULÁS</span><h3>Javul a tapasztalattól?</h3><p>A gép viselkedését célszerűen és megismételhető módon változtatja a tapasztalatai alapján. A modern MI-kutatásban ez került előtérbe.</p><p><em>Példa:</em> a szemétszűrő egyre pontosabb, ahogy a felhasználók újabb leveleket jelölnek kéretlennek.</p></div>
+</div>
+<div class="u-simple"><strong>Egyszerűen mondva</strong><p>A termosztát magától működik, de nem okosodik. A játékfigura okosnak látszik, de csak színjáték. A tanuló rendszer viszont a tapasztalatból tényleg jobb lesz. A mai hétköznapi értelemben vett „MI” többnyire ez utóbbi.</p></div>
+</section>
+
+<!-- 03 · MÉRÉS -->
+<section id="meres" class="chapter-section"><span class="section-index">03 / PDF 5.</span>
+<h2>Mérni csak azt lehet, amit előbb meghatároztunk.</h2>
+<p>Az intelligencia pontos mérésének igénye régóta él. Mivel a meghatározás nem egységes, a mérés is többféle lehet. A mérés eszköze a <strong>teszt</strong>: előre rögzített feladatsor, amelyet azonos feltételek mellett oldanak meg a vizsgált személyek. A PDF két tesztfajtát különít el.</p>
+<div class="u-compare">
+<div><span class="u-tag">MIT TUDSZ MOST?</span><h3>Teljesítményteszt</h3><p>Az elsajátított képességeket méri: azt, amit jelenleg teljesíteni tudunk.</p><p><em>Példa:</em> egy témazáró dolgozat vagy egy gépírásvizsga.</p></div>
+<div><span class="u-tag">MIRE LESZEL KÉPES?</span><h3>Képességteszt</h3><p>Előre jelez: azt becsüli meg, hogy gyakorlás után mire leszünk képesek. <strong>Az intelligenciateszt is képességteszt.</strong></p><p><em>Példa:</em> egy logikai feladatsor, amely nem iskolai tananyagot kérdez, hanem a gondolkodás gyorsaságát és rugalmasságát.</p></div>
+</div>
+<p>Egy jó tesztnek két követelménynek kell megfelelnie. A két szót gyakran összekeverik, pedig mást jelentenek.</p>
+<div class="u-compare" id="ervenyesseg">
+<div><span class="u-tag">ÉRVÉNYESSÉG (VALIDITY)</span><h3>Azt méri, amit mérni akarunk?</h3><svg viewBox="0 0 120 120" width="120" height="120" role="img" aria-labelledby="t-erv"><title id="t-erv">Céltábla: a találatok szétszórtan, de a középpont körül vannak.</title><circle cx="60" cy="60" r="50" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="60" cy="60" r="30" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="60" cy="60" r="10" fill="none" stroke="currentColor" stroke-width="2"/><g fill="#c0392b"><circle cx="48" cy="52" r="4"/><circle cx="72" cy="66" r="4"/><circle cx="58" cy="76" r="4"/><circle cx="66" cy="45" r="4"/></g></svg><p>Ha egy „intelligenciateszt” valójában az olvasási sebességet méri, akkor nem érvényes. A találatok a cél körül vannak, csak szórnak.</p></div>
+<div><span class="u-tag">MEGBÍZHATÓSÁG (RELIABILITY)</span><h3>Ismételve is ugyanazt adja?</h3><svg viewBox="0 0 120 120" width="120" height="120" role="img" aria-labelledby="t-meg"><title id="t-meg">Céltábla: a találatok szoros csoportban, de a középponttól távol vannak.</title><circle cx="60" cy="60" r="50" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="60" cy="60" r="30" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="60" cy="60" r="10" fill="none" stroke="currentColor" stroke-width="2"/><g fill="#c0392b"><circle cx="88" cy="32" r="4"/><circle cx="92" cy="36" r="4"/><circle cx="86" cy="38" r="4"/><circle cx="91" cy="30" r="4"/></g></svg><p>Ha ugyanaz az ember két hét különbséggel nagyon eltérő eredményt kap, a teszt nem megbízható. A rajzon a találatok szorosak, vagyis megbízhatóak – de rossz helyre esnek, tehát nem érvényesek.</p></div>
+</div>
+<p class="u-key">A megbízhatóság szükséges, de nem elég: egy teszt lehet nagyon következetes, és közben mégis rossz dolgot mérhet.</p>
+<p>A harmadik szempont a <strong>kortól és kultúrától való függés</strong>. Egy feladat, amely egy tízévesnek könnyű, egy hatévesnek nehéz. Egy kérdés, amely egy városi gyereknek magától értetődő („mennyibe kerül egy villamosjegy?”), egy tanyán élőnek idegen lehet. Ilyenkor a teszt a tapasztalatot méri, nem a képességet, vagyis romlik az érvényessége.</p>
+</section>
+
+<!-- 04 · TESZTEK TÖRTÉNETE -->
+<section id="tesztek" class="chapter-section"><span class="section-index">04 / PDF 6–7.</span>
+<h2>A reakcióidőtől a mentális korig.</h2>
+<p>Az intelligenciatesztek néhány évtized alatt születtek meg. Az idővonal a PDF szereplőit és a szükséges hátteret időrendben mutatja.</p>
+<ol class="u-timeline" id="teszt-idovonal">
+<li><span class="u-year">1869–1888</span><p><strong>Sir Francis Galton</strong> szerint az intelligencia kivételes érzékelési és észlelési készségek kérdése, és ezek öröklődnek. Laboratóriumában ezreken mért reakcióidőt, látásélességet, hallást. A mérések nem igazolták az elképzelését: az érzékszervek élessége alig függött össze a teljesítménnyel. Maradandó érdeme a <strong>korreláció (correlation)</strong> fogalmának bevezetése. A korreláció két mennyiség együttmozgását írja le: ha az egyik nagyobb, a másik is jellemzően nagyobb (vagy kisebb).</p></li>
+<li><span class="u-year">1890</span><p><strong>James McKeen Cattell</strong> amerikai pszichológus megjelenteti a <em>Mental Tests and Measurements</em> című cikkét. Ő vezeti be a <strong>mentális teszt</strong> kifejezést, ezért a tesztmódszerek atyjának is nevezik. Tesztjei még Galton szellemében főleg érzékelést és reakcióidőt mértek.</p></li>
+<li><span class="u-year">1905</span><p><strong>Alfred Binet és Théodore Simon</strong> Párizsban kidolgozza az első gyakorlatban használható intelligenciatesztet, kb. harminc, egyre nehezedő feladattal. Céljuk azoknak a gyerekeknek a felismerése volt, akik a rendes tanítás mellett lemaradnak, és külön segítségre szorulnak.</p></li>
+<li><span class="u-year">1908</span><p>A Binet–Simon-teszt átdolgozott változata a feladatokat életkorok szerint (3–13 év) csoportosítja, és bevezeti a <strong>mentális kor</strong> fogalmát.</p></li>
+<li><span class="u-year">1912</span><p><strong>William Stern</strong> német pszichológus javasolja, hogy a mentális kort osszuk el az életkorral. Ebből lesz később az <strong>intelligenciahányados (IQ)</strong>.</p></li>
+<li><span class="u-year">1939–1944</span><p><strong>David Wechsler</strong> felnőtteknek szóló tesztet készít, és megfogalmazza a fent idézett meghatározást.</p></li>
+<li><span class="u-year">1940–1960-as évek</span><p><strong>Raymond B. Cattell</strong> (John Horn munkatársával) kidolgozza a <strong>folyékony</strong> és a <strong>kristályos</strong> intelligencia megkülönböztetését.</p></li>
+</ol>
+<aside class="u-fix"><h3>Kiigazítás · Két különböző Cattell</h3>
+<p><strong>A PDF állítása:</strong> „J. Cattel” készítette 1890-ben az első intelligenciatesztet, ő osztotta két csoportra (57 változóval) az emberi képességeket, és tőle származik a folyékony és a kristályos intelligencia.</p>
+<p><strong>Pontosabban:</strong> ez két ember. James McKeen Cattell (1860–1944) 1890-ben írta a mentális tesztekről szóló cikket. Raymond B. Cattell (1905–1998) dolgozta ki évtizedekkel később a folyékony és kristályos intelligencia elméletét. Rokonságban sem álltak. Az „57 változó” adatot a két Cattell ismert munkáiban nem találtuk, ezért nem vesszük át.</p>
+<p><strong>Miért fontos?</strong> A két elmélet között fél évszázad és egészen más módszer áll: az 1890-es tesztek reakcióidőt mértek, a későbbi elmélet faktoranalízisre, vagyis sok teszteredmény közös mintázatainak statisztikai keresésére épült. <a href="#s-cattell1890">Források: Cattell 1890;</a> <a href="#s-brown2016">Brown 2016.</a></p></aside>
+<aside class="u-fix"><h3>Kiigazítás · Galton és a korrelációs együttható</h3>
+<p><strong>A PDF állítása:</strong> Galton érdeme a korrelációs együttható alkalmazásának bevezetése.</p>
+<p><strong>Pontosabban:</strong> Galton 1888-ban vezette be a korreláció fogalmát és első mérőszámát. A ma használt képletet (a Pearson-féle korrelációs együtthatót) tanítványa, Karl Pearson dolgozta ki 1896-ban. Galton tehát az ötlet atyja, a mai képlet Pearsoné.</p></aside>
+<div class="u-compare" id="folyekony-kristalyos">
+<div><span class="u-tag">FOLYÉKONY (FLUID)</span><h3>Új probléma megoldása</h3><p>A megértés ereje, a rugalmas alkalmazkodás egy ismeretlen helyzethez. Nem függ attól, mit tanultunk.</p><p><em>Példa:</em> egy soha nem látott logikai rejtvény megfejtése.</p></div>
+<div><span class="u-tag">KRISTÁLYOS (CRYSTALLIZED)</span><h3>Megszerzett tudás használata</h3><p>A már megszerzett tudás és képességek alkalmazása. Iskola, olvasás, tapasztalat gyarapítja.</p><p><em>Példa:</em> egy szó jelentésének ismerete vagy egy recept fejből való elkészítése.</p></div>
+</div>
+<aside class="u-fix"><h3>Kiigazítás · A folyékony intelligencia nem csak öröklött</h3>
+<p><strong>A PDF állítása:</strong> a folyékony intelligenciát az öröklés határozza meg.</p>
+<p><strong>Pontosabban:</strong> az öröklés jelentős szerepet játszik, de a környezet is: az egészség, a táplálkozás, az iskolázottság és az életkor is befolyásolja. A folyékony intelligencia jellemzően a fiatal felnőttkorban tetőzik, majd lassan csökken, míg a kristályos sokáig nőhet. Ha tisztán öröklött volna, nem változna így az életkorral. <a href="#s-brown2016">Forrás: Brown 2016.</a></p></aside>
+<p>A <strong>Binet–Simon-teszt</strong> gondolkodási és problémamegoldási feladatokból állt. A gyerekeknek fel kellett sorolniuk a hónapok nevét, el kellett mondaniuk az évszakok jellemzőit, és számsorokat kellett visszamondaniuk. A legkönnyebb feladatban a gyermeknek a szemével kellett követnie egy mozgó fénypontot.</p>
+<p>A tesztelés kulcsa a <strong>korszint</strong> volt. Ha egy feladatot egy adott korú gyerekek 85–90%-a megold, akkor az a feladat jellemző arra az életkorra. A gyereket az jellemzi, hogy melyik életkornak megfelelő feladatokat tudja megoldani. A legmagasabb korszintet, amelyet még sikeresen teljesít, a gyermek <strong>mentális korának</strong> nevezték. A teszt a legelterjedtebbek egyike lett, és mai utódai (például a Stanford–Binet-teszt) ma is használatosak.</p>
+<ol class="u-steps" id="mentalis-kor-lepesei">
+<li><p><strong>Korszintek kialakítása.</strong> Sok gyereken kipróbálják a feladatokat. Egy feladat a 7 éves szinthez kerül, ha a 7 évesek 85–90%-a megoldja.</p></li>
+<li><p><strong>A gyermek tesztelése.</strong> A vizsgált gyerek egyre magasabb korszintek feladatait kapja.</p></li>
+<li><p><strong>A mentális kor leolvasása.</strong> Az a legmagasabb korszint, amelynek feladatait még teljesíti.</p></li>
+<li><p><strong>Összevetés az életkorral.</strong> A mentális kor és a tényleges életkor különbsége vagy hányadosa mutatja, előrébb vagy hátrébb tart-e a gyermek társainál.</p></li>
+</ol>
+<div class="u-example" id="mentalis-kor-pelda"><strong>Végigvezetett példa</strong><p>Anna 8 éves, és a 10 éves szint feladatait még megoldja, a 11 évesekét már nem. Mentális kora tehát 10 év. Stern hányadosa: 10 ÷ 8 × 100 = <strong>125</strong>. Bence 10 éves, de csak a 8 éves szintig jut el: 8 ÷ 10 × 100 = <strong>80</strong>. Anna két évvel előrébb, Bence két évvel hátrébb tart a korosztályánál.</p></div>
+<aside class="u-add"><h3>Kiegészítés · A mai IQ már nem hányados</h3><p>Stern hányadosa felnőtteknél értelmetlen: egy 40 éves nem „tud” kétszer annyit, mint egy 20 éves. A mai tesztek ezért <strong>eltérés-IQ-t</strong> használnak. Az eredményt a korosztály átlagához viszonyítják: az átlag 100, és a népesség kb. kétharmada 85 és 115 közé esik.</p></aside>
+<div class="u-lab" id="mentalis-kor-labor"><span class="u-lab-label">PRÓBÁLD KI / MENTÁLIS KOR</span><h3>Számold ki egy gyermek mentális korát.</h3>
+<div class="u-form"><label>Életkor (év)<input type="number" id="mk-eletkor" min="3" max="15" value="8"></label><label>Legmagasabb teljesített korszint (év)<input type="number" id="mk-szint" min="3" max="13" value="10"></label></div>
+<div class="u-out" id="mk-eredmeny" role="status" aria-live="polite"><p>A számításhoz JavaScript szükséges. Kézzel: mentális kor = a legmagasabb teljesített korszint; hányados = mentális kor ÷ életkor × 100.</p></div></div>
+<aside class="u-fix"><h3>Kiigazítás · Ki kérte a tesztet?</h3>
+<p><strong>A PDF állítása:</strong> a tesztet a francia kormány kérte, hogy kiszűrje a lassú felfogású gyerekeket; 3–15 éves korig vizsgált.</p>
+<p><strong>Pontosabban:</strong> a legújabb tudománytörténeti elemzés szerint a kormány nem rendelt tesztet Binet-től. Binet egy olyan csoport tagja volt, amely azt akarta elérni, hogy a lemaradó gyerekek iskolai segítséget kapjanak, ne pszichiátriai intézetbe kerüljenek. Ehhez kellett objektív mérőeszköz. A korszintek az 1908-as változatban 3-tól 13 éves korig terjedtek. <a href="#s-binet">Forrás: Brysbaert és Nicolas, 2024.</a></p>
+<p><strong>Miért fontos?</strong> A cél nem a „kiszűrés” volt, hanem a segítés. Maga Binet is hangsúlyozta, hogy az eredmény nem végleges ítélet a gyermekről.</p></aside>
+</section>
+
+<!-- 05 · TURING -->
+<section id="turing" class="chapter-section"><span class="section-index">05 / PDF 8–9.</span>
+<h2>Az utánzós játék.</h2>
+<p>Hogyan döntenénk el, hogy egy gép gondolkodik-e? Alan Turing brit matematikus 1950-ben azt javasolta, hogy ezt a nehéz kérdést cseréljük le egy ellenőrizhető játékra. Ezt ő <strong>utánzós játéknak (imitation game)</strong> nevezte, ma <strong>Turing-tesztként</strong> ismerjük.</p>
+<ol class="u-steps" id="turing-menet">
+<li><p><strong>Három szereplő.</strong> Egy bíráló, egy ember és egy gép. A bíráló nem látja és nem hallja a másik kettőt.</p></li>
+<li><p><strong>Csak szöveg.</strong> A bíráló billentyűzeten és képernyőn keresztül kérdez mindkét tesztalanytól. Így a hang, a külső és a kézírás nem árulkodik.</p></li>
+<li><p><strong>Mindkét alany embernek mondja magát.</strong> A cél mindkettőnél ugyanaz: meggyőzni a bírálót, hogy ő a gondolkodó ember.</p></li>
+<li><p><strong>Döntés.</strong> A beszélgetés végén a bíráló megmondja, melyik a gép. Ha a bírálók nem tudják megbízhatóan kiválasztani a gépet, a gép jól teljesített.</p></li>
+</ol>
+<p>Turing a cikkében példákat is adott arra, milyen kérdések hangozhatnak el. A válaszok a gép szájába adott, kitalált válaszok.</p>
+<figure class="u-dialogue" id="turing-parbeszed"><dl>
+<div><dt>Kérdező</dt><dd>Írjon nekem egy szonettet a Forth-hídról.</dd></div>
+<div class="u-other"><dt>Tesztalany</dt><dd>Erről ne kérdezzen. Soha nem tudtam verset írni.</dd></div>
+<div><dt>Kérdező</dt><dd>Adja össze a 34957-et és a 70764-et.</dd></div>
+<div class="u-other"><dt>Tesztalany</dt><dd>(Kb. 30 másodperc szünet után:) 105621.</dd></div>
+</dl><figcaption>Turing 1950-es cikkének példapárbeszéde, saját fordításban. <a href="#s-turing">Forrás: Turing, 1950.</a></figcaption></figure>
+<p>Figyeld meg a trükköt. A helyes összeg 105 721, a „tesztalany” tehát hibázott, és sokáig gondolkodott. Egy gép pillanatok alatt, hibátlanul adna választ, és ezzel lelepleződne. A jó utánzáshoz tehát az emberi hibák utánzása is hozzátartozik. Ez már előre jelzi a teszt egyik gyengéjét.</p>
+<div class="u-lab" id="turing-labor"><span class="u-lab-label">PRÓBÁLD KI / TE VAGY A BÍRÁLÓ</span><h3>Melyik tesztalany a gép?</h3>
+<p>Három rövid, kitalált beszélgetésrész következik. Mindegyikben válaszd ki, szerinted melyik tesztalany a gép. A megoldás után megtudod, mire érdemes figyelni.</p>
+<div id="turing-kor" class="u-js-only" aria-live="polite"></div>
+<div class="u-nojs-only"><p>A játék JavaScripttel működik. A tanulsága szövegesen: (1) a túl „tankönyvszerű” válasz árulkodó; (2) a túl gyors, hibátlan számolás is; (3) de az együttműködést megtagadó ember is gépnek tűnhet.</p></div>
+</div>
+<p>Turing egy óvatos jóslatot is megfogalmazott.</p>
+<figure class="u-quote"><blockquote lang="en"><p>“I believe that in about fifty years’ time it will be possible to programme computers […] to make them play the imitation game so well that an average interrogator will not have more than 70 per cent chance of making the right identification after five minutes of questioning.”</p></blockquote><figcaption>Turing, 1950. Magyarul: „Úgy hiszem, nagyjából ötven év múlva lehetséges lesz úgy programozni a számítógépeket, hogy az átlagos kérdező öt perc kérdezés után legfeljebb 70% eséllyel azonosítsa helyesen a gépet.” (saját fordítás) <a href="#s-turing">Forrás</a></figcaption></figure>
+<p>A jóslat szerint tehát 2000 körül a gép a bírálók legalább 30%-át meg tudja téveszteni öt perc alatt. Az idővonal mutatja, hogyan alakult ez a valóságban.</p>
+<ol class="u-timeline" id="turing-idovonal">
+<li><span class="u-year">1950</span><p>Turing leírja az utánzós játékot és a jóslatát.</p></li>
+<li><span class="u-year">1966</span><p>Joseph Weizenbaum ELIZA nevű programja egyszerű szövegminták alapján „pszichoterapeutát” játszik. Sokan emberinek érezték, pedig semmit sem értett.</p></li>
+<li><span class="u-year">2014. jún. 7.</span><p>Turing halálának 60. évfordulóján egy londoni kísérletben az <strong>Eugene Goostman</strong> nevű csevegőprogram a bírálók 33%-át győzte meg, hogy ő egy Ukrajnában élő, 13 éves fiú. A „kiskorú, nem anyanyelvi” szerep ügyesen mentegette a hibáit, ezért az eredményt sokan kritizálták.</p></li>
+<li><span class="u-year">2023</span><p>Egy kétszereplős online kísérletben a GPT-4 nyelvi modellt a résztvevők 54%-a tartotta embernek. A valódi embereket 67%-ban, a régi ELIZA-t 22%-ban. Az eredményt 2024-ben publikálták.</p></li>
+<li><span class="u-year">2025</span><p>Ugyanaz a kutatócsoport már a Turing-féle háromszereplős változatot futtatta. Az emberi szerepre utasított GPT-4.5-öt a bírálók 73%-ban választották embernek – gyakrabban, mint a valódi embert.</p></li>
+</ol>
+<aside class="u-fix"><h3>Kiigazítás · Az öt perc nem a teszt szabálya, és a GPT-4 adata más tesztből jön</h3>
+<p><strong>A PDF állítása:</strong> ha 5 perc faggatás után sem derül ki, melyik a gép, akkor a gép sikeresen teljesítette a tesztet; a GPT-4 2023-ban a felhasználók 54%-át győzte meg.</p>
+<p><strong>Pontosabban:</strong> Turing nem adott „átment / megbukott” szabályt. Az öt perc és a 70% a jóslatában szerepel, nem a teszt meghatározásában. A GPT-4-es kísérletben a bíráló csak egy partnerrel beszélt, és arról döntött, hogy ember-e. Ez könnyebb helyzet a gépnek, mint Turing változata, ahol a bíráló egyszerre hasonlíthat össze egy embert és egy gépet. <a href="#s-jones2024">Források: Jones–Bergen 2024;</a> <a href="#s-jones2025">Jones–Bergen 2025.</a></p>
+<p><strong>Miért fontos?</strong> A 2025-ös, háromszereplős eredmény már közelebb áll Turing eredeti elrendezéséhez. A szerzők szerint a döntést inkább a stílus és az érzelmi hangnem befolyásolta, mint a „tudás”.</p></aside>
+<p>A tesztet sokan bírálják. A PDF öt kritikáját egy-egy példával érdemes megérteni.</p>
+<dl class="u-rows" id="turing-kritikak">
+<div><dt>Nem minden ember menne át rajta</dt><dd>Egy kisgyerek, egy idegen nyelven kérdezett ember vagy egy fáradt, rövid válaszokat adó felnőtt könnyen „gépnek” tűnhet. A teszt tehát nem minden intelligens lényre alkalmas mérce.</dd></div>
+<div><dt>A párbeszéd nem maga az intelligencia</dt><dd>A csevegés csak egy szelete az intelligens viselkedésnek. Az ELIZA is folyékonyan beszélgetett, mégsem értett semmit.</dd></div>
+<div><dt>Intelligens lehet, ami nem beszél emberként</dt><dd>Egy gép lehet kiváló sakkban vagy fehérjeszerkezetek előrejelzésében úgy, hogy csevegni egyáltalán nem tud. A teszt ezt nem veszi észre.</dd></div>
+<div><dt>Az együttműködés hiánya</dt><dd>Az az ember is megbukhat, aki nem hajlandó együttműködni. Ugyanez elvben a gépnél sincs kizárva: ha a gép „nem akar” emberként viselkedni, a teszt semmit sem mond a képességeiről.</dd></div>
+<div><dt>A nagy adatbázis csalhat</dt><dd>Kellően nagy, előre eltárolt kérdés–válasz gyűjteménnyel egy gép megértés nélkül is átmehet. Ned Block filozófus 1981-ben ezt gondolatkísérletté fejlesztette: egy hatalmas kikereső táblázat sem intelligens, akármilyen jól válaszol.</dd></div>
+</dl>
+<aside class="u-add"><h3>Kiegészítés · A kínai szoba</h3><p>John Searle 1980-as gondolatkísérletében egy ember kínaiul nem tudva, egy szabálykönyv alapján kínai írásjelekre kínai írásjelekkel válaszol. Kívülről úgy tűnik, érti a nyelvet, valójában csak jeleket rendez. Searle szerint a Turing-teszt legfeljebb a viselkedést méri, a megértést nem. <a href="#s-searle">Forrás: Searle, 1980.</a></p></aside>
+<p>A PDF megjegyzi azt is, hogy a tesztet később kiterjesztették: az emberhez hasonlóan <em>gondolkodó</em> gép helyett az emberhez hasonlóan <em>cselekvő</em> gép lett a cél. Egy ilyen gépnek látnia és mozognia is kell, vagyis a robotika és a gépi látás is bekerül a vizsgálatba.</p>
+<p class="u-key">A Turing-teszt a megtévesztés sikerét méri, nem közvetlenül az intelligenciát. Hasznos kiindulópont, de nem végleges mérce.</p>
+</section>
+
+<!-- 06 · TERÜLETEK -->
+<section id="terulete" class="chapter-section"><span class="section-index">06 / PDF 10.</span>
+<h2>Tizennégy terület, négy nagy kérdés.</h2>
+<p>A PDF tizennégy alkalmazási területet sorol fel. Könnyebb megjegyezni őket, ha aszerint csoportosítjuk, milyen képességet próbálnak gépesíteni. A csoportosítás a jegyzet saját rendezése; minden terület szerepel benne.</p>
+<div class="u-map" id="teruleti-terkep">
+<section><h3>Gondolkodás és következtetés</h3><ul><li>logikai játékok (logical games)</li><li>tételbizonyítás (theorem proving)</li><li>automatikus programozás (automated programming)</li><li>szimbolikus számítás (symbolic algebraic computation)</li></ul></section>
+<section><h3>Érzékelés és cselekvés</h3><ul><li>gépi látás, képfeldolgozás (vision)</li><li>robotika (robotics)</li><li>beszédfelismerés (voice recognition)</li></ul></section>
+<section><h3>Nyelv és tudás</h3><ul><li>természetes nyelvek feldolgozása (natural language processing)</li><li>szakértőrendszerek (expert systems)</li><li>adatbányászat (data mining)</li></ul></section>
+<section><h3>Keresés, tervezés, tanulás</h3><ul><li>korlátozás kielégítés (constraint satisfaction)</li><li>cselekvési tervek generálása (planning)</li><li>mesterséges neurális hálózatok (artificial neural nets)</li><li>ágensek, multiágensek (agents, multi-agents)</li></ul></section>
+</div>
+<p>Az <strong>adatbányászat</strong> nagy adathalmazokban keres rejtett mintázatokat, például azt, hogy mely termékeket veszik gyakran együtt. Az <strong>ágens</strong> olyan program, amely érzékeli a környezetét és önállóan cselekszik benne; a <strong>multiágens</strong> rendszerben több ilyen program együttműködik vagy versenyez. A <strong>neurális hálózatokkal</strong> a 6. fejezet foglalkozik részletesen. A többi területet a következő részek egyenként mutatják be.</p>
+</section>
+
+<!-- 07 · JÁTÉKOK -->
+<section id="jatekok" class="chapter-section"><span class="section-index">07 / PDF 11.</span>
+<h2>„A játék nem játék!”</h2>
+<p>A PDF mottója arra utal, hogy a játékok kutatása komoly tudomány. A PDF szerint a játék lényege, hogy <strong>ellenérdekű résztvevők felváltva érvényesítik a stratégiájukat</strong> a végső győzelemért. Ugyanez a szerkezet jelenik meg a gazdaságban (árverseny két cég között) és a katonai tervezésben is. A PDF által vizsgált logikai játékokban a véletlennek nincs szerepe. A fő kérdés: lehet-e esélye a gépnek az ember ellen?</p>
+<p>A válasz ma egyértelmű igen. Az idővonal a legfontosabb fordulópontokat mutatja.</p>
+<ol class="u-timeline" id="jatek-idovonal">
+<li><span class="u-year">1997</span><p>Az IBM Deep Blue nevű gépe hat játszmás párosmérkőzésen legyőzi Garri Kaszparov sakkvilágbajnokot.</p></li>
+<li><span class="u-year">2007</span><p>A Chinook program „megoldja” a dámajátékot: kimutatja, hogy hibátlan játék mellett döntetlen az eredmény.</p></li>
+<li><span class="u-year">2016</span><p>A DeepMind AlphaGo programja 4:1-re legyőzi Lee Sedolt góban. A gó lehetséges állásainak száma messze meghaladja a sakkét, ezért itt tanulás kellett, nem csak nyers keresés.</p></li>
+<li><span class="u-year">2019</span><p>A Pluribus program hatszemélyes pókerben győz profi játékosok ellen. Itt már a véletlen és a rejtett információ is szerepet kap.</p></li>
+</ol>
+<aside class="u-fix"><h3>Kiigazítás · Véletlen és nemek</h3>
+<p><strong>A PDF állítása:</strong> a játékban a véletlennek nincs szerepe; az ember azért szereti a szellemi kihívásokat, mert „különösen a férfiak szeretnek versenyezni”.</p>
+<p><strong>Pontosabban:</strong> a véletlen kizárása csak a sakkhoz, dámához, góhoz hasonló, <em>determinisztikus, teljes információjú</em> játékokra igaz. A póker vagy az ostábla (backgammon) is fontos MI-kutatási terep, pedig ott a lapjárás vagy a dobókocka is dönt. A nemekre vonatkozó megjegyzés általánosítás, amelyet a MI-kutatás semmilyen eredménye nem támaszt alá; a szellemi kihívás minden embercsoportot vonzhat. A jegyzet ezért nem veszi át. <a href="#s-pluribus">Forrás: Brown–Sandholm, 2019.</a></p></aside>
+</section>
+
+<!-- 08 · SZIMBOLIKUS -->
+<section id="szimbolumok" class="chapter-section"><span class="section-index">08 / PDF 12–15.</span>
+<h2>Amikor a gép képletekkel dolgozik.</h2>
+<p>Három rokon terület következik. Mindháromban a gép nem számokat, hanem <strong>szimbólumokat</strong> – betűket, képleteket, logikai állításokat – alakít át szabályok szerint.</p>
+<h3>Tételbizonyítás</h3>
+<p>A <strong>tételbizonyítás (theorem proving)</strong> célja, hogy a gép alapigazságokból, azaz <strong>axiómákból</strong> kiindulva levezessen egy matematikai állítást. Ehhez logikai nyelvet használ: a <strong>kijelentéslogikát</strong> (más néven nulladrendű predikátumkalkulust), vagy a gazdagabb <strong>elsőrendű predikátumkalkulust</strong>. A leggyakoribb módszer a <strong>rezolúció (resolution)</strong>.</p>
+<p>A rezolúció fordított irányból dolgozik. Nem közvetlenül bizonyít, hanem cáfol: felveszi a tények és szabályok mellé a bizonyítandó állítás <em>tagadását</em>, és megmutatja, hogy ez a halmaz ellentmondásos, azaz <strong>kielégíthetetlen</strong>. Ha a tagadás ellentmondáshoz vezet, akkor az eredeti állítás csak igaz lehet.</p>
+<div class="u-example" id="rezolucio-pelda"><strong>Végigvezetett példa</strong>
+<ol class="u-steps">
+<li><p><strong>Tények és szabályok.</strong> (1) Minden ember halandó: <code>¬Ember(x) ∨ Halandó(x)</code>. (2) Szókratész ember: <code>Ember(Szókratész)</code>.</p></li>
+<li><p><strong>A tagadott állítás.</strong> Bizonyítandó: Szókratész halandó. Felvesszük a tagadását: (3) <code>¬Halandó(Szókratész)</code>.</p></li>
+<li><p><strong>Első rezolúciós lépés.</strong> (1) és (2) összevetéséből <code>x = Szókratész</code> helyettesítéssel: (4) <code>Halandó(Szókratész)</code>.</p></li>
+<li><p><strong>Ellentmondás.</strong> (4) és (3) egymás tagadásai, tehát az üres állítás adódik: ellentmondás. Az eredeti állítás igaz.</p></li>
+</ol>
+<p>A jelölés részletes magyarázata a 4. fejezetben, a formális logikánál következik.</p></div>
+<p>Érdemes összevetni a tételbizonyítót a logikai programozási nyelvekkel, például a Prologgal (5. fejezet).</p>
+<div class="u-compare">
+<div><span class="u-tag">LOGIKAI PROGRAMOZÁS (PROLOG)</span><h3>A felhasználó a logikát adja</h3><p>Megadjuk a tényeket és a szabályokat. A következtetés menetét, vagyis a <strong>vezérlést</strong>, a nyelv beépített módszere intézi.</p></div>
+<div><span class="u-tag">TÉTELBIZONYÍTÓ</span><h3>A vezérlés is feladat</h3><p>A PDF szerint itt a felhasználónak a bizonyítás menetét, a vezérlést is meg kell adnia. A tételbizonyítás kutatása ezért főleg <strong>általánosan használható vezérlők</strong> keresésére irányul.</p></div>
+</div>
+<p>Korai példák a QA1, QA2 és QA3 kérdés-válaszoló rendszerek (Cordell Green, 1960-as évek vége), a QA4 nyelv már <strong>procedurális reprezentációt</strong> is használt, vagyis a tudás egy részét végrehajtható eljárásként tárolta.</p>
+<aside class="u-add"><h3>Kiegészítés · A tételbizonyítás ma</h3><p>1976-ban a négyszín-tételt számítógép segítségével bizonyították. Ma a Lean vagy a Coq (Rocq) nevű bizonyításellenőrzők matematikai bizonyítások minden lépését gépileg ellenőrzik. 2024-ben a DeepMind AlphaProof rendszere a Nemzetközi Matematikai Diákolimpia feladatain ezüstérmes szintet ért el.</p></aside>
+<h3>Automatikus programozás</h3>
+<p>Az <strong>automatikus programozás (automated programming)</strong> célja a szoftverkészítés automatizálása. Elég a megoldandó feladatot <strong>specifikálni</strong>, azaz pontosan leírni, <em>mit</em> kell tennie a programnak; a megoldás algoritmusa és a program automatikusan készül el. Ennek értelme, hogy a specifikáció rövidebb és könnyebben megadható, mint maga a program.</p>
+<div class="u-compare">
+<div><span class="u-tag">SPECIFIKÁCIÓ · MIT?</span><p>„Adj vissza egy listát, amely ugyanazokat az elemeket tartalmazza, mint a bemenet, növekvő sorrendben.”</p></div>
+<div><span class="u-tag">PROGRAM · HOGYAN?</span><p>Egy rendezőalgoritmus (például összefésülő rendezés) teljes kódja, a ciklusokkal, feltételekkel és segédváltozókkal együtt – ennek a sokszorosa.</p></div>
+</div>
+<aside class="u-add"><h3>Kiegészítés · A mai kódgeneráló modellek</h3><p>A nagy nyelvi modellek ma természetes nyelvű leírásból kódot írnak. Ez közelebb visz a régi célhoz, de a specifikáció szerepe nem tűnt el: ha a leírás pontatlan, a kód is az lesz. Az elkészült programot ezért tesztekkel kell ellenőrizni.</p></aside>
+<h3>Szimbolikus számítás</h3>
+<p>A <strong>szimbolikus számítás (symbolic algebraic computation)</strong> képletekkel dolgozik, nem számokkal. Algebrai átalakításokat, deriválást, integrálást végez, és trigonometrikus, logaritmikus azonosságokat alkalmaz. Ismert programok: MACSYMA, REDUCE, CAMAL, LAM, ALTRAN, FORMAC, SYMBOL és a MATHEMATICA.</p>
+<p>A PDF a MATHEMATICA három tulajdonságát mutatja be:</p>
+<div class="u-table-wrap"><table class="u-table" id="mathematica-tabla">
+<caption>A MATHEMATICA be- és kimenetei a PDF 15. oldalának példái alapján.</caption>
+<thead><tr><th scope="col">Tulajdonság</th><th scope="col">Bemenet</th><th scope="col">Kimenet</th></tr></thead>
+<tbody>
+<tr><td>Numerikus számítás</td><td><code>In[1]:= 3 + 62 - 1</code></td><td><code>Out[1]= 64</code></td></tr>
+<tr><td>Szimbolikus számítás</td><td><code>In[2]:= 3x - x + 2</code></td><td><code>Out[2]= 2 + 2x</code></td></tr>
+<tr><td>Automatikus egyszerűsítés</td><td><code>In[4]:= x^2 + x - 4x^2</code></td><td><code>Out[4]= x - 3x²</code></td></tr>
+</tbody></table></div>
+<p>A harmadik tulajdonság a legérdekesebb: összetett kifejezésekre a program addig alkalmazza az átalakítási szabályokat, amíg a kifejezés már nem változik. Ezt a pontot nevezik <strong>fixpontnak</strong>. A bemutató ugyanezt a folyamatot végzi el lépésenként egyváltozós polinomokon.</p>
+<div class="u-lab" id="szimbolikus-labor"><span class="u-lab-label">PRÓBÁLD KI / EGYSZERŰSÍTÉS SZABÁLYOKKAL</span><h3>Írj be egy kifejezést az <code>x</code> változóval.</h3>
+<p>Használható: egész számok, <code>x</code>, hatvány <code>^</code> jellel, összeadás és kivonás. Példák: <code>x^2 + x - 4x^2</code>, <code>3x - x + 2</code>, <code>5 - 2x^3 + x^3 + x^3</code>.</p>
+<div class="u-controls"><label for="szimb-be" class="visually-hidden">Kifejezés</label><input type="text" id="szimb-be" value="x^2 + x - 4x^2" size="24" spellcheck="false" autocomplete="off"><button type="button" id="szimb-gomb">Egyszerűsítés</button></div>
+<div class="u-out" id="szimb-ki" role="status" aria-live="polite"><p>A bemutatóhoz JavaScript szükséges. A fenti táblázat mutatja a várt eredményeket.</p></div></div>
+</section>
+
+<!-- 09 · LÁTÁS -->
+<section id="latas" class="chapter-section"><span class="section-index">09 / PDF 16–17.</span>
+<h2>Pixelekből tárgyak.</h2>
+<p>A külvilágról szerzett információink legnagyobb részét látással szerezzük. Ezért a <strong>gépi látás (computer vision)</strong> az MI egyik központi területe.</p>
+<div class="u-compare">
+<div><span class="u-tag">BEMENET</span><p>Kétdimenziós <strong>bittérkép (bitmap)</strong>: képpontok rácsa, mindegyikben egy szín- vagy fényességérték. Ez nagyon alacsony szintű adat: a gép csak számokat „lát”.</p></div>
+<div><span class="u-tag">KIMENET</span><p>A felismert <strong>tárgyak</strong>, térbeli viszonyuk és fizikai jellemzőik: alak, méret, szín, helyzet. Ez magas szintű leírás, például: „egy piros bögre áll a laptop bal oldalán”.</p></div>
+</div>
+<p>A feladat tehát az, hogy a nyers adatból fokozatosan egyre elvontabb leírást építsünk. A PDF öt lépést nevez meg.</p>
+<ol class="u-flow" id="kepfeldolgozas-lepesei">
+<li><strong>1 · ÉLEK</strong>Ahol a fényesség hirtelen változik, ott valószínűleg egy tárgy széle van.</li>
+<li><strong>2 · MÉLYSÉG</strong>Melyik felület van közelebb és melyik távolabb?</li>
+<li><strong>3 · ALAK ÁRNYÉKBÓL</strong>A fény és árnyék eloszlásából a felület görbülete becsülhető.</li>
+<li><strong>4 · VONALCÍMKÉZÉS</strong>Minden élről eldöntjük: külső kontúr, domború vagy homorú törés.</li>
+<li><strong>5 · AZONOSÍTÁS</strong>Mi a tárgy, és hol van a térben?</li>
+</ol>
+<p>Az első lépés az emberi látást utánozza: a szem recehártyájában is vannak olyan sejtek, amelyek a világos–sötét határokra érzékenyek. A PDF megemlíti az <strong>elektronikus recehártyát</strong> (Carver Mead és Misha Mahowald „szilícium retinája”, 1980-as évek vége). Ez a recehártya sok funkcióját, köztük az elsődleges képfeldolgozást is áramkörrel modellezi, és megkönnyíti a neurális hálózatok bemenőjeleinek előállítását.</p>
+<div class="u-lab" id="el-labor"><span class="u-lab-label">PRÓBÁLD KI / ÉLKERESÉS</span><h3>Rajzolj egy alakzatot, és nézd meg az éleit.</h3>
+<p>A bal oldali rács gombjaival kapcsolhatod a képpontokat (Tab és Enter vagy szóköz is működik). A jobb oldalon kék jelöli az éleket: azokat a sötét képpontokat, amelyeknek van világos szomszédjuk fent, lent, balra vagy jobbra.</p>
+<div class="u-grid-wrap u-js-only"><figure><div class="u-pixels" id="el-be" role="group" aria-label="Bemeneti kép, 8×8 képpont"></div><figcaption>Bemenet: bittérkép.</figcaption></figure><figure><div class="u-pixels" id="el-ki" aria-hidden="true"></div><figcaption>Kimenet: élek (kék) és belső terület (halvány).</figcaption></figure></div>
+<p class="u-out" id="el-szoveg" role="status" aria-live="polite">A bemutatóhoz JavaScript szükséges. Egy teli négyzet esetén csak a négyzet kerete lesz él, a belseje nem.</p></div>
+</section>
+
+<!-- 10 · ROBOTIKA -->
+<section id="robotika" class="chapter-section"><span class="section-index">10 / PDF 18.</span>
+<h2>Test a gondolkodáshoz.</h2>
+<p>A <strong>robot</strong> szó egy 1920-as színdarabból, Karel Čapek <em>R.U.R.</em> című művéből terjedt el. A szót bátyja, Josef Čapek javasolta. A cseh <em>robota</em> szó a jobbágy kötelező, fizetség nélküli munkáját, vagyis kényszermunkát jelentett.</p>
+<aside class="u-fix"><h3>Kiigazítás · Rabota vagy robota?</h3><p><strong>A PDF állítása:</strong> a szó a <em>rabota</em> (kemény munka) szóból ered.</p><p><strong>Pontosabban:</strong> a közvetlen forrás a cseh <em>robota</em>, amely robotmunkát, jobbágyi kényszermunkát jelentett. A rokon orosz <em>работа</em> (rabota) egyszerűen „munkát” jelent. A kettő közös szláv tőből ered, de Čapek a csehet használta. Magyarul a „robotolni” ige is ebből a rétegből ered. <a href="#s-capek">Forrás: Britannica, „robot”.</a></p></aside>
+<p>A PDF öt ismertetőjegyet ad. Ezeket egy robotporszívón végigvezetve könnyebb megérteni.</p>
+<div class="u-table-wrap"><table class="u-table" id="robot-ismerv">
+<caption>A robot ismérvei a PDF 18. oldala alapján, egy robotporszívó és egy ipari hegesztőrobot példáján.</caption>
+<thead><tr><th scope="col">Ismérv</th><th scope="col">Robotporszívó</th><th scope="col">Ipari hegesztőkar</th></tr></thead>
+<tbody>
+<tr><td>Önálló tevékenységre képes</td><td>Igen: beindítás után maga dönti el az útvonalat.</td><td>Igen: a beprogramozott műveletsort emberi kéz nélkül végzi.</td></tr>
+<tr><td>Mozgásra képes</td><td>Igen: kerekeken halad a lakásban.</td><td>Igen: a karja mozog, a talapzata rögzített.</td></tr>
+<tr><td>Többnyire nyílt kinematikai láncú</td><td>Nem: kerekes, mozgó (mobil) robot.</td><td>Igen: csuklók sora a talapzattól a szabad végű fogóig, mint az emberi kar.</td></tr>
+<tr><td>Interakcióban van a környezettel</td><td>Igen: érzékeli a falat, a lépcsőt, a szőnyeget.</td><td>Igen: érzékeli a munkadarab helyzetét.</td></tr>
+<tr><td>Ismétlődő, fárasztó vagy veszélyes munkát végez</td><td>Igen: napi porszívózás.</td><td>Igen: forró, szikrázó, mérgező gázokkal járó munka.</td></tr>
+</tbody></table></div>
+<p>A <strong>nyílt kinematikai lánc</strong> olyan szerkezet, amelyben a merev elemek csuklókkal egymás után kapcsolódnak, és a lánc vége szabad. A „többnyire” szó azt jelzi, hogy ez az ipari robotkarokra igaz, a mobil robotokra nem.</p>
+<p>A robotika célja a PDF szerint az ember helyettesítése. Ezért a robotok egyre több emberi vonást mutatnak: megjelenik a <strong>humanoid</strong>, azaz emberszerű felépítés, és a szándékos cselekvésre emlékeztető viselkedés is. A Turing-tesztnél láttuk, hogy a gondolkodó gép eszméje kibővült a <em>cselekvő</em> gépével. Ha a robotvezérlő intelligenciája nő, olyan gép jöhet létre, amely nemcsak gondolkodik, hanem cselekszik is, mint egy ember.</p>
+<p class="u-key">Ahogy a robot képességei nőnek, úgy nő a hasznossága és a veszélyessége is. Egy önállóan mozgó, erős gépnél a hibának fizikai következménye van.</p>
+</section>
+
+<!-- 11 · BESZÉD -->
+<section id="beszed" class="chapter-section"><span class="section-index">11 / PDF 19–21.</span>
+<h2>Hangból szöveg.</h2>
+<p>A <strong>beszédfelismerés (speech recognition)</strong> célja az emberi beszéd átalakítása gép által kezelhető szöveggé. A végső cél a nyelvfeldolgozással együtt a beszélt nyelv gépi <em>megértése</em>. A korai rendszerek csak szűk szókincset ismertek fel, vagy nagyobb szókincset, de csak egyetlen, előre betanított beszélőtől.</p>
+<p>A beszéd legkisebb, jelentést megkülönböztető egységei a <strong>fonémák</strong> (beszédhangok). A „kár” és a „kér” csak egy fonémában tér el, mégis mást jelent. A felismerés két alapvető nehézsége:</p>
+<dl class="u-rows">
+<div><dt>Egybefolyó szavak</dt><dd>A beszédben nincs szünet a szavak között. A <strong>szegmentálás</strong>, vagyis a hangfolyam szavakra bontása ezért nehéz feladat.</dd></div>
+<div><dt>Betű és hang nem felel meg egymásnak</dt><dd><p>Eltérő fonémák, azonos betűk: „Mondd, Zsanett, kell findzsa?” – a <em>mondd Zsanett</em>ben a <em>d</em> és a <em>zs</em> két külön hang, a <em>findzsában</em> a <em>dzs</em> egyetlen hang.</p><p>Azonos fonémák, eltérő betűk: „Mi hájjal kenjük a kenyeret, Mihály.” – a <em>hájjal</em> és a <em>Mihály</em> vége ugyanúgy hangzik, de egyszer <em>jj</em>, egyszer <em>ly</em> a leírása.</p></dd></div>
+</dl>
+<aside class="u-fix"><h3>Kiigazítás · Nem minden nyelvben kb. 50 fonéma van</h3><p><strong>A PDF állítása:</strong> az emberi nyelvek kb. 50 fonémát különböztetnek meg.</p><p><strong>Pontosabban:</strong> a fonémák száma nyelvenként nagyon eltér. A magyarban kb. 39 fonéma van (14 magánhangzó és 25 mássalhangzó), az angolban kb. 40–44 a nyelvváltozattól függően. A brazíliai pirahã nyelvben alig több mint tíz, egyes dél-afrikai khoiszan nyelvekben száznál is több. <a href="#s-fonema">Forrás: Wikipédia, „Fonéma”.</a></p></aside>
+<p>A hangjel feldolgozásának célja az <strong>információ csökkentése</strong> és a lényeges jellemzők kiemelése. A mikrofon rengeteg adatot ad, ennek nagy része a felismerés szempontjából fölösleges.</p>
+<ol class="u-steps" id="hangjel-lepesei">
+<li><p><strong>Mintavételezés.</strong> A folytonos hanghullám értékét szabályos időközönként megmérjük. A telefon másodpercenként 8000, a CD 44 100 mintát vesz.</p></li>
+<li><p><strong>Kvantálás.</strong> A mért értékeket véges számú szintre kerekítjük. 8 biten 256, 16 biten 65 536 szint van.</p></li>
+<li><p><strong>Jellemzőkinyerés keretekben.</strong> A jelet rövid, azonos hosszúságú <strong>keretekre</strong> (tipikusan 20–25 ezredmásodperc) bontjuk, és mindegyikből néhány tucat számot, egy <strong>jellemzővektort</strong> számolunk. Ez a hang „ujjlenyomata” abban a pillanatban.</p></li>
+<li><p><strong>Vektorkvantálás.</strong> A jellemzővektorok terét (a PDF szóhasználatával a jellemzők <strong>hiperterét</strong>) régiókra osztjuk, és minden keret vektorát a hozzá legközelebbi régió sorszámával helyettesítjük. Mintha minden színt a legközelebbi zsírkréta nevével írnánk le.</p></li>
+</ol>
+<div class="u-lab" id="hang-labor"><span class="u-lab-label">PRÓBÁLD KI / MINTAVÉTELEZÉS ÉS KVANTÁLÁS</span><h3>Mennyi adat kell egy hanghullámhoz?</h3>
+<p>A szürke vonal az eredeti hanghullám. A narancs pontok a minták, a kék lépcsős vonal a kvantált jel. Figyeld meg, mikor kezd torzulni a kék vonal.</p>
+<svg class="u-signal u-js-only" id="hang-svg" viewBox="0 0 600 220" role="img" aria-labelledby="hang-svg-cim"><title id="hang-svg-cim">Hanghullám mintavételezése és kvantálása</title></svg>
+<div class="u-form u-js-only"><label>Minták száma: <output id="hang-n-ki">24</output><input type="range" id="hang-n" min="4" max="80" value="24"></label><label>Bitek száma mintánként: <output id="hang-b-ki">3</output><input type="range" id="hang-b" min="1" max="8" value="3"></label></div>
+<div class="u-out" id="hang-szoveg" role="status" aria-live="polite"><p>A bemutatóhoz JavaScript szükséges. A lényeg: kevés mintával vagy kevés szinttel a jel torzul, sok mintával és szinttel pontos, de sok adatot igényel.</p></div></div>
+<p>A beszédfelismerést nem szabad összekeverni egy rokon feladattal.</p>
+<div class="u-compare" id="beszed-beszelo">
+<div><span class="u-tag">BESZÉDFELISMERÉS</span><h3>Mit mondott?</h3><p>A <strong>beszélőtől független</strong>, a beszédre jellemző paramétereket nyeri ki. Mindegy, ki mondja az „igen”-t, a szöveg ugyanaz.</p><p><em>Példa:</em> diktálás, feliratkészítés.</p></div>
+<div><span class="u-tag">BESZÉLŐFELISMERÉS</span><h3>Ki mondta?</h3><p>Éppen a <strong>beszélőre jellemző</strong> paramétereket nyeri ki: hangszín, beszédtempó, kiejtés. Mindegy, mit mond, a hang gazdája a kérdés.</p><p><em>Példa:</em> hangalapú azonosítás a telefonos ügyfélszolgálaton.</p></div>
+</div>
+<p>A szavak egyértelmű felismeréséhez további statisztikai, valószínűségi adatok kellenek. Ha a gép bizonytalan, hogy „kész” vagy „kés” hangzott el, a mondat eleje segít: a „vágd fel a kenyeret egy …” után a „kés” valószínűbb. Ezeket a valószínűségeket a rendszer <strong>betanítással</strong>, sok felvett és leírt beszéden tanulja meg. A PDF szerint a legjobb rendszerek a szavak több mint 95%-át jól ismerik fel, és javasolja, hogy próbáljuk ki a Word diktálás funkcióját.</p>
+<aside class="u-add"><h3>Kiegészítés · 95% ma már kevés</h3><p>A mai rendszerek, például az OpenAI 2022-es Whisper modellje, tiszta angol beszéden a szavak 95–97%-ánál is többet ismernek fel helyesen, és sok nyelven működnek. Zajos környezetben, erős tájszólásnál vagy egymásba beszélő embereknél azonban a hibaarány ma is jelentősen nő. <a href="#s-whisper">Forrás: Radford és mtsai., 2022.</a></p></aside>
+</section>
+
+<!-- 12 · NYELV -->
+<section id="nyelv" class="chapter-section"><span class="section-index">12 / PDF 22–23.</span>
+<h2>Feldobta a bocskorát.</h2>
+<p>A <strong>természetes nyelvek feldolgozása (natural language processing)</strong> a gépi fordítás és tolmácsolás alapja is. A PDF szerint az emberi nyelv olyan összetett, hogy a megoldás csak az emberi intelligenciával és tudással összemérhető képességű géptől várható.</p>
+<aside class="u-fix"><h3>Kiigazítás · A jó fordításhoz nem kell emberi szintű gép</h3><p><strong>A PDF állítása:</strong> a fordítás megoldása csak emberi intelligenciával összemérhető géptől várható.</p><p><strong>Pontosabban:</strong> 2016 óta a neurális gépi fordítók sok nyelvpárban hétköznapi célokra jól használható fordítást adnak, pedig általános emberi intelligenciával nem rendelkeznek. A PDF gondolata a nehéz esetekre igaz: a szójátékok, a szólások és a kimondatlan szándék fordítása ma is hibalehetőség. A lenti négy szint éppen ezt mutatja meg. <a href="#s-aima">Forrás: Russell–Norvig, 24. fejezet.</a></p></aside>
+<p>A PDF négy értelmezési szintet különít el. Egy rövid párbeszéd mutatja meg, miért kell mind a négy.</p>
+<figure class="u-dialogue" id="bocskor-parbeszed"><dl>
+<div><dt>Éva</dt><dd>Tudod, hogy Viktor ugyanúgy dohányzott, mint te?</dd></div>
+<div class="u-other"><dt>Imre</dt><dd>Nem. Miért, mi van vele?</dd></div>
+<div><dt>Éva</dt><dd>Tüdőrák. Feldobta a bocskorát.</dd></div>
+<div class="u-other"><dt>Imre</dt><dd>Szomorúan hallom.</dd></div>
+</dl><figcaption>A PDF 23. oldalának példapárbeszéde.</figcaption></figure>
+<p>A <strong>bocskor</strong> régi, bőrből készült paraszti lábbeli. Most vizsgáljuk meg a „Feldobta a bocskorát.” mondatot mind a négy szinten.</p>
+<dl class="u-rows" id="negy-szint">
+<div><dt>1 · Szintaktikai (forma)</dt><dd>Egy múlt idejű állítmány (<em>feldobta</em>) és egy tárgy (<em>a bocskorát</em>). Csak a mondat szerkezetét nézzük, a jelentését nem.</dd></div>
+<div><dt>2 · Szemantikai (szó szerinti tartalom)</dt><dd>Felhajította a lábbelijét. Ezt kapjuk, ha a szavak jelentését egyenként összerakjuk.</dd></div>
+<div><dt>3 · Pragmatikai (valóságos jelentés)</dt><dd>Meghalt. Ehhez tudni kell, hogy ez egy szólás, és a helyzet (tüdőrák) is ezt támasztja alá.</dd></div>
+<div><dt>4 · Intencionális (szándékolt jelentés)</dt><dd>Éva figyelmeztetni akarja Imrét, hogy ne dohányozzon annyit. Ez a mondatban sehol sincs kimondva; a beszélgetés egészéből és a beszélő szándékából következik.</dd></div>
+</dl>
+<p class="u-key">Minden szint egy újabb tudásréteget kér: nyelvtant, szókincset, a szólások ismeretét, végül a beszélők céljainak megértését. Egy szó szerinti fordító az első két szintnél megáll, és „threw up his sandal”-t ír.</p>
+</section>
+
+<!-- 13 · KORLÁTOK -->
+<section id="korlatok" class="chapter-section"><span class="section-index">13 / PDF 24.</span>
+<h2>Nyolc vezér, egyetlen szabály.</h2>
+<p>A <strong>korlátkielégítési feladat (constraint satisfaction problem)</strong> változókból, a változók lehetséges értékeiből és <strong>korlátokból</strong> áll. A korlát megszabja, milyen értékeket vehetnek fel a változók együtt. Megadható <strong>explicit módon</strong>, az engedett értékek felsorolásával („a hétfő és a kedd megengedett”), vagy <strong>implicit módon</strong>, egy kifejezéssel („a két időpont legalább egy nap eltérésű”). A változók által felvehető értékek száma véges.</p>
+<p>A feladat <strong>megoldása</strong> a változók olyan értékadása, amely minden korlátot kielégít. Többnyire egyetlen megoldással is beérjük, bár gyakran több is van. Bizonyos esetekben az összeset meg kell találni.</p>
+<p>A terület kedvenc feladata a <strong>nyolc vezér probléma</strong>: helyezzünk el a sakktáblán nyolc vezért úgy, hogy egyik se üsse a másikat. A vezér vízszintesen, függőlegesen és átlósan is üt.</p>
+<ol class="u-steps" id="vezer-modell">
+<li><p><strong>Változók.</strong> Minden sorba pontosan egy vezér kerül (egy sorban kettő ütné egymást). A nyolc változó: melyik oszlopban áll a vezér az 1., 2., …, 8. sorban.</p></li>
+<li><p><strong>Értékek.</strong> Minden változó értéke 1 és 8 közötti oszlopszám.</p></li>
+<li><p><strong>Korlátok.</strong> Két vezér nem állhat ugyanabban az oszlopban, és nem állhat azonos átlón. Két vezér átlón áll, ha a sorok különbsége egyenlő az oszlopok különbségével.</p></li>
+</ol>
+<p>Ha minden lehetőséget végigpróbálnánk, 8<sup>8</sup> = 16 777 216 elrendezést kellene megvizsgálni (soronként egy vezért feltételezve). A PDF két jobb módszert említ.</p>
+<div class="u-compare">
+<div><span class="u-tag">MÉLYSÉGBEN ELŐSZÖR</span><h3>Visszalépéses keresés</h3><p>A lehetőségek <strong>fagráfot</strong> alkotnak: a gyökér az üres tábla, az első szint az 1. sor vezérének 8 lehetséges helye, és így tovább. A <strong>mélységben először (depth-first)</strong> bejárás mindig a legújabb ágon halad lefelé, és csak zsákutcában lép vissza.</p></div>
+<div><span class="u-tag">KORLÁTPROPAGÁLÁS</span><h3>Előre kizárás</h3><p>Minden lerakott vezér után kihúzzuk azokat a mezőket, amelyeket üt. Ezek biztosan nem adhatnak megoldást, ezért meg sem próbáljuk őket. Ha egy sorban nem marad szabad mező, már most visszaléphetünk.</p></div>
+</div>
+<p>A kurzus kódgyűjteményében a mélységi keresés egy gráfon szerepel. A lényege egyetlen sor: az új utak a várakozási sor <em>elejére</em> kerülnek, így mindig a legfrissebb, legmélyebb ágat folytatjuk.</p>
+<figure class="u-code"><pre><code>def dfs(graph, start, goal):
+    queue = []
+    queue.append([start])
+    while queue:
+        path = queue.pop(0)
+        end_node = path[-1]
+        if end_node == goal:
+            return path
+        new_paths = []
+        for adjacent in graph.get(end_node, []):
+            if adjacent not in path:
+                new_path = list(path) + [adjacent]
+                new_paths.append(new_path)
+        queue[0:0] = new_paths   # az új utak a sor ELEJÉRE kerülnek
+    return None</code></pre><figcaption>Forrás: <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code>, <code>dfs</code> függvény. A kódból elhagytuk az üres sorokat, és egy magyar megjegyzést fűztünk hozzá. Bemenet: egy gráf szomszédsági listája, egy kezdő- és egy célcsúcs; kimenet: az első megtalált út.</figcaption></figure>
+<p>Ugyanez az ötlet a vezérekre alkalmazva: az „út” a már lerakott vezérek oszlopainak listája, a „szomszédok” pedig a következő sor azon mezői, amelyek nem ütésben vannak. Ez a feltétel maga a korlát, ezért a keresés már a zsákutcákat is korán levágja.</p>
+<figure class="u-code"><pre><code>def utkozik(vezerek, oszlop):
+    sor = len(vezerek)
+    return any(o == oszlop or abs(o - oszlop) == sor - s
+               for s, o in enumerate(vezerek))
+
+def nyolc_vezer(vezerek=()):
+    if len(vezerek) == 8:
+        return list(vezerek)
+    for oszlop in range(8):                  # a következő sor 8 mezője
+        if not utkozik(vezerek, oszlop):     # korlát: nem üti a többit
+            megoldas = nyolc_vezer(vezerek + (oszlop,))
+            if megoldas:
+                return megoldas
+    return None                              # zsákutca: visszalépés
+
+print(nyolc_vezer())   # [0, 4, 7, 5, 2, 6, 1, 3]</code></pre><figcaption>A fenti <code>dfs</code> ötletének a jegyzethez készített, rekurzív átirata a nyolc vezér feladatra. Nem a kódgyűjtemény része. Az oszlopok 0-tól számozódnak.</figcaption></figure>
+<div class="u-example" id="vezer-eredmeny"><strong>Végigvezetett eredmény</strong><p>A keresés 876 mezőt vizsgál meg. Ebből 113-szor tud vezért lerakni, és 105-ször kell visszalépnie, mire megtalálja az első megoldást. A 16,7 milliós nyers erőhöz képest ez elenyésző. Az első megoldás soronként az 1., 5., 8., 6., 3., 7., 2. és 4. oszlopba teszi a vezért.</p>
+<pre class="u-board-static" aria-label="Az első megoldás táblája szövegesen">1. sor  V · · · · · · ·
+2. sor  · · · · V · · ·
+3. sor  · · · · · · · V
+4. sor  · · · · · V · ·
+5. sor  · · V · · · · ·
+6. sor  · · · · · · V ·
+7. sor  · V · · · · · ·
+8. sor  · · · V · · · ·</pre>
+<p>Összesen 92 megoldás létezik. Ha a tábla forgatásával és tükrözésével egymásba vihetőket egynek számítjuk, 12 lényegesen különböző marad.</p></div>
+<div class="u-lab" id="vezer-labor"><span class="u-lab-label">PRÓBÁLD KI / NYOLC VEZÉR</span><h3>Rakj le vezéreket, vagy nézd végig a keresést.</h3>
+<p>Egy mezőre kattintva (vagy Enterrel) vezért teszel le, illetve veszel fel. Az ütésben álló vezérek piros keretet kapnak. A „Következő lépés” gomb a visszalépéses keresést mutatja lépésenként.</p>
+<div class="u-board u-js-only" id="vezer-tabla" role="group" aria-label="Sakktábla, 8×8 mező"></div>
+<div class="u-controls u-js-only"><button type="button" id="vezer-lepes">Következő lépés</button><button type="button" id="vezer-vegig">Keresés a megoldásig</button><button type="button" class="u-ghost" id="vezer-torles">Tábla törlése</button></div>
+<div class="u-out" id="vezer-allapot" role="status" aria-live="polite"><p>A bemutatóhoz JavaScript szükséges. A keresés eredményét a fenti végigvezetett példa tartalmazza.</p></div></div>
+</section>
+
+<!-- 14 · TERVEZÉS -->
+<section id="tervezes" class="chapter-section"><span class="section-index">14 / PDF 25.</span>
+<h2>Mit tegyek, és milyen sorrendben?</h2>
+<p>A <strong>cselekvéstervezés (planning)</strong> lényege egy hatékony, célirányos tevékenységsorozat előállítása egy feladat megoldására. A módszer lehet általános, vagyis a problémától független, vagy alkalmazásra szabott. A PDF két alapmódszert ismertet.</p>
+<div class="u-compare">
+<div><span class="u-tag">KERESÉS</span><h3>Próbáljuk végig a lépéseket</h3><p>Nehézsége a nagy <strong>elágazási tényező</strong>: minden állapotban sok lehetséges cselekvés van. Ha minden lépésben 10 cselekvés közül választhatunk, egy 5 lépéses tervhez már 10<sup>5</sup> = 100 000 sorozat jöhet szóba. Ráadásul a talált megoldás csak cselekvések egyszerű egymásutánja lehet.</p></div>
+<div><span class="u-tag">SZITUÁCIÓKALKULUS</span><h3>Írjuk le logikával a világot</h3><p>Az elsőrendű logikát alkalmazza a világ egy adott állapotára, egy <strong>szituációra</strong>. Kifejező, de nehezen irányítható, és könnyen adódnak nem megfelelő lépések is.</p></div>
+</div>
+<p>A gyakorlatban a kettőt együtt használják: a logika írja le a világot és a cselekvések hatását, a terv finomítása közben pedig a keresés választja ki a lépéseket. Ez történhet <strong>előreláncolással</strong> (a kiinduló állapotból a cél felé) vagy <strong>hátraláncolással</strong> (a célból visszafelé, hogy mi kell hozzá). A végeredmény egy végrehajtható cselekvéssor, amely a világot a korlátoknak megfelelő új állapotba viszi.</p>
+<div class="u-example" id="terv-pelda"><strong>Végigvezetett példa · Hátraláncolás egy teafőző robotnál</strong>
+<ol class="u-steps">
+<li><p><strong>Cél:</strong> tea a bögrében. Ehhez forró víz és teafilter kell a bögrében.</p></li>
+<li><p><strong>Részcél:</strong> forró víz. Ehhez a vízforralót fel kell forralni, ahhoz pedig víz kell benne.</p></li>
+<li><p><strong>Részcél:</strong> víz a forralóban. Ehhez a forralót a csap alá kell vinni. Ennek a feltétele már teljesül: a forraló a pulton áll.</p></li>
+<li><p><strong>A terv előrefelé olvasva:</strong> forraló a csap alá → vízzel tölt → forral → filtert a bögrébe → vizet a bögrébe.</p></li>
+</ol></div>
+</section>
+
+<!-- 15 · SZAKÉRTŐ -->
+<section id="szakerto" class="chapter-section"><span class="section-index">15 / PDF 26–31.</span>
+<h2>A szakértő tudása dobozban.</h2>
+<p>A <strong>szakértőrendszer (expert system)</strong> egy szűk szakterület tudását tárolja, és azt úgy használja, mint egy tapasztalt szakember: megoldási javaslatokat tesz, és meg is indokolja őket. A PDF szerint egy jó szakértőrendszer:</p>
+<dl class="u-rows" id="szakerto-kepessegek">
+<div><dt>Érti és használja a tudást</dt><dd>Problémaspecifikus ismereteket kezel, és ezek alapján egy feladat különböző megoldási útjait veti fel.</dd></div>
+<div><dt>Elemez és tanul</dt><dd>Nemcsak átadja az ismereteket, hanem elemző eszközökkel értékeli is őket, és tanulási technikákat is alkalmazhat.</dd></div>
+<div><dt>Szakértői szinten dolgozik</dt><dd>A PDF szerint a szakértőkhöz hasonló vagy jobb színvonalon oldja meg a legnehezebb problémákat, és a bevett szakmai gyakorlatra épülő, <strong>heurisztikus</strong> (tapasztalati ökölszabályon alapuló) magyarázatot ad.</dd></div>
+<div><dt>Kezeli a bizonytalanságot</dt><dd>Bizonyos szabályoknál a bizonytalanságot is kezeli, és „mérlegel” a sok, egymással versengő, egyszerre fennálló feltevés (hipotézis) között.</dd></div>
+<div><dt>Megindokolja a döntését</dt><dd>Meg tudja mondani, milyen szabályok és adatok vezettek a következtetéshez. Ez különbözteti meg egy „fekete doboztól”.</dd></div>
+<div><dt>Természetes nyelven kommunikál</dt><dd>A PDF szerint a felhasználóval természetes nyelven és megfelelő módon tart kapcsolatot.</dd></div>
+</dl>
+<aside class="u-fix"><h3>Kiigazítás · Csak a saját szűk területén szakértő</h3><p><strong>A PDF állítása:</strong> a szakértőrendszerek a szakértőknél jobban vagy hozzájuk hasonló színvonalon oldják meg a legnehezebb problémákat, és természetes nyelven kommunikálnak.</p><p><strong>Pontosabban:</strong> ez a legjobb rendszerekre, és csak a saját, szűk területükre igaz. A fertőzéseket diagnosztizáló MYCIN egy 1979-es vakteszten a szakértőkkel összemérhető javaslatokat adott, de a klinikai gyakorlatban soha nem használták rendszeresen. A klasszikus rendszerek jellemzően kötött kérdésekkel és igen/nem válaszokkal kommunikáltak, nem szabad szöveggel. A terület határán kívül pedig gyakran értelmetlen választ adtak. <a href="#s-mycin">Forrás: Yu és mtsai., 1979.</a></p></aside>
+<p>A szakértőrendszer két fő része:</p>
+<ol class="u-flow" id="szakerto-felepites">
+<li><strong>BEMENET</strong>A felhasználó adatai, például tünetek vagy mérési eredmények.</li>
+<li><strong>TUDÁSBÁZIS</strong>A szakértői tudás: tények és „ha…, akkor…” szabályok.</li>
+<li><strong>KÖVETKEZTETŐ GÉP</strong>A tudásbázis alapján feldolgozza a bemenetet, és dönt.</li>
+<li><strong>KIMENET</strong>Javaslat vagy döntés, a hozzá tartozó indoklással.</li>
+</ol>
+<p>Előnyei a PDF szerint: kevesebb emberi hiba, idő- és költségmegtakarítás, a tudás megőrzése és megosztása. Ha egy nyugdíjba vonuló szakértő tudását rögzítjük, az nem vész el a céggel együtt.</p>
+<div class="u-table-wrap"><table class="u-table" id="szakerto-peldak">
+<caption>A PDF 28. oldalán felsorolt alkalmazási területek és rendszerek.</caption>
+<thead><tr><th scope="col">Terület</th><th scope="col">Feladat</th><th scope="col">Rendszer</th></tr></thead>
+<tbody>
+<tr><td>Repülés</td><td>Repülőgépmotor-diagnosztika, helikopterjavítás</td><td>pl. NAVEX</td></tr>
+<tr><td>Mezőgazdaság</td><td>Almáskertek gondozása</td><td>POMME</td></tr>
+<tr><td>Kémia</td><td>Molekulaszerkezet meghatározása</td><td>DENDRAL</td></tr>
+<tr><td>Oktatás</td><td>Tervezők oktatása a konstrukciós tervek ellenőrzésére</td><td>DECGUIDE</td></tr>
+<tr><td>Vállalatvezetés</td><td>Üzleti hatékonyság elemzése</td><td>GURU</td></tr>
+<tr><td>Egészségügy</td><td>Fertőző betegségek diagnózisa</td><td>MYCIN</td></tr>
+<tr><td>Gépészet</td><td>Motoralkatrészek tervezése</td><td>–</td></tr>
+</tbody></table></div>
+<h3>Esettanulmány: a DENDRAL</h3>
+<p>A DENDRAL-t 1965-től a Stanford Egyetemen fejlesztették (Edward Feigenbaum, Joshua Lederberg, Bruce Buchanan, Carl Djerassi). Az első szakértőrendszernek tekintik. Célja: hipotézist felállítani egy ismeretlen vegyület molekuláris felépítésére, vagyis arra, hogyan kapcsolódnak egymáshoz az atomjai.</p>
+<p>Egy vegyész az ismeretlen anyagnál először az alkotó atomokat és arányukat határozza meg. Ehhez analitikai vizsgálatok kellenek, gyakran <strong>tömegspektrométerrel</strong>. Ez a műszer a molekulát töltött darabokra töri, és megméri, milyen tömegű darabokból mennyi keletkezik. Az eredmény a <strong>tömegspektrum</strong>: csúcsok sora a tömeg/töltés tengely mentén. Az <strong>összegképletet</strong> (például C<sub>5</sub>H<sub>10</sub>O) könnyű megtalálni. A <strong>szerkezeti képlet</strong>, vagyis hogy az atomok hogyan kapcsolódnak, már szakértői tudást igényel.</p>
+<ol class="u-steps" id="dendral-reszei">
+<li><p><strong>Szerkezetgeneráló.</strong> Az összegképletből előállítja a lehetséges szerkezeti képleteket.</p></li>
+<li><p><strong>Spektrumjósló.</strong> Minden jelölt szerkezetből kiszámítja a várható tömegspektrumot, és összeveti a mért adatokkal.</p></li>
+<li><p><strong>Szerkezetjósló.</strong> A mért adatokból részszerkezetekre következtet, és kizárja a lehetetlen szerkezeteket. Ez felel meg a szakértő tudásának.</p></li>
+</ol>
+<p>Elvben az első két rész is elég volna: mindent legenerálunk, és mindent összevetünk. A gyakorlatban ez a <strong>kombinatorikus robbanás</strong> miatt lehetetlen: egyes szénhidrogéneknek több mint 10 000 lehetséges szerkezete van. A harmadik rész szabályai ezért már előre kizárják a reménytelen jelölteket – ugyanaz az ötlet, mint a vezéreknél a korlátpropagálás.</p>
+<p>A PDF egy ilyen szabályt is bemutat:</p>
+<figure class="u-quote"><blockquote><p>„ha létezik egy magas csúcs a 71 tömeg/töltés helyen és ha létezik egy magas csúcs a 43 tömeg/töltés helyen és ha létezik egy magas csúcs a 86 tömeg/töltés helyen és ha van néhány csúcs az 58 tömeg/töltés helyen akkor az N-propil-keton 3 szerkezet jelenlévőnek feltételezhető.”</p></blockquote><figcaption>A DENDRAL egyik szabálya · PDF 31. oldal</figcaption></figure>
+<p>Miért éppen ezek a számok? Vegyük a 2-pentanont (metil-propil-keton, CH<sub>3</sub>–CO–CH<sub>2</sub>CH<sub>2</sub>CH<sub>3</sub>), amely egy propil-keton részszerkezetet tartalmaz. Az egész molekula tömege 86. Ha a metilcsoport (15) leszakad, marad 71. A CH<sub>3</sub>CO<sup>+</sup> és a C<sub>3</sub>H<sub>7</sub><sup>+</sup> darab tömege egyaránt 43. Egy jellegzetes átrendeződéskor egy 28-as tömegű etilénmolekula távozik: 86 − 28 = 58. A csúcsok tehát a molekula „törésvonalait” árulják el.</p>
+<div class="u-lab" id="dendral-labor"><span class="u-lab-label">PRÓBÁLD KI / EGY DENDRAL-SZABÁLY</span><h3>Mikor „sül el” a szabály?</h3>
+<p>Kapcsold be vagy ki a csúcsokat. A szabály csak akkor következtet a propil-keton részszerkezetre, ha mind a négy feltétel teljesül.</p>
+<svg class="u-spectrum u-js-only" id="dendral-svg" viewBox="0 0 560 190" role="img" aria-labelledby="dendral-cim"><title id="dendral-cim">Egyszerűsített tömegspektrum a bekapcsolt csúcsokkal</title></svg>
+<fieldset class="u-checks"><legend class="visually-hidden">Csúcsok</legend>
+<label><input type="checkbox" data-csucs="43" checked> magas csúcs 43-nál</label>
+<label><input type="checkbox" data-csucs="58" checked> csúcs 58-nál</label>
+<label><input type="checkbox" data-csucs="71" checked> magas csúcs 71-nél</label>
+<label><input type="checkbox" data-csucs="86"> magas csúcs 86-nál</label></fieldset>
+<div class="u-out" id="dendral-ki" role="status" aria-live="polite"><p>A kiértékeléshez JavaScript szükséges. A szabály csak akkor következtet, ha mind a négy csúcs jelen van.</p></div></div>
+<aside class="u-fix"><h3>Kiigazítás · A DENDRAL ma már nem használt rendszer</h3><p><strong>A PDF állítása:</strong> a DENDRAL „ma is használt” szakértőrendszer.</p><p><strong>Pontosabban:</strong> a DENDRAL 1965 és az 1980-as évek eleje között működött kutatási rendszerként. Hatása valóban óriási: több mint 50 tudományos cikk épült az eredményeire, és a szakértőrendszerek egész korszakát elindította. Ma azonban nem használják; utódai a modern számítógépes szerkezetmeghatározó programok. <a href="#s-dendral">Forrás: Lindsay és mtsai., 1993.</a></p></aside>
+</section>
+
+<!-- 16 · HÉTKÖZNAP -->
+<section id="hetkoznap" class="chapter-section"><span class="section-index">16 / PDF 32–35.</span>
+<h2>Ahol ma már találkozol vele.</h2>
+<p>Az eddigi területek a mindennapi eszközeinkben keverednek. A PDF példáit négy csoportba rendeztük.</p>
+<div class="u-map" id="hetkoznapi-terkep">
+<section><h3>E-kereskedelem</h3><ul><li><strong>Ajánlómotorok:</strong> a böngészési előzmények, a preferenciák és az érdeklődés alapján személyre szabott ajánlatot adnak, hogy javítsák az ügyfélkapcsolatot és a márkahűséget.</li><li><strong>Vásárlási asszisztensek, csevegőrobotok:</strong> nyelvfeldolgozással a lehető legemberibb, legszemélyesebb beszélgetésre törekszenek.</li><li><strong>Csalásmegelőzés:</strong> hitelkártya-csalás és hamis értékelések kiszűrése a szokásos használati minták alapján.</li></ul></section>
+<section><h3>Közlekedés és levelezés</h3><ul><li><strong>Önvezető járművek:</strong> gépi tanulással ismerik fel a tárgyakat, és kerülik el az ütközést.</li><li><strong>Levélszemétszűrő:</strong> a Gmail a Google szerint a kéretlen, adathalász és kártevő levelek több mint 99,9%-át kiszűri.</li></ul></section>
+<section><h3>Arcfelismerés</h3><ul><li>Telefon és laptop feloldása.</li><li>Eltűnt emberek vagy körözött személyek azonosítása kamerafelvételeken.</li><li>A koronavírus-járvány idején a maszkot nem viselők felismerése.</li><li>Egyes genetikai betegségek felismerésének segítése az arcvonások alapján.</li><li>Alkoholvásárláskor az életkor becslése.</li></ul></section>
+<section><h3>Robotok</h3><ul><li>Robotok dohányboltban és bevásárlóközpontban.</li><li>Takarító- és porszívórobot, fűnyírórobot.</li><li>Kórházi és sebészeti robotok.</li><li>Robotpincér.</li><li>Ipari és szerelőrobotok (például a KUKA gyártmányai).</li></ul></section>
+</div>
+<p>A csalásmegelőzésnél a PDF egy példát is említ: a repülőtéren a táskánkhoz nyomott érintéses terminállal elkövetett csalást. Itt pontosítani kell, hogy mit tesz az MI. Magát a terminál odanyomását nem akadályozza meg. Azt veszi észre, hogy a kártyán szokatlan tranzakció történt – idegen helyen, szokatlan összeggel vagy időben –, és ilyenkor letilthatja vagy megerősítést kérhet.</p>
+<aside class="u-fix"><h3>Kiigazítás · Az önvezető autó nem „emberként gondolkodik”</h3><p><strong>A PDF állítása:</strong> a gépi tanulással az autógyártók arra tanítják a számítógépeket, hogy az emberekhez hasonlóan gondolkodjanak és fejlődjenek.</p><p><strong>Pontosabban:</strong> a gépi tanulás sok példából mintázatokat tanul meg, például egy gyalogos képét. Ez nem emberi gondolkodás. Egy ember egy felborult, szokatlan tárgyat is azonnal akadálynak tekint; egy tanult modell az ilyen, a tanítóadatokban ritka helyzetekben hibázhat. Ezért tartanak a legtöbb rendszernél ma is emberi felügyeletet. <a href="#s-aima">Forrás: Russell–Norvig, 26. fejezet.</a></p></aside>
+<aside class="u-add"><h3>Kiegészítés · Az arcfelismerés határai</h3><p>Az arcfelismerés személyes adatot kezel, és tévedhet. A tévedés néhány csoportnál gyakoribb lehet, ha a tanítóadatokban kevés volt a róluk szóló kép. Az Európai Unió 2024-es MI-rendelete (AI Act) ezért a nyilvános helyeken végzett, valós idejű biometrikus azonosítást bűnüldözési célra csak szűk kivételekkel engedi. <a href="#s-aiact">Forrás: (EU) 2024/1689 rendelet.</a></p></aside>
+<p>A PDF utolsó oldala egy 2017-es előrejelzést mutat: mikor múlják felül a gépek az embert egyes feladatokban. Az adatok egy felmérésből származnak, amelyben 352 gépi tanulás kutató válaszolt (Grace és mtsai.). Az évszámok a válaszok <strong>mediánjai</strong>: a kutatók fele korábbra, fele későbbre várta az eseményt. A táblázat a PDF ábrájának fontosabb sorait és azt mutatja, mi történt azóta.</p>
+<div class="u-table-wrap"><table class="u-table" id="elorejelzes">
+<caption>Előrejelzés a Grace és mtsai. 2017-es felméréséből (medián év, kerekítve), és a jegyzet megjegyzése a 2026-os állapotról.</caption>
+<thead><tr><th scope="col">Feladat</th><th scope="col">Várt év</th><th scope="col">Mi történt azóta?</th></tr></thead>
+<tbody>
+<tr><td>Ruhahajtogatás</td><td>~2022</td><td>Laborbemutatók vannak, de általános, emberi ügyességű háztartási robot nincs.</td></tr>
+<tr><td>Beszéd leírása</td><td>~2024</td><td>Tiszta beszédnél közel emberi szint (pl. Whisper, 2022); zajban ma is gyengébb.</td></tr>
+<tr><td>Minden Atari-játék</td><td>~2025</td><td>2020-ban a DeepMind Agent57 rendszere mind az 57 játékban az emberi referenciaszint fölé került.</td></tr>
+<tr><td>Középiskolai esszé írása</td><td>2026</td><td>A nagy nyelvi modellek 2023 óta írnak ilyet; a minőségük megítélése vitatott.</td></tr>
+<tr><td>Kamionvezetés</td><td>2027</td><td>Kijelölt útvonalakon próbaüzem folyik; általános, bármely úton működő rendszer nincs.</td></tr>
+<tr><td>Kiskereskedelmi eladó</td><td>2031</td><td>Még a jövő.</td></tr>
+<tr><td>Bestseller regény írása</td><td>2049</td><td>Még a jövő.</td></tr>
+<tr><td>Sebészi munka</td><td>2053</td><td>Robotok ma sebész irányításával segítenek; önálló sebészrobot nincs.</td></tr>
+<tr><td>Minden emberi feladat</td><td>~2061</td><td>A kutatók 50%-os esélyt adtak rá 45 éven belül.</td></tr>
+</tbody></table></div>
+<aside class="u-add"><h3>Kiegészítés · Az előrejelzések gyorsan változnak</h3><p>Ugyanez a kutatócsoport 2023-ban több mint 2700 kutatót kérdezett meg. Ekkor a „minden feladatban jobb a gép” szintet már 2047-re várták 50%-os eséllyel – 13 évvel korábbra, mint egy évvel korábban. Ez nem jelenti, hogy a becslés pontos. Azt mutatja, hogy a szakértők véleménye is erősen függ a legutóbbi eredményektől. <a href="#s-grace2024">Forrás: Grace és mtsai., 2024.</a> <a href="#s-grace2017">A 2017-es adatok forrása.</a></p></aside>
+</section>
+
+<!-- FOGALMAK -->
+<section id="fogalmak" class="chapter-section"><span class="section-index">FOGALOMKÁRTYÁK</span>
+<h2>Az új szavak egy helyen.</h2>
+<dl class="u-cards">
+<div><dt>Intelligencia</dt><dd>Képességek csokra: tanulás, következtetés, célirányos cselekvés és alkalmazkodás. Nincs egyetlen elfogadott meghatározása.</dd></div>
+<div><dt>Mesterséges intelligencia (artificial intelligence)</dt><dd>Gép vagy program intelligensnek tekintett viselkedése; a név McCarthy 1955-ös javaslatából származik.</dd></div>
+<div><dt>Szoftverágens (software agent)</dt><dd>Program, amely érzékeli a környezetét, és önállóan reagál rá.</dd></div>
+<div><dt>Képességteszt</dt><dd>Azt jelzi előre, mire leszünk képesek gyakorlás után. Ilyen az intelligenciateszt.</dd></div>
+<div><dt>Érvényesség (validity)</dt><dd>A teszt azt méri, amit mérni akarunk.</dd></div>
+<div><dt>Megbízhatóság (reliability)</dt><dd>A teszt ismételve közel azonos eredményt ad.</dd></div>
+<div><dt>Mentális kor</dt><dd>A legmagasabb életkori szint, amelynek feladatait a gyermek még megoldja.</dd></div>
+<div><dt>Folyékony és kristályos intelligencia</dt><dd>Új problémák megoldása, illetve a megszerzett tudás alkalmazása.</dd></div>
+<div><dt>Turing-teszt (imitation game)</dt><dd>Szöveges játék, amelyben a bíráló egy embert és egy gépet próbál megkülönböztetni.</dd></div>
+<div><dt>Rezolúció (resolution)</dt><dd>Bizonyítási módszer: a tagadott állítás ellentmondáshoz vezet, tehát az állítás igaz.</dd></div>
+<div><dt>Fonéma</dt><dd>A beszéd legkisebb, jelentést megkülönböztető hangegysége.</dd></div>
+<div><dt>Kvantálás</dt><dd>Mért értékek kerekítése véges számú szintre.</dd></div>
+<div><dt>Korlátkielégítés (constraint satisfaction)</dt><dd>Olyan értékadás keresése, amely minden korlátot teljesít.</dd></div>
+<div><dt>Visszalépéses keresés (backtracking)</dt><dd>Mélységi keresés, amely zsákutcában az előző döntéshez lép vissza.</dd></div>
+<div><dt>Szakértőrendszer (expert system)</dt><dd>Tudásbázisból és következtető gépből álló program, amely egy szűk szakterületen javaslatot tesz.</dd></div>
+<div><dt>Heurisztika (heuristic)</dt><dd>Tapasztalaton alapuló ökölszabály; gyakran segít, de nem garantál helyes megoldást.</dd></div>
+</dl>
+</section>
+
+<!-- KVÍZ -->
+<section id="kviz" class="chapter-section"><span class="section-index">KVÍZ · SZABADON VÁLASZTHATÓ</span>
+<h2>Ellenőrizd magad.</h2>
+<p>A kvíz kihagyható, az eredménye semmit sem zár le. Az eredményt csak a böngésződ tárolja.</p>
+<form class="u-quiz" id="kviz-urlap" novalidate>
+<fieldset data-helyes="b"><legend>1. Mit jelent az, hogy egy teszt megbízható?</legend>
+<label><input type="radio" name="k1" value="a"> Azt méri, amit mérni akarunk.</label>
+<label><input type="radio" name="k1" value="b"> Ismételve közel azonos eredményt ad.</label>
+<label><input type="radio" name="k1" value="c"> Minden korosztálynak ugyanolyan nehéz.</label>
+<p class="u-feedback" data-magyarazat="A megbízhatóság az ismételhetőség. Az a) válasz az érvényesség meghatározása."></p></fieldset>
+<fieldset data-helyes="c"><legend>2. Ki vezette be a folyékony és a kristályos intelligencia fogalmát?</legend>
+<label><input type="radio" name="k2" value="a"> James McKeen Cattell, 1890-ben.</label>
+<label><input type="radio" name="k2" value="b"> Alfred Binet, 1905-ben.</label>
+<label><input type="radio" name="k2" value="c"> Raymond B. Cattell, a 20. század közepén.</label>
+<p class="u-feedback" data-magyarazat="A két Cattell két különböző ember. A folyékony–kristályos felosztás Raymond B. Cattelltől származik."></p></fieldset>
+<fieldset data-helyes="a"><legend>3. Egy 6 éves gyermek a 9 éves szint feladatait még megoldja, a 10 évesekét már nem. Mennyi Stern hányadosa?</legend>
+<label><input type="radio" name="k3" value="a"> 150</label>
+<label><input type="radio" name="k3" value="b"> 67</label>
+<label><input type="radio" name="k3" value="c"> 90</label>
+<p class="u-feedback" data-magyarazat="Mentális kor 9, életkor 6: 9 ÷ 6 × 100 = 150."></p></fieldset>
+<fieldset data-helyes="b"><legend>4. Melyik állítás igaz a Turing-tesztre?</legend>
+<label><input type="radio" name="k4" value="a"> Turing szerint a gép akkor megy át, ha 5 perc után senki sem ismeri fel.</label>
+<label><input type="radio" name="k4" value="b"> A teszt azt méri, meg tudja-e téveszteni a gép a bírálót szöveges beszélgetésben.</label>
+<label><input type="radio" name="k4" value="c"> A teszt bizonyítja, hogy a gépnek tudata van.</label>
+<p class="u-feedback" data-magyarazat="A teszt a megtévesztés sikerét méri. Az 5 perc Turing jóslatából származik, nem szabály; tudatot pedig nem mér."></p></fieldset>
+<fieldset data-helyes="c"><legend>5. „Feldobta a bocskorát.” – Melyik szinten jelenti azt, hogy „meghalt”?</legend>
+<label><input type="radio" name="k5" value="a"> Szintaktikai</label>
+<label><input type="radio" name="k5" value="b"> Szemantikai</label>
+<label><input type="radio" name="k5" value="c"> Pragmatikai</label>
+<p class="u-feedback" data-magyarazat="A szemantikai jelentés a szó szerinti „felhajította a lábbelijét”; a valóságos jelentés a pragmatikai szint."></p></fieldset>
+<fieldset data-helyes="a"><legend>6. Miben különbözik a beszélőfelismerés a beszédfelismeréstől?</legend>
+<label><input type="radio" name="k6" value="a"> A beszélőre jellemző jegyeket keresi, nem a kimondott szöveget.</label>
+<label><input type="radio" name="k6" value="b"> Csak egy nyelven működik.</label>
+<label><input type="radio" name="k6" value="c"> Nem használ mintavételezést.</label>
+<p class="u-feedback" data-magyarazat="A beszédfelismerés azt kérdezi, mit mondtak; a beszélőfelismerés azt, ki mondta."></p></fieldset>
+<fieldset data-helyes="b"><legend>7. Mit csinál a korlátpropagálás a nyolc vezér feladatban?</legend>
+<label><input type="radio" name="k7" value="a"> Véletlenszerűen rakja le a vezéreket.</label>
+<label><input type="radio" name="k7" value="b"> Előre kizárja az ütésben lévő mezőket, így azokat meg sem próbálja.</label>
+<label><input type="radio" name="k7" value="c"> Mind a 16,7 millió elrendezést végignézi.</label>
+<p class="u-feedback" data-magyarazat="A korlátokon kívül eső, biztosan rossz pontok kizárása gyorsítja a keresést."></p></fieldset>
+<fieldset data-helyes="c"><legend>8. Mi volt a DENDRAL feladata?</legend>
+<label><input type="radio" name="k8" value="a"> Fertőző betegségek diagnózisa.</label>
+<label><input type="radio" name="k8" value="b"> Almáskertek gondozása.</label>
+<label><input type="radio" name="k8" value="c"> Ismeretlen vegyület szerkezetének kikövetkeztetése tömegspektrumból.</label>
+<p class="u-feedback" data-magyarazat="A diagnózis a MYCIN, az almáskert a POMME feladata volt."></p></fieldset>
+<div class="u-controls"><button type="submit">Válaszok ellenőrzése</button><button type="reset" class="u-ghost">Újrakezdés</button></div>
+<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2c, 3a, 4b, 5c, 6a, 7b, 8c.</p>
+</form>
+</section>
+
+<!-- ÖSSZEGZÉS -->
+<section id="osszegzes" class="chapter-section"><span class="section-index">ÖSSZEFOGLALÓ</span>
+<h2>Amit most már tudsz.</h2>
+<p>Az intelligenciának nincs egyetlen meghatározása, de a definíciók közös magja a tanulás, a következtetés, a célirányos cselekvés és az alkalmazkodás. A mérése tesztekkel történik, amelyeknek érvényesnek és megbízhatónak kell lenniük, és amelyek függenek a kortól és a kultúrától. Galton érzékelésméréseitől Binet és Simon mentális korán át Stern hányadosáig vezetett az út a mai tesztekig.</p>
+<p>A mesterséges intelligencia a gépek intelligens viselkedését vizsgálja: az automatikus reagálástól az utánzáson át a tanulásig. A Turing-teszt azt kérdezi, meg tudja-e téveszteni a gép a bírálót. 2025-ben ez egy nagy nyelvi modellnek sikerült, de a teszt a megtévesztést méri, nem a megértést.</p>
+<p>Az MI területei a játékoktól a tételbizonyításon, a látáson, a beszéden és a nyelven át a keresésig és a szakértőrendszerekig terjednek. Két visszatérő gondolatot érdemes megjegyezni: a <strong>tudás</strong> (a DENDRAL szabályai, a szólások ismerete) és a <strong>keresés</strong> (a vezérek, a tervek) az MI két alappillére. A következő fejezetek ezeket bontják ki.</p>
+<div class="u-links">
+<a href="../index.html"><small>← Vissza</small>Kezdőlap és fejezetlista</a>
+<a href="02-tudasbazisok.html"><small>Következő fejezet →</small>02 · Tudásbázisok: hogyan kerül a szakértő tudása a gépbe? A DENDRAL-szabályból indulunk tovább.</a>
+</div>
+</section>
+
+<!-- FORRÁSOK -->
+<section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
+<h2>Honnan tudjuk?</h2>
+<p>A fejezet a kurzus PDF-jének 1–35. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből vagy a megnevezett eredeti forrásból származnak; az angol idézetek magyar fordítása saját. A „Kiigazítás” dobozok a PDF hibás vagy elavult állításait javítják, a „Kiegészítés” dobozok hátteret adnak. A kurzus kódgyűjteményéből a <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code> fájl mélységi keresése kapcsolódik a fejezethez; a többi kód későbbi fejezetek témája.</p>
+<ul class="u-sources">
+<li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 1–35. oldal (<code>resources/presentation/</code>).</li>
+<li id="s-mccarthy">J. McCarthy, M. L. Minsky, N. Rochester, C. E. Shannon: <a href="http://jmc.stanford.edu/articles/dartmouth/dartmouth.pdf">A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence</a>, 1955.</li>
+<li id="s-aima">S. Russell, P. Norvig: <em>Artificial Intelligence: A Modern Approach</em>, 4. kiadás, Pearson, 2020.</li>
+<li id="s-cattell1890">J. McK. Cattell: <a href="https://psychclassics.yorku.ca/Cattell/mental.htm">Mental Tests and Measurements</a>, <em>Mind</em>, 1890.</li>
+<li id="s-brown2016">R. E. Brown: <a href="https://www.frontiersin.org/articles/10.3389/fnhum.2016.00606">Hebb and Cattell: The Genesis of the Theory of Fluid and Crystallized Intelligence</a>, <em>Frontiers in Human Neuroscience</em>, 2016.</li>
+<li id="s-binet">M. Brysbaert, S. Nicolas: <a href="https://online.ucpress.edu/collabra/article/10/1/117600/200789/Two-Persistent-Myths-About-Binet-and-the">Two Persistent Myths About Binet and the Beginnings of Intelligence Tests in Psychology Textbooks</a>, <em>Collabra: Psychology</em>, 2024.</li>
+<li id="s-turing">A. M. Turing: <a href="https://doi.org/10.1093/mind/LIX.236.433">Computing Machinery and Intelligence</a>, <em>Mind</em>, 1950.</li>
+<li id="s-jones2024">C. R. Jones, B. K. Bergen: <a href="https://arxiv.org/abs/2405.08007">People cannot distinguish GPT-4 from a human in a Turing test</a>, 2024.</li>
+<li id="s-jones2025">C. R. Jones, B. K. Bergen: <a href="https://arxiv.org/abs/2503.23674">Large Language Models Pass the Turing Test</a>, 2025.</li>
+<li id="s-searle">J. R. Searle: <a href="https://doi.org/10.1017/S0140525X00005756">Minds, Brains, and Programs</a>, <em>Behavioral and Brain Sciences</em>, 1980.</li>
+<li id="s-pluribus">N. Brown, T. Sandholm: <a href="https://doi.org/10.1126/science.aay2400">Superhuman AI for multiplayer poker</a>, <em>Science</em>, 2019.</li>
+<li id="s-capek">Encyclopaedia Britannica: <a href="https://www.britannica.com/technology/robot-technology">Robot</a>.</li>
+<li id="s-fonema">Wikipédia: <a href="https://hu.wikipedia.org/wiki/Fon%C3%A9ma">Fonéma</a>.</li>
+<li id="s-whisper">A. Radford és mtsai.: <a href="https://arxiv.org/abs/2212.04356">Robust Speech Recognition via Large-Scale Weak Supervision</a>, 2022.</li>
+<li id="s-mycin">V. L. Yu és mtsai.: <a href="https://doi.org/10.1001/jama.1979.03300120014014">Antimicrobial selection by a computer</a>, <em>JAMA</em>, 1979.</li>
+<li id="s-dendral">R. K. Lindsay, B. G. Buchanan, E. A. Feigenbaum, J. Lederberg: <a href="https://doi.org/10.1016/0004-3702(93)90068-M">DENDRAL: a case study of the first expert system for scientific hypothesis formation</a>, <em>Artificial Intelligence</em>, 1993.</li>
+<li id="s-gmail">Google Safety Center: <a href="https://safety.google/intl/en_us/products/gmail/">Gmail biztonság</a>.</li>
+<li id="s-aiact">Az Európai Parlament és a Tanács <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj">(EU) 2024/1689 rendelete</a> a mesterséges intelligenciáról, 2024.</li>
+<li id="s-grace2017">K. Grace és mtsai.: <a href="https://arxiv.org/abs/1705.08807">When Will AI Exceed Human Performance? Evidence from AI Experts</a>, 2017.</li>
+<li id="s-grace2024">K. Grace és mtsai.: <a href="https://arxiv.org/abs/2401.02843">Thousands of AI Authors on the Future of AI</a>, 2024.</li>
+</ul>
+</section>
+</main>
+</div>
+<footer>MI-alapok / 01 · Intelligencia és MI (új változat) <a href="../index.html">Kezdőlap</a></footer>
+</body>
+</html>
