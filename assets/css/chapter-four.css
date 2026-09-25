@@ -1,94 +1,259 @@
-/* Chapter 4: blue ink, proof margins, and explicit parent links. */
-.chapter-four { --green: #245b7a; --soft: #e6eef2; --lime: #d9eaf2; }
-:root[data-theme=dark] .chapter-four { --green: #97c9e4; --soft: #202f39; --lime: #d9eaf2; }
-:root[data-theme=dark] .chapter-four .brand-mark,
-:root[data-theme=dark] .chapter-four .finish { background: #264b63; }
-.chapter-four figure { margin: 2rem 0; }
-.chapter-four figcaption { color: var(--muted); font-size: .85rem; margin-bottom: 1.2rem; }
-.chapter-four .chapter-section > p { max-width: 72ch; }
-.chapter-four .proof-cover { display: grid; grid-template-columns: 1.4fr 1fr; margin: 2rem 0; border: 1px solid var(--green); background: var(--white); }
-.chapter-four .proof-cover > div { padding: 1.7rem; }
-.chapter-four .proof-cover > div + div { border-left: 1px solid var(--green); background: var(--soft); }
-.chapter-four .proof-cover span { font-size: .7rem; letter-spacing: .13em; font-weight: bold; color: var(--green); }
-.chapter-four .proof-cover p { font: normal 2.7rem/1.5 Georgia, serif; margin: .8rem 0; color: var(--green); }
-.chapter-four .proof-cover small { display: block; color: var(--muted); }
-.chapter-four .logic-history { list-style: none; padding: 0 0 0 1.7rem; margin: 2rem 0; border-left: 2px solid var(--line); }
-.chapter-four .logic-history li { position: relative; padding: .3rem 0 1rem; }
-.chapter-four .logic-history li::before { content: ''; position: absolute; width: .7rem; height: .7rem; border: 2px solid var(--paper); background: var(--green); border-radius: 50%; top: .8rem; left: -2.1rem; }
-.chapter-four .logic-history strong { color: var(--green); }
-.chapter-four .logic-pair { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); border-block: 1px solid var(--line); margin: 2rem 0; }
-.chapter-four .logic-pair > div { padding: 1.4rem; min-width: 0; }
-.chapter-four .logic-pair > div + div { border-left: 1px solid var(--line); background: var(--soft); }
-.chapter-four .logic-pair > div > strong { display: block; color: var(--green); font: normal 1.4rem/1.4 Georgia, serif; }
-.chapter-four .logic-pair p:last-child { margin-bottom: 0; }
-.chapter-four .logic-ledger { border-top: 1px solid var(--line); margin: 1.6rem 0; }
-.chapter-four .logic-ledger > div { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,2.8fr); gap: 1.5rem; border-bottom: 1px solid var(--line); padding: 1.2rem 0; }
-.chapter-four .logic-ledger dt { font-weight: bold; color: var(--green); }
-.chapter-four .logic-ledger dd { margin: 0; min-width: 0; }
-.chapter-four .logic-ledger dd p:first-child { margin-top: 0; }
-.chapter-four .logic-ledger dd p:last-child { margin-bottom: 0; }
-.chapter-four .proof-sheet { padding: 1.5rem; background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--green); }
-.chapter-four .proof-steps { list-style: none; padding: 0; counter-reset: proof; }
-.chapter-four .proof-steps > li { position: relative; counter-increment: proof; padding: .2rem 0 1.6rem 3.5rem; }
-.chapter-four .proof-steps > li::before { content: counter(proof,decimal-leading-zero); position: absolute; left: 0; top: .1rem; color: var(--green); border-bottom: 2px solid var(--green); font: normal 1.3rem/1.6 Georgia,serif; }
-.chapter-four .proof-steps > li:last-child { padding-bottom: 0; }
-.chapter-four .proof-steps p { margin: .5rem 0 0; }
-.chapter-four .takeaway { border-left: 4px solid var(--green); padding: .6rem 0 .6rem 1.2rem; font: normal 1.3rem/1.6 Georgia,serif; margin: 2rem 0; }
-.chapter-four .clause-strip { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: 2rem 0; }
-.chapter-four .clause-strip span { padding: .6rem .8rem; background: var(--soft); border: 1px solid var(--green); font-family: Georgia,serif; }
-.chapter-four .clause-strip b { color: var(--green); }
-.chapter-four .inference-rule { display: grid; width: fit-content; max-width: 100%; text-align: center; margin: 2rem auto; font: normal 1.4rem/1.5 Georgia,serif; }
-.chapter-four .inference-rule span { border-bottom: 2px solid var(--green); padding: .6rem; }
-.chapter-four .inference-rule strong { padding: .6rem; font-weight: normal; }
-.chapter-four .formula { font-family: Georgia,serif; overflow-wrap: anywhere; }
-.chapter-four code,.chapter-four .feedback { overflow-wrap: anywhere; }
-.chapter-four input:not([type=radio]),.chapter-four select { display: block; width: 100%; max-width: 100%; min-width: 0; background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: 3px; padding: .6rem; margin: .4rem 0 1rem; }
-.chapter-four input:not([type=radio]) { font-family: monospace; }
-.chapter-four .control-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; align-items: end; }
-.chapter-four .control-grid select { margin-bottom: 0; }
-.chapter-four .generated-steps { padding-left: 1.5rem; }
-.chapter-four .generated-steps li { padding: .7rem .2rem; overflow-wrap: anywhere; }
-.chapter-four .generated-steps code { display: block; margin-top: .4rem; }
-.chapter-four .resolution-tree { list-style: none; padding: 0; }
-.chapter-four .resolution-tree li { margin: .8rem 0; padding: .7rem 1rem; border-left: 3px solid var(--line); background: var(--paper); overflow-wrap: anywhere; }
-.chapter-four .resolution-tree li[data-derived] { border-color: var(--green); }
-.chapter-four .resolution-tree strong { display: block; font: normal 1.25rem/1.5 Georgia,serif; }
-.chapter-four .resolution-tree small { display: block; color: var(--muted); }
-.chapter-four .scope-formula { font: normal 1.7rem/2.2 Georgia,serif; overflow-wrap: anywhere; padding: 1rem; border: 1px solid var(--line); }
-.chapter-four .scope-formula .scope-active { background: var(--soft); outline: 2px solid var(--green); }
-.chapter-four .scope-formula b { font-weight: normal; }
-.chapter-four .scope-formula .binding-active { color: var(--green); font-weight: bold; text-decoration: underline double; text-underline-offset: .15em; }
-.chapter-four pre { max-width: 100%; background: var(--soft); border-left: 3px solid var(--green); padding: 1.2rem; font-size: .85rem; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
-.chapter-four pre:focus-visible,.chapter-four .table-wrap:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
-.chapter-four table { table-layout: fixed; }
-.chapter-four th,.chapter-four td { overflow-wrap: anywhere; }
-.chapter-four .table-wrap { margin-inline: 0; }
-.chapter-four button:disabled { opacity: .6; }
-@media(max-width:1100px) {
-  .chapter-four .logic-pair { grid-template-columns: minmax(0,1fr); }
-  .chapter-four .logic-pair > div + div { border-left: 0; border-top: 1px solid var(--line); }
+/* 04 · A fejezet saját stílusa: u- előtagú komponensek, saját kiemelőszínnel. */
+.chapter-four{--u-accent:#8a2c4f;--u-accent-bg:#f7e6ec;--u-fix:#8a3b12;--u-fix-bg:#fff0e0;--u-add:#1f5a44;--u-add-bg:#e5f1e9;--u-key:#f3e7a8;--u-card:#fffef9;--u-ok:#1f6b3a;--u-bad:#a1261b;--u-own:#7a4a00;--u-own-bg:#fbeccd}
+:root[data-theme=dark] .chapter-four{--u-accent:#f2a7c1;--u-accent-bg:#33202a;--u-fix:#ffb27a;--u-fix-bg:#33241a;--u-add:#8fd9b4;--u-add-bg:#18291f;--u-key:#4a4420;--u-card:#19211d;--u-ok:#86dca0;--u-bad:#ff9d91;--u-own:#f3c77a;--u-own-bg:#3a2e17}
+.chapter-four .eyebrow,.chapter-four .section-index,.chapter-four h1 em{color:var(--u-accent)}
+.chapter-four a{color:var(--u-accent)}
+.chapter-four .toc a[aria-current=location]{color:var(--u-accent)}
+.chapter-four p{max-width:72ch}
+.chapter-four :focus-visible{outline:3px solid var(--u-accent);outline-offset:2px}
+
+/* Nyitó helyzet és célok */
+.u-scene{border-left:5px solid var(--u-accent);background:var(--u-accent-bg);padding:1rem 1.3rem;border-radius:0 8px 8px 0;margin:1.5rem 0}
+.u-scene p{margin:.4rem 0}
+.u-goals{border:1px solid var(--line);border-radius:8px;padding:1rem 1.3rem;background:var(--u-card)}
+.u-goals ul{margin:.4rem 0 0;padding-left:1.2rem}
+.u-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0;padding:0;list-style:none}
+.u-meta li{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:2px 12px}
+
+/* Idézet – csak valódi forrásszöveg */
+.u-quote{margin:1.4rem 0;padding:0}
+.u-quote blockquote{margin:0;padding:.9rem 1.2rem;border-left:4px solid var(--u-accent);font-family:Georgia,serif;font-size:1.05rem;background:var(--u-card)}
+.u-quote blockquote p{margin:.3rem 0}
+.u-quote figcaption{font-size:13px;color:var(--muted);padding:.3rem 1.2rem 0}
+.u-quote-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.u-quote-grid .u-quote{margin:0}
+
+/* Összehasonlítás */
+.u-compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:1rem;margin:1.4rem 0}
+.u-compare>div{border:1px solid var(--line);border-top:4px solid var(--u-accent);border-radius:6px;padding:.8rem 1.1rem;background:var(--u-card)}
+.u-compare h3,.u-compare h4{margin:.2rem 0 .5rem}
+.u-compare p{margin:.4rem 0}
+.u-compare .u-tag{display:inline-block;font-size:12px;letter-spacing:.1em;font-weight:bold;color:var(--u-accent)}
+
+/* Táblázat */
+.u-table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--line);border-radius:6px}
+.u-table{border-collapse:collapse;width:100%;margin:0;font-size:15px;background:var(--u-card)}
+.u-table caption{text-align:left;font-size:13px;color:var(--muted);padding:.5rem .8rem;caption-side:bottom}
+.u-table th,.u-table td{text-align:left;vertical-align:top;padding:.55rem .8rem;border-bottom:1px solid var(--line)}
+.u-table thead th{background:var(--u-accent-bg);font-size:13px;letter-spacing:.04em}
+.u-table td:first-child{font-weight:bold}
+
+/* Idővonal */
+.u-timeline{list-style:none;margin:1.5rem 0;padding:0 0 0 1.4rem;border-left:3px solid var(--u-accent)}
+.u-timeline li{position:relative;margin:0 0 1.1rem;padding-left:.6rem}
+.u-timeline li:before{content:"";position:absolute;left:-1.4rem;top:.55rem;width:13px;height:13px;margin-left:-8px;border-radius:50%;background:var(--paper);border:3px solid var(--u-accent)}
+.u-timeline .u-year{display:inline-block;font-weight:bold;font-size:14px;letter-spacing:.06em;color:var(--u-accent);min-width:4.5rem}
+.u-timeline p{margin:.2rem 0}
+
+/* Lépéssor */
+.u-steps{list-style:none;counter-reset:ustep;margin:1.3rem 0;padding:0}
+.u-steps>li{counter-increment:ustep;position:relative;padding:.4rem 0 .8rem 3.1rem;border-bottom:1px dashed var(--line)}
+.u-steps>li:last-child{border-bottom:0}
+.u-steps>li:before{content:counter(ustep);position:absolute;left:0;top:.35rem;width:2.1rem;height:2.1rem;display:grid;place-items:center;border-radius:50%;background:var(--u-accent);color:var(--paper);font-weight:bold}
+.u-steps p{margin:.2rem 0}
+.u-flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:.4rem;list-style:none;padding:0;margin:1.2rem 0}
+.u-flow li{flex:1 1 130px;border:1px solid var(--line);border-radius:6px;padding:.5rem .7rem;background:var(--u-card);font-size:15px;position:relative}
+.u-flow li strong{display:block;color:var(--u-accent);font-size:13px;letter-spacing:.05em}
+
+/* Kiemelő dobozok */
+.u-simple,.u-fix,.u-add,.u-example{border-radius:8px;padding:.9rem 1.2rem;margin:1.4rem 0}
+.u-simple{background:var(--soft);border:1px dashed var(--muted)}
+.u-simple>strong:first-child,.u-example>strong:first-child{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--u-accent)}
+.u-fix{background:var(--u-fix-bg);border:2px solid var(--u-fix)}
+.u-fix h3,.u-add h3{margin:.1rem 0 .5rem;font-size:1.05rem}
+.u-fix h3{color:var(--u-fix)}
+.u-add{background:var(--u-add-bg);border-left:6px solid var(--u-add)}
+.u-add h3{color:var(--u-add)}
+.u-fix p,.u-add p{margin:.4rem 0}
+.u-example{border:1px solid var(--u-accent);background:var(--u-card)}
+.u-key{display:block;background:var(--u-key);padding:.7rem 1rem;border-radius:4px;font-weight:bold;margin:1.2rem 0;max-width:72ch}
+
+/* Sorok (kritikák, fogalmak) */
+.u-rows{margin:1.2rem 0;border-top:1px solid var(--line)}
+.u-rows>div{display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr);gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.u-rows dt{font-weight:bold}
+.u-rows dd{margin:0}
+.u-rows dd p{margin:.3rem 0}
+
+/* Kód */
+.u-code{margin:1.3rem 0}
+.u-code pre{margin:0;padding:1rem;overflow-x:auto;background:#17211d;color:#e8f0e6;border-radius:8px;font-size:14px;line-height:1.5}
+.u-code figcaption{font-size:13px;color:var(--muted);margin-top:.4rem}
+.u-code code{font-family:"DejaVu Sans Mono",Consolas,monospace}
+code{font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:.92em;overflow-wrap:anywhere}
+.u-code pre code{overflow-wrap:normal}
+
+/* Laborok */
+.u-lab{border:2px solid var(--u-accent);border-radius:10px;padding:1rem 1.2rem;margin:1.6rem 0;background:var(--u-card)}
+.u-lab-label{font-size:12px;letter-spacing:.14em;font-weight:bold;color:var(--u-accent)}
+.u-lab h3{margin:.3rem 0 .6rem}
+.u-lab button,.u-quiz button{font:inherit;font-size:15px;padding:.4rem .9rem;border-radius:6px;border:1px solid var(--u-accent);background:var(--u-accent);color:var(--paper);cursor:pointer;min-height:40px}
+.u-lab button.u-ghost,.u-quiz button.u-ghost{background:transparent;color:var(--u-accent)}
+.u-lab button[disabled]{opacity:.5;cursor:default}
+.u-lab label{font-size:15px}
+.u-lab input[type=range]{width:100%;accent-color:var(--u-accent)}
+.u-lab input[type=number],.u-lab input[type=text]{font:inherit;padding:.3rem .5rem;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);max-width:100%}
+.u-controls{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.8rem 0}
+.u-out{border-left:4px solid var(--u-accent);background:var(--u-accent-bg);padding:.5rem .9rem;margin:.8rem 0;min-height:1.5em}
+.u-out p{margin:.2rem 0}
+html:not(.js) .u-js-only{display:none}
+.js .u-nojs-only{display:none}
+.u-ok{color:var(--u-ok);font-weight:bold}
+.u-bad{color:var(--u-bad);font-weight:bold}
+
+/* Két oszlop: levezetések */
+.u-duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:1rem;margin:1.2rem 0}
+.u-duo>.u-example{margin:0}
+.u-trace{border:1px solid var(--line);border-radius:8px;padding:.6rem .9rem;background:var(--paper)}
+.u-trace-title{margin:0 0 .3rem;font-size:12px;font-weight:bold;letter-spacing:.1em;text-transform:uppercase;color:var(--u-accent)}
+.u-trace ol{margin:0;padding-left:1.4rem;min-height:3rem;font-size:15px}
+.u-trace li{margin:.25rem 0}
+.u-trace li.u-empty{list-style:none;margin-left:-1.4rem;color:var(--muted)}
+
+/* Fogalomkártyák */
+.u-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:.8rem;margin:1.2rem 0}
+.u-cards>div{border:1px solid var(--line);border-radius:8px;padding:.7rem 1rem;background:var(--u-card)}
+.u-cards dt{font-weight:bold;color:var(--u-accent)}
+.u-cards dd{margin:.3rem 0 0;font-size:15px}
+
+/* Kvíz */
+.u-quiz fieldset{border:1px solid var(--line);border-radius:8px;margin:0 0 1rem;padding:.7rem 1rem}
+.u-quiz legend{font-weight:bold;padding:0 .3rem}
+.u-quiz label{display:block;padding:.2rem 0}
+.u-quiz .u-feedback{margin:.4rem 0 0;font-size:15px}
+
+/* Kapcsolatok */
+.u-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:1rem}
+.u-links a{display:block;border:1px solid var(--line);border-radius:8px;padding:.8rem 1rem;text-decoration:none;background:var(--u-card)}
+.u-links small{display:block;color:var(--muted)}
+.u-sources li{margin:.35rem 0;font-size:15px}
+
+/* Hármasok: predikátum – argumentum – jelentés */
+.u-triples{list-style:none;margin:1rem 0;padding:0;display:grid;gap:.4rem}
+.u-triples li{display:grid;grid-template-columns:minmax(0,.6fr) minmax(0,.8fr) minmax(0,2fr);gap:.4rem;font-size:15px}
+.u-triples span{border:1px solid var(--line);border-radius:6px;padding:.25rem .6rem;background:var(--u-card);overflow-wrap:anywhere}
+.u-triples span:nth-child(-n+2){font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:14px;text-align:center}
+.u-triples .u-head span{border:0;background:none;font-size:12px;font-weight:bold;letter-spacing:.1em;color:var(--u-accent);text-transform:uppercase;font-family:inherit}
+
+/* Űrlapelemek */
+.u-lab select{font:inherit;font-size:15px;padding:.3rem .5rem;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);max-width:100%}
+.u-form-row{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:end;margin:.6rem 0}
+.u-form-row label{display:grid;gap:.2rem;min-width:0;max-width:100%}
+.u-form-row select{width:100%;min-width:0}
+.u-form-row .u-grow{flex:1 1 240px}
+.u-form-row .u-grow input{width:100%;font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:16px}
+.u-radios{border:1px solid var(--line);border-radius:8px;padding:.4rem .9rem;margin:.6rem 0}
+.u-radios legend{font-weight:bold;padding:0 .3rem;font-size:15px}
+.u-radios label{display:flex;gap:.5rem;align-items:flex-start;padding:.2rem 0}
+.u-radios input{margin-top:.35rem;accent-color:var(--u-accent)}
+#formula-jelek button{min-width:44px;font-size:18px;padding:.2rem .6rem}
+
+/* Osztályozási fa */
+.u-tree-fig{margin:1.4rem 0;padding:1rem;border:1px solid var(--line);border-radius:10px;background:var(--u-card)}
+.u-tree,.u-tree ul{list-style:none;margin:0;padding:0}
+.u-tree ul{margin-left:1rem;padding-left:1rem;border-left:2px solid var(--u-accent)}
+.u-tree li{position:relative;margin:.45rem 0}
+.u-tree ul>li:before{content:"";position:absolute;left:-1rem;top:.85rem;width:.8rem;border-top:2px solid var(--u-accent)}
+.u-tree span{display:inline-block;border:2px solid var(--u-accent);border-radius:8px;padding:.15rem .6rem;background:var(--paper);font-weight:bold}
+.u-tree span small{font-weight:normal;color:var(--muted);margin-left:.4rem}
+.u-tree .u-tree-root{background:var(--u-accent);color:var(--paper)}
+.u-tree .u-tree-list{display:flex;flex-wrap:wrap;gap:.35rem;border-left:0;padding-left:0}
+.u-tree .u-tree-list li{margin:.2rem 0;font-size:14px;border:1px solid var(--line);border-radius:999px;padding:1px 10px;background:var(--paper)}
+.u-tree .u-tree-list li:before{display:none}
+.u-tree-fig figcaption{font-size:13px;color:var(--muted);margin-top:.6rem}
+
+/* Venn-ábrák */
+.u-venn{margin:1.4rem 0}
+.u-venn-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:1rem}
+.u-venn-row>div{text-align:center;border:1px solid var(--line);border-radius:8px;padding:.5rem;background:var(--u-card)}
+.u-venn-row svg{width:100%;max-width:200px;height:auto;display:block;margin:auto}
+.u-venn-row p{margin:.3rem 0 0;font-size:14px}
+.u-venn .u-venn-box{fill:var(--paper);stroke:var(--muted);stroke-width:1.5}
+.u-venn .u-venn-box.u-venn-fill,.u-venn .u-venn-fill{fill:var(--u-accent);fill-opacity:.45}
+.u-venn .u-venn-hole{fill:var(--paper)}
+.u-venn .u-venn-line{fill:none;stroke:var(--ink);stroke-width:1.5}
+.u-venn text{fill:var(--ink);font-size:15px;font-weight:bold;text-anchor:middle;font-family:"DejaVu Sans",Arial,sans-serif}
+.u-venn figcaption{font-size:13px;color:var(--muted);margin-top:.5rem}
+
+/* Egymásra épülő szintek */
+.u-stack{list-style:none;margin:1.3rem 0;padding:0;display:grid;gap:.5rem}
+.u-stack>li{border:1px solid var(--line);border-left:6px solid var(--u-accent);border-radius:6px;padding:.55rem .9rem;background:var(--u-card)}
+.u-stack>li:nth-child(2){margin-left:1.2rem}
+.u-stack>li:nth-child(3){margin-left:2.4rem}
+.u-stack>li>strong{color:var(--u-accent)}
+.u-stack p{margin:.3rem 0}
+
+/* Képletek, tört alakú szabályok */
+.u-formula{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.4rem;margin:1.2rem 0;padding:.7rem 1rem;border:1px dashed var(--u-accent);border-radius:8px;background:var(--u-card)}
+.u-formula>span:last-child{font-size:14px;color:var(--muted)}
+.u-frac{display:inline-grid;text-align:center;font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:1.1rem}
+.u-frac span:first-child{border-bottom:2px solid var(--ink);padding:0 .5rem .15rem}
+.u-frac span:last-child{padding:.15rem .5rem 0}
+
+/* Klózok */
+.u-clause{display:inline-block;border:2px solid var(--u-accent);border-radius:6px;padding:0 .45rem;background:var(--paper);font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:15px;white-space:nowrap}
+.u-clause.u-nil{background:var(--u-accent);color:var(--paper)}
+.u-knf{margin:1.3rem 0;padding:.8rem 1rem;border:1px solid var(--line);border-radius:10px;background:var(--u-card)}
+.u-knf-line{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin:0}
+.u-and{font-weight:bold;color:var(--muted)}
+.u-knf figcaption{font-size:13px;color:var(--muted);margin-top:.6rem}
+.u-ladder{list-style:none;margin:1rem 0;padding:0;display:grid;gap:.5rem;counter-reset:lad}
+.u-ladder li{counter-increment:lad;display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .5rem;border:1px solid var(--line);border-radius:6px;padding:.45rem .7rem .45rem 2.6rem;background:var(--paper);position:relative}
+.u-ladder li:before{content:counter(lad);position:absolute;left:.6rem;top:.5rem;width:1.5rem;height:1.5rem;border-radius:50%;display:grid;place-items:center;background:var(--u-accent);color:var(--paper);font-size:13px;font-weight:bold}
+.u-ladder .u-plus{color:var(--muted);font-weight:bold}
+.u-ladder .u-res{font-weight:bold}
+.u-ladder small{flex-basis:100%;color:var(--muted);font-size:13px}
+.u-rows-num{margin:1rem 0;padding-left:1.6rem}
+.u-rows-num li{margin:.4rem 0}
+
+/* Kötött és szabad előfordulás */
+.u-bind{border:1px solid var(--line);border-radius:8px;padding:.6rem 1rem;background:var(--u-card);margin:1.2rem 0}
+.u-bind>p:not(.u-bind-note){margin:.6rem 0 .2rem;font-size:1.05rem}
+.u-bind-note{margin:0 0 .6rem;font-size:15px;color:var(--muted)}
+.u-bound{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px;color:var(--u-ok);font-weight:bold}
+.u-free{outline:2px dashed var(--u-bad);outline-offset:1px;color:var(--u-bad);font-weight:bold}
+.u-bound sup,.u-free sup{font-size:.65em}
+
+/* Igazságtáblák */
+.u-truth td,.u-truth th{text-align:center}
+.u-truth td:first-child{font-weight:normal}
+.u-truth .u-t{color:var(--u-ok);font-weight:bold}
+.u-truth .u-f{color:var(--u-bad)}
+.u-truth th.u-main,.u-truth td.u-main{border-left:2px solid var(--u-accent)}
+.u-truth caption{text-align:left}
+#formula-tabla:empty{display:none}
+
+/* Rezolúciós műhely */
+.u-clauses label{font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:15px;overflow-wrap:anywhere}
+.u-clauses label small{font-family:"Trebuchet MS",Verdana,sans-serif;color:var(--muted);font-size:13px}
+.u-clauses label.u-new{background:var(--u-accent-bg);border-radius:4px}
+.u-clauses label.u-hit{font-weight:bold;color:var(--u-accent)}
+
+/* Világ-bemutató */
+.u-world{width:auto;min-width:0}
+.u-world td,.u-world th{text-align:center;padding:.35rem .5rem}
+.u-world td:first-child,.u-world th:first-child{text-align:left}
+.u-world input{width:22px;height:22px;accent-color:var(--u-accent)}
+.u-out .u-verdict{display:inline-block;min-width:4.2rem}
+
+@media(max-width:760px){
+  .u-quote-grid{grid-template-columns:1fr}
+  .u-rows>div{grid-template-columns:1fr;gap:.2rem}
+  .u-table{font-size:14px}
+  .u-stack>li:nth-child(2){margin-left:.6rem}
+  .u-stack>li:nth-child(3){margin-left:1.2rem}
+  .u-triples li{font-size:14px;gap:.25rem}
+  .u-triples span{padding:.25rem .35rem}
+  .u-world td,.u-world th{padding:.3rem .25rem;font-size:13px}
+  .u-clause{white-space:normal}
 }
-@media(max-width:600px) {
-  .chapter-four .proof-cover,.chapter-four .control-grid,.chapter-four .logic-ledger > div { grid-template-columns: minmax(0,1fr); }
-  .chapter-four .proof-cover > div + div { border-left: 0; border-top: 1px solid var(--green); }
-  .chapter-four .proof-cover > div { padding: 1.2rem; }
-  .chapter-four .proof-cover p { font-size: 2.2rem; }
-  .chapter-four .logic-ledger > div { gap: .5rem; }
-  .chapter-four .logic-pair > div,.chapter-four .proof-sheet { padding: 1rem; }
-  .chapter-four .proof-steps > li { padding-left: 2.5rem; }
-  .chapter-four .scope-formula { font-size: 1.35rem; padding: .6rem; }
-  .chapter-four th,.chapter-four td { font-size: .8rem; padding: .6rem .3rem; }
+@media(prefers-reduced-motion:reduce){.chapter-four *{transition:none!important;animation:none!important}}
+@media print{
+  .u-lab,.u-quiz{display:none}
+  .u-fix,.u-add,.u-simple,.u-example,.u-compare>div,.u-timeline li,.u-rows>div,.u-quote,.u-stack>li,.u-tree-fig,.u-venn,.u-ladder li,.u-bind,.u-formula,.u-knf{break-inside:avoid}
+  .u-code pre{background:#fff;color:#000;border:1px solid #999;white-space:pre-wrap}
+  .u-table-wrap{overflow:visible}
+  .u-venn .u-venn-fill,.u-venn .u-venn-box.u-venn-fill{fill:#999}
+  .chapter-four a[href^="http"]:after{content:" (" attr(href) ")";font-size:9pt;word-break:break-all}
 }
-@media print {
-  @page { background: #fff; }
-  :root:has(.chapter-four) { color-scheme: light; background: #fff; }
-  .chapter-four,:root[data-theme=dark] .chapter-four { --paper: #fff; --white: #fff; --ink: #000; --muted: #333; --green: #23475c; --soft: #f0f3f5; --line: #999; --orange: #71350f; --orange-bg: #fff; }
-  .chapter-four .finish,:root[data-theme=dark] .chapter-four .finish { background: #fff; color: #000; border: 1px solid var(--line); }
-  .chapter-four .finish h2,.chapter-four .finish a,.chapter-four .finish .small,
-  :root[data-theme=dark] .chapter-four .finish a,:root[data-theme=dark] .chapter-four .finish .small { color: #000; }
-  .chapter-four .logic-pair { display: block; }
-  .chapter-four .logic-pair > div + div { border-left: 0; border-top: 1px solid var(--line); }
-  .chapter-four .proof-sheet,.chapter-four .lab { break-inside: auto; }
-  .chapter-four .proof-steps > li,.chapter-four .logic-history li,.chapter-four .logic-ledger > div,.chapter-four .resolution-tree li,.chapter-four .takeaway { break-inside: avoid; }
-  .chapter-four .lab form,.chapter-four .lab input,.chapter-four .lab select,.chapter-four .lab button,.chapter-four .lab label { display: none; }
-}
+.u-lab>p code{white-space:nowrap}

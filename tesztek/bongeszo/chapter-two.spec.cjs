@@ -1,130 +1,100 @@
 const {test, expect} = require('@playwright/test');
 const chapter = 'fejezetek/02-tudasbazisok.html';
-test('A tudáskinyerés lépései billentyűzettel rendezhetők', async ({page}) => {
+
+test('Az új második fejezet hibaüzenet nélkül betölt', async ({page}) => {
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
   await page.goto(chapter);
-  await page.locator('#process-check').click();
-  await expect(page.locator('#process-feedback')).toContainText('Még nem');
-  await page.locator('#process-order li').nth(1).getByRole('button',{name:/Fel/}).focus();
-  await page.keyboard.press('Enter');
-  await page.locator('#process-order li').nth(3).getByRole('button',{name:/Fel/}).click();
-  await page.locator('#process-check').click();
-  await expect(page.locator('#process-feedback')).toContainText('Helyes');
-  await page.locator('#process-reset').click();
-  await page.locator('#process-check').click();
-  await expect(page.locator('#process-feedback')).toContainText('Még nem');
+  await expect(page.locator('h1')).toContainText('a tapasztalat a gépbe');
+  await expect(page.locator('#tudas-kezikonyv dl > div')).toHaveCount(9);
+  await expect(page.locator('#reszletes-tudas > div')).toHaveCount(13);
+  await expect(page.locator('#k-sablonok tbody tr')).toHaveCount(6);
+  await expect(page.locator('#winston-tabla tbody tr')).toHaveCount(8);
+  for (const fig of await page.locator('.u-quote').all()) await expect(fig.locator('figcaption')).not.toBeEmpty();
+  expect(errors).toEqual([]);
 });
-test('Az interjú mind a hat kérdéshez választ és magyarázatot ad', async ({page}) => {
+
+test('Az interjúszimulátor szabályokat gyűjt', async ({page}) => {
   await page.goto(chapter);
-  for (let i=0;i<6;i++) {
-    await page.locator('[data-interview]').nth(i).click();
-    await expect(page.locator('#interview-answer')).toContainText('Szakértő:');
-    await expect(page.locator('#interview-effect')).toContainText(`K${i+1}`);
+  const buttons = page.locator('#interju-gombok button');
+  await expect(buttons).toHaveCount(6);
+  await buttons.nth(0).click();
+  await expect(page.locator('#interju-valasz')).toContainText('villámlás');
+  await expect(page.locator('#interju-jegyzet li')).toHaveCount(1);
+  for (let i = 1; i < 6; i += 1) await buttons.nth(i).click();
+  await expect(page.locator('#interju-jegyzet li')).toHaveCount(10);
+  await expect(page.locator('#interju-valasz')).toContainText('Mind a hat sablont');
+});
+
+test('A rendezés billentyűzettel is működik', async ({page}) => {
+  await page.goto(chapter);
+  const items = page.locator('#sorrend-lista li');
+  await expect(items).toHaveCount(6);
+  const want = ['Archívumkutatás', 'Tudás Kézikönyv első', 'szakértő kiválasztása', 'Nyitott végű', 'átírása', 'leíró és az eljárási'];
+  for (let target = 0; target < want.length; target += 1) {
+    let idx = -1;
+    for (let i = 0; i < 6; i += 1) if ((await items.nth(i).innerText()).includes(want[target])) idx = i;
+    while (idx > target) {
+      await items.nth(idx).getByRole('button', {name: /^Fel/}).focus();
+      await page.keyboard.press('Enter');
+      idx -= 1;
+    }
   }
-  await page.locator('#interview-reset').click();
-  await expect(page.locator('#interview-answer')).toContainText('Melyik kérdés');
+  await page.locator('#sorrend-ellenoriz').click();
+  await expect(page.locator('#sorrend-ki')).toContainText('Pontosan így');
 });
-test('A két láncolási irány lejátszható, megállítható és hiányzó tényt is jelez', async ({page}) => {
+
+test('A szabálylánc mindkét irányban levezeti g-t, d nélkül nem', async ({page}) => {
   await page.goto(chapter);
-  await page.locator('#chain-play').click();
-  await expect(page.locator('#chain-play')).toHaveText('Megállítás');
-  await page.locator('#chain-play').click();
-  await expect(page.locator('#chain-play')).toHaveText('Lejátszás');
-  for (let i=0;i<30 && await page.locator('#chain-step').isEnabled();i++) await page.locator('#chain-step').click();
-  await expect(page.locator('#chain-status')).toContainText('g igazolva');
-  await expect(page.locator('#backward-trace')).toContainText('g: igazolva');
-  await page.locator('#include-d').uncheck();
-  for (let i=0;i<30 && await page.locator('#chain-step').isEnabled();i++) await page.locator('#chain-step').click();
-  await expect(page.locator('#chain-status')).toContainText('g nem igazolható');
-  await page.locator('#chain-reset').click();
-  await expect(page.locator('#chain-step')).toBeEnabled();
+  await expect(page.locator('#lanc-osszegzes')).toContainText('g végkövetkeztetés levezethető');
+  for (let i = 0; i < 5; i += 1) await page.locator('#lanc-elore-lep').click();
+  await expect(page.locator('#lanc-elore li')).toHaveCount(5);
+  await expect(page.locator('#lanc-elore')).toContainText('új tény: h');
+  await expect(page.locator('#lanc-elore-lep')).toBeDisabled();
+  while (await page.locator('#lanc-hatra-lep').isEnabled()) await page.locator('#lanc-hatra-lep').click();
+  await expect(page.locator('#lanc-hatra')).toContainText('R4 szabályt egyszer sem');
+  await page.locator('#lanc-tenyek input[value=d]').uncheck();
+  await expect(page.locator('#lanc-osszegzes')).toContainText('nem vezethető le');
+  while (await page.locator('#lanc-hatra-lep').isEnabled()) await page.locator('#lanc-hatra-lep').click();
+  await expect(page.locator('#lanc-hatra')).toContainText('Igaz-e d?');
 });
-test('A konfliktusjáték az elv szerint választ, és rossz választásnál nem lép', async ({page}) => {
+
+test('A konfliktusfeloldás és a kvíz visszajelez', async ({page}) => {
   await page.goto(chapter);
-  await page.selectOption('#conflict-policy','priority');
-  await page.locator('[data-conflict="R1"]').click();
-  await expect(page.locator('#conflict-feedback')).toContainText('R2');
-  await expect(page.locator('#conflict-set')).toContainText('R1, R2');
-  for (const rule of ['R2','R1','R3']) await page.locator(`[data-conflict="${rule}"]`).click();
-  await expect(page.locator('#conflict-set')).toContainText('a, b, c, d, f, e, g');
-  await page.locator('#conflict-reset').click();
-  await page.selectOption('#conflict-policy','order');
-  await page.locator('[data-conflict="R1"]').click();
-  await expect(page.locator('#conflict-set')).toContainText('a, b, c, d, e');
+  await page.locator('#konfliktus-szabalyok input[value=S2]').check();
+  await expect(page.locator('#konfliktus-ki')).toContainText('specifikusság');
+  const answers = {k1: 'b', k2: 'c', k3: 'a', k4: 'c', k5: 'b', k6: 'a', k7: 'b', k8: 'a', k9: 'c', k10: 'b'};
+  for (const [name, value] of Object.entries(answers)) await page.locator(`input[name=${name}][value=${value}]`).check();
+  await page.getByRole('button', {name: 'Válaszok ellenőrzése'}).click();
+  await expect(page.locator('#kviz-eredmeny')).toContainText('10 kérdésből 10 megválaszolva, 10 helyes');
 });
-test('A második fejezet kész jelölése nem változtatja meg az elsőét', async ({page}) => {
+
+test('Nincs vízszintes túlcsordulás egyik szélességen és témában sem', async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'reduce'});
   await page.goto(chapter);
-  await page.locator('[data-progress-toggle]').click();
-  await page.reload();
-  await expect(page.locator('[data-progress-toggle]')).toHaveAttribute('aria-pressed','true');
-  await page.goto('fejezetek/01-mi-es-intelligencia.html');
-  await expect(page.locator('[data-progress-toggle]')).toHaveAttribute('aria-pressed','false');
-});
-test('A kilenc kvízkérdés értékelhető, törölhető és kihagyható', async ({page}) => {
-  await page.goto(chapter);
-  await expect(page.locator('fieldset')).toHaveCount(9);
-  const first = page.locator('fieldset').first();
-  await first.getByRole('button').click();
-  await expect(first.locator('.feedback')).toContainText('Válassz');
-  await first.getByRole('radio').nth(0).check(); await first.getByRole('button').click();
-  await expect(first.locator('.feedback')).toContainText('Még nem');
-  const answers = [1,0,2,1,0,2,1,0,2];
-  for (let i=0;i<answers.length;i++) {
-    const question = page.locator('fieldset').nth(i);
-    await question.getByRole('radio').nth(answers[i]).check(); await question.getByRole('button').click();
-    await expect(question.locator('.feedback')).toContainText('Így van');
+  for (const width of [320, 390, 768, 1365]) {
+    await page.setViewportSize({width, height: 900});
+    for (const dark of [false, true]) {
+      const toggle = page.getByRole('switch', {name: 'Sötét mód'});
+      if ((await toggle.getAttribute('aria-checked') === 'true') !== dark) await toggle.click();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth), `${width}px`).toBeLessThanOrEqual(width);
+      const overflow = await page.locator('.u-compare > div, .u-rows > div, .u-manual, .u-waterfall li, .u-arch, .u-cycle li, .u-duo, .u-lab, .u-dialogue').evaluateAll(
+        (nodes, limit) => nodes.filter(n => { const b = n.getBoundingClientRect(); return b.left < -1 || b.right > limit + 1 || n.scrollWidth > n.clientWidth + 1; }).map(n => n.id || n.className), width);
+      expect(overflow, `${width}px, ${dark ? 'sötét' : 'világos'}`).toEqual([]);
+    }
   }
-  await expect(page.locator('#quiz-score')).toContainText('9 helyes');
-  await first.getByRole('radio').nth(0).check();
-  await expect(page.locator('#quiz-score')).toContainText('8/9');
-  await page.locator('#quiz-reset').click();
-  await expect(page.locator('#quiz-score')).toContainText('0/9');
-  await page.getByRole('link',{name:'Most kihagyom a kvízt →'}).click();
-  await expect(page).toHaveURL(/#osszegzes$/);
 });
-test('Kezdőlapról, újratöltve és fájlként is működik, mobilon sincs túllógás', async ({page}) => {
-  await page.goto('');
-  await page.getByRole('link',{name:/Tudásbázisok és szakértőrendszerek/}).click();
-  await page.reload();
-  await expect(page.locator('h1')).toContainText('láttam korábban');
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  const {pathToFileURL} = require('node:url');
-  await page.goto(pathToFileURL(require('node:path').resolve(chapter)).href);
-  await page.locator('[data-rule="R1"]').click();
-  await expect(page.locator('#rule-facts')).toContainText('a, b, c, d, e');
-  await expect(page.locator('fieldset')).toHaveCount(9);
-});
-test('A tananyag JavaScript nélkül is olvasható, külső fájlt nem tölt be', async ({browser,baseURL}) => {
-  const context = await browser.newContext({javaScriptEnabled:false});
-  const page = await context.newPage(); const external = [];
-  page.on('request', request => {if (!request.url().startsWith(baseURL)) external.push(request.url());});
-  await page.goto(baseURL+chapter);
-  await expect(page.locator('#osszegzes')).toContainText('A tudásból működő lépések lesznek.');
-  await expect(page.getByRole('heading',{name:'A Tudás Kézikönyv teljes kezdeti tartalma'})).toBeVisible();
-  await expect(page.locator('#tudas-kezikonyv')).toContainText('prototípusban közreműködő szakértők nevét');
-  await expect(page.locator('#tudas-kezikonyv dd').nth(1)).toBeVisible();
-  expect(external).toEqual([]); await context.close();
-});
-test('Tiltott tároló és csökkentett mozgás mellett is működik', async ({page}) => {
-  await page.emulateMedia({reducedMotion:'reduce'});
-  await page.addInitScript(() => Object.defineProperty(window,'localStorage',{get(){throw Error('Tiltott');}}));
+
+test('JavaScript nélkül is olvasható minden levezetés', async ({browser}) => {
+  const context = await browser.newContext({javaScriptEnabled: false});
+  const page = await context.newPage();
   await page.goto(chapter);
-  await page.locator('[data-progress-toggle]').click();
-  await expect(page.locator('[data-progress-label]')).toContainText('nem engedte a mentést');
-  await page.locator('#chain-step').click();
-  await expect(page.locator('#forward-trace li').last()).toHaveCSS('animation-name','none');
-  await page.getByRole('switch',{name:'Sötét mód'}).click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
-});
-test.beforeEach(({page}) => page.on('pageerror', error => {throw error;}));
-test('A szabálylánc csak teljes feltételből vezet le új tényt, és újrakezdhető', async ({page}) => {
-  await page.goto(chapter);
-  const lab = page.locator('#szabaly-labor');
-  await expect(lab.getByRole('button',{name:/R3:/})).toBeDisabled();
-  await lab.getByRole('button',{name:/R1:/}).click();
-  await expect(lab.locator('[role="status"]')).toContainText('a, b, c, d, e');
-  await lab.getByRole('button',{name:/R2:/}).click();
-  await lab.getByRole('button',{name:/R3:/}).click();
-  await expect(lab.locator('[role="status"]')).toContainText('g');
-  await lab.getByRole('button',{name:'Szabálylánc újrakezdése'}).click();
-  await expect(lab.getByRole('button',{name:/R3:/})).toBeDisabled();
+  await expect(page.locator('#ket-levezetes')).toContainText('Elsül az R3');
+  await expect(page.locator('#ket-levezetes')).toContainText('R4 szabályt egyszer sem');
+  await expect(page.locator('#kovetkeztetesi-fa svg')).toBeVisible();
+  await expect(page.locator('#sorrend-ki')).toContainText('A helyes sorrend');
+  await expect(page.locator('#kviz-eredmeny')).toContainText('1b, 2c, 3a');
+  await expect(page.locator('#lanc-tenyek')).toBeHidden();
+  await context.close();
 });

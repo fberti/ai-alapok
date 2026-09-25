@@ -1,256 +1,265 @@
-/* Chapter 2: the shared notebook, with blue ink and visible reasoning paths. */
-.chapter-two {
-  --green: #245778;
-  --soft: #e7eef2;
-  --lime: #d9e9f3;
+/* 02 · A fejezet saját stílusa: u- előtagú komponensek, saját kiemelőszínnel. */
+.chapter-two{--u-accent:#8c2f4f;--u-accent-bg:#f6e6ec;--u-fix:#8a3b12;--u-fix-bg:#fff0e0;--u-add:#1f5a44;--u-add-bg:#e5f1e9;--u-key:#f3e7a8;--u-card:#fffef9;--u-ok:#1f6b3a;--u-bad:#a1261b}
+:root[data-theme=dark] .chapter-two{--u-accent:#f2a0bc;--u-accent-bg:#33202a;--u-fix:#ffb27a;--u-fix-bg:#33241a;--u-add:#8fd9b4;--u-add-bg:#18291f;--u-key:#4a4420;--u-card:#19211d;--u-ok:#86dca0;--u-bad:#ff9d91}
+.chapter-two .eyebrow,.chapter-two .section-index,.chapter-two h1 em{color:var(--u-accent)}
+.chapter-two a{color:var(--u-accent)}
+.chapter-two .toc a[aria-current=location]{color:var(--u-accent)}
+.chapter-two p{max-width:72ch}
+.chapter-two :focus-visible{outline:3px solid var(--u-accent);outline-offset:2px}
+
+/* Nyitó helyzet és célok */
+.u-scene{border-left:5px solid var(--u-accent);background:var(--u-accent-bg);padding:1rem 1.3rem;border-radius:0 8px 8px 0;margin:1.5rem 0}
+.u-scene p{margin:.4rem 0}
+.u-goals{border:1px solid var(--line);border-radius:8px;padding:1rem 1.3rem;background:var(--u-card)}
+.u-goals ul{margin:.4rem 0 0;padding-left:1.2rem}
+.u-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0;padding:0;list-style:none}
+.u-meta li{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:2px 12px}
+
+/* Idézet – csak valódi forrásszöveg */
+.u-quote{margin:1.4rem 0;padding:0}
+.u-quote blockquote{margin:0;padding:.9rem 1.2rem;border-left:4px solid var(--u-accent);font-family:Georgia,serif;font-size:1.05rem;background:var(--u-card)}
+.u-quote blockquote p{margin:.3rem 0}
+.u-quote figcaption{font-size:13px;color:var(--muted);padding:.3rem 1.2rem 0}
+.u-quote-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.u-quote-grid .u-quote{margin:0}
+
+/* Összehasonlítás */
+.u-compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:1rem;margin:1.4rem 0}
+.u-compare>div{border:1px solid var(--line);border-top:4px solid var(--u-accent);border-radius:6px;padding:.8rem 1.1rem;background:var(--u-card)}
+.u-compare h3,.u-compare h4{margin:.2rem 0 .5rem}
+.u-compare p{margin:.4rem 0}
+.u-compare .u-tag{display:inline-block;font-size:12px;letter-spacing:.1em;font-weight:bold;color:var(--u-accent)}
+
+/* Táblázat */
+.u-table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--line);border-radius:6px}
+.u-table{border-collapse:collapse;width:100%;font-size:15px;background:var(--u-card)}
+.u-table caption{text-align:left;font-size:13px;color:var(--muted);padding:.5rem .8rem;caption-side:bottom}
+.u-table th,.u-table td{text-align:left;vertical-align:top;padding:.55rem .8rem;border-bottom:1px solid var(--line)}
+.u-table thead th{background:var(--u-accent-bg);font-size:13px;letter-spacing:.04em}
+.u-table td:first-child{font-weight:bold}
+
+/* Idővonal */
+.u-timeline{list-style:none;margin:1.5rem 0;padding:0 0 0 1.4rem;border-left:3px solid var(--u-accent)}
+.u-timeline li{position:relative;margin:0 0 1.1rem;padding-left:.6rem}
+.u-timeline li:before{content:"";position:absolute;left:-1.4rem;top:.55rem;width:13px;height:13px;margin-left:-8px;border-radius:50%;background:var(--paper);border:3px solid var(--u-accent)}
+.u-timeline .u-year{display:inline-block;font-weight:bold;font-size:14px;letter-spacing:.06em;color:var(--u-accent);min-width:4.5rem}
+.u-timeline p{margin:.2rem 0}
+
+/* Lépéssor */
+.u-steps{list-style:none;counter-reset:ustep;margin:1.3rem 0;padding:0}
+.u-steps>li{counter-increment:ustep;position:relative;padding:.4rem 0 .8rem 3.1rem;border-bottom:1px dashed var(--line)}
+.u-steps>li:last-child{border-bottom:0}
+.u-steps>li:before{content:counter(ustep);position:absolute;left:0;top:.35rem;width:2.1rem;height:2.1rem;display:grid;place-items:center;border-radius:50%;background:var(--u-accent);color:var(--paper);font-weight:bold}
+.u-steps p{margin:.2rem 0}
+.u-flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:.4rem;list-style:none;padding:0;margin:1.2rem 0}
+.u-flow li{flex:1 1 130px;border:1px solid var(--line);border-radius:6px;padding:.5rem .7rem;background:var(--u-card);font-size:15px;position:relative}
+.u-flow li strong{display:block;color:var(--u-accent);font-size:13px;letter-spacing:.05em}
+
+/* Párbeszéd */
+.u-dialogue{margin:1.4rem 0;padding:0}
+.u-dialogue dl{margin:0;display:grid;gap:.5rem}
+.u-dialogue dl>div{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:.7rem;align-items:start}
+.u-dialogue dt{font-weight:bold;font-size:14px;text-align:right;padding-top:.45rem;color:var(--u-accent)}
+.u-dialogue dd{margin:0;padding:.45rem .9rem;border-radius:4px 14px 14px 14px;background:var(--u-accent-bg);max-width:60ch}
+.u-dialogue dl>div.u-other dd{background:var(--soft)}
+.u-dialogue figcaption{font-size:13px;color:var(--muted);margin-top:.5rem}
+
+/* Kiemelő dobozok */
+.u-simple,.u-fix,.u-add,.u-example{border-radius:8px;padding:.9rem 1.2rem;margin:1.4rem 0}
+.u-simple{background:var(--soft);border:1px dashed var(--muted)}
+.u-simple>strong:first-child,.u-example>strong:first-child{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--u-accent)}
+.u-fix{background:var(--u-fix-bg);border:2px solid var(--u-fix)}
+.u-fix h3,.u-add h3{margin:.1rem 0 .5rem;font-size:1.05rem}
+.u-fix h3{color:var(--u-fix)}
+.u-add{background:var(--u-add-bg);border-left:6px solid var(--u-add)}
+.u-add h3{color:var(--u-add)}
+.u-fix p,.u-add p{margin:.4rem 0}
+.u-example{border:1px solid var(--u-accent);background:var(--u-card)}
+.u-key{display:block;background:var(--u-key);padding:.7rem 1rem;border-radius:4px;font-weight:bold;margin:1.2rem 0;max-width:72ch}
+
+/* Sorok (kritikák, fogalmak) */
+.u-rows{margin:1.2rem 0;border-top:1px solid var(--line)}
+.u-rows>div{display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr);gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.u-rows dt{font-weight:bold}
+.u-rows dd{margin:0}
+.u-rows dd p{margin:.3rem 0}
+
+/* Alkalmazási térkép */
+.u-map{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:1rem;margin:1.3rem 0}
+.u-map section{border:1px solid var(--line);border-radius:8px;padding:.8rem 1rem;background:var(--u-card)}
+.u-map h3{margin:.1rem 0 .4rem;font-size:1rem;color:var(--u-accent)}
+.u-map ul{margin:0;padding-left:1.1rem;font-size:15px}
+
+/* Kód */
+.u-code{margin:1.3rem 0}
+.u-code pre{margin:0;padding:1rem;overflow-x:auto;background:#17211d;color:#e8f0e6;border-radius:8px;font-size:14px;line-height:1.5}
+.u-code figcaption{font-size:13px;color:var(--muted);margin-top:.4rem}
+.u-code code{font-family:"DejaVu Sans Mono",Consolas,monospace}
+code{font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:.92em;overflow-wrap:anywhere}
+.u-code pre code{overflow-wrap:normal}
+
+/* Laborok */
+.u-lab{border:2px solid var(--u-accent);border-radius:10px;padding:1rem 1.2rem;margin:1.6rem 0;background:var(--u-card)}
+.u-lab-label{font-size:12px;letter-spacing:.14em;font-weight:bold;color:var(--u-accent)}
+.u-lab h3{margin:.3rem 0 .6rem}
+.u-lab button,.u-quiz button{font:inherit;font-size:15px;padding:.4rem .9rem;border-radius:6px;border:1px solid var(--u-accent);background:var(--u-accent);color:var(--paper);cursor:pointer;min-height:40px}
+.u-lab button.u-ghost,.u-quiz button.u-ghost{background:transparent;color:var(--u-accent)}
+.u-lab button[disabled]{opacity:.5;cursor:default}
+.u-lab label{font-size:15px}
+.u-lab input[type=range]{width:100%;accent-color:var(--u-accent)}
+.u-lab input[type=number],.u-lab input[type=text]{font:inherit;padding:.3rem .5rem;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);max-width:100%}
+.u-controls{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.8rem 0}
+.u-out{border-left:4px solid var(--u-accent);background:var(--u-accent-bg);padding:.5rem .9rem;margin:.8rem 0;min-height:1.5em}
+.u-out p{margin:.2rem 0}
+html:not(.js) .u-js-only{display:none}
+.js .u-nojs-only{display:none}
+.u-ok{color:var(--u-ok);font-weight:bold}
+.u-bad{color:var(--u-bad);font-weight:bold}
+
+/* Fogalom és kapcsolatai */
+.u-assoc{margin:1.4rem 0;padding:1rem;border:1px solid var(--line);border-radius:10px;background:var(--u-card)}
+.u-assoc-core{margin:0 auto .8rem;width:max-content;padding:.35rem 1.2rem;border-radius:999px;background:var(--u-accent);color:var(--paper);font-weight:bold;letter-spacing:.12em}
+.u-assoc dl{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:.6rem}
+.u-assoc dl>div{border-top:3px solid var(--u-accent);padding:.4rem .6rem;background:var(--paper);border-radius:0 0 6px 6px}
+.u-assoc dt{font-size:12px;font-weight:bold;letter-spacing:.1em;text-transform:uppercase;color:var(--u-accent)}
+.u-assoc dd{margin:.2rem 0 0;font-size:15px}
+.u-assoc figcaption{font-size:13px;color:var(--muted);margin-top:.7rem}
+
+/* Vízesés: lépcsőzetes lépések */
+.u-waterfall{list-style:none;margin:1.4rem 0;padding:0;display:grid;gap:.5rem}
+.u-waterfall li{border:1px solid var(--line);border-left:5px solid var(--u-accent);border-radius:6px;padding:.5rem .9rem;background:var(--u-card);max-width:34rem;display:grid;gap:.1rem}
+.u-waterfall li:nth-child(2){margin-left:6%}.u-waterfall li:nth-child(3){margin-left:12%}.u-waterfall li:nth-child(4){margin-left:18%}.u-waterfall li:nth-child(5){margin-left:24%}
+.u-waterfall strong{font-size:13px;letter-spacing:.06em;color:var(--u-accent)}
+.u-waterfall em{font-size:14px;color:var(--muted)}
+
+/* Kézikönyv-minta */
+.u-manual{margin:1.4rem 0;border:1px solid var(--line);border-radius:4px;background:var(--u-card);box-shadow:6px 6px 0 var(--u-accent-bg);padding:1rem 1.2rem}
+.u-manual-title{margin:0 0 .6rem;font-size:13px;font-weight:bold;letter-spacing:.1em;color:var(--u-accent);border-bottom:2px solid var(--u-accent);padding-bottom:.4rem}
+.u-manual dl{margin:0}
+.u-manual dl>div{display:grid;grid-template-columns:minmax(150px,240px) minmax(0,1fr);gap:1rem;padding:.45rem 0;border-bottom:1px dotted var(--line)}
+.u-manual dl>div:last-child{border-bottom:0}
+.u-manual dt{font-weight:bold;font-size:15px}
+.u-manual dd{margin:0;font-size:15px}
+
+/* Szabálylista */
+.u-rulelist{margin:.6rem 0;padding-left:1.6rem}
+.u-rulelist li{margin:.3rem 0}
+.u-rule-line{display:block;margin:.15rem 0}
+
+/* Képlet */
+.u-formula{margin:1rem 0;display:flex;justify-content:center;font-family:Georgia,serif;font-size:1.3rem}
+.u-frac{display:inline-grid;text-align:center}
+.u-frac span:first-child{border-bottom:2px solid currentColor;padding:0 .6rem .15rem}
+.u-frac span:last-child{padding-top:.15rem}
+
+/* Következtetési fa */
+.u-tree{margin:1.3rem 0}
+.u-tree svg{width:100%;max-width:440px;height:auto;display:block}
+.u-tree line{stroke:var(--muted);stroke-width:2}
+.u-tree line.u-dash{stroke-dasharray:5 4}
+.u-tree line.u-on{stroke:var(--u-accent);stroke-width:4}
+.u-tree circle{fill:var(--paper);stroke:var(--ink);stroke-width:2}
+.u-tree text{fill:var(--ink);font-size:16px;font-weight:bold;text-anchor:middle;font-family:"DejaVu Sans Mono",Consolas,monospace}
+.u-tree .u-rulelabels text{font-size:12px;fill:var(--muted);font-weight:normal}
+.u-tree g.u-true circle{fill:var(--u-accent-bg);stroke:var(--u-accent);stroke-width:3}
+.u-tree g.u-derived circle{fill:var(--u-accent);stroke:var(--u-accent)}
+.u-tree g.u-derived text{fill:var(--paper)}
+.u-tree g.u-focus circle{stroke:var(--u-fix);stroke-width:4}
+.u-tree figcaption{font-size:14px;color:var(--muted);margin-top:.5rem}
+.u-tree figcaption code{color:var(--ink)}
+
+/* Két oszlop: levezetések */
+.u-duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:1rem;margin:1.2rem 0}
+.u-duo>.u-example{margin:0}
+.u-trace{border:1px solid var(--line);border-radius:8px;padding:.6rem .9rem;background:var(--paper)}
+.u-trace-title{margin:0 0 .3rem;font-size:12px;font-weight:bold;letter-spacing:.1em;text-transform:uppercase;color:var(--u-accent)}
+.u-trace ol{margin:0;padding-left:1.4rem;min-height:3rem;font-size:15px}
+.u-trace li{margin:.25rem 0}
+.u-trace li.u-empty{list-style:none;margin-left:-1.4rem;color:var(--muted)}
+
+/* Rendezés */
+.u-sort{list-style:none;margin:.8rem 0;padding:0;display:grid;gap:.4rem;counter-reset:usort}
+.u-sort li{counter-increment:usort;display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.6rem;align-items:center;border:1px solid var(--line);border-radius:6px;padding:.35rem .5rem;background:var(--paper)}
+.u-sort li:before{content:counter(usort);font-weight:bold;color:var(--u-accent);text-align:center}
+.u-sort li.u-right{border-color:var(--u-ok);box-shadow:inset 4px 0 0 var(--u-ok)}
+.u-sort li.u-wrong{border-color:var(--u-bad);box-shadow:inset 4px 0 0 var(--u-bad)}
+.u-sort li>span:first-of-type{overflow-wrap:anywhere}
+.u-sort .u-sort-btns{display:flex;gap:.3rem}
+.u-lab .u-sort button{min-height:36px;padding:.2rem .6rem;font-size:14px}
+
+/* Interjú */
+.u-kbuttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:.5rem;margin:.8rem 0}
+.u-lab .u-kbuttons button{text-align:left;line-height:1.3}
+.u-lab .u-kbuttons button[aria-pressed=true]{background:transparent;color:var(--u-accent)}
+.u-kbuttons small{display:block;font-weight:normal;font-size:13px}
+.u-notebook{border:1px dashed var(--u-accent);border-radius:6px;padding:.6rem .9rem;background:var(--paper)}
+.u-notebook-title{margin:0 0 .3rem;font-size:12px;font-weight:bold;letter-spacing:.1em;text-transform:uppercase;color:var(--u-accent)}
+.u-notebook ol{margin:0;padding-left:1.4rem;font-size:15px}
+.u-notebook li.u-empty{list-style:none;margin-left:-1.4rem;color:var(--muted)}
+
+/* Rendszerfelépítés */
+.u-arch{margin:1.4rem 0;display:grid;gap:.6rem;max-width:620px}
+.u-arch-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
+.u-arch-box{border:2px solid var(--u-accent);border-radius:6px;padding:.6rem .8rem;background:var(--u-card);display:grid;gap:.15rem;text-align:center}
+.u-arch-box strong{font-size:13px;letter-spacing:.08em;color:var(--u-accent)}
+.u-arch-box span{font-size:15px}
+.u-arch-box small{font-size:13px;color:var(--muted)}
+.u-arch-engine{background:var(--u-accent-bg)}
+.u-arch-ui{border-radius:999px;border-style:dashed;margin:0 12%}
+.u-arch figcaption{font-size:13px;color:var(--muted)}
+
+/* Következtetési ciklus */
+.u-cycle{list-style:none;margin:1.3rem 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:.6rem;position:relative}
+.u-cycle li{border:1px solid var(--line);border-top:4px solid var(--u-accent);border-radius:6px;padding:.6rem .9rem;background:var(--u-card);font-size:15px}
+.u-cycle li strong{display:block;color:var(--u-accent);font-size:13px;letter-spacing:.06em;margin-bottom:.2rem}
+.u-cycle:after{content:"↻ a ciklus újraindul, amíg van alkalmazható szabály vagy el nem érjük a célt";grid-column:1/-1;font-size:13px;color:var(--muted);text-align:center}
+
+/* Konfliktus-választó */
+.u-rulepick{border:1px solid var(--line);border-radius:8px;padding:.5rem .9rem;margin:.8rem 0}
+.u-rulepick legend{font-weight:bold;padding:0 .3rem}
+.u-rulepick label{display:flex;gap:.5rem;align-items:flex-start;padding:.3rem 0}
+.u-rulepick input{margin-top:.35rem;accent-color:var(--u-accent)}
+.u-checks{border:1px solid var(--line);border-radius:8px;padding:.4rem .9rem;display:flex;flex-wrap:wrap;gap:.3rem 1.4rem}
+.u-checks legend{font-weight:bold;padding:0 .3rem;font-size:15px}
+.u-checks label{font-family:"DejaVu Sans Mono",Consolas,monospace}
+.u-checks input{accent-color:var(--u-accent)}
+
+/* Fogalomkártyák */
+.u-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:.8rem;margin:1.2rem 0}
+.u-cards>div{border:1px solid var(--line);border-radius:8px;padding:.7rem 1rem;background:var(--u-card)}
+.u-cards dt{font-weight:bold;color:var(--u-accent)}
+.u-cards dd{margin:.3rem 0 0;font-size:15px}
+
+/* Kvíz */
+.u-quiz fieldset{border:1px solid var(--line);border-radius:8px;margin:0 0 1rem;padding:.7rem 1rem}
+.u-quiz legend{font-weight:bold;padding:0 .3rem}
+.u-quiz label{display:block;padding:.2rem 0}
+.u-quiz .u-feedback{margin:.4rem 0 0;font-size:15px}
+
+/* Kapcsolatok */
+.u-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:1rem}
+.u-links a{display:block;border:1px solid var(--line);border-radius:8px;padding:.8rem 1rem;text-decoration:none;background:var(--u-card)}
+.u-links small{display:block;color:var(--muted)}
+.u-sources li{margin:.35rem 0;font-size:15px}
+
+@media(max-width:760px){
+  .u-quote-grid{grid-template-columns:1fr}
+  .u-rows>div{grid-template-columns:1fr;gap:.2rem}
+  .u-dialogue dl>div{grid-template-columns:1fr;gap:.1rem}
+  .u-dialogue dt{text-align:left;padding-top:0}
+  .u-table{font-size:14px}
+  .u-manual dl>div{grid-template-columns:1fr;gap:.1rem}
+  .u-waterfall li{margin-left:0!important}
+  .u-arch-ui{margin:0}
+  .u-sort li{grid-template-columns:2rem minmax(0,1fr)}
+  .u-sort .u-sort-btns{grid-column:2}
 }
-:root[data-theme=dark] .chapter-two {
-  --green: #96caeb;
-  --soft: #202d36;
-  --lime: #d9e9f3;
-}
-:root[data-theme=dark] .chapter-two .finish,
-:root[data-theme=dark] .chapter-two .brand-mark { background: #245778; }
-.chapter-two .chapter-section > p { max-width: 72ch; }
-.chapter-two .chapter-section > figure { margin-inline: 0; }
-.chapter-two .reading-label {
-  display: block;
-  color: var(--green);
-  font-size: .75rem;
-  font-weight: bold;
-  letter-spacing: .08em;
-  margin-bottom: .75rem;
-}
-.chapter-two .reading-comparison {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin: 2rem 0;
-  border-block: 1px solid var(--line);
-}
-.chapter-two .reading-comparison > div { min-width: 0; padding: 1.4rem; }
-.chapter-two .reading-comparison > div + div {
-  border-left: 1px solid var(--line);
-  background: var(--soft);
-}
-.chapter-two .reading-comparison h3 {
-  font: normal 1.45rem/1.3 Georgia, serif;
-  color: var(--green);
-  margin: 0 0 1rem;
-}
-.chapter-two .reading-comparison p:last-child { margin-bottom: 0; }
-.chapter-two .source-quote {
-  margin-block: 2rem;
-  padding: 1.5rem 2rem;
-  border-block: 1px solid var(--green);
-  background: var(--soft);
-}
-.chapter-two .source-quote blockquote {
-  margin: 0;
-  font: italic clamp(1.6rem, 3vw, 2.3rem)/1.4 Georgia, serif;
-  color: var(--green);
-}
-.chapter-two .source-quote p { margin: 0; }
-.chapter-two figcaption {
-  margin-top: 1rem;
-  font-size: .83rem;
-  color: var(--muted);
-}
-.chapter-two .reading-rows { margin: 1.5rem 0; border-top: 1px solid var(--line); }
-.chapter-two .reading-rows > div {
-  display: grid;
-  grid-template-columns: 170px minmax(0, 1fr);
-  gap: 1.5rem;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--line);
-}
-.chapter-two .reading-rows dt { color: var(--green); font-weight: bold; line-height: 1.5; }
-.chapter-two .reading-rows dt span { font-weight: normal; font-size: .85rem; }
-.chapter-two .reading-rows dd { margin: 0; min-width: 0; }
-.chapter-two .reading-rows dd p { margin: .5rem 0 0; }
-.chapter-two .process-sheet { margin-block: 2rem; }
-.chapter-two .reading-steps {
-  list-style: none;
-  padding: 0;
-  margin: 1.5rem 0;
-  counter-reset: step;
-}
-.chapter-two .reading-steps > li {
-  counter-increment: step;
-  position: relative;
-  display: grid;
-  grid-template-columns: 2.5rem minmax(0, 1fr);
-  gap: 1.1rem;
-  padding-bottom: 1.75rem;
-}
-.chapter-two .reading-steps > li::before {
-  content: counter(step, decimal-leading-zero);
-  display: grid;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 1px solid var(--green);
-  border-radius: 50%;
-  background: var(--paper);
-  color: var(--green);
-  font-size: .8rem;
-  z-index: 1;
-}
-.chapter-two .reading-steps > li:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  left: 1.25rem;
-  top: 2.5rem;
-  bottom: 0;
-  border-left: 1px solid var(--line);
-}
-.chapter-two .reading-steps > li:last-child { padding-bottom: 0; }
-.chapter-two .reading-steps p { margin: .2rem 0 .65rem; }
-.chapter-two .step-result {
-  display: block;
-  color: var(--green);
-  font-size: .85rem;
-  padding-top: .4rem;
-  border-top: 1px dashed var(--line);
-}
-.chapter-two .compact-steps { margin-block: 2rem; }
-.chapter-two .return-path,
-.chapter-two .takeaway {
-  margin: 2rem 0;
-  padding: .6rem 0 .6rem 1.4rem;
-  border-left: 4px solid var(--green);
-}
-.chapter-two .return-path { border-left-style: dashed; }
-.chapter-two .return-path p { margin-bottom: 0; }
-.chapter-two .takeaway p { margin: 0; font: 1.4rem/1.5 Georgia, serif; max-width: 58ch; }
-.chapter-two .handbook,
-.chapter-two .evidence-sheet,
-.chapter-two .system-sheet {
-  margin-block: 2rem;
-  padding: 1.5rem;
-  border: 1px solid var(--line);
-  background: var(--white);
-}
-.chapter-two .handbook { border-top: 4px solid var(--green); }
-.chapter-two .handbook h3 { margin-top: 0; }
-.chapter-two .handbook .reading-rows > div,
-.chapter-two .system-sheet .reading-rows > div { grid-template-columns: 190px minmax(0, 1fr); }
-.chapter-two .handbook > p:last-child,
-.chapter-two .evidence-sheet > p:last-child { margin-bottom: 0; }
-.chapter-two .interview-scene { margin-block: 2rem; }
-.chapter-two .interview-scene figcaption { margin: 0 0 1.25rem; }
-.chapter-two .interview-turns p {
-  width: fit-content;
-  max-width: 88%;
-  padding: 1rem 1.2rem;
-  margin: .85rem 0;
-  background: var(--soft);
-  border: 1px solid var(--line);
-  border-radius: 12px 12px 12px 0;
-}
-.chapter-two .interview-turns p:nth-child(even) {
-  margin-left: auto;
-  background: var(--white);
-  border-radius: 12px 12px 0 12px;
-}
-.chapter-two .interview-turns strong { display: block; color: var(--green); font-size: .85rem; }
-.chapter-two .rule-tree { margin-block: 2rem; }
-.chapter-two .rule-branches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-.chapter-two .rule-branches > div,
-.chapter-two .rule-join { padding: 1.25rem; border: 1px solid var(--green); background: var(--white); text-align: center; }
-.chapter-two .rule-tree p { font: 1.6rem/1.4 Georgia, serif; margin: .4rem 0; }
-.chapter-two .rule-tree p strong { color: var(--green); }
-.chapter-two .tree-arrow { display: block; color: var(--green); font-size: 1.4rem; }
-.chapter-two .rule-join { margin-top: 1rem; background: var(--soft); border-top: 3px solid var(--green); }
-.chapter-two .derived-fact { font-weight: bold; }
-.chapter-two .fact-state { display: block; padding: .5rem .8rem; background: var(--soft); }
-.chapter-two .fact-state strong { color: var(--green); }
-.chapter-two .code-reading { margin-block: 2.5rem; border-block: 1px solid var(--line); padding-block: 1.5rem; }
-.chapter-two code { overflow-wrap: anywhere; }
-.chapter-two pre {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  padding: 1.25rem;
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--green);
-  background: var(--soft);
-  font-size: .9rem;
-}
-.chapter-two .missing-fact { border-top: 1px dashed var(--green); padding-top: 1rem; }
-.chapter-two .missing-fact p { margin-bottom: 0; }
-.chapter-two .engine-core { background: var(--soft); padding: 1rem 1.2rem; border-left: 4px solid var(--green); }
-.chapter-two .engine-core p { margin: 0; }
-.chapter-two .connection-label { display: block; margin-top: .5rem; }
-/* Existing labs keep their IDs and behavior. */
-.chapter-two #process-order { padding-left: 1.5rem; }
-.chapter-two #process-order li { padding: .7rem 0; border-bottom: 1px solid var(--line); }
-.chapter-two #process-order .lab-controls { margin: .4rem 0; }
-.chapter-two .trace { padding-left: 1.5rem; }
-.chapter-two .trace li { padding: .35rem; overflow-wrap: anywhere; }
-.chapter-two .trace li:last-child { background: var(--soft); border-left: 3px solid var(--green); animation: trace-enter .25s ease-out; }
-.chapter-two button:disabled { opacity: .5; }
-.chapter-two select { max-width: 100%; padding: .5rem; background: var(--white); color: var(--ink); border: 1px solid var(--line); }
-@keyframes trace-enter { from { transform: translateY(5px); opacity: .4; } to { transform: translateY(0); opacity: 1; } }
-@media (max-width: 1050px) {
-  .chapter-two .reading-comparison { grid-template-columns: minmax(0, 1fr); }
-  .chapter-two .reading-comparison > div + div { border-left: 0; border-top: 1px solid var(--line); }
-  .chapter-two .handbook .reading-rows > div,
-  .chapter-two .system-sheet .reading-rows > div { grid-template-columns: minmax(0, 1fr); gap: .6rem; }
-}
-@media (max-width: 600px) {
-  .chapter-two .reading-rows > div { grid-template-columns: minmax(0, 1fr); gap: .6rem; }
-  .chapter-two .reading-comparison > div,
-  .chapter-two .source-quote,
-  .chapter-two .handbook,
-  .chapter-two .evidence-sheet,
-  .chapter-two .system-sheet { padding: 1.1rem; }
-  .chapter-two .reading-steps > li { gap: .7rem; }
-  .chapter-two .rule-branches { grid-template-columns: minmax(0, 1fr); }
-  .chapter-two .interview-turns p { max-width: 94%; padding: .85rem; }
-  .chapter-two .takeaway { padding-left: 1rem; }
-  .chapter-two .takeaway p { font-size: 1.25rem; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .chapter-two .trace li:last-child { animation: none; }
-}
-@media print {
-  /* Printing a dark page must still produce readable paper. */
-  .chapter-two,
-  :root[data-theme=dark] .chapter-two {
-    --paper: #fff;
-    --white: #fff;
-    --ink: #000;
-    --muted: #333;
-    --green: #173e58;
-    --soft: #f1f4f6;
-    --line: #a3afb7;
-    --orange: #71350f;
-    --orange-bg: #fff;
-  }
-  .chapter-two .finish,
-  :root[data-theme=dark] .chapter-two .finish {
-    background: white;
-    color: black;
-    border: 1px solid var(--line);
-  }
-  .chapter-two .finish h2,
-  .chapter-two .finish a,
-  .chapter-two .finish .small,
-  :root[data-theme=dark] .chapter-two .finish a,
-  :root[data-theme=dark] .chapter-two .finish .small { color: black; }
-  .chapter-two .reading-comparison { display: block; }
-  .chapter-two .reading-comparison > div + div { border-left: 0; border-top: 1px solid var(--line); }
-  .chapter-two .reading-steps > li,
-  .chapter-two .interview-turns p,
-  .chapter-two .rule-tree,
-  .chapter-two .source-quote,
-  .chapter-two .takeaway { break-inside: avoid; }
-  .chapter-two .handbook,
-  .chapter-two .evidence-sheet,
-  .chapter-two .system-sheet,
-  .chapter-two .code-reading { break-inside: auto; }
-  .chapter-two .lab { break-inside: auto; }
-  .chapter-two .lab button,
-  .chapter-two .lab select,
-  .chapter-two .lab input,
-  .chapter-two .lab label { display: none; }
+@media(prefers-reduced-motion:reduce){.chapter-two *{transition:none!important;animation:none!important}}
+@media print{
+  .u-lab,.u-quiz{display:none}
+  .u-fix,.u-add,.u-simple,.u-example,.u-compare>div,.u-timeline li,.u-rows>div,.u-quote,.u-manual dl>div,.u-tree,.u-arch,.u-cycle li{break-inside:avoid}
+  .u-manual{box-shadow:none}
+  .u-code pre{background:#fff;color:#000;border:1px solid #999;white-space:pre-wrap}
+  .u-table-wrap{overflow:visible}
+  .chapter-two a[href^="http"]:after{content:" (" attr(href) ")";font-size:9pt;word-break:break-all}
 }

@@ -1,92 +1,718 @@
 <!doctype html>
 <html lang="hu">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Hogyan lesz a szakértő tapasztalatából tudásbázis? Tudáskinyerés, interjú és szabályláncolás öt kipróbálható példával."><title>02 · Tudásbázisok és szakértőrendszerek | MI-alapok</title><script src="../assets/js/theme.js?v=2"></script><link rel="stylesheet" href="../assets/css/course.css?v=2"><link rel="stylesheet" href="../assets/css/chapter-two.css?v=2"><script defer src="../assets/js/rules.js"></script><script defer src="../assets/js/quiz.js"></script><script defer src="../assets/js/chapter-two-quiz.js"></script><script defer src="../assets/js/progress.js"></script><script defer src="../assets/js/chapter-two.js"></script></head>
-<body class="chapter-two" data-chapter="2" data-quiz="manual"><a class="skip" href="#tartalom">Ugrás a tananyaghoz</a>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3eb">
+<meta name="description" content="Hogyan kerül egy szakértő tapasztalata egy szabályalapú rendszerbe? Tudásábrázolás, tudáskinyerés, interjútechnikák, szabályláncolás. Magyar tananyag a kurzus PDF-jének 36–64. oldalához.">
+<title>02 · Tudásbázisok és szakértőrendszerek | MI-alapok</title>
+<script>document.documentElement.classList.add('js')</script>
+<script src="../assets/js/theme.js?v=2"></script>
+<link rel="stylesheet" href="../assets/css/course.css?v=2">
+<link rel="stylesheet" href="../assets/css/chapter-two.css">
+<script defer src="../assets/js/chapter-two.js"></script>
+</head>
+<body class="chapter-two" data-chapter="2">
+<a class="skip" href="#tartalom">Ugrás a tananyaghoz</a>
 <header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">mi.</span> ALAPOK <span class="brand-note">/ interaktív jegyzet</span></a><div class="header-actions"><a href="../index.html#fejezetek">← Összes fejezet</a><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle><span class="theme-toggle-icon" aria-hidden="true"></span><span class="visually-hidden">Sötét mód</span></button></div></header>
-<div class="chapter-layout"><nav class="toc" aria-label="Fejezet tartalomjegyzéke"><p class="eyebrow">02 / EBBEN A FEJEZETBEN</p><ol><li><a href="#tudas">Tudás és kódolás</a></li><li><a href="#folyamat">A tudás útja</a></li><li><a href="#szakerto">Kitől tanul a rendszer?</a></li><li><a href="#kinyeres">Kérdezz és figyelj</a></li><li><a href="#kodolas">Beszélgetésből tudásbázis</a></li><li><a href="#szabalyok">Szabályból következtetés</a></li><li><a href="#rendszer">A rendszer egésze</a></li><li><a href="#fogalmak">Fogalomkártyák</a></li><li><a href="#kviz">Kvíz · szabadon választható</a></li><li><a href="#osszegzes">Összefoglaló</a></li><li><a href="#forrasok">Források</a></li></ol></nav>
+
+<div class="chapter-layout">
+<nav class="toc" aria-label="Fejezet tartalomjegyzéke"><p class="eyebrow">02 / EBBEN A FEJEZETBEN</p><ol>
+<li><a href="#tudas">Mi a tudás?</a></li>
+<li><a href="#kodolas">A tudás kódolása</a></li>
+<li><a href="#jellemzok">A jó ábrázolás</a></li>
+<li><a href="#vizeses">A vízesésmodell</a></li>
+<li><a href="#szerepek">Szakértő és tudásmérnök</a></li>
+<li><a href="#gyujtes">A tudásgyűjtés szakaszai</a></li>
+<li><a href="#kezikonyv">Előzetes feltárás, kézikönyv</a></li>
+<li><a href="#szakerto">A szakértő</a></li>
+<li><a href="#reszletes">Előzetes és részletes tudás</a></li>
+<li><a href="#interju">Interjú: K1–K6</a></li>
+<li><a href="#technikak">További technikák</a></li>
+<li><a href="#elemzes">Elemzés és dokumentálás</a></li>
+<li><a href="#gepi">Gépi tudáskinyerés</a></li>
+<li><a href="#szabaly">Az előállító szabály</a></li>
+<li><a href="#lancolas">Szabályláncolás</a></li>
+<li><a href="#irany">Előre és hátra</a></li>
+<li><a href="#felepites">Felépítés és működés</a></li>
+<li><a href="#merleg">Előnyök és hátrányok</a></li>
+<li><a href="#fogalmak">Fogalomkártyák</a></li>
+<li><a href="#kviz">Kvíz · szabadon választható</a></li>
+<li><a href="#osszegzes">Összefoglaló</a></li>
+<li><a href="#forrasok">Források</a></li>
+</ol></nav>
+
 <main id="tartalom" class="chapter-main">
-<header class="chapter-hero"><p class="eyebrow">02. FEJEZET / TAPASZTALATBÓL SZABÁLY</p><h1>„Én ezt már<br><em>láttam korábban.”</em></h1><p class="lead">Néhány billentyű nem működik. A szerelő rögtön tudja, mit kérdezzen. De honnan tudja? És hogyan adhatja át ezt a tudást egy gépnek?</p><div class="chapter-meta"><span>PDF 36–64. oldal</span><span>5 kipróbálható bemutató</span><span>9 opcionális kvízkérdés</span></div><div class="note"><strong>A fejezet végére…</strong><ul><li>el tudod mondani, hogyan nyerünk ki és kódolunk szakértői tudást;</li><li>meg tudod különböztetni a tényt, a szabályt és a következtető eljárást;</li><li>végig tudsz vezetni egy előre- és egy hátraláncolást.</li></ul><p>Az <a href="01-mi-es-intelligencia.html#szakertok">előző fejezetben</a> a DENDRAL mutatta meg a szakértői szabályok hasznát. Most a szabályok létrehozását és működését bontjuk ki.</p></div><noscript><p class="no-js">A teljes magyarázat JavaScript nélkül is olvasható. A bemutatókhoz és a kvízhez JavaScript kell. A megoldott példák a szövegben is szerepelnek.</p></noscript></header>
+<header class="chapter-hero">
+<p class="eyebrow">02. FEJEZET / TAPASZTALATBÓL SZABÁLY</p>
+<h1>Hogyan kerül<br><em>a tapasztalat a gépbe?</em></h1>
+<p class="lead">Az előző fejezet végén a DENDRAL egyetlen szabálya már megmutatta, hogyan dönt egy szakértőrendszer. Most azt nézzük meg, honnan jönnek a szabályok, hogyan kerülnek a gépbe, és hogyan következtet belőlük a program.</p>
+<div class="u-scene"><p><strong>Egy hétköznapi helyzet.</strong> Kovács Irén harminc éve javít számítógépeket egy kisvárosi szervizben. Jövőre nyugdíjba megy. Ránéz egy rakoncátlan billentyűzetre, és két kérdés után megmondja, mi a baja. A cég szeretné, ha ez a tudás nem menne el vele. Csakhogy Irén maga sem tudja pontosan elmondani, honnan tudja, amit tud. Ez a fejezet végigköveti, hogyan lesz az ilyen tapasztalatból gép által használható tudásbázis.</p></div>
+<ul class="u-meta"><li>Forrás: PDF 36–64. oldal</li><li>4 kipróbálható bemutató</li><li>10 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>12_Logika.py</code></li></ul>
+<div class="u-goals"><strong>A fejezet végére…</strong><ul>
+<li>el tudod mondani, mit értünk tudáson, és miért kell a gép számára kódolni;</li>
+<li>ismered a tudásfeldolgozás vízesésmodelljét, a szakértő és a tudásmérnök szerepét, valamint a tudásgyűjtés négy szakaszát;</li>
+<li>tudod, hogyan dolgozik az interjú, a protokollelemzés és a többi tudáskinyerési technika, és mit kezdünk a kinyert tudással;</li>
+<li>le tudsz vezetni egy következtetést előre- és hátraláncolással, és érted, mit csinál a következtető automata egy ciklusban.</li>
+</ul></div>
+<noscript><p class="u-simple"><strong>JavaScript nélkül</strong>A teljes magyarázat, minden levezetés és minden megoldott példa olvasható. Csak a kipróbálható bemutatók és a kvíz ellenőrzése igényel JavaScriptet.</p></noscript>
+</header>
 
-<section id="tudas" class="chapter-section"><span class="section-index">01 / PDF 36–40.</span><h2>Nem csak az számít, mit tudsz.</h2><p><strong>Tudás:</strong> ebben a fejezetben minden olyan ismeret, amely hasznos a feladat elvégzéséhez. Ez munkadefiníció, nem a tudás egyetlen filozófiai meghatározása. A szerelőnek a hibajelenség, a korábbi eset és a vizsgálat sorrendje is tudás.</p><p>A tárgyakról és kapcsolataikról szóló ismeret ritkán érkezik géppel kezelhető alakban. A <strong>tudásreprezentáció (knowledge representation)</strong> az ismeretek kódolt leírása. A kódolás megszabja, mit tudunk gyorsan keresni, illeszteni, összehasonlítani, láncolni vagy összekapcsolni. A gépidő és a tárhely véges.</p><div class="note"><strong>Egyszerűen mondva</strong><p>Egy fióknyi névjegy és egy név szerint rendezett telefonkönyv ugyanazokat az adatokat őrizheti. Nevet keresni mégsem ugyanolyan gyors bennük. A tudás szervezése befolyásolja a használhatóságát.</p></div><p>A PDF szerint az emberhez mérhető gépnek az ember általános tudásával kell rendelkeznie, és intelligenciája e tudás szervezésétől függ. A tudás valóban központi kérdés, de ez nem teljes, bizonyított recept az intelligenciához.</p><aside class="correction"><h3>Kiigazítás · A tudásmennyiség nem elég</h3><p><strong>A PDF állítása:</strong> általános emberi tudás és annak szervezése határozza meg az intelligenciát. <strong>Pontosabban:</strong> az észlelés, a következtetés, a tanulás és a cselekvés képessége is számít. Egy nagy, jól rendezett lexikon önmagában nem választ lépést egy változó helyzetben. Az emberrel való teljes azonosság sem minden MI-feladat követelménye. <a href="#s-aifca">Forrás: Poole–Mackworth, 1–2. fejezet.</a></p></aside>
-<div class="reading-comparison" id="modell-osszevetes"><div><h3>Statikus modell</h3><p>A tudás szerkezetét és szabályait előre megadjuk. Használat közben a rendszer nem tanulja át őket. A tények ettől még változhatnak: az új hőmérséklet nem új kapcsolási szabály.</p></div><div><h3>Dinamikus modell</h3><p>A modell működés közben módosulhat. Az <strong>önszervező (self-organizing)</strong> rendszer adatból alakít ki belső rendet. Az <strong>öntanuló (self-learning)</strong> rendszer tapasztalatból változtatja működését. Az ismeretszerzés és a rendszerezés itt az alkalmazás mellett is feladat.</p></div></div><p>A <strong>szimbolikus</strong> leírás megnevezett fogalmakkal és kapcsolatokkal dolgozik. A PDF asszociációs nézőpontjában a fogalomhoz kapcsolódó jelentések is fontosak: a „villámlás” térbeli, időbeli és minőségi kapcsolatokat idéz fel. Például „a hiba előtt”, „a ház közelében”, „erős fény”. Ez hasznos nézőpont, nem a jelentés egyetlen elmélete.</p>
-<aside class="correction"><h3>Kiigazítás · Nem kötelező a párhuzamos hardver</h3><p><strong>A PDF:</strong> megfelelő működés csak párhuzamos hardvertől várható. <strong>Pontosabban:</strong> az igény a feladat méretétől és az eljárástól függ. A fejezet három szabályát egyetlen processzorszál is gyorsan kezeli. A CLIPS szabálymotor is hagyományos gépeken fut. A párhuzamosság gyorsíthat, de nem a tudásalapú működés feltétele. <a href="#s-clips">Forrás: CLIPS dokumentáció.</a></p></aside>
-<figure class="source-quote"><blockquote><p>„A fontos dolgokat világosan adja meg.”</p></blockquote><figcaption>A tudásszemléltetés első elvárása · PDF 40. oldal.</figcaption></figure>
-<p>Mitől jó egy gépi leírás? A PDF nyolc elvárását ugyanazon a hibakereső példán értelmezzük. A kurzusterv Winstonhoz rendeli ezt a listát.</p>
-<dl class="reading-rows" id="reprezentacios-elvek">
-<div><dt>01 · Világos fogalmak</dt><dd>A „rossz” önmagában kevés. Nevezzük meg, hogy egy billentyű nem ad jelet, vagy minden leütés más jelet ad. A pontos fogalom segít a megfelelő szabály kiválasztásában.</dd></div>
-<div><dt>02 · Látható korlátok</dt><dd>A hibás billentyűk száma nem lehet negatív. Ha ezt a leírás is rögzíti, a rendszer már a bevitelkor kizárhat lehetetlen adatokat, és kevesebb esetet kell vizsgálnia.</dd></div>
-<div><dt>03 · Teljesség</dt><dd>A feladathoz szükséges minden ismeretet ki lehessen fejezni. Ha a csatlakozó típusa befolyásolja a vizsgálatot, annak is legyen helye a leírásban. Nem a világ összes tudását kell tárolni.</dd></div>
-<div><dt>04 · Tömörség</dt><dd>Ugyanazt az általános szabályt ne másoljuk be minden szervizesethez. Egy helyen őrizzük, az egyes esetekhez pedig a saját tényeket rendeljük.</dd></div>
-<div><dt>05 · Átláthatóság</dt><dd>A szakértő értse meg, miért született egy ajánlás. A „két billentyű hibás, ezért kontaktusvizsgálatot javasoltunk” ellenőrizhetőbb, mint egy magyarázat nélküli hibakód.</dd></div>
-<div><dt>06 · Gyors feldolgozás</dt><dd>A rendszer észszerű idő alatt találja meg a kapcsolódó szabályokat. Például a billentyűzethibához ne kelljen minden nyomtatóhibát leíró szabályt is végignéznie.</dd></div>
-<div><dt>07 · Elérhető részletek</dt><dd>Az ajánlás mutathat rövid összegzést, de kérésre a mögötte álló feltételeket és forrásokat is el kell érni. A részletek elrejtése nem azonos a törlésükkel.</dd></div>
-<div><dt>08 · Gépi eljárás</dt><dd>Legyen módszer a leírás kezelésére. Egy szép ábra még nem elég: meg kell határozni, hogyan keres és hogyan következtet rajta a gép.</dd></div>
-</dl><p>Ezek tervezési célok. Például a nagyon tömör kód nehezebben olvasható lehet. A teljes kifejezőerő és a gyors feldolgozás között is lehet csere. A PDF 40. oldala nem közöl pontos Winston-hivatkozást; a lista tartalmát a PDF alapján adjuk vissza.</p></section>
+<!-- 01 · TUDÁS -->
+<section id="tudas" class="chapter-section"><span class="section-index">01 / PDF 36–37.</span>
+<h2>Minden, ami segít elvégezni a feladatot.</h2>
+<p>A fejezet központi fogalma a <strong>tudás</strong>. A PDF egy gyakorlati, munkára szabott meghatározást ad:</p>
+<figure class="u-quote"><blockquote><p>„tudás = az elvégzendő feladat végrehajtásában hasznosnak bizonyuló bármely ismeret”</p></blockquote><figcaption>PDF 37. oldal</figcaption></figure>
+<p>Ez a meghatározás nem filozófiai, hanem mérnöki. Nem azt kérdezi, mi az igazság, hanem azt, hogy <em>segít-e</em> egy ismeret a feladatban. Irén számára tudás, hogy villámlás után a gépek portjai gyakran elromlanak. Az viszont nem tartozik a szerviz tudásbázisába, hogy melyik évben gyártották a szerviz kávéfőzőjét.</p>
+<p>Érdemes elkülöníteni a tudást két rokon fogalomtól. A különbség abban áll, mennyire kötődik az ismeret egy feladathoz.</p>
+<div class="u-compare" id="adat-informacio-tudas">
+<div><span class="u-tag">ADAT</span><h3>Nyers jel</h3><p>Egy szám vagy jel, jelentés nélkül.</p><p><em>Példa:</em> „38,5”.</p></div>
+<div><span class="u-tag">INFORMÁCIÓ</span><h3>Értelmezett adat</h3><p>Az adat a helyzetével együtt: kiről, miről, mikor szól.</p><p><em>Példa:</em> „Anna testhőmérséklete ma reggel 38,5 °C.”</p></div>
+<div><span class="u-tag">TUDÁS</span><h3>Cselekvésre váltható ismeret</h3><p>Összefüggés, amelyből döntés vagy teendő következik.</p><p><em>Példa:</em> „38 °C fölött láz van; ha három napnál tovább tart, orvoshoz kell menni.”</p></div>
+</div>
+<p>A PDF két további gondolatot fűz a meghatározáshoz. Az első: bár az intelligenciát sokféleképpen definiálják, abban a kutatók egyetértenek, hogy az emberivel összemérhető gépi intelligenciának rendelkeznie kell az ember <strong>általános tudásával</strong> is. Ide tartozik például, hogy a leejtett pohár leesik, vagy hogy a halott ember nem vásárol. A második gondolat a fejezet egyik fő üzenete:</p>
+<p class="u-key">Egy tudással rendelkező mesterséges rendszer intelligenciája attól függ, hogyan szervezzük meg ezt az ismerethalmazt.</p>
+<p>Két rendszer tudhatja ugyanazt, mégis az egyik gyorsan és helyesen következtet, a másik pedig lassan vagy egyáltalán nem. A különbség a tudás szervezésében van. A következő részek ezt bontják ki.</p>
+</section>
 
-<section id="folyamat" class="chapter-section"><span class="section-index">02 / PDF 41–45.</span><h2>A tapasztalatnak utat készítünk.</h2><p>A <strong>tudásfeldolgozás (knowledge engineering)</strong> a rendszerezett tudás gépbe juttatása és használhatóvá tétele. A rendszer jeleket kezel és következtetéseket végez a tudásbázison. Nem pusztán egy beszélgetés szövegét menti el.</p><p>A <strong>szakértő</strong> ismeri a területet. A <strong>tudásmérnök (knowledge engineer)</strong>, más néven tudástechnológus, segít ebből géppel kezelhető leírást készíteni. Együtt ellenőrzik, hogy a szabály tényleg azt jelenti-e, amit a szakértő mondott. A jó tudásfeldolgozás a gazdaságos fejlesztés kulcsa.</p><figure class="process-sheet" id="fejlesztes-utja"><ol class="reading-steps">
-<li><div><strong>Problémaazonosítás</strong><p>Először a feladat határát jelöljük ki. A rendszer most vizsgálati sorrendet ajánl, nem végez javítást. Meghatározzuk, ki használja, és mit fogadunk el jó válasznak.</p><span class="step-result">Eredmény: elvárások</span></div></li>
-<li><div><strong>Fogalomalkotás, koncepciókészítés</strong><p>Összegyűjtjük a szükséges fogalmakat és kapcsolataikat. Ilyen a hibás billentyű, az előzmény és a javasolt vizsgálat. Közös jelentést adunk nekik.</p><span class="step-result">Eredmény: koncepciók</span></div></li>
-<li><div><strong>Formalizálás</strong><p>A közös fogalmaknak pontos szerkezetet választunk. Eldöntjük például, hogyan jelöljük a hibás billentyűk számát, és hogyan írjuk fel a döntés feltételeit.</p><span class="step-result">Eredmény: struktúra</span></div></li>
-<li><div><strong>Megvalósítás, implementálás</strong><p>A szerkezet alapján elkészítjük a gépi szabályokat és a beviteli mezőket. A „kevés billentyű” helyett itt már pontos, vizsgálható feltétel kell.</p><span class="step-result">Eredmény: szabályok</span></div></li>
-<li><div><strong>Tesztelés</strong><p>Ismert esetekkel ellenőrizzük a szabályokat és az eredményt. Megnézzük azt is, mit tesz a rendszer hiányzó adat vagy a megszokottól eltérő hiba esetén.</p><span class="step-result">Eredmény: ellenőrzött válaszok vagy javítandó hibák</span></div></li>
-</ol><figcaption>A PDF 41. oldalának öt fejlesztési lépése, végigvezetett billentyűzetes példával. Egy lépés eredménye a következő munkáját alapozza meg.</figcaption></figure>
-<div class="return-path"><strong>Ha a teszt hibát mutat: visszalépünk.</strong><p>A rosszul kijelölt feladat <em>újraformulázást</em> kér. A hiányos szerkezet <em>újratervezést</em> kér. A pontatlan szabály <em>finomítást</em> kér. A teszt így nemcsak lezárja, hanem javítja is a fejlesztést.</p></div><p>Ez a PDF <strong>vízesésmodellje</strong>: a lépések egymásra épülnek. Az ábra visszautakat is tartalmaz. A hibák miatt újraformulázhatjuk a feladatot, újratervezhetjük a szerkezetet vagy finomíthatjuk a szabályokat. Nem kell hibás döntést végigvinni csak azért, mert már leírtuk.</p><div class="note"><strong>Végigvezetett példa</strong><p>Feladat: billentyűzethiba vizsgálati sorrendjét ajánljuk. Fogalmak: hibás billentyűk száma, előzmény, vizsgálat. Formalizálás: „HA egy-két billentyű hibás, AKKOR javasolj kontaktusvizsgálatot”. A kontaktus elektromos érintkezést jelent. Megvalósítás: szabály és beviteli mezők. Teszt: egy hibás billentyűnél ne a minden billentyűt érintő hibát állítsa biztos oknak a rendszer.</p></div>
-<p>A <strong>tudásgyűjtés vagy tudáskinyerés (knowledge acquisition)</strong> az információ-feldolgozó tevékenység felismerése, kinyerése, dokumentálása és elemzése. Ezzel a tudásbázist és a következtető eljárást is előkészítjük. Négy fő szakasza:</p><ol class="reading-steps compact-steps" id="tudasgyujtes-lepesei"><li><div><strong>Előzetes tudás és problématartomány feltárása.</strong><p>Megismerjük, milyen feladatokra és milyen mélységű tudásra lesz szükség.</p></div></li><li><div><strong>Információforrások azonosítása.</strong><p>Kiválasztjuk, kit kérdezhetünk, és mely dokumentumokat, esetleírásokat vizsgáljuk meg.</p></div></li><li><div><strong>Részletes tudás kinyerése.</strong><p>Feltárjuk a döntések indokait, a kivételeket és a megoldás lépéseit.</p></div></li><li><div><strong>Elemzés, kódolás és dokumentálás.</strong><p>A gyűjtött anyagból ellenőrizhető, géppel kezelhető tudást készítünk.</p></div></li></ol>
-<div class="lab" id="folyamat-labor"><span class="lab-label">PRÓBÁLD KI / A TUDÁSKINYERÉS NÉGY LÉPÉSE</span><h3>Tedd helyes sorrendbe.</h3><p>A Fel és Le gombokkal mozgasd a lépéseket. Billentyűzettel is működnek. A helyes sorrend a fenti listában van.</p><ol id="process-order"></ol><div class="lab-controls"><button type="button" id="process-check">Sorrend ellenőrzése</button><button type="button" id="process-reset">Sorrend újrakezdése</button></div><p id="process-feedback" class="feedback" role="status">A rendező JavaScript bekapcsolásával használható.</p></div>
-<p><strong>Előzetes tudásfeltárás:</strong> behatároljuk a problémák körét és jellemzőit, a tudás mennyiségét, valamint a felhasználói elvárásokat. Megismerünk néhány tipikus következtetést és a szakértők elképzeléseit. Rögzítjük a fő szabályokat és fogalmakat. Eszközei az előzetes archívumkutatás és a szakértői konzultáció.</p><div class="handbook" id="tudas-kezikonyv"><span class="reading-label">A TUDÁS KÉZIKÖNYV / PDF 45.</span><h3>A Tudás Kézikönyv teljes kezdeti tartalma</h3><p>Ez a munka közös emlékezete. A <strong>prototípus</strong> a rendszer kipróbálható első változata. A kézikönyvnek már ennek elkészítéséhez is elég részletesnek kell lennie.</p>
-<dl class="reading-rows">
-<div><dt>Feladat és határok</dt><dd>Az <strong>általános problémaleírás</strong> mellett rögzítjük a <strong>felhasználókat és elvárásaikat</strong>. A feladatot <strong>alproblémákra és résztartományokra</strong> bontjuk a további tudáskinyeréshez. Ezekhez <strong>részletes, a prototípushoz használható leírást</strong> adunk. A billentyűzetes példában külön résztartomány lehet a tünetek felvétele és a vizsgálati sorrend.</dd></div>
-<div><dt>Forrás és közös nyelv</dt><dd>A <strong>referenciadokumentumok nyilvántartása</strong> megmutatja, mire támaszkodunk. A <strong>terminológia, elvek és szakkifejezések</strong> jegyzéke közös jelentést ad a szavaknak. Feljegyezzük a <strong>prototípusban közreműködő szakértők nevét</strong> is, hogy a vitás pontokhoz vissza lehessen térni.</dd></div>
-<div><dt>Működés és mérce</dt><dd>A <strong>tipikus következtetési módszer leírása</strong> rögzíti, hogyan jutunk a bemenettől a válaszig. Az <strong>észszerű teljesítménymutatók</strong> alapján értékeljük a rendszert. Például előre kijelölt teszteseteken mérhetjük az elfogadható vizsgálati ajánlások arányát és a válaszidőt.</dd></div>
-</dl><p class="footnote">Mind a kilenc kezdeti elem szerepel. A kézikönyv később a részletes tudással és a teszteredményekkel is bővül.</p></div></section>
+<!-- 02 · KÓDOLÁS -->
+<section id="kodolas" class="chapter-section"><span class="section-index">02 / PDF 38–39.</span>
+<h2>A tudást le kell fordítani a gép nyelvére.</h2>
+<p>A valós világ tárgyairól és kapcsolataikról szóló ismeret ritkán áll rendelkezésre a számítógép által kezelhető formában. Irén fejében van, egy kézikönyv lapjain vagy egy beszélgetésben hangzik el. Ahhoz, hogy a gép tárolni és kezelni tudja, a tudást <strong>kódolni</strong> kell. Ezt a PDF <strong>tudásszemléltetésnek</strong> nevezi. Ugyanezt jelenti a <strong>tudásábrázolás</strong> vagy <strong>tudásreprezentáció (knowledge representation)</strong> kifejezés.</p>
+<p>A kódolás módja nagyban kihat arra, milyen gyorsan és hatékonyan dolgozik a gép. Attól is függ, milyen műveleteket végezhet a tárolt tudáson: keresést, illesztést, összehasonlítást, láncolást vagy új kapcsolatok kialakítását. Nézzük ugyanazt az ismeretet háromféle kódolásban.</p>
+<div class="u-compare" id="harom-kodolas">
+<div><span class="u-tag">SZABAD SZÖVEG</span><p>„Ha zivatar volt, és a billentyűk közül több is furcsán viselkedik, érdemes a portot megnézni.”</p><p><strong>Könnyű:</strong> ember olvassa. <strong>Nehéz:</strong> a gép nem tudja, melyik rész a feltétel és melyik a teendő.</p></div>
+<div><span class="u-tag">TÁBLÁZAT</span><p>Sor: <code>villámlás = igen | furcsa billentyűk = 3 | teendő = port</code></p><p><strong>Könnyű:</strong> keresés, összehasonlítás. <strong>Nehéz:</strong> egyik sor nem épül a másikra, láncolni nem lehet.</p></div>
+<div><span class="u-tag">SZABÁLY</span><p><code>HA villámlás ÉS furcsa&gt;2 AKKOR port_gyanús</code></p><p><strong>Könnyű:</strong> illesztés és láncolás, mert a <code>port_gyanús</code> egy másik szabály feltétele lehet. <strong>Nehéz:</strong> áttekinteni több ezer szabályt.</p></div>
+</div>
+<p>A PDF szerint a megfelelő ismeretstruktúra kiválasztása az MI kulcskérdése. Ennek oka, hogy a gépidő és a tárkapacitás korlátos. Rossz ábrázolásban egy egyszerű kérdés is túl sok keresést igényelhet.</p>
+<aside class="u-fix"><h3>Kiigazítás · Nem kell hozzá párhuzamos hardver</h3>
+<p><strong>A PDF állítása:</strong> megfelelő színvonalú működés reálisan csak párhuzamos hardverrendszerektől remélhető.</p>
+<p><strong>Pontosabban:</strong> a klasszikus tudásalapú rendszerek hagyományos, soros gépeken működtek. A MYCIN egy időosztásos PDP-10 számítógépen futott. A mai CLIPS szakértőrendszer-váz bármely asztali gépen fut. A szabályillesztést nem a párhuzamos hardver gyorsította fel, hanem jobb algoritmus. Charles Forgy Rete-algoritmusa (1982) megjegyzi a korábbi illesztések eredményét, így nem kell minden ciklusban minden szabályt újra vizsgálni.</p>
+<p><strong>Miért fontos?</strong> A japán „ötödik generációs számítógép” program az 1980-as években éppen a párhuzamos logikai gépekre fogadott, és nem érte el a céljait. A párhuzamosság ma a nagy neurális hálók tanításánál valóban lényeges, ott grafikus processzorokat használnak. Ez azonban nem minden tudásalapú rendszer szükséges feltétele. <a href="#s-forgy">Források: Forgy, 1982;</a> <a href="#s-buchanan">Buchanan–Shortliffe, 1984;</a> <a href="#s-aima">Russell–Norvig, 1. fejezet.</a></p></aside>
+<p>A PDF ezután egy szemléletváltást ír le. A súlypont a statikus tudásmodellekről a dinamikus modellek felé tolódik.</p>
+<div class="u-compare" id="statikus-dinamikus">
+<div><span class="u-tag">STATIKUS MODELL</span><h3>Egyszer megalkotják, aztán használják</h3><p>A tudásmérnök elkészíti a tudásszemléltető modellt, a rendszer pedig ezt alkalmazza. A tudás csak akkor változik, ha ember átírja.</p><p><em>Példa:</em> Irén szabályaiból egyszer összeállított hibakereső program.</p></div>
+<div><span class="u-tag">DINAMIKUS, ÖNSZERVEZŐ MODELL</span><h3>Működés közben maga is tanul</h3><p>A rendszer maga szerzi meg és rendezi el az ismereteket. Ez ugyanolyan fontos része a működésnek, mint az ismeret alkalmazása. Az <strong>öntanuló</strong> rendszer ehhez nem igényel emberi közreműködést.</p><p><em>Példa:</em> a levélszemétszűrő, amely a felhasználók jelöléseiből folyamatosan frissíti, mit tart kéretlen levélnek.</p></div>
+</div>
+<p>Az <strong>önszervező</strong> modell tehát nem csak új tényeket vesz fel. A tudás szerkezetét is maga alakítja ki, például maga dönti el, mely fogalmak tartoznak össze. A 6. fejezet neurális hálói ilyen rendszerek.</p>
+<p>A PDF szerint ezzel együtt előtérbe kerül a tudás <strong>szimbolikus</strong> jellege. A fogalmakat jelek, szimbólumok képviselik, és egy fogalom jelentése mindaz, ami hozzá <strong>asszociálódott</strong>, vagyis hozzá kapcsolódik. Ezek a kapcsolatok lehetnek térbeliek, időbeliek, minőségiek és még sokfélék. Az ábra ezt az „eső” fogalmon mutatja meg.</p>
+<figure class="u-assoc" id="eso-fogalom"><p class="u-assoc-core">ESŐ</p><dl>
+<div><dt>Térbeli</dt><dd>felhő, ég, pocsolya, esőcsatorna</dd></div>
+<div><dt>Időbeli</dt><dd>ősz, nyári zivatar, „utána szivárvány”</dd></div>
+<div><dt>Minőségi</dt><dd>nedves, hideg, szitáló vagy zuhogó</dd></div>
+<div><dt>Ok és cél</dt><dd>esernyő, elmarad a kirándulás, jó a vetésnek</dd></div>
+</dl><figcaption>A jegyzet saját példája. A fogalmat a kapcsolatai adják meg: ha ezeket kivesszük, az „eső” szó puszta betűsor marad a gép számára. A 3. fejezet szemantikus hálói pontosan ilyen kapcsolatokat tárolnak.</figcaption></figure>
+</section>
 
-<section id="szakerto" class="chapter-section"><span class="section-index">03 / PDF 46–49.</span><h2>A jó forrás nem csak sokat beszél.</h2><p>A szakértő különleges tudást hordoz vagy mutat fel. Ezt tanulással, gyakorlással és tapasztalattal szerezheti. Egy rutinos döntés annyira automatikus lehet, hogy az illető nem tudja rögtön megmondani, miért hozta meg. A tapasztalat gyakran <strong>heurisztika (heuristic)</strong>: hasznos ökölszabály, nem biztos megoldás.</p><p>A szakértőnek hitelesnek kell lennie a felhasználók, a projektcsapat, a szakmai közösség és a szervezet vezetése előtt. A cím önmagában nem elég: konkrét esetek és ellenőrizhető eredmények is kellenek. A dokumentumok, archívumok és más szakértők segítenek összevetni a mondottakat.</p><p>A PDF három történeti szakértőtípusa azt szemlélteti, hogy eltérő tapasztalatból eltérő módon nyerhető ki tudás:</p><dl class="reading-rows" id="szakertotipusok"><div><dt>Akadémikus</dt><dd>Az elméleti hátteret és a terület logikus szerkezetét hangsúlyozza. Munkájához fogalomtisztázás és mások tanítása is tartozik, ezért sokat magyarázhat.<p><strong>A tudáskinyerésnél:</strong> kérj valós esetet is, mert az elméleti magyarázat eltávolodhat a napi gyakorlattól.</p></dd></div><div><dt>Gyakorlati szakértő</dt><dd>Naponta old meg valódi problémákat. Olyan megoldást keres, amely a megszorítások és a korlátozott erőforrások mellett is működik. Tudása lehet <strong>implicit</strong>, azaz ki nem mondott, és gyakran ökölszabályokra épít.<p><strong>A tudáskinyerésnél:</strong> kérdezz rá a megszokott lépések indokára és az elméleti alapra is. A működő rutin határait külön fel kell tárni.</p></dd></div><div><dt>„Szamuráj”</dt><dd>A PDF így nevezi a végrehajtás szakértőjét. A feladatot a lehető legjobb eredménnyel akarja elvégezni. Képzése sokszor gyakorlati, válaszai gyakran automatikusak.<p><strong>A tudáskinyerésnél:</strong> figyeld meg munka közben, majd bontsátok lépésekre a döntést. Így az is láthatóvá válhat, amit magától nem mondana ki.</p></dd></div></dl><p>A másik felosztásban a <strong>helyi</strong> szakértő fő kötődése a cég. A <strong>kozmopolita</strong> szakértő inkább a szakma legjobbjaihoz méri magát. A motiváció eltérhet: belső elismerés vagy szakmai közösségi eredmény más-más embernek lehet fontos.</p><aside class="correction"><h3>Kiigazítás · Típusok, nem emberi dobozok</h3><p><strong>A PDF:</strong> a fenti nevekkel írja le a szakértőket és eltérő motiválásukat. <strong>Pontosabban:</strong> ezt történeti oktatási modellként használjuk, nem igazolt, minden emberre érvényes osztályozásként. Egy egyetemi oktató napi szervizmunkát is végezhet. Ugyanaz az ember cégéhez és szakmájához is kötődhet. A PDF nem ad a kategóriákhoz általánosító bizonyítékot; ezért az egyén tapasztalatát és céljait külön kell megismerni.</p></aside><p>A szakértő féltheti a munkáját, státuszát vagy döntési jogát. A „tudás hatalom” gondolat miatt a tudás átadása veszteségnek tűnhet. Tisztázzuk a célt, a felelősséget, a ráfordított időt és az elismerést. Ne tekintsük a félelmet együttműködési hibának.</p><p><strong>Előzetes tudás:</strong> a bevezető interjú feltárja az alapfogalmakat és elveket, a tipikus bemeneteket és kimeneteket, a megoldásokat vagy megoldási osztályokat, valamint az első változathoz szükséges problémakezelő stratégiákat.</p><div class="reading-comparison" id="tudas-melysege"><div><span class="reading-label">ELŐZETES TUDÁS</span><p>Milyen adatot kapunk, és milyen választ adunk? Például hibajelenséget kapunk, és vizsgálatot ajánlunk. Ezzel kijelöljük a feladatot.</p></div><div><span class="reading-label">RÉSZLETES TUDÁS</span><p>Miért pont ezt a vizsgálatot ajánljuk, milyen feltételekkel, és mikor nem? Ezzel a döntés belső menetét tárjuk fel.</p></div></div>
-<p>A részletes tudás a szakértő többéves tanulását és személyes tapasztalatát bontja ki. A PDF 49. oldalának tizenhárom összetevője négy összefüggő kérdéscsoportba rendezhető:</p>
-<dl class="reading-rows" id="reszletes-tudas">
-<div><dt>Mi kapcsolódik mihez?</dt><dd>Feltárjuk az <strong>adatok és szabályok közötti viszonyokat</strong>, a <strong>szabályok hierarchiáját</strong>, azaz egymás fölé és alá rendezését, valamint a <strong>célok és részcélok bemeneti követelményeit</strong>. Egy vizsgálat kiválasztásához például előbb ismernünk kell a hibajelenséget.</dd></div>
-<div><dt>Mennyire bízhatunk benne?</dt><dd>Megítéljük az <strong>adatok viszonylagos értékét és fontosságát</strong>, <strong>bizonyosságát és relatív valószínűségét</strong>. Rögzítjük a <strong>szakértő közelítéseinek alapját</strong>, valamint a <strong>szabályokba, eredményekbe és adatokba vetett bizalom fokát</strong>. A közvetlenül megfigyelt hiba és egy bizonytalan visszaemlékezés nem ugyanazt a bizonyítékot adja.</dd></div>
-<div><dt>Merre haladjunk?</dt><dd>Tisztázzuk a <strong>feladatok elsőbbségét és sorrendjét</strong>, a <strong>szabályok és következmények konfliktusainak feloldását</strong>, a <strong>más lehetséges megoldási utakat</strong> és a <strong>következtetés észszerű rövidítéseit</strong>. Ha egy egyszerű kérdés kizárhat egy teljes vizsgálati ágat, érdemes lehet azzal kezdeni.</dd></div>
-<div><dt>Mi számít jó eredménynek?</dt><dd><strong>Részletes válaszokat keresünk a várt és váratlan helyzetekre</strong>, és meghatározzuk a <strong>megfelelő teljesítménymércéket</strong>. A hiányos adatnál kért pontosítás lehet helyes viselkedés; nem kell mindenáron biztos hibát állítani.</dd></div>
-</dl><p>Például nem elég tudni, hogy „vizsgáld meg a portot”. A port a gép csatlakozási pontja. Azt is tudnunk kell, milyen adat indokolja ezt, mikor előzi meg más vizsgálat, és hogyan ellenőrizzük a sikerét.</p></section>
+<!-- 03 · JELLEMZŐK -->
+<section id="jellemzok" class="chapter-section"><span class="section-index">03 / PDF 40.</span>
+<h2>Nyolc próba egy jó ábrázolásnak.</h2>
+<p>Milyen a jó tudásábrázolás? A PDF nyolc elvárt jellemzőt sorol fel. A lista nem nevezi meg a forrását, de Patrick Winston MI-tankönyvének „jó ábrázolás” jellemzőire épül. A jellemzőket egy ismerős ábrázoláson, a <strong>metró vonalhálózati térképén</strong> érdemes kipróbálni. Ez a térkép maga is tudásábrázolás: a város közlekedésének egy célra szabott modellje.</p>
+<div class="u-table-wrap"><table class="u-table" id="winston-tabla">
+<caption>A PDF 40. oldalának nyolc jellemzője, a metrótérkép példáján. Az első oszlop a PDF szövege, a másik kettő a jegyzet magyarázata.</caption>
+<thead><tr><th scope="col">A PDF elvárása</th><th scope="col">Mit jelent?</th><th scope="col">A metrótérképen</th></tr></thead>
+<tbody>
+<tr><td>1. A fontos dolgokat világosan adja meg.</td><td>Ami a feladathoz kell, az közvetlenül leolvasható legyen, ne kelljen kiszámolni.</td><td>A vonalak, a megállók és az átszállási pontok első ránézésre látszanak.</td></tr>
+<tr><td>2. Fedje fel a természetes korlátokat, megkönnyítve a számítások néhány fajtáját.</td><td>Az ábrázolás formája magától mutassa, mi lehetséges és mi nem.</td><td>Két megálló között csak a vonal mentén juthatsz, átszállni csak csomópontban lehet. Így könnyű megszámolni az átszállásokat.</td></tr>
+<tr><td>3. Legyen teljes.</td><td>Minden szükséges ismeret szerepeljen benne.</td><td>Ha egy megálló hiányzik, rossz útvonalat tervezünk.</td></tr>
+<tr><td>4. Legyen tömör.</td><td>Ne tartalmazzon fölösleges, ismétlődő ismeretet.</td><td>Nincs rajta minden utca és ház, csak ami az utazáshoz kell.</td></tr>
+<tr><td>5. Legyen átlátható számunkra.</td><td>Az ember is értse és ellenőrizni tudja.</td><td>Egy turista is kiigazodik rajta, nyelvtudás nélkül is.</td></tr>
+<tr><td>6. Legyen alkalmas gyors feldolgozásra.</td><td>A szükséges műveletek gyorsan elvégezhetők legyenek.</td><td>Ránézésre megtalálod az útvonalat.</td></tr>
+<tr><td>7. Rejtse el a részleteket, de tegye elérhetővé azokat szükség esetén.</td><td>A részlet ne zavarjon, de ha kell, elő lehessen venni.</td><td>A pontos távolságok nincsenek rajta, de a menetrendből vagy a várostérképből kikereshetők.</td></tr>
+<tr><td>8. Létezzen rá számítógépi eljárás.</td><td>A gép is tudjon rajta dolgozni.</td><td>A hálózat gráfként tárolható, a legrövidebb utat algoritmus keresi meg. Ezt a 9. fejezet mutatja be.</td></tr>
+</tbody></table></div>
+<p>A jellemzők között feszültség is van. A <em>teljesség</em> és a <em>tömörség</em> egymás ellen húz: ha mindent felveszünk, a térkép áttekinthetetlen lesz. A jó ábrázolás ezért mindig egy feladathoz készül. A metrótérkép kiváló az utazáshoz, de használhatatlan egy vízvezeték javításához.</p>
+<div class="u-simple"><strong>Egyszerűen mondva</strong><p>Nincs „mindenre jó” ábrázolás. Az a jó ábrázolás, amelyben az adott feladat kérdéseire gyorsan és helyesen lehet válaszolni.</p></div>
+</section>
 
-<section id="kinyeres" class="chapter-section"><span class="section-index">04 / PDF 50–53.</span><h2>Kérdezz rá arra, ami „magától értetődik”.</h2><p>A cél a hasznos ismeret mennyiségének növelése, miközben csökkentjük a gyűjtés, az elemzés és a nehezen elérhető szakértő idejének költségét. Ehhez több módszert érdemes kombinálni.</p><div class="reading-comparison"><div><h3>Strukturálatlan interjú</h3><p>A szakértő alakítja a beszélgetést, bemutatja a fogalmakat; a tudásmérnök rögzít. Jó felfedezésre, főleg az előzetes tudás feltárásakor. Viszont elkalandozhat és egyetlen témát túlhangsúlyozhat, ezért az utólagos feldolgozás sok munkát kérhet.</p></div><div><h3>Nyitott végű interjú</h3><p>A tudásmérnök háttértudással készül és kérdésekkel irányít; a szakértő szabadon válaszolhat vagy kitérhet. Így célzottan kérdezhetünk, de nem szorítjuk előre megadott válaszok közé a tapasztalatot.</p></div></div><aside class="correction"><h3>Kiigazítás · Két külön szempont</h3><p><strong>A PDF:</strong> két típusként sorolja fel a strukturálatlan és a nyitott végű interjút. <strong>Pontosabban:</strong> a struktúra a beszélgetés tervét jelenti. A nyitott végű kérdés szabad választ enged. Egy strukturálatlan interjú is tartalmazhat nyitott kérdéseket. A két név ezért nem egymást kizáró kategória. Például a tervezett „Hogyan oldotta meg?” kérdésre is szabad választ adhat a szakértő. <a href="#s-interview">Forrás: GOV.UK, mélyinterjúk tervezése és nyitott kérdések.</a></p></aside>
-<dl class="reading-rows question-rows" id="kerdessablonok">
-<div><dt>K1 · Indok</dt><dd><strong>Miért csinálná ezt?</strong><p>A kijelentésből szabályt bontunk ki: a feltétel és a döntés kapcsolatát keressük.</p></dd></div>
-<div><dt>K2 · Részletek</dt><dd><strong>Hogyan csinálná ezt?</strong><p>A nagy lépés mögött alacsonyabb szintű, részletesebb szabályokat keresünk.</p></dd></div>
-<div><dt>K3 · Határok</dt><dd><strong>Mikor csinálná ezt? Mindig érvényes ez a szabály?</strong><p>Az általánosság határát és a kivételeket tárjuk fel. Ezek újabb szabályhoz vezethetnek.</p></dd></div>
-<div><dt>K4 · Másik út</dt><dd><strong>Milyen más döntés vagy cselekvés lehetséges?</strong><p>Alternatív szabályokat keresünk. Nem biztos, hogy a szakértő elsőként említett útja az egyetlen.</p></dd></div>
-<div><dt>K5 · Más feltétel</dt><dd><strong>Mi lenne, ha a most igaz feltétel nem lenne igaz?</strong><p>Olyan körülményekre is szabályt keresünk, amelyek a jelenlegi esetben nem állnak fenn.</p></dd></div>
-<div><dt>K6 · Új irány</dt><dd><strong>Tudna többet mondani erről a témáról?</strong><p>Egy említett fogalom kibontásával új beszélgetési irány nyílik, ha kifogyunk a kérdésekből.</p></dd></div>
+<!-- 04 · VÍZESÉS -->
+<section id="vizeses" class="chapter-section"><span class="section-index">04 / PDF 41.</span>
+<h2>Öt lépcső a tudásbázisig.</h2>
+<p>Hogyan készül el egy tudásbázis? A PDF Christopher F. Chabris 1987-es könyvéből veszi át a <strong>tudásfeldolgozás vízesésmodelljét</strong>. A név onnan ered, hogy a munka lépcsőről lépcsőre halad lefelé. Minden lépcső kimenete a következő bemenete. A folyamatábra mind az öt szakaszt megmutatja, a kimenetükkel és a visszacsatolásokkal együtt.</p>
+<ol class="u-waterfall" id="vizesesmodell">
+<li><strong>1 · BEAZONOSÍTÁS</strong><span>A probléma jellemzőinek beazonosítása.</span><em>Kimenet: elvárások</em></li>
+<li><strong>2 · KONCEPCIÓKÉSZÍTÉS</strong><span>Koncepció keresése a tudás reprezentálására.</span><em>Kimenet: koncepciók · ↺ ide tér vissza az újraformulázás</em></li>
+<li><strong>3 · FORMALIZÁLÁS</strong><span>A tudás szervezésére szolgáló struktúra megtervezése.</span><em>Kimenet: struktúra · ↺ ide tér vissza az újratervezés</em></li>
+<li><strong>4 · IMPLEMENTÁLÁS</strong><span>A tudásábrázoló szabályok megalkotása.</span><em>Kimenet: szabályok · ↺ ide tér vissza a finomítás</em></li>
+<li><strong>5 · TESZTELÉS</strong><span>A tudást szervező szabályok tesztelése.</span><em>Ha hibát talál: újraformulázás, újratervezés vagy finomítás</em></li>
+</ol>
+<p>A tesztelésből három visszacsatoló út vezet vissza. Az <strong>újraformulázás</strong> a koncepciókészítéshez tér vissza: kiderült, hogy rossz fogalmakban gondolkodtunk. Az <strong>újratervezés</strong> a formalizáláshoz tér vissza: a fogalmak jók, de a szerkezet rossz. A <strong>finomítás</strong> az implementáláshoz tér vissza: csak egyes szabályokat kell javítani. Minél korábbi szakaszba kell visszalépni, annál drágább a javítás.</p>
+<div class="u-example" id="vizeses-pelda"><strong>Végigvezetett példa · Irén billentyűzet-szakértője</strong>
+<ol class="u-steps">
+<li><p><strong>Beazonosítás.</strong> A rendszer billentyűzethibákat diagnosztizál a szerviz pultjánál. Az ügyintéző használja, nem technikus. Elvárás: öt kérdésen belül javaslatot adjon.</p></li>
+<li><p><strong>Koncepciókészítés.</strong> A fő fogalmak: tünet (hány billentyű, milyen hiba), előzmény (villámlás, beázás), hibaforrás (port, kontaktus, beállítás), teendő.</p></li>
+<li><p><strong>Formalizálás.</strong> A döntés „tünet és előzmény → hibaforrás → teendő” láncként írható le, ezért HA–AKKOR szabályokat használunk.</p></li>
+<li><p><strong>Implementálás.</strong> Megírjuk a szabályokat, például: HA villámlás volt ÉS kettőnél több billentyű furcsa AKKOR a port gyanús.</p></li>
+<li><p><strong>Tesztelés.</strong> Irén régi munkalapjain próbáljuk ki. Kiderül, hogy a beázott billentyűzeteket a rendszer portkárnak nézi. Ehhez nem kell új szerkezet, csak egy új szabály, vagyis <em>finomítás</em>.</p></li>
+</ol></div>
+<aside class="u-add"><h3>Kiegészítés · Vízesés a gyakorlatban</h3><p>A modell szigorú sorrendet mutat, de a visszacsatolások miatt a gyakorlatban ismétlődő körök alakulnak ki. A szakértőrendszerek fejlesztői már az 1980-as években gyors prototípusokkal dolgoztak: hamar elkészült egy kis, működő rendszer, és a szakértő ezen mutatta meg, mit rontott el a gép. A 45. oldal kézikönyve is ezt a prototípus-fejlesztést szolgálja.</p></aside>
+</section>
+
+<!-- 05 · SZEREPEK -->
+<section id="szerepek" class="chapter-section"><span class="section-index">05 / PDF 42.</span>
+<h2>Két ember, egy tudásbázis.</h2>
+<p>A PDF így határozza meg a tudásfeldolgozást:</p>
+<figure class="u-quote"><blockquote><p>„A tudásfeldolgozás az a folyamat, amelyben a szintetizált tudást a számítógépbe juttatjuk abból a célból, hogy a problémákat a tudásbázison végzett elektronikus szimbolikus manipulációval és következtetéssel megoldjuk”</p></blockquote><figcaption>PDF 42. oldal</figcaption></figure>
+<p>A <strong>szintetizált</strong> tudás összegyűjtött és rendszerezett tudást jelent. A <strong>szimbolikus manipuláció</strong> azt jelenti, hogy a gép jelekkel, például a <code>port_gyanús</code> jellel dolgozik, és szabályok szerint új jeleket állít elő belőlük.</p>
+<p>A szakterület szakértője egyedül nem tudja létrehozni a tudásbázist. Együtt kell dolgoznia a <strong>tudásmérnökkel (knowledge engineer)</strong>. A PDF ugyanerre a szerepre a <strong>tudástechnológus</strong> szót is használja.</p>
+<div class="u-compare" id="ket-szerep">
+<div><span class="u-tag">SZAKTERÜLETI SZAKÉRTŐ</span><h3>Tudja, mit kell tenni</h3><p>Birtokolja a tudást: tapasztalatot, ökölszabályokat, eseteket. Többnyire nem ismeri a szakértőrendszerek technikáját, és a tudásának egy része nem is tudatos.</p><p><em>Példa:</em> Irén, a szervizes.</p></div>
+<div><span class="u-tag">TUDÁSMÉRNÖK</span><h3>Tudja, hogyan kell ábrázolni</h3><p>Kikérdezi a szakértőt, és a hallottakból a szakértőrendszer számára „fogyasztható” tudásreprezentációt készít. Ezt a munkát nevezzük tudásfeldolgozásnak.</p><p><em>Példa:</em> a szerviz megbízásából dolgozó informatikus.</p></div>
+</div>
+<p>A PDF szerint a gazdaságos és hatékony tudásalapú rendszer kulcsa a megfelelő tudásfeldolgozás. A fejlesztés egyik első teendője a <strong>tudásgyűjtés (knowledge acquisition)</strong>. Ez a tudásmérnök munkájának egyik legfelelősségteljesebb része: ha itt hiányos vagy torz tudás kerül be, a legjobb következtető program is rossz választ ad.</p>
+</section>
+
+<!-- 06 · TUDÁSGYŰJTÉS -->
+<section id="gyujtes" class="chapter-section"><span class="section-index">06 / PDF 43.</span>
+<h2>Négy szakasz a feltárástól a dokumentálásig.</h2>
+<p>A PDF szerint a <strong>tudásgyűjtés</strong> vagy <strong>tudáskinyerés</strong> feladata, hogy beazonosítsa, kinyerje, dokumentálja és elemezze a szakértő információfeldolgozó tevékenységét. A cél a szakértőrendszer <strong>tudásbázisának</strong> és <strong>következtető automatájának</strong> meghatározása. A tudásmérnök tehát nemcsak azt gyűjti, <em>mit</em> tud a szakértő, hanem azt is, <em>hogyan</em> gondolkodik. A folyamat négy fő szakaszból áll. A fejezet következő részei ezeket sorra bemutatják.</p>
+<ol class="u-steps" id="gyujtes-szakaszai">
+<li><p><strong>Az előzetes tudás és a problématartomány feltárása.</strong> Mekkora a terület, mit várnak a felhasználók? Az eredmény a Tudás Kézikönyv első változata. <a href="#kezikonyv">→ 07. rész</a></p></li>
+<li><p><strong>Az információforrások beazonosítása.</strong> Kitől és miből tanulunk? Itt választjuk ki és nyerjük meg a szakértőt. <a href="#szakerto">→ 08. rész</a></p></li>
+<li><p><strong>A részletes tudás kinyerése a forrásokból.</strong> Interjúk, megfigyelések, kérdőívek, beszámolók. <a href="#reszletes">→ 09–11. rész</a></p></li>
+<li><p><strong>A kinyert tudás elemzése, kódolása és dokumentálása.</strong> A jegyzetekből rendezett, a gép számára előkészített tudás lesz. <a href="#elemzes">→ 12. rész</a></p></li>
+</ol>
+</section>
+
+<!-- 07 · ELŐZETES FELTÁRÁS ÉS KÉZIKÖNYV -->
+<section id="kezikonyv" class="chapter-section"><span class="section-index">07 / PDF 44–45.</span>
+<h2>Először a terep, aztán a kézikönyv.</h2>
+<p>Az első szakasz, az <strong>előzetes tudásfeltárás</strong> még nem a részletekről szól. A tudásmérnök ekkor tájékozódik. A PDF hét célt sorol fel, ezeket Irén szervizén mutatjuk be.</p>
+<dl class="u-rows" id="elozetes-celok">
+<div><dt>A problémák tartományának behatárolása</dt><dd>Csak billentyűzethibák, vagy az egér és a monitor is? A tudásmérnök itt húzza meg a határt.</dd></div>
+<div><dt>A problématartomány jellemzőinek behatárolása</dt><dd>Milyen adatok állnak rendelkezésre a pultnál? Az ügyfél elmondása és egy gyors próba igen, műszeres mérés nem.</dd></div>
+<div><dt>A tématerület tudásmennyiségének behatárolása</dt><dd>Tíz szabály lesz vagy ezer? Ettől függ, mennyi időt kell a szakértővel tölteni.</dd></div>
+<div><dt>A felhasználói elvárások megismerése</dt><dd>Az ügyintéző gyors, érthető javaslatot vár, szakszavak nélkül.</dd></div>
+<div><dt>Néhány tipikus következtetési fordulat megismerése</dt><dd>Például: „ha zivatar volt, először a portra gyanakszom”.</dd></div>
+<div><dt>A szakértők elképzeléseinek megismerése</dt><dd>Irén szerint a hibák többsége a kábelnél kezdődik. Ez fontos kiindulópont, akkor is, ha később pontosítani kell.</dd></div>
+<div><dt>A fő szabályok és koncepciók definiálása</dt><dd>Az első, durva szabályok és a kulcsfogalmak: tünet, előzmény, hibaforrás, teendő.</dd></div>
 </dl>
-<figure class="interview-scene" id="villamlas-parbeszed"><figcaption>Szerkesztett párbeszéd a PDF 51. oldala alapján. Átfogalmazás, nem szó szerinti idézet.</figcaption><div class="interview-turns"><p><strong>Szakértő:</strong> Megvizsgáltam a számítógép portját.</p><p><strong>Tudásmérnök, K1:</strong> Miért?</p><p><strong>Szakértő:</strong> Előtte villámlás volt. Ilyenkor érdemes a port sérülésére is gondolni.</p><p><strong>Tudásmérnök, K4:</strong> Van más lehetőség?</p><p><strong>Szakértő:</strong> Előbb kérdezzük meg, kettőnél több billentyű viselkedik-e furcsán.</p><p><strong>Tudásmérnök, K1:</strong> Miért számít a számuk?</p><p><strong>Szakértő:</strong> Egy-két billentyűnél a kontaktusokat vizsgálnám. A sebesség minden billentyűre hatna; a paritás — adatátviteli ellenőrző bit használata — körülbelül a felére.</p></div></figure><div class="takeaway"><p>A „miért?” feltárja az indokot. A következő kérdés megmutathatja az indok határát.</p></div><aside class="correction"><h3>Kiigazítás · Ez történeti hibakeresési példa</h3><p><strong>A PDF:</strong> a sebesség és a paritás hatását általános billentyűzetszabályként mondja el. <strong>Pontosabban:</strong> ez a használt csatlakozástól és adatátviteltől függ. A <strong>paritás</strong> adatátviteli hiba felismerésére használt ellenőrző bit. A mai USB HID billentyűzetek más átviteli rendszert használnak. A „fele billentyű” nem általános diagnózis; a villámlás sem bizonyít portkárosodást. Itt a kérdezést tanuljuk, nem élő elektromos eszköz javítását. <a href="#s-usb">Forrás: USB HID specifikáció.</a></p></aside>
-<div class="lab" id="interju-labor"><span class="lab-label">PRÓBÁLD KI / SZERKESZTETT INTERJÚ</span><h3>Te vagy a tudásmérnök.</h3><p>Kiinduló mondat: „Megvizsgáltam a portot.” Válassz kérdést. Minden válasz előre írt oktatási példa, nem élő szakértő.</p><div class="lab-controls"><button type="button" data-interview="0">K1 · Miért?</button><button type="button" data-interview="1">K2 · Hogyan?</button><button type="button" data-interview="2">K3 · Mindig?</button><button type="button" data-interview="3">K4 · Más lehetőség?</button><button type="button" data-interview="4">K5 · Ha nem?</button><button type="button" data-interview="5">K6 · Mondana többet?</button></div><p id="interview-answer" class="dialogue" role="status">Melyik kérdésből lesz feltételes szabály?</p><p id="interview-effect" class="feedback">A gomb alatt a kérdés hasznát is megmutatjuk.</p><button type="button" id="interview-reset">Interjú újrakezdése</button></div>
-<p><strong>Protokollelemzés (protocol analysis):</strong> a szakértő információkezelését és döntéseit lépésről lépésre rögzítjük. A PDF ezt emeli ki a részletes tudás egyik fő forrásaként. Az idő rövid, ezért a feladatok legyenek a valódi esetekre jellemzők.</p><div class="reading-comparison" id="protokoll-idopont"><div><h3>Munka közben · online</h3><p>A problémamegoldás közben felvétel és megjegyzés készül. Itt az „online” nem internetkapcsolatot jelent. Ha a dolgozó szakértő kommentál, az <strong>önbeszámoló</strong>. Ha másik szakértő magyarázza a megfigyelt munkát, az <strong>árnyékbeszámoló</strong>.</p></div><div><h3>Munka után · offline</h3><p>A szakemberek utólag, visszatekintve fűznek megjegyzéseket a folyamathoz. Az emlékezet torzíthat; a felvétel segíthet ellenőrizni, hogy a magyarázat valóban a megtörtént lépésekhez tartozik-e.</p></div></div>
-<dl class="reading-rows" id="tovabbi-modszerek"><div><dt>Végigvezetés<br><span lang="en">walkthrough</span></dt><dd>A szakértő végigvezeti a tudásmérnököt a feladaton és felügyeli. A tudásmérnök így a konkrét lépésekhez kérhet magyarázatot, nemcsak általános beszámolót hall.</dd></div><div><dt>Kérdőív</dt><dd>A <strong>szabad végű</strong> változatot a szakértő alkalmas időben fejti ki. A <strong>rövid válaszos</strong> változat gyors, tömör, leíró adatot ad. Az előbbi teret hagy az új szempontoknak, az utóbbi kötöttebb formában gyűjti a válaszokat.</dd></div><div><dt>Szakértői beszámoló</dt><dd>A szakértő leírja saját problémamegoldását. Az egyik formában a <strong>megközelítést, stratégiát, szabályokat, szükséges adatokat és eredményt</strong> sorolja fel, majd a tudásmérnök dolgozza fel. A másikban már <strong>formális leírást</strong>, például döntési folyamatábrát készít. Ez csökkenti az átírási munkát, de az ellenőrzést nem helyettesíti.</dd></div></dl>
-<div class="takeaway"><p>Ne csak azt jegyezd fel, mit tett a szakértő. Azt is, miért, milyen adatból és milyen kivételekkel döntött.</p></div></section>
+<p>A feltárás két eszköze a PDF szerint az <strong>előzetes archívumkutatás</strong>, például a régi munkalapok, kézikönyvek és hibajegyek átnézése, valamint a <strong>konzultáció a szakértőkkel</strong>.</p>
+<p>A feltáró munka végén a tudásmérnöknek egy dokumentummal kell rendelkeznie. Ez a <strong>Tudás Kézikönyv</strong>. A PDF kilenc kötelező részt ír elő. Az alábbi minta Irén rendszerének kézikönyvét vázolja fel mind a kilenc résszel.</p>
+<article class="u-manual" id="tudas-kezikonyv" aria-labelledby="kezikonyv-cim">
+<p class="u-manual-title" id="kezikonyv-cim">TUDÁS KÉZIKÖNYV · Billentyűzethiba-tanácsadó · 1. változat</p>
+<dl>
+<div><dt>1 · Általános problémaleírás</dt><dd>A szerviz pultjánál gyors javaslat kell a billentyűzethibák okára és a teendőre.</dd></div>
+<div><dt>2 · A felhasználók és elvárásaik</dt><dd>Ügyintézők, technikai háttér nélkül. Legfeljebb öt kérdés, közérthető válasz.</dd></div>
+<div><dt>3 · Alproblémák és résztartományok</dt><dd>(a) Egy-két billentyű hibája. (b) Sok billentyű hibája. (c) Teljes kiesés. A későbbi tudáskinyerés ezek szerint halad.</dd></div>
+<div><dt>4 · A résztartományok részletesebb leírása</dt><dd>Az (a) résztartomány tipikusan mechanikai vagy kontaktushiba, a (b) port- vagy beállítási hiba. Ez lesz a prototípus alapja.</dd></div>
+<div><dt>5 · A referenciadokumentumok nyilvántartása</dt><dd>Gyártói kézikönyvek, a szerviz 2015–2024 közötti munkalapjai.</dd></div>
+<div><dt>6 · Terminológia, elvek, szakkifejezések</dt><dd><em>port:</em> a gép csatlakozója; <em>paritás:</em> hibajelző bit az átvitelben; <em>kontaktus:</em> a billentyű érintkezője.</dd></div>
+<div><dt>7 · A közreműködő szakértők</dt><dd>Kovács Irén, vezető szervizes; ellenőrzés: a megyei szerviz technikusa.</dd></div>
+<div><dt>8 · Ésszerű teljesítménymutatók</dt><dd>A régi munkalapok legalább 85%-ánál ugyanazt javasolja, mint amit a szakértő tett; átlagosan négy kérdésnél ne kérdezzen többet.</dd></div>
+<div><dt>9 · A tipikus következtetési módszer</dt><dd>A szakértő a tünetből indul, előbb a gyakori és olcsón ellenőrizhető okokat zárja ki, és csak azután a ritkábbakat.</dd></div>
+</dl></article>
+<p class="u-key">A kézikönyv a projekt közös emlékezete. Az első szakasz végén megírjuk, és a negyedik szakaszban ide kerül a kinyert tudás is.</p>
+</section>
 
-<section id="kodolas" class="chapter-section"><span class="section-index">05 / PDF 54–56.</span><h2>A jegyzet még nem kész szabály.</h2><p>A kinyert tudás szabályait, hálózatait, viszonyait és jellemzőit formális módszerekkel elemezzük. A dokumentáció helye a <strong>Tudás Kézikönyv</strong>. Az elemzés négy tipikus lépése:</p><ol class="reading-steps" id="elemzes-lepesei"><li><div><strong>Átírás</strong><p>Letisztázzuk a szóbeli anyag első írásos alakját. A képi felvételeket és a segítő személyzet megjegyzéseit is hozzárendeljük. Így a kimondott szó és a megfigyelt tevékenység együtt marad.</p></div></li><li><div><strong>Szövegrész-indexelés</strong><p>Rövid egységekre bontjuk az átiratot és azonosítót adunk nekik. Egy egység egy elemi feladatot, állítást vagy adategyüttest képviseljen. Az azonosító alapján később visszakereshető az eredet.</p></div></li><li><div><strong>Tudáskódolás</strong><p>Megjelöljük, miről szól az egység, milyen műveletet tartalmaz, milyen kiértékelési mércét használ és milyen következtetés alapozza meg a döntést. Így nemcsak a szöveget, hanem a tudás szerepét is rögzítjük.</p></div></li><li><div><strong>Dokumentálás</strong><p>A kézikönyvben átfogó tartománylista, leíró tudás, eljárási tudás és szójegyzék készül. Ezeket együtt kell karbantartani, hogy egy szabály módosítása után is érthető maradjon a rendszer.</p></div></li></ol><div class="reading-comparison"><div><h3>Leíró tudás (declarative knowledge)</h3><p>Mit tartunk igaznak? Például „két billentyű hibás”. A PDF descriptív tudásnak is nevezi.</p></div><div><h3>Eljárási tudás (procedural knowledge)</h3><p>Mit és milyen sorrendben tegyünk? Például „előbb tisztázd a hibás billentyűk számát, aztán válassz vizsgálatot”.</p></div></div><figure class="evidence-sheet" id="kodolas-pelda"><span class="reading-label">EGY ÁLLÍTÁS ÚTJA</span><dl class="reading-rows"><div><dt>Átirat</dt><dd>„A sikerre 75% esély van.”</dd></div><div><dt>Azonosító</dt><dd><code>T17</code> — ehhez a szövegrészhez később vissza tudunk térni.</dd></div><div><dt>Kód</dt><dd>Megoldás kiértékelés / kritériumbeállítás (valószínűség). A mondat a megoldás értékeléséről szól, nem egy új javítási lépésről.</dd></div><div><dt>Ellenőrzendő háttér</dt><dd>Ki mondta, milyen feladatra és milyen adatok alapján? A forrás és az érvényességi kör nélkül a szám nem értékelhető.</dd></div></dl><figcaption>A 75%-os állítás és kódja: PDF 55. oldal. A T17 azonosító és a háttérkérdések saját oktatási kiegészítések. A 75% nem itt mért adat.</figcaption></figure><div class="takeaway"><p>Az állítás címkézése még nem igazolja az állítást.</p></div>
-<p><strong>Automatikus tudáskinyerés:</strong> adatbázisokat, digitalizált könyveket, folyóiratokat, magazinokat és más számítógépek adatait használhatjuk új ismeret származtatására vagy a tudásbázis frissítésére. A PDF jövőképe ezt ember nélküli folyamattá teszi.</p><p>A lehetséges előnyök: nagyobb és összetettebb információmennyiség feldolgozása; egyes feladatokban az emberénél jobb eredmény; nagyobb tudásbázis; kevesebb drága kézi munka és rövidebb fejlesztési idő. Ezek lehetőségek, nem minden projektre érvényes ígéretek.</p><aside class="correction"><h3>Kiigazítás · A tanulás nem teszi általában feleslegessé a szakértőt</h3><p><strong>A PDF:</strong> „Feleslegessé válik a szakértő is”, és az öntanuló rendszerek ember nélkül szerzik az ismeretet. <strong>Pontosabban:</strong> egy tanulási lépés futhat közvetlen emberi közreműködés nélkül. A cél, az adatminőség, az értékelés és a használat felelőssége ettől nem tűnik el. Egy régi szerviznaplóból tanult szabály új csatlakozóknál téves lehet; ezt szakmai ellenőrzéssel kell észrevenni. A NIST kockázatkezelési kerete több szereplő közös feladataként kezeli az MI életciklusát. <a href="#s-nist">Forrás: NIST AI RMF 1.0.</a></p></aside></section>
+<!-- 08 · SZAKÉRTŐ -->
+<section id="szakerto" class="chapter-section"><span class="section-index">08 / PDF 46–47.</span>
+<h2>Kitől tanuljunk?</h2>
+<p>A második szakasz legfontosabb döntése a szakterületi szakértő kiválasztása. A PDF szerint <strong>szakértő</strong> az, aki speciális szakértelmet birtokol, hordoz vagy mutat, vagy olyan tudással rendelkezik, amelyet gyakorlással vagy tapasztalással szerzett.</p>
+<p>Itt jön elő a tudáskinyerés legnagyobb nehézsége. A szakértők gyakran annyira rutinszerűen végeznek egy tevékenységet, hogy már nem tudatosul bennük, mit és miért csinálnak. Irén „csak látja”, hogy a port a hibás. A tudásmérnöknek ezt a kimondatlan tudást kell szavakba, majd szabályokba fordítania. A tapasztalat ilyenkor gyakran <strong>heurisztikaként</strong> ábrázolható, vagyis tapasztalati ökölszabályként. A heurisztika általában jó eredményre vezet, de nem garantálja a helyes választ.</p>
+<aside class="u-add"><h3>Kiegészítés · A hallgatólagos tudás</h3><p>Polányi Mihály magyar származású filozófus 1966-ban erről a jelenségről írta híres mondatát.</p>
+<figure class="u-quote"><blockquote lang="en"><p>“we can know more than we can tell”</p></blockquote><figcaption>Michael Polanyi: <a href="#s-polanyi"><em>The Tacit Dimension</em>, 1966.</a> Magyarul: „többet tudunk, mint amennyit el tudunk mondani” (saját fordítás)</figcaption></figure>
+<p>Ezt nevezzük <strong>hallgatólagos tudásnak (tacit knowledge)</strong>. Egy biciklis sem tudja elmondani, milyen szögben dönti meg a kormányt kanyarban, mégis jól csinálja. A tudáskinyerési technikák nagy része ezért nem csak kérdez, hanem meg is figyel.</p></aside>
+<p>A kiválasztott szakértőnek <strong>hitelesnek</strong> kell lennie. A PDF négy csoportot nevez meg, amelyek előtt ennek teljesülnie kell. Mindegyik más okból fontos.</p>
+<div class="u-map" id="hitelesseg">
+<section><h3>Felhasználók</h3><p>Csak akkor fogadják el a rendszer javaslatát, ha megbíznak abban, akinek a tudása benne van.</p></section>
+<section><h3>Projektcsapat</h3><p>A fejlesztők az ő szavára építik a szabályokat. Ha kételkednek benne, minden szabályt újra ellenőriznek.</p></section>
+<section><h3>Szakértők közössége</h3><p>A kollégák ismerik el a tudását. Ha ők vitatják, a rendszert sem fogadják el.</p></section>
+<section><h3>A szervezet vezetése</h3><p>A vezetés finanszírozza a projektet, és adja a szakértő munkaidejét.</p></section>
+</div>
+<p>A PDF a szakértők három fajtáját különíti el. Az összevetés megmutatja, milyen tudást és milyen nehézséget hoz a tudásmérnök számára mindegyik.</p>
+<div class="u-compare" id="szakertotipusok">
+<div><span class="u-tag">AKADÉMIKUS</span><h3>Az elmélet embere</h3><p>Fontos számára az elméleti háttér, a szakterületét logikusan felépítettnek látja. Munkájához hozzátartozik a tisztázás és a tanítás, ezért sokat beszél a területéről.</p><p><strong>Kockázat:</strong> esetenként távol áll a mindennapi, valódi problémamegoldástól.</p></div>
+<div><span class="u-tag">GYAKORLATI SZAKÉRTŐ</span><h3>A napi munka embere</h3><p>Nap mint nap részt vesz a gyakorlati problémák megoldásában. Olyan megoldást keres, amely szűkös erőforrások és kötöttségek mellett is működik. Heurisztikák uralják a tudását.</p><p><strong>Kockázat:</strong> a gyakorlata sokszor implicit, azaz kimondatlan, és gyakran nincs mögötte elméleti háttér.</p></div>
+<div><span class="u-tag">„SZAMURÁJ”</span><h3>A végrehajtás mestere</h3><p>Tisztán a végrehajtás szakértője, egyetlen célja a feladat optimális elvégzése. A képzése sokszor kizárólag gyakorlati, válaszai gyakran automatikusak.</p><p><strong>Kockázat:</strong> a legnehezebb kikérdezni, mert a tudása szinte teljesen hallgatólagos. Nála a megfigyelés többet ér a kérdezésnél.</p></div>
+</div>
+<aside class="u-fix"><h3>Kiigazítás · A három típus gyakorlati modell, nem emberfajta</h3>
+<p><strong>A PDF megfogalmazása:</strong> a szakértő „fajtái” az akadémikus, a gyakorlati és a szamuráj.</p>
+<p><strong>Pontosabban:</strong> a felosztás a klasszikus tudásmérnöki gyakorlatból származó tapasztalati modell, nem mérésen alapuló pszichológiai kategória. Egy ember egyszerre több típus jegyeit is hordozhatja. Egy egyetemi oktató, aki mellette rendel, egyszerre akadémikus és gyakorlati szakértő. A felosztás arra jó, hogy a tudásmérnök megválassza a módszerét: az akadémikust interjúban, a „szamurájt” inkább megfigyelés közben érdemes kikérdezni.</p>
+<p><strong>Miért fontos?</strong> Ha a típust végleges címkének tekintjük, rossz módszert választhatunk, és a szakértő is sértve érezheti magát.</p></aside>
+<p>A PDF szerint a <strong>szakértő motiválása a tudáskinyerés záloga</strong>. A szakértők gyakran úgy érzik, hogy a projekt veszélyezteti a pozíciójukat vagy a státuszukat. A régi mondás, „a tudás hatalom”, ilyenkor megfordul: aki átadja a tudását, azt érezheti, hogy a hatalmát adja át. Irén bátran beszélhet, mert nyugdíjba megy. Egy pályája közepén járó kollégája viszont joggal kérdezheti, mi lesz vele, ha a gép már tudja, amit ő.</p>
+<p>A motiválásnál a PDF két szakértőtípust különít el.</p>
+<div class="u-compare" id="helyi-kozmopolita">
+<div><span class="u-tag">HELYI SZAKÉRTŐ</span><h3>A cégéhez hűséges</h3><p>Lojalitása elsősorban a munkahelyéhez fűződik. Az motiválja, ami a szervezetnek jó: elismerés a cégen belül, a csapat sikere, a munkatársai könnyebb munkája.</p></div>
+<div><span class="u-tag">KOZMOPOLITA SZAKÉRTŐ</span><h3>A szakmájához hűséges</h3><p>A szakma legjobbjaihoz méri magát. Az motiválja, ami a szakmai hírnevét növeli: publikáció, konferencia-előadás, a nevével fémjelzett rendszer.</p></div>
+</div>
+<aside class="u-add"><h3>Kiegészítés · Honnan ered a két elnevezés?</h3><p>A helyi és a kozmopolita szerepet Alvin Gouldner amerikai szociológus írta le 1957-ben, egy szervezetekről szóló tanulmányában. Gouldner nem szakértőrendszerekről írt. A tudásmérnöki gyakorlat később vette át a megkülönböztetést a motiválás tervezéséhez. <a href="#s-gouldner">Forrás: Gouldner, 1957.</a></p></aside>
+</section>
 
-<section id="szabalyok" class="chapter-section"><span class="section-index">06 / PDF 57–61.</span><h2>Ha ez igaz, mi következik?</h2><p>Az <strong>előállító szabály (production rule)</strong> HA–AKKOR, angolul IF–THEN szerkezet. Van feltétele és következménye. A következmény lehet új tény, azaz leíró következmény, vagy művelet, azaz eljárási következmény.</p><div class="math">HA hőmérséklet &gt; 30 °C, AKKOR hűtés.</div><p>A PDF példájában a „hűtés” szó két külön dolgot is jelenthet. A rendszer tervezésekor pontosítani kell, melyiket akarjuk:</p><div class="reading-comparison" id="szabaly-kovetkezmenye"><div><h3>Új tény</h3><p><strong>„Hűtés szükséges.”</strong> Ez leíró következmény: a rendszer egy állítást vezet le. Ettől még nem kapcsolt be semmilyen berendezést.</p></div><div><h3>Művelet</h3><p><strong>„Kapcsold be a hűtést.”</strong> Ez eljárási következmény: a program egy akciót hajt végre. A végrehajtásnak saját feltételei és biztonsági korlátai lehetnek.</p></div></div><div class="math" role="img" aria-label="Alfa igaz. Ha alfa, akkor béta. Ebből béta következik.">α, &nbsp; α → β<br>─────────<br>β</div><p>A <strong>modus ponens</strong> következtetési szabály: ha α igaz és α-ból β következik, akkor β-t levezethetjük. Az <strong>implikáció</strong> maga a feltételes állítás, α → β.</p><aside class="correction"><h3>Kiigazítás · A szabály nem ugyanaz, mint a következtetési lépés</h3><p><strong>A PDF:</strong> az előállító szabálynál egymás mellett nevezi meg az implikációt és a modus ponenst. <strong>Pontosabban:</strong> az implikáció állítás, a modus ponens két adott állításból új állítást levezető művelet. A hűtés tényleges bekapcsolása pedig programbeli akció, nem logikai igazságérték. Attól, hogy a hűtés be van kapcsolva, még nem következik, hogy 30 °C felett van: kézzel is bekapcsolhatták. <a href="#s-inference">Forrás: Poole–Mackworth, 5.3.</a></p></aside>
-<p><strong>Szabályláncolás:</strong> egy szabály következménye illeszkedik egy másik feltételéhez. A <strong>következtetési fa</strong> levelein kiinduló tények, belső pontjain részállítások, gyökerén a végkövetkeztetés állhat. Az ÉS feltétel minden ágát igazolni kell.</p><figure class="rule-tree" id="szabalyfa"><div class="rule-branches"><div><span class="reading-label">R1 / MINDKÉT TÉNY KELL</span><p>a <strong>ÉS</strong> b</p><span class="tree-arrow" aria-hidden="true">↓</span><p class="derived-fact">e</p></div><div><span class="reading-label">R2 / MINDKÉT TÉNY KELL</span><p>c <strong>ÉS</strong> d</p><span class="tree-arrow" aria-hidden="true">↓</span><p class="derived-fact">f</p></div></div><div class="rule-join"><span class="reading-label">R3 / A KÉT ÁG ÖSSZEKAPCSOLÓDIK</span><p>e <strong>ÉS</strong> f <span aria-hidden="true">→</span> <strong>g</strong></p></div><figcaption>A PDF 59. oldalának kapcsolatai felülről lefelé olvasva: a és b alapján e; c és d alapján f; e és f alapján g vezethető le. Az ÉS azt jelenti, hogy egyik feltétel sem hagyható ki.</figcaption></figure><p>A PDF példájában R1: HA a ÉS b, AKKOR e. R2: HA c ÉS d, AKKOR f. R3: HA e ÉS f, AKKOR g. A betűk teljes állításokat jelölnek; itt nincs rejtett számtani művelet.</p>
-<div class="lab" id="szabaly-labor"><span class="lab-label">PRÓBÁLD KI / KATTINTHATÓ SZABÁLYLÁNC</span><h3>Juss el g-ig.</h3><p>Kiinduló tények: a, b, c, d. Csak olyan szabályt alkalmazhatsz, amelynek minden feltétele ismert, és új tényt ad.</p><div class="lab-controls"><button type="button" data-rule="R1">R1: a és b → e</button><button type="button" data-rule="R2">R2: c és d → f</button><button type="button" data-rule="R3" disabled>R3: e és f → g</button></div><p id="rule-facts" class="feedback" role="status">Tények: a, b, c, d.</p><button type="button" id="rule-reset">Szabálylánc újrakezdése</button></div>
-<div class="evidence-sheet" id="elore-megoldas"><span class="reading-label">VÉGIGVEZETETT MEGOLDÁS / A TÉNYEK BŐVÜLNEK</span><ol class="reading-steps"><li><div><p>a és b ismert, ezért R1 hozzáadja e-t. A korábbi tények megmaradnak.</p><span class="fact-state">a, b, c, d, <strong>e</strong></span></div></li><li><div><p>c és d ismert, ezért R2 hozzáadja f-et. Most mindkét köztes állítás rendelkezésre áll.</p><span class="fact-state">a, b, c, d, e, <strong>f</strong></span></div></li><li><div><p>Most már e és f is ismert, ezért R3 hozzáadja g-t.</p><span class="fact-state">a, b, c, d, e, f, <strong>g</strong></span></div></li></ol><p>R2 megelőzheti R1-et. A végső tényhalmaz itt ugyanaz. Ha d hiányzik, f és így g sem igazolható. Ez nem bizonyítja, hogy g hamis.</p></div>
-<div class="code-reading" id="kod-szabalyok"><span class="reading-label">UGYANEZ KÓDBAN / TÉNY → SZABÁLY → ÚJ TÉNY</span><p>A <a href="../resources/code/12_Logika.py"><code>resources/code/12_Logika.py</code></a> oktatói példa a <strong>pyDatalog</strong> Python-könyvtárral rokonsági kapcsolatokat ír le. A szabályai jól mutatják a láncolást. Az alábbi három szabály változatlan részlet a fájlból:</p><pre><code>Szulo(X,Y) &lt;= Apa(X,Y)
+<!-- 09 · ELŐZETES ÉS RÉSZLETES TUDÁS -->
+<section id="reszletes" class="chapter-section"><span class="section-index">09 / PDF 48–49.</span>
+<h2>Az első beszélgetés és az évek tapasztalata.</h2>
+<p>A harmadik szakaszban a tudáskinyerés tárgyát két csoportra bontjuk. Az egyik a gyorsan összegyűjthető <strong>előzetes tudás</strong>, a másik a szakértő évek alatt szerzett <strong>részletes tudása</strong>.</p>
+<div class="u-compare" id="elozetes-reszletes">
+<div><span class="u-tag">ELŐZETES TUDÁS</span><h3>A bevezető interjúk és konzultációk anyaga</h3><p>A PDF négy elemet sorol fel:</p><p>(1) az alapfogalmak és elvek beazonosítása, ezeket gyakran <strong>primitív terminusoknak</strong> is nevezik; (2) a rendszer tipikus bemeneteinek és kimeneteinek behatárolása; (3) a tipikus megoldások vagy megoldási osztályok behatárolása; (4) problémakezelő stratégiák keresése a rendszer első változatához.</p></div>
+<div><span class="u-tag">RÉSZLETES TUDÁS</span><h3>A szakértő „privát” tudása</h3><p>Több év tanulását és tapasztalatát tükrözi. Nem tankönyvi ismeret, hanem az a finom ítélőképesség, amely megkülönbözteti a szakértőt a kezdőtől. Kinyeréséhez hosszabb és célzottabb munka kell.</p></div>
+</div>
+<p>A PDF tizenhárom összetevőt sorol fel. Ezek együtt mutatják meg, mit kell a tudásmérnöknek kinyernie ahhoz, hogy a gép úgy döntsön, mint a szakértő. A jobb oldali oszlop mindegyikhez Irén szervizéből hoz példát.</p>
+<dl class="u-rows" id="reszletes-tudas">
+<div><dt>Az adatok és szabályok közötti viszonyok</dt><dd>Melyik tünet melyik szabályt indítja? A „sok furcsa billentyű” a port- és beállítási szabályokat hozza játékba.</dd></div>
+<div><dt>A szabályok hierarchiája</dt><dd>Előbb a „sok billentyű vagy kevés” kérdés dönt, csak utána a „port vagy beállítás”.</dd></div>
+<div><dt>Az adatok relatív értéke és fontossága</dt><dd>A villámlás ténye többet nyom a latban, mint a billentyűzet kora.</dd></div>
+<div><dt>Az adatok bizonyossága és relatív valószínűsége</dt><dd>Az ügyfél szerint „talán villámlott”. Ez bizonytalanabb adat, mint egy mért feszültség.</dd></div>
+<div><dt>A szakértő közelítéseinek alapja</dt><dd>Irén azért kezdi a porttal, mert gyors ellenőrizni, és régen sokszor az volt a hiba.</dd></div>
+<div><dt>A feladatok prioritása és sorrendje</dt><dd>Előbb az olcsó próba (másik billentyűzet csatlakoztatása), csak utána a szétszerelés.</dd></div>
+<div><dt>A szabályok és következmények közötti konfliktusok feloldása</dt><dd>Ha egy szabály a portot, egy másik a kábelt gyanúsítja, melyiket kövessük? A választ a <a href="#felepites">17. rész</a> konfliktusfeloldása gépesíti.</dd></div>
+<div><dt>A problémamegoldás alternatív lehetőségei</dt><dd>Ha nincs tesztdugó, egy másik géphez csatlakoztatva is kiderül, a billentyűzet vagy a gép a hibás.</dd></div>
+<div><dt>A következtetésekben elvégezhető ésszerűsítések</dt><dd>Ha minden billentyű hibás, a kontaktusok vizsgálata kihagyható: az ennyi billentyűnél egyszerre nem romlik el.</dd></div>
+<div><dt>Részletes válaszok a várt és a váratlan helyzetekre</dt><dd>Mi a teendő, ha a billentyűzet csak hidegben rossz? A ritka eseteket is fel kell tárni.</dd></div>
+<div><dt>A szabályokban, eredményekben és adatokban való hit foka</dt><dd>„Ebben a szabályban 90%-ig biztos vagyok, abban csak 60%-ig.” A MYCIN ilyen bizonyossági tényezőkkel dolgozott.</dd></div>
+<div><dt>A célok és részcélok bemeneti követelményei</dt><dd>A „port gyanús” részcél eldöntéséhez két adat kell: volt-e villámlás, és hány billentyű hibás.</dd></div>
+<div><dt>Megfelelő teljesítménymércék</dt><dd>Mikor jó a rendszer? Például ha a régi munkalapok 85%-ánál ugyanazt javasolja, mint Irén.</dd></div>
+</dl>
+</section>
+
+<!-- 10 · INTERJÚ -->
+<section id="interju" class="chapter-section"><span class="section-index">10 / PDF 50–51.</span>
+<h2>Hat kérdés, amely szabályt csinál a mondatokból.</h2>
+<p>A tudáskinyerési technikák célja kettős. Egyrészt a lehető legkevesebb munkát és a drága, nehezen elérhető szakértővel töltött lehető legkevesebb időt igényeljék. Másrészt a lehető legtöbb használható ismeretet adják. Az első technika az <strong>interjú</strong>. Ez különösen az előzetes tudás kinyerésére előnyös. A PDF két fajtáját különíti el.</p>
+<div class="u-compare" id="interju-tipusok">
+<div><span class="u-tag">STRUKTURÁLATLAN INTERJÚ</span><h3>A szakértő vezet</h3><p>A tudásmérnök hagyja, hogy a szakértő mutassa be az elveket és a szakszavakat, és ő határozza meg az interjú menetét. A tudásmérnök csak rögzít.</p><p><strong>Gyengéje:</strong> alacsonyabb a hatékonysága. A szakértő fölöslegesen sokat beszélhet, és eltúlozhatja egy általa fontosnak tartott téma jelentőségét.</p></div>
+<div><span class="u-tag">NYITOTT VÉGŰ INTERJÚ</span><h3>A tudásmérnök vezet</h3><p>Feltételezi, hogy a tudásmérnöknek már van előzetes háttérismerete. Kérdésekkel irányítja az interjút, a szakértő azonban szabadon válaszol, vagy ki is térhet a válasz elől.</p><p><strong>Erőssége:</strong> célzott kérdésekkel gyorsan szabályokhoz jut.</p></div>
+</div>
+<p>A nyitott végű interjú kérdéseit a PDF hat sablonba rendezi. A sablon „&lt; &gt;” jelek közötti részét mindig az adott helyzetre kell kitölteni. A harmadik oszlop mutatja, milyen hatása van a kérdésnek a tudásbázisra.</p>
+<div class="u-table-wrap"><table class="u-table" id="k-sablonok">
+<caption>A nyitott végű interjú kérdéssablonjai és hatásuk, a PDF 51. oldala alapján.</caption>
+<thead><tr><th scope="col">Kód</th><th scope="col">A kérdés sablonja</th><th scope="col">Hatás</th></tr></thead>
+<tbody>
+<tr><td>K1</td><td>Miért csinálná ezt?</td><td>Szabállyá alakít egy kijelentést.</td></tr>
+<tr><td>K2</td><td>Hogyan csinálná ezt?</td><td>Alacsonyabb szintű szabályokat generál.</td></tr>
+<tr><td>K3</td><td>Mikor csinálná ezt? Igaz, hogy mindig &lt;a szabály&gt; van érvényben?</td><td>Rámutat a szabály általánosságára, és újabb szabályokat generálhat.</td></tr>
+<tr><td>K4</td><td>Milyen alternatívái vannak &lt;a leírt döntésnek / cselekvésnek&gt;?</td><td>Újabb szabályokat generál.</td></tr>
+<tr><td>K5</td><td>Mi lenne, ha nem lenne igaz &lt;egy aktuálisan igaz állapot&gt;?</td><td>Szabályokat generál olyan esetekre, amelyekben nem állnak fenn a jelenlegi feltételek.</td></tr>
+<tr><td>K6</td><td>Tudna többet mondani &lt;bármely eddig megemlített témáról&gt;?</td><td>További párbeszédet eredményez, ha kezdenénk kifogyni a témákból.</td></tr>
+</tbody></table></div>
+<p>A PDF egy rövid interjúrészlettel mutatja be a sablonokat. A szakértő egy billentyűzetét hibásnak jelző számítógépet vizsgált meg. A párbeszéd bal oldalán a szereplő, zárójelben a kérdés sablonjának kódja áll.</p>
+<figure class="u-dialogue" id="villamlas-parbeszed"><dl>
+<div class="u-other"><dt>Szakértő</dt><dd>Megvizsgáltam a számítógép portját.</dd></div>
+<div><dt>Tudásmérnök (K1)</dt><dd>Miért vizsgálta meg a portot?</dd></div>
+<div class="u-other"><dt>Szakértő</dt><dd>Ha előtte villámlás volt, akkor általában jó ötlet megvizsgálni a gép portjait, mert a villámlás kárt szokott tenni bennük.</dd></div>
+<div><dt>Tudásmérnök (K4)</dt><dd>Vannak más alternatívái ennek a problémának?</dd></div>
+<div class="u-other"><dt>Szakértő</dt><dd>Igen, a fentit meg kell előznie egy kérdésnek, hogy volt-e több furcsán viselkedő billentyű – nem feltétlenül mind, de kettőnél több.</dd></div>
+<div><dt>Tudásmérnök (K1)</dt><dd>Miért kell, hogy kettőnél több billentyűről legyen szó?</dd></div>
+<div class="u-other"><dt>Szakértő</dt><dd>Ha csak egy vagy két billentyű viselkedne furcsán, akkor meg kellene vizsgálni, jók-e a kontaktusaik. A sebesség minden billentyűre kihatna, a paritás kb. a billentyűk felére.</dd></div>
+</dl><figcaption>A PDF 51. oldalának interjúrészlete. Az eredetiben SZ a szakértő, TM a tudásmérnök; a helyesírást igazítottuk.</figcaption></figure>
+<p>Az utolsó válasz két szakszót használ. A régi billentyűzetek soros porton, bitenként küldték a leütött karakter kódját. A <strong>sebesség</strong> az átvitel üteme: ha a gép és a billentyűzet eltérő sebességre van beállítva, egyetlen karakter sem érkezik meg jól. A <strong>paritásbit</strong> egy ellenőrző bit, amely jelzi, hogy a kódban páros vagy páratlan számú egyes van. Ha ez a beállítás hibás, nagyjából azoknál a billentyűknél jelentkezik hiba, amelyek kódjában az egyesek száma „rossz” paritású. Ez a karakterek körülbelül fele. A szakértő tehát a hibás billentyűk számából következtet a hiba forrására.</p>
+<div class="u-example" id="interju-szabalyok"><strong>Végigvezetett példa · A párbeszédből kinyert szabályok</strong>
+<p>Az interjú négy mondata öt szabályt ad. Figyeld meg, hogy a K1 kérdés mindkét alkalommal egy kijelentést alakít szabállyá, a K4 pedig egy korábbi feltételt hoz elő.</p>
+<ol class="u-rulelist">
+<li><code>HA villámlás volt ÉS kettőnél több billentyű furcsa AKKOR a port gyanús</code></li>
+<li><code>HA legfeljebb két billentyű furcsa AKKOR vizsgáld meg a kontaktusokat</code></li>
+<li><code>HA a port gyanús AKKOR vizsgáld meg a portot</code></li>
+<li><code>HA minden billentyű furcsa AKKOR a sebesség beállítása gyanús</code></li>
+<li><code>HA kb. a billentyűk fele furcsa AKKOR a paritás beállítása gyanús</code></li>
+</ol>
+<p>A szakértő az első mondatában csak egy cselekvést mondott el. A szabályok a kérdések nyomán születtek meg. Ez a nyitott végű interjú lényege.</p></div>
+<div class="u-lab" id="interju-labor"><span class="u-lab-label">PRÓBÁLD KI / INTERJÚSZIMULÁTOR</span><h3>Te vagy a tudásmérnök. Melyik sablonnal kérdezel?</h3>
+<p>A szakértő ezt mondta: <em>„Megvizsgáltam a számítógép portját.”</em> Válassz egy kérdéssablont. A szakértő válaszol, a jegyzetfüzetbe pedig bekerül a válaszból kinyerhető szabály. A K1 és a K4 válasza a PDF-ből származik, a többi a jegyzet szemléltető kiegészítése.</p>
+<div class="u-kbuttons u-js-only" id="interju-gombok" role="group" aria-label="Kérdéssablonok"></div>
+<div class="u-out" id="interju-valasz" role="status" aria-live="polite"><p>A szimulátorhoz JavaScript szükséges. A kérdések hatását a fenti táblázat, egy valódi interjút a párbeszéd mutat be.</p></div>
+<div class="u-notebook u-js-only"><p class="u-notebook-title">Jegyzetfüzet · kinyert szabályok</p><ol id="interju-jegyzet"><li class="u-empty">Még nincs szabály.</li></ol></div>
+<div class="u-controls u-js-only"><button type="button" class="u-ghost" id="interju-ujra">Új interjú</button></div>
+</div>
+</section>
+
+<!-- 11 · TOVÁBBI TECHNIKÁK -->
+<section id="technikak" class="chapter-section"><span class="section-index">11 / PDF 52–53.</span>
+<h2>Figyelni, végigmenni, kérdezni, olvasni.</h2>
+<p>Az interjú mellett a PDF még négy technikát ismertet. Együtt öt eszközt kapunk. Mindegyik másféle tudáshoz fér hozzá.</p>
+<p>A <strong>protokollelemzés</strong> a részletes tudás kinyerésének leggyakrabban használt módszere. A <strong>protokoll</strong> a szakértő információfeldolgozó és döntéshozó viselkedésének lépésről lépésre haladó rögzítése. Nem azt rögzíti, amit a szakértő a munkájáról mond, hanem azt, amit munka közben tesz és gondol. Ezért a hallgatólagos tudáshoz is hozzáfér. A rögzítésnek két időzítése van.</p>
+<div class="u-compare" id="online-offline">
+<div><span class="u-tag">ONLINE PROTOKOLL</span><h3>Rögzítés munka közben</h3><p>A szakértőről problémamegoldás közben felvétel készül, és ezzel párhuzamosan megjegyzéseket is fűznek hozzá.</p><p>Ha a szakértő maga kommentálja, amit csinál, az <strong>önbeszámoló</strong>. Ha egy másik szakértő kommentálja, az <strong>árnyékbeszámoló</strong>.</p></div>
+<div><span class="u-tag">OFFLINE PROTOKOLL</span><h3>Kommentár utólag</h3><p>A problémamegoldás befejezése után a szakemberek visszamenőleg fűzik hozzá a kommentárjaikat, például a felvételt visszanézve.</p><p>Előnye, hogy nem zavarja a munkát. Hátránya, hogy utólag a szakértő „kiszépítheti” a gondolatmenetét.</p></div>
+</div>
+<p>A protokollra kerülő problémákat gondosan kell kiválasztani, mert az idő kötött. A PDF szerint az esetek legyenek <strong>reprezentatívak</strong>, vagyis jól képviseljék a szakterület tipikus problémáit. Ha Irént csak ritka, különleges hibák javításakor figyeljük meg, a rendszer éppen a mindennapi eseteket nem fogja jól kezelni.</p>
+<aside class="u-add"><h3>Kiegészítés · A hangos gondolkodás</h3><p>Az önbeszámoló a pszichológiában <strong>hangos gondolkodás (think-aloud)</strong> néven ismert. K. Anders Ericsson és Herbert A. Simon kutatásai szerint akkor torzít a legkevésbé, ha a szakértő csak kimondja, amire éppen gondol. Ha magyaráznia is kell, a magyarázat maga is megváltoztatja a gondolkodását. <a href="#s-ericsson">Forrás: Ericsson–Simon, 1993.</a></p></aside>
+<p>A többi három technikát a sorok mutatják be, mindegyiket egy példával.</p>
+<dl class="u-rows" id="tovabbi-technikak">
+<div><dt>Végigvezetés</dt><dd><p>Általánosan alkalmazott módszer. A tudásmérnök megkéri a szakértőt, hogy vezesse végig egy feladat megoldásán, és közben felügyelje őt.</p><p><em>Példa:</em> a tudásmérnök maga javít meg egy billentyűzetet, Irén pedig mellette áll, és szól, ha rossz irányba indul.</p></dd></div>
+<div><dt>Kérdőív</dt><dd><p>Két fajtája van. A <strong>szabad végű</strong> kérdőívre a szakértő akkor válaszol, amikor ráér és kedve van, ezért hosszabb, kifejtős válaszokat ad. A <strong>rövid válaszos</strong> kérdőív tömör, leíró válaszokat kér, és gyorsan kitölthető.</p><p><em>Példa:</em> „Soroljon fel három gyakori okot, ha egy billentyűzet teljesen néma!”</p></dd></div>
+<div><dt>Szakértői beszámoló</dt><dd><p>A szakértő saját, írásos összegzése a problémamegoldó viselkedéséről. Két formája van.</p><p><strong>a)</strong> A szakértő leírja a feladat megközelítésének módszerét, a stratégiáját, az általa használt szabályokat, a szükséges adatokat és az eredményt. A tudásmérnök ezt feldolgozza, és kinyeri belőle az ismereteket.</p><p><strong>b)</strong> A szakértő formálisan, például folyamatábrával adja meg a döntéshozatal lépéseit. Ezzel a feldolgozás terhét is leveszi a tudásmérnökről.</p></dd></div>
+</dl>
+<aside class="u-fix"><h3>Kiigazítás · A technikák számozása</h3><p><strong>A PDF-ben:</strong> a technikák sorszáma „1. Interjú, 2. Protokollelemzés, 2. Végigvezetés, 2. Kérdőívek, 5. Szakértői beszámoló”. A 4. szakasz lépései is így szerepelnek: „1., 2., 3., 3.”.</p><p><strong>Helyesen:</strong> öt technika van (1–5), és a kinyert tudás feldolgozása négy lépésből áll (1–4). A jegyzet ezt a számozást használja.</p><p><strong>Miért fontos?</strong> A számozás a diákon elírás, de vizsgán könnyen félreérthető, hány technikát vagy lépést kell ismerni.</p></aside>
+</section>
+
+<!-- 12 · ELEMZÉS -->
+<section id="elemzes" class="chapter-section"><span class="section-index">12 / PDF 54–55.</span>
+<h2>A jegyzetből rendezett tudás lesz.</h2>
+<p>A negyedik szakaszban formális módszerekkel kell elemezni a kinyert tudást. Dokumentálni kell a problématerületre vonatkozó szabályokat, hálózatokat, viszonylatokat és jellemzőket. A dokumentálás helye a <strong>Tudás Kézikönyv</strong>. A PDF az elemzés négy tipikus lépését írja le. A lépéseket a 10. rész interjúján követjük végig.</p>
+<ol class="u-steps" id="elemzes-lepesei">
+<li><p><strong>Átírás.</strong> A szóbeli információ első írásos alakjának letisztázása. Ide tartozik minden járulékos információ is, például a technikai segédszemélyzet által rögzített képi anyag.</p><p><em>Példa:</em> a hangfelvételből szó szerinti átirat készül. Mellé kerül a fotó a vizsgált portról.</p></li>
+<li><p><strong>Szövegrész-indexelés.</strong> Az átiratot rövid szövegrészekre tagoljuk, és mindegyiket azonosítóval, <strong>indexszel</strong> látjuk el. Egy ilyen egység célszerűen egyetlen <strong>tudáselemnek</strong> felel meg: egy elemi feladatnak, állításnak vagy adategyüttesnek.</p><p><em>Példa:</em> <code>[I-03]</code> „Ha előtte villámlás volt, akkor általában jó ötlet megvizsgálni a gép portjait.”</p></li>
+<li><p><strong>Tudáskódolás.</strong> Minden tudáselemről megállapítjuk, mivel foglalkozik, milyen <strong>operátorokat</strong> (műveleteket, teendőket) tartalmaz, milyen <strong>kiértékelési kritériumot</strong> használ, és milyen következtetések alapozzák meg a benne szereplő választásokat és döntéseket. A kódolás két fő kategóriába sorol: <strong>leíró</strong> vagy <strong>eljárási</strong> tudás.</p><p><em>Példa:</em> <code>[I-03]</code> → témája: hibaforrás; operátora: port vizsgálata; kritériuma: villámlás volt; kategóriája: eljárási.</p></li>
+<li><p><strong>Dokumentálás.</strong> Az eredmény a Tudás Kézikönyvbe kerül, négy részre osztva: <strong>átfogó tartománylista</strong>, <strong>leíró tudás</strong>, <strong>eljárási tudás</strong> és <strong>szójegyzék</strong>.</p><p><em>Példa:</em> <code>[I-03]</code> az eljárási részbe kerül, a „port” és a „villámlás” szó pedig a szójegyzékbe.</p></li>
+</ol>
+<p>A PDF a kódolásra egy példát is ad. Az „A sikerre 75% esély van” tudáselemhez ez a megjegyzés kerül: <code>Megoldás kiértékelés/kritériumbeállítás(valószínűség)</code>. A mondat tehát egy megoldás értékeléséről szól, a kritériuma pedig egy valószínűség. A két fő kategóriát érdemes egymás mellett látni.</p>
+<div class="u-compare" id="leiro-eljarasi">
+<div><span class="u-tag">LEÍRÓ (DESCRIPTIVE) TUDÁS</span><h3>Mi igaz?</h3><p>Tényeket, fogalmakat és kapcsolatokat ír le.</p><p><em>Példák:</em> „A paritásbit hibajelző bit.” „A villámlás kárt tehet a portban.”</p></div>
+<div><span class="u-tag">ELJÁRÁSI (PROCEDURAL) TUDÁS</span><h3>Mit kell tenni?</h3><p>Teendőket, lépéssorokat és döntési eljárásokat ír le.</p><p><em>Példák:</em> „Először csatlakoztass egy másik billentyűzetet.” „Villámlás után vizsgáld meg a portot.”</p></div>
+</div>
+<div class="u-lab" id="sorrend-labor"><span class="u-lab-label">PRÓBÁLD KI / A TUDÁSGYŰJTÉS SORRENDJE</span><h3>Rakd időrendbe a tudásmérnök teendőit.</h3>
+<p>A hat teendő a négy szakasz valamelyikéhez tartozik. A „Fel” és „Le” gombokkal (billentyűzettel is) rendezd őket abba a sorrendbe, ahogy a projektben következnek, majd ellenőrizd.</p>
+<ol class="u-sort u-js-only" id="sorrend-lista"></ol>
+<div class="u-controls u-js-only"><button type="button" id="sorrend-ellenoriz">Ellenőrzés</button><button type="button" class="u-ghost" id="sorrend-kever">Újrakeverés</button></div>
+<div class="u-out" id="sorrend-ki" role="status" aria-live="polite"><p>A rendezéshez JavaScript szükséges. A helyes sorrend: archívumkutatás és első konzultációk → a Tudás Kézikönyv első változata → a szakértő kiválasztása és motiválása → nyitott végű interjú → átírás és indexelés → leíró és eljárási tudás rögzítése a kézikönyvben.</p></div>
+</div>
+</section>
+
+<!-- 13 · GÉPI TANULÁS -->
+<section id="gepi" class="chapter-section"><span class="section-index">13 / PDF 56.</span>
+<h2>Ha a gép maga olvasna.</h2>
+<p>Az eddigi munka lassú és drága: hetekig tartó interjúk, átiratok, kódolás. A PDF ezért egy jövőképet is felvázol, az <strong>automatikus tudáskinyerést</strong> gépi tanulással. Eszerint a szakértőrendszerek online adatbázisokat fognak átfésülni, könyveket, folyóiratokat és magazinokat fognak digitalizálni. Más számítógépes rendszerekről elektronikus úton hívják le az adatokat, és ezekből hozzák létre vagy frissítik a tudásbázist, emberi közreműködés nélkül.</p>
+<p>A PDF két lehetséges előnyt nevez meg.</p>
+<div class="u-compare" id="automatikus-elonyok">
+<div><span class="u-tag">1 · JOBB EREDMÉNY</span><p>Az automatikus kinyerés jobb eredményt érhet el, mint az ember, mert egyre több és egyre összetettebb információ keletkezik. Így nagyobb szakértőrendszerek hozhatók létre.</p></div>
+<div><span class="u-tag">2 · KISEBB KÖLTSÉG</span><p>Csökken a drága emberi munkaerő iránti igény, és rövidebb idő alatt készül el a tudásbázis.</p></div>
+</div>
+<p>A PDF ebből azt a következtetést vonja le, hogy <em>a szakértő is feleslegessé válik</em>. Ez az állítás pontosításra szorul.</p>
+<aside class="u-fix"><h3>Kiigazítás · A gépi tanulás nem teszi feleslegessé a szakértőt</h3>
+<p><strong>A PDF állítása:</strong> gépi tanulással „feleslegessé válik a szakértő is”.</p>
+<p><strong>Pontosabban:</strong> a szakértő szerepe átalakul, de nem szűnik meg. A gépi tanulás mintákból tanul, és a mintákat valakinek össze kell állítania, fel kell címkéznie és ellenőriznie kell. Egy 2017-es, sokat idézett kutatásban egy neurális háló bőrgyógyászati szinten ismerte fel a bőrrákot fényképekről. A hálót azonban több mint 129 ezer, orvosilag diagnosztizált képen tanították, és az eredményt 21 bőrgyógyász teljesítményéhez mérték. Szakértők nélkül sem a tanítóadat, sem az ellenőrzés nem jött volna létre.</p>
+<p><strong>Ellenpélda a gyakorlatból:</strong> ha egy modell a tanítóadatban ritka esettel találkozik, magabiztosan tévedhet. Ezt legtöbbször a szakértő veszi észre. Az Európai Unió MI-rendelete (AI Act) ezért a magas kockázatú MI-rendszereknél kötelezővé teszi az emberi felügyeletet. <a href="#s-esteva">Források: Esteva és mtsai., 2017;</a> <a href="#s-aiact">(EU) 2024/1689 rendelet, 14. cikk.</a></p></aside>
+<p class="u-key">A gépi tanulás a tudáskinyerés munkáját alakítja át: kevesebb interjú kell, de több adatgyűjtés, címkézés és ellenőrzés. Mindkettőhöz szakértő kell.</p>
+</section>
+
+<!-- 14 · SZABÁLY -->
+<section id="szabaly" class="chapter-section"><span class="section-index">14 / PDF 57.</span>
+<h2>HA … AKKOR …</h2>
+<p>A kinyert tudást végül valamilyen formában a gépbe kell írni. A leggyakoribb forma az <strong>előállító szabály (production rule)</strong>. A név onnan ered, hogy a szabály új tényt vagy cselekvést „állít elő”. Ez egy <strong>HA–AKKOR (IF–THEN)</strong> szerkezet: a HA után a <strong>feltétel</strong>, az AKKOR után a <strong>következmény</strong> áll. A PDF szerint egyaránt alkalmas a leíró (deklaratív) és az eljárási (procedurális) tudás ábrázolására. A kettő a következmény fajtájában tér el.</p>
+<div class="u-compare" id="kovetkezmeny-fajtak">
+<div><span class="u-tag">DEKLARATÍV KÖVETKEZMÉNY</span><h3>Kikövetkeztetett tény</h3><p>A szabály egy új, igaz állítást ad a tények közé. A világban semmi sem változik, csak a rendszer tudása bővül.</p><p><code>HA hőmérséklet &gt; 30 AKKOR meleg_van</code></p></div>
+<div><span class="u-tag">PROCEDURÁLIS KÖVETKEZMÉNY</span><h3>Akció</h3><p>A szabály cselekvést indít el, és ezzel megváltoztathatja a világot.</p><p><code>HA hőmérséklet &gt; 30 AKKOR hűtés</code></p><p>Ez a PDF példája: a klímaberendezés bekapcsol.</p></div>
+</div>
+<p>A logikában a szabály az <strong>implikáció</strong>: „ha α, akkor β”, jele <code>α → β</code>. Az implikációt a <strong>modus ponens</strong> következtetési szabály használja fel. Ha tudjuk, hogy α igaz, és tudjuk, hogy α-ból következik β, akkor β is igaz. Írásban a vonal fölött állnak a feltevések, alatta a következtetés:</p>
+<div class="u-formula" role="img" aria-label="Modus ponens: alfa és alfa-ból következik béta feltevésekből következik béta"><span class="u-frac"><span>α,&nbsp;&nbsp;α → β</span><span>β</span></span></div>
+<div class="u-example" id="modus-ponens-pelda"><strong>Végigvezetett példa</strong><p><strong>1. feltevés (α):</strong> a hőmérséklet 32 fok, tehát <code>hőmérséklet &gt; 30</code> igaz. <strong>2. feltevés (α → β):</strong> <code>HA hőmérséklet &gt; 30 AKKOR meleg_van</code>. <strong>Következtetés (β):</strong> <code>meleg_van</code>. Ha a hőmérséklet 25 fok, a szabály nem sül el, és a modus ponens semmit sem mond arról, meleg van-e.</p></div>
+<aside class="u-fix"><h3>Kiigazítás · Az implikáció és a modus ponens nem ugyanaz</h3>
+<p><strong>A PDF megfogalmazása:</strong> „A logikában neve: implikáció, modus ponens”, mintha a szabálynak két egyenértékű neve volna.</p>
+<p><strong>Pontosabban:</strong> az <em>implikáció</em> maga az állítás (<code>α → β</code>), a <em>modus ponens</em> pedig a következtetési szabály, amely az implikációt felhasználja. A szabálybázisban implikációk vannak, a következtető automata pedig modus ponenssel dolgozik velük.</p>
+<p><strong>Miért fontos?</strong> Egy implikációból más következtetési szabállyal mást is ki lehet hozni. A <em>modus tollens</em> például <code>¬β</code>-ból és <code>α → β</code>-ból <code>¬α</code>-t vezeti le: ha nincs meleg, akkor a hőmérséklet nem lehet 30 fok fölött. A két fogalom a 4. fejezetben, a formális logikánál kerül elő újra. <a href="#s-aima">Forrás: Russell–Norvig, 7. fejezet.</a></p></aside>
+</section>
+
+<!-- 15 · LÁNCOLÁS -->
+<section id="lancolas" class="chapter-section"><span class="section-index">15 / PDF 58–59.</span>
+<h2>Amikor egy szabály a másikat indítja.</h2>
+<p>Egyetlen szabály ritkán vezet el a végső válaszig. A következtetés úgy valósul meg, hogy a szabályok egymásba kapcsolódnak. A PDF meghatározása szerint <strong>szabályláncolódásról</strong> akkor beszélünk, ha egy szabály következményrésze illeszkedik egy másik szabály feltételrészére. Az első szabály által előállított tény így a második szabály feltételét teljesíti.</p>
+<p>A PDF egy elvont példát ad. Négy tény és három szabály szerepel benne. A tények kisbetűs jelek, amelyek bármilyen állítást jelölhetnek. Az ábra az így kialakuló <strong>következtetési fát</strong> mutatja.</p>
+<figure class="u-tree" id="kovetkeztetesi-fa">
+<svg viewBox="0 0 400 210" role="img" aria-labelledby="fa-cim fa-leiras"><title id="fa-cim">Következtetési fa</title><desc id="fa-leiras">Az a és b tényből az R1 szabály az e tényt, a c és d tényből az R2 szabály az f tényt vezeti le. Az e és f tényből az R3 szabály adja a g végkövetkeztetést. Egy negyedik szabály, R4, a b és c tényből a h tényt vezeti le, de h nem vezet g-hez.</desc>
+<g class="u-edges">
+<line data-el="R1" x1="110" y1="110" x2="60" y2="170"/><line data-el="R1" x1="110" y1="110" x2="150" y2="170"/>
+<line data-el="R2" x1="290" y1="110" x2="250" y2="170"/><line data-el="R2" x1="290" y1="110" x2="340" y2="170"/>
+<line data-el="R3" x1="200" y1="36" x2="110" y2="110"/><line data-el="R3" x1="200" y1="36" x2="290" y2="110"/>
+<line data-el="R4" class="u-dash" x1="200" y1="110" x2="150" y2="170"/><line data-el="R4" class="u-dash" x1="200" y1="110" x2="250" y2="170"/>
+</g>
+<g class="u-rulelabels"><text x="72" y="140">R1</text><text x="340" y="136">R2</text><text x="138" y="70">R3</text><text x="190" y="150">R4</text></g>
+<g class="u-nodes">
+<g data-node="g"><circle cx="200" cy="36" r="18"/><text x="200" y="41">g</text></g>
+<g data-node="e"><circle cx="110" cy="110" r="18"/><text x="110" y="115">e</text></g>
+<g data-node="h"><circle cx="200" cy="110" r="18"/><text x="200" y="115">h</text></g>
+<g data-node="f"><circle cx="290" cy="110" r="18"/><text x="290" y="115">f</text></g>
+<g data-node="a" class="u-leaf"><circle cx="60" cy="170" r="18"/><text x="60" y="175">a</text></g>
+<g data-node="b" class="u-leaf"><circle cx="150" cy="170" r="18"/><text x="150" y="175">b</text></g>
+<g data-node="c" class="u-leaf"><circle cx="250" cy="170" r="18"/><text x="250" y="175">c</text></g>
+<g data-node="d" class="u-leaf"><circle cx="340" cy="170" r="18"/><text x="340" y="175">d</text></g>
+</g></svg>
+<figcaption>
+<span class="u-rule-line"><code>R1: HA a ÉS b AKKOR e</code></span>
+<span class="u-rule-line"><code>R2: HA c ÉS d AKKOR f</code></span>
+<span class="u-rule-line"><code>R3: HA e ÉS f AKKOR g</code></span>
+<span class="u-rule-line"><code>R4: HA b ÉS c AKKOR h</code> <small>(a jegyzet kiegészítése, szaggatott vonal)</small></span>
+Az R1–R3 szabály a PDF 59. oldalának példája. Az R4 szabályt a jegyzet vette fel, hogy a következő részben látható legyen, mikor végez fölösleges munkát az előreláncolás.</figcaption>
+</figure>
+<p>A fa leveleinél a <strong>tények</strong>, a csúcsán a <strong>végkövetkeztetés</strong> áll. Az R1 következménye (<code>e</code>) és az R2 következménye (<code>f</code>) együtt adja az R3 feltételét. Az R3 tehát csak akkor „sülhet el”, ha előtte az R1 és az R2 is elsült. Ez a láncolódás.</p>
+<p>A PDF itt egy fontos korlátra is rámutat. Ha a szabálybázis összes lehetséges kapcsolódását előre megvalósítanánk, előállna az összes következtetési fa. Ezek a leveleiken álló tényeket kötnék össze a csúcsukon álló végkövetkeztetésekkel. Egy valódi szabálybázisban azonban ez a fák száma miatt gyakorlatilag lehetetlen. Ezért egy konkrét esetre mindig a <strong>következtető automata</strong> végzi el a következtetést, csak azokkal a tényekkel, amelyek éppen adottak.</p>
+<div class="u-simple"><strong>Egyszerűen mondva</strong><p>A szabálybázis olyan, mint egy dominósor, amelyet sosem borítunk fel egyszerre az összes lehetséges módon. A következtető automata mindig csak azt a sort löki meg, amelyik az aktuális esethez tartozik.</p></div>
+</section>
+
+<!-- 16 · IRÁNY -->
+<section id="irany" class="chapter-section"><span class="section-index">16 / PDF 60–61.</span>
+<h2>Tényekből a célig, vagy a céltól a tényekig.</h2>
+<p>Ugyanazon a következtetési fán kétféle irányban lehet haladni. A PDF ábrája az egyik irányt felkiáltójellel, a másikat kérdőjellel jelöli. Ez jól kifejezi a különbséget.</p>
+<div class="u-compare" id="elore-hatra">
+<div><span class="u-tag">ELŐREHALADÓ LÁNCOLÁS (FORWARD CHAINING) · „!”</span><h3>A tényekből indul</h3><p>A feladat a végkövetkeztetés megtalálása a megadott tényekből kiindulva. A levelektől halad a csúcs felé: minden szabályt alkalmaz, amelynek a feltétele teljesül, amíg már nem születik új tény.</p><p><strong>Mikor előnyös?</strong> Chabris szerint akkor, ha sok összegyűjtött adatunk van, de nincs jó elképzelésünk a megoldásról. A rendszer elvégzi az összes végrehajtható következtetést, és előállítja a tényekből következő összes szóba jöhető megoldást.</p><p><em>Példa:</em> egy üzem érzékelőinek adataiból minden lehetséges riasztás előállítása.</p></div>
+<div><span class="u-tag">HÁTRAFELÉ HALADÓ LÁNCOLÁS (BACKWARD CHAINING) · „?”</span><h3>A célból indul</h3><p>Az elérendő cél adott. A feladat a szükséges előfeltételek megtalálása, illetve annak megállapítása, hogy a megadott tények elegendőek-e. A csúcstól halad a levelek felé.</p><p><strong>Mikor előnyös?</strong> Chabris szerint akkor, ha egy vagy több hipotézisünk van a megoldásra, és azt akarjuk, hogy a rendszer tesztelje őket. A hipotézistől visszafelé haladva a rendszer <em>bekéri</em> a teljesüléshez szükséges adatokat.</p><p><em>Példa:</em> „Az ügyfél gépén a port a hibás?” – a rendszer csak az ehhez szükséges kérdéseket teszi fel.</p></div>
+</div>
+<p>Vezessük le mindkét irányban a <code>g</code> végkövetkeztetést az előző rész fájából. Mind a négy tény (<code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>) igaz. Előreláncolásnál minden körben az első alkalmazható szabály sül el, és egy szabály ugyanarra az esetre csak egyszer alkalmazható.</p>
+<div class="u-duo" id="ket-levezetes">
+<div class="u-example"><strong>Előreláncolás · a tényekből</strong>
+<ol class="u-steps">
+<li><p>Alkalmazható: R1, R2, R4. Elsül az <strong>R1</strong> → új tény: <code>e</code>.</p></li>
+<li><p>Alkalmazható: R2, R4. Elsül az <strong>R2</strong> → új tény: <code>f</code>.</p></li>
+<li><p>Most már <code>e</code> és <code>f</code> is igaz. Alkalmazható: R3, R4. Elsül az <strong>R3</strong> → új tény: <code>g</code>. ✓</p></li>
+<li><p>Alkalmazható: R4. Elsül az <strong>R4</strong> → új tény: <code>h</code>.</p></li>
+<li><p>Nincs több alkalmazható szabály, a folyamat leáll. Tények: a, b, c, d, e, f, g, h.</p></li>
+</ol></div>
+<div class="u-example"><strong>Hátraláncolás · a célból</strong>
+<ol class="u-steps">
+<li><p>Cél: <code>g</code>. Nem ismert tény. A <code>g</code>-t az <strong>R3</strong> adja, részcélok: <code>e</code> és <code>f</code>.</p></li>
+<li><p>Részcél: <code>e</code>. Az <strong>R1</strong> adja, részcélok: <code>a</code> és <code>b</code>. Mindkettő ismert tény → <code>e</code> igazolva.</p></li>
+<li><p>Részcél: <code>f</code>. Az <strong>R2</strong> adja, részcélok: <code>c</code> és <code>d</code>. Mindkettő ismert tény → <code>f</code> igazolva.</p></li>
+<li><p><code>e</code> és <code>f</code> igaz, tehát az <strong>R3</strong> szerint <code>g</code> igazolva. ✓</p></li>
+<li><p>A <code>h</code> tényt és az R4 szabályt egyszer sem kellett megvizsgálni.</p></li>
+</ol></div>
+</div>
+<p class="u-key">Az előreláncolás mindent levezet, ami levezethető, a célhoz nem tartozó <code>h</code>-t is. A hátraláncolás csak azt vizsgálja, ami a célhoz kell. Ha kevés a tény és sok a lehetséges cél, az előreláncolás a jobb; ha egy konkrét hipotézist kell ellenőrizni, a hátraláncolás.</p>
+<div class="u-lab" id="lanc-labor"><span class="u-lab-label">PRÓBÁLD KI / KATTINTHATÓ SZABÁLYLÁNC</span><h3>Kapcsold a tényeket, és kövesd mindkét irányt.</h3>
+<p>Jelöld be, mely tények igazak. A fa azonnal mutatja, mi vezethető le. A két lépésgomb ugyanazt a feladatot oldja meg előre- és hátraláncolással, lépésenként. Próbáld ki, mi történik, ha a <code>d</code> tényt kikapcsolod: a hátraláncolás ilyenkor rákérdezne a hiányzó adatra.</p>
+<fieldset class="u-checks u-js-only" id="lanc-tenyek"><legend>Igaz tények</legend>
+<label><input type="checkbox" value="a" checked> a</label>
+<label><input type="checkbox" value="b" checked> b</label>
+<label><input type="checkbox" value="c" checked> c</label>
+<label><input type="checkbox" value="d" checked> d</label></fieldset>
+<div class="u-tree u-js-only" id="lanc-fa" aria-hidden="true"></div>
+<p class="u-out" id="lanc-osszegzes" role="status" aria-live="polite">A bemutatóhoz JavaScript szükséges. A levezetést a fenti két oszlop írásban tartalmazza.</p>
+<div class="u-duo u-js-only">
+<div class="u-trace"><p class="u-trace-title">Előreláncolás</p><ol id="lanc-elore"></ol><div class="u-controls"><button type="button" id="lanc-elore-lep">Következő lépés</button></div></div>
+<div class="u-trace"><p class="u-trace-title">Hátraláncolás · cél: g</p><ol id="lanc-hatra"></ol><div class="u-controls"><button type="button" id="lanc-hatra-lep">Következő lépés</button></div></div>
+</div>
+<div class="u-controls u-js-only"><button type="button" class="u-ghost" id="lanc-ujra">Mindkettő elölről</button></div>
+</div>
+<p>A PDF megjegyzi, hogy az előreláncolást alkalmazó rendszert <strong>deduktív rendszernek</strong> is szokták nevezni. A név a sorozatban végzett deduktív logikai következtetésre, a modus ponensre utal: minden lépés az általánosból (a szabályból) és az adott tényből a konkrét következményt vezeti le.</p>
+<aside class="u-add"><h3>Kiegészítés · A hátraláncolás is deduktív</h3><p>Az elnevezésből nem szabad arra következtetni, hogy a hátraláncolás nem deduktív. Visszafelé haladva is ugyanazokat a modus ponens lépéseket igazolja, csak más sorrendben keresi meg őket. Ezért a szakirodalom a két irányt inkább <strong>adatvezérelt (data-driven)</strong> és <strong>célvezérelt (goal-driven)</strong> következtetésnek nevezi. A MYCIN hátraláncolással, a konfigurációs XCON rendszer előreláncolással dolgozott. <a href="#s-aima">Forrás: Russell–Norvig, 7. és 9. fejezet.</a></p></aside>
+<p>A kurzus kódgyűjteményében a <code>12_Logika.py</code> fájl ugyanezt a szerkezetet mutatja egy családfán. A <strong>pyDatalog</strong> Python-könyvtárral tényeket és szabályokat adunk meg, majd kérdéseket teszünk fel.</p>
+<figure class="u-code"><pre><code>from pyDatalog import pyDatalog
+
+def igaz_e(kifejezes):
+    return len(kifejezes) > 0
+
+pyDatalog.clear()
+pyDatalog.create_terms('Apa, Anya, Szulo, Nagyszulo, X,Y,Z')
+
+#Tények
++Apa("Szokratesz","Platon")
++Apa("Platon", "Arisztotelesz")
++Anya("Diado","Platon")
+
+#Szabályok
+Szulo(X,Y) &lt;= Apa(X,Y)
 Szulo(X,Y) &lt;= Anya(X,Y)
+Nagyszulo(X,Z) &lt;= Szulo(X,Y) &amp; Szulo(Y,Z)
 
-Nagyszulo(X,Z) &lt;= Szulo(X,Y) &amp; Szulo(Y,Z)</code></pre><p>Itt a <code>&lt;=</code> a szabály jele, nem számok összehasonlítása. A jobb oldal a feltétel, a bal oldal a következmény. Az <code>&amp;</code> ÉS kapcsolatot jelent. Az <code>X</code>, <code>Y</code> és <code>Z</code> változó: illesztéskor konkrét személy kerül a helyükre.</p><p><strong>Bemenet:</strong> az átláthatóság kedvéért két képzelt tényt használunk: <code>Apa("Andras","Bela")</code> és <code>Apa("Bela","Csaba")</code>. Az eredeti fájl neveit erre a saját példára cseréltük; az eredeti személynevek sem igazolnak történeti rokonságot.</p><ol class="reading-steps compact-steps"><li><div><p>Az első szabály mindkét apai tényre illeszkedik. Ebből <code>Szulo("Andras","Bela")</code> és <code>Szulo("Bela","Csaba")</code> következik. A második szabály anyai tényből vezetne le szülőt; ebben a kétadatos példában nincs ilyen bemenet.</p></div></li><li><div><p>A harmadik szabályban ugyanaz a <code>Y</code> köti össze a két kapcsolatot. Most <code>X = Andras</code>, <code>Y = Bela</code>, <code>Z = Csaba</code>. Két tetszőleges szülőkapcsolat nem lenne elég: a középső személynek egyeznie kell.</p></div></li><li><div><p><strong>Eredmény:</strong> levezethető a <code>Nagyszulo("Andras","Csaba")</code> állítás. Egy új kapcsolatot kaptunk a két bemeneti tényből, nem egy előre beírt választ olvastunk ki.</p></div></li></ol><p class="footnote">A lépések a szabályok jelentését mutatják, nem a pyDatalog belső végrehajtási sorrendjét. A részlet nem önálló program; a teljes fájl a könyvtár betöltését, a nevek létrehozását, a tények felvételét és a lekérdezéseket is tartalmazza. Az oldal nem futtat Pythont, a példa JavaScript nélkül is olvasható.</p></div>
-<aside class="correction"><h3>Kiigazítás · Nem minden következtetési fa túl nagy</h3><p><strong>A PDF:</strong> az összes következtetési fa előállítása gyakorlatilag lehetetlen. <strong>Pontosabban:</strong> nagy, sok kapcsolatot tartalmazó szabálybázisnál ez valóban túl költséges lehet. A fenti háromszabályos fa viszont könnyen elkészül. Ez méret- és szerkezetfüggő korlát, nem általános lehetetlenség. Emiatt a következtető automata rendszerint csak az aktuális esethez szükséges munkát végzi. <a href="#s-inference">Forrás: Poole–Mackworth, 5.3.</a></p></aside>
-<div class="reading-comparison" id="lancolas-iranyai"><div><span class="reading-label">TÉNYEKBŐL INDULUNK</span><p><strong>Előreláncolás (forward chaining):</strong> a tényekből indulunk és új következményeket keresünk. Akkor hasznos, ha sok adatunk van, de nem tudjuk, milyen megoldás jön ki. A PDF deduktív rendszernek is nevezi: következtetési szabályokkal vezet le állításokat.</p></div><div><span class="reading-label">CÉLBÓL INDULUNK</span><p><strong>Hátraláncolás (backward chaining):</strong> a célból indulunk, megkeressük az azt alátámasztó szabályokat és részcélként vizsgáljuk feltételeiket. Akkor hasznos, ha egy vagy több hipotézist, azaz ellenőrizendő feltevést akarunk vizsgálni. A rendszer szükség esetén adatot kérhet.</p></div></div><div class="note"><strong>Egyszerűen mondva</strong><p>Előre: „Van liszt és tojás. Mit készíthetek?” Hátra: „Palacsintát szeretnék. Megvan hozzá minden?” A hátraláncolás nem fordítja meg az implikációt. Nem állítja, hogy g igaz, tehát e és f is igaz. Megvizsgálja, igazolható-e g ezen az úton. Mindkét irány használhat deduktív következtetést.</p></div>
-<div class="evidence-sheet" id="hatra-megoldas"><span class="reading-label">VÉGIGVEZETETT MEGOLDÁS / A CÉL RÉSZCÉLOKRA BOMLIK</span><ol class="reading-steps"><li><div><strong>Igazolható-e g?</strong><p>g még nem ismert tény. Megkeressük az olyan szabályt, amelynek g a következménye. Itt ez R3. A cél eléréséhez ezért e-t és f-et is igazolnunk kell.</p></div></li><li><div><strong>Igazolható-e e?</strong><p>R1 következménye e. Új részcélként a-t és b-t vizsgáljuk. Mindkettő szerepel a ténybázisban, ezért R1 alapján e igazolva.</p></div></li><li><div><strong>Igazolható-e f?</strong><p>R2 következménye f. Ehhez c és d kell. Mindkettő ismert, ezért f is igazolva. e sikere önmagában még nem lett volna elég.</p></div></li><li><div><strong>Visszatérünk a g célhoz.</strong><p>R3 mindkét feltételét igazoltuk. A feltételekből most már levezethető g. A keresés a céltól indult, de a bizonyítás továbbra is a feltételektől halad a következmény felé.</p></div></li></ol><div class="missing-fact"><strong>Mi változik, ha d hiányzik?</strong><p>Az f részcélnál elakadunk: d nem ismert tény, és a példában nincs szabály, amely előállítaná. A g cél így nem igazolható. Más rendszer ilyenkor bekérhetné d adatát vagy más bizonyítási utat kereshetne. A hiányzó bizonyíték nem g hamisságának bizonyítéka.</p></div></div>
-<div class="lab" id="lancolas-labor"><span class="lab-label">PRÓBÁLD KI / KÉT IRÁNY, UGYANAZOK A SZABÁLYOK</span><h3>Kövesd a két gondolatmenetet.</h3><p>A közös léptetés egymás mellett mutatja a két eljárást. A lépések nem azonos költségűek; ez nem sebességmérés. A lejátszás másodpercenként lép, és bármikor megállítható.</p><label><input type="checkbox" id="include-d" checked> A d tény is ismert</label><div class="two-columns"><div><h4>Előre · a tényektől</h4><ol id="forward-trace" class="trace"></ol></div><div><h4>Hátra · a g céltól</h4><ol id="backward-trace" class="trace"></ol></div></div><div class="lab-controls"><button type="button" id="chain-step">Következő lépés</button><button type="button" id="chain-play" aria-pressed="false">Lejátszás</button><button type="button" id="chain-reset">Láncolás újrakezdése</button></div><p id="chain-status" class="feedback" role="status">A nyomkövetés JavaScript bekapcsolásával indul.</p></div></section>
+print(Szulo(X,"Platon"))
+print(Nagyszulo(X,"Arisztotelesz"))
+print(igaz_e(Nagyszulo("Szokratesz","Arisztotelesz")))</code></pre><figcaption>Forrás: <code>resources/code/12_Logika.py</code>. Elhagytunk néhány üres sort és a kiírt kísérőszövegeket, a kód többi része változatlan.</figcaption></figure>
+<p>A kód elemei pontosan megfelelnek a fejezet fogalmainak. A <code>+Apa(…)</code> sorok a <strong>tények</strong>. A <code>&lt;=</code> jel a szabály nyila, balra mutat: a bal oldal a következmény, a jobb oldal a feltétel. A <code>Szulo(X,Y) &lt;= Apa(X,Y)</code> tehát ezt jelenti: HA X apja Y-nak, AKKOR X szülője Y-nak. A <code>Szulo</code> két szabálya együtt „VAGY” kapcsolatot ad: szülő az apa vagy az anya. A <code>&amp;</code> jel az „ÉS”. A nagyszülő-szabály maga egy láncolás: két szülő-következmény illeszkedik egy harmadik szabály feltételére.</p>
+<div class="u-duo" id="logika-levezetes">
+<div class="u-example"><strong>Előrefelé olvasva</strong><p>A tényekből a szülő-szabályok három új tényt adnak: Szokratesz → Platon, Platon → Arisztotelesz, Diado → Platon. Ezekből a nagyszülő-szabály kettőt: Szokratesz és Diado Arisztotelesz nagyszülője.</p></div>
+<div class="u-example"><strong>Hátrafelé olvasva</strong><p>Kérdés: <code>Nagyszulo(X,"Arisztotelesz")</code>. Ehhez kell egy Y, amelyre <code>Szulo(Y,"Arisztotelesz")</code>: ez Y = Platon. Ezután <code>Szulo(X,"Platon")</code> kell: X = Szokratesz (apa) vagy X = Diado (anya).</p></div>
+</div>
+<p>A pyDatalog a kérdésből kiindulva, célvezérelten értékel ki, mint a hátraláncolás, és a részeredményeket megjegyzi. A program futtatva mindhárom kérdésre ezt adja:</p>
+<figure class="u-code"><pre><code>X
+----------
+Diado
+Szokratesz
 
-<section id="rendszer" class="chapter-section"><span class="section-index">07 / PDF 62–64.</span><h2>Ki választja a következő szabályt?</h2><figure class="system-sheet" id="rendszer-kapcsolatai"><div class="engine-core"><span class="reading-label">KÖZÉPEN: A KÖVETKEZTETŐ AUTOMATA</span><p>A <strong>következtető automata (inference engine)</strong> nem maga a szaktudás. Ez az eljárás olvassa a szabályokat, vizsgálja a tényeket és végzi a következtetést.</p></div><dl class="reading-rows"><div><dt>Szabálybázis<br><span class="connection-label">szabályok → automata</span></dt><dd>Az általános HA–AKKOR szabályokat adja az automatának. Példánkban R1, R2 és R3 tartozik ide. Az adott eset induló tényei nem változtatják meg ezeket a szabályokat.</dd></div><div><dt>Ténybázis<br><span class="connection-label">tények ↔ automata</span></dt><dd>Az aktuális eset ismert és levezetett tényeit tárolja. Az automata innen olvassa ki a, b, c és d állítását, és ide írja vissza e, f, majd g eredményét.</dd></div><div><dt>Kezelői interfész<br><span lang="en">user interface</span><br><span class="connection-label">felhasználói adatok és válaszok ↔ automata</span></dt><dd>A felhasználó adatokat ad be és eredményeket kap. A felület közvetít közte és az automata között. Egy szép beviteli űrlap tehát önmagában még nem szakértőrendszer.</dd></div></dl><figcaption>A PDF 62. oldalának négy eleme és három kapcsolata. Minden nyíl ugyanahhoz a következtető automatához tartozik; a kapcsolat irányát szöveg is jelöli.</figcaption></figure><p>A PDF 62. oldalának ábrája szövegesen: a szabálybázisból a következtető automatába jutnak a szabályok. A ténybázis és az automata között kétirányú adatkapcsolat van. A kezelői felület és az automata között szintén kétirányú a kapcsolat.</p><ol class="reading-steps" id="kovetkeztetesi-ciklus"><li><div><strong>Mintaillesztés (pattern matching)</strong><p>Megkeressük az összes szabályt, amelynek feltétele igaz a ténybázisban. Kezdetben a, b, c és d ismert, így R1 és R2 is megfelel. R3 még nem: e és f hiányzik.</p><span class="step-result">Alkalmazható: R1 és R2</span></div></li><li><div><strong>Konfliktusfeloldás (conflict resolution)</strong><p>Az alkalmazható szabályok alkotják a <strong>konfliktushalmazt (conflict set)</strong>. Kiválasztjuk, melyik fusson most. Ha a szabálylista sorrendje dönt, ebben a körben R1-et választjuk.</p><span class="step-result">Kiválasztva: R1</span></div></li><li><div><strong>Szabályalkalmazás (rule firing)</strong><p>Végrehajtjuk a kiválasztott szabály műveletét vagy hozzáadjuk az új tényt. R1 most e-t adja hozzá. Utána újra illesztünk a megváltozott ténybázishoz.</p><span class="step-result">Új tény: e → vissza az illesztéshez</span></div></li></ol><p>A cél egy végállapot vagy már elfogadható részcél elérése lehet. Ha nincs alkalmazható szabály, a rendszer megállhat anélkül is, hogy elérné a célt. A „konfliktus” itt versengő választási lehetőség, nem feltétlenül logikai ellentmondás. A PDF egy szabályt alkalmazó, soros ciklust mutat.</p>
-<div class="lab" id="konfliktus-labor"><span class="lab-label">PRÓBÁLD KI / TE VÁLASZTASZ</span><h3>Két szabály vár. Melyik jön előbb?</h3><p>A háromszabályos példán dolgozol. Válassz elvet, majd az annak megfelelő szabályt. A prioritás itt előre kijelölt elsőbbség: R2 megelőzi R1-et. A másik elv a szabálylista sorrendjét követi.</p><label for="conflict-policy">Választási elv</label> <select id="conflict-policy"><option value="order">Lista szerinti sorrend: R1 előbb</option><option value="priority">Kijelölt prioritás: R2 előbb</option></select><p id="conflict-set" class="feedback">Kezdetben R1 és R2 alkalmazható.</p><div class="lab-controls"><button type="button" data-conflict="R1">R1 alkalmazása</button><button type="button" data-conflict="R2">R2 alkalmazása</button><button type="button" data-conflict="R3">R3 alkalmazása</button></div><p id="conflict-feedback" role="status">Válassz a konfliktushalmazból.</p><button type="button" id="conflict-reset">Konfliktusjáték újrakezdése</button></div>
-<div class="note"><strong>Kiegészítés · Mikor mindegy a sorrend?</strong><p>Ebben a véges, csak pozitív tényeket hozzáadó példában minden alkalmazható szabály végrehajtása ugyanahhoz a lezáráshoz vezet: a, b, c, d, e, f, g. Egy már ismert következményt nem adjunk hozzá újra. Akciókat végző vagy tényeket törlő rendszernél a sorrend már az eredményt is megváltoztathatja. Például a „nyisd ki” és a „zárd be” művelet sorrendje számít.</p></div>
-<div class="reading-comparison" id="elonyok-korlatok"><div><h3>Mit nyerünk?</h3><p>A <strong>modularitás</strong> azt jelenti, hogy egyedi szabályt hozzáadhatunk, törölhetünk vagy módosíthatunk. Nem kell minden ismeretet egyetlen nagy eljárásba írni. A módosított szabály kapcsolatait ettől még újra ellenőrizni kell.</p><p>Az <strong>egyöntetűség</strong>, vagyis az azonos HA–AKKOR forma segíti az olvasást. A <strong>természetesség</strong> abból adódik, hogy sok emberi döntési magyarázat is feltételes alakot használ. A szakértő így könnyebben összevetheti a szabályt a saját indoklásával.</p></div><div><h3>Mire kell vigyázni?</h3><p>A <strong>merevség</strong> gondot okozhat: egy lapos szabályhalmazban nehéz a különböző elvonatkoztatási szintek kezelése. Egy általános hibacsoport és egy konkrét csatlakozóhibához tartozó lépés nem feltétlenül ugyanazon a szinten írható le jól.</p><p>Az <strong>illesztési költség</strong> nő, ha sok tényt sok szabállyal kell összevetni. A <strong>kombinatorikus robbanás</strong> azt jelenti, hogy a lehetséges kapcsolódások száma gyorsan nőhet. Ezért nemcsak a szabályok számát, hanem az egymásra hatásukat is figyelni kell.</p></div></div><aside class="correction"><h3>Kiigazítás · A hátrány nem minden rendszer törvénye</h3><p><strong>A PDF:</strong> a szabályalapú rendszereket merevnek és nem hatékonynak nevezi. <strong>Pontosabban:</strong> ezek tervezési kockázatok. Modulokkal szervezhetjük a szabályokat; a Rete illesztési eljárás újrahasznosít részleges egyezéseket. Három szabály illesztése például olcsó. Ettől egy nagy rendszer még lehet drága vagy nehezen karbantartható. Az emberhez hasonló szabályforma sem jelenti az emberi gondolkodás teljes modelljét. <a href="#s-clips">Forrás: CLIPS, modulok és szabályvégrehajtás.</a></p></aside><p>A szabályalapú leírás sok szakértőrendszer és <strong>szakértőrendszer-váz (expert system shell)</strong> alapja. A váz a közös következtető eszközöket adja; a terület saját tudásbázisát hozzá kell készíteni.</p></section>
+X
+----------
+Diado
+Szokratesz
 
-<section id="fogalmak" class="chapter-section"><h2>Fogalomkártyák</h2><div class="two-columns"><div class="concept"><h3>Tudásbázis · knowledge base</h3><p>A feladathoz rendszerezett ismeretek. A szabályalapú rendszerben a szabályok és a tények elkülöníthetők.</p></div><div class="concept"><h3>Tudáskinyerés · knowledge acquisition</h3><p>A hasznos tudás feltárása és gépi leíráshoz való előkészítése.</p></div><div class="concept"><h3>Tény · fact</h3><p>Az adott feladatban elfogadott állítás. Például „a igaz”. A ténynek tekintett bemenet a valóságban lehet hibás mérés is.</p></div><div class="concept"><h3>Szabály · production rule</h3><p>Feltétel és következmény. Például „HA a és b, AKKOR e”.</p></div><div class="concept"><h3>Részcél · subgoal</h3><p>Egy nagyobb cél igazolásához vizsgált kisebb cél. A g-hez e és f szükséges a példánkban.</p></div><div class="concept"><h3>Konfliktushalmaz · conflict set</h3><p>Az éppen alkalmazható szabályok együttese. Ebből választ a vezérlés.</p></div></div></section>
-<section id="kviz" class="chapter-section quiz"><h2>Próbáld visszamondani.</h2><p>Kilenc kérdés, jegy és kötelező pontszám nélkül. A magyarázat hibás válasznál is segít.</p><a href="#osszegzes">Most kihagyom a kvízt →</a><div id="quiz-questions"></div><p id="quiz-score" class="quiz-score" role="status">A kvíz JavaScript bekapcsolásával használható.</p><button type="button" id="quiz-reset">Kvíz újrakezdése</button></section>
-<section id="osszegzes" class="chapter-section"><div class="finish"><h2>A tudásból működő lépések lesznek.</h2><ul><li>A jó kódolás segíti a tárolást és a következtetést.</li><li>A szakértő és a tudásmérnök közösen tárja fel és ellenőrzi a tudást.</li><li>Előre a tényekből, hátra a célból indulunk.</li><li>Az alkalmazható szabályok közül választani is kell.</li></ul><button type="button" data-progress-toggle>Késznek jelölöm a fejezetet</button><p class="small" data-progress-label role="status">Saját haladás: nincs késznek jelölve.</p><p><a href="01-mi-es-intelligencia.html">← Előző: MI, intelligencia és alkalmazások</a></p><p><a href="03-tudasreprezentacio.html">Következő: 03 · Tudásreprezentáció →</a> Ott a hálók, keretek és esetek adnak más tárolási formát.</p><a href="../index.html#fejezetek">Vissza a tanulási úthoz →</a></div></section>
-<section id="forrasok" class="chapter-section sources"><h2>Források és pontosítások</h2><p>Alap: <cite>Mesterséges intelligencia alapjai</cite>, PDF 36–64. oldal, „Tudásbázis”. Az oldalszám a PDF fájl oldalszáma. A leírás saját, egyszerűsített átfogalmazás. A folyamatot, a szabályfát és a rendszer szerkezetét hozzáférhető HTML-ként építettük újra. A kézikönyv kilenc elemét és a részletes tudás tizenhárom összetevőjét tematikusan csoportosítottuk, tartalmi elhagyás nélkül. A számozott példák és az új összevetések a forrás fogalmainak saját magyarázatai.</p><ul><li>Kapcsolódó oktatói kód: <a href="../resources/code/12_Logika.py"><code>resources/code/12_Logika.py</code></a>. A változatlan szabályrészlet és a saját bemenettel végigvezetett magyarázat a <a href="#kod-szabalyok">láncolás mellett</a> olvasható.</li><li>A PDF vízesésábrájának hivatkozása: Christopher F. Chabris: <cite>Artificial Intelligence &amp; Turbo Pascal</cite>, Dow Jones-Irwin, Illinois, 1987, 395. oldal.</li><li id="s-aifca">David L. Poole és Alan K. Mackworth: <a href="https://artint.info/3e/html/ArtInt3e.html"><cite>Artificial Intelligence: Foundations of Computational Agents</cite>, 3. kiadás</a>. Ágensek, tudás és következtetés.</li><li id="s-inference">Ugyanott: <a href="https://artint.info/3e/html/ArtInt3e.Ch5.S3.html">5.3 · Propositional Definite Clauses</a>. Modus ponens, alulról és felülről vezérelt bizonyítás, véges pozitív szabályrendszerek.</li><li id="s-clips"><a href="https://www.clipsrules.net/Documentation.html">CLIPS hivatalos dokumentáció</a>. Basic Programming Guide: szabályok, agenda, konfliktusfeloldás, modulok és illesztés. A CLIPS egy szabályalapú programozási eszköz.</li><li id="s-nist"><a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST AI Risk Management Framework 1.0</a>, 2023. Az MI kockázatainak kezelése és az életciklus szereplői.</li><li id="s-interview"><a href="https://www.gov.uk/service-manual/user-research/using-in-depth-interviews">GOV.UK Service Manual: Using in-depth interviews</a>. Előre tervezett témák, szabad beszélgetés és nyitott kérdések együtt.</li><li id="s-usb"><a href="https://www.usb.org/document-library/device-class-definition-hid-111">USB-IF: Device Class Definition for HID 1.11</a>. A modern billentyűzetes ellenpélda műszaki háttere.</li></ul><p class="footnote">A K2, K3, K5 és K6 szimulált válaszai saját oktatási kiegészítések. A K1–K6 sablonok és a kiinduló párbeszéd a PDF-ből erednek. A laborok nem vezérelnek valódi eszközt, nem kérnek külső szolgáltatást és nem tárolnak személyes adatot.</p></section>
-</main></div><footer>MI-alapok / 02 · Tudásbázisok <a href="../index.html">Kezdőlap</a></footer></body></html>
+True</code></pre><figcaption>A <code>resources/code/12_Logika.py</code> kimenete Python 3 és pyDatalog alatt, a kísérőszövegek nélkül. Platón szülei és Arisztotelész nagyszülei ugyanazok. Az utolsó sor: Szokratesz valóban nagyszülője Arisztotelesznek. A sorok sorrendje futásonként eltérhet.</figcaption></figure>
+<aside class="u-add"><h3>Kiegészítés · A családfa tréfa</h3><p>A kód családfája kitalált. Szókratész Platón tanára volt, Platón pedig Arisztotelészé. A példa ezt a tanár–tanítvány láncot játssza el családként. A „Diado” név sem történeti: Platón anyját Periktionének hívták. A következtetés helyessége a tényeken múlik, a szabályokon nem: hibás tényekből hibátlan szabályok is hibás eredményt adnak.</p></aside>
+</section>
+
+<!-- 17 · FELÉPÍTÉS ÉS MŰKÖDÉS -->
+<section id="felepites" class="chapter-section"><span class="section-index">17 / PDF 62–63.</span>
+<h2>Szabálybázis, ténybázis, következtető automata.</h2>
+<p>Most már összerakhatjuk a teljes rendszert. A szabályalapú szakértőrendszer négy részből áll. Az ábra nyilai azt mutatják, merre halad az információ.</p>
+<figure class="u-arch" id="rendszer-felepites">
+<div class="u-arch-row">
+<div class="u-arch-box u-arch-rules"><strong>SZABÁLYBÁZIS</strong><span>HA … AKKOR … szabályok</span><small>↓ a következtető automata olvassa</small></div>
+<div class="u-arch-box u-arch-facts"><strong>TÉNYBÁZIS</strong><span>Tény1, Tény2, …</span><small>↕ olvassa és új tényekkel bővíti</small></div>
+</div>
+<div class="u-arch-box u-arch-engine"><strong>KÖVETKEZTETŐ AUTOMATA</strong><span>illeszt, választ, alkalmaz</span></div>
+<div class="u-arch-box u-arch-ui"><strong>KEZELŐI INTERFÉSZ</strong><span>↕ kérdések és adatok a felhasználótól, válasz és indoklás felé</span></div>
+<figcaption>A PDF 62. oldalának ábrája szövegesen. A szabálybázist a következtető automata csak olvassa. A ténybázisba viszont az új, kikövetkeztetett tényeket is beírja. A kezelői interfészen keresztül kéri be az adatokat, és adja át a választ.</figcaption>
+</figure>
+<p>A <strong>szabálybázis</strong> a tartós, általános tudás: a tudásmérnök írja, és esetről esetre nem változik. A <strong>ténybázis</strong> (más néven munkamemória) az aktuális eset adatait tartalmazza. Minden új ügyfélnél üresen indul, és a következtetés közben bővül. A kettő szétválasztása teszi lehetővé, hogy ugyanazt a szabálybázist minden esetre újra fel lehessen használni.</p>
+<p>A PDF előreláncolás esetére írja le a következtető automata működését. A feladat az, hogy a szabálybázis és az aktuális tények felhasználásával elérje a <strong>célállapotot</strong>. Ez lehet a problémára adott válasz, vagy egy elfogadható választ képviselő részcél. A működés háromlépéses ciklus, amely addig ismétlődik, amíg van alkalmazható szabály, vagy amíg el nem érjük a célt.</p>
+<ol class="u-cycle" id="kovetkezteto-ciklus">
+<li><strong>1 · MINTAILLESZTÉS</strong>Ki kell keresni a szabálybázisból az összes olyan szabályt, amelynek a feltételrésze a ténybázisbeli tényekkel igaz.</li>
+<li><strong>2 · KONFLIKTUSFELOLDÁS</strong>Az első lépésben talált szabályok alkotják a <strong>konfliktushalmazt</strong>: bármelyik felhasználható, de egyszerre csak egyet alkalmazhatunk. Ki kell választani egyet.</li>
+<li><strong>3 · SZABÁLYALKALMAZÁS</strong>Végre kell hajtani a kiválasztott szabály következményrészében szereplő tevékenységet, illetve fel kell venni az új tényt. Az új tény az adott feladatra nézve igaz, kikövetkeztetett tény.</li>
+</ol>
+<p>A ciklus egy rövid Python-programban is leírható. A kódot a jegyzet készítette az előző rész R1–R4 szabályaihoz, nem része a kurzus kódgyűjteményének. Mindhárom lépés egy-egy sor benne.</p>
+<figure class="u-code"><pre><code>szabalyok = [
+    ({"a", "b"}, "e"),   # R1
+    ({"c", "d"}, "f"),   # R2
+    ({"e", "f"}, "g"),   # R3
+    ({"b", "c"}, "h"),   # R4
+]
+tenyek = {"a", "b", "c", "d"}
+
+while True:
+    konfliktushalmaz = [(f, k) for f, k in szabalyok
+                        if f &lt;= tenyek and k not in tenyek]   # 1. mintaillesztés
+    if not konfliktushalmaz:
+        break
+    feltetel, kovetkezmeny = konfliktushalmaz[0]              # 2. konfliktusfeloldás
+    tenyek.add(kovetkezmeny)                                  # 3. szabályalkalmazás
+    print("új tény:", kovetkezmeny)
+
+print(sorted(tenyek))</code></pre><figcaption>A jegyzet saját példakódja. Bemenet: a szabályok (feltételhalmaz, következmény) párjai és a kezdeti tények. A <code>f &lt;= tenyek</code> azt vizsgálja, hogy a feltétel minden eleme a tények között van-e. A <code>k not in tenyek</code> feltétel miatt egy szabály nem sül el újra ugyanarra. A konfliktusfeloldás itt a legegyszerűbb: a lista első szabálya nyer. Kimenet: <code>új tény: e</code>, <code>f</code>, <code>g</code>, <code>h</code>, majd <code>['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']</code>.</figcaption></figure>
+<p>A második lépés, a <strong>konfliktusfeloldás</strong> a ciklus legérdekesebb része. Ha több szabály is alkalmazható, a választás megváltoztathatja a következtetés menetét, és akár az eredményét is.</p>
+<aside class="u-add"><h3>Kiegészítés · Szokásos konfliktusfeloldási stratégiák</h3><p>A PDF nem sorolja fel a stratégiákat. Az 1980-as évek elterjedt szabályalapú nyelve, az OPS5 és utódai ilyen elvek szerint választanak. <strong>Szabálysorrend:</strong> az a szabály nyer, amelyik a szabálybázisban előrébb áll. <strong>Specifikusság:</strong> a több feltételű, azaz konkrétabb helyzetre vonatkozó szabály nyer. <strong>Frissesség:</strong> az a szabály nyer, amelyik a legutóbb bekerült tényre épül. <strong>Refrakció (refractoriness):</strong> egy szabály ugyanazokra a tényekre nem sül el kétszer. Ez utóbbi nélkül a rendszer végtelen ciklusba kerülhet. <a href="#s-aima">Forrás: Russell–Norvig, 9. fejezet;</a> <a href="#s-forgy">Forgy, 1982.</a></p></aside>
+<div class="u-lab" id="konfliktus-labor"><span class="u-lab-label">PRÓBÁLD KI / KONFLIKTUSFELOLDÁS</span><h3>Te vagy a következtető automata. Melyik szabályt alkalmazod?</h3>
+<p>A ténybázisba ebben a sorrendben került be három tény: <strong>(1)</strong> villámlás volt, <strong>(2)</strong> kettőnél több billentyű furcsa, <strong>(3)</strong> minden billentyű furcsa. A mintaillesztés után három szabály alkotja a konfliktushalmazt.</p>
+<fieldset class="u-rulepick" id="konfliktus-szabalyok"><legend>Konfliktushalmaz</legend>
+<label><input type="radio" name="konfliktus" value="S1"> <code>S1: HA villámlás volt AKKOR ellenőrizd a hálózati csatlakozót</code></label>
+<label><input type="radio" name="konfliktus" value="S2"> <code>S2: HA villámlás volt ÉS kettőnél több billentyű furcsa AKKOR a port gyanús</code></label>
+<label><input type="radio" name="konfliktus" value="S3"> <code>S3: HA minden billentyű furcsa AKKOR a sebesség beállítása gyanús</code></label>
+</fieldset>
+<div class="u-out" id="konfliktus-ki" role="status" aria-live="polite"><p>A választás kiértékeléséhez JavaScript szükséges. A megoldás: szabálysorrend szerint S1, specifikusság szerint S2 (két feltétele van), frissesség szerint S3 (a legutóbbi, 3. tényre épül). Egyik sem „az egyetlen helyes”; a stratégia a tudásmérnök döntése.</p></div>
+</div>
+<div class="u-example" id="teljes-ciklus"><strong>Végigvezetett példa · Három ciklus Irén szabályaival</strong>
+<p>A szabálybázis a 10. rész öt szabálya, specifikusság szerinti konfliktusfeloldással. Kezdeti tények: villámlás volt, kettőnél több billentyű furcsa, minden billentyű furcsa.</p>
+<ol class="u-steps">
+<li><p><strong>1. ciklus.</strong> Illeszkedik: az 1. szabály (villámlás ÉS kettőnél több) és a 4. szabály (minden billentyű). A specifikusabb nyer, az 1. szabály. Új tény: <code>a port gyanús</code>.</p></li>
+<li><p><strong>2. ciklus.</strong> Illeszkedik: a 3. szabály (port gyanús) és a 4. szabály. Mindkettőnek egy feltétele van. Döntetlen esetén a szabálysorrend dönt, így a 3. szabály sül el. Teendő: <code>vizsgáld meg a portot</code>.</p></li>
+<li><p><strong>3. ciklus.</strong> Az 1. és a 3. szabály már elsült, a refrakció miatt nem jöhet újra. Csak a 4. szabály marad. Új tény: <code>a sebesség beállítása gyanús</code>. Több alkalmazható szabály nincs, a rendszer leáll.</p></li>
+</ol>
+<p>Eredmény: a rendszer a port vizsgálatát és a sebesség ellenőrzését javasolja, és mindkettőt meg tudja indokolni a szabályaival.</p></div>
+</section>
+
+<!-- 18 · MÉRLEG -->
+<section id="merleg" class="chapter-section"><span class="section-index">18 / PDF 64.</span>
+<h2>Erős és gyenge pontok.</h2>
+<p>A PDF a szabályalapú rendszerek három előnyét és két hátrányát emeli ki. Mindegyiket Irén rendszerén mutatjuk be.</p>
+<div class="u-compare" id="elony-hatrany">
+<div><span class="u-tag">ELŐNYÖK</span>
+<p><strong>Modularitás.</strong> Az egyes előállító szabályok egymástól függetlenül hozzáadhatók, törölhetők vagy módosíthatók. Ha kiderül, hogy a beázás is okozhat sok billentyűs hibát, elég egy új szabály, a többihez nem kell nyúlni.</p>
+<p><strong>Egyöntetűség.</strong> Minden tudás ugyanabban a homogén HA–AKKOR formában szerepel, ezért könnyű megérteni. Egy új kolléga is el tudja olvasni a szabálybázist.</p>
+<p><strong>Természetesség.</strong> A szabályok az emberi problémamegoldáshoz hasonlítanak. Irén is így beszél: „ha villámlott, megnézem a portot”.</p></div>
+<div><span class="u-tag">HÁTRÁNYOK</span>
+<p><strong>Merevség.</strong> Nem kínálnak különböző absztrakciós szinteket. Minden szabály ugyanazon a szinten áll, nem lehet például „a billentyűzethibák általában” és „ez a konkrét típus” szerint csoportosítani őket. A 3. fejezet keretei ezt a hiányt pótolják.</p>
+<p><strong>Kis hatékonyság.</strong> Minden ciklusban a ténybázist a szabálybázishoz kell illeszteni. Sok szabálynál és sok ténynél a lehetséges illesztések száma gyorsan nő. Ez a <strong>kombinatorikus robbanás</strong>.</p></div>
+</div>
+<p>A hátrányok ellenére a PDF zárómondata ma is igaz:</p>
+<figure class="u-quote"><blockquote><p>„A szabályalapú tudásszemléltetés rendkívül elterjedt és számtalan szakértőrendszernek és szakértőrendszer-váznak alkotja az alapját.”</p></blockquote><figcaption>PDF 64. oldal</figcaption></figure>
+<p>A <strong>szakértőrendszer-váz (expert system shell)</strong> egy „üres” szakértőrendszer: benne van a következtető automata és a kezelői interfész, csak a szabálybázis hiányzik. A tudásmérnöknek így csak a szabályokat kell megírnia. Az első ilyen váz az EMYCIN volt, a MYCIN tudásának kiürítésével készült. A NASA által 1985-ben kifejlesztett CLIPS ma is nyílt forrású, használt eszköz.</p>
+<aside class="u-add"><h3>Kiegészítés · Hol élnek ma a szabályok?</h3><p>A szabályalapú rendszerek ma ritkán viselik a „szakértőrendszer” nevet, de sok helyen dolgoznak. Banki hitelbírálatban, biztosítási kárügyekben és adóügyi döntésekben üzleti szabálymotorok futnak. Ezekben a szabályokat jogászok és elemzők is el tudják olvasni. Ahol egy döntést indokolni kell, ott a szabály átláthatósága ma is erős érv a gépi tanulással szemben. A kombinatorikus robbanás ellen a Rete-algoritmus és utódai védenek.</p></aside>
+</section>
+
+<!-- FOGALMAK -->
+<section id="fogalmak" class="chapter-section"><span class="section-index">FOGALOMKÁRTYÁK</span>
+<h2>Az új szavak egy helyen.</h2>
+<dl class="u-cards">
+<div><dt>Tudás</dt><dd>Az elvégzendő feladat végrehajtásában hasznosnak bizonyuló bármely ismeret.</dd></div>
+<div><dt>Tudásábrázolás (knowledge representation)</dt><dd>A tudás kódolása a gép által kezelhető formára. A PDF tudásszemléltetésnek nevezi.</dd></div>
+<div><dt>Önszervező, öntanuló modell</dt><dd>Olyan tudásmodell, amely működés közben maga szerzi és rendezi az ismereteit, emberi közreműködés nélkül.</dd></div>
+<div><dt>Vízesésmodell</dt><dd>A tudásfeldolgozás öt szakasza: beazonosítás, koncepciókészítés, formalizálás, implementálás, tesztelés, visszacsatolásokkal.</dd></div>
+<div><dt>Tudásmérnök (knowledge engineer)</dt><dd>A szakértő tudását a szakértőrendszer számára használható formába alakító szakember. Más néven tudástechnológus.</dd></div>
+<div><dt>Tudásgyűjtés (knowledge acquisition)</dt><dd>A szakértő tudásának és gondolkodásának beazonosítása, kinyerése, dokumentálása és elemzése.</dd></div>
+<div><dt>Tudás Kézikönyv</dt><dd>A projekt dokumentuma: a feltárás eredménye, majd a kinyert tudás gyűjtőhelye.</dd></div>
+<div><dt>Hallgatólagos tudás (tacit knowledge)</dt><dd>Tudás, amelyet a szakértő használ, de nem tud szavakba önteni.</dd></div>
+<div><dt>Heurisztika</dt><dd>Tapasztalati ökölszabály, amely gyakran jó eredményre vezet, de nem garantálja a helyes megoldást.</dd></div>
+<div><dt>Nyitott végű interjú</dt><dd>A tudásmérnök kérdésekkel irányít, a szakértő szabadon válaszol. Kérdéssablonjai a K1–K6.</dd></div>
+<div><dt>Protokollelemzés</dt><dd>A szakértő döntéshozó viselkedésének lépésenkénti rögzítése, online vagy offline.</dd></div>
+<div><dt>Leíró és eljárási tudás</dt><dd>A leíró tudás azt mondja meg, mi igaz; az eljárási azt, mit kell tenni.</dd></div>
+<div><dt>Előállító szabály (production rule)</dt><dd>HA feltétel AKKOR következmény szerkezet. A következmény tény (deklaratív) vagy akció (procedurális).</dd></div>
+<div><dt>Modus ponens</dt><dd>Következtetési szabály: α-ból és α → β-ból következik β.</dd></div>
+<div><dt>Előre- és hátraláncolás</dt><dd>Adatvezérelt következtetés a tényekből a cél felé, illetve célvezérelt következtetés a céltól a szükséges tények felé.</dd></div>
+<div><dt>Konfliktushalmaz</dt><dd>Az egy ciklusban alkalmazható szabályok halmaza, amelyből a konfliktusfeloldás egyet választ.</dd></div>
+<div><dt>Szakértőrendszer-váz (shell)</dt><dd>Következtető automata és kezelői interfész szabálybázis nélkül, például EMYCIN vagy CLIPS.</dd></div>
+</dl>
+</section>
+
+<!-- KVÍZ -->
+<section id="kviz" class="chapter-section"><span class="section-index">KVÍZ · SZABADON VÁLASZTHATÓ</span>
+<h2>Ellenőrizd magad.</h2>
+<p>A kvíz kihagyható, az eredménye semmit sem zár le. Az eredményt csak a böngésződ tárolja.</p>
+<form class="u-quiz" id="kviz-urlap" novalidate>
+<fieldset data-helyes="b"><legend>1. Mi a tudás munkadefiníciója a PDF szerint?</legend>
+<label><input type="radio" name="k1" value="a"> Minden adat, amelyet a számítógép tárolni tud.</label>
+<label><input type="radio" name="k1" value="b"> Az elvégzendő feladat végrehajtásában hasznosnak bizonyuló bármely ismeret.</label>
+<label><input type="radio" name="k1" value="c"> Csak a tudományosan bizonyított állítások összessége.</label>
+<p class="u-feedback" data-magyarazat="A meghatározás gyakorlati: az a tudás, ami segít a feladatban."></p></fieldset>
+<fieldset data-helyes="c"><legend>2. A vízesésmodellben mi a formalizálás kimenete?</legend>
+<label><input type="radio" name="k2" value="a"> Elvárások</label>
+<label><input type="radio" name="k2" value="b"> Szabályok</label>
+<label><input type="radio" name="k2" value="c"> Struktúra</label>
+<p class="u-feedback" data-magyarazat="Beazonosítás → elvárások, koncepciókészítés → koncepciók, formalizálás → struktúra, implementálás → szabályok."></p></fieldset>
+<fieldset data-helyes="a"><legend>3. Melyik nem szerepel a jó tudásábrázolás nyolc elvárt jellemzője között?</legend>
+<label><input type="radio" name="k3" value="a"> Minden részletet mindig mutasson meg.</label>
+<label><input type="radio" name="k3" value="b"> Legyen tömör.</label>
+<label><input type="radio" name="k3" value="c"> Létezzen rá számítógépi eljárás.</label>
+<p class="u-feedback" data-magyarazat="Épp ellenkezőleg: rejtse el a részleteket, de szükség esetén tegye elérhetővé őket."></p></fieldset>
+<fieldset data-helyes="c"><legend>4. A tudásmérnök ezt kérdezi: „És mi lenne, ha nem lett volna villámlás?” Melyik sablon ez?</legend>
+<label><input type="radio" name="k4" value="a"> K1</label>
+<label><input type="radio" name="k4" value="b"> K3</label>
+<label><input type="radio" name="k4" value="c"> K5</label>
+<p class="u-feedback" data-magyarazat="A K5 egy éppen igaz állapot tagadására kérdez rá, és így a jelenlegi feltételeken kívüli esetekre ad szabályokat."></p></fieldset>
+<fieldset data-helyes="b"><legend>5. Online protokollelemzés közben egy másik szakértő kommentálja a felvételt. Hogy hívják ezt?</legend>
+<label><input type="radio" name="k5" value="a"> Önbeszámoló</label>
+<label><input type="radio" name="k5" value="b"> Árnyékbeszámoló</label>
+<label><input type="radio" name="k5" value="c"> Szakértői beszámoló</label>
+<p class="u-feedback" data-magyarazat="Ha maga a szakértő kommentál, önbeszámoló; ha egy másik szakértő, árnyékbeszámoló."></p></fieldset>
+<fieldset data-helyes="a"><legend>6. Melyik a helyes sorrend a kinyert tudás elemzésében?</legend>
+<label><input type="radio" name="k6" value="a"> Átírás → szövegrész-indexelés → tudáskódolás → dokumentálás</label>
+<label><input type="radio" name="k6" value="b"> Tudáskódolás → átírás → dokumentálás → indexelés</label>
+<label><input type="radio" name="k6" value="c"> Dokumentálás → átírás → indexelés → tudáskódolás</label>
+<p class="u-feedback" data-magyarazat="Előbb írásba tesszük, aztán tudáselemekre bontjuk, besoroljuk, végül a kézikönyvbe írjuk."></p></fieldset>
+<fieldset data-helyes="b"><legend>7. „HA hőmérséklet &gt; 30 AKKOR hűtés”. Milyen a következmény?</legend>
+<label><input type="radio" name="k7" value="a"> Deklaratív, mert új tényt ad.</label>
+<label><input type="radio" name="k7" value="b"> Procedurális, mert cselekvést indít.</label>
+<label><input type="radio" name="k7" value="c"> Egyik sem, mert nincs benne ÉS.</label>
+<p class="u-feedback" data-magyarazat="A hűtés akció, ezért procedurális következmény. Ha a következmény „meleg_van” volna, deklaratív lenne."></p></fieldset>
+<fieldset data-helyes="a"><legend>8. Szabályláncolás. Tények: p, q, s. Szabályok: R1: HA p ÉS q AKKOR r; R2: HA r ÉS s AKKOR t; R3: HA t ÉS u AKKOR v. Mi vezethető le előreláncolással?</legend>
+<label><input type="radio" name="k8" value="a"> r és t, de v nem.</label>
+<label><input type="radio" name="k8" value="b"> Csak r.</label>
+<label><input type="radio" name="k8" value="c"> r, t és v is.</label>
+<p class="u-feedback" data-magyarazat="R1 → r; r és s miatt R2 → t; R3-hoz u is kellene, de u nem tény, és nincs rá szabály."></p></fieldset>
+<fieldset data-helyes="c"><legend>9. Mikor előnyös a hátraláncolás?</legend>
+<label><input type="radio" name="k9" value="a"> Ha sok adatunk van, de semmi elképzelésünk a megoldásról.</label>
+<label><input type="radio" name="k9" value="b"> Ha minden lehetséges következtetést elő akarunk állítani.</label>
+<label><input type="radio" name="k9" value="c"> Ha van egy hipotézisünk, és azt akarjuk ellenőrizni.</label>
+<p class="u-feedback" data-magyarazat="A hátraláncolás a hipotézisből indul, és csak a hozzá szükséges adatokat kéri be. Az a) és b) az előreláncolás esete."></p></fieldset>
+<fieldset data-helyes="b"><legend>10. Mi a konfliktushalmaz?</legend>
+<label><input type="radio" name="k10" value="a"> Az egymásnak ellentmondó tények halmaza.</label>
+<label><input type="radio" name="k10" value="b"> Az adott ciklusban alkalmazható szabályok halmaza, amelyből egyet kell választani.</label>
+<label><input type="radio" name="k10" value="c"> A szakértő és a tudásmérnök vitás kérdéseinek listája.</label>
+<p class="u-feedback" data-magyarazat="A mintaillesztés adja a konfliktushalmazt; a konfliktusfeloldás választ belőle egy szabályt."></p></fieldset>
+<div class="u-controls"><button type="submit">Válaszok ellenőrzése</button><button type="reset" class="u-ghost">Újrakezdés</button></div>
+<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2c, 3a, 4c, 5b, 6a, 7b, 8a, 9c, 10b.</p>
+</form>
+</section>
+
+<!-- ÖSSZEGZÉS -->
+<section id="osszegzes" class="chapter-section"><span class="section-index">ÖSSZEFOGLALÓ</span>
+<h2>Amit most már tudsz.</h2>
+<p>A tudás az az ismeret, amely segít elvégezni egy feladatot. A gép csak kódolt tudással tud dolgozni, és a kódolás módja dönti el, milyen gyorsan és milyen műveletekkel. A jó ábrázolás a fontosat világosan mutatja, a részleteket elrejti, teljes, tömör, átlátható és gépileg feldolgozható. A statikus modellek mellett egyre fontosabbak a maguk tanuló, önszervező modellek.</p>
+<p>A tudásbázis a vízesésmodell öt szakaszán át készül el, a szakértő és a tudásmérnök közös munkájával. A tudásgyűjtés négy szakasza a feltárás és a Tudás Kézikönyv, a hiteles és motivált szakértő kiválasztása, a részletes tudás kinyerése, végül az elemzés, a kódolás és a dokumentálás. A kinyerés eszközei az interjú a K1–K6 sablonokkal, a protokollelemzés, a végigvezetés, a kérdőív és a szakértői beszámoló. A gépi tanulás átalakítja ezt a munkát, de nem teszi feleslegessé a szakértőt.</p>
+<p>A tudás végül HA–AKKOR szabályokba kerül. A következtető automata ezeket modus ponenssel láncolja: előre a tényekből, vagy hátra a célból. Minden ciklusban illeszt, konfliktust old fel, és alkalmaz egy szabályt. A szabályalapú rendszer moduláris, egységes és természetes, de merev, és sok szabálynál lassú lehet.</p>
+<div class="u-links">
+<a href="01-mi-es-intelligencia.html"><small>← Előző fejezet</small>01 · Intelligencia és MI: ott láttuk a DENDRAL-t, az első szakértőrendszert, és egy szabályát.</a>
+<a href="03-tudasreprezentacio.html"><small>Következő fejezet →</small>03 · Tudásreprezentáció: a szabályok merevségére a szemantikus hálók és a keretek adnak választ.</a>
+</div>
+</section>
+
+<!-- FORRÁSOK -->
+<section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
+<h2>Honnan tudjuk?</h2>
+<p>A fejezet a kurzus PDF-jének 36–64. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből vagy a megnevezett eredeti forrásból származnak. Az angol idézet magyar fordítása saját. Irén szervize, a metrótérkép, az „eső” fogalomtérkép, a Tudás Kézikönyv mintája és az interjúszimulátor K2, K3, K5 és K6 válasza a jegyzet saját szemléltető példája. A „Kiigazítás” dobozok a PDF hibás vagy félrevezető állításait javítják, a „Kiegészítés” dobozok hátteret adnak. A kurzus kódgyűjteményéből a <code>resources/code/12_Logika.py</code> kapcsolódik a fejezethez. A 16. rész mutatja be, és a kimenetét futtatással ellenőriztük. Az előreláncoló Python-kód a jegyzet saját példája.</p>
+<ul class="u-sources">
+<li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 36–64. oldal (<code>resources/presentation/</code>).</li>
+<li id="s-chabris">C. F. Chabris: <em>Artificial Intelligence &amp; Turbo Pascal</em>, Dow Jones-Irwin, 1987, 395. o. (a PDF hivatkozása a vízesésmodellhez).</li>
+<li id="s-winston">P. H. Winston: <em>Artificial Intelligence</em>, 3. kiadás, Addison-Wesley, 1992, 2. fejezet.</li>
+<li id="s-aima">S. Russell, P. Norvig: <em>Artificial Intelligence: A Modern Approach</em>, 4. kiadás, Pearson, 2020.</li>
+<li id="s-forgy">C. L. Forgy: <a href="https://doi.org/10.1016/0004-3702(82)90020-0">Rete: A fast algorithm for the many pattern/many object pattern match problem</a>, <em>Artificial Intelligence</em> 19, 1982.</li>
+<li id="s-buchanan">B. G. Buchanan, E. H. Shortliffe (szerk.): <em>Rule-Based Expert Systems: The MYCIN Experiments of the Stanford Heuristic Programming Project</em>, Addison-Wesley, 1984.</li>
+<li id="s-polanyi">M. Polanyi: <em>The Tacit Dimension</em>, Doubleday, 1966.</li>
+<li id="s-gouldner">A. W. Gouldner: <a href="https://doi.org/10.2307/2391000">Cosmopolitans and Locals: Toward an Analysis of Latent Social Roles</a>, <em>Administrative Science Quarterly</em> 2(3), 1957.</li>
+<li id="s-ericsson">K. A. Ericsson, H. A. Simon: <em>Protocol Analysis: Verbal Reports as Data</em>, átdolgozott kiadás, MIT Press, 1993.</li>
+<li id="s-esteva">A. Esteva és mtsai.: <a href="https://doi.org/10.1038/nature21056">Dermatologist-level classification of skin cancer with deep neural networks</a>, <em>Nature</em> 542, 2017.</li>
+<li id="s-aiact">Az Európai Parlament és a Tanács <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj">(EU) 2024/1689 rendelete</a> a mesterséges intelligenciáról, 2024, 14. cikk (emberi felügyelet).</li>
+<li id="s-clips">CLIPS: <a href="https://www.clipsrules.net/">A Tool for Building Expert Systems</a>, hivatalos oldal.</li>
+<li id="s-pydatalog">pyDatalog: <a href="https://sites.google.com/site/pydatalog/">a könyvtár dokumentációja</a>.</li>
+</ul>
+</section>
+</main>
+</div>
+<footer>MI-alapok / 02 · Tudásbázisok és szakértőrendszerek <a href="../index.html">Kezdőlap</a></footer>
+</body>
+</html>

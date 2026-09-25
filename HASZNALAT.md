@@ -10,11 +10,11 @@ Az első fejezet külön fájlból is megnyitható:
 
 A második fejezet: `fejezetek/02-tudasbazisok.html`.
 
-Az ötödik fejezet: `fejezetek/05-prolog-es-fuzzy.html`.
+A harmadik fejezet: `fejezetek/03-tudasreprezentacio.html`.
 
-A hatodik fejezet: `fejezetek/06-neuralis-halozatok.html`.
+A negyedik fejezet: `fejezetek/04-formalis-logika.html`.
 
-A kész jelölést minden fejezet külön tárolja.
+A kvízválaszokat minden fejezet külön tárolja.
 
 A tananyag, a bemutatók és a kvíz nem igényelnek internetet.
 
@@ -82,8 +82,8 @@ A `node_modules/` könyvtár nem kell a közzétett oldalhoz.
 
 ## Jelenlegi hatókör
 
-Az 1–6. fejezet készült el.
+Az 1–4. fejezet készült el.
 
-A 7–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
+Az 5–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
 
-A következő fejezethez: `/implement #7`.
+A következő fejezethez: `/implement #5`.

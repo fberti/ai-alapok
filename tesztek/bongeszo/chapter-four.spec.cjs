@@ -1,102 +1,103 @@
 const {test, expect} = require('@playwright/test');
 const chapter = 'fejezetek/04-formalis-logika.html';
 
-test('A mondatfeladat azonnal segít és elfogadja az ekvivalens megoldást', async ({page}) => {
+test('Az új negyedik fejezet hibaüzenet nélkül betölt', async ({page}) => {
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
   await page.goto(chapter);
-  await page.getByLabel('A mondat képlete').fill('p | q');
-  await expect(page.locator('#sentence-status')).toContainText('Ellenpélda');
-  await page.getByLabel('A mondat képlete').fill('!(p & q)');
-  await expect(page.locator('#sentence-status')).toContainText('Helyes');
-  await page.getByLabel('Gyakorlómondat').selectOption('both');
-  await expect(page.locator('#sentence-status')).toContainText('Ellenpélda');
-  await page.getByLabel('A mondat képlete').fill('q & p');
-  await expect(page.locator('#sentence-status')).toContainText('Helyes');
-  await page.getByLabel('A mondat képlete').fill('r');
-  await expect(page.locator('#sentence-status')).toContainText('Csak p és q');
-});
-test('A KNF-lépésgép végigvezet, újraindul és hibánál nem tart meg régi lépést', async ({page}) => {
-  await page.goto(chapter);
-  await page.getByLabel('Átalakítandó képlet').fill('p -> (q & r)');
-  await page.getByRole('button', {name:'Átalakítás indítása'}).click();
-  for (let i = 0; i < 4; i++) await page.getByRole('button', {name:'Következő KNF-lépés'}).click();
-  await expect(page.locator('#cnf-results li')).toHaveCount(4);
-  await expect(page.locator('#cnf-results li').last()).toContainText('((¬p ∨ q) ∧ (¬p ∨ r))');
-  await expect(page.locator('#cnf-next')).toBeDisabled();
-  await page.getByLabel('Átalakítandó képlet').fill('(');
-  await page.getByRole('button', {name:'Átalakítás indítása'}).click();
-  await expect(page.locator('#cnf-results li')).toHaveCount(0);
-  await expect(page.locator('#cnf-next')).toBeDisabled();
-  await page.getByLabel('Átalakítandó képlet').fill('p');
-  await page.getByRole('button', {name:'Átalakítás indítása'}).click();
-  await expect(page.locator('#cnf-next')).toBeEnabled();
+  await expect(page.locator('h1')).toContainText('hogy egy következtetés helyes');
+  await expect(page.locator('#idovonal li')).toHaveCount(15);
+  await expect(page.locator('#pdf-letra li')).toHaveCount(4);
+  await expect(page.locator('.u-fix')).toHaveCount(5);
+  for (const fig of await page.locator('.u-quote').all()) await expect(fig.locator('figcaption')).not.toBeEmpty();
+  expect(errors).toEqual([]);
 });
 
-test('A faépítő a PDF minden szülőjét követi és hibás párból nem ad klózt', async ({page}) => {
+test('A formulavizsgáló elemez, osztályoz és lépésenként kiértékel', async ({page}) => {
   await page.goto(chapter);
-  await expect(page.locator('#resolution-tree li')).toHaveCount(5);
-  await page.getByLabel('Második szülőklóz').selectOption('3');
-  await page.getByRole('button', {name:'Rezolvens hozzáadása'}).click();
-  await expect(page.locator('#resolution-status')).toContainText('ellentett');
-  await expect(page.locator('#resolution-tree li')).toHaveCount(5);
-  for (const [left,right,pivot] of [['0','1','p'],['5','2','r'],['6','3','q'],['7','4','s']]) {
-    await page.getByLabel('Első szülőklóz').selectOption(left);
-    await page.getByLabel('Második szülőklóz').selectOption(right);
-    await page.getByLabel('Törlendő változó').selectOption(pivot);
-    await page.getByRole('button', {name:'Rezolvens hozzáadása'}).click();
+  await expect(page.locator('#formula-ki')).toContainText('= 16');
+  await expect(page.locator('#formula-tabla tbody tr')).toHaveCount(16);
+  await expect(page.locator('#formula-lepesek')).toContainText('T → F');
+  await expect(page.locator('#formula-lepesek')).toContainText('hamis');
+  await page.locator('#formula-be').fill('p | !p');
+  await expect(page.locator('#formula-ki')).toContainText('tautológia');
+  await page.locator('#formula-be').fill('p & ~p');
+  await expect(page.locator('#formula-ki')).toContainText('kielégíthetetlen');
+  await page.locator('#formula-be').fill('p & -> q');
+  await expect(page.locator('#formula-ki')).toContainText('Nem jól formált');
+  await page.locator('#formula-be').fill('!p & q | r -> s');
+  await expect(page.locator('#formula-ki')).toContainText('((((¬p) ∧ q) ∨ r) → s)');
+  await page.locator('#formula-minta').selectOption({label: 'A menzai rejtvény formája'});
+  await expect(page.locator('#formula-ki')).toContainText('tautológia');
+});
+
+test('A rezolúciós műhely üres klózt vagy telítődést talál', async ({page}) => {
+  await page.goto(chapter);
+  await page.locator('#rez-klozok input[value="0"]').check();
+  await page.locator('#rez-klozok input[value="1"]').check();
+  await page.locator('#rez-par').click();
+  await expect(page.locator('#rez-ki')).toContainText('C6: ¬q ∨ r');
+  await page.locator('#rez-vegig').click();
+  await expect(page.locator('#rez-ki')).toContainText('üres klóz');
+  await page.locator('#rez-keszlet').selectOption({index: 2});
+  await page.locator('#rez-vegig').click();
+  await expect(page.locator('#rez-ki')).toContainText('kielégíthető');
+  await page.locator('#rez-keszlet').selectOption({index: 3});
+  await page.locator('#rez-klozok input[value="0"]').check();
+  await page.locator('#rez-klozok input[value="1"]').check();
+  await page.locator('#rez-par').click();
+  await expect(page.locator('#rez-ki')).toContainText('2 ellentett literálpárt');
+  await page.locator('#rez-sajat').fill('a ∨ b; !a; ~b');
+  await page.locator('#rez-betolt').click();
+  await page.locator('#rez-vegig').click();
+  await expect(page.locator('#rez-ki')).toContainText('kielégíthetetlen');
+});
+
+test('A világ-bemutató nem ad ellenpéldát', async ({page}) => {
+  await page.goto(chapter);
+  await expect(page.locator('#vilag-ki')).toContainText('F3 is igaz');
+  await page.locator('#vilag-trukk').click();
+  await expect(page.locator('#vilag-ki')).toContainText('F1 hamis');
+  await page.getByLabel('S(Anna, szócséplés)').check();
+  await expect(page.locator('#vilag-ki')).toContainText('F2 hamis');
+  await expect(page.locator('#vilag-ki')).not.toContainText('Ellenpélda!');
+});
+
+test('A kvíz minden helyes választ elfogad', async ({page}) => {
+  await page.goto(chapter);
+  const answers = {k1: 'c', k2: 'b', k3: 'a', k4: 'c', k5: 'b', k6: 'a', k7: 'c', k8: 'b', k9: 'a', k10: 'c', k11: 'b', k12: 'a'};
+  for (const [name, value] of Object.entries(answers)) await page.locator(`input[name=${name}][value=${value}]`).check();
+  await page.getByRole('button', {name: 'Válaszok ellenőrzése'}).click();
+  await expect(page.locator('#kviz-eredmeny')).toContainText('12 kérdésből 12 megválaszolva, 12 helyes');
+});
+
+test('Nincs vízszintes túlcsordulás egyik szélességen és témában sem', async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'reduce'});
+  await page.goto(chapter);
+  for (const width of [320, 390, 768, 1365]) {
+    await page.setViewportSize({width, height: 900});
+    for (const dark of [false, true]) {
+      const toggle = page.getByRole('switch', {name: 'Sötét mód'});
+      if ((await toggle.getAttribute('aria-checked') === 'true') !== dark) await toggle.click();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth), `${width}px`).toBeLessThanOrEqual(width);
+      const overflow = await page.locator('.u-compare > div, .u-stack > li, .u-tree-fig, .u-venn-row > div, .u-ladder li, .u-bind, .u-formula, .u-knf, .u-triples li, .u-lab, .u-example').evaluateAll(
+        (nodes, limit) => nodes.filter(n => { const b = n.getBoundingClientRect(); return b.left < -1 || b.right > limit + 1 || n.scrollWidth > n.clientWidth + 1; }).map(n => n.id || n.className), width);
+      expect(overflow, `${width}px, ${dark ? 'sötét' : 'világos'}`).toEqual([]);
+    }
   }
-  await expect(page.locator('#resolution-tree li')).toHaveCount(9);
-  await expect(page.locator('#resolution-tree li').last()).toContainText('C9 = □');
-  await expect(page.locator('#resolution-tree li').last()).toContainText('C8 + C5');
-  await expect(page.locator('#resolution-status')).toContainText('kielégíthetetlen');
-  await page.getByRole('button', {name:'Fa visszaállítása'}).click();
-  await expect(page.locator('#resolution-tree li')).toHaveCount(5);
 });
 
-test('A kvantor hatóköre és a kötött előfordulás külön, billentyűvel is kijelölhető', async ({page}) => {
+test('JavaScript nélkül is olvasható minden levezetés', async ({browser}) => {
+  const context = await browser.newContext({javaScriptEnabled: false});
+  const page = await context.newPage();
   await page.goto(chapter);
-  const x = page.getByRole('button', {name:'A külső ∀x hatóköre'});
-  await x.focus(); await page.keyboard.press('Enter');
-  await expect(x).toHaveAttribute('aria-pressed','true');
-  await expect(page.locator('[data-scope-region="x"]')).toHaveClass(/scope-active/);
-  await expect(page.locator('.binding-active')).toHaveCount(2);
-  await page.keyboard.press('Tab'); await page.keyboard.press('Enter');
-  await expect(page.locator('[data-scope-region="y"]')).toHaveClass(/scope-active/);
-  await expect(page.locator('.binding-active')).toHaveCount(1);
-  await expect(page.locator('#scope-status')).toContainText('csak a Q-beli');
-  await page.getByRole('button', {name:'A szabad y helye'}).click();
-  await expect(page.locator('[data-binding="free"]')).toHaveClass(/binding-active/);
-  await expect(page.locator('.scope-active')).toHaveCount(0);
-});
-
-test('Mind a tizenkét kvízválasz helyes és a kvíz kihagyható', async ({page}) => {
-  await page.goto(chapter);
-  await expect(page.getByRole('link', {name:'Most kihagyom a kvízt →'})).toHaveAttribute('href','#osszegzes');
-  const questions = page.locator('#quiz-questions fieldset');
-  await expect(questions).toHaveCount(12);
-  const answers = [1,0,2,1,0,2,1,0,2,1,0,2];
-  for (const [index,answer] of answers.entries()) {
-    await questions.nth(index).locator('input').nth(answer).check();
-    await questions.nth(index).getByRole('button').click();
-    await expect(questions.nth(index).locator('.feedback')).toContainText('Így van!');
-  }
-  await expect(page.locator('#quiz-score')).toContainText('12 helyes');
-  await page.getByRole('button', {name:'Kvíz újrakezdése'}).click();
-  await expect(page.locator('#quiz-score')).toContainText('0/12');
-});
-
-test.beforeEach(({page}) => page.on('pageerror', error => {throw error;}));
-
-test('A tanuló saját képletből igazságtáblát kap és javíthatja a hibás bemenetet', async ({page}) => {
-  await page.goto(chapter);
-  await page.getByLabel('Vizsgált képlet').fill('p -> q');
-  await page.getByRole('button', {name:'Igazságtábla készítése'}).click();
-  await expect(page.locator('#truth-result tbody tr')).toHaveCount(4);
-  await expect(page.locator('#truth-result tbody tr td:last-child')).toHaveText(['igaz','hamis','igaz','igaz']);
-  await page.getByLabel('Vizsgált képlet').fill('p &');
-  await page.getByRole('button', {name:'Igazságtábla készítése'}).click();
-  await expect(page.locator('#truth-status')).toContainText('kell');
-  await expect(page.locator('#truth-result table')).toHaveCount(0);
-  await page.getByLabel('Vizsgált képlet').fill('p | !p');
-  await page.getByRole('button', {name:'Igazságtábla készítése'}).click();
-  await expect(page.locator('#truth-status')).toContainText('tautológia');
+  await expect(page.locator('#kiertekeles-pelda')).toContainText('az A formula hamis');
+  await expect(page.locator('#knf-atalakitas')).toContainText('(p ∨ q ∨ r) ∧ (¬p ∨ ¬q ∨ r)');
+  await expect(page.locator('#rezolucio-pelda')).toContainText('NIL');
+  await expect(page.locator('#ertik-tabla')).toContainText('y ← Rezolúció');
+  await expect(page.locator('#venn svg').first()).toBeVisible();
+  await expect(page.locator('#kviz-eredmeny')).toContainText('1c, 2b, 3a');
+  await expect(page.locator('#formula-be')).toBeHidden();
+  await context.close();
 });
