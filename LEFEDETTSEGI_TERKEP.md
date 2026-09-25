@@ -29,7 +29,7 @@ A vizuális elem nem lehet puszta dísz, és nem helyettesítheti a teljes magya
 | 3 | 65–88 | Szemantikus háló, keret, esetalapú rendszer | kész |
 | 4 | 89–121 | Propozíciós és predikátumlogika, rezolúció | kész |
 | 5 | 122–141 | Prolog és fuzzy logika | kész |
-| 6 | 142–221 | Mesterséges neurális hálózatok | tervezve |
+| 6 | 142–221 | Mesterséges neurális hálózatok | kész |
 | 7 | 222–255 | P, NP és nevezetes számítási problémák | tervezve |
 | 8 | 256–275 | Evolúciós és genetikus algoritmusok | tervezve |
 | 9 | 276–298 | Keresési alapok és neminformált keresés | tervezve |
@@ -131,22 +131,26 @@ A PDF 129., 135., 136. és 140. oldalának képi tartalma is szerepel. A Prolog-
 
 ### 6. mérföldkő
 
-- [ ] Motiváció és minden felsorolt alkalmazás.
-- [ ] Neuron, súly, aktiváció és jel.
-- [ ] Az összes aktivációs függvény.
-- [ ] Az összes topológia és neurontípus.
-- [ ] Előre- és visszacsatolt hálók.
-- [ ] Biológiai megfeleltetések.
-- [ ] Topológiaválasztás, metszés és növesztés.
-- [ ] McCulloch–Pitts, perceptron és Adaline.
-- [ ] Többrétegű perceptron.
-- [ ] Minden felsorolt tanulási mód.
-- [ ] Tanítóhalmaz, hiba és általánosítás.
-- [ ] Felügyelet nélküli célok és mértékek.
-- [ ] Gradienscsökkentés helyes képlettel.
-- [ ] Hibavisszaterjesztés.
-- [ ] Minden tervezési és teljesítményszempont.
-- [ ] Versengő, együttműködő és normalizáló mechanizmus.
+- [x] Motiváció és minden felsorolt alkalmazás.
+- [x] Neuron, súly, aktiváció és jel.
+- [x] Az összes aktivációs függvény.
+- [x] Az összes topológia és neurontípus.
+- [x] Előre- és visszacsatolt hálók.
+- [x] Biológiai megfeleltetések.
+- [x] Topológiaválasztás, metszés és növesztés.
+- [x] McCulloch–Pitts, perceptron és Adaline.
+- [x] Többrétegű perceptron.
+- [x] Minden felsorolt tanulási mód.
+- [x] Tanítóhalmaz, hiba és általánosítás.
+- [x] Felügyelet nélküli célok és mértékek.
+- [x] Gradienscsökkentés helyes képlettel.
+- [x] Hibavisszaterjesztés.
+- [x] Minden tervezési és teljesítményszempont.
+- [x] Versengő, együttműködő és normalizáló mechanizmus.
+
+Ellenőrzési nyom: [ELLENORZES-06.md](ELLENORZES-06.md).
+
+A képként tárolt oldalak is szerepelnek: neuronábra, mind a 11 aktivációs függvény képlete és grafikonja, a perceptron tanítási lépései, az XOR-háló, a deriválás és a hibavisszaterjesztés képletei. A hat labor lefedi a terv nyolc interaktív elemét. A 17 kiigazítás, ebből kettő az oktatói kódról szól, kezeli a derivált előjelét, a megerősítéses tanulás besorolását, az univerzális közelítést, a visszacsatolt hálók működését és a történeti példák jellegét is. A `resources/code/13_Neuralis_halo_kezzel.py` fájlt 100 véletlenmaggal futtattuk. A `resources/code/14_Neuralis_halo_keras.py` kódját magyarázzuk, de nem futtattuk.
 
 ### 7. mérföldkő
 
