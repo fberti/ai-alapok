@@ -45,7 +45,7 @@ test('A kezdőlapról elérhetők a magyar nyelvű előadásfelvételek', () => 
 test('A téma fájljai verzióval kerülik el a régi böngésző-gyorsítótárat', () => {
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
-    assert.match(html, /course\.css\?v=2/);
+    assert.match(html, /course\.css\?v=4/);
     assert.match(html, /theme\.js\?v=2/);
   }
 });
