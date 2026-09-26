@@ -30,7 +30,7 @@ A vizuális elem nem lehet puszta dísz, és nem helyettesítheti a teljes magya
 | 4 | 89–121 | Propozíciós és predikátumlogika, rezolúció | kész |
 | 5 | 122–141 | Prolog és fuzzy logika | kész |
 | 6 | 142–221 | Mesterséges neurális hálózatok | kész |
-| 7 | 222–255 | P, NP és nevezetes számítási problémák | tervezve |
+| 7 | 222–255 | P, NP és nevezetes számítási problémák | kész |
 | 8 | 256–275 | Evolúciós és genetikus algoritmusok | tervezve |
 | 9 | 276–298 | Keresési alapok és neminformált keresés | tervezve |
 | 10 | 299–307 | Informált és lokális keresés | tervezve |
@@ -154,20 +154,24 @@ A képként tárolt oldalak is szerepelnek: neuronábra, mind a 11 aktivációs 
 
 ### 7. mérföldkő
 
-- [ ] P, NP, NP-teljes és NP-nehéz helyesen.
-- [ ] Áramkörérték és 3SUM.
-- [ ] Hozzárendelés és ütközés.
-- [ ] Élfedés és elemmegkülönböztetés.
-- [ ] Üresség és leghosszabb közös részsorozat.
-- [ ] SAT és minden felsorolt 3-SAT-változat.
-- [ ] Hamilton, klikk és csúcsfedés.
-- [ ] Hátizsák és utazóügynök.
-- [ ] Teljes színezés és k-minimum feszítőfa.
-- [ ] Max-3SAT és metrikus k-középpont.
-- [ ] Flow shop és háromdimenziós párosítás.
-- [ ] Rekeszpakolás és leghosszabb út.
-- [ ] Utazóügynök döntési változata.
-- [ ] Részgráf-izomorfizmus és faktorizálás.
+- [x] P, NP, NP-teljes és NP-nehéz helyesen.
+- [x] Áramkörérték és 3SUM.
+- [x] Hozzárendelés és ütközés.
+- [x] Élfedés és elemmegkülönböztetés.
+- [x] Üresség és leghosszabb közös részsorozat.
+- [x] SAT és minden felsorolt 3-SAT-változat.
+- [x] Hamilton, klikk és csúcsfedés.
+- [x] Hátizsák és utazóügynök.
+- [x] Teljes színezés és k-minimum feszítőfa.
+- [x] Max-3SAT és metrikus k-középpont.
+- [x] Flow shop és háromdimenziós párosítás.
+- [x] Rekeszpakolás és leghosszabb út.
+- [x] Utazóügynök döntési változata.
+- [x] Részgráf-izomorfizmus és faktorizálás.
+
+Ellenőrzési nyom: [ELLENORZES-07.md](ELLENORZES-07.md).
+
+A képes oldalak (228., 236–239., 242., 244., 247–250.) is szerepelnek: a hátizsák öt doboza és az utazóügynök két példája adatként, a többi ábra saját, a modellből rajzolt változatban. A hét labor lefedi a terv hat interaktív elemét, és kiegészíti őket egy rekeszpakolóval. A 14 kiigazítás kezeli az NP jelentését, az NP-teljes és NP-nehéz feladatok eldönthetőségét, a „legfeljebb k” csúcsfedést és a faktorizálás óvatos besorolását. A `resources/code/16_Genetikus_algoritmus_hatizsak.py` kiértékelő függvénye a hátizsáknál szerepel, a programot 100 véletlenmaggal futtattuk.
 
 ### 8. mérföldkő
 

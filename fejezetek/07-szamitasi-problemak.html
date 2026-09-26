@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3eb">
+<meta name="description" content="Nevezetes számítási problémák: P, NP, NP-teljes és NP-nehéz, a PDF több mint két tucat híres feladatával, kipróbálható SAT-megoldóval, gráflaborral, hátizsákkal és utazóügynökkel. Magyar tananyag a kurzus PDF-jének 222–255. oldalához.">
+<title>07 · Nevezetes számítási problémák | MI-alapok</title>
+<script>document.documentElement.classList.add('js')</script>
+<script src="../assets/js/theme.js?v=2"></script>
+<link rel="stylesheet" href="../assets/css/course.css?v=2">
+<link rel="stylesheet" href="../assets/css/chapter-seven.css">
+<script defer src="../assets/js/complexity.js"></script>
+<script defer src="../assets/js/chapter-seven.js"></script>
+</head>
+<body class="chapter-seven" data-chapter="7">
+<a class="skip" href="#tartalom">Ugrás a tananyaghoz</a>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">mi.</span> ALAPOK <span class="brand-note">/ interaktív jegyzet</span></a><div class="header-actions"><a href="../index.html#fejezetek">← Összes fejezet</a><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle><span class="theme-toggle-icon" aria-hidden="true"></span><span class="visually-hidden">Sötét mód</span></button></div></header>
+
+<div class="chapter-layout">
+<nav class="toc" aria-label="Fejezet tartalomjegyzéke"><p class="eyebrow">07 / EBBEN A FEJEZETBEN</p><ol>
+<li><a href="#gyorsasag">Gyors és lassú</a></li>
+<li><a href="#osztalyok">P, NP és társaik</a></li>
+<li><a href="#tortenet-resz">Kilencven év röviden</a></li>
+<li><a href="#p-szamolas">Könnyű: számolni, párosítani</a></li>
+<li><a href="#p-lefedes">Könnyű: lefedni, összevetni</a></li>
+<li><a href="#sat">SAT és 3-SAT</a></li>
+<li><a href="#grafok">Hamilton, klikk, csúcsfedés</a></li>
+<li><a href="#hatizsak">Hátizsák</a></li>
+<li><a href="#utazougynok">Utazóügynök</a></li>
+<li><a href="#tovabbi-nehez">Színek, fák, raktárak, gépek</a></li>
+<li><a href="#pakolas">Dobozok és hosszú utak</a></li>
+<li><a href="#np-beli">Két NP-beli feladat</a></li>
+<li><a href="#mit-tehetunk">Mit kezdjünk a nehézzel?</a></li>
+<li><a href="#fogalmak">Fogalomkártyák</a></li>
+<li><a href="#kviz">Kvíz · szabadon választható</a></li>
+<li><a href="#osszegzes">Összefoglaló</a></li>
+<li><a href="#forrasok">Források</a></li>
+</ol></nav>
+
+<main id="tartalom" class="chapter-main">
+<header class="chapter-hero">
+<p class="eyebrow">07. FEJEZET / NEVEZETES SZÁMÍTÁSI PROBLÉMÁK</p>
+<h1>Miért nehéz,<br><em>ami nehéz?</em></h1>
+<p class="lead">Van, amit egy gép egy szempillantás alatt kiszámol, és van, amibe a világ összes számítógépe is beletörne a bicskáját. Ez a fejezet arról szól, hogyan lehet ezt a különbséget pontosan kimondani. Megismered a P, NP, NP-teljes és NP-nehéz osztályokat, és a PDF több mint két tucat híres feladatát, a logikai áramkörtől az utazóügynökig.</p>
+<div class="u-scene"><p><strong>Egy futár reggele.</strong> Nyolc címre kell csomagot vinned, és a nap végén vissza a raktárba. Melyik sorrend a legrövidebb? Háromféle kérdést tehetsz fel. Megtalálni a legjobb sorrendet nehéz. Ha viszont valaki a kezedbe nyom egy listát, és azt mondja, „ez 18 km-nél rövidebb”, azt percek alatt ellenőrzöd: összeadod a szakaszokat.</p>
+<p>Ez a különbség, <strong>megtalálni vagy ellenőrizni</strong>, a fejezet és az egész informatika egyik legnagyobb nyitott kérdésének a magja. Ha kiderülne, hogy ami gyorsan ellenőrizhető, az mindig gyorsan meg is található, akkor ez a futár, a gyárak ütemezése, a titkosítás és a mesterséges intelligencia sok feladata máról holnapra átalakulna. A legtöbb kutató szerint ez nem így van. Bebizonyítani azonban még senkinek sem sikerült.</p></div>
+<ul class="u-meta"><li>Forrás: PDF 222–255. oldal</li><li>7 kipróbálható labor</li><li>14 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>16_Genetikus_algoritmus_hatizsak.py</code></li></ul>
+<div class="u-goals"><strong>A fejezet végére…</strong><ul>
+<li>el tudod magyarázni, miért más a polinomiális és az exponenciális növekedés, és mit jelent ez a gyakorlatban;</li>
+<li>meg tudod különböztetni ugyanannak a feladatnak a döntési, keresési és optimalizálási változatát;</li>
+<li>helyesen használod a P, NP, NP-teljes és NP-nehéz szavakat, és tudod, mit <em>nem</em> jelentenek;</li>
+<li>felismered a PDF híres feladatait, és meg tudod mondani, melyik osztályba tartoznak;</li>
+<li>tudod, miért SAT volt az első NP-teljes feladat, és mit tett ezért Cook és Levin;</li>
+<li>látod, mit lehet kezdeni egy NP-nehéz feladattal: kis esetben kimerítő keresés, nagyban közelítés és heurisztika.</li>
+</ul></div>
+<noscript><p class="u-simple"><strong>JavaScript nélkül</strong>A teljes magyarázat, minden ábra, táblázat és végigszámolt példa olvasható. Csak a hét kipróbálható labor és a kvíz ellenőrzése igényel JavaScriptet.</p></noscript>
+</header>
+
+<!-- 01 · GYORSASÁG -->
+<section id="gyorsasag" class="chapter-section"><span class="section-index">01 / PDF 222–223.</span>
+<h2>Gyors és lassú algoritmusok.</h2>
+<p>A PDF a problémákat <strong>megoldási idő szerint</strong> csoportosítja. Ehhez előbb tisztázni kell, mit mérünk. Nem másodperceket, mert az a géptől függ. A <strong>lépésszámot</strong> mérjük, és azt, hogyan nő a bemenet méretével. A bemenet mérete, amit n vagy N jelöl, például a városok, a változók vagy a számok száma.</p>
+<p>Egy algoritmus <strong>polinomiális idejű</strong>, ha a lépésszáma legfeljebb n valamilyen rögzített hatványával arányos: n, n², n³ és így tovább. <strong>Exponenciális</strong>, ha a lépésszám úgy nő, mint 2ⁿ vagy n!, vagyis minden új elem legalább megduplázza a munkát. A kettő közti különbség nem árnyalatnyi. Kis n-re alig látszik, nagyra áthidalhatatlan szakadék lesz belőle.</p>
+<div class="u-table-wrap"><table class="u-table u-table-num" id="novekedes-tabla">
+<caption>Lépésszám és idő, ha a gép másodpercenként egymilliárd lépést tesz. Az n! (n faktoriális) az 1 · 2 · … · n szorzat, ennyi sorrendje van n dolognak. A kor becslésnél a világegyetem kora nagyjából 13,8 milliárd év.</caption>
+<thead><tr><th>n</th><th>n</th><th>n²</th><th>2ⁿ</th><th>n!</th></tr></thead>
+<tbody>
+<tr><td>10</td><td>10 · kevesebb mint 1 µs</td><td>100 · kevesebb mint 1 µs</td><td>1 024 · 1,0 µs</td><td>3 628 800 · 3,6 ms</td></tr>
+<tr><td>20</td><td>20 · kevesebb mint 1 µs</td><td>400 · kevesebb mint 1 µs</td><td>1 048 576 · 1,0 ms</td><td>2,4 · 10¹⁸ · 77,1 év</td></tr>
+<tr><td>30</td><td>30 · kevesebb mint 1 µs</td><td>900 · kevesebb mint 1 µs</td><td>1,1 · 10⁹ · 1,1 s</td><td>2,7 · 10³² · 8,4 · 10¹⁵ év</td></tr>
+<tr><td>50</td><td>50 · kevesebb mint 1 µs</td><td>2 500 · 2,5 µs</td><td>1,1 · 10¹⁵ · 13,0 nap</td><td>3,0 · 10⁶⁴ · 9,6 · 10⁴⁷ év</td></tr>
+<tr><td>100</td><td>100 · kevesebb mint 1 µs</td><td>10 000 · 10,0 µs</td><td>1,3 · 10³⁰ · 4,0 · 10¹³ év</td><td>9,3 · 10¹⁵⁷ · 3,0 · 10¹⁴¹ év</td></tr>
+</tbody></table></div>
+<p class="u-key">Egy ezerszer gyorsabb gép az n² idejű algoritmusnak nagyjából 31-szer akkora bemenetet enged meg. A 2ⁿ idejűnek csak 10-zel nagyobbat. Az exponenciális falat nem a hardver, hanem csak jobb algoritmus bonthatja le.</p>
+<div class="u-lab" id="novekedes-labor"><span class="u-lab-label">PRÓBÁLD KI / NÖVEKEDÉSI VERSENY</span><h3>Húzd a bemenet méretét!</h3>
+<p>A négy sáv a négy lépésszám nagyságrendjét mutatja, logaritmikus léptékben: egy beosztás tízszeres különbség. Figyeld meg, hol hagyja ott a mezőnyt a 2ⁿ és az n!.</p>
+<div class="u-js-only">
+<div class="u-sliders"><label>A bemenet mérete: n = <output id="nov-n-ki">10</output><input type="range" id="nov-n" min="1" max="60" step="1" value="10"></label></div>
+<div class="u-race" aria-hidden="true">
+<div><span>n</span><i><b id="nov-sav-n"></b></i></div>
+<div><span>n²</span><i><b id="nov-sav-sq"></b></i></div>
+<div><span>2ⁿ</span><i><b id="nov-sav-exp"></b></i></div>
+<div><span>n!</span><i><b id="nov-sav-fact"></b></i></div>
+</div>
+<div class="u-out" id="nov-ki" role="status" aria-live="polite"></div>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. A fenti táblázat öt kiválasztott n-re ugyanezt mutatja.</p>
+</div>
+<p>Mielőtt osztályokba soroljuk a feladatokat, még egy fontos megkülönböztetés kell. Ugyanaz a feladat háromféle kérdésként is feltehető. A PDF maga is használja mindhármat, sokszor ugyanazon a néven.</p>
+<div class="u-compare" id="harom-valtozat">
+<div><span class="u-tag">DÖNTÉSI VÁLTOZAT</span><h3>Igen vagy nem?</h3><p>„Van-e 18 km-nél rövidebb körút?” A válasz egyetlen bit. A bonyolultsági osztályok, a P és az NP, eredetileg ilyen <strong>döntési problémákra</strong> vonatkoznak.</p></div>
+<div><span class="u-tag">KERESÉSI VÁLTOZAT</span><h3>Mutass egyet!</h3><p>„Adj egy 18 km-nél rövidebb körutat!” Itt már egy megoldást, egy tanút várunk, nem csak igent. Ha van gyors döntő eljárás, abból rendszerint gyors kereső is építhető, darabonként rákérdezve a megoldásra.</p></div>
+<div><span class="u-tag">OPTIMALIZÁLÁSI VÁLTOZAT</span><h3>Mi a legjobb?</h3><p>„Melyik a legrövidebb körút?” Ez a legtermészetesebb kérdés, de nem igen–nem válasz, ezért szigorúan véve nem tartozhat NP-be. A nehéz optimalizálási feladatokra ezért az NP-nehéz a helyes jelző.</p></div>
+</div>
+<p class="u-simple"><strong>Egyszerűen mondva</strong>A polinomiális idő azt jelenti: ha kétszer akkora a feladat, a munka csak néhányszorosára nő. Az exponenciális azt: minden új elemmel duplázódik. Az első a „gyors”, a második a „reménytelenül lassú” szakmai neve.</p>
+</section>
+
+<!-- 02 · OSZTÁLYOK -->
+<section id="osztalyok" class="chapter-section"><span class="section-index">02 / PDF 223.</span>
+<h2>P, NP, NP-teljes, NP-nehéz.</h2>
+<p>A PDF 223. oldala négy csoportot sorol fel. Az elsőről nincs vita. Egy probléma <strong>P</strong> típusú (az angol <em>polynomial time</em>, polinomiális idő rövidítése), ha létezik olyan algoritmus, amelynek időszükséglete legfeljebb N polinomjával nő. Ide tartoznak a „viszonylag egyszerűen megoldható” feladatok: a rendezés, a legrövidebb út egy térképen, vagy a fejezet 4–5. részének feladatai, a kiigazításokban jelzett megszorításokkal.</p>
+<p>A második csoport, az <strong>NP</strong> meghatározásához a PDF egy elméleti gépet, a <strong>Turing-gépet</strong> hívja segítségül. A Turing-gép Alan Turing 1936-os modellje: egy végtelen szalag, egy író-olvasó fej és egy szabálytáblázat. Mindent ki tud számolni, amit bármely mai számítógép, csak lassabban. A <strong>determinisztikus</strong> Turing-gép minden helyzetben pontosan egy lépést tehet. A <strong>nemdeterminisztikus</strong> egyszerre több lehetőséget is kipróbálhat, mintha minden elágazásnál szerencsésen találgatna.</p>
+<figure class="u-quote" id="np-idezet"><blockquote><p>„Azok a problémák, melyek bármely feltételezett megoldása polinomiális idő alatt eldönthető, hogy helyes-e egy determinisztikus Turing gép segítségével”</p><p>„Vagy azok a problémák, amelyek megoldhatóak polinomiális idő alatt nemdeterminisztikus Turing gép segítségével”</p></blockquote><figcaption>PDF 223. oldal, az NP két, egymással egyenértékű meghatározása</figcaption></figure>
+<p>Az első mondat a könnyebben megfogható. Egy feladat akkor van NP-ben, ha az <strong>igen</strong> válasz mellé adható egy <strong>tanú</strong> (angolul <em>certificate</em>), amelyet gyorsan, polinomiális időben ellenőrizni lehet. A futár példájában a tanú maga a sorrend: összeadod a szakaszokat, és megnézed, kisebb-e 18-nál. A Sudoku is ilyen. Kitölteni nehéz, egy kész táblát ellenőrizni könnyű. A második mondat ugyanezt mondja a „szerencsésen találgató” gépről: az kitalálja a tanút, aztán ellenőrzi. Az NP rövidítés innen jön: <em>nondeterministic polynomial</em>, nemdeterminisztikus polinomiális.</p>
+<aside class="u-fix"><h3>Kiigazítás · Az NP nem a „nehéz” rövidítése</h3>
+<p><strong>A PDF-ben:</strong> az NP alatt ez áll: „»Nehéz« problémák” (PDF 223. oldal). A P feliratában pedig elírás van: „P (Polynominal)”.</p>
+<p><strong>Pontosabban:</strong> az NP a gyorsan <em>ellenőrizhető</em> döntési feladatok osztálya. Minden P-beli feladat is benne van, hiszen amit gyorsan meg tudunk oldani, azt gyorsan ellenőrizni is tudjuk: egyszerűen megoldjuk. Tehát <strong>P része NP-nek</strong>. Hogy egyenlők-e, azt nem tudjuk. Ez a híres <strong>P = NP?</strong> kérdés. A helyes angol szó <em>polynomial</em>.</p>
+<p><strong>Miért fontos?</strong> A „rendezett-e ez a lista?” kérdés NP-ben van, mégsem nehéz. Ha az NP „nehezet” jelentene, ez ellentmondás lenne. Aki azt mondja, „ez a feladat NP, tehát nehéz”, az hibát követ el. A nehézséget az NP-teljes és az NP-nehéz szó fejezi ki. <a href="#s-sipser">Forrás: Sipser, 7.3 fejezet.</a></p></aside>
+<p>A harmadik és negyedik csoporthoz egy új eszköz kell, a <strong>visszavezetés</strong> (angolul <em>reduction</em>). Egy A feladatot visszavezetünk B-re, ha A bármely példányát gyorsan át tudjuk fogalmazni B egy példányává úgy, hogy a válasz ne változzon. Ekkor B legalább olyan nehéz, mint A: egy B-t megoldó gépből A-t megoldó gép lesz.</p>
+<ol class="u-flow" id="visszavezetes">
+<li><strong>1 · AZ A PÉLDÁNYA</strong>Például egy gráf és egy k szám: van-e k méretű klikk?</li>
+<li><strong>2 · GYORS ÁTÍRÁS</strong>Polinomiális idejű átalakítás, amely a választ megőrzi.</li>
+<li><strong>3 · A B PÉLDÁNYA</strong>Például egy logikai formula: kielégíthető-e?</li>
+<li><strong>4 · B MEGOLDÓJA</strong>Ha B gyors, a teljes lánc is gyors, így A is.</li>
+</ol>
+<div class="u-compare" id="nehez-osztalyok">
+<div><span class="u-tag">NP-NEHÉZ · NP-HARD</span><h3>Legalább olyan nehéz, mint bármi NP-ben</h3><p>Egy feladat NP-nehéz, ha minden NP-beli feladat polinomiális időben visszavezethető rá. A PDF ezt írja: „Olyan problémák, amelyre minden NP-beli probléma visszavezethető”, de „nem kell NP-nek lennie” (PDF 223. oldal). Nem kell döntési feladatnak sem lennie: a legrövidebb körút megkeresése NP-nehéz, és egy számot ad válaszul, nem igent.</p></div>
+<div><span class="u-tag">NP-TELJES · NP-COMPLETE</span><h3>NP-ben van, és NP-nehéz</h3><p>Az NP-teljes feladatok az NP legnehezebb tagjai. Egymásra mind visszavezethetők, ezért „egy mindenkiért”: ha csak egyre is találna valaki polinomiális algoritmust, az mindegyikre működne, és kiderülne, hogy P = NP. Ha pedig egyről bebizonyosodna, hogy nincs ilyen, akkor egyikre sincs.</p></div>
+</div>
+<aside class="u-fix"><h3>Kiigazítás · Az NP-teljes feladat nem megoldhatatlan</h3>
+<p><strong>A PDF-ben:</strong> az NP-teljes problémák „Nagy változószám esetén megoldhatatlan”, és „A megoldáshoz szükséges idő eN (vagy n!) szerint változik” (PDF 223. oldal).</p>
+<p><strong>Pontosabban:</strong> NP-teljes feladatra ma csak olyan algoritmust ismerünk, amely a <em>legrosszabb</em> esetben exponenciális ideig fut. Hogy ennél jobb nem létezik, azt senki sem bizonyította, ez maga a P = NP? kérdés. Megoldhatatlanról szó sincs: minden NP-beli feladat véges idő alatt, kimerítő kereséssel megoldható. A gyakorlatban pedig sok nagy példány gyorsan megy. A mai SAT-megoldók ipari formulákat oldanak meg több millió változóval, mert a valódi példányok szerkezete sokat segít.</p>
+<p><strong>Miért fontos?</strong> Az „NP-teljes, tehát feladjuk” hibás következtetés. A helyes: „NP-teljes, tehát ne várjunk mindig gyors, pontos algoritmust. Nézzük meg, kicsi-e a példány, van-e különleges szerkezete, vagy elég-e egy jó közelítés.” A 13. rész ezt a gondolatmenetet járja végig. <a href="#s-garey">Forrás: Garey–Johnson, 1. és 6. fejezet.</a></p></aside>
+<aside class="u-fix"><h3>Kiigazítás · Az NP-nehéz feladatok nagy része eldönthető</h3>
+<p><strong>A PDF-ben:</strong> az NP-nehéz problémáknak „nem kell NP-nek lennie (Valóban nem is eldönthetők)” (PDF 223. oldal).</p>
+<p><strong>Pontosabban:</strong> az első fele igaz, a második nem. Egy feladat <strong>eldönthetetlen</strong>, ha semmilyen algoritmus nem ad rá mindig helyes választ véges időben. Van ilyen NP-nehéz feladat, a leghíresebb a <strong>megállási probléma</strong>: megáll-e egy adott program? De a legtöbb NP-nehéz feladat nagyon is eldönthető. Az utazóügynök legrövidebb körútja kimerítő kereséssel mindig megtalálható, csak sokáig tart. Minden NP-teljes feladat is NP-nehéz, és ezek mind eldönthetők. A definícióból kimaradt az is, hogy a visszavezetésnek <em>polinomiális időben</em> kell működnie.</p>
+<p><strong>Miért fontos?</strong> A „nehéz” és a „megoldhatatlan” két külön fogalom. A „nehéz” azt jelenti: lassú. A „megoldhatatlan” azt: semmilyen idő nem elég. A 7. rész ellenőrzője, a 9. rész kimerítő keresése mind működő algoritmus NP-nehéz feladatra. <a href="#s-sipser">Forrás: Sipser, 4.2 és 7.4 fejezet.</a></p></aside>
+<p>A négy osztály viszonyát egy halmazábra mutatja. Mivel a P = NP kérdés nyitott, két ábra kell. A bal oldali a kutatók többségének sejtése, a jobb oldali azt mutatja, mi lenne, ha a meglepő eset igaz.</p>
+<div class="u-plot-pair" id="venn-abrak">
+<figure class="u-plot"><svg viewBox="0 0 340 250" role="img" aria-labelledby="venn-neq-t"><title id="venn-neq-t">Ha P ≠ NP: a P az NP belsejében ül, az NP-teljes feladatok az NP és az NP-nehéz terület közös részében, a P-től elkülönülve.</title>
+<defs><clipPath id="venn-np-clip"><ellipse cx="170" cy="165" rx="120" ry="75"/></clipPath></defs>
+<path id="venn-nph" class="u-region u-region-hard" d="M0 0H340V110Q170 150 0 110Z"/>
+<ellipse id="venn-np" class="u-region u-region-np" cx="170" cy="165" rx="120" ry="75"/>
+<path id="venn-npc" class="u-region u-region-npc" clip-path="url(#venn-np-clip)" d="M0 0H340V110Q170 150 0 110Z"/>
+<ellipse id="venn-p" class="u-region u-region-p" cx="150" cy="197" rx="58" ry="36"/>
+<path class="u-venn-line" d="M0 110Q170 150 340 110"/>
+<text class="u-venn-label" x="170" y="50" text-anchor="middle">NP-nehéz</text>
+<text class="u-svg-small" x="170" y="68" text-anchor="middle">(nem feltétlenül döntési, akár eldönthetetlen)</text>
+<text class="u-venn-label" x="170" y="118" text-anchor="middle">NP-teljes</text>
+<text class="u-venn-label" x="250" y="178" text-anchor="middle">NP</text>
+<text class="u-venn-label" x="150" y="202" text-anchor="middle">P</text></svg><figcaption><strong>Ha P ≠ NP</strong> (a többség sejtése). A P és az NP-teljes feladatok külön vannak. Az NP-ben lehetnek köztes feladatok is, amelyek se nem P-beliek, se nem NP-teljesek. Az NP-nehéz terület felfelé kilóg az NP-ből.</figcaption></figure>
+<figure class="u-plot"><svg viewBox="0 0 340 250" role="img" aria-labelledby="venn-eq-t"><title id="venn-eq-t">Ha P = NP: egyetlen közös halmaz, és majdnem minden eleme NP-teljes. Az NP-nehéz terület ezt fedi át felülről.</title>
+<defs><clipPath id="venn-eq-clip"><ellipse cx="170" cy="165" rx="120" ry="75"/></clipPath></defs>
+<path class="u-region u-region-hard" d="M0 0H340V110Q170 150 0 110Z"/>
+<ellipse class="u-region u-region-p" cx="170" cy="165" rx="120" ry="75"/>
+<path class="u-region u-region-npc" clip-path="url(#venn-eq-clip)" d="M0 0H340V110Q170 150 0 110Z"/>
+<path class="u-venn-line" d="M0 110Q170 150 340 110"/>
+<text class="u-venn-label" x="170" y="50" text-anchor="middle">NP-nehéz</text>
+<text class="u-venn-label" x="170" y="118" text-anchor="middle">= NP-teljes*</text>
+<text class="u-venn-label" x="170" y="185" text-anchor="middle">P = NP</text>
+<text class="u-svg-small" x="170" y="205" text-anchor="middle">* a két triviális nyelv kivételével</text></svg><figcaption><strong>Ha P = NP.</strong> Minden gyorsan ellenőrizhető feladat gyorsan meg is oldható. Az NP-teljes és a P-beli feladatok (két triviális kivétellel: a mindig „igen” és a mindig „nem” feladat) egybeesnek.</figcaption></figure>
+</div>
+<div class="u-lab" id="venn-labor"><span class="u-lab-label">PRÓBÁLD KI / HOVÁ TARTOZIK?</span><h3>Válassz egy feladatot, és nézd meg a helyét!</h3>
+<p>A labor az első, P ≠ NP ábrán kiemeli a feladat helyét, és megmondja, miért van ott. A feladatokat a fejezet későbbi részei részletesen bemutatják. Érdemes most tippelni, és a fejezet végén újra megnézni.</p>
+<div class="u-js-only">
+<div class="u-form-row"><label class="u-grow">Feladat <select id="venn-feladat">
+<option value="">Válassz…</option>
+<option value="aramkor">Áramkörérték</option>
+<option value="lcs2">Leghosszabb közös részsorozat, két sorozat</option>
+<option value="sat">SAT, kielégíthetőség</option>
+<option value="klikk">Klikk döntési változata</option>
+<option value="fedes">Csúcsfedés: van-e legfeljebb k méretű?</option>
+<option value="minfedes">Legkisebb csúcsfedés megkeresése</option>
+<option value="tspd">Utazóügynök: van-e k-nál rövidebb körút?</option>
+<option value="tsp">Utazóügynök: a legrövidebb körút</option>
+<option value="faktor">Faktorizálás döntési változata</option>
+<option value="megallas">Megállási probléma</option>
+</select></label></div>
+<div class="u-out" id="venn-ki" role="status" aria-live="polite">Válassz egy feladatot a listából.</div>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. A feladatok helyét a 13. rész térképtáblázata is mutatja.</p>
+</div>
+</section>
+
+<!-- 03 · TÖRTÉNET -->
+<section id="tortenet-resz" class="chapter-section"><span class="section-index">03 / PDF 234, 239, 241, 245. ÉS KIEGÉSZÍTÉS</span>
+<h2>Kilencven év nehéz kérdései.</h2>
+<p>A PDF évszámai szétszórva szerepelnek a feladatoknál. Az idővonal sorba rendezi őket, és kiegészíti a fejezet megértéséhez szükséges további állomásokkal. A dőlt betűs „kiegészítés” jelölésű sorok nem szerepelnek a PDF-ben.</p>
+<ol class="u-timeline" id="tortenet">
+<li><span class="u-year">1897</span><p>A PDF szerint ekkor jelenik meg először a <strong>hátizsák-probléma</strong>. <em>Kiegészítés:</em> G. B. Mathews számelméleti cikkében, egy számfelbontási kérdés alakjában.</p></li>
+<li><span class="u-year">1930</span><p>A PDF szerint ekkor fogalmazzák meg először az <strong>utazóügynök-problémát</strong>. <em>Kiegészítés:</em> Karl Menger bécsi matematikai kollokviumán. Maga a gyakorlati kérdés régebbi: egy 1832-es német kereskedő-kézikönyv már útvonalakat tervezett.</p></li>
+<li><span class="u-year">1936</span><p><em>Kiegészítés:</em> <strong>Alan Turing</strong> leírja a róla elnevezett gépet. Ezzel a gépmodellel határozza meg a PDF a P és az NP osztályt.</p></li>
+<li><span class="u-year">1954–1955</span><p><em>Kiegészítés:</em> S. M. Johnson polinomiális szabályt ad a kétgépes <strong>folyamatsoros ütemezésre</strong> (flow shop). Harold Kuhn közli a <strong>magyar módszert</strong> a hozzárendelési feladatra. A nevet Kőnig Dénes és Egerváry Jenő eredményei után adta.</p></li>
+<li><span class="u-year">1965</span><p><em>Kiegészítés:</em> <strong>Jack Edmonds</strong> gyors algoritmust ad a gráfok párosítására, és a polinomiális időt nevezi a „jó” algoritmus ismérvének. Ez a gondolat lesz a P osztály alapja.</p></li>
+<li><span class="u-year">1971</span><p><strong>Stephen Cook</strong> bebizonyítja, hogy a <strong>SAT</strong> NP-teljes. Ez az első ismert NP-teljes feladat.</p></li>
+<li><span class="u-year">1972</span><p><em>Kiegészítés:</em> <strong>Richard Karp</strong> 21 további feladatról mutatja meg ugyanezt, köztük a klikkről, a csúcsfedésről, a Hamilton-körről, a háromdimenziós párosításról és a hátizsákról.</p></li>
+<li><span class="u-year">1973</span><p><strong>Leonid Levin</strong> is igazolja ugyanezt. <em>Kiegészítés:</em> a Szovjetunióban, Cooktól függetlenül dolgozott. Ezért ma Cook–Levin-tételnek hívjuk.</p></li>
+<li><span class="u-year">1979</span><p><em>Kiegészítés:</em> Michael Garey és David Johnson könyve több száz NP-teljes feladatot gyűjt össze. Évtizedekig ez a terület kézikönyve.</p></li>
+<li><span class="u-year">1993</span><p>A PDF szerint ekkor jelenik meg a <strong>k-minimum feszítőfa</strong> problémája. <em>Kiegészítés:</em> Lozovanu és Zelikovsky munkájában.</p></li>
+<li><span class="u-year">1994</span><p><em>Kiegészítés:</em> <strong>Peter Shor</strong> kvantumalgoritmust ad az egész számok polinomiális idejű <strong>faktorizálására</strong>. A 12. rész szól róla.</p></li>
+<li><span class="u-year">2000</span><p><em>Kiegészítés:</em> a Clay Matematikai Intézet a P = NP? kérdést a hét <strong>millenniumi probléma</strong> közé sorolja, egymillió dolláros díjjal. Máig megoldatlan.</p></li>
+<li><span class="u-year">2006</span><p><em>Kiegészítés:</em> a Concorde nevű programmal egy 85 900 pontos utazóügynök-feladatot oldanak meg bizonyítottan optimálisan. A 9. rész visszatér rá.</p></li>
+</ol>
+<p class="u-key">A fejezet íve követi a PDF-et: előbb a könnyű (P-beli) feladatok, aztán az NP-teljesek, majd az NP-nehéz optimalizálási feladatok, végül két különleges NP-beli feladat.</p>
+</section>
+
+<!-- 04 · P: SZÁMOLNI, PÁROSÍTANI -->
+<section id="p-szamolas" class="chapter-section"><span class="section-index">04 / PDF 224–228.</span>
+<h2>Könnyű feladatok: számolni és párosítani.</h2>
+<p>A PDF „P problémák” címszó alatt nyolc feladatot mutat be. Mindegyikre ismert polinomiális algoritmus. Nem azért érdemes megismerni őket, mert nehezek, hanem mert sok nehéz feladat testvérei. Egy apró változtatás, és a könnyű feladatból NP-teljes lesz. Ezt a határt érdemes megérezni.</p>
+<h3>Áramkörérték-probléma</h3>
+<p>Az <strong>áramkörérték-probléma</strong> (angolul <em>Circuit Value Problem</em>) egy logikai áramkör kimenetének kiszámítása adott bemeneten. Az áramkör ÉS, VAGY és NEM kapukból áll, amelyeket vezetékek kötnek össze, kör nélkül. A PDF szerint lineáris időben, <strong>topologikus rendezéssel</strong> megoldható. A topologikus rendezés olyan sorrend, amelyben minden kapu a bemenetei után jön. Ebben a sorrendben minden kaput pontosan egyszer kell kiszámolni.</p>
+<div class="u-example" id="aramkor-pelda"><strong>Végigvezetett példa · egy kis áramkör kiértékelése</strong>
+<figure class="u-plot"><svg viewBox="0 0 360 220" role="img" aria-labelledby="aramkor-t"><title id="aramkor-t">Logikai áramkör: az ÉS kapu x-et és y-t, a NEM kapu z-t kapja, a VAGY kapu a kettő kimenetét. x = 1, y = 1, z = 1 bemenetre a kimenet 1.</title><defs><marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="u-arrowhead"/></marker></defs><path class="u-edge u-edge-on" marker-end="url(#ak)" d="M64 40L140 75"/><path class="u-edge u-edge-on" marker-end="url(#ak)" d="M64 110L140 75"/><path class="u-edge u-edge-on" marker-end="url(#ak)" d="M64 180L140 180"/><path class="u-edge u-edge-on" marker-end="url(#ak)" d="M194 75L270 125"/><path class="u-edge" marker-end="url(#ak)" d="M194 180L270 125"/><circle class="u-node u-node-on" cx="40" cy="40" r="20"/><text class="u-svg-sym u-on" x="40" y="45" text-anchor="middle">x</text><text class="u-svg-small" x="40" y="74" text-anchor="middle">= 1</text><circle class="u-node u-node-on" cx="40" cy="110" r="20"/><text class="u-svg-sym u-on" x="40" y="115" text-anchor="middle">y</text><text class="u-svg-small" x="40" y="144" text-anchor="middle">= 1</text><circle class="u-node u-node-on" cx="40" cy="180" r="20"/><text class="u-svg-sym u-on" x="40" y="185" text-anchor="middle">z</text><text class="u-svg-small" x="40" y="214" text-anchor="middle">= 1</text><rect class="u-node u-node-on" x="140" y="57" width="60" height="36" rx="8"/><text class="u-on" x="170" y="79" text-anchor="middle">ÉS</text><text class="u-svg-small" x="170" y="107" text-anchor="middle">= 1</text><rect class="u-node" x="140" y="162" width="60" height="36" rx="8"/><text class="" x="170" y="184" text-anchor="middle">NEM</text><text class="u-svg-small" x="170" y="212" text-anchor="middle">= 0</text><rect class="u-node u-node-on" x="270" y="107" width="60" height="36" rx="8"/><text class="u-on" x="300" y="129" text-anchor="middle">VAGY</text><text class="u-svg-small" x="300" y="157" text-anchor="middle">= 1</text></svg><figcaption>A kitöltött alakzat 1-es, az üres 0-s értéket jelöl. A vastag vezeték 1-est szállít.</figcaption></figure>
+<ol class="u-steps">
+<li><p><strong>Rendezés.</strong> A bemenetek jönnek előre: x, y, z. Aztán azok a kapuk, amelyeknek minden bemenete kész: ÉS, NEM. Végül a VAGY.</p></li>
+<li><p><strong>Bemenetek.</strong> x = 1, y = 1, z = 1.</p></li>
+<li><p><strong>ÉS kapu:</strong> 1 ÉS 1 = 1. <strong>NEM kapu:</strong> NEM 1 = 0.</p></li>
+<li><p><strong>VAGY kapu:</strong> 1 VAGY 0 = 1. Ez a kimenet. Hat csomópont, hat lépés: a munka a mérettel arányos.</p></li>
+</ol></div>
+<p>A PDF szerint a feladat speciális esete a <strong>Boole-képlet kiértékelési probléma</strong>, amikor az áramkör egy fa: minden kapu kimenete csak egy helyre fut. Ez éppen egy zárójelezett logikai képlet, mint a 4. fejezet formulái.</p>
+<aside class="u-add"><h3>Kiegészítés · A kiértékelés könnyű, a kitalálás nehéz</h3><p>Ha a bemenetet nem adják meg, hanem azt kérdezik, <em>van-e</em> olyan bemenet, amelyre a kimenet 1, abból a SAT-hoz nagyon hasonló, NP-teljes feladat lesz (áramkör-kielégíthetőség). A kiértékelés tehát éppen az NP-beli „ellenőrzés” lépése. Az áramkörérték-probléma különleges P-beli feladat is: <strong>P-teljes</strong>, vagyis a P legnehezebben párhuzamosítható feladatai közé tartozik. <a href="#s-arora">Forrás: Arora–Barak, 6. fejezet.</a></p></aside>
+<h3>3SUM és k-SUM</h3>
+<p>A <strong>3SUM</strong> feladatban n valós szám adott. A kérdés: van-e köztük három, amelyek összege nulla? A PDF szerint az időigénye O(n²). Az O jelölés (<em>nagy ordó</em>) azt mondja, hogy a lépésszám legfeljebb n² egy állandószorosa. Minden hármast végigpróbálni n³ nagyságrendű munka lenne. A trükk: rendezzük a számokat, és minden első elemhez két mutatóval keressük a párt.</p>
+<div class="u-example" id="harom-osszeg-pelda"><strong>Végigvezetett példa · 3SUM két mutatóval</strong>
+<p>Számok: 8, −25, 4, 10, −10, 3, 15. Rendezve: <strong>−25, −10, 3, 4, 8, 10, 15</strong>.</p>
+<ol class="u-steps">
+<li><p>Első elem −25. A bal mutató −10-en, a jobb 15-ön áll. Összeg: −25 − 10 + 15 = −20. Túl kicsi, a bal mutató jobbra lép.</p></li>
+<li><p>−25 + 3 + 15 = −7, még mindig kicsi. Jobbra lép: −25 + 4 + 15 = −6, aztán −25 + 8 + 15 = −2.</p></li>
+<li><p>−25 + 10 + 15 = 0. <strong>Megvan: −25, 10, 15.</strong></p></li>
+</ol>
+<p>Egy első elemhez legfeljebb n lépés kell, mert minden lépésben az egyik mutató közelebb kerül a másikhoz. Az n-féle első elemmel ez n², plusz a rendezés.</p></div>
+<p>A <strong>k-SUM</strong> a PDF szerinti általánosítás: van-e k elem, amelyek összege nulla? Például k = 4-re a 2, 7, −5, 1, −6, 9 számok közül a 2 + 9 − 5 − 6 = 0 négyes megfelel.</p>
+<aside class="u-fix"><h3>Kiigazítás · A k-SUM csak rögzített k-ra P-beli</h3>
+<p><strong>A PDF-ben:</strong> a k-SUM a 3SUM általánosításaként, a „P problémák” között szerepel (PDF 224–226. oldal).</p>
+<p><strong>Pontosabban:</strong> ha a k egy rögzített szám, például 3 vagy 10, a k-SUM polinomiális, nagyjából n^⌈k/2⌉ lépéssel. Ha viszont a k a bemenet része, és bármekkora lehet, akkor a feladat a <strong>részletösszeg-problémát</strong> tartalmazza (van-e a számoknak nulla összegű részhalmaza?), amely NP-teljes. A kitevőben ülő k éppen a határ a polinomiális és az exponenciális között.</p>
+<p><strong>Miért fontos?</strong> A „polinomiális” mindig azt jelenti: a bemenet méretének rögzített hatványa. Az n^k csak akkor polinom, ha k nem nő a bemenettel. Ugyanez a csapda jön elő a klikknél a 7. részben. <a href="#s-garey">Forrás: Garey–Johnson, [SP13] részletösszeg.</a></p></aside>
+<aside class="u-add"><h3>Kiegészítés · Gyorsabb-e az n²?</h3><p>Sokáig úgy tűnt, a 3SUM-ra az n² a legjobb. 2014-ben Grønlund és Pettie megmutatta, hogy egy kicsit, egy logaritmikus tényezőnél kisebb mértékben gyorsítható. Az erősebb, n^(2−ε) alakú gyorsítást ma sem ismerjük. A 3SUM-sejtés szerint ilyen nincs, és sok geometriai feladat nehézségét erre vezetik vissza. <a href="#s-gronlund">Forrás: Grønlund–Pettie, 2014.</a></p></aside>
+<h3>Hozzárendelési probléma</h3>
+<p>A <strong>hozzárendelési probléma</strong> (angolul <em>assignment problem</em>) ügynököket és feladatokat tartalmaz. A PDF szerint bármely ügynök bármely feladatra kijelölhető, de minden párosításnak saját költsége van. A lehető legtöbb feladatot kell elvégezni úgy, hogy minden feladathoz legfeljebb egy ügynök, minden ügynökhöz legfeljebb egy feladat tartozzon, és az összköltség minimális legyen. Ha az ügynökök és a feladatok száma megegyezik, <strong>kiegyensúlyozott</strong>, különben <strong>kiegyensúlyozatlan</strong> hozzárendelésről beszélünk. Ha az összköltség egyszerűen az egyes párok költségeinek összege, a neve <strong>lineáris hozzárendelés</strong>.</p>
+<div class="u-example" id="hozzarendeles-pelda"><strong>Végigvezetett példa · három futár, három cím</strong>
+<div class="u-table-wrap"><table class="u-table u-table-num">
+<caption>A költség percben: mennyi idő alatt ér oda az adott futár. A kiemelt cellák a legolcsóbb hozzárendelés.</caption>
+<thead><tr><th></th><th>1. cím</th><th>2. cím</th><th>3. cím</th></tr></thead>
+<tbody><tr><td>Anna</td><td>9</td><td class="u-cell-hit">2</td><td>7</td></tr><tr><td>Bence</td><td class="u-cell-hit">6</td><td>4</td><td>3</td></tr><tr><td>Csilla</td><td>5</td><td>8</td><td class="u-cell-hit">1</td></tr></tbody></table></div>
+<p>Hat lehetséges hozzárendelés van (3! = 6). A mohó ötlet, „mindenki a számára legolcsóbbat”, ütközik: Bencének is a 3. cím lenne a legolcsóbb (3 perc), de az Csilláé (1 perc). A legjobb: Anna → 2. cím, Bence → 1. cím, Csilla → 3. cím, összesen 2 + 6 + 1 = <strong>9 perc</strong>. A második legjobb 10 perc. Nagyobb méretben nem kell mind az n! esetet végigpróbálni: a <strong>magyar módszer</strong> n³ nagyságrendű lépésben megtalálja az optimumot.</p></div>
+<h3>Ütközési probléma</h3>
+<p>Az <strong>ütközési probléma</strong> neve a PDF szerint leggyakrabban a „2 az 1-hez” változatot jelenti. Adott egy páros n és egy f függvény, amely az 1, …, n számokat ugyanide képezi. Tudjuk, hogy f vagy <strong>kölcsönösen egyértelmű</strong> (injektív, minden értéket egyszer vesz fel), vagy <strong>2 az 1-hez</strong> (minden értéket pontosan kétszer). Az f-et nem látjuk, csak rákérdezhetünk egy-egy f(i) értékre. A kérdés: hány lekérdezés kell, hogy eldöntsük, melyik eset áll fenn?</p>
+<p>Egy biztos módszer: kérdezzünk meg n/2 + 1 értéket. Ha f 2 az 1-hez, csak n/2 különböző értéke van, így a skatulyaelv szerint lesz ismétlődés. Véletlen lekérdezésekkel sokkal kevesebb is elég. A <strong>születésnapi paradoxon</strong> miatt körülbelül √n kérdés után már valószínűleg ütközünk. A 23 fős osztályban is jó eséllyel van két azonos születésnap.</p>
+<aside class="u-fix"><h3>Kiigazítás · Az ütközési probléma lekérdezésekről szól, nem futási időről</h3>
+<p><strong>A PDF-ben:</strong> az ütközési probléma a „P problémák” között szerepel (PDF 224., 228. oldal).</p>
+<p><strong>Pontosabban:</strong> a kérdés itt nem az, hogy polinomiális-e a futási idő, hanem hogy <em>hány kérdést</em> kell feltenni egy fekete doboznak. Ezt <strong>lekérdezési bonyolultságnak</strong> hívják. A válasz: determinisztikusan n/2 + 1, véletlenszerűen nagyjából √n, kvantumszámítógéppel nagyjából ∛n (Brassard, Høyer és Tapp, 1997). A feladat a kriptográfiában fontos: egy hash-függvény ütközésének megtalálását modellezi. A PDF oldalán látható két ábra az egy az egyhez és a több az egyhez függvényt szemlélteti.</p>
+<p><strong>Miért fontos?</strong> A P és az NP a futási időt méri. Az ütközési probléma egy másik mércét mutat. A két kérdést nem érdemes összekeverni: egy „P-beli” címke itt nem mond semmit. <a href="#s-bht">Forrás: Brassard–Høyer–Tapp, 1997.</a></p></aside>
+</section>
+
+<!-- 05 · P: LEFEDNI, ÖSSZEVETNI -->
+<section id="p-lefedes" class="chapter-section"><span class="section-index">05 / PDF 229–232.</span>
+<h2>Könnyű feladatok: lefedni és összevetni.</h2>
+<h3>Legkisebb élfedés</h3>
+<p>Egy gráf pontokból, <strong>csúcsokból</strong>, és a köztük futó <strong>élekből</strong> áll. Az <strong>élfedés</strong> a PDF szerint az élek olyan részhalmaza, hogy a kiválasztott élek végpontjai együtt a gráf összes csúcsát kiadják. Minden csúcsnak tehát legalább egy kiválasztott élhez kell tartoznia. Csak <strong>elszigetelt pont nélküli</strong> gráfnak van élfedése: egy él nélküli csúcsot semmi sem fedhet le. A <strong>legkisebb élfedés</strong> a legkevesebb élből álló ilyen halmaz.</p>
+<figure class="u-plot" id="elfedes-abra"><svg viewBox="0 0 300 200" role="img" aria-labelledby="elfedes-t"><title id="elfedes-t">Öt csúcs, öt él. A kiemelt a–b, c–d és d–e él minden csúcsot lefed: ez egy legkisebb élfedés, három éllel.</title><path class="u-edge u-edge-on" d="M40,60L140,60"/><path class="u-edge u-edge-on" d="M140,60L260,50"/><path class="u-edge" d="M260,50L260,150"/><path class="u-edge u-edge-on" d="M260,150L140,150"/><path class="u-edge" d="M140,60L140,150"/><circle class="u-node" cx="40" cy="60" r="16"/><text class="u-svg-sym" x="40" y="65" text-anchor="middle">a</text><circle class="u-node" cx="140" cy="60" r="16"/><text class="u-svg-sym" x="140" y="65" text-anchor="middle">b</text><circle class="u-node" cx="260" cy="50" r="16"/><text class="u-svg-sym" x="260" y="55" text-anchor="middle">c</text><circle class="u-node" cx="260" cy="150" r="16"/><text class="u-svg-sym" x="260" y="155" text-anchor="middle">d</text><circle class="u-node" cx="140" cy="150" r="16"/><text class="u-svg-sym" x="140" y="155" text-anchor="middle">e</text></svg><figcaption>Öt csúcshoz legalább három él kell, mert egy él legfeljebb két csúcsot fed. A kiemelt a–b, c–d, d–e hármas tehát legkisebb.</figcaption></figure>
+<aside class="u-add"><h3>Kiegészítés · Élfedés párosításból</h3><p>A legkisebb élfedés gyorsan megtalálható. Előbb keresünk egy legnagyobb <strong>párosítást</strong>, vagyis a lehető legtöbb közös végpont nélküli élet. Edmonds 1965-ös algoritmusa ezt polinomiális időben elvégzi. Aztán minden fedetlen csúcshoz hozzáveszünk egy tetszőleges élét. Gallai Tibor tétele szerint az eredmény legkisebb: az élszám a csúcsok száma mínusz a legnagyobb párosítás mérete. A fenti gráfban 5 − 2 = 3. <a href="#s-edmonds">Forrás: Edmonds, 1965.</a></p></aside>
+<h3>Elemmegkülönböztetés</h3>
+<p>Az <strong>elemmegkülönböztetési probléma</strong> azt dönti el, hogy egy lista minden eleme különböző-e. A PDF két megoldást említ. Az első: rendezzük a listát, és nézzük meg, van-e két egymást követő egyenlő elem. Ez n·log n lépés. A második: a feladat akár <strong>lineáris várható időben</strong> is megoldható. Ehhez egy hasítótáblát (<em>hash table</em>) használunk, amelyben átlagosan egy lépés alatt megnézhető, láttuk-e már az adott elemet. Például a 4, 9, 1, 9, 7 listánál a negyedik elemnél kiderül, hogy a 9 ismétlődik. A PDF szerint az általánosítás az <strong>ismétlődő elemek megtalálása</strong>.</p>
+<aside class="u-add"><h3>Kiegészítés · Hol a határ?</h3><p>Ha csak összehasonlítani szabad az elemeket („kisebb-e, nagyobb-e?”), akkor bizonyíthatóan legalább n·log n nagyságrendű lépés kell. A lineáris várható idő azért lehetséges, mert a hasítás nem csak összehasonlít, és mert átlagról, nem a legrosszabb esetről beszélünk. Ez ritka eset: egy feladatra valódi alsó korlátot tudunk bizonyítani. A P = NP kérdésnél éppen ilyen alsó korlát hiányzik. <a href="#s-benor">Forrás: Ben-Or, 1983.</a></p></aside>
+<h3>Nyelvüresség</h3>
+<p>A <strong>nyelvürességi probléma</strong> a formális nyelvek témaköréből való. Egy <strong>formális nyelv</strong> jelsorozatok, „mondatok” halmaza, például az összes olyan a-kból és b-kből álló szó, amely a-ra végződik. A PDF szerint egy nyelv üres, ha egyetlen érvényes mondata, eleme sincs, még az üres jelsorozat sem. A feladat: egy leírás alapján eldönteni, hogy a nyelv üres-e. A leírás lehet például egy <strong>véges automata</strong>: állapotok, köztük betűkkel feliratozott nyilak, egy kezdő- és néhány elfogadó állapot. Egy szó akkor tartozik a nyelvhez, ha a betűit követve a kezdőállapotból elfogadó állapotba jutunk.</p>
+<figure class="u-plot" id="automata-abra"><svg viewBox="0 0 320 210" role="img" aria-labelledby="automata-t"><title id="automata-t">Véges automata négy állapottal. A q0 kezdőállapotból a-val q1-be, onnan b-vel vissza q0-ba lehet jutni. A q2-ből a-val az elfogadó q3-ba vezet él, de q2 elérhetetlen, ezért a nyelv üres.</title><defs><marker id="au" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="u-arrowhead"/></marker></defs><path class="u-edge" marker-end="url(#au)" d="M72 62Q105 40 138 62"/><text x="105" y="42" text-anchor="middle">a</text><path class="u-edge" marker-end="url(#au)" d="M138 80Q105 102 72 80"/><text x="105" y="108" text-anchor="middle">b</text><path class="u-edge" marker-end="url(#au)" d="M183 160H246"/><text x="215" y="152" text-anchor="middle">a</text><path class="u-edge u-edge-dash" d="M160 94V136"/><text class="u-svg-small" x="168" y="120">nincs él</text><path class="u-edge" marker-end="url(#au)" d="M8 70H27"/><circle class="u-node u-node-strong" cx="50" cy="70" r="22"/><text x="50" y="74" text-anchor="middle">q0</text><circle class="u-node u-node-strong" cx="160" cy="70" r="22"/><text x="160" y="74" text-anchor="middle">q1</text><circle class="u-node" cx="160" cy="160" r="22"/><text x="160" y="164" text-anchor="middle">q2</text><circle class="u-node" cx="270" cy="160" r="22"/><circle class="u-node" cx="270" cy="160" r="17"/><text x="270" y="164" text-anchor="middle">q3</text><text class="u-svg-label" x="50" y="120" text-anchor="middle">elérhető</text></svg><figcaption>A kettős kör az elfogadó állapot. A q0-ból csak q1 érhető el, az elfogadó q3 nem, ezért a nyelv üres. Ha lenne egy a-val jelölt nyíl q1-ből q2-be, az „aaa” szót elfogadná, és a nyelv nem lenne üres.</figcaption></figure>
+<p>A megoldás egy <strong>bejárás</strong>: a kezdőállapotból kiindulva megjelöljük, mely állapotok érhetők el. Ha köztük van elfogadó, a nyelv nem üres, és az odavezető út betűi egy tanúszót adnak. A PDF szerint n állapotú automatára ez O(n²) idő alatt elvégezhető. Ugyanakkor a feladat egyes változatai már nem ilyen könnyűek.</p>
+<aside class="u-add"><h3>Kiegészítés · A nehezebb változatok</h3><p>A bejárás valójában az automata méretével, az állapotok és a nyilak számával arányos, ami legfeljebb n² nagyságrend, ha a betűk száma rögzített. Ha azt kérdezzük, van-e közös szava <em>több</em> automata nyelvének, az <strong>PSPACE-teljes</strong>. A PSPACE a polinomiális <em>tárral</em> megoldható feladatok osztálya, NP is része. PSPACE-teljes feladat valószínűleg még az NP-teljesnél is nehezebb. Ha az automata helyett egy tetszőleges programot (Turing-gépet) adunk meg, az ürességi kérdés <strong>eldönthetetlen</strong>. <a href="#s-sipser">Forrás: Sipser, 4.1 és 5.1 fejezet</a>; <a href="#s-kozen">Kozen, 1977.</a></p></aside>
+<h3>Leghosszabb közös részsorozat</h3>
+<p>A <strong>részsorozat</strong> egy sorozat néhány elemének megtartása, a sorrend megőrzésével, de nem feltétlenül egymás mellől. Az ALMAFA részsorozata például az AMA vagy az LFA. A <strong>leghosszabb közös részsorozat</strong> problémája (angolul <em>longest common subsequence</em>, LCS) a PDF szerint egy sorozathalmaz minden tagjában megtalálható leghosszabb részsorozatot keresi, leggyakrabban csak két sorozat esetén. Ez az alapja a fájlok összehasonlításának (<code>diff</code>) és a DNS-szakaszok összevetésének is.</p>
+<div class="u-example" id="lcs-pelda"><strong>Végigvezetett példa · ALMAFA és BALATON</strong>
+<p>A <strong>dinamikus programozás</strong> a nagy feladatot kis részfeladatokra bontja, és minden részeredményt egyszer számol ki, egy táblázatba írva. Itt a táblázat sora az első, oszlopa a második szó egy-egy előtagjához tartozik. Egy cella szabálya: ha a sor és az oszlop betűje egyezik, a bal felső szomszéd + 1. Ha nem, a bal és a felső szomszéd közül a nagyobb.</p>
+<div class="u-table-wrap"><table class="u-table u-table-num u-lcs" id="lcs-tabla"><caption>Az ALMAFA és a BALATON közös részsorozatainak táblázata. A cella értéke: a két előtag leghosszabb közös részsorozatának hossza. A kiemelt cellák a visszakövetés egyezései: ALA.</caption><thead><tr><th scope="col"></th><th scope="col">–</th><th scope="col">B</th><th scope="col">A</th><th scope="col">L</th><th scope="col">A</th><th scope="col">T</th><th scope="col">O</th><th scope="col">N</th></tr></thead><tbody><tr><th scope="row">–</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><th scope="row">A</th><td>0</td><td>0</td><td class="u-cell-hit">1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><th scope="row">L</th><td>0</td><td>0</td><td>1</td><td class="u-cell-hit">2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr><tr><th scope="row">M</th><td>0</td><td>0</td><td>1</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr><tr><th scope="row">A</th><td>0</td><td>0</td><td>1</td><td>2</td><td class="u-cell-hit">3</td><td>3</td><td>3</td><td>3</td></tr><tr><th scope="row">F</th><td>0</td><td>0</td><td>1</td><td>2</td><td>3</td><td>3</td><td>3</td><td>3</td></tr><tr><th scope="row">A</th><td>0</td><td>0</td><td>1</td><td>2</td><td>3</td><td>3</td><td>3</td><td>3</td></tr></tbody></table></div>
+<p>A jobb alsó cella értéke 3: a leghosszabb közös részsorozat három betű. A kiemelt cellákon visszafelé haladva kiolvasható: <strong>ALA</strong>. A táblázatnak 7 · 8 = 56 cellája van, két n hosszú sorozatnál n² nagyságrend. Ez polinomiális.</p></div>
+<p>A PDF szerint a feladat <strong>tetszőleges számú</strong> bemeneti sorozat esetén NP-nehéz. Ha viszont a sorozatok száma állandó, dinamikus programozással polinomiális időben megoldható. Három sorozatnál a táblázat háromdimenziós lesz, n³ cellával, m sorozatnál nᵐ cellával. Ismét az a helyzet, mint a k-SUM-nál: amíg m rögzített, a munka polinomiális, de ha m is nőhet, a kitevő elszabadul.</p>
+<aside class="u-fix"><h3>Kiigazítás · Az LCS csak rögzített számú sorozatra P-beli</h3>
+<p><strong>A PDF-ben:</strong> a leghosszabb közös részsorozat a „P problémák” cím alatt szerepel (PDF 224., 232. oldal), miközben a dia maga azt írja: „Tetszőleges számú bemeneti sorozat esetén NP-nehéz”.</p>
+<p><strong>Pontosabban:</strong> a két állítás csak együtt igaz. Két sorozatra, vagy bármely rögzített számú sorozatra, a feladat P-beli. Ha a sorozatok száma a bemenet része, NP-nehéz. Ezt Maier bizonyította 1978-ban. A besorolás tehát a feladat pontos megfogalmazásától függ, nem a nevétől.</p>
+<p><strong>Miért fontos?</strong> Egy feladat nevéhez nem tartozik automatikusan bonyolultsági osztály. Mindig meg kell nézni, mi a bemenet, és mi rögzített. <a href="#s-maier">Forrás: Maier, 1978.</a></p></aside>
+</section>
+
+<!-- 06 · SAT -->
+<section id="sat" class="chapter-section"><span class="section-index">06 / PDF 233–235.</span>
+<h2>SAT: az első NP-teljes feladat.</h2>
+<p>A PDF következő csoportja az <strong>NP-teljes problémák</strong>. Az első és legfontosabb a <strong>Boole-féle kielégíthetőségi probléma</strong>, röviden <strong>SAT</strong> (angolul <em>Boolean satisfiability problem</em>). A kérdés: van-e egy adott logikai formulának olyan <strong>interpretációja</strong>, amely kielégíti? A 4. fejezetből ismerős szó: az interpretáció minden változóhoz IGAZ vagy HAMIS értéket rendel. Másként fogalmazva: ha a változókat következetesen IGAZ vagy HAMIS értékre cseréljük, kijöhet-e a formula értékeként IGAZ? Ha igen, a formula <strong>kielégíthető</strong>. Ha minden behelyettesítésre HAMIS, <strong>kielégíthetetlen</strong>.</p>
+<figure class="u-quote" id="cook-levin-idezet"><blockquote><p>„Első ismert NP-teljes probléma (igazolva Stephen Cook által 1971-ben és Lenid Levin által 1973-ban)”</p></blockquote><figcaption>PDF 234. oldal</figcaption></figure>
+<p>Miért éppen a SAT lett az első? Cook és Levin megmutatta, hogy <em>bármely</em> NP-beli feladat visszavezethető rá. A bizonyítás ötlete: ha egy nemdeterminisztikus Turing-gép polinomiális időben megoldja a feladatot, akkor a gép teljes működése, minden lépésben a szalag tartalma és a fej helyzete, leírható egyetlen, polinomiális méretű logikai formulával. A formula pontosan akkor kielégíthető, ha a gép „igen”-t mond. A SAT tehát egy univerzális nyelv, amelyen minden gyorsan ellenőrizhető kérdés megfogalmazható. Onnantól egy új feladatról elég annyit megmutatni, hogy a SAT, vagy egy már ismert NP-teljes feladat, visszavezethető rá.</p>
+<aside class="u-fix"><h3>Kiigazítás · Leonid Levin, egymástól függetlenül</h3>
+<p><strong>A PDF-ben:</strong> „Lenid Levin” (PDF 234. oldal).</p>
+<p><strong>Pontosabban:</strong> a név helyesen <strong>Leonid Levin</strong>. Cook és Levin nem együtt dolgozott: Cook Torontóban, Levin a Szovjetunióban, egymásról nem tudva jutott ugyanarra az eredményre. Levin eredménye 1973-ban jelent meg, orosz nyelven, egy „univerzális keresési feladatokról” szóló cikkben. Ezért hívják ma a tételt Cook–Levin-tételnek.</p>
+<p><strong>Miért fontos?</strong> A szakirodalomban és a keresőkben a pontos név vezet el a forráshoz. A két független felfedezés pedig azt is mutatja, hogy az ötlet „a levegőben volt”. <a href="#s-levin">Forrás: Levin, 1973.</a></p></aside>
+<h3>A 3-SAT</h3>
+<p>A <strong>3-SAT</strong> a PDF szerint a SAT egy speciális esete. A formula <strong>konjunktív normálformában</strong> (KNF) van: tagmondatok, azaz <strong>klózok</strong> ÉS-sel összekapcsolva, ahol minden klóz néhány <strong>literál</strong> (egy változó vagy a tagadása) VAGY-kapcsolata. A 3-SAT-ban minden klóz legfeljebb három literált tartalmaz. A formula akkor igaz, ha minden klózban van legalább egy IGAZ literál. A PDF példája:</p>
+<p class="u-formula u-big" id="harom-sat-pelda"><span>(x ∨ x ∨ y) ∧ (¬x ∨ ¬y ∨ ¬y) ∧ (¬x ∨ y ∨ y)</span><span>PDF 235. oldal</span></p>
+<div class="u-example" id="harom-sat-megoldas"><strong>Végigvezetett példa · a PDF formulájának egyetlen megoldása</strong>
+<ol class="u-steps">
+<li><p><strong>Tegyük fel, hogy x IGAZ.</strong> A 2. klózban a ¬x hamis, ezért ¬y-nak kell igaznak lennie: y HAMIS. A 3. klózban viszont ¬x hamis, ezért y-nak kellene igaznak lennie. Ellentmondás.</p></li>
+<li><p><strong>Tehát x HAMIS.</strong> Az 1. klózban x hamis, így y-nak IGAZ-nak kell lennie.</p></li>
+<li><p><strong>Ellenőrzés x = HAMIS, y = IGAZ mellett:</strong> 1. klóz: y igaz. 2. klóz: ¬x igaz. 3. klóz: ¬x igaz. Mindhárom teljesül, a formula kielégíthető, és ez az egyetlen megoldása.</p></li>
+</ol></div>
+<p>A PDF szerint a 3-SAT alapján bizonyítják más feladatok NP-nehézségét: a legtöbb visszavezetés ebből indul, mert egyszerű a szerkezete. A PDF a 3-SAT több változatát is felsorolja. Az összevetésük megmutatja, milyen apró változtatáson múlik a nehézség.</p>
+<div class="u-table-wrap"><table class="u-table" id="sat-valtozatok">
+<caption>A PDF 235. oldalának 3-SAT-változatai és a jegyzet besorolása.</caption>
+<thead><tr><th>Változat</th><th>Mit kér?</th><th>Nehézség</th></tr></thead>
+<tbody>
+<tr><td>3-SAT, legfeljebb három literál</td><td>KNF, minden klózban legfeljebb három literál.</td><td>NP-teljes</td></tr>
+<tr><td>Pontosan három literál</td><td>KNF, minden klózban pontosan három literál.</td><td>NP-teljes</td></tr>
+<tr><td>Diszjunktív normálforma</td><td>VAGY-gyal összekötött ÉS-tagok.</td><td>Könnyű, lineáris idejű (lásd a kiigazítást)</td></tr>
+<tr><td>1-a-3-ból SAT (1-in-3 SAT)</td><td>Pontosan három literál klózonként, és mindegyikben pontosan egy IGAZ.</td><td>NP-teljes (Schaefer, 1978)</td></tr>
+<tr><td>Lineáris SAT</td><td>Minden klóz legfeljebb egy másikkal metszi egymást, és a metszetben pontosan egy literál közös.</td><td>NP-teljes</td></tr>
+<tr><td>2-SAT (kiegészítés)</td><td>Legfeljebb két literál klózonként.</td><td>Könnyű, lineáris idejű</td></tr>
+</tbody></table></div>
+<aside class="u-fix"><h3>Kiigazítás · A diszjunktív normálforma kielégíthetősége könnyű</h3>
+<p><strong>A PDF-ben:</strong> a 3-SAT speciális esetei között szerepel a „Diszjunktív normálformában” megadott változat (PDF 235. oldal), a többi NP-teljes változattal egy sorban.</p>
+<p><strong>Pontosabban:</strong> egy <strong>diszjunktív normálformájú</strong> (DNF) formula ÉS-tagok VAGY-kapcsolata, például (x ∧ ¬y) ∨ (¬x ∧ y ∧ z). Ez akkor kielégíthető, ha <em>legalább egy</em> tagja kielégíthető. Egy ÉS-tag pedig pontosan akkor kielégíthető, ha nem tartalmaz egy változót és a tagadását is. Ezt egyetlen végigolvasással ellenőrizni lehet: a feladat lineáris idejű. A nehézség átköltözik: a KNF-ből DNF-et gyártani általában exponenciálisan hosszú formulát ad.</p>
+<p><strong>Miért fontos?</strong> A 4. fejezet normálformái között az átírás logikailag egyenértékű. Számítási szempontból viszont nem mindegy, melyik alakot kapjuk meg. Ugyanez a jelenség a 2-SAT és a 3-SAT között: egyetlen literál különbség választja el a könnyűt az NP-teljestől. <a href="#s-arora">Forrás: Arora–Barak, 2. fejezet.</a></p></aside>
+<div class="u-lab" id="sat-labor"><span class="u-lab-label">PRÓBÁLD KI / SAT MINI-MEGOLDÓ</span><h3>Kapcsold a változókat, aztán próbáld végig mindet!</h3>
+<p>Válassz formulát, és állítsd be a változók értékét. A klózok egyenként mutatják, teljesülnek-e. A „Mind kipróbálása” gomb a nyers erő: az összes 2ⁿ behelyettesítést kiértékeli. A harmadik formulánál figyeld a Max-3SAT-ot is, erről a 10. rész szól.</p>
+<div class="u-js-only">
+<div class="u-form-row"><label class="u-grow">Formula <select id="sat-keplet">
+<option value="pdf">A PDF példája: (x ∨ x ∨ y) ∧ (¬x ∨ ¬y ∨ ¬y) ∧ (¬x ∨ y ∨ y)</option>
+<option value="harom">Négy klóz, három változó</option>
+<option value="ellentmondas">Mind a nyolc előjelkombináció: kielégíthetetlen</option>
+</select></label></div>
+<div class="u-controls" id="sat-valtozok"><button type="button" class="u-toggle" id="sat-x" aria-pressed="false">x = HAMIS</button><button type="button" class="u-toggle" id="sat-y" aria-pressed="false">y = HAMIS</button><button type="button" class="u-toggle" id="sat-z" aria-pressed="false">z = HAMIS</button></div>
+<ul class="u-clauses" id="sat-klozok"></ul>
+<div class="u-out" id="sat-ki" role="status" aria-live="polite"></div>
+<div class="u-controls"><button type="button" id="sat-mind">Mind kipróbálása</button></div>
+<div class="u-table-wrap"><table class="u-table u-table-num" id="sat-tabla"><thead></thead><tbody></tbody></table></div>
+<p class="u-out" id="sat-osszeg" role="status" aria-live="polite"></p>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. A PDF formulájának teljes megoldása a fenti végigvezetett példában olvasható.</p>
+</div>
+</section>
+
+<!-- 07 · GRÁFOK -->
+<section id="grafok" class="chapter-section"><span class="section-index">07 / PDF 236–238., 243.</span>
+<h2>Hamilton-kör, klikk, csúcsfedés.</h2>
+<p>A következő három NP-teljes feladat gráfokról szól. Mindhármat ugyanazon a hét csúcsú gráfon mutatjuk be, hogy látsszon: ugyanaz a hálózat háromféle kérdést vet fel, és mindhárom nehéz.</p>
+<div class="u-plot-trio" id="graf-harmas">
+<figure class="u-plot"><svg viewBox="0 0 300 220" role="img" aria-labelledby="gh-t"><title id="gh-t">Egy Hamilton-út: A, B, C, F, G, D, E. Az E–A éllel Hamilton-körré zárul.</title><path class="u-edge u-edge-on" d="M40,45L150,28"/><path class="u-edge" d="M40,45L55,150"/><path class="u-edge u-edge-on" d="M40,45L155,108"/><path class="u-edge" d="M150,28L55,150"/><path class="u-edge" d="M150,28L155,108"/><path class="u-edge u-edge-on" d="M55,150L155,108"/><path class="u-edge u-edge-on" d="M150,28L262,45"/><path class="u-edge" d="M262,45L155,108"/><path class="u-edge u-edge-on" d="M262,45L265,150"/><path class="u-edge" d="M155,108L265,150"/><path class="u-edge u-edge-on" d="M55,150L155,192"/><path class="u-edge" d="M155,108L155,192"/><path class="u-edge u-edge-on" d="M265,150L155,192"/><circle class="u-node" cx="40" cy="45" r="16"/><text class="u-svg-sym" x="40" y="50" text-anchor="middle">A</text><circle class="u-node" cx="150" cy="28" r="16"/><text class="u-svg-sym" x="150" y="33" text-anchor="middle">B</text><circle class="u-node" cx="262" cy="45" r="16"/><text class="u-svg-sym" x="262" y="50" text-anchor="middle">C</text><circle class="u-node" cx="55" cy="150" r="16"/><text class="u-svg-sym" x="55" y="155" text-anchor="middle">D</text><circle class="u-node" cx="155" cy="108" r="16"/><text class="u-svg-sym" x="155" y="113" text-anchor="middle">E</text><circle class="u-node" cx="265" cy="150" r="16"/><text class="u-svg-sym" x="265" y="155" text-anchor="middle">F</text><circle class="u-node" cx="155" cy="192" r="16"/><text class="u-svg-sym" x="155" y="197" text-anchor="middle">G</text></svg><figcaption><strong>Hamilton-út és -kör.</strong> A, B, C, F, G, D, E: minden csúcs egyszer. Az E–A él bezárja a kört.</figcaption></figure>
+<figure class="u-plot"><svg viewBox="0 0 300 220" role="img" aria-labelledby="gk-t"><title id="gk-t">A legnagyobb klikk: A, B, D, E. Mind a hat élük megvan.</title><path class="u-edge u-edge-on" d="M40,45L150,28"/><path class="u-edge u-edge-on" d="M40,45L55,150"/><path class="u-edge u-edge-on" d="M40,45L155,108"/><path class="u-edge u-edge-on" d="M150,28L55,150"/><path class="u-edge u-edge-on" d="M150,28L155,108"/><path class="u-edge u-edge-on" d="M55,150L155,108"/><path class="u-edge" d="M150,28L262,45"/><path class="u-edge" d="M262,45L155,108"/><path class="u-edge" d="M262,45L265,150"/><path class="u-edge" d="M155,108L265,150"/><path class="u-edge" d="M55,150L155,192"/><path class="u-edge" d="M155,108L155,192"/><path class="u-edge" d="M265,150L155,192"/><circle class="u-node u-node-on" cx="40" cy="45" r="16"/><text class="u-svg-sym u-on" x="40" y="50" text-anchor="middle">A</text><circle class="u-node u-node-on" cx="150" cy="28" r="16"/><text class="u-svg-sym u-on" x="150" y="33" text-anchor="middle">B</text><circle class="u-node" cx="262" cy="45" r="16"/><text class="u-svg-sym" x="262" y="50" text-anchor="middle">C</text><circle class="u-node u-node-on" cx="55" cy="150" r="16"/><text class="u-svg-sym u-on" x="55" y="155" text-anchor="middle">D</text><circle class="u-node u-node-on" cx="155" cy="108" r="16"/><text class="u-svg-sym u-on" x="155" y="113" text-anchor="middle">E</text><circle class="u-node" cx="265" cy="150" r="16"/><text class="u-svg-sym" x="265" y="155" text-anchor="middle">F</text><circle class="u-node" cx="155" cy="192" r="16"/><text class="u-svg-sym" x="155" y="197" text-anchor="middle">G</text></svg><figcaption><strong>Klikk.</strong> A, B, D, E: bármely kettő szomszédos. Öt csúcsú klikk nincs.</figcaption></figure>
+<figure class="u-plot"><svg viewBox="0 0 300 220" role="img" aria-labelledby="gf-t"><title id="gf-t">A legkisebb lefedő csúcshalmaz: B, D, E, F. Minden élnek legalább egyik végpontja kiemelt.</title><path class="u-edge" d="M40,45L150,28"/><path class="u-edge" d="M40,45L55,150"/><path class="u-edge" d="M40,45L155,108"/><path class="u-edge" d="M150,28L55,150"/><path class="u-edge" d="M150,28L155,108"/><path class="u-edge" d="M55,150L155,108"/><path class="u-edge" d="M150,28L262,45"/><path class="u-edge" d="M262,45L155,108"/><path class="u-edge" d="M262,45L265,150"/><path class="u-edge" d="M155,108L265,150"/><path class="u-edge" d="M55,150L155,192"/><path class="u-edge" d="M155,108L155,192"/><path class="u-edge" d="M265,150L155,192"/><circle class="u-node" cx="40" cy="45" r="16"/><text class="u-svg-sym" x="40" y="50" text-anchor="middle">A</text><circle class="u-node u-node-on" cx="150" cy="28" r="16"/><text class="u-svg-sym u-on" x="150" y="33" text-anchor="middle">B</text><circle class="u-node" cx="262" cy="45" r="16"/><text class="u-svg-sym" x="262" y="50" text-anchor="middle">C</text><circle class="u-node u-node-on" cx="55" cy="150" r="16"/><text class="u-svg-sym u-on" x="55" y="155" text-anchor="middle">D</text><circle class="u-node u-node-on" cx="155" cy="108" r="16"/><text class="u-svg-sym u-on" x="155" y="113" text-anchor="middle">E</text><circle class="u-node u-node-on" cx="265" cy="150" r="16"/><text class="u-svg-sym u-on" x="265" y="155" text-anchor="middle">F</text><circle class="u-node" cx="155" cy="192" r="16"/><text class="u-svg-sym" x="155" y="197" text-anchor="middle">G</text></svg><figcaption><strong>Csúcsfedés.</strong> B, D, E, F: minden élnek van kiemelt végpontja. Három csúcs nem elég.</figcaption></figure>
+</div>
+<h3>Hamilton-kör és Hamilton-út</h3>
+<p>A PDF szerint a <strong>Hamilton-kör</strong> olyan kör egy gráfban, amely a gráf összes csúcsán pontosan egyszer halad át, és visszaér a kiindulópontba. A <strong>Hamilton-út</strong> ugyanez, csak nem kell visszaérnie. A feladat: van-e a gráfban ilyen? A nevét William Rowan Hamilton 1857-es játékáról kapta, amelyben egy tizenkét lapú test csúcsain kellett körbejárni. Az NP-teljességet a PDF szerint a csúcsfedés feladat segítségével bizonyították: Karp 1972-ben a csúcsfedést vezette vissza rá.</p>
+<p>Érdemes összevetni az <strong>Euler-körrel</strong>, amely minden <em>élen</em> halad át egyszer. Arra Euler már 1736-ban egyszerű feltételt adott: összefüggő gráfban minden csúcs fokszáma páros legyen. Az Euler-kör tehát P-beli. A csúcsokra vonatkozó, látszólag testvér kérdés NP-teljes.</p>
+<p>A PDF felsorolja, milyen szűkebb gráfosztályokban marad NP-teljes a feladat. Ez azt mutatja, hogy a nehézség nem a bonyolult, sűrű gráfokból jön. NP-teljes a Hamilton-kör kérdése:</p>
+<ul class="u-plainlist">
+<li>páros gráfokban, ahol a csúcsok két csoportba oszthatók, és él csak a csoportok között fut;</li>
+<li>síkba rajzolható, irányítatlan gráfokban, ahol minden csúcs fokszáma legfeljebb 3;</li>
+<li>síkba rajzolható, irányított gráfokban, ahol minden csúcsba legfeljebb két él fut be, és legfeljebb kettő indul ki;</li>
+<li>hídmentes, irányítatlan, síkba rajzolható, 3-reguláris páros gráfokban (egy él sem vágja ketté a gráfot, és minden csúcs fokszáma pontosan 3);</li>
+<li>a négyzetrács gráf részgráfjaiban.</li>
+</ul>
+<h3>Klikk</h3>
+<p>A PDF szerint a <strong>klikk</strong> egy irányítatlan gráf csúcsainak olyan halmaza, amelynek <strong>feszített részgráfja teljes</strong>. Egyszerűbben: a klikk bármely két csúcsa között van él, bármely két csúcsa szomszédos. Egy baráti társaság, ahol mindenki ismer mindenkit. A <strong>klikk döntési problémájának</strong> bemenete egy irányítatlan gráf és egy k pozitív egész. A kérdés: van-e a gráfban k méretű klikk?</p>
+<aside class="u-add"><h3>Kiegészítés · A k helye a kitevőben</h3><p>Rögzített k-ra a klikk kérdése polinomiális: az összes k elemű csúcshalmaz száma legfeljebb nᵏ, és mindegyiket gyorsan ellenőrizzük. Ha k = 3, ez a háromszögkeresés, n³ nagyságrendű munka. Az NP-teljesség ott kezdődik, ahol k is a bemenet része, például k = n/2. Ugyanez a jelenség, mint a k-SUM-nál és az LCS-nél. <a href="#s-karp">Forrás: Karp, 1972.</a></p></aside>
+<h3>Lefedő csúcshalmaz</h3>
+<p>A <strong>lefedő csúcshalmaz</strong>, röviden <strong>csúcsfedés</strong> (angolul <em>vertex cover</em>) a PDF szerint a gráf csúcsainak olyan halmaza, amely a gráf minden élének legalább egy végpontját tartalmazza. Gondolj egy múzeumra, ahol a folyosók az élek, a kereszteződések a csúcsok. Ha minden kiválasztott kereszteződésbe egy őrt állítasz, minden folyosót lát valaki. Érdemes az 5. rész élfedésével összevetni: ott élekkel fedjük a csúcsokat, és a feladat könnyű. Itt csúcsokkal az éleket, és a feladat NP-teljes.</p>
+<aside class="u-fix"><h3>Kiigazítás · A csúcsfedés kérdése: legfeljebb k</h3>
+<p><strong>A PDF-ben:</strong> „A gráfnak van-e legalább k méretű lefedő csúcshalmaza” (PDF 238. oldal).</p>
+<p><strong>Pontosabban:</strong> „Van-e a gráfnak <strong>legfeljebb</strong> k méretű lefedő csúcshalmaza?” A „legalább” változat mindig triviális: az összes csúcs együtt biztosan lefed minden élet, így ha k nem nagyobb a csúcsok számánál, a válasz mindig igen.</p>
+<p><strong>Miért fontos?</strong> A fenti gráfban „van-e legalább 4 méretű csúcsfedés?”: igen, mind a 7 csúcs jó. Ehhez nem kell gondolkodni. „Van-e legfeljebb 3 méretű?”: nem, és ezt bizonyítani kell. Egy döntési kérdésnél a relációjel iránya dönti el, hogy érdekes feladatról beszélünk-e. <a href="#s-karp">Forrás: Karp, 1972, „Node Cover”.</a></p></aside>
+<p>A PDF 243. oldala a <strong>minimum lefedő csúcshalmaz</strong> optimalizálási változatát is bemutatja, az NP-nehéz feladatok között: keressük meg a legkisebb lefedő csúcshalmazt, és adjuk vissza a méretét, a k értéket. Ez szépen mutatja a döntési és az optimalizálási változat viszonyát. Ha a döntési kérdésre gyors válaszunk lenne, a legkisebb k-t is gyorsan megtalálnánk: k = 1, 2, 3, … sorban rákérdezve legfeljebb n kérdés kell. Fordítva is igaz: az optimum ismeretében minden döntési kérdés megválaszolható. A két változat tehát ugyanolyan nehéz, csak az egyik NP-teljes, a másik, mert nem igen–nem kérdés, „csak” NP-nehéz.</p>
+<p class="u-simple"><strong>Egyszerűen mondva</strong>Mindhárom gráffeladatnál egy javasolt megoldást gyorsan ellenőrzünk: végignézzük az éleket. Megtalálni viszont, a ma ismert módszerekkel, csak a lehetőségek nagy részének végigpróbálásával lehet. Egy 100 csúcsú gráfnak 2¹⁰⁰ csúcshalmaza van.</p>
+<div class="u-lab" id="graf-labor"><span class="u-lab-label">PRÓBÁLD KI / GRÁFLABOR</span><h3>Keress klikket, csúcsfedést és Hamilton-utat!</h3>
+<p>Válaszd ki a feladatot, és kattints a csúcsokra, vagy használd a gombokat. Hamilton-útnál a kattintás sorrendje az út sorrendje. A labor minden lépés után ellenőriz, ahogy egy NP-beli ellenőrző tenné. A „Legjobb megoldás” gomb kimerítő kereséssel dolgozik.</p>
+<div class="u-js-only">
+<div class="u-form-row"><label>Feladat <select id="graf-mod"><option value="klikk">Klikk: minél nagyobbat</option><option value="fedes">Csúcsfedés: minél kisebbet</option><option value="hamilton">Hamilton-út: minden csúcs egyszer</option></select></label></div>
+<svg id="graf-rajz" class="u-live u-live-small" viewBox="0 0 300 220" role="img" aria-labelledby="graf-rajz-t"><title id="graf-rajz-t">A gráflabor gráfja: hét csúcs, tizenhárom él. A kijelölt csúcsok és élek kiemelve jelennek meg.</title><path class="u-edge" d="M40,45L150,28"/><path class="u-edge" d="M40,45L55,150"/><path class="u-edge" d="M40,45L155,108"/><path class="u-edge" d="M150,28L55,150"/><path class="u-edge" d="M150,28L155,108"/><path class="u-edge" d="M55,150L155,108"/><path class="u-edge" d="M150,28L262,45"/><path class="u-edge" d="M262,45L155,108"/><path class="u-edge" d="M262,45L265,150"/><path class="u-edge" d="M155,108L265,150"/><path class="u-edge" d="M55,150L155,192"/><path class="u-edge" d="M155,108L155,192"/><path class="u-edge" d="M265,150L155,192"/><circle class="u-node" cx="40" cy="45" r="16"/><text class="u-svg-sym" x="40" y="50" text-anchor="middle">A</text><circle class="u-node" cx="150" cy="28" r="16"/><text class="u-svg-sym" x="150" y="33" text-anchor="middle">B</text><circle class="u-node" cx="262" cy="45" r="16"/><text class="u-svg-sym" x="262" y="50" text-anchor="middle">C</text><circle class="u-node" cx="55" cy="150" r="16"/><text class="u-svg-sym" x="55" y="155" text-anchor="middle">D</text><circle class="u-node" cx="155" cy="108" r="16"/><text class="u-svg-sym" x="155" y="113" text-anchor="middle">E</text><circle class="u-node" cx="265" cy="150" r="16"/><text class="u-svg-sym" x="265" y="155" text-anchor="middle">F</text><circle class="u-node" cx="155" cy="192" r="16"/><text class="u-svg-sym" x="155" y="197" text-anchor="middle">G</text></svg>
+<div class="u-controls" id="graf-gombok"></div>
+<div class="u-out" id="graf-ki" role="status" aria-live="polite"></div>
+<div class="u-controls"><button type="button" class="u-ghost" id="graf-torol">Törlés</button><button type="button" id="graf-megoldas">Legjobb megoldás</button></div>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. A három feladat egy-egy megoldása a fenti ábrákon látható.</p>
+</div>
+</section>
+
+<!-- 08 · HÁTIZSÁK -->
+<section id="hatizsak" class="chapter-section"><span class="section-index">08 / PDF 239.</span>
+<h2>Hátizsák: mi férjen bele?</h2>
+<p>A <strong>hátizsák-probléma</strong> (angolul <em>knapsack problem</em>) a PDF szerint így szól. Adott elemek egy halmaza, és minden elemnek van <strong>értéke</strong> és <strong>súlya</strong>. A feladat paramétere egy <strong>súlykorlát</strong>. A cél: meghatározni, melyik elemből hány darabot vigyünk, hogy az összsúly ne haladja meg a korlátot, de az összérték a lehető legnagyobb legyen. A PDF szerint a feladat először 1897-ben jelent meg.</p>
+<p>A PDF ábráján egy 15 kg-os hátizsák és öt doboz látható. Ezekkel dolgozunk tovább:</p>
+<div class="u-table-wrap"><table class="u-table u-table-num" id="hatizsak-elemek">
+<caption>A PDF 239. oldalának öt doboza, 15 kg-os súlykorláttal. Az utolsó oszlop az egy kilogrammra jutó érték.</caption>
+<thead><tr><th>Doboz</th><th>Súly</th><th>Érték</th><th>$/kg</th></tr></thead>
+<tbody><tr><td>zöld</td><td>12 kg</td><td>4 $</td><td>0,33</td></tr><tr><td>kék</td><td>2 kg</td><td>2 $</td><td>1</td></tr><tr><td>szürke</td><td>1 kg</td><td>2 $</td><td>2</td></tr><tr><td>narancs</td><td>1 kg</td><td>1 $</td><td>1</td></tr><tr><td>sárga</td><td>4 kg</td><td>10 $</td><td>2,5</td></tr></tbody></table></div>
+<div class="u-example" id="hatizsak-pelda"><strong>Végigvezetett példa · a PDF hátizsákja kétféleképpen</strong>
+<div class="u-compare">
+<div><span class="u-tag">0/1 VÁLTOZAT</span><h3>Minden dobozból legfeljebb egy</h3><p>A zöld doboz egymagában 12 kg, és csak 4 $. Ha nem visszük, a maradék négy együtt 2 + 1 + 1 + 4 = 8 kg, és 2 + 2 + 1 + 10 = <strong>15 $</strong>. Ennél jobb nincs: a zöld dobozzal legfeljebb 3 kg marad, abba 2 + 2 $ fér, összesen 8 $.</p></div>
+<div><span class="u-tag">KORLÁTLAN DARABSZÁM</span><h3>Bármelyikből akárhány</h3><p>A PDF megfogalmazása, „minden elem darabszáma”, ezt a változatot írja le. A sárga a legjobb kilónként: 3 darab 12 kg, 30 $. A maradék 3 kg-ba 3 szürke fér, 6 $. Összesen 15 kg és <strong>36 $</strong>.</p></div>
+</div>
+<p>A mohó szabály, „vidd a legjobb $/kg arányút, amíg fér”, itt mindkét változatban optimumot ad. Általában viszont nem. Egy 10 kg-os hátizsák és három doboz: 6 kg és 30 $ (5 $/kg), valamint kétszer 5 kg és 20 $ (4 $/kg). A mohó a legjobb arányú 6 kg-os dobozt teszi be elsőként, utána egyik 5 kg-os sem fér mellé: 30 $. A két 5 kg-os együtt pontosan 10 kg és <strong>40 $</strong>.</p></div>
+<p>A kurzus kódjai között a <code>resources/code/16_Genetikus_algoritmus_hatizsak.py</code> ugyanezt a feladatot oldja meg, egy másik adatsorral. A genetikus algoritmus részleteivel a következő fejezet foglalkozik. Itt csak a feladat leírását és a <strong>kiértékelő függvényét</strong> nézzük meg, mert pontosan az NP-beli ellenőrzés lépését valósítja meg.</p>
+<figure class="u-code" id="kod-hatizsak"><pre><code>def calculate_fitness(candidate):
+    total_weight = 0
+    total_value = 0
+    for i in range(len(candidate)):
+        if candidate[i] == 1:
+            total_weight += items[i][0]
+            total_value += items[i][1]
+    if total_weight > max_weight:
+        return 0
+    else:
+        return total_value
+
+items = [
+    [1,2],
+    [2,3],
+    [2,4],
+    [4,5],
+    [3,7],
+    [6,9]
+]  #Első a súly, a második az érték
+max_weight = 10
+print(calculate_fitness([1,0,0,1,1,0]))
+print(calculate_fitness([1,0,0,1,1,1]))</code></pre><figcaption>Részlet: <code>resources/code/16_Genetikus_algoritmus_hatizsak.py</code>. Kihagytuk a genetikus algoritmus függvényeit és a kiírások egy részét, a megmaradt sorok változatlanok.</figcaption></figure>
+<p>A <strong>bemenet</strong> egy <code>candidate</code> lista, egy jelölt megoldás: minden elemhez egy 0 vagy 1, vagyis a 0/1 változatról van szó. A függvény egyszer végigmegy a listán, és összeadja a kiválasztott elemek súlyát és értékét. Ha a súly túllépi a <code>max_weight</code> korlátot, 0-t ad vissza, különben az összértéket. Ez n lépés: a tanú ellenőrzése lineáris idejű. Az <strong>eredmény</strong> a két próbahívásra: az <code>[1,0,0,1,1,0]</code> jelölt 1 + 4 + 3 = 8 kg, értéke 2 + 5 + 7 = 14, ezt írja ki. Az <code>[1,0,0,1,1,1]</code> 14 kg, túl nehéz, ezért 0.</p>
+<p>Mi az optimum? A hat elemnek 2⁶ = 64 részhalmaza van, ezeket végignézve két legjobb is akad, mindkettő 10 kg és <strong>18 érték</strong>: az 1., 3., 4., 5. elem, illetve az 1., 5., 6. elem. A programot Python 3.12-vel, 100 különböző véletlenmaggal lefuttattuk. A genetikus algoritmus 79 futásban megtalálta a 18-at, 15-ben 17-nél, 6-ban 16-nál állt meg. Egy heurisztika tehát gyakran, de nem mindig találja meg az optimumot. Ez a nehéz feladatok megszokott ára.</p>
+<aside class="u-fix"><h3>Kiigazítás · A hátizsák döntési változata NP-teljes, és a nehézsége „gyenge”</h3>
+<p><strong>A PDF-ben:</strong> a hátizsák az „NP-teljes problémák” között szerepel, de a dián optimalizálási feladatként: „az összérték a lehető legnagyobb legyen” (PDF 239. oldal).</p>
+<p><strong>Pontosabban:</strong> NP-teljes a <strong>döntési változat</strong>: „Van-e olyan választás, amelynek súlya legfeljebb W, értéke legalább V?” Az optimalizálási változat NP-nehéz. Ráadásul a hátizsák csak <strong>gyengén</strong> NP-teljes: dinamikus programozással n·W lépésben megoldható, ahol W a súlykorlát. Ez nem polinomiális, mert W számjegyeinek száma, nem W maga a bemenet mérete. De amíg a súlyok kis egész számok, a gyakorlatban gyors.</p>
+<p><strong>Miért fontos?</strong> A PDF 15 kg-os feladatára a táblázatos módszer 5 · 16 = 80 cellát tölt ki. Ha a súlyokat grammban adnánk meg, már 5 · 15 001 cella kellene. A gyengén NP-teljes feladatok a nehéz feladatok „szelídebb” fajtája. Az erősen NP-teljesek, mint a 3-SAT, kis számokkal is nehezek. <a href="#s-garey">Forrás: Garey–Johnson, 4.2 fejezet.</a></p></aside>
+<div class="u-lab" id="hatizsak-labor"><span class="u-lab-label">PRÓBÁLD KI / PAKOLD A HÁTIZSÁKOT</span><h3>Mennyit ér, amit elbírsz?</h3>
+<p>Állítsd be a darabszámokat. A labor összesít, és szól, ha túlléped a 15 kg-ot. A két gomb a kétféle optimumot tölti be, dinamikus programozással kiszámolva.</p>
+<div class="u-js-only">
+<div class="u-knapsack">
+<label><span class="u-box u-box-green"></span>zöld · 12 kg · 4 $ <input type="number" id="hz-0" min="0" max="5" value="0"></label>
+<label><span class="u-box u-box-blue"></span>kék · 2 kg · 2 $ <input type="number" id="hz-1" min="0" max="5" value="0"></label>
+<label><span class="u-box u-box-grey"></span>szürke · 1 kg · 2 $ <input type="number" id="hz-2" min="0" max="5" value="0"></label>
+<label><span class="u-box u-box-orange"></span>narancs · 1 kg · 1 $ <input type="number" id="hz-3" min="0" max="5" value="0"></label>
+<label><span class="u-box u-box-yellow"></span>sárga · 4 kg · 10 $ <input type="number" id="hz-4" min="0" max="5" value="0"></label>
+</div>
+<div class="u-meter" aria-hidden="true"><span id="hz-savszel"></span></div>
+<div class="u-out" id="hz-ki" role="status" aria-live="polite"></div>
+<div class="u-controls"><button type="button" id="hz-opt01">0/1 optimum</button><button type="button" id="hz-optkorl">Korlátlan optimum</button><button type="button" class="u-ghost" id="hz-torol">Kiürítés</button></div>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. Mindkét optimum levezetése a fenti végigvezetett példában olvasható.</p>
+</div>
+</section>
+
+<!-- 09 · UTAZÓÜGYNÖK -->
+<section id="utazougynok" class="chapter-section"><span class="section-index">09 / PDF 240–242., 252–253.</span>
+<h2>Az utazóügynök: a nehéz feladatok zászlóshajója.</h2>
+<p>A PDF következő csoportja az <strong>NP-nehéz</strong> feladatoké. Ezek többnyire optimalizálási feladatok. Az első és leghíresebb az <strong>utazóügynök-probléma</strong> (angolul <em>travelling salesperson problem</em>, TSP). Adottak városok és a köztük lévő távolságok. A kérdés: mi a legrövidebb út, amely minden várost pontosan egyszer érint, és visszatér a kiinduló városba? A PDF szerint először 1930-ban fogalmazták meg, és az optimalizáló módszerek viszonyítási alapja lett: aki új módszert fejleszt, gyakran ezen méri le.</p>
+<figure class="u-quote"><blockquote><p>„Tervezésben, logisztikában, és mikrochip gyártásban jelentős gyakorlati felhasználása van”</p></blockquote><figcaption>PDF 241. oldal</figcaption></figure>
+<p>A logisztikában a városok a címek. A mikrochipgyártásban a fúrófej útvonala egy nyomtatott áramköri lapon, ahol több ezer lyukat kell kifúrni. A PDF szerint a módosított változatokat a <strong>DNS-szekvenálásban</strong> és a <strong>csillagászatban</strong> is használják. A DNS-nél a „városok” a leolvasott DNS-darabok, a „távolság” azt méri, mennyire illeszkednek egymás után. A csillagászatban a távcső forgatása a „költség”, amíg sorra veszi a megfigyelendő csillagokat.</p>
+<div class="u-plot-pair" id="tsp-abrak">
+<figure class="u-plot"><svg viewBox="0 0 320 272" role="img" aria-labelledby="to-t"><title id="to-t">A legrövidebb körút: 0, 1, 2, 3, 4, 5, 6, 7, vissza 0-ba. Hossza 17,34 egység.</title><g class="u-axis"><path d="M20 250H305M20 250V15"/><text x="40" y="262" text-anchor="middle">1</text><text x="12" y="234" text-anchor="middle">1</text><text x="90" y="262" text-anchor="middle">2</text><text x="12" y="194" text-anchor="middle">2</text><text x="140" y="262" text-anchor="middle">3</text><text x="12" y="154" text-anchor="middle">3</text><text x="190" y="262" text-anchor="middle">4</text><text x="12" y="114" text-anchor="middle">4</text><text x="240" y="262" text-anchor="middle">5</text><text x="12" y="74" text-anchor="middle">5</text><text x="290" y="262" text-anchor="middle">6</text><text x="12" y="34" text-anchor="middle">6</text></g><path class="u-route" d="M40 230L190 190L240 190L290 110L190 110L140 30L40 70L90 150Z"/><circle class="u-city" cx="40" cy="230" r="11"/><text class="u-city-t" x="40" y="234" text-anchor="middle">0</text><circle class="u-city" cx="190" cy="190" r="11"/><text class="u-city-t" x="190" y="194" text-anchor="middle">1</text><circle class="u-city" cx="240" cy="190" r="11"/><text class="u-city-t" x="240" y="194" text-anchor="middle">2</text><circle class="u-city" cx="290" cy="110" r="11"/><text class="u-city-t" x="290" y="114" text-anchor="middle">3</text><circle class="u-city" cx="190" cy="110" r="11"/><text class="u-city-t" x="190" y="114" text-anchor="middle">4</text><circle class="u-city" cx="140" cy="30" r="11"/><text class="u-city-t" x="140" y="34" text-anchor="middle">5</text><circle class="u-city" cx="40" cy="70" r="11"/><text class="u-city-t" x="40" y="74" text-anchor="middle">6</text><circle class="u-city" cx="90" cy="150" r="11"/><text class="u-city-t" x="90" y="154" text-anchor="middle">7</text></svg><figcaption>A PDF 242. oldalának nyolc városa. A PDF két rajzot mutat: az egyiken egy összevissza körutat, a másikon minden lehetséges összeköttetést és pirossal a legrövidebb körutat. Itt ez utóbbi látható: 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 0, hossza 17,34 egység.</figcaption></figure>
+<figure class="u-plot"><svg viewBox="0 0 370 240" role="img" aria-labelledby="tg-t"><title id="tg-t">A PDF súlyozott gráfja hét várossal, a-ból indulva. Kiemelve a legrövidebb körút: a–b–d–f–g–e–c–a, hossza 63.</title><path class="u-edge u-edge-on" d="M40 140L110 45"/><text class="u-weight" x="75" y="88.5" text-anchor="middle">12</text><path class="u-edge u-edge-on" d="M40 140L175 115"/><text class="u-weight" x="107.5" y="123.5" text-anchor="middle">10</text><path class="u-edge" d="M40 140L185 210"/><text class="u-weight" x="112.5" y="171" text-anchor="middle">12</text><path class="u-edge" d="M110 45L175 115"/><text class="u-weight" x="142.5" y="76" text-anchor="middle">8</text><path class="u-edge u-edge-on" d="M110 45L295 45"/><text class="u-weight" x="202.5" y="41" text-anchor="middle">12</text><path class="u-edge" d="M175 115L295 45"/><text class="u-weight" x="235" y="76" text-anchor="middle">11</text><path class="u-edge u-edge-on" d="M175 115L262 145"/><text class="u-weight" x="218.5" y="126" text-anchor="middle">3</text><path class="u-edge" d="M175 115L185 210"/><text class="u-weight" x="180" y="158.5" text-anchor="middle">9</text><path class="u-edge" d="M295 45L262 145"/><text class="u-weight" x="278.5" y="91" text-anchor="middle">11</text><path class="u-edge u-edge-on" d="M295 45L335 185"/><text class="u-weight" x="315" y="111" text-anchor="middle">10</text><path class="u-edge" d="M262 145L335 185"/><text class="u-weight" x="298.5" y="161" text-anchor="middle">6</text><path class="u-edge u-edge-on" d="M262 145L185 210"/><text class="u-weight" x="223.5" y="173.5" text-anchor="middle">7</text><path class="u-edge u-edge-on" d="M185 210L335 185"/><text class="u-weight" x="260" y="193.5" text-anchor="middle">9</text><circle class="u-node" cx="40" cy="140" r="15"/><text class="u-svg-sym" x="40" y="145" text-anchor="middle">a</text><circle class="u-node" cx="110" cy="45" r="15"/><text class="u-svg-sym" x="110" y="50" text-anchor="middle">b</text><circle class="u-node" cx="175" cy="115" r="15"/><text class="u-svg-sym" x="175" y="120" text-anchor="middle">c</text><circle class="u-node" cx="295" cy="45" r="15"/><text class="u-svg-sym" x="295" y="50" text-anchor="middle">d</text><circle class="u-node" cx="262" cy="145" r="15"/><text class="u-svg-sym" x="262" y="150" text-anchor="middle">e</text><circle class="u-node" cx="335" cy="185" r="15"/><text class="u-svg-sym" x="335" y="190" text-anchor="middle">f</text><circle class="u-node" cx="185" cy="210" r="15"/><text class="u-svg-sym" x="185" y="215" text-anchor="middle">g</text><text class="u-svg-label" x="40" y="176" text-anchor="middle">start</text></svg><figcaption>A PDF 242. oldalának súlyozott gráfja. Itt nincs minden várospár között út. A kiemelt, legrövidebb körút: a–b–d–f–g–e–c–a, hossza 63. A 6! = 720 lehetséges sorrendből csak 20 járható végig.</figcaption></figure>
+</div>
+<p>Hány körutat kell végignézni? Az első várost rögzíthetjük, a többi n − 1 sorrendje (n − 1)!. Nyolc városnál ez 7! = 5040, ami egy gépnek semmi. Húsz városnál 19! ≈ 1,2 · 10¹⁷, ami másodpercenként egymilliárd körúttal is négy évig tartana. A felére csökkenthető, mert minden kört kétféle irányban járhatunk be, de ez az exponenciális falon nem segít.</p>
+<aside class="u-fix"><h3>Kiigazítás · Van optimális algoritmus, és a milliós példányok közelítése is pontosítandó</h3>
+<p><strong>A PDF-ben:</strong> „Heurisztika és optimális utat eredményező algoritmus már ismert, milliós városoknál nagyon jól közelíthető” (PDF 241. oldal).</p>
+<p><strong>Pontosabban:</strong> optimális algoritmus mindig is létezett, hiszen a kimerítő keresés véges. A jobb pontos módszerek, például a Held–Karp-féle dinamikus programozás (n²·2ⁿ lépés) vagy a Concorde program vágósíkos módszere, a legrosszabb esetben szintén exponenciálisak, de valódi példányokon meglepően jól működnek. A Concorde 2006-ban egy 85 900 pontos, chipgyártásból származó példányt oldott meg bizonyítottan optimálisan, több mint 136 processzorévnyi számolással. A milliós méretű példányokra a heurisztikák gyorsan találnak jó körutat. A legjobb ismert körutak egy tized százaléknál is kevésbé térnek el a bizonyított alsó korláttól. Hogy pontosan mennyire jók, azt csak ehhez a korláthoz mérve tudjuk, az optimumot nem ismerjük.</p>
+<p><strong>Miért fontos?</strong> A „nagyon jól közelíthető” és az „optimális” két külön ígéret. Az általános TSP-re bizonyítottan nincs állandó szorzón belüli közelítés, hacsak nem P = NP. Csak a <strong>metrikus</strong> esetben, ahol a kerülő sosem rövidebb a közvetlen útnál, ismerünk garantált közelítést, például Christofides 1,5-szörös módszerét. <a href="#s-concorde">Forrás: Applegate–Bixby–Chvátal–Cook, TSP-honlap.</a></p></aside>
+<p>Az utazóügynök döntési változata a PDF utolsó csoportjában, az <strong>NP problémák</strong> között szerepel. A bemenet n város távolságmátrixa és egy k szám. A kérdés: van-e olyan útvonal, amely minden várost meglátogat, és a teljes hossza kisebb, mint k? A PDF itt pontosan a tanú gondolatát fogalmazza meg: a feltételezett megoldás lehet egyszerűen a városok listája. Az ellenőrzés egyértelműen polinomiális: összeadjuk az egymást követő városok közti távolságokat a mátrixból.</p>
+<div class="u-example" id="tsp-dontes-pelda"><strong>Végigvezetett példa · egy tanú ellenőrzése, k = 18</strong>
+<p>A tanú: 0 → 7 → 6 → 5 → 4 → 3 → 2 → 1 → 0. A koordináták: 0 (1; 1), 7 (2; 3), 6 (1; 5), 5 (3; 6), 4 (4; 4), 3 (6; 4), 2 (5; 2), 1 (4; 2).</p>
+<ol class="u-steps">
+<li><p><strong>Érvényes-e?</strong> Nyolc város, mindegyik egyszer szerepel. Ez 8 lépés.</p></li>
+<li><p><strong>Szakaszok:</strong> √5 + √5 + √5 + √5 + 2 + √5 + 1 + √10 ≈ 2,24 + 2,24 + 2,24 + 2,24 + 2 + 2,24 + 1 + 3,16. Ez 8 összeadás.</p></li>
+<li><p><strong>Összevetés:</strong> összesen 5 · √5 + 2 + 1 + √10 ≈ 11,18 + 3 + 3,16 = <strong>17,34</strong> &lt; 18. A válasz: <strong>igen</strong>, és ez a tanú bizonyítja.</p></li>
+</ol>
+<p>Az ellenőrzés n városra n lépés. Ha k = 17 lenne, erre a tanúra nemet mondanánk. De ebből nem következne, hogy a válasz nem: lehet, hogy egy másik tanú jobb. Itt nem az, mert 17,34 az optimum. A „nem” választ viszont nem lehet ilyen egyszerűen igazolni. Azokat a feladatokat, amelyekben a „nem” válasznak van gyorsan ellenőrizhető tanúja, a <strong>co-NP</strong> osztály gyűjti. Hogy NP = co-NP-e, az a P = NP melletti másik nagy nyitott kérdés.</p></div>
+<div class="u-lab" id="tsp-labor"><span class="u-lab-label">PRÓBÁLD KI / ÚTVONALRAJZOLÓ</span><h3>Rajzold meg a futár útját!</h3>
+<p>Kattints a városokra abban a sorrendben, ahogy a futár bejárná őket, vagy használd a gombokat. A körút a kiindulópontba tér vissza. Hasonlítsd össze a saját útvonaladat a mohó „legközelebbi szomszéd” szabállyal és a kimerítő kereséssel talált optimummal. Végül add meg a döntési kérdés k értékét, és nézd meg, igen-tanú-e az útvonalad.</p>
+<div class="u-js-only">
+<svg id="tsp-rajz" class="u-live u-live-square" viewBox="0 0 320 272" role="img" aria-labelledby="tsp-rajz-t"><title id="tsp-rajz-t">Az utazóügynök-labor térképe: nyolc város. A kiválasztott útvonal vonallal jelenik meg.</title><g class="u-axis"><path d="M20 250H305M20 250V15"/><text x="40" y="262" text-anchor="middle">1</text><text x="12" y="234" text-anchor="middle">1</text><text x="90" y="262" text-anchor="middle">2</text><text x="12" y="194" text-anchor="middle">2</text><text x="140" y="262" text-anchor="middle">3</text><text x="12" y="154" text-anchor="middle">3</text><text x="190" y="262" text-anchor="middle">4</text><text x="12" y="114" text-anchor="middle">4</text><text x="240" y="262" text-anchor="middle">5</text><text x="12" y="74" text-anchor="middle">5</text><text x="290" y="262" text-anchor="middle">6</text><text x="12" y="34" text-anchor="middle">6</text></g><circle class="u-city" cx="40" cy="230" r="11"/><text class="u-city-t" x="40" y="234" text-anchor="middle">0</text><circle class="u-city" cx="190" cy="190" r="11"/><text class="u-city-t" x="190" y="194" text-anchor="middle">1</text><circle class="u-city" cx="240" cy="190" r="11"/><text class="u-city-t" x="240" y="194" text-anchor="middle">2</text><circle class="u-city" cx="290" cy="110" r="11"/><text class="u-city-t" x="290" y="114" text-anchor="middle">3</text><circle class="u-city" cx="190" cy="110" r="11"/><text class="u-city-t" x="190" y="114" text-anchor="middle">4</text><circle class="u-city" cx="140" cy="30" r="11"/><text class="u-city-t" x="140" y="34" text-anchor="middle">5</text><circle class="u-city" cx="40" cy="70" r="11"/><text class="u-city-t" x="40" y="74" text-anchor="middle">6</text><circle class="u-city" cx="90" cy="150" r="11"/><text class="u-city-t" x="90" y="154" text-anchor="middle">7</text></svg>
+<div class="u-controls" id="tsp-gombok"></div>
+<div class="u-out" id="tsp-ki" role="status" aria-live="polite"></div>
+<div class="u-controls"><button type="button" id="tsp-nn">Legközelebbi szomszéd</button><button type="button" id="tsp-opt">Optimum kimerítő kereséssel</button><button type="button" class="u-ghost" id="tsp-torol">Törlés</button></div>
+<div class="u-form-row"><label>Döntési kérdés: van-e k-nál rövidebb körút? k = <input type="number" id="tsp-k" min="10" max="40" step="0.5" value="18"></label></div>
+<p class="u-out" id="tsp-dontes" role="status" aria-live="polite"></p>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. Az optimális körút a fenti ábrán, a döntési kérdés ellenőrzése a végigvezetett példában látható.</p>
+</div>
+</section>
+
+<!-- 10 · TOVÁBBI NP-NEHÉZ -->
+<section id="tovabbi-nehez" class="chapter-section"><span class="section-index">10 / PDF 244–249.</span>
+<h2>Színek, fák, raktárak, gépek.</h2>
+<p>A PDF további hat NP-nehéz feladatot mutat be. Mindegyik a mindennapi tervezés egy-egy tipikus kérdése. Közös bennük, hogy egy javasolt megoldás minőségét gyorsan ki lehet számolni, de a legjobbat megtalálni, a ma ismert módszerekkel, a lehetőségek végigpróbálását igényli.</p>
+<div class="u-field" id="nehez-terep">
+<div id="teljes-szinezes"><span class="u-tag">PDF 244. · TELJES SZÍNEZÉS</span><h3>Csúcsok és élek, ütközés nélkül</h3><p>A gráf csúcsaihoz és éleihez is színt rendelünk. Nem lehet azonos színű két szomszédos csúcs, két közös végpontú él, és egy él sem lehet olyan színű, mint a saját végpontjai. A cél a legkevesebb szükséges szín, a <strong>teljes kromatikus szám</strong> meghatározása. Ha a legnagyobb fokszám Δ, legalább Δ + 1 szín kell, hiszen a legnagyobb fokú csúcs és az élei mind különböznek. A sejtés szerint Δ + 2 mindig elég, de ezt ma sem tudjuk általánosan bizonyítani. Már annak eldöntése is NP-teljes, hogy Δ + 1 elég-e. Alkalmazás: órarend, ahol a tanárok és a tanórák is „színt”, időpontot kapnak.</p></div>
+<div id="k-mst"><span class="u-tag">PDF 245. · K-MINIMUM FESZÍTŐFA</span><h3>A legolcsóbb k csúcsú fa</h3><p>A PDF szerint a feladat 1993-ban jelent meg. Bemenete egy irányítatlan gráf súlyozott élekkel és egy k szám. A cél egy minimális költségű fa, amelynek pontosan k csúcsa és k − 1 éle van, és a nagyobb gráf részgráfja. A <strong>fa</strong> kör nélküli, összefüggő gráf. Érdekes párja a sima <strong>minimális feszítőfa</strong>, amely <em>minden</em> csúcsot összeköt: az mohó módszerrel gyorsan megtalálható. Az, hogy melyik k csúcsot válasszuk, teszi a feladatot NP-nehézzé. Alkalmazás: egy hálózat, amelyet csak k helyszínre kell kiépíteni, de mi választjuk ki, melyekre.</p></div>
+<div id="max-3sat"><span class="u-tag">PDF 246. · MAX-3SAT</span><h3>A legtöbb klóz egyszerre</h3><p>A PDF szerint ez az általánosított SAT. A bemenet egy konjunktív normálforma, klózonként legfeljebb három literállal. A cél olyan hozzárendelés keresése, amely a <strong>legtöbb</strong> klózt kielégíti. Ha a formula kielégíthető, ez az összes klóz. A 6. rész laborjának harmadik formulája mind a nyolc előjelkombinációt tartalmazza x-re, y-ra és z-re. Kielégíthetetlen, de bármely hozzárendelés pontosan 7 klózt teljesít, mert mindig csak az a klóz hamis, amelyben mindhárom literál hamis.</p></div>
+</div>
+<aside class="u-add"><h3>Kiegészítés · A 7/8-os határ</h3><p>A fenti megfigyelés általános. Ha minden klózban pontosan három különböző változó szerepel, egy véletlen hozzárendelés egy klózt 7/8 valószínűséggel elégít ki: csak az egyik a nyolc eset közül rossz. Így a klózok 7/8-a várhatóan teljesül, és ez gyorsan el is érhető. Håstad 2001-ben bebizonyította, hogy ennél jobb garantált arány polinomiális időben nem érhető el, hacsak nem P = NP. Ez az egyik legszebb példája annak, hogy egy közelítés <em>pontosan</em> meddig javítható. <a href="#s-hastad">Forrás: Håstad, 2001.</a></p></aside>
+<h3>Metrikus k-középpont</h3>
+<p>Adott N város egy <strong>távolságfüggvénnyel</strong>. A <strong>metrikus</strong> szó azt jelenti, hogy a távolság a hétköznapi értelemben viselkedik: szimmetrikus, és a kerülő sosem rövidebb a közvetlen útnál (háromszög-egyenlőtlenség). A PDF szerint a cél k raktár építése a különböző városokban úgy, hogy a városok és a hozzájuk legközelebbi raktár közti <strong>legnagyobb</strong> távolság minimális legyen. Gráfelméleti megfogalmazásban: meg kell találni egy k csúcsból álló halmazt, amelyre nézve bármely pont legnagyobb távolsága a halmaz legközelebbi csúcsától minimális.</p>
+<figure class="u-plot u-plot-wide" id="kkozeppont-abra"><svg viewBox="0 0 640 290" role="img" aria-labelledby="kk-t"><title id="kk-t">Hat város két csoportban, k = 2 raktár. Bal oldalt a raktárak a csoportok szélén állnak, a legtávolabbi város √2 ≈ 1,41 egységre van. Jobb oldalt a csoportok sarokvárosában, a legnagyobb távolság 1.</title><g transform="translate(0 0)"><text class="u-svg-label" x="160" y="16" text-anchor="middle">rossz választás: sugár 1,41</text><circle class="u-range" cx="90" cy="245" r="42.4"/><circle class="u-range" cx="240" cy="95" r="42.4"/><circle class="u-city" cx="60" cy="245" r="6"/><rect class="u-depot" x="83" y="238" width="14" height="14"/><circle class="u-city" cx="60" cy="215" r="6"/><circle class="u-city" cx="210" cy="95" r="6"/><rect class="u-depot" x="233" y="88" width="14" height="14"/><circle class="u-city" cx="210" cy="65" r="6"/></g><g transform="translate(320 0)"><text class="u-svg-label" x="160" y="16" text-anchor="middle">optimum: sugár 1</text><circle class="u-range" cx="60" cy="245" r="30"/><circle class="u-range" cx="210" cy="95" r="30"/><rect class="u-depot" x="53" y="238" width="14" height="14"/><circle class="u-city" cx="90" cy="245" r="6"/><circle class="u-city" cx="60" cy="215" r="6"/><rect class="u-depot" x="203" y="88" width="14" height="14"/><circle class="u-city" cx="240" cy="95" r="6"/><circle class="u-city" cx="210" cy="65" r="6"/></g></svg><figcaption>A négyzet a raktár, a kör a város, a halvány kör a „kiszolgálási sugár”. A cél a legnagyobb sugár csökkentése. Nem az átlagos, hanem a legrosszabbul ellátott város számít. Ez mentőállomások vagy tűzoltóságok tervezésénél természetes cél.</figcaption></figure>
+<aside class="u-add"><h3>Kiegészítés · Egyszerű, kétszeres garancia</h3><p>Gonzalez 1985-ös mohó módszere: válassz egy tetszőleges várost első raktárnak, aztán mindig azt a várost, amely a legtávolabb van a már kiválasztott raktáraktól. A kapott sugár legfeljebb kétszerese az optimálisnak. Ennél jobb arány polinomiális időben nem érhető el, hacsak nem P = NP. <a href="#s-gonzalez">Forrás: Gonzalez, 1985.</a></p></aside>
+<h3>Folyamatsoros ütemezés (flow shop)</h3>
+<p>A PDF szerint adott n munka, J₁, J₂, …, Jₙ, különböző feldolgozási idővel, és m különböző feldolgozási teljesítményű gép. A munkákat a gépekre kell ütemezni úgy, hogy az <strong>átfutási idő</strong> (angolul <em>makespan</em>), vagyis az az időpont, amikor az összes munka elkészül, minimális legyen. A PDF megjegyzi, hogy számos változata létezik, és hogy a termelésinformatika szakirány foglalkozik vele.</p>
+<div class="u-example" id="flowshop-pelda"><strong>Végigvezetett példa · három munka, három gép</strong>
+<p>Mindhárom munka a G1, G2, G3 gépen halad át, ebben a sorrendben. A feldolgozási idők: J1: 3, 2, 2. J2: 2, 4, 1. J3: 2, 2, 3. Egy gép egyszerre egy munkán dolgozik, és egy munka csak akkor mehet a következő gépre, ha az előzőn elkészült.</p>
+<figure class="u-plot"><svg viewBox="0 0 340 250" role="img" aria-labelledby="fs-t"><title id="fs-t">Három munka három gépen. J1, J2, J3 sorrendben az átfutási idő 14, J1, J3, J2 sorrendben 12 időegység.</title><g transform="translate(0 0)"><text class="u-svg-label" x="40" y="12">A: sorrend J1, J2, J3, átfutási idő 14</text><text x="30" y="84" text-anchor="end">G1</text><text x="30" y="60" text-anchor="end">G2</text><text x="30" y="36" text-anchor="end">G3</text><rect class="u-job u-job1" x="40" y="70" width="60" height="20"/><text class="u-svg-small" x="70" y="84" text-anchor="middle">J1</text><rect class="u-job u-job1" x="100" y="46" width="40" height="20"/><text class="u-svg-small" x="120" y="60" text-anchor="middle">J1</text><rect class="u-job u-job1" x="140" y="22" width="40" height="20"/><text class="u-svg-small" x="160" y="36" text-anchor="middle">J1</text><rect class="u-job u-job2" x="100" y="70" width="40" height="20"/><text class="u-svg-small" x="120" y="84" text-anchor="middle">J2</text><rect class="u-job u-job2" x="140" y="46" width="80" height="20"/><text class="u-svg-small" x="180" y="60" text-anchor="middle">J2</text><rect class="u-job u-job2" x="220" y="22" width="20" height="20"/><text class="u-svg-small" x="230" y="36" text-anchor="middle">J2</text><rect class="u-job u-job3" x="140" y="70" width="40" height="20"/><text class="u-svg-small" x="160" y="84" text-anchor="middle">J3</text><rect class="u-job u-job3" x="220" y="46" width="40" height="20"/><text class="u-svg-small" x="240" y="60" text-anchor="middle">J3</text><rect class="u-job u-job3" x="260" y="22" width="60" height="20"/><text class="u-svg-small" x="290" y="36" text-anchor="middle">J3</text><path class="u-guide" d="M320 18V96"/><path class="u-axis-line" d="M40 96H320"/><text class="u-svg-small" x="40" y="110" text-anchor="middle">0</text><text class="u-svg-small" x="80" y="110" text-anchor="middle">2</text><text class="u-svg-small" x="120" y="110" text-anchor="middle">4</text><text class="u-svg-small" x="160" y="110" text-anchor="middle">6</text><text class="u-svg-small" x="200" y="110" text-anchor="middle">8</text><text class="u-svg-small" x="240" y="110" text-anchor="middle">10</text><text class="u-svg-small" x="280" y="110" text-anchor="middle">12</text><text class="u-svg-small" x="320" y="110" text-anchor="middle">14</text></g><g transform="translate(0 125)"><text class="u-svg-label" x="40" y="12">B: sorrend J1, J3, J2, átfutási idő 12</text><text x="30" y="84" text-anchor="end">G1</text><text x="30" y="60" text-anchor="end">G2</text><text x="30" y="36" text-anchor="end">G3</text><rect class="u-job u-job1" x="40" y="70" width="60" height="20"/><text class="u-svg-small" x="70" y="84" text-anchor="middle">J1</text><rect class="u-job u-job1" x="100" y="46" width="40" height="20"/><text class="u-svg-small" x="120" y="60" text-anchor="middle">J1</text><rect class="u-job u-job1" x="140" y="22" width="40" height="20"/><text class="u-svg-small" x="160" y="36" text-anchor="middle">J1</text><rect class="u-job u-job3" x="100" y="70" width="40" height="20"/><text class="u-svg-small" x="120" y="84" text-anchor="middle">J3</text><rect class="u-job u-job3" x="140" y="46" width="40" height="20"/><text class="u-svg-small" x="160" y="60" text-anchor="middle">J3</text><rect class="u-job u-job3" x="180" y="22" width="60" height="20"/><text class="u-svg-small" x="210" y="36" text-anchor="middle">J3</text><rect class="u-job u-job2" x="140" y="70" width="40" height="20"/><text class="u-svg-small" x="160" y="84" text-anchor="middle">J2</text><rect class="u-job u-job2" x="180" y="46" width="80" height="20"/><text class="u-svg-small" x="220" y="60" text-anchor="middle">J2</text><rect class="u-job u-job2" x="260" y="22" width="20" height="20"/><text class="u-svg-small" x="270" y="36" text-anchor="middle">J2</text><path class="u-guide" d="M280 18V96"/><path class="u-axis-line" d="M40 96H320"/><text class="u-svg-small" x="40" y="110" text-anchor="middle">0</text><text class="u-svg-small" x="80" y="110" text-anchor="middle">2</text><text class="u-svg-small" x="120" y="110" text-anchor="middle">4</text><text class="u-svg-small" x="160" y="110" text-anchor="middle">6</text><text class="u-svg-small" x="200" y="110" text-anchor="middle">8</text><text class="u-svg-small" x="240" y="110" text-anchor="middle">10</text><text class="u-svg-small" x="280" y="110" text-anchor="middle">12</text><text class="u-svg-small" x="320" y="110" text-anchor="middle">14</text></g></svg><figcaption>A szaggatott vonal az átfutási idő. Az A sorrendben a G3 gép sokat vár, mert J2 a G2-n hosszan dolgozik. A B sorrend J3-mal tölti ki ezt a rést, így két időegységgel rövidebb.</figcaption></figure>
+<p>Három munkának 3! = 6 sorrendje van. Mindet végigszámolva: 14, 12, 13, 13, 12, 12. Az optimum 12.</p></div>
+<aside class="u-fix"><h3>Kiigazítás · A folyamatsoros ütemezés lényege a közös gépsorrend, és két gépre könnyű</h3>
+<p><strong>A PDF-ben:</strong> „n darab munka J1, J2, …, Jn különböző feldolgozási idővel”, „m különböző feldolgozási teljesítményű gép” (PDF 248. oldal). A feladat egészében az NP-nehéz problémák között szerepel.</p>
+<p><strong>Pontosabban:</strong> a meghatározásból kimarad a lényeg: a folyamatsor (angolul <em>flow shop</em>) azt jelenti, hogy minden munka <strong>ugyanabban a sorrendben</strong> halad végig az összes gépen, mint egy gyártósoron, és minden munkának gépenként saját feldolgozási ideje van. Ha a munkák szabadon választhatnák a gépeket, az egy másik feladat lenne. A bonyolultság a gépek számán múlik. <strong>Két gépre</strong> Johnson 1954-es szabálya polinomiális időben optimumot ad. <strong>Három vagy több gépre</strong> a feladat NP-nehéz (Garey, Johnson és Sethi, 1976).</p>
+<p><strong>Miért fontos?</strong> A gyakorlatban sok üzem két fő lépésből áll, például vágás és hegesztés. Ott nem kell heurisztikához nyúlni, a pontos megoldás gyors. <a href="#s-johnson">Forrás: Johnson, 1954</a>; <a href="#s-gjs">Garey–Johnson–Sethi, 1976.</a></p></aside>
+<h3>Háromdimenziós párosítás</h3>
+<p>A PDF „háromdimenziós házasítás” néven mutatja be (angolul <em>3-dimensional matching</em>). Adott X, Y és Z, három diszjunkt, azaz közös elem nélküli, n elemű halmaz, és egy T halmaz, amely (x, y, z) hármasokból áll, vagyis az X × Y × Z egy részhalmaza. Egy M ⊆ T hármashalmaz <strong>háromdimenziós párosítás</strong>, ha bármely két különböző hármasa minden koordinátában eltér: (x₁, y₁, z₁) és (x₂, y₂, z₂) esetén x₁ ≠ x₂, y₁ ≠ y₂ és z₁ ≠ z₂.</p>
+<p>Egy példa: X a tanárok, Y a tantárgyak, Z az időpontok. Egy hármas azt jelenti: „ez a tanár ezt a tárgyat ebben az időpontban tudja tanítani”. Párosítás egy olyan órarend-részlet, amelyben senki, semmi és semmikor nem szerepel kétszer. A döntési kérdés, amelyet Karp 1972-ben NP-teljesnek bizonyított: van-e <strong>n méretű</strong> párosítás, amely minden tanárt, tárgyat és időpontot lefed? A kétdimenziós változat, a „házasítás” két halmaz között, a 4. rész hozzárendelési feladatával rokon, és polinomiális. Egy harmadik dimenzió, és a feladat NP-teljes lesz.</p>
+<p class="u-simple"><strong>Egyszerűen mondva</strong>A kétdimenziós párosításnál a csere mindig helyrehozható. Ha egy pár rossz, van gyors módszer átrendezni. Három dimenziónál egy csere egyszerre két másik feltételt is elronthat, és nincs ismert gyors javítási módszer.</p>
+</section>
+
+<!-- 11 · PAKOLÁS, LEGHOSSZABB ÚT -->
+<section id="pakolas" class="chapter-section"><span class="section-index">11 / PDF 250–251.</span>
+<h2>Dobozok és hosszú utak.</h2>
+<h3>Rekeszpakolás</h3>
+<p>A <strong>rekeszpakolási probléma</strong> (angolul <em>bin packing</em>) a PDF szerint különböző méretű tételeket és meghatározott tárolóedényeket vagy konténereket kezel. A tételeket úgy kell a konténerekbe csomagolni, hogy a felhasznált tárolóedények száma minimális legyen. A PDF két alkalmazást említ: konténerek feltöltése és teherautók betöltése súlykorlátozással. Ide tartozik a mentés adathordozókra, a reklámblokkok beosztása vagy a fűrészáru szabása is.</p>
+<aside class="u-fix"><h3>Kiigazítás · Azonos méretű rekeszek, és a számuk a kérdés</h3>
+<p><strong>A PDF-ben:</strong> „Véges számú, meghatározott tárolóedény vagy konténer” (PDF 250. oldal).</p>
+<p><strong>Pontosabban:</strong> a klasszikus feladatban a rekeszek <strong>azonos</strong> C méretűek, és annyi áll rendelkezésre, amennyi kell. A kérdés éppen az, hogy hány rekesz elég. Ha a rekeszek száma előre rögzített, abból döntési kérdés lesz: „belefér-e minden k rekeszbe?” Ez NP-teljes. Különböző méretű rekeszekkel is foglalkozik a szakirodalom, de az már egy másik változat.</p>
+<p><strong>Miért fontos?</strong> A „meghatározott” szó kétértelmű. A feladat megértéséhez tudni kell, mi adott (a tételek és a rekeszméret), és mit keresünk (a rekeszek számát). <a href="#s-garey">Forrás: Garey–Johnson, [SR1] rekeszpakolás.</a></p></aside>
+<p>Egy egyszerű <strong>alsó korlát</strong> mindig van: a tételek összmérete osztva a rekeszmérettel, felfelé kerekítve. Ennél kevesebb rekesz biztosan nem elég. A legegyszerűbb mohó módszer az <strong>első illesztés</strong> (<em>first fit</em>): a tételeket sorban az első olyan rekeszbe tesszük, ahová még befér. Jobb változata a <strong>csökkenő első illesztés</strong> (<em>first fit decreasing</em>): előbb nagyság szerint csökkenő sorba rendezzük a tételeket.</p>
+<div class="u-example" id="rekesz-pelda"><strong>Végigvezetett példa · hét tétel, 10 egységes rekeszek</strong>
+<p>A tételek: 2, 5, 4, 7, 1, 3, 8. Összesen 30, így az alsó korlát 30 / 10 = 3 rekesz.</p>
+<div class="u-compare">
+<div><span class="u-tag">ELSŐ ILLESZTÉS, EREDETI SORREND</span><h3>4 rekesz</h3><p>2 → 1. rekesz. 5 → 1. (7). 4 → nem fér, 2. rekesz. 7 → 3. rekesz. 1 → 1. (8). 3 → 2. (7). 8 → sehová sem fér, 4. rekesz. Eredmény: 8, 7, 7, 8 töltöttség, négy rekesz.</p></div>
+<div><span class="u-tag">CSÖKKENŐ ELSŐ ILLESZTÉS</span><h3>3 rekesz</h3><p>Sorrend: 8, 7, 5, 4, 3, 2, 1. 8 → 1. rekesz. 7 → 2. 5 → 3. 4 → 3. (9). 3 → 2. (10). 2 → 1. (10). 1 → 3. (10). Mindhárom rekesz pontosan tele. Ez eléri az alsó korlátot, tehát optimális.</p></div>
+</div>
+<figure class="u-plot"><svg viewBox="0 0 300 230" role="img" aria-labelledby="rp-t"><title id="rp-t">Csökkenő első illesztés, 10 egységes rekeszekkel: 1. rekesz 8 + 2, 2. rekesz 7 + 3, 3. rekesz 5 + 4 + 1. Mindhárom pontosan tele.</title><rect class="u-bin" x="30" y="20" width="60" height="180"/><rect class="u-item" x="34" y="57" width="52" height="142"/><text x="60" y="132" text-anchor="middle">8</text><rect class="u-item" x="34" y="21" width="52" height="34"/><text x="60" y="42" text-anchor="middle">2</text><text class="u-svg-label" x="60" y="218" text-anchor="middle">1. rekesz</text><rect class="u-bin" x="120" y="20" width="60" height="180"/><rect class="u-item" x="124" y="75" width="52" height="124"/><text x="150" y="141" text-anchor="middle">7</text><rect class="u-item" x="124" y="21" width="52" height="52"/><text x="150" y="51" text-anchor="middle">3</text><text class="u-svg-label" x="150" y="218" text-anchor="middle">2. rekesz</text><rect class="u-bin" x="210" y="20" width="60" height="180"/><rect class="u-item" x="214" y="111" width="52" height="88"/><text x="240" y="159" text-anchor="middle">5</text><rect class="u-item" x="214" y="39" width="52" height="70"/><text x="240" y="78" text-anchor="middle">4</text><rect class="u-item" x="214" y="21" width="52" height="16"/><text x="240" y="33" text-anchor="middle">1</text><text class="u-svg-label" x="240" y="218" text-anchor="middle">3. rekesz</text></svg><figcaption>A csökkenő első illesztés eredménye. A nagy tételeket érdemes előre venni, mert a kicsik később kitöltik a réseket.</figcaption></figure></div>
+<aside class="u-add"><h3>Kiegészítés · Mennyire jó a csökkenő első illesztés?</h3><p>Nem mindig optimális, de sosem téved nagyot. Dósa György 2007-ben lezárta a régi kérdést: a csökkenő első illesztés legfeljebb 11/9 · OPT + 6/9 rekeszt használ, ahol OPT az optimum. Ez nagy feladatokon legfeljebb nagyjából 22%-os többlet. <a href="#s-dosa">Forrás: Dósa, 2007.</a></p></aside>
+<div class="u-lab" id="rekesz-labor"><span class="u-lab-label">PRÓBÁLD KI / REKESZPAKOLÓ</span><h3>Pakolj kézzel, aztán a mohó szabályokkal!</h3>
+<p>Minden tételnél válaszd ki, melyik rekeszbe kerüljön. A labor jelzi, ha egy rekesz túlcsordul, és összeveti az eredményt az alsó korláttal. A két gomb a fenti két mohó szabályt futtatja.</p>
+<div class="u-js-only">
+<div class="u-bin-items" id="rp-tetelek"></div>
+<div class="u-bins" id="rp-rekeszek" aria-hidden="true"></div>
+<div class="u-out" id="rp-ki" role="status" aria-live="polite"></div>
+<div class="u-controls"><button type="button" id="rp-ff">Első illesztés</button><button type="button" id="rp-ffd">Csökkenő első illesztés</button><button type="button" class="u-ghost" id="rp-torol">Törlés</button></div>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. Mindkét mohó szabály lépései a fenti végigvezetett példában olvashatók.</p>
+</div>
+<h3>Leghosszabb út</h3>
+<p>A <strong>leghosszabb út problémája</strong> a PDF szerint egy gráfban a leghosszabb <strong>egyszerű útvonalat</strong> keresi. Egyszerű az útvonal, ha nincs ismétlődő csomópontja. A hossz lehet az élek száma, vagy súlyozott gráfnál az élek összsúlya. A megszorítás fontos: ha egy csúcsot többször is érinthetnénk, egy körben a végtelenségig lehetne köröket róni.</p>
+<p>Ez a feladat a „párja” a legrövidebb útnak. A legrövidebb utat a navigációs szoftverek Dijkstra 1959-es algoritmusával pillanatok alatt kiszámolják, ez P-beli. A leghosszabb egyszerű út viszont NP-nehéz, mert a Hamilton-út a speciális esete: egy n csúcsú gráfban pontosan akkor van n − 1 élű egyszerű út, ha van Hamilton-út. A 7. rész gráfjában ezért a leghosszabb út 6 él: az A, B, C, F, G, D, E út.</p>
+<aside class="u-add"><h3>Kiegészítés · Kör nélkül könnyű</h3><p>Ha a gráf irányított, és nincs benne kör (angolul <em>DAG</em>, irányított körmentes gráf), a leghosszabb út is gyors: topologikus sorrendben, mint a 4. rész áramkörében, minden csúcsra kiszámoljuk a hozzá vezető leghosszabb utat. A projekttervezés <strong>kritikus út</strong> módszere pontosan ezt csinálja: a feladatok függőségi gráfjában a leghosszabb út adja a projekt legrövidebb lehetséges idejét. <a href="#s-garey">Forrás: Garey–Johnson, a leghosszabb út feladata.</a></p></aside>
+</section>
+
+<!-- 12 · NP-BELI -->
+<section id="np-beli" class="chapter-section"><span class="section-index">12 / PDF 252–255.</span>
+<h2>Két különleges NP-beli feladat.</h2>
+<p>A PDF utolsó csoportja az <strong>NP problémák</strong>. Az első, az utazóügynök döntési változata, már a 9. részben szerepelt. Itt két feladat marad: az egyik NP-teljes, a másik azért érdekes, mert a helye máig nem ismert.</p>
+<h3>Részgráf-izomorfizmus</h3>
+<p>Adott két gráf, G és H. A kérdés: tartalmaz-e G olyan részgráfot, amely <strong>izomorf</strong> H-val? Két gráf izomorf, ha a csúcsaik úgy feleltethetők meg egymásnak, hogy az élek is pontosan megfeleljenek. Magyarán: ugyanaz a rajz, csak más betűkkel és más elrendezésben. A PDF szerint ez a <strong>maximális klikk</strong> és a <strong>Hamilton-kör</strong> tesztelésének általánosítása. Ha H egy k csúcsú teljes gráf, a kérdés a klikk. Ha H egy n csúcsú kör, a kérdés a Hamilton-kör. A feladat ezért alapvetően NP-teljes. A PDF azt is jelzi, hogy bizonyos esetei polinomiális időben megoldhatók. Ilyen például, ha H rögzített méretű, vagy ha G és H is fa.</p>
+<p>Alkalmazás: a vegyészetben egy molekulában keresünk egy ismert szerkezeti részletet, például egy benzolgyűrűt. A molekula a G, az atomok a csúcsok, a kötések az élek. A kódellenőrzésben ugyanígy kereshetünk ismert, hibás mintát egy program vezérlési gráfjában.</p>
+<h3>Egész számok faktorizálása</h3>
+<p>A <strong>faktorizálás döntési változata</strong> a PDF szerint így szól. Adott két egész szám, n és k. Van-e olyan f tényező, amelyre 1 &lt; f &lt; k, és f osztja n-t? Ha erre gyorsan tudnánk válaszolni, a tényezőket is gyorsan megtalálnánk, a k-t felezve, mint a barkochbában. Például n = 91, k = 10: igen, a 7 osztja a 91-et (91 = 7 · 13). Ha k = 7, a válasz nem, mert a 91-nek nincs 7-nél kisebb, 1-nél nagyobb osztója. A tanú maga az f osztó: egy osztást kell elvégezni, gyorsan ellenőrizhető. A feladat tehát NP-ben van.</p>
+<p>A PDF szerint jelenleg nincs olyan algoritmus, amely az összes egész számot polinomiális időben faktorizálja, és kvantumszámítógépre írt algoritmus polinomiális időben meg tudja oldani. Mindkét mondat helytálló, de a teljes kép árnyaltabb.</p>
+<aside class="u-fix"><h3>Kiigazítás · A faktorizálás NP-ben van, de valószínűleg nem NP-teljes, és a kvantumos megoldás még elméleti</h3>
+<p><strong>A PDF-ben:</strong> a faktorizálás az „NP problémák” között szerepel, a megjegyzéssel: „Kvantum számítógépre írt algoritmus meg tudja oldani polinomiális időben” (PDF 255. oldal).</p>
+<p><strong>Pontosabban:</strong> a faktorizálás döntési változata NP-ben és co-NP-ben is benne van. A „nem” válasznak is van gyors tanúja: n teljes prímtényezős felbontása, mert 2002 óta tudjuk, hogy egy szám prím volta polinomiális időben ellenőrizhető. Ezért a kutatók szerint a faktorizálás valószínűleg <strong>nem NP-teljes</strong>. Ha az lenne, NP = co-NP következne. Az sem ismert, hogy P-beli-e. A legjobb klasszikus algoritmus, az általános számtest-szita, a bitek számában exponenciálisnál gyorsabb, de polinomiálisnál lassabb. Shor 1994-es kvantumalgoritmusa valóban polinomiális, de nagy számokon még sosem futott: a kísérleti bemutatók évtizedekig olyan kis számokat bontottak, mint a 15 (2001) és a 21.</p>
+<p><strong>Miért fontos?</strong> Az RSA titkosítás biztonsága azon múlik, hogy nagy számokat nem tudunk gyorsan faktorizálni. Ez nem egy NP-teljességi bizonyításon nyugszik, hanem azon, hogy évtizedek óta senki sem talált gyors módszert. Egy kellően nagy kvantumszámítógép ezt megváltoztatná, ezért fejlesztik a kvantumbiztos titkosítást. <a href="#s-shor">Forrás: Shor, 1997</a>; <a href="#s-vandersypen">Vandersypen és társai, 2001.</a></p></aside>
+</section>
+
+<!-- 13 · MIT TEHETÜNK -->
+<section id="mit-tehetunk" class="chapter-section"><span class="section-index">13 / KIEGÉSZÍTÉS ÉS A PDF 222–255. ÖSSZEFOGLALÁSA</span>
+<h2>Mit kezdjünk egy nehéz feladattal?</h2>
+<p>Az alábbi térkép a fejezet összes feladatát egy táblázatban mutatja. A „PDF-csoport” oszlop azt mutatja, hová sorolta a PDF. A „Pontos besorolás” a mai tudásunk szerinti helyet adja, a fenti kiigazításokkal együtt. Ha a kettő eltér, a sor a fejezet egy kiigazítására utal.</p>
+<div class="u-table-wrap"><table class="u-table" id="terkep">
+<caption>A fejezet feladatai, a PDF sorrendjében. P: ismert polinomiális algoritmus. NP-teljes: döntési feladat, NP-ben és NP-nehéz. NP-nehéz: legalább olyan nehéz, mint bármely NP-beli feladat, gyakran optimalizálási változat.</caption>
+<thead><tr><th>Feladat</th><th>PDF-oldal</th><th>PDF-csoport</th><th>Pontos besorolás</th></tr></thead>
+<tbody>
+<tr><td>Áramkörérték</td><td>225.</td><td>P</td><td>P (P-teljes)</td></tr>
+<tr><td>Boole-képlet kiértékelése</td><td>225.</td><td>P</td><td>P</td></tr>
+<tr><td>3SUM</td><td>226.</td><td>P</td><td>P, O(n²)</td></tr>
+<tr><td>k-SUM</td><td>226.</td><td>P</td><td>P rögzített k-ra, NP-teljes, ha k a bemenet része</td></tr>
+<tr><td>Hozzárendelés</td><td>227.</td><td>P</td><td>P, magyar módszer</td></tr>
+<tr><td>Ütközés (2 az 1-hez)</td><td>228.</td><td>P</td><td>Lekérdezési feladat: n/2 + 1, véletlennel kb. √n</td></tr>
+<tr><td>Legkisebb élfedés</td><td>229.</td><td>P</td><td>P, párosításból</td></tr>
+<tr><td>Elemmegkülönböztetés</td><td>230.</td><td>P</td><td>P, várhatóan lineáris</td></tr>
+<tr><td>Nyelvüresség (véges automata)</td><td>231.</td><td>P</td><td>P, bejárással</td></tr>
+<tr><td>Leghosszabb közös részsorozat</td><td>232.</td><td>P</td><td>P rögzített számú sorozatra, NP-nehéz tetszőleges számúra</td></tr>
+<tr><td>SAT</td><td>234.</td><td>NP-teljes</td><td>NP-teljes, az első (Cook–Levin)</td></tr>
+<tr><td>3-SAT</td><td>235.</td><td>NP-teljes</td><td>NP-teljes</td></tr>
+<tr><td>1-a-3-ból SAT, lineáris SAT</td><td>235.</td><td>NP-teljes</td><td>NP-teljes</td></tr>
+<tr><td>DNF kielégíthetőség</td><td>235.</td><td>NP-teljes</td><td>P, lineáris idő</td></tr>
+<tr><td>Hamilton-kör, Hamilton-út</td><td>236.</td><td>NP-teljes</td><td>NP-teljes</td></tr>
+<tr><td>Klikk (döntési)</td><td>237.</td><td>NP-teljes</td><td>NP-teljes, rögzített k-ra P</td></tr>
+<tr><td>Csúcsfedés (döntési)</td><td>238.</td><td>NP-teljes</td><td>NP-teljes, „legfeljebb k” kérdéssel</td></tr>
+<tr><td>Hátizsák</td><td>239.</td><td>NP-teljes</td><td>Döntési: gyengén NP-teljes. Optimalizálási: NP-nehéz</td></tr>
+<tr><td>Utazóügynök (legrövidebb körút)</td><td>241.</td><td>NP-nehéz</td><td>NP-nehéz</td></tr>
+<tr><td>Legkisebb csúcsfedés</td><td>243.</td><td>NP-nehéz</td><td>NP-nehéz</td></tr>
+<tr><td>Teljes színezés</td><td>244.</td><td>NP-nehéz</td><td>NP-nehéz</td></tr>
+<tr><td>k-minimum feszítőfa</td><td>245.</td><td>NP-nehéz</td><td>NP-nehéz, ha k a bemenet része</td></tr>
+<tr><td>Max-3SAT</td><td>246.</td><td>NP-nehéz</td><td>NP-nehéz, 7/8-os közelítési határ</td></tr>
+<tr><td>Metrikus k-középpont</td><td>247.</td><td>NP-nehéz</td><td>NP-nehéz, kétszeres közelítés</td></tr>
+<tr><td>Folyamatsoros ütemezés (flow shop)</td><td>248.</td><td>NP-nehéz</td><td>Két gépre P (Johnson), három géptől NP-nehéz</td></tr>
+<tr><td>Háromdimenziós párosítás</td><td>249.</td><td>NP-nehéz</td><td>Döntési: NP-teljes (Karp)</td></tr>
+<tr><td>Rekeszpakolás, leghosszabb út</td><td>250–251.</td><td>NP-nehéz</td><td>NP-nehéz. A leghosszabb út körmentes irányított gráfban P</td></tr>
+<tr><td>Utazóügynök döntési, részgráf-izomorfizmus, faktorizálás</td><td>253–255.</td><td>NP</td><td>Az első kettő NP-teljes. A faktorizálás NP ∩ co-NP, helye nem ismert</td></tr>
+</tbody></table></div>
+<p>Ha egy feladatról kiderül, hogy NP-nehéz, az nem a munka vége, hanem egy útelágazás. A kutatók és mérnökök általában az alábbi kérdéseket teszik fel, nagyjából ebben a sorrendben.</p>
+<ol class="u-steps" id="nehez-strategia">
+<li><p><strong>Kicsi a példány?</strong> Nyolc városnál a kimerítő keresés 5040 körutat néz meg, ez semmi. A 9. rész laborja pontosan ezt teszi. Okos pontos módszerekkel, visszalépéssel és korlátozással, gyakran több száz vagy ezer elem is belefér.</p></li>
+<li><p><strong>Van különleges szerkezete?</strong> Két gép a flow shopban, rögzített k a klikknél, kis egész súlyok a hátizsáknál, körmentes gráf a leghosszabb útnál. Ezekben az esetekben a nehéz feladat könnyűvé válik.</p></li>
+<li><p><strong>Elég egy garantáltan jó megoldás?</strong> A <strong>közelítő algoritmus</strong> gyors, és bizonyítottan legfeljebb egy adott szorzóval rosszabb az optimumnál: a k-középpontnál 2, a Max-3SAT-nál 7/8, a rekeszpakolásnál 11/9.</p></li>
+<li><p><strong>Elég egy jó, de garancia nélküli megoldás?</strong> A <strong>heurisztika</strong> a tapasztalatra épít, mint a legközelebbi szomszéd szabály. Ide tartoznak a keresési és evolúciós módszerek is, amelyekről a következő fejezetek szólnak: a genetikus algoritmus, a hegymászás, a szimulált hűtés.</p></li>
+<li><p><strong>Megfogalmazható SAT-ként?</strong> A mai SAT-megoldók hihetetlenül jók. Sok ipari ütemezési, ellenőrzési és tervezési feladatot egyszerűen átfordítanak SAT-ra, és egy kész megoldóra bízzák.</p></li>
+</ol>
+<p class="u-key">Az NP-nehéz címke azt mondja: ne várj általános, gyors és mindig pontos algoritmust. Azt nem mondja, hogy a feladat reménytelen.</p>
+<p>Az MI szempontjából ez a fejezet egy híd. Sok MI-feladat, a tervezés, az ütemezés, a korlátkielégítés, sőt egy kis neurális háló optimális betanítása is NP-nehéz. Az előző fejezet gradienscsökkentése maga is heurisztika: nem garantálja a legjobb súlyokat, csak jó eséllyel talál egy elég jót. A következő fejezetek módszerei, a genetikus algoritmus és a keresési eljárások, pontosan az ilyen nehéz feladatokra készültek.</p>
+</section>
+
+<!-- FOGALMAK -->
+<section id="fogalmak" class="chapter-section"><span class="section-index">FOGALOMKÁRTYÁK</span>
+<h2>Az új szavak egy helyen.</h2>
+<dl class="u-cards">
+<div><dt>Polinomiális idő</dt><dd>A lépésszám a bemenet méretének rögzített hatványával nő: n, n², n³… A „gyors” szakmai neve.</dd></div>
+<div><dt>Exponenciális idő</dt><dd>A lépésszám úgy nő, mint 2ⁿ vagy n!. Minden új elem legalább megduplázza a munkát.</dd></div>
+<div><dt>Döntési, keresési, optimalizálási változat</dt><dd>Igen vagy nem? Mutass egyet! Mi a legjobb? Ugyanaz a feladat háromféle kérdésként.</dd></div>
+<div><dt>P</dt><dd>A polinomiális időben megoldható döntési feladatok osztálya.</dd></div>
+<div><dt>NP</dt><dd>Azok a döntési feladatok, amelyekben az igen válasz tanúja polinomiális időben ellenőrizhető. P része NP-nek.</dd></div>
+<div><dt>Tanú (certificate)</dt><dd>Egy javasolt megoldás, amely igazolja az igen választ, például egy körút vagy egy behelyettesítés.</dd></div>
+<div><dt>Visszavezetés (reduction)</dt><dd>Egy feladat példányainak gyors átírása egy másik feladat példányaivá, a válasz megőrzésével.</dd></div>
+<div><dt>NP-nehéz</dt><dd>Minden NP-beli feladat polinomiális időben visszavezethető rá. Nem kell NP-ben lennie, lehet optimalizálási is.</dd></div>
+<div><dt>NP-teljes</dt><dd>NP-ben van és NP-nehéz. Ha egyre is van polinomiális algoritmus, akkor P = NP.</dd></div>
+<div><dt>Eldönthetetlen</dt><dd>Nincs algoritmus, amely mindig véges időben helyes választ ad, például a megállási probléma.</dd></div>
+<div><dt>Turing-gép</dt><dd>Szalag, fej és szabálytábla: a számítás elméleti modellje. Determinisztikus: egy lehetőség. Nemdeterminisztikus: több egyszerre.</dd></div>
+<div><dt>Klóz, literál, KNF</dt><dd>A literál egy változó vagy a tagadása. A klóz literálok VAGY-a. A KNF klózok ÉS-e.</dd></div>
+<div><dt>Klikk, csúcsfedés, Hamilton-kör</dt><dd>Csupa szomszédos csúcs; minden élet érintő csúcshalmaz; minden csúcson egyszer átmenő kör.</dd></div>
+<div><dt>Dinamikus programozás</dt><dd>A részfeladatok eredményeit táblázatba írja, és mindegyiket egyszer számolja ki. Így megy az LCS és a hátizsák.</dd></div>
+<div><dt>Heurisztika, közelítő algoritmus</dt><dd>Gyors, jó megoldást adó módszer. A közelítőnek bizonyított garanciája is van az optimumtól való eltérésre.</dd></div>
+<div><dt>Átfutási idő (makespan)</dt><dd>Ütemezésnél az az időpont, amikor az utolsó munka is elkészül.</dd></div>
+</dl>
+</section>
+
+<!-- KVÍZ -->
+<section id="kviz" class="chapter-section"><span class="section-index">KVÍZ · SZABADON VÁLASZTHATÓ</span>
+<h2>Ellenőrizd magad.</h2>
+<p>A kvíz kihagyható, az eredménye semmit sem zár le. Az eredményt csak a böngésződ tárolja.</p>
+<form class="u-quiz" id="kviz-urlap" novalidate>
+<fieldset data-helyes="b"><legend>1. Mit jelent az NP rövidítés?</legend>
+<label><input type="radio" name="k1" value="a"> Nehéz problémák (angolul: <em>not polynomial</em>).</label>
+<label><input type="radio" name="k1" value="b"> Nemdeterminisztikus polinomiális: az igen válasz tanúja gyorsan ellenőrizhető.</label>
+<label><input type="radio" name="k1" value="c"> Nem megoldható problémák.</label>
+<p class="u-feedback" data-magyarazat="Nondeterministic polynomial. Minden P-beli feladat is NP-ben van, tehát az NP nem jelent nehezet."></p></fieldset>
+<fieldset data-helyes="a"><legend>2. Mit tudunk biztosan a P és az NP viszonyáról?</legend>
+<label><input type="radio" name="k2" value="a"> P része NP-nek, de nem tudjuk, egyenlők-e.</label>
+<label><input type="radio" name="k2" value="b"> Bebizonyították, hogy P ≠ NP.</label>
+<label><input type="radio" name="k2" value="c"> A két osztálynak nincs közös eleme.</label>
+<p class="u-feedback" data-magyarazat="Ami gyorsan megoldható, az gyorsan ellenőrizhető is. Az egyenlőség kérdése a Clay-intézet millenniumi problémája."></p></fieldset>
+<fieldset data-helyes="b"><legend>3. Egy algoritmus 2ⁿ lépést tesz, a gép másodpercenként 10⁹-t. Nagyjából mennyi ideig fut n = 40-re?</legend>
+<label><input type="radio" name="k3" value="a"> 1 másodpercig</label>
+<label><input type="radio" name="k3" value="b"> 18 percig</label>
+<label><input type="radio" name="k3" value="c"> 35 évig</label>
+<p class="u-feedback" data-magyarazat="2⁴⁰ ≈ 1,1 · 10¹², ez 1100 másodperc, vagyis nagyjából 18 perc. n = 50-re már 13 nap."></p></fieldset>
+<fieldset data-helyes="c"><legend>4. Van-e nulla összegű hármas a −7, 2, 5, 9, −3 számok között?</legend>
+<label><input type="radio" name="k4" value="a"> Nincs.</label>
+<label><input type="radio" name="k4" value="b"> Van: 9, −7, −3.</label>
+<label><input type="radio" name="k4" value="c"> Van: −7, 2, 5.</label>
+<p class="u-feedback" data-magyarazat="−7 + 2 + 5 = 0. A b) összege 9 − 7 − 3 = −1."></p></fieldset>
+<fieldset data-helyes="a"><legend>5. Hogyan szól helyesen a csúcsfedés döntési kérdése?</legend>
+<label><input type="radio" name="k5" value="a"> Van-e legfeljebb k méretű lefedő csúcshalmaz?</label>
+<label><input type="radio" name="k5" value="b"> Van-e legalább k méretű lefedő csúcshalmaz?</label>
+<label><input type="radio" name="k5" value="c"> Van-e pontosan k éle a gráfnak?</label>
+<p class="u-feedback" data-magyarazat="A „legalább k” változatra mindig igen a válasz, ha k legfeljebb a csúcsok száma: az összes csúcs lefed."></p></fieldset>
+<fieldset data-helyes="b"><legend>6. Hány klóz teljesül a (x ∨ y) ∧ (¬x ∨ y) ∧ (¬y ∨ z) formulában, ha x = HAMIS, y = IGAZ, z = HAMIS?</legend>
+<label><input type="radio" name="k6" value="a"> 1</label>
+<label><input type="radio" name="k6" value="b"> 2</label>
+<label><input type="radio" name="k6" value="c"> 3</label>
+<p class="u-feedback" data-magyarazat="Az első kettőben y igaz. A harmadikban ¬y és z is hamis. A formula tehát erre a behelyettesítésre hamis, z = IGAZ-zal igaz lenne."></p></fieldset>
+<fieldset data-helyes="b"><legend>7. Melyik NP-teljes a felsoroltak közül?</legend>
+<label><input type="radio" name="k7" value="a"> Két sorozat leghosszabb közös részsorozata</label>
+<label><input type="radio" name="k7" value="b"> Van-e Hamilton-köre egy gráfnak?</label>
+<label><input type="radio" name="k7" value="c"> Minden eleme különböző-e egy listának?</label>
+<p class="u-feedback" data-magyarazat="Az a) és a c) P-beli: dinamikus programozás, illetve rendezés vagy hasítás. A Hamilton-kör Karp 21 feladatának egyike."></p></fieldset>
+<fieldset data-helyes="c"><legend>8. Valaki azt állítja, hogy egy 100 városos körút 500 km-nél rövidebb, és átadja a városok listáját. Mennyi munka ezt ellenőrizni?</legend>
+<label><input type="radio" name="k8" value="a"> Mind a 99! körutat végig kell nézni.</label>
+<label><input type="radio" name="k8" value="b"> Lehetetlen, mert a feladat NP-nehéz.</label>
+<label><input type="radio" name="k8" value="c"> 100 távolság összeadása és egy összehasonlítás.</label>
+<p class="u-feedback" data-magyarazat="Ez a PDF 253. oldalának érve: a tanú ellenőrzése polinomiális, ezért a döntési változat NP-ben van."></p></fieldset>
+<fieldset data-helyes="b"><legend>9. Melyik igaz az NP-nehéz feladatokra?</legend>
+<label><input type="radio" name="k9" value="a"> Mindig döntési feladatok, és mind NP-ben vannak.</label>
+<label><input type="radio" name="k9" value="b"> Lehetnek optimalizálási feladatok is, és a legtöbbjük eldönthető.</label>
+<label><input type="radio" name="k9" value="c"> Egyik sem oldható meg semmilyen algoritmussal.</label>
+<p class="u-feedback" data-magyarazat="A legrövidebb körút megkeresése NP-nehéz, és kimerítő kereséssel mindig megoldható. Eldönthetetlen NP-nehéz feladat is van, például a megállási probléma, de ez kivétel."></p></fieldset>
+<fieldset data-helyes="b"><legend>10. Mit tudunk ma a faktorizálás döntési változatáról?</legend>
+<label><input type="radio" name="k10" value="a"> Bizonyítottan NP-teljes.</label>
+<label><input type="radio" name="k10" value="b"> NP-ben és co-NP-ben van, de sem a P-beli, sem az NP-teljes volta nem ismert.</label>
+<label><input type="radio" name="k10" value="c"> Bizonyítottan P-beli, Shor algoritmusa miatt.</label>
+<p class="u-feedback" data-magyarazat="Shor algoritmusa kvantumgépre polinomiális, ez nem jelent P-beliséget. Ha NP-teljes lenne, NP = co-NP következne, ezt kevesen hiszik."></p></fieldset>
+<fieldset data-helyes="a"><legend>11. Mennyi a PDF 15 kg-os hátizsákjának legnagyobb értéke, ha minden dobozból legfeljebb egy vihető?</legend>
+<label><input type="radio" name="k11" value="a"> 15 $</label>
+<label><input type="radio" name="k11" value="b"> 19 $</label>
+<label><input type="radio" name="k11" value="c"> 36 $</label>
+<p class="u-feedback" data-magyarazat="A zöld doboz nélkül a többi négy 8 kg és 15 $. A 36 $ a korlátlan darabszámú változat optimuma."></p></fieldset>
+<fieldset data-helyes="a"><legend>12. Tételek: 6, 5, 4, 3, a rekeszméret 10. Hány rekesz kell legalább, és elég-e ennyi?</legend>
+<label><input type="radio" name="k12" value="a"> 2, és elég: 6 + 4 és 5 + 3.</label>
+<label><input type="radio" name="k12" value="b"> 2, de nem elég, 3 kell.</label>
+<label><input type="radio" name="k12" value="c"> 4, mert négy tétel van.</label>
+<p class="u-feedback" data-magyarazat="Az összméret 18, 18 / 10 felfelé kerekítve 2. A 6 + 4 = 10 és az 5 + 3 = 8 pakolás eléri ezt az alsó korlátot."></p></fieldset>
+<fieldset data-helyes="a"><legend>13. A folyamatsoros (flow shop) ütemezés melyik esetére ismert polinomiális algoritmus?</legend>
+<label><input type="radio" name="k13" value="a"> Két gép esetén, Johnson szabályával.</label>
+<label><input type="radio" name="k13" value="b"> Három gép esetén, kimerítő kereséssel.</label>
+<label><input type="radio" name="k13" value="c"> Semmilyen esetére.</label>
+<p class="u-feedback" data-magyarazat="Johnson 1954-es szabálya két gépre optimális. Három géptől a feladat NP-nehéz, a kimerítő keresés pedig n! sorrendet néz, ami nem polinomiális."></p></fieldset>
+<fieldset data-helyes="c"><legend>14. Mi következne abból, ha valaki polinomiális algoritmust találna a 3-SAT-ra?</legend>
+<label><input type="radio" name="k14" value="a"> Csak a 3-SAT lenne könnyebb, a többi feladat nem.</label>
+<label><input type="radio" name="k14" value="b"> A 3-SAT kikerülne NP-ből.</label>
+<label><input type="radio" name="k14" value="c"> P = NP, mert minden NP-beli feladat visszavezethető a 3-SAT-ra.</label>
+<p class="u-feedback" data-magyarazat="Az NP-teljes feladatok „egy mindenkiért” elve: egyetlen gyors algoritmus mindegyiket gyorssá tenné."></p></fieldset>
+<div class="u-controls"><button type="submit">Válaszok ellenőrzése</button><button type="reset" class="u-ghost">Újrakezdés</button></div>
+<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2a, 3b, 4c, 5a, 6b, 7b, 8c, 9b, 10b, 11a, 12a, 13a, 14c.</p>
+</form>
+</section>
+
+<!-- ÖSSZEGZÉS -->
+<section id="osszegzes" class="chapter-section"><span class="section-index">ÖSSZEFOGLALÓ</span>
+<h2>Amit most már tudsz.</h2>
+<p>A feladatok nehézségét a lépésszám növekedésével mérjük. A polinomiális idő a gyors, az exponenciális a reménytelenül lassú. Ugyanaz a feladat lehet döntési, keresési és optimalizálási kérdés. A P a gyorsan megoldható, az NP a gyorsan ellenőrizhető döntési feladatok osztálya, és P része NP-nek. Egy NP-nehéz feladat legalább olyan nehéz, mint bármely NP-beli, az NP-teljes pedig ezen felül maga is NP-ben van. Hogy P egyenlő-e NP-vel, nem tudjuk.</p>
+<p>A PDF P-beli feladatai, az áramkörérték, a 3SUM, a hozzárendelés, az élfedés, az elemmegkülönböztetés, a nyelvüresség és a két sorozatos LCS, mind okos rendezéssel, bejárással vagy dinamikus programozással gyorsak. Egy kis változtatás, például a k-SUM-ban vagy az LCS-ben a k, illetve a sorozatok számának elengedése, NP-nehézzé teheti őket. A SAT volt az első NP-teljes feladat, Cook és Levin tétele alapján. Utána jött a 3-SAT, a Hamilton-kör, a klikk, a csúcsfedés és a hátizsák. Az utazóügynök, a teljes színezés, a k-minimum feszítőfa, a Max-3SAT, a k-középpont, a flow shop, a háromdimenziós párosítás, a rekeszpakolás és a leghosszabb út NP-nehéz. A faktorizálás NP-ben van, de a pontos helye nem ismert. NP-nehéz feladatnál sem kell feladni: kis példány, különleges szerkezet, közelítés és heurisztika a négy fő kiút.</p>
+<div class="u-links">
+<a href="06-neuralis-halozatok.html"><small>← Előző fejezet</small>06 · Mesterséges neurális hálózatok. A gradienscsökkentés is egy nehéz optimalizálási feladat heurisztikus megoldása.</a>
+<a href="../index.html"><small>Vissza →</small>Kezdőlap és fejezetlista. A következő fejezet a genetikus algoritmusokról szól, amelyek éppen a hátizsákhoz és az utazóügynökhöz hasonló feladatokra adnak jó megoldást.</a>
+</div>
+</section>
+
+<!-- FORRÁSOK -->
+<section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
+<h2>Honnan tudjuk?</h2>
+<p>A fejezet a kurzus PDF-jének 222–255. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből származnak. A tizennégy „Kiigazítás” doboz a PDF ezen állításait javítja vagy pontosítja: az NP neve és a P elírása (223. oldal), az NP-teljes feladatok „megoldhatatlansága” (223.), az NP-nehéz feladatok eldönthetősége (223.), a k-SUM besorolása (226.), az ütközési probléma jellege (228.), az LCS besorolása (232.), Levin neve (234.), a DNF-változat (235.), a csúcsfedés kérdése (238.), a hátizsák változatai (239.), az utazóügynök algoritmusai és közelítése (241.), a flow shop meghatározása (248.), a rekeszpakolás rekeszei (250.) és a faktorizálás helye (255.).</p>
+<p>A PDF képeit (228., 236–239., 242., 244., 247–250. oldal) is átnéztük. A 239. oldal öt dobozát és a 242. oldal két utazóügynök-példáját, a nyolc pontot és a hét város súlyozott gráfját, a jegyzet adataként használjuk. Az optimumokat a jegyzet tesztelt modellje (<code>assets/js/complexity.js</code>) számolta ki. Saját anyag, nem a PDF-ből: a futár helyzete, a növekedési táblázat, a kis áramkör, a 3SUM, a hozzárendelés, az élfedés, az automata, az LCS, a gráflabor gráfja, a k-középpont, a flow shop és a rekeszpakolás példája, valamint a SAT-labor második és harmadik formulája. Az idővonal 1897-es, 1930-as, 1971-es, 1973-as és 1993-as sora a PDF-ből, a többi kiegészítésként származik.</p>
+<p>A kurzus kódgyűjteményéből egy fájl kapcsolódik a fejezethez. A <code>resources/code/16_Genetikus_algoritmus_hatizsak.py</code> feladatleírását és kiértékelő függvényét a 8. rész mutatja be. A programot Python 3.12-vel, 100 véletlenmaggal futtattuk, változatlan kóddal: a két próbahívás mindig 14-et és 0-t írt ki, a végeredmény 79 futásban 18 (az optimum), 15-ben 17, 6-ban 16 volt. A genetikus részt a következő fejezet dolgozza fel.</p>
+<ul class="u-sources">
+<li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 222–255. oldal (<code>resources/presentation/</code>).</li>
+<li id="s-cook">S. A. Cook: <a href="https://doi.org/10.1145/800157.805047">The Complexity of Theorem-Proving Procedures</a>, <em>Proceedings of the 3rd ACM Symposium on Theory of Computing</em>, 1971, 151–158.</li>
+<li id="s-levin">L. A. Levin: Универсальные задачи перебора (Univerzális keresési feladatok), <em>Problemy Peredachi Informatsii</em> 9(3), 1973, 115–116.</li>
+<li id="s-karp">R. M. Karp: <a href="https://doi.org/10.1007/978-1-4684-2001-2_9">Reducibility Among Combinatorial Problems</a>, in: <em>Complexity of Computer Computations</em>, Plenum, 1972, 85–103.</li>
+<li id="s-garey">M. R. Garey, D. S. Johnson: <em>Computers and Intractability: A Guide to the Theory of NP-Completeness</em>, W. H. Freeman, 1979.</li>
+<li id="s-sipser">M. Sipser: <em>Introduction to the Theory of Computation</em>, 3. kiadás, Cengage, 2013.</li>
+<li id="s-arora">S. Arora, B. Barak: <a href="https://theory.cs.princeton.edu/complexity/"><em>Computational Complexity: A Modern Approach</em></a>, Cambridge University Press, 2009.</li>
+<li id="s-edmonds">J. Edmonds: <a href="https://doi.org/10.4153/CJM-1965-045-4">Paths, Trees, and Flowers</a>, <em>Canadian Journal of Mathematics</em> 17, 1965, 449–467.</li>
+<li id="s-kuhn">H. W. Kuhn: <a href="https://doi.org/10.1002/nav.3800020109">The Hungarian Method for the Assignment Problem</a>, <em>Naval Research Logistics Quarterly</em> 2, 1955, 83–97.</li>
+<li id="s-johnson">S. M. Johnson: <a href="https://doi.org/10.1002/nav.3800010110">Optimal Two- and Three-Stage Production Schedules with Setup Times Included</a>, <em>Naval Research Logistics Quarterly</em> 1, 1954, 61–68.</li>
+<li id="s-gjs">M. R. Garey, D. S. Johnson, R. Sethi: <a href="https://doi.org/10.1287/moor.1.2.117">The Complexity of Flowshop and Jobshop Scheduling</a>, <em>Mathematics of Operations Research</em> 1(2), 1976, 117–129.</li>
+<li id="s-maier">D. Maier: <a href="https://doi.org/10.1145/322063.322075">The Complexity of Some Problems on Subsequences and Supersequences</a>, <em>Journal of the ACM</em> 25(2), 1978, 322–336.</li>
+<li id="s-schaefer">T. J. Schaefer: <a href="https://doi.org/10.1145/800133.804350">The Complexity of Satisfiability Problems</a>, <em>Proceedings of the 10th ACM Symposium on Theory of Computing</em>, 1978, 216–226.</li>
+<li id="s-gonzalez">T. F. Gonzalez: <a href="https://doi.org/10.1016/0304-3975(85)90224-5">Clustering to Minimize the Maximum Intercluster Distance</a>, <em>Theoretical Computer Science</em> 38, 1985, 293–306.</li>
+<li id="s-hastad">J. Håstad: <a href="https://doi.org/10.1145/502090.502098">Some Optimal Inapproximability Results</a>, <em>Journal of the ACM</em> 48(4), 2001, 798–859.</li>
+<li id="s-bht">G. Brassard, P. Høyer, A. Tapp: <a href="https://arxiv.org/abs/quant-ph/9705002">Quantum Cryptanalysis of Hash and Claw-Free Functions</a>, 1997.</li>
+<li id="s-gronlund">A. Grønlund, S. Pettie: <a href="https://arxiv.org/abs/1404.0799">Threesomes, Degenerates, and Love Triangles</a>, <em>FOCS</em>, 2014.</li>
+<li id="s-dosa">Gy. Dósa: The Tight Bound of First Fit Decreasing Bin-Packing Algorithm Is FFD(I) ≤ 11/9 OPT(I) + 6/9, in: <em>ESCAPE 2007</em>, Lecture Notes in Computer Science 4614, Springer, 2007, 1–11.</li>
+<li id="s-benor">M. Ben-Or: Lower Bounds for Algebraic Computation Trees, <em>Proceedings of the 15th ACM Symposium on Theory of Computing</em>, 1983, 80–86.</li>
+<li id="s-kozen">D. Kozen: Lower Bounds for Natural Proof Systems, <em>18th Annual Symposium on Foundations of Computer Science</em>, IEEE, 1977, 254–266.</li>
+<li id="s-shor">P. W. Shor: <a href="https://doi.org/10.1137/S0097539795293172">Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer</a>, <em>SIAM Journal on Computing</em> 26(5), 1997, 1484–1509.</li>
+<li id="s-vandersypen">L. M. K. Vandersypen és társai: <a href="https://doi.org/10.1038/414883a">Experimental Realization of Shor's Quantum Factoring Algorithm Using Nuclear Magnetic Resonance</a>, <em>Nature</em> 414, 2001, 883–887.</li>
+<li id="s-concorde">D. L. Applegate, R. E. Bixby, V. Chvátal, W. J. Cook: <em>The Traveling Salesman Problem: A Computational Study</em>, Princeton University Press, 2006, és a <a href="https://www.math.uwaterloo.ca/tsp/">TSP-honlap</a> (University of Waterloo).</li>
+<li id="s-clay">Clay Mathematics Institute: <a href="https://www.claymath.org/millennium/p-vs-np/">P vs NP</a>, a millenniumi probléma leírása.</li>
+</ul>
+</section>
+</main>
+</div>
+<footer>MI-alapok / 07 · Nevezetes számítási problémák <a href="../index.html">Kezdőlap</a></footer>
+</body>
+</html>

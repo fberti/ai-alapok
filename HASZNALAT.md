@@ -18,6 +18,8 @@ Az ötödik fejezet: `fejezetek/05-prolog-es-fuzzy.html`.
 
 A hatodik fejezet: `fejezetek/06-neuralis-halozatok.html`.
 
+A hetedik fejezet: `fejezetek/07-szamitasi-problemak.html`.
+
 A kvízválaszokat minden fejezet külön tárolja.
 
 A tananyag, a bemutatók és a kvíz nem igényelnek internetet.
@@ -86,8 +88,8 @@ A `node_modules/` könyvtár nem kell a közzétett oldalhoz.
 
 ## Jelenlegi hatókör
 
-Az 1–4. fejezet készült el.
+Az 1–7. fejezet készült el.
 
-Az 5–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
+A 8–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
 
-A következő fejezethez: `/implement #5`.
+A következő fejezethez: `/implement #8`.

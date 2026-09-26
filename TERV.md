@@ -496,6 +496,8 @@ Legyen benne fogalmi, számolási és hálóolvasási kérdés.
 
 # 7. mérföldkő – Nevezetes számítási problémák
 
+**Állapot:** kész. Ellenőrzés: `ELLENORZES-07.md`.
+
 **Forrás:** PDF 222–255. oldal.
 
 **Oldal:** `fejezetek/07-szamitasi-problemak.html`
