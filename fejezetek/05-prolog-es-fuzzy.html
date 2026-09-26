@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3eb">
+<meta name="description" content="Prolog és fuzzy logika: hogyan keres választ egy logikai program, és hogyan számol a gép a „majdnem igaz” állításokkal? Magyar tananyag a kurzus PDF-jének 122–141. oldalához.">
+<title>05 · Prolog és fuzzy logika | MI-alapok</title>
+<script>document.documentElement.classList.add('js')</script>
+<script src="../assets/js/theme.js?v=2"></script>
+<link rel="stylesheet" href="../assets/css/course.css?v=2">
+<link rel="stylesheet" href="../assets/css/chapter-five.css">
+<script defer src="../assets/js/prolog-fuzzy.js"></script>
+<script defer src="../assets/js/chapter-five.js"></script>
+</head>
+<body class="chapter-five" data-chapter="5">
+<a class="skip" href="#tartalom">Ugrás a tananyaghoz</a>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">mi.</span> ALAPOK <span class="brand-note">/ interaktív jegyzet</span></a><div class="header-actions"><a href="../index.html#fejezetek">← Összes fejezet</a><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle><span class="theme-toggle-icon" aria-hidden="true"></span><span class="visually-hidden">Sötét mód</span></button></div></header>
+
+<div class="chapter-layout">
+<nav class="toc" aria-label="Fejezet tartalomjegyzéke"><p class="eyebrow">05 / EBBEN A FEJEZETBEN</p><ol>
+<li><a href="#prolog">Logikából program</a></li>
+<li><a href="#deklarativ">Mit, és nem hogyan</a></li>
+<li><a href="#klozok">Tény, szabály, cél</a></li>
+<li><a href="#elteresek">Prolog kontra logika</a></li>
+<li><a href="#listak">Lista és rekurzió</a></li>
+<li><a href="#kleopatra">A példaprogram</a></li>
+<li><a href="#mukodes">Illesztés és visszalépés</a></li>
+<li><a href="#keresofak">Két keresőfa és a vágás</a></li>
+<li><a href="#fuzzy">A fuzzy logika születése</a></li>
+<li><a href="#tagsag">Fuzzy halmaz, tagsági fok</a></li>
+<li><a href="#alakok">Tagsági függvények</a></li>
+<li><a href="#szabalyok">Fuzzy szabály, ÉS, VAGY</a></li>
+<li><a href="#folyamat">A fuzzy szabályozó</a></li>
+<li><a href="#vizsga">A vizsgajegy-példa</a></li>
+<li><a href="#fuzzy-kod">A termosztát kódja</a></li>
+<li><a href="#fogalmak">Fogalomkártyák</a></li>
+<li><a href="#kviz">Kvíz · szabadon választható</a></li>
+<li><a href="#osszegzes">Összefoglaló</a></li>
+<li><a href="#forrasok">Források</a></li>
+</ol></nav>
+
+<main id="tartalom" class="chapter-main">
+<header class="chapter-hero">
+<p class="eyebrow">05. FEJEZET / PROLOG ÉS FUZZY LOGIKA</p>
+<h1>Hogyan keres választ a gép,<br><em>és mit kezd a „majdnem”-mel?</em></h1>
+<p class="lead">Az előző fejezetben a logika bizonyítani tanult. Most két irányba lépünk tovább. A Prolog a logikából programozási nyelvet csinál. A fuzzy logika pedig elengedi azt a szabályt, hogy minden állítás vagy teljesen igaz, vagy teljesen hamis.</p>
+<div class="u-scene"><p><strong>Két kérdés egy délutánon.</strong> Egy diák a családfát rendezi. Beírja a gépbe, ki kinek a szülője, aztán megkérdezi: „Ki Arisztotelész nagyszülője?” Nem ír hozzá keresőciklust, csak tényeket és egy szabályt. A választ a gép maga keresi meg.</p>
+<p>Közben a barátja a kosárcsapat névsorát nézi. „Magas-e Bence, aki 179 cm?” Ha a határ 180 cm, akkor Bence nem magas, a 181 cm-es társa viszont igen. Egy centi nem tehet ekkora különbséget. Az ember ösztönösen azt mondja: „elég magas”.</p>
+<p>Az első kérdés a <strong>Prolog</strong> világa: a gép szisztematikusan keres, és ha zsákutcába jut, visszalép. A második a <strong>fuzzy logikáé</strong>: az igazság itt fokozat, 0 és 1 közötti szám.</p></div>
+<ul class="u-meta"><li>Forrás: PDF 122–141. oldal</li><li>3 kipróbálható bemutató</li><li>10 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>11_Fuzzy.py</code>, <code>12_Logika.py</code></li></ul>
+<div class="u-goals"><strong>A fejezet végére…</strong><ul>
+<li>tudod, ki és mikor alkotta meg a Prologot, és mit jelent, hogy deklaratív nyelv;</li>
+<li>el tudod mondani Kowalski „algoritmus = logika + vezérlés” képletének jelentését;</li>
+<li>meg tudod különböztetni a tényt, a szabályt és a célt, a fejet és a törzset, és felismered a Horn-klózt;</li>
+<li>lépésről lépésre végig tudod követni, hogyan illeszt és lép vissza a Prolog, és mit változtat ezen a tények sorrendje és a vágás;</li>
+<li>érted a fuzzy halmaz, a tagsági fok és a tagsági függvény fogalmát, és tudod, miben különbözik a tagsági fok a valószínűségtől;</li>
+<li>ki tudsz számolni egy fuzzy szabályrendszert a fuzzifikálástól a defuzzifikálásig.</li>
+</ul></div>
+<noscript><p class="u-simple"><strong>JavaScript nélkül</strong>A teljes magyarázat, minden keresőfa, ábra és számítás olvasható. Csak a három kipróbálható bemutató és a kvíz ellenőrzése igényel JavaScriptet.</p></noscript>
+</header>
+
+<!-- 01 · PROLOG -->
+<section id="prolog" class="chapter-section"><span class="section-index">01 / PDF 122.</span>
+<h2>Amikor a logika programmá válik.</h2>
+<p>A <strong>Prolog</strong> neve a francia <em>programmation en logique</em>, angolul <em>Programming in Logic</em> rövidítése. Magyarul: logika alapú programozás. A PDF úgy jellemzi, hogy <strong>predikátumkonstansokon alapuló, általános célú</strong> programnyelv, amely a legelőnyösebben mégis logikai problémák megoldására használható. A <em>predikátumkonstans</em> itt egy rögzített nevű predikátum, például a <code>szulo</code> vagy a <code>szebb</code>. A Prolog programja ilyen predikátumokról szóló állításokból áll.</p>
+<p>A PDF egy érdekes tanulságot is megemlít. A Prolog megalkotóira hatott a korábbi MI-nyelvekkel szerzett tapasztalat: <strong>minél több lehetőséget építenek egy rendszerbe, annál lassabb lesz</strong>. A Prolog ezért szándékosan kicsi. Egyetlen következtetési módszert ismer, a 4. fejezet rezolúcióját, és azt is csak egy szűkebb klózfajtára alkalmazza. Cserébe gyors és kiszámítható.</p>
+<ol class="u-timeline" id="prolog-idovonal">
+<li><span class="u-year">1965</span><p><strong>John Alan Robinson</strong> közli a rezolúció elvét. Ez lesz a Prolog következtetési motorja.</p></li>
+<li><span class="u-year">1971–1972</span><p><strong>Alain Colmerauer</strong> és <strong>Philippe Roussel</strong> Marseille-ben egy francia nyelvű kérdés-felelet rendszeren dolgozik. Ehhez készítik el 1972-ben az első Prolog-rendszert.</p></li>
+<li><span class="u-year">1974</span><p><strong>Robert (Bob) Kowalski</strong> Edinburgh-ban leírja, hogyan olvasható egy logikai klóz eljárásként. Ez a Prolog elméleti alapja.</p></li>
+<li><span class="u-year">1975–1980</span><p><em>Kiegészítés:</em> Magyarországon az elsők között használják a Prologot, többek között gyógyszer-kölcsönhatások elemzésére. A SZKI-ban később elkészül a moduláris MPROLOG. <a href="#s-szeredi">Forrás: Szeredi, 2004.</a></p></li>
+<li><span class="u-year">1977</span><p><strong>David H. D. Warren</strong> Edinburgh-ban megírja a DEC-10 Prolog fordítóját. Ennek jelölése lesz a mai Prolog „nyelvjárása”.</p></li>
+<li><span class="u-year">1979</span><p>Kowalski közli az <em>Algorithm = Logic + Control</em> című cikkét. A 2. rész erről szól.</p></li>
+<li><span class="u-year">1982</span><p><em>Kiegészítés:</em> Japán ötödik generációs számítógép-programja a logikai programozást teszi a középpontba.</p></li>
+<li><span class="u-year">1986</span><p>Megjelenik a <strong>Turbo Prolog</strong> személyi számítógépekre. A PDF példái ennek jelölését használják.</p></li>
+<li><span class="u-year">1995</span><p><em>Kiegészítés:</em> elkészül az ISO Prolog szabvány. A mai rendszerek, például a SWI-Prolog, ezt követik.</p></li>
+</ol>
+<aside class="u-fix"><h3>Kiigazítás · Ki és mikor alkotta a Prologot?</h3>
+<p><strong>A PDF-ben:</strong> „Alain Colmerauer, Bob Kowalski, 1970.” (PDF 122. oldal)</p>
+<p><strong>Pontosabban:</strong> az első Prolog-rendszert Alain Colmerauer és Philippe Roussel készítette el Marseille-ben, 1972-ben. Robert Kowalski elméleti munkája, a klózok eljárásként való olvasása ugyanebben az időben, velük együttműködve született. Kowalskit ezért joggal említik a Prolog szellemi szülőatyjai között, de a nyelvet nem ő implementálta.</p>
+<p><strong>Miért fontos?</strong> Az 1970 az előzmények éve, nem a nyelvé. Colmerauer és Roussel visszaemlékezése szerint a név is csak 1972-ben született: Roussel felesége javasolta a <em>programmation en logique</em> rövidítését. <a href="#s-colmerauer">Forrás: Colmerauer–Roussel, 1993;</a> <a href="#s-kowalski74">Kowalski, 1974.</a></p></aside>
+</section>
+
+<!-- 02 · DEKLARATÍV -->
+<section id="deklarativ" class="chapter-section"><span class="section-index">02 / PDF 122–123.</span>
+<h2>Mit akarunk tudni, és nem azt, hogyan.</h2>
+<p>A PDF szerint a Prolog <strong>deklaratív programnyelv</strong>. Elegendő megadni a feladat területére vonatkozó tényeket és szabályokat, aztán kérdést feltenni. A <em>deklarál</em> szó kijelentést jelent. A programozó kijelenti, mi igaz a világban, és azt, hogy mit szeretne tudni. A lépések sorrendjét a gép találja ki. A megszokott nyelvek, például a Python vagy a C, <strong>imperatívak</strong>: bennük a programozó parancsok sorozatát írja le.</p>
+<div class="u-compare" id="imperativ-deklarativ">
+<div><span class="u-tag">IMPERATÍV · PYTHON</span><h3>Megmondjuk, hogyan keressen</h3>
+<pre class="u-mini"><code>for (x, y) in szulok:
+    for (y2, z) in szulok:
+        if y == y2 and z == "arisztotelesz":
+            print(x)</code></pre>
+<p>Két egymásba ágyazott ciklus végignézi a párokat. Ha a kérdés megfordul, például „Ki Platón unokája?”, új programot kell írni.</p></div>
+<div><span class="u-tag">DEKLARATÍV · PROLOG</span><h3>Megmondjuk, mi igaz</h3>
+<pre class="u-mini"><code>nagyszulo(X, Z) :-
+    szulo(X, Y), szulo(Y, Z).
+
+?- nagyszulo(X, arisztotelesz).</code></pre>
+<p>Egyetlen szabály: X akkor nagyszülője Z-nek, ha X szülője valakinek, aki Z szülője. A fordított kérdés ugyanezzel a szabállyal megválaszolható.</p></div>
+</div>
+<p>A PDF 123. oldala a Prolog három fő jellemzőjét emeli ki. Az eljárások és a tények <strong>mintaillesztés</strong> során kerülnek elő: a gép azokat a sorokat veszi elő, amelyek alakra illeszkednek a kérdésre. A Prolog <strong>betartja a bemenő állítások sorrendjét</strong>: mindig felülről lefelé próbálja őket. A keresést pedig <strong>automatikus visszalépéssel</strong> végzi, angolul <em>backtracking</em>. Ezt a programozó a <code>!</code> jellel, a <strong>vágással</strong> (angolul <em>cut</em>) módosíthatja.</p>
+<p>A PDF itt egy fontos ellentmondásra is rámutat. A logikai programozás eszménye szerint a programozó csak a logikai problémát adja meg. A kiértékelés, vagyis az algoritmus, a gép dolga. A vágás viszont belenyúl a kiértékelésbe. Ezt a feszültséget <strong>Kowalski</strong> egy rövid képletben fogalmazta meg:</p>
+<figure class="u-formula-quote" id="kowalski"><blockquote><p>algoritmus = logika + vezérlés</p></blockquote><figcaption>Kowalski képlete, PDF 123. oldal. Eredetileg: „Algorithm = Logic + Control”, <a href="#s-kowalski79">Kowalski, 1979</a>.</figcaption></figure>
+<div class="u-compare" id="logika-vezerles">
+<div><span class="u-tag">LOGIKA</span><h3>Mit tudunk a feladatról?</h3><p>A PDF szerint a logikai összetevő a problémára vonatkozó tudást adja meg. A családfában ez a tények listája és a nagyszülő szabálya. Ettől függ, hogy <em>mi</em> a helyes válasz.</p></div>
+<div><span class="u-tag">VEZÉRLÉS</span><h3>Milyen úton keressük?</h3><p>A vezérlési összetevő a megoldási stratégia. A Prologban ez a felülről lefelé, balról jobbra haladó keresés a visszalépéssel, amelyet a vágás módosíthat. Ettől függ, hogy <em>milyen gyorsan</em> és <em>milyen sorrendben</em> jönnek a válaszok.</p></div>
+</div>
+<p class="u-key">Ugyanahhoz a logikához többféle vezérlés tartozhat. Ideális esetben a vezérlés csak a sebességet változtatja, a válaszokat nem. A vágás ezt az ideált megsértheti. A 8. rész megmutatja, hogyan.</p>
+</section>
+
+<!-- 03 · KLÓZOK -->
+<section id="klozok" class="chapter-section"><span class="section-index">03 / PDF 124–125.</span>
+<h2>Tény, szabály, cél.</h2>
+<p>Egy Prolog-program <strong>klózokból</strong> áll. A PDF angolul <em>clauses</em>-nak, bemenő állításnak is nevezi őket. Kétféle klóz van. A <strong>tény</strong> feltétel nélkül igaz állítás, például „Platón Arisztotelész apja”. A <strong>szabály</strong> feltételhez kötött állítás: „X szülője Y-nak, ha X apja Y-nak”. A harmadik szereplő a <strong>cél</strong> (angolul <em>goal</em>), vagyis a kérdés, amelyre a program választ keres.</p>
+<p>A PDF szerint a szabályok formája korlátozott. Mindig így néz ki:</p>
+<figure class="u-clausebox" id="fej-torzs">
+<p><span class="u-head-part">P</span><span class="u-if">if</span><span class="u-body-part">Q and R and S.</span></p>
+<p class="u-clause-labels"><span>fej</span><span></span><span>törzs</span></p>
+<figcaption>A szabály szerkezete a PDF 124. oldala alapján. Mai Prologban: <code>p :- q, r, s.</code> A <code>:-</code> a „ha”, a vessző az „és”.</figcaption>
+</figure>
+<p>A <strong>fej</strong> egyetlen predikátum. A <strong>törzs</strong> atomi formulák konjunkciója, és nem tartalmazhat tagadást. A 4. fejezet nyelvén: a törzsben csak ÉS állhat, VAGY és NEM nem. A tény olyan szabály, amelynek üres a törzse, tehát mindig igaz. A cél pedig olyan klóz, amelynek nincs feje: csak azt mondja meg, mit kell bebizonyítani.</p>
+<div class="u-duo" id="klozfajtak">
+<div class="u-trace"><p class="u-trace-title">Tény</p><p><code>apa(platon, arisztotelesz).</code></p><p>Fej van, törzs nincs. Mindig igaz.</p></div>
+<div class="u-trace"><p class="u-trace-title">Szabály</p><p><code>szulo(X, Y) :- apa(X, Y).</code></p><p>Fej és törzs. A fej igaz, ha a törzs igaz.</p></div>
+<div class="u-trace"><p class="u-trace-title">Cél</p><p><code>?- szulo(X, platon).</code></p><p>Csak törzs. Ezt kell a programnak bizonyítania.</p></div>
+</div>
+<p>Miért éppen ez a szűk forma? Írjuk át a <code>p :- q, r, s</code> szabályt a 4. fejezet logikai jeleivel! Jelentése <code>(q ∧ r ∧ s) → p</code>. Az implikációt és a De Morgan-azonosságot használva ez a <code>¬q ∨ ¬r ∨ ¬s ∨ p</code> klóz. Ebben pontosan egy nem tagadott literál van, a fej. Az olyan klózt, amelyben <strong>legfeljebb egy</strong> nem tagadott literál áll, <strong>Horn-klóznak</strong> nevezzük, Alfred Horn amerikai matematikus után. A tény egy darab pozitív literál, a cél csupa tagadott literálból áll. Mindhárom Horn-klóz.</p>
+<p>A PDF ezért mondja, hogy a Prolog <strong>a Horn-halmazokra alkalmazza a rezolúció elvét</strong>. A <em>Horn-halmaz</em> Horn-klózok halmaza. Horn-klózokra a rezolúció különösen egyszerű. Mindig a cél első literálját rezolváljuk egy olyan klózzal, amelynek a feje illeszkedik rá. A rezolvens megint egy cél lesz, csak a fej helyett a törzs részcéljai állnak benne. Ennek a módszernek a neve <strong>SLD-rezolúció</strong>.</p>
+<aside class="u-fix"><h3>Kiigazítás · Nem a törzs a Horn-halmaz</h3>
+<p><strong>A PDF-ben:</strong> „Mivel a törzs atomi formulák konjunkciója, azaz Horn-halmaz, így azt mondhatjuk, hogy a PROLOG a Horn halmazokra a rezolúció elvét alkalmazza.” (PDF 125. oldal)</p>
+<p><strong>Pontosabban:</strong> a törzs önmagában csak atomok konjunkciója. A Horn-tulajdonság az <em>egész szabályra</em> vonatkozik. A fejjel együtt, klózalakra hozva a szabály pontosan egy pozitív literált tartalmaz, ezért Horn-klóz. A program klózai együtt alkotnak Horn-halmazt.</p>
+<p><strong>Miért fontos?</strong> A különbség a VAGY-nál látszik. A „p vagy q, ha r” mondat klózalakja <code>¬r ∨ p ∨ q</code>. A törzse most is egyetlen atom, a klóz mégsem Horn-klóz, mert két pozitív literált tartalmaz. Ezért nem írható le egyetlen Prolog-szabállyal. <a href="#s-aima">Forrás: Russell–Norvig, 7.5.3 szakasz.</a></p></aside>
+<p>A PDF még három tulajdonságot említ. Bevezették a <strong><code>symbol</code> típust</strong>, angolul <em>domain</em>-t. Ezzel a predikátumlogika konstansai, változói és függvényei a valóság egy részletét képezhetik le, például a <code>hölgy = symbol</code> sorral. Fontos adatszerkezet a <strong>lista</strong>. Feldolgozása a mintaillesztésen és a rekurzión alapul, erről az 5. rész szól. Végül a Prologban a függvények predikátumokra épülnek, és <strong>nincs különbség a bemenő és a kimenő változók között</strong>. Ez az a tulajdonság, amely a nagyszülő-példában a kérdés megfordítását lehetővé tette.</p>
+<p>A kurzus kódgyűjteményében a <code>12_Logika.py</code> ugyanezt a gondolkodást mutatja be Pythonban, a Prologhoz hasonló <code>pyDatalog</code> könyvtárral. A 4. fejezet a teljes kódot és kimenetét ismertette. Itt a tények és szabályok Prolog-megfelelője áll mellette. Így látszik, hogy a két jelölés ugyanazokat a Horn-klózokat írja le.</p>
+<div class="u-compare" id="datalog-prolog">
+<div><span class="u-tag">PYDATALOG · 12_Logika.py</span>
+<pre class="u-mini"><code>+Apa("Szokratesz","Platon")
++Apa("Platon", "Arisztotelesz")
++Anya("Diado","Platon")
+
+Szulo(X,Y) &lt;= Apa(X,Y)
+Szulo(X,Y) &lt;= Anya(X,Y)
+
+Nagyszulo(X,Z) &lt;= Szulo(X,Y) &amp; Szulo(Y,Z)</code></pre>
+<p class="u-mini-note">Részlet a <code>resources/code/12_Logika.py</code> fájlból, változatlanul.</p></div>
+<div><span class="u-tag">UGYANEZ PROLOGBAN</span>
+<pre class="u-mini"><code>apa(szokratesz, platon).
+apa(platon, arisztotelesz).
+anya(diado, platon).
+
+szulo(X, Y) :- apa(X, Y).
+szulo(X, Y) :- anya(X, Y).
+
+nagyszulo(X, Z) :- szulo(X, Y), szulo(Y, Z).</code></pre>
+<p class="u-mini-note">A jegyzet átirata. A Prologban a konstansok kisbetűsek, a változók nagybetűsek.</p></div>
+</div>
+<p>A <code>+Apa(…)</code> sor egy tényt tesz az adatbázisba, a <code>&lt;=</code> jel a Prolog <code>:-</code> jele, az <code>&amp;</code> pedig a vessző. A <code>Szulo</code> két szabálya együtt egy VAGY-ot fejez ki: X szülője Y-nak, ha apja <em>vagy</em> anyja. Horn-klózokkal a VAGY-ot így, több szabállyal írjuk le. A nagyszülő-szabályban az Y közös változó, ez köti össze a két szülőkapcsolatot. Ugyanaz a szabály mindkét irányban használható:</p>
+<div class="u-dialogue" id="csalad-parbeszed" aria-label="Kérdések és válaszok a Prolog-rendszerrel">
+<p class="u-say-user"><span>Kérdés</span><code>?- szulo(X, platon).</code></p>
+<p class="u-say-prolog"><span>Prolog</span><code>X = szokratesz ; X = diado.</code></p>
+<p class="u-say-user"><span>Kérdés</span><code>?- szulo(platon, Y).</code></p>
+<p class="u-say-prolog"><span>Prolog</span><code>Y = arisztotelesz.</code></p>
+<p class="u-say-user"><span>Kérdés</span><code>?- nagyszulo(X, arisztotelesz).</code></p>
+<p class="u-say-prolog"><span>Prolog</span><code>X = szokratesz ; X = diado.</code></p>
+</div>
+<p>Az első kérdésben az X a kimenet, a másodikban az Y. A pontosvessző a Prolog jelölése arra, hogy a felhasználó további választ kér. A jegyzet saját, a fejezet bemutatójában is futó Prolog-megoldója pontosan ezeket a válaszokat adja, ebben a sorrendben. A pyDatalog is ugyanezeket a neveket adja, bár a sorrendjük nála futásonként eltérhet.</p>
+</section>
+
+<!-- 04 · ELTÉRÉSEK -->
+<section id="elteresek" class="chapter-section"><span class="section-index">04 / PDF 125–126.</span>
+<h2>Ahol a Prolog eltér a tiszta logikától.</h2>
+<p>A PDF szerint a Prolog a predikátumlogikára épül, de több ponton eltér tőle. Az eltérések nagy része gyakorlati kényelem: a programnak ki kell írnia valamit, számolnia kell, és néha saját magát is módosítania. A táblázat a PDF felsorolását a mai, ISO-szabványos Prologgal veti össze.</p>
+<div class="u-table-wrap"><table class="u-table" id="elteres-tabla">
+<caption>A PDF 125–126. oldalának eltérései. A középső oszlop a PDF állítása, a jobb oldali a mai megfelelője.</caption>
+<thead><tr><th>Terület</th><th>A PDF szerint</th><th>Mai Prologban</th></tr></thead>
+<tbody>
+<tr><td>Változók</td><td>Csak az elemváltozók kezdődnek nagybetűvel.</td><td>Nagybetűvel vagy aláhúzással kezdődik minden változó: <code>X</code>, <code>Valaki</code>, <code>_</code>. A kisbetűs név konstans: <code>ursula</code>.</td></tr>
+<tr><td>Igazságkonstansok</td><td>A False (<code>fail</code>) ritkán, a True még ritkábban fordul elő.</td><td>A <code>true</code> mindig sikerül, a <code>fail</code> mindig meghiúsul. A <code>fail</code> főleg a visszalépés kikényszerítésére jó.</td></tr>
+<tr><td>Rendszerpredikátumok</td><td>Valamit elvégeznek, és közben igaz értéket vesznek fel: <code>read()</code>, <code>write()</code>, <code>circle()</code>.</td><td><code>read/1</code> és <code>write/1</code> ma is van. A <code>circle</code> a Turbo Prolog grafikus kiegészítése volt, a szabványban nincs.</td></tr>
+<tr><td>Infix operátorok</td><td><code>kisebb(X, Y)</code> helyett <code>X &lt; Y</code>. A PDF-ben: <code>&lt; &gt; &lt;= &gt;= &lt;&gt; = &gt;&lt;</code> és <code>+ - * /</code>.</td><td>A kisebb-egyenlő jele ma <code>=&lt;</code>, a számok különbözősége <code>=\=</code>. A <code>&lt;&gt;</code> és a <code>&gt;&lt;</code> Turbo Prolog-jelölés.</td></tr>
+<tr><td>Aritmetika</td><td>Kiszámítja egy egyenlőség egyetlen ismeretlenjét: <code>5*7 = X</code> ⇒ <code>X = 35</code>.</td><td>A számolás külön predikátum: <code>X is 5*7</code>. Lásd a kiigazítást.</td></tr>
+<tr><td>A „ha” jel</td><td>A <code>:-</code> jelet infix rendszerpredikátumként kezeli, amely külön kiértékelő algoritmust kíván.</td><td>A <code>:-</code> ma is operátor. A szabály maga is term: <code>:-(fej, törzs)</code>.</td></tr>
+<tr><td>Klózok mint adatok</td><td>A szabályok és az atomok ugyanúgy kezelendő objektumok.</td><td>Egy szabály lekérdezhető (<code>clause/2</code>) és adatként továbbadható.</td></tr>
+<tr><td>Ítéletváltozók</td><td>Szabályokban megengedett, és a helyükre szabály írható.</td><td>Egy változó célként is meghívható: <code>call(G)</code>. Ezt metahívásnak nevezik.</td></tr>
+<tr><td>Saját adatbázis</td><td>Módosítható az <code>assert</code> és a <code>retract</code> rendszerpredikátumokkal.</td><td><code>assertz/1</code>, <code>asserta/1</code>, <code>retract/1</code>. A módosítható predikátumot <code>dynamic</code> jelöléssel kell bejelenteni.</td></tr>
+<tr><td>Lista</td><td>Kényelmes <code>[Fej | Törzs]</code> alak, a <code>[]</code> az üres lista.</td><td>Ugyanígy. A PDF „törzs” szava itt a lista farkát jelenti, nem a szabály törzsét.</td></tr>
+</tbody></table></div>
+<p>A metahívásra egy egyszerű példa: a <code>probald(G) :- call(G).</code> szabály bármilyen célt kaphat paraméterként, és végrehajtja. A klózok tehát nemcsak utasítások, hanem adatok is lehetnek. Emiatt könnyű Prologban olyan programot írni, amely más programokat elemez, például egy szakértőrendszer magyarázó modulját a 2. fejezetből.</p>
+<aside class="u-fix"><h3>Kiigazítás · Az = nem old meg egyenletet</h3>
+<p><strong>A PDF-ben:</strong> „Egyenlőséges reláció egyetlen hiányzó értékű változójának képes kiszámítani az értékét. Pl.: 5*7= X ⇒ X=35” (PDF 126. oldal)</p>
+<p><strong>Helyesen:</strong> a mai Prologban az <code>=</code> <strong>egyesítés</strong>: két termet tesz alakra azonossá, számolás nélkül. A <code>5*7 = X</code> válasza <code>X = 5*7</code>, vagyis X a „5-ször 7” kifejezés lesz, nem a 35. Számolni az <code>is</code> predikátummal kell: <code>X is 5*7</code> ⇒ <code>X = 35</code>. Ez is csak a jobb oldalt számolja ki. A <code>35 is 5*X</code> hibát ad, mert az X ismeretlen. A Prolog tehát nem old meg egyenletet.</p>
+<p><strong>Miért fontos?</strong> A PDF leírása a régi Turbo Prolog viselkedésére illik, ott az <code>=</code> valóban kiszámolta a kifejezést, ha az egyik oldal szabad változó volt. Mai rendszerben a PDF példája csendben mást ad, mint amit a tanuló vár. A „nincs különbség bemenő és kimenő változó között” elv az aritmetikára sem igaz: az <code>is</code> jobb oldalán minden változónak már értékkel kell rendelkeznie. <a href="#s-iso">Forrás: ISO/IEC 13211-1;</a> <a href="#s-swi">SWI-Prolog kézikönyv, 4.27 szakasz.</a></p></aside>
+<aside class="u-add"><h3>Kiegészítés · Melyik Prologot használja a PDF?</h3><p>A PDF 127. oldalának programja <code>domains</code>, <code>predicates</code>, <code>goal</code> és <code>clauses</code> blokkokra tagolódik, és <code>if</code>, <code>and</code> szavakat használ. Ez a Turbo Prolog és utódja, a Visual Prolog jelölése. Ezek a rendszerek a típusokat előre bejelentetik, és a programot gépi kódra fordítják. A mai Prolog-rendszerek többsége, például a SWI-Prolog, a GNU Prolog és a SICStus Prolog, az Edinburgh-féle jelölést és az ISO-szabványt követi: típusbejelentés nincs, a „ha” jele <code>:-</code>, az „és” jele a vessző. A tananyag a PDF programját mindkét alakban megmutatja. A bemutatók a mai alakot használják.</p></aside>
+</section>
+
+<!-- 05 · LISTÁK -->
+<section id="listak" class="chapter-section"><span class="section-index">05 / PDF 124, 126.</span>
+<h2>Lista, rekurzió, saját adatbázis.</h2>
+<p>A PDF szerint a lista feldolgozása <strong>mintaillesztésen</strong> és <strong>rekurzión</strong> alapul. A <code>[Fej | Farok]</code> minta minden nem üres listára illeszkedik: a Fej az első elem, a Farok a maradék lista. A <code>[a, b, c]</code> listán a Fej <code>a</code>, a Farok <code>[b, c]</code>. Az üres lista, a <code>[]</code>, erre a mintára nem illeszkedik. Ez adja a rekurzió végét.</p>
+<p>Egy lista hosszát két szabály adja meg. Az üres lista hossza 0. Egy nem üres lista hossza eggyel több, mint a farkáé.</p>
+<figure class="u-code" id="hossz-kod"><pre><code>hossz([], 0).
+hossz([_ | Farok], N) :- hossz(Farok, M), N is M + 1.</code></pre>
+<figcaption>A jegyzet saját példája. Az <code>_</code> névtelen változó: az értéke nem érdekel minket.</figcaption></figure>
+<div class="u-example" id="hossz-pelda"><strong>Végigvezetett példa · ?- hossz([a, b, c], N).</strong>
+<ol class="u-steps">
+<li><p>A cél nem illeszkedik az első klózra, mert a <code>[a, b, c]</code> nem üres. A második klóz illeszkedik: Farok = <code>[b, c]</code>. Új részcél: <code>hossz([b, c], M₁)</code>.</p></li>
+<li><p>Ugyanígy: Farok = <code>[c]</code>, új részcél <code>hossz([c], M₂)</code>.</p></li>
+<li><p>Ismét a második klóz: Farok = <code>[]</code>, új részcél <code>hossz([], M₃)</code>.</p></li>
+<li><p>Most az első klóz illeszkedik: M₃ = 0. A rekurzió leért az aljára.</p></li>
+<li><p>Visszafelé számolunk az <code>is</code>-szel: M₂ = 0 + 1 = 1, M₁ = 1 + 1 = 2, végül N = 2 + 1 = 3.</p></li>
+</ol>
+<p>A válasz: <code>N = 3</code>. A lefelé vezető úton csak mintaillesztés történt, a számolás a visszaúton.</p></div>
+<p>A PDF az <code>assert</code> és a <code>retract</code> predikátumot is említi. Ezekkel a program futás közben módosíthatja a saját <strong>adatbázisát</strong>, vagyis a tények és szabályok gyűjteményét. Az <code>assert</code> új klózt vesz fel, a <code>retract</code> egy meglévőt töröl. Egy egyszerű látogatásszámláló így működik:</p>
+<figure class="u-code" id="assert-kod"><pre><code>:- dynamic latogatas/1.
+latogatas(0).
+
+uj_latogato :-
+    retract(latogatas(N)),
+    N1 is N + 1,
+    assertz(latogatas(N1)).</code></pre>
+<figcaption>A jegyzet saját példája, mai ISO-jelöléssel. Háromszori <code>uj_latogato</code> hívás után a <code>?- latogatas(X).</code> válasza <code>X = 3</code>.</figcaption></figure>
+<p>Az <code>uj_latogato</code> kiveszi a régi számot, eggyel nagyobbat számol, és visszateszi. Ez kényelmes, de ára van. A program logikai jelentése így időben változik: ugyanarra a kérdésre előbb 0, később 3 a válasz. A tiszta logikában egy állítás nem lesz hirtelen igaz vagy hamis. Az <code>assert</code> és a <code>retract</code> ezért a vágáshoz hasonlóan a „vezérlés” oldalára tartozik.</p>
+</section>
+
+<!-- 06 · KLEOPÁTRA -->
+<section id="kleopatra" class="chapter-section"><span class="section-index">06 / PDF 127.</span>
+<h2>Kleopátra, Gina és Ursula.</h2>
+<p>A PDF egy egyszerű feladattal mutatja be a Prolog működését. Két tényt ismerünk: Kleopátra szebb Ginánál, és Gina szebb Ursulánál. A kérdés: ki sokkal szebb Ursulánál? A „sokkal szebb” azt jelenti, hogy van valaki közöttük. A tananyag a PDF programját és a mai megfelelőjét egymás mellé teszi.</p>
+<div class="u-compare" id="kleopatra-program">
+<div><span class="u-tag">A PDF-BEN · TURBO PROLOG</span>
+<pre class="u-mini"><code>domains    hölgy = symbol
+predicates szebb(hölgy, hölgy)
+           sokkal_szebb(hölgy, hölgy)
+goal       sokkal_szebb(Valaki, ursula)
+clauses    szebb(cleopátra, gina).
+           szebb(gina, ursula).
+           sokkal_szebb(A, C) if
+               szebb(A, B) and szebb(B, C).</code></pre>
+<p class="u-mini-note">PDF 127. oldal, sortöréssel a keskeny képernyőhöz.</p></div>
+<div><span class="u-tag">MAI ALAKBAN · ISO PROLOG</span>
+<pre class="u-mini"><code>szebb(kleopatra, gina).
+szebb(gina, ursula).
+
+sokkal_szebb(A, C) :-
+    szebb(A, B), szebb(B, C).
+
+?- sokkal_szebb(Valaki, ursula).</code></pre>
+<p class="u-mini-note">A jegyzet átirata. Az ékezet nélküli <code>kleopatra</code> minden rendszerben biztonságos atomnév.</p></div>
+</div>
+<p>A Turbo Prolog programjának négy blokkja van. A <code>domains</code> a típusokat adja meg: a <code>hölgy</code> egy <code>symbol</code>, vagyis név. A <code>predicates</code> bejelenti a predikátumokat és argumentumaik típusát. A <code>goal</code> a feltett kérdés. A <code>clauses</code> a tényeket és szabályokat tartalmazza. A mai alakban csak a klózok maradnak, a kérdést pedig a <code>?-</code> jel után tesszük fel.</p>
+<p>A szabály a logika nyelvén: <code>(∀A)(∀B)(∀C) [szebb(A, B) ∧ szebb(B, C) → sokkal_szebb(A, C)]</code>. A B változó csak a törzsben fordul elő. A szabály így olvasható: A sokkal szebb C-nél, ha <em>van olyan</em> B, akinél A szebb, és aki szebb C-nél. Ez a Prolog egyik szokása: a csak a törzsben előforduló változó a „van olyan” szerepét tölti be.</p>
+</section>
+
+<!-- 07 · MŰKÖDÉS -->
+<section id="mukodes" class="chapter-section"><span class="section-index">07 / PDF 128–129.</span>
+<h2>Illesztés és visszalépés.</h2>
+<p>A PDF szerint a Prolog működésének két alapvető összetevője az <strong>illesztés</strong> (angolul <em>matching</em>) és a <strong>visszalépés</strong> (<em>backtracking</em>). A gép a kérdést megpróbálja tényekre visszavezetni. Ha nincs a nevében és a paramétereiben egyező tény, illeszkedő szabályt keres. Ha talál, a szabály törzsének feltételeit ugyanígy próbálja bebizonyítani. Így dönti el a szabály fejének igazságértékét. Ez a <strong>hátraláncolás</strong>, amelyet a 2. fejezet szakértőrendszerei is használtak: a céltól haladunk visszafelé a tények felé.</p>
+<ol class="u-steps" id="prolog-algoritmus">
+<li><p><strong>Vedd az első célt.</strong> A céllista balról jobbra halad. Ha üres, megvan egy válasz.</p></li>
+<li><p><strong>Keress illeszkedő klózt felülről lefelé.</strong> Illeszkedik, ha a nevek és az argumentumok száma egyezik, és a változók értéket kaphatnak úgy, hogy a cél és a klóz feje azonos legyen.</p></li>
+<li><p><strong>Jegyezd fel a választási pontot.</strong> Ha a cél több klózra is illeszkedik, a gép megjegyzi, hol tart. Ide térhet vissza.</p></li>
+<li><p><strong>Cseréld le a célt a törzsre.</strong> A tény törzse üres, ezért a cél egyszerűen eltűnik. A szabály törzsének részcéljai a céllista elejére kerülnek.</p></li>
+<li><p><strong>Zsákutcában lépj vissza.</strong> Ha egy célra nincs több illeszkedő klóz, a gép visszatér a legutóbbi választási ponthoz. Az ott kapott változókötéseket feloldja, és a következő klózt próbálja.</p></li>
+</ol>
+<p>Az utolsó lépést a PDF így fogalmazza meg:</p>
+<figure class="u-quote"><blockquote><p>„Ha próbálkozás közben zsákutcába jut - nincs illeszkedő tény, vagy szabály -, visszalép a legutolsó elágazási pontig, ahol a több illesztési lehetőség közül a következőt választja.”</p></blockquote><figcaption>PDF 128. oldal</figcaption></figure>
+<p>A PDF szerint a Prolog az összes lehetőség végigpróbálásával állapítja meg, hogy a kérdés teljesülhet-e, és ha igen, hányféle módon. Ez a keresés <strong>mélységi</strong> (angolul <em>depth-first</em>): mindig a legújabb részcélt bontja tovább, és csak zsákutcában lép oldalra. A 9. fejezet más keresési stratégiákat is bemutat.</p>
+<p>A PDF 129. oldala a hátraláncolást egy általános sémán mutatja be. A cél két feltétel, F1 és F2 teljesülése. Az F1-hez egy szabály tartozik, amelynek törzse F11 és F12. Az F11 tény. Az F2-höz egy másik szabály tartozik, három feltétellel: F21, F22 és F23. Az ábra szöveges változata:</p>
+<figure class="u-tree-fig" id="altalanos-fa">
+<ul class="u-tree">
+<li><span class="u-tree-root">cél: F1 ∧ F2 → ?</span>
+<ul>
+<li><span>F1<small>szabály: F11 ∧ F12 → F1</small></span>
+<ul><li><span>F11<small>tény: azonnal igaz</small></span></li><li><span>F12<small>tovább bontandó</small></span></li></ul></li>
+<li><span>F2<small>szabály: F21 ∧ F22 ∧ F23 → F2</small></span>
+<ul><li><span>F21</span></li><li><span>F22</span></li><li><span>F23</span></li></ul></li>
+</ul></li>
+</ul>
+<figcaption>A PDF 129. oldalának „visszafelé láncolás” sémája. A cél igaz, ha F1 és F2 is igaz. A gép balról jobbra halad: előbb F1 részcéljait, aztán F2-éit bontja, amíg minden levél tényre nem vezet.</figcaption>
+</figure>
+<p>A fa leveleinél dől el minden. Ha egy levél tény, az ág sikerült. Ha egy levélre nincs sem tény, sem szabály, az zsákutca, és a gép visszalép. A cél akkor igaz, ha az összes levél tényre vezethető.</p>
+<aside class="u-fix"><h3>Kiigazítás · A keresési stratégiát nem a felhasználó valósítja meg</h3>
+<p><strong>A PDF-ben:</strong> „A felhasználóra hagyja a rezolúciós stratégia megvalósítását: néhány megszorítást tett a bemenőállításokra, és az illesztés a bemenőállítások […] megadott sorrendjében hajtódik végre.” (PDF 125. oldal)</p>
+<p><strong>Pontosabban:</strong> a Prolog stratégiája rögzített és beépített: SLD-rezolúció, balról jobbra haladó részcélokkal, felülről lefelé próbált klózokkal, mélységi kereséssel. Ezt a felhasználó nem valósítja meg. Csak <em>befolyásolja</em>: a klózok és a részcélok sorrendjével, valamint a vágással.</p>
+<p><strong>Miért fontos?</strong> A rögzített stratégiának következménye van. A mélységi keresés végtelen ágba is belefuthat. Az <code>os(X, Z) :- os(X, Y), szulo(Y, Z).</code> szabály balról rekurzív: az első részcél ugyanaz a predikátum, mint a fej. A Prolog így újra és újra ugyanazt a célt hívja, és soha nem ér tényhez. Ugyanez a tudás megfordított részcélokkal, <code>os(X, Z) :- szulo(X, Y), os(Y, Z).</code> alakban, rendben lefut. Logikailag a két szabály egyenértékű. A vezérlés különbözik. <a href="#s-aima">Forrás: Russell–Norvig, 9.4 szakasz;</a> <a href="#s-kowalski79">Kowalski, 1979.</a></p></aside>
+</section>
+
+<!-- 08 · KERESŐFÁK -->
+<section id="keresofak" class="chapter-section"><span class="section-index">08 / PDF 126, 130–131.</span>
+<h2>Két keresőfa és a vágás.</h2>
+<p>A PDF két keresőfán mutatja meg, hogyan oldja meg a Prolog a Kleopátra-feladatot. A két program csak a tények sorrendjében különbözik. A válasz ugyanaz, az odavezető út viszont nem. A fák csúcsai a céllisták, az élek mellett a kapott változókötések állnak. A <code>A ← Valaki</code> azt jelenti, hogy a szabály A változója a kérdés Valaki változójával lett azonos.</p>
+<div class="u-compare" id="ket-fa">
+<div><span class="u-tag">PDF 130 · EREDETI SORREND</span><h3>Egyenes út</h3>
+<ol class="u-stree">
+<li><code>sokkal_szebb(Valaki, ursula)</code><small>A ← Valaki, C ← ursula</small></li>
+<li><code>szebb(Valaki, B), szebb(B, ursula)</code><small>1. tény: Valaki ← kleopatra, B ← gina</small></li>
+<li><code>szebb(gina, ursula)</code><small>2. tény illeszkedik</small></li>
+<li class="u-leaf-ok"><strong>true</strong> · Valaki = kleopatra</li>
+</ol>
+<p>Az első tény azonnal jó kötést ad. A teljesített feltételt a PDF „elhagyja”: a céllistából kikerül, mert mindig igaz marad.</p></div>
+<div><span class="u-tag">PDF 131 · FELCSERÉLT TÉNYEK</span><h3>Zsákutca, aztán visszalépés</h3>
+<ol class="u-stree">
+<li><code>sokkal_szebb(Valaki, ursula)</code><small>A ← Valaki, C ← ursula</small></li>
+<li><code>szebb(Valaki, B), szebb(B, ursula)</code><small>1. tény: Valaki ← gina, B ← ursula</small></li>
+<li class="u-leaf-bad"><code>szebb(ursula, ursula)</code> · <strong>false</strong>, zsákutca</li>
+<li class="u-backtrack">↩ Visszalépés: a Valaki és a B kötése törlődik.<small>2. tény: Valaki ← kleopatra, B ← gina</small></li>
+<li><code>szebb(gina, ursula)</code><small>1. tény illeszkedik</small></li>
+<li class="u-leaf-ok"><strong>true</strong> · Valaki = kleopatra</li>
+</ol>
+<p>Az első próbálkozás Ginát választja, de Ursula nem szebb önmagánál. A gép visszalép az utolsó elágazásig, és a második tényt próbálja.</p></div>
+</div>
+<div class="u-simple"><strong>Egyszerűen mondva</strong><p>A Prolog úgy keres, mint aki egy labirintusban mindig a legelső járatba fordul be. Minden elágazásnál krétával jelet tesz. Ha zsákutcába ér, visszamegy az utolsó jelig, és a következő járatot próbálja. A vágás olyan, mintha a jeleket letörölné: onnan már nincs visszaút.</p></div>
+<p>A tanulság: a tények sorrendje a Prolog vezérlésének része. A válaszok halmazát nem változtatja meg, de a keresés hosszát igen. Ha több válasz van, a sorrendjük is ettől függ. Nagy adatbázisban ez óriási különbség lehet, ezért érdemes a gyakran illeszkedő klózokat előre tenni.</p>
+<aside class="u-add"><h3>Kiegészítés · Mi történik a válasz után?</h3><p>A PDF fái az első válasznál megállnak. Egy mai Prolog-rendszer a válasz után megkérdezi, kérünk-e még. Ha igen, a pontosvessző lenyomása után visszalép, és tovább keres. Az eredeti sorrendnél ekkor a második tény is sorra kerül: Valaki ← gina, B ← ursula. Ez a <code>szebb(ursula, ursula)</code> zsákutcához vezet, és a rendszer végül <code>false</code>-t ír. Ez a <code>false</code> csak azt jelenti, hogy <em>több</em> válasz nincs. Az első választ nem vonja vissza. A lenti bemutató ezt a teljes keresést lépésenként mutatja.</p></aside>
+<p>Most jöhet a <strong>vágás</strong>. A PDF szerint a <code>!</code> formailag egy atomi formula, amely egy szabály törzsében állhat: <code>a if b and c and ! and d</code>. Mai jelöléssel: <code>a :- b, c, !, d.</code> Ha a gép a vágáshoz ér, az mindig sikerül. Közben azonban <strong>rögzíti az addigi választásokat</strong>. Visszalépéskor már nem próbálja a <code>b</code> és a <code>c</code> más megoldásait, és az <code>a</code> többi klózát sem. A PDF szerint a vágás lerövidíti a mélységi bejárást a felesleges ágak bejárásának letiltásával.</p>
+<p>Tegyünk vágást a Kleopátra-szabályba: <code>sokkal_szebb(A, C) :- szebb(A, B), !, szebb(B, C).</code> Az eredeti sorrendben a válasz nem változik. Az első tény jó, a vágás után a második részcél sikerül, és megvan a válasz. Ha további választ kérünk, a vágás miatt a gép már nem próbálja a második tényt, így a <code>szebb(ursula, ursula)</code> zsákutca is elmarad. Itt a vágás csak gyorsított. A felcserélt sorrendben viszont baj van. Az első tény Valaki ← gina kötést ad, a vágás ezt rögzíti, a <code>szebb(ursula, ursula)</code> meghiúsul. Visszalépni már nem szabad, ezért <strong>a program azt feleli, hogy nincs megoldás</strong>. Pedig van.</p>
+<aside class="u-fix"><h3>Kiigazítás · A vágás nem csak felesleges ágakat vág le</h3>
+<p><strong>A PDF-ben:</strong> a vágás „lerövidíti a PROLOG Depth-First (mélységi bejárás) algoritmusát a felesleges ágak bejárásának letiltásával” (PDF 126. oldal).</p>
+<p><strong>Pontosabban:</strong> a vágás minden olyan ágat letilt, amely a vágás előtti választásokat módosítaná. Hogy ezek az ágak feleslegesek-e, azt a programozónak kell biztosítania. Ha téved, a vágás <em>helyes válaszokat</em> is eltüntet, ahogy a felcserélt Kleopátra-programban. A szakirodalom ezért megkülönbözteti a „zöld vágást”, amely csak gyorsít, és a „vörös vágást”, amely a program jelentését is megváltoztatja.</p>
+<p><strong>Miért fontos?</strong> A PDF 123. oldala maga is jelzi, hogy a vágás ellentmond a logikai programozás ideáljának. A vörös vágás után a program már nem olvasható tisztán logikaként: ugyanaz a klózhalmaz más sorrendben más választ ad. Ez Kowalski képletének „vezérlés” tagja, amely itt a „logikát” is felülírja. <a href="#s-sterling">Forrás: Sterling–Shapiro, 11. fejezet.</a></p></aside>
+
+<div class="u-lab" id="prolog-labor"><span class="u-lab-label">PRÓBÁLD KI / PROLOG-LÉPTETŐ</span><h3>Kövesd lépésről lépésre a keresést!</h3>
+<p>Állítsd be a program változatát, aztán lépkedj. Minden lépés egy illesztést, egy zsákutcát, egy visszalépést vagy egy vágást mutat. A behúzás a keresési mélységet jelzi. A megoldó a jegyzet saját, kis Prolog-motorja: mélységi, balról jobbra haladó keresést végez vágással.</p>
+<div class="u-js-only">
+<fieldset class="u-radios" id="prolog-beallitas"><legend>A program változata</legend>
+<label><input type="checkbox" id="prolog-csere"> <span>A két tény felcserélése (PDF 131. oldal)</span></label>
+<label><input type="checkbox" id="prolog-vagas"> <span>Vágás a szabályban: <code>szebb(A, B), !, szebb(B, C)</code></span></label>
+<label><input type="checkbox" id="prolog-harmadik"> <span>Harmadik tény: <code>szebb(anna, gina).</code></span></label>
+</fieldset>
+<figure class="u-code"><pre><code id="prolog-program"></code></pre><figcaption>A futó program. A kérdés: <code>?- sokkal_szebb(Valaki, ursula).</code></figcaption></figure>
+<div class="u-controls"><button type="button" id="prolog-lepes">Következő lépés</button><button type="button" id="prolog-vegig" class="u-ghost">Futtatás a végéig</button><button type="button" id="prolog-uj" class="u-ghost">Újrakezdés</button></div>
+<ol class="u-log" id="prolog-naplo" aria-live="polite"></ol>
+<div class="u-out" id="prolog-ki" role="status" aria-live="polite"></div>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. Mindkét keresőfa és a vágás hatása a fenti szövegben olvasható.</p>
+</div>
+</section>
+
+<!-- 09 · FUZZY -->
+<section id="fuzzy" class="chapter-section"><span class="section-index">09 / PDF 132.</span>
+<h2>Igaz, hamis, és ami köztük van.</h2>
+<p>A fejezet második fele egy egészen más kérdéssel foglalkozik. A Prolog minden célról eldönti, hogy igaz vagy hamis. A hétköznapi fogalmak azonban nem ilyenek. „Meleg van.” „Bence magas.” „A zárthelyi jól sikerült.” Ezek nem igazak vagy hamisak, hanem <em>többé-kevésbé</em> igazak. A PDF szerint a <strong>fuzzy logika</strong> a hagyományos kétértékű logika helyett <strong>végtelen értékű, folytonos</strong> változókat használ. A hamis és az igaz között folytonos átmenet van. Az angol <em>fuzzy</em> szó jelentése: elmosódott, bolyhos.</p>
+<ol class="u-timeline" id="fuzzy-idovonal">
+<li><span class="u-year">1920</span><p>Jan Łukasiewicz háromértékű, később végtelen értékű logikája. A 4. fejezet mutatta be.</p></li>
+<li><span class="u-year">1965</span><p><strong>Lotfi A. Zadeh</strong>, a Berkeley-i Kaliforniai Egyetem professzora közli a <em>Fuzzy Sets</em> című cikkét. Ebben születik meg a fuzzy halmaz és a tagsági függvény.</p></li>
+<li><span class="u-year">1973</span><p>Zadeh bevezeti a <strong>nyelvi változót</strong> és a fuzzy „ha–akkor” szabályokat. Ezekre épül a fuzzy következtetés.</p></li>
+<li><span class="u-year">1975</span><p><em>Kiegészítés:</em> Ebrahim Mamdani és Sedrak Assilian Londonban fuzzy szabályokkal irányít egy gőzgépet. Ez az első fuzzy szabályozó. A fejezet következtetési módszere tőlük származik.</p></li>
+<li><span class="u-year">1987</span><p><em>Kiegészítés:</em> a japán Szendai metrójában fuzzy szabályozó vezérli a szerelvények gyorsítását és fékezését. Az utazás simább, az energiafogyasztás kisebb lett.</p></li>
+<li><span class="u-year">1990-es évek</span><p><em>Kiegészítés:</em> a fuzzy szabályozás mosógépekben, fényképezőgépek élességállításában, légkondicionálókban és autók automata váltóiban terjed el.</p></li>
+</ol>
+<p>A PDF a fuzzy logika négy erősségét emeli ki. Elfogadja a <strong>hiányos adatokat</strong>, és <strong>zajtűrő</strong>: egy kicsit hibás mérés nem borítja fel a döntést. A működése <strong>kollektív döntést</strong> utánoz, mert egyszerre sok szabály szól bele az eredménybe. Ezért a 6. fejezet neurális hálózataihoz hasonlóan robusztus, megbízható alkalmazások építhetők vele bizonytalan adatokra is. <strong>Szimbolikus szinten</strong> működik, és <strong>nyelvi változókat</strong> használ, például „a hőmérséklet meleg”. Ezért közel áll az emberi gondolkodáshoz. Végül különösen elterjedt a <strong>szabályozástechnikában</strong>, ahol egy gép egy fizikai mennyiséget tart a kívánt értéken.</p>
+<aside class="u-fix"><h3>Kiigazítás · Lotfi, nem Lofti</h3>
+<p><strong>A PDF-ben:</strong> „A Fuzzy logika Lofti Zadeh nevéhez fűződik. (1965)” (PDF 132. oldal)</p>
+<p><strong>Helyesen:</strong> Lotfi A. Zadeh (1921–2017), azerbajdzsáni születésű amerikai villamosmérnök és matematikus. Az évszám helyes: a <em>Fuzzy Sets</em> 1965-ben jelent meg az <em>Information and Control</em> folyóiratban.</p>
+<p><strong>Miért fontos?</strong> Aki a hibás névalakra keres, nehezebben találja meg az eredeti cikket és Zadeh munkásságát. A történethez az is hozzátartozik, hogy a „végtelen értékű logika” gondolata nem Zadehtól ered. Łukasiewicz már az 1920-as években leírta. Zadeh újítása a <em>halmaz</em> és a <em>nyelvi változó</em> fogalma volt, amely a mérnöki alkalmazást lehetővé tette. <a href="#s-zadeh65">Forrás: Zadeh, 1965;</a> <a href="#s-sep-fuzzy">Stanford Encyclopedia of Philosophy, Fuzzy Logic.</a></p></aside>
+</section>
+
+<!-- 10 · TAGSÁG -->
+<section id="tagsag" class="chapter-section"><span class="section-index">10 / PDF 133–134.</span>
+<h2>Mennyire tartozik a halmazba?</h2>
+<p>A hagyományos halmazba egy elem vagy beletartozik, vagy nem. A PDF így írja le a különbséget:</p>
+<figure class="u-quote"><blockquote><p>„Egy elemnek a fuzzy halmazba való tartozásának foka, 0-1 közötti mértéke van, nem merev igen/nem.”</p></blockquote><figcaption>PDF 133. oldal</figcaption></figure>
+<div class="u-compare" id="eles-fuzzy">
+<div><span class="u-tag">ÉLES HALMAZ · CRISP</span><h3>„Magas, aki legalább 180 cm”</h3><p>A 179 cm-es Bence nem magas: tagsága 0. A 181 cm-es társa magas: tagsága 1. Két centi a teljes különbség.</p><p>A határ éles, mint egy fal.</p></div>
+<div><span class="u-tag">FUZZY HALMAZ</span><h3>„Magas, fokozatosan”</h3><p>Ha a tagság 155 és 205 cm között egyenletesen nő, a 179 cm-es Bence tagsága 0,48, a 181 cm-esé 0,52. A két ember majdnem egyformán magas, és ezt a számok is mutatják.</p><p>A határ elmosódott, mint egy lejtő.</p></div>
+</div>
+<p>A PDF pontos meghatározást is ad. Legyen X az értékek egy halmaza, például a lehetséges testmagasságok centiméterben. Ekkor az X-en értelmezett A fuzzy halmaz rendezett párokból áll:</p>
+<div class="u-formula" id="fuzzy-halmaz-def"><span class="u-big">A = { (x, μ<sub>A</sub>(x)) : x ∈ X }</span><span>A fuzzy halmaz meghatározása, PDF 133. oldal. A μ görög betű, kiejtése: mű.</span></div>
+<p>Minden x értékhez tartozik egy μ<sub>A</sub>(x) szám. Ez a <strong>tagsági függvény</strong>. Értéke az x <strong>tagsági foka</strong>: mennyire tartozik bele az A halmazba. A PDF szerint ugyanez a szám azt is megadja, mennyire igaz az A-hoz társított <strong>nyelvi érték</strong>. A tagsági függvény tehát az X értékhalmazt a [0; 1] intervallumba képezi le: μ<sub>A</sub>(x) ∈ [0; 1]. Az éles halmaz ennek speciális esete, amelyben a függvény csak 0 vagy 1 lehet.</p>
+<p>A PDF példájában X a testmagasság, az A halmaz pedig a „<strong>hórihorgas</strong>” nyelvi értéknek felel meg. Itt két szint különül el. A <strong>fizikai változó</strong> a mért szám, x = 200 cm. A <strong>fuzzy változó</strong> a „testmagasság”, amelynek a nyelvi értéke „hórihorgas”. A kettő közötti átjárás a <strong>fuzzifikálás</strong>: a mért értékből tagsági fok lesz.</p>
+<figure class="u-plot" id="horihorgas"><svg viewBox="0 0 360 190" role="img" aria-labelledby="hori-t"><title id="hori-t">A hórihorgas tagsági függvénye: 155 cm alatt 0, 155 és 205 cm között egyenletesen nő, 205 cm fölött 1. A 200 cm-hez tartozó érték 0,9.</title><g class="u-axis"><path d="M30 164H350M30 164V10"/><text x="25" y="14" text-anchor="end">1</text><text x="25" y="168" text-anchor="end">0</text><text x="70" y="180" text-anchor="middle">150</text><text x="150" y="180" text-anchor="middle">170</text><text x="230" y="180" text-anchor="middle">190</text><text x="310" y="180" text-anchor="middle">210</text><text x="350" y="180" text-anchor="end" class="u-axis-label">cm</text></g><path class="u-curve" d="M30 164L90 164L95.3 159.9L96.7 158.9L98 157.8L99.3 156.8L100.7 155.8L102 154.8L103.3 153.7L104.7 152.7L115.3 144.5L116.7 143.5L118 142.4L119.3 141.4L120.7 140.4L122 139.4L123.3 138.3L124.7 137.3L135.3 129.1L136.7 128.1L138 127L139.3 126L140.7 125L142 124L143.3 122.9L144.7 121.9L155.3 113.7L156.7 112.7L158 111.6L159.3 110.6L160.7 109.6L162 108.6L163.3 107.5L164.7 106.5L175.3 98.3L176.7 97.3L178 96.2L179.3 95.2L180.7 94.2L182 93.2L183.3 92.1L184.7 91.1L195.3 82.9L196.7 81.9L198 80.8L199.3 79.8L200.7 78.8L202 77.8L203.3 76.7L204.7 75.7L215.3 67.5L216.7 66.5L218 65.4L219.3 64.4L220.7 63.4L222 62.4L223.3 61.3L224.7 60.3L235.3 52.1L236.7 51.1L238 50L239.3 49L240.7 48L242 47L243.3 45.9L244.7 44.9L255.3 36.7L256.7 35.7L258 34.6L259.3 33.6L260.7 32.6L262 31.6L263.3 30.5L264.7 29.5L275.3 21.3L276.7 20.3L278 19.2L279.3 18.2L280.7 17.2L282 16.2L283.3 15.1L284.7 14.1L290 10L350 10"/><path class="u-guide" d="M270 164V25.4H30"/><circle class="u-dot" cx="270" cy="25.4" r="4"/><text x="34" y="20.4">0,9</text><text x="275" y="94.7">x = 200</text></svg>
+<figcaption>A „hórihorgas” tagsági függvénye. A PDF ábráján a görbe 150 cm körül indul, és 200 cm fölött éri el az 1-et. A jegyzet a 155 és 205 cm közötti egyenest olvasta le, így a 200 cm-hez éppen a PDF-ben megadott 0,9 tartozik: (200 − 155) / (205 − 155) = 45 / 50 = 0,9.</figcaption></figure>
+<p>A 200 cm-es ember tehát 0,9 mértékben hórihorgas. A PDF megfogalmazásában a „testmagasság = hórihorgas” állítás igazságértéke 0,9. A 180 cm-es ember már csak 0,5 mértékben az, a 160 cm-es 0,1 mértékben. A 150 cm-es egyáltalán nem, a 210 cm-es teljesen.</p>
+<aside class="u-add"><h3>Kiegészítés · A tagsági fok nem valószínűség</h3><p>A PDF szerint a tagsági érték „beletartozásának mértéke az A fuzzy halmazba, ill. az A tagsági függvényhez társított nyelvi érték igazságának foka” (PDF 133. oldal). Ez helyes. A 0 és 1 közötti szám mégis könnyen valószínűségnek tűnik, és a tanulók gyakran így is olvassák.</p><p>A 0,9 azt méri, mennyire <em>illik</em> a „hórihorgas” szó egy pontosan ismert, 200 cm-es emberre. Nincs benne bizonytalanság a magasságról. A valószínűség ezzel szemben azt méri, mennyire <em>várható</em> egy olyan esemény, amelyről még nem tudjuk, bekövetkezik-e.</p>
+<p>A két szám másképp viselkedik. Ha egy pohár 0,5 mértékben teli, akkor 0,5 mértékben üres is. A fuzzy ÉS szerint a „teli és üres” állítás értéke min(0,5; 0,5) = 0,5. A valószínűségben viszont a „teli és nem teli” esemény valószínűsége mindig 0. Egy ellenpélda Bezdek nyomán: két üveg közül az egyikben a folyadék 0,9 mértékben tartozik az „iható” halmazba, a másikban 0,9 a valószínűsége, hogy iható. Az elsőből inni kellemetlen lehet, de biztonságos. A másodikban 10% eséllyel méreg van. <a href="#s-bezdek">Forrás: Bezdek, 1993;</a> <a href="#s-sep-fuzzy">Stanford Encyclopedia of Philosophy, Fuzzy Logic.</a></p></aside>
+</section>
+
+<!-- 11 · ALAKOK -->
+<section id="alakok" class="chapter-section"><span class="section-index">11 / PDF 135–136.</span>
+<h2>A tagsági függvények alakja.</h2>
+<p>A tagsági függvény alakját a feladat ismerője választja meg. A PDF 135. oldala hat gyakori alakot mutat. Mindegyik nagyjából a −10 és 10 közötti tartományon van ábrázolva, és 0 és 1 között mozog. A kis ábrák a jegyzet újrarajzolásai. Az alakjuk a PDF-éhez hasonló, a paramétereket azonban a jegyzet választotta, ezért néhol egy-két egységgel eltérnek a PDF ábrájától.</p>
+<div class="u-shapes" id="gorbe-alakok">
+<figure><svg viewBox="0 0 220 130" role="img" aria-labelledby="alak-0"><title id="alak-0">Rámpa tagsági függvény, a = 3, b = 10.</title><g class="u-axis"><path d="M18 108H212M18 108V8"/><text x="13" y="12" text-anchor="end">1</text><text x="13" y="112" text-anchor="end">0</text><text x="18" y="124" text-anchor="middle">-10</text><text x="66.5" y="124" text-anchor="middle">-5</text><text x="115" y="124" text-anchor="middle">0</text><text x="163.5" y="124" text-anchor="middle">5</text><text x="212" y="124" text-anchor="middle">10</text></g><path class="u-curve" d="M18 108L144.1 108L148.1 102L149 100.9L156.2 90.1L157 89L157.8 87.8L158.7 86.6L165.1 77L165.9 75.9L168.3 72.3L169.2 71.1L173.2 65.1L174 64L178 58L178.9 56.8L182.1 52L182.9 50.9L186.9 44.9L187.8 43.7L190.2 40.1L191 39L196.6 30.6L197.5 29.4L199.1 27L199.9 25.9L206.3 16.3L208 14L212 8"/></svg><figcaption><strong>Rámpa</strong> <small>PDF: Pending</small><br>a = 3, b = 10</figcaption></figure>
+<figure><svg viewBox="0 0 220 130" role="img" aria-labelledby="alak-1"><title id="alak-1">Lineáris váll tagsági függvény, a = −5, b = 3.</title><g class="u-axis"><path d="M18 108H212M18 108V8"/><text x="13" y="12" text-anchor="end">1</text><text x="13" y="112" text-anchor="end">0</text><text x="18" y="124" text-anchor="middle">-10</text><text x="66.5" y="124" text-anchor="middle">-5</text><text x="115" y="124" text-anchor="middle">0</text><text x="163.5" y="124" text-anchor="middle">5</text><text x="212" y="124" text-anchor="middle">10</text></g><path class="u-curve" d="M18 108L66.5 108L67.3 107L68.1 105.9L68.9 104.9L69.7 103.8L73 99.7L73.8 98.6L74.6 97.6L75.4 96.5L77 94.5L77.8 93.4L78.6 92.4L79.4 91.3L80.2 90.3L81.1 89.3L81.9 88.2L82.7 87.2L83.5 86.1L84.3 85.1L85.1 84L86.7 82L87.5 80.9L88.3 79.9L89.1 78.8L89.9 77.8L90.8 76.8L91.6 75.7L92.4 74.7L93.2 73.6L94 72.6L94.8 71.5L96.4 69.5L97.2 68.4L98 67.4L98.8 66.3L99.6 65.3L100.5 64.3L101.3 63.2L102.1 62.2L102.9 61.1L103.7 60.1L104.5 59L106.1 57L106.9 55.9L107.7 54.9L108.5 53.8L111.8 49.7L112.6 48.6L113.4 47.6L114.2 46.5L115.8 44.5L116.6 43.4L117.4 42.4L118.2 41.3L119 40.3L119.9 39.3L120.7 38.2L121.5 37.2L122.3 36.1L123.1 35.1L123.9 34L125.5 32L126.3 30.9L127.1 29.9L127.9 28.8L128.7 27.8L129.6 26.8L130.4 25.7L131.2 24.7L132 23.6L132.8 22.6L133.6 21.5L135.2 19.5L136 18.4L136.8 17.4L137.6 16.3L138.4 15.3L139.3 14.3L140.1 13.2L140.9 12.2L141.7 11.1L142.5 10.1L143.3 9L144.1 8L212 8"/></svg><figcaption><strong>Lineáris váll</strong> <small>PDF: Linear</small><br>a = −5, b = 3</figcaption></figure>
+<figure><svg viewBox="0 0 220 130" role="img" aria-labelledby="alak-2"><title id="alak-2">Általánosított harang tagsági függvény, szélesség 4, meredekség 3, közép 0.</title><g class="u-axis"><path d="M18 108H212M18 108V8"/><text x="13" y="12" text-anchor="end">1</text><text x="13" y="112" text-anchor="end">0</text><text x="18" y="124" text-anchor="middle">-10</text><text x="66.5" y="124" text-anchor="middle">-5</text><text x="115" y="124" text-anchor="middle">0</text><text x="163.5" y="124" text-anchor="middle">5</text><text x="212" y="124" text-anchor="middle">10</text></g><path class="u-curve" d="M18 107.6L18.8 107.6L19.6 107.5L22 107.5L22.9 107.4L25.3 107.4L26.1 107.3L26.9 107.3L27.7 107.2L28.5 107.2L29.3 107.1L30.1 107.1L30.9 107L31.7 107L32.5 106.9L33.4 106.9L35.8 106.6L36.6 106.6L39 106.3L39.8 106.1L42.3 105.8L43.9 105.4L44.7 105.3L46.3 104.9L47.1 104.6L47.9 104.4L51.1 103.2L51.9 102.8L52.8 102.5L53.6 102L54.4 101.6L55.2 101.1L57.6 99.3L58.4 98.6L60 97L60.8 96.1L62.5 94L63.3 92.9L64.9 90.3L65.7 88.8L66.5 87.2L67.3 85.5L68.1 83.7L68.9 81.7L69.7 79.6L70.5 77.4L71.3 75L72.2 72.4L73 69.8L73.8 67L74.6 64.1L75.4 61.1L76.2 58L77 54.8L77.8 51.7L78.6 48.4L79.4 45.2L80.2 42.1L81.1 39L81.9 36L82.7 33.1L83.5 30.3L85.1 25.3L85.9 23.1L86.7 21.1L87.5 19.2L88.3 17.6L89.1 16.1L89.9 14.8L90.8 13.6L91.6 12.6L92.4 11.8L93.2 11.1L94 10.5L95.6 9.5L97.2 8.9L98.8 8.5L102.1 8.1L103.7 8.1L104.5 8L125.5 8L126.3 8.1L127.9 8.1L131.2 8.5L132.8 8.9L134.4 9.5L136 10.5L136.8 11.1L137.6 11.8L138.4 12.6L139.3 13.6L140.1 14.8L140.9 16.1L141.7 17.6L142.5 19.2L143.3 21.1L144.1 23.1L144.9 25.3L146.5 30.3L147.3 33.1L148.1 36L149 39L150.6 45.2L151.4 48.4L152.2 51.7L153 54.8L153.8 58L154.6 61.1L155.4 64.1L156.2 67L157 69.8L157.8 72.4L158.7 75L159.5 77.4L160.3 79.6L161.1 81.7L161.9 83.7L162.7 85.5L163.5 87.2L164.3 88.8L165.1 90.3L166.7 92.9L168.3 95.1L170 97L171.6 98.6L172.4 99.3L174.8 101.1L175.6 101.6L176.4 102L177.2 102.5L178 102.8L182.1 104.4L182.9 104.6L183.7 104.9L185.3 105.3L186.1 105.4L187.8 105.8L190.2 106.1L191 106.3L193.4 106.6L194.2 106.6L196.6 106.9L197.5 106.9L198.3 107L199.1 107L199.9 107.1L200.7 107.1L201.5 107.2L202.3 107.2L203.1 107.3L203.9 107.3L204.7 107.4L207.2 107.4L208 107.5L210.4 107.5L211.2 107.6L212 107.6"/></svg><figcaption><strong>Általánosított harang</strong> <small>PDF: Generalized Bell</small><br>szélesség 4, meredekség 3, közép 0</figcaption></figure>
+<figure><svg viewBox="0 0 220 130" role="img" aria-labelledby="alak-3"><title id="alak-3">Háromszög tagsági függvény, a = −4, b = 1, c = 5.</title><g class="u-axis"><path d="M18 108H212M18 108V8"/><text x="13" y="12" text-anchor="end">1</text><text x="13" y="112" text-anchor="end">0</text><text x="18" y="124" text-anchor="middle">-10</text><text x="66.5" y="124" text-anchor="middle">-5</text><text x="115" y="124" text-anchor="middle">0</text><text x="163.5" y="124" text-anchor="middle">5</text><text x="212" y="124" text-anchor="middle">10</text></g><path class="u-curve" d="M18 108L76.2 108L77 106.3L77.8 104.7L79.4 101.3L80.2 99.7L81.1 98L81.9 96.3L82.7 94.7L84.3 91.3L85.1 89.7L86.7 86.3L87.5 84.7L89.1 81.3L89.9 79.7L90.8 78L91.6 76.3L92.4 74.7L94 71.3L94.8 69.7L96.4 66.3L97.2 64.7L98.8 61.3L99.6 59.7L100.5 58L101.3 56.3L102.1 54.7L103.7 51.3L104.5 49.7L106.1 46.3L106.9 44.7L108.5 41.3L109.3 39.7L110.1 38L111 36.3L111.8 34.7L113.4 31.3L114.2 29.7L115.8 26.3L116.6 24.7L118.2 21.3L119 19.7L119.9 18L120.7 16.3L121.5 14.7L123.1 11.3L123.9 9.7L124.7 8L127.1 14.3L127.9 16.3L128.7 18.4L129.6 20.5L132 26.8L132.8 28.8L136.8 39.3L137.6 41.3L138.4 43.4L139.3 45.5L141.7 51.8L142.5 53.8L146.5 64.3L147.3 66.3L148.1 68.4L149 70.5L151.4 76.8L152.2 78.8L156.2 89.3L157 91.3L157.8 93.4L158.7 95.5L161.1 101.8L161.9 103.8L163.5 108L212 108"/></svg><figcaption><strong>Háromszög</strong> <small>PDF: Triangle</small><br>a = −4, b = 1, c = 5</figcaption></figure>
+<figure><svg viewBox="0 0 220 130" role="img" aria-labelledby="alak-4"><title id="alak-4">Trapéz tagsági függvény, a = −6, b = −3, c = 5, d = 8.</title><g class="u-axis"><path d="M18 108H212M18 108V8"/><text x="13" y="12" text-anchor="end">1</text><text x="13" y="112" text-anchor="end">0</text><text x="18" y="124" text-anchor="middle">-10</text><text x="66.5" y="124" text-anchor="middle">-5</text><text x="115" y="124" text-anchor="middle">0</text><text x="163.5" y="124" text-anchor="middle">5</text><text x="212" y="124" text-anchor="middle">10</text></g><path class="u-curve" d="M18 108L56.8 108L58.4 102.4L59.2 99.7L61.6 91.3L62.5 88.6L65.7 77.4L66.5 74.7L68.9 66.3L69.7 63.6L71.3 58L72.2 55.2L73 52.4L73.8 49.7L76.2 41.3L77 38.6L80.2 27.4L81.1 24.7L83.5 16.3L84.3 13.6L85.9 8L163.5 8L165.1 13.6L165.9 16.3L168.3 24.7L169.2 27.4L172.4 38.6L173.2 41.3L175.6 49.7L176.4 52.4L178 58L178.9 60.8L179.7 63.6L180.5 66.3L182.9 74.7L183.7 77.4L186.9 88.6L187.8 91.3L190.2 99.7L191 102.4L192.6 108L212 108"/></svg><figcaption><strong>Trapéz</strong> <small>PDF: Trapezoidal</small><br>a = −6, b = −3, c = 5, d = 8</figcaption></figure>
+<figure><svg viewBox="0 0 220 130" role="img" aria-labelledby="alak-5"><title id="alak-5">Gauss tagsági függvény, várható érték 2, szórás 2,5.</title><g class="u-axis"><path d="M18 108H212M18 108V8"/><text x="13" y="12" text-anchor="end">1</text><text x="13" y="112" text-anchor="end">0</text><text x="18" y="124" text-anchor="middle">-10</text><text x="66.5" y="124" text-anchor="middle">-5</text><text x="115" y="124" text-anchor="middle">0</text><text x="163.5" y="124" text-anchor="middle">5</text><text x="212" y="124" text-anchor="middle">10</text></g><path class="u-curve" d="M18 108L39.8 108L40.6 107.9L46.3 107.9L47.1 107.8L50.3 107.8L51.1 107.7L52.8 107.7L53.6 107.6L54.4 107.6L55.2 107.5L56 107.5L57.6 107.3L58.4 107.3L62.5 106.8L63.3 106.6L64.9 106.4L68.9 105.4L69.7 105.1L70.5 104.9L73 104L76.2 102.4L78.6 100.9L80.2 99.7L81.1 99.1L83.5 97L84.3 96.2L85.1 95.3L85.9 94.5L86.7 93.5L87.5 92.6L88.3 91.6L90.8 88.2L91.6 87L94 83.1L94.8 81.7L96.4 78.7L98.8 73.9L99.6 72.2L100.5 70.5L102.1 66.9L102.9 65L103.7 63.2L104.5 61.3L105.3 59.3L106.1 57.4L109.3 49.4L110.1 47.3L111 45.3L114.2 37.3L117.4 29.7L118.2 27.9L119 26.2L119.9 24.5L120.7 22.8L123.1 18.3L124.7 15.7L125.5 14.5L126.3 13.4L127.1 12.4L127.9 11.5L128.7 10.7L130.4 9.4L131.2 8.9L132 8.5L132.8 8.2L134.4 8L136 8.2L136.8 8.5L137.6 8.9L139.3 10L140.1 10.7L140.9 11.5L141.7 12.4L142.5 13.4L143.3 14.5L144.1 15.7L145.7 18.3L149 24.5L150.6 27.9L151.4 29.7L154.6 37.3L157.8 45.3L158.7 47.3L159.5 49.4L162.7 57.4L163.5 59.3L164.3 61.3L165.1 63.2L165.9 65L166.7 66.9L168.3 70.5L169.2 72.2L170 73.9L172.4 78.7L174 81.7L174.8 83.1L177.2 87L178 88.2L180.5 91.6L181.3 92.6L182.1 93.5L182.9 94.5L183.7 95.3L184.5 96.2L185.3 97L186.9 98.4L190.2 100.9L192.6 102.4L195.8 104L198.3 104.9L199.1 105.1L199.9 105.4L203.9 106.4L205.5 106.6L206.3 106.8L210.4 107.3L211.2 107.3L212 107.4"/></svg><figcaption><strong>Gauss</strong> <small>PDF: Gauss</small><br>várható érték 2, szórás 2,5</figcaption></figure>
+</div>
+<p>A hat alak három csoportba sorolható. A <strong>rámpa</strong> és a <strong>lineáris váll</strong> egyik irányban nyitott: egy ponttól kezdve „teljesen igaz”. Ilyen a „hórihorgas” is. A PDF az első ábrát „Pending” felirattal közli, ez valószínűleg a rámpa jelentésű <em>ramp</em> elírása. A <strong>háromszög</strong> és a <strong>trapéz</strong> egyenes szakaszokból áll, ezért kézzel is könnyű számolni velük. A háromszög egyetlen pontban éri el az 1-et, a trapéz egy egész szakaszon. A <strong>Gauss-görbe</strong> és az <strong>általánosított harang</strong> sima, lekerekített görbe.</p>
+<p>A PDF az utolsó két alakhoz a paraméterek nevét is megadja. A Gauss-görbét a <strong>várható érték</strong> (angolul <em>mean</em>) és a <strong>szórás</strong> (<em>standard deviation</em>) határozza meg. A várható érték a csúcs helye, a szórás a görbe szélessége. Képlete: μ(x) = e<sup>−(x − m)² / (2σ²)</sup>. Az általánosított harangnak három paramétere van. A <strong>közép</strong> (<em>center</em>) a csúcs helye. A <strong>szélesség</strong> (<em>width</em>) azt adja meg, hol esik a görbe 0,5-re. A <strong>meredekség</strong> (<em>slope</em>) azt, milyen hirtelen: nagy értéknél a harang szinte trapézzá válik. Képlete: μ(x) = 1 / (1 + |(x − c) / a|<sup>2b</sup>).</p>
+<div class="u-simple"><strong>Egyszerűen mondva</strong><p>A háromszöget a három sarka, a trapézt a négy sarka adja meg. Az x tagsági foka azt mutatja, milyen magasan van a görbe az x fölött. Ha x a felfutó oldalon van, a fok annyi, amennyi utat a talptól a csúcs felé megtett. A 25-ös csúcsú, 19-től 31-ig tartó háromszögben a 28 a lefutó oldal felén van, tehát 0,5.</p></div>
+<p>A PDF 136. oldala egy gyakorlati példát is mutat: öt nyelvi érték írja le a hőmérsékletet, a „nagyon alacsony”-tól a „nagyon magas”-ig. A szomszédos halmazok átfedik egymást. A töréspontok nem véletlenszerűek. A hőmérsékletmérések statisztikájából, a <strong>kvartilisekből</strong> származnak. A kvartilisek a rendezett adatokat négy egyenlő részre osztják. Itt az alsó kvartilis Q1 = 31 °C, a felső Q3 = 35 °C. A kettő különbsége a kvartilis-terjedelem: 4 °C.</p>
+<figure class="u-plot u-plot-wide" id="homerseklet-halmazok"><svg viewBox="0 0 600 230" role="img" aria-labelledby="homerseklet-t"><title id="homerseklet-t">Öt átfedő hőmérsékleti halmaz 15 és 55 °C között. Töréspontok: 19, 25, 31, 35, 41 és 47 °C. Minden pontban két szomszédos halmaz tagsága adja ki együtt az 1-et.</title><g class="u-axis"><path d="M30 200H590M30 200V22"/><text x="25" y="26" text-anchor="end">1</text><text x="25" y="204" text-anchor="end">0</text><text x="86" y="216" text-anchor="middle">19</text><text x="170" y="216" text-anchor="middle">25</text><text x="254" y="216" text-anchor="middle">31</text><text x="310" y="216" text-anchor="middle">35</text><text x="394" y="216" text-anchor="middle">41</text><text x="478" y="216" text-anchor="middle">47</text><text x="590" y="216" text-anchor="end" class="u-axis-label">°C</text></g><path class="u-s1" d="M30 22L86 22L87.4 25L88.8 27.9L91.6 33.9L93 36.8L95.8 42.8L97.2 45.7L100 51.7L101.4 54.6L104.2 60.6L105.6 63.5L108.4 69.5L109.8 72.4L112.6 78.4L114 81.3L116.8 87.3L118.2 90.2L121 96.2L122.4 99.1L125.2 105.1L126.6 108L129.4 114L130.8 116.9L133.6 122.9L135 125.8L137.8 131.8L139.2 134.7L142 140.7L143.4 143.6L146.2 149.6L147.6 152.5L150.4 158.5L151.8 161.4L154.6 167.4L156 170.3L158.8 176.3L160.2 179.2L163 185.2L164.4 188.1L167.2 194.1L168.6 197L170 200L590 200"/><text class="u-t1" x="34" y="16" text-anchor="start">nagyon alacsony</text><path class="u-s2" d="M30 200L86 200L87.4 197L88.8 194.1L91.6 188.1L93 185.2L95.8 179.2L97.2 176.3L100 170.3L101.4 167.4L104.2 161.4L105.6 158.5L108.4 152.5L109.8 149.6L112.6 143.6L114 140.7L116.8 134.7L118.2 131.8L121 125.8L122.4 122.9L125.2 116.9L126.6 114L129.4 108L130.8 105.1L133.6 99.1L135 96.2L137.8 90.2L139.2 87.3L142 81.3L143.4 78.4L146.2 72.4L147.6 69.5L150.4 63.5L151.8 60.6L154.6 54.6L156 51.7L158.8 45.7L160.2 42.8L163 36.8L164.4 33.9L167.2 27.9L168.6 25L170 22L171.4 25L172.8 27.9L175.6 33.9L177 36.8L179.8 42.8L181.2 45.7L184 51.7L185.4 54.6L188.2 60.6L189.6 63.5L192.4 69.5L193.8 72.4L196.6 78.4L198 81.3L200.8 87.3L202.2 90.2L205 96.2L206.4 99.1L209.2 105.1L210.6 108L213.4 114L214.8 116.9L217.6 122.9L219 125.8L221.8 131.8L223.2 134.7L226 140.7L227.4 143.6L230.2 149.6L231.6 152.5L234.4 158.5L235.8 161.4L238.6 167.4L240 170.3L242.8 176.3L244.2 179.2L247 185.2L248.4 188.1L251.2 194.1L252.6 197L254 200L590 200"/><text class="u-t2" x="170" y="16" text-anchor="middle">alacsony</text><path class="u-s3" d="M30 200L170 200L171.4 197L172.8 194.1L175.6 188.1L177 185.2L179.8 179.2L181.2 176.3L184 170.3L185.4 167.4L188.2 161.4L189.6 158.5L192.4 152.5L193.8 149.6L196.6 143.6L198 140.7L200.8 134.7L202.2 131.8L205 125.8L206.4 122.9L209.2 116.9L210.6 114L213.4 108L214.8 105.1L217.6 99.1L219 96.2L221.8 90.2L223.2 87.3L226 81.3L227.4 78.4L230.2 72.4L231.6 69.5L234.4 63.5L235.8 60.6L238.6 54.6L240 51.7L242.8 45.7L244.2 42.8L247 36.8L248.4 33.9L251.2 27.9L252.6 25L254 22L310 22L311.4 25L312.8 27.9L315.6 33.9L317 36.8L319.8 42.8L321.2 45.7L324 51.7L325.4 54.6L328.2 60.6L329.6 63.5L332.4 69.5L333.8 72.4L336.6 78.4L338 81.3L340.8 87.3L342.2 90.2L345 96.2L346.4 99.1L349.2 105.1L350.6 108L353.4 114L354.8 116.9L357.6 122.9L359 125.8L361.8 131.8L363.2 134.7L366 140.7L367.4 143.6L370.2 149.6L371.6 152.5L374.4 158.5L375.8 161.4L378.6 167.4L380 170.3L382.8 176.3L384.2 179.2L387 185.2L388.4 188.1L391.2 194.1L392.6 197L394 200L590 200"/><text class="u-t3" x="282" y="16" text-anchor="middle">közepes</text><path class="u-s4" d="M30 200L310 200L311.4 197L312.8 194.1L315.6 188.1L317 185.2L319.8 179.2L321.2 176.3L324 170.3L325.4 167.4L328.2 161.4L329.6 158.5L332.4 152.5L333.8 149.6L336.6 143.6L338 140.7L340.8 134.7L342.2 131.8L345 125.8L346.4 122.9L349.2 116.9L350.6 114L353.4 108L354.8 105.1L357.6 99.1L359 96.2L361.8 90.2L363.2 87.3L366 81.3L367.4 78.4L370.2 72.4L371.6 69.5L374.4 63.5L375.8 60.6L378.6 54.6L380 51.7L382.8 45.7L384.2 42.8L387 36.8L388.4 33.9L391.2 27.9L392.6 25L394 22L395.4 25L396.8 27.9L399.6 33.9L401 36.8L403.8 42.8L405.2 45.7L408 51.7L409.4 54.6L412.2 60.6L413.6 63.5L416.4 69.5L417.8 72.4L420.6 78.4L422 81.3L424.8 87.3L426.2 90.2L429 96.2L430.4 99.1L433.2 105.1L434.6 108L437.4 114L438.8 116.9L441.6 122.9L443 125.8L445.8 131.8L447.2 134.7L450 140.7L451.4 143.6L454.2 149.6L455.6 152.5L458.4 158.5L459.8 161.4L462.6 167.4L464 170.3L466.8 176.3L468.2 179.2L471 185.2L472.4 188.1L475.2 194.1L476.6 197L478 200L590 200"/><text class="u-t4" x="394" y="16" text-anchor="middle">magas</text><path class="u-s5" d="M30 200L394 200L395.4 197L396.8 194.1L399.6 188.1L401 185.2L403.8 179.2L405.2 176.3L408 170.3L409.4 167.4L412.2 161.4L413.6 158.5L416.4 152.5L417.8 149.6L420.6 143.6L422 140.7L424.8 134.7L426.2 131.8L429 125.8L430.4 122.9L433.2 116.9L434.6 114L437.4 108L438.8 105.1L441.6 99.1L443 96.2L445.8 90.2L447.2 87.3L450 81.3L451.4 78.4L454.2 72.4L455.6 69.5L458.4 63.5L459.8 60.6L462.6 54.6L464 51.7L466.8 45.7L468.2 42.8L471 36.8L472.4 33.9L475.2 27.9L476.6 25L478 22L590 22"/><text class="u-t5" x="534" y="16" text-anchor="middle">nagyon magas</text><path class="u-guide" d="M212 200V111"/><circle class="u-dot" cx="212" cy="111" r="4"/><text x="218" y="127">28 °C: 0,5 és 0,5</text></svg>
+<figcaption>A PDF 136. oldalának öt hőmérsékleti halmaza, a jegyzet újrarajzolásában. A vonalak stílusa is eltér, így színek nélkül is követhetők.</figcaption></figure>
+<div class="u-table-wrap"><table class="u-table" id="kerites-tabla">
+<caption>Honnan jönnek a töréspontok? A „kerítések” a dobozábra szokásos határai, a kvartilis-terjedelem 1,5-szeres és 3-szoros távolságában.</caption>
+<thead><tr><th>Töréspont</th><th>Neve az ábrán</th><th>Számítás</th></tr></thead>
+<tbody>
+<tr><td>19 °C</td><td>külső kerítés (outer fence)</td><td>Q1 − 3 · 4 = 31 − 12</td></tr>
+<tr><td>25 °C</td><td>belső kerítés (inner fence)</td><td>Q1 − 1,5 · 4 = 31 − 6</td></tr>
+<tr><td>31 °C</td><td>Q1, alsó kvartilis</td><td>mért adat</td></tr>
+<tr><td>35 °C</td><td>Q3, felső kvartilis</td><td>mért adat</td></tr>
+<tr><td>41 °C</td><td>belső kerítés</td><td>Q3 + 1,5 · 4 = 35 + 6</td></tr>
+<tr><td>47 °C</td><td>külső kerítés</td><td>Q3 + 3 · 4 = 35 + 12</td></tr>
+</tbody></table></div>
+<p>A „nagyon alacsony” 19 °C-ig teljesen igaz, 25 °C-ra 0-ra csökken. Az „alacsony” háromszög 19 és 31 között, csúcsa 25-nél. A „közepes” trapéz: 25-től emelkedik, 31 és 35 között 1, 41-re elfogy. A „magas” háromszög 35 és 47 között, csúcsa 41-nél. A „nagyon magas” 41-től emelkedik, és 47 fölött teljesen igaz. Minden hőmérsékletnél legfeljebb két címke igaz egyszerre, és a tagságuk összege mindig 1. A 28 °C például 0,5 mértékben alacsony és 0,5 mértékben közepes.</p>
+<aside class="u-add"><h3>Kiegészítés · Miért jó, ha a tagságok összege 1?</h3><p>Az ilyen felosztás neve <strong>fuzzy partíció</strong>. Előnye, hogy minden bemenetre legalább egy címke igaz, tehát egyetlen mért érték sem marad szabály nélkül. A szomszédos címkék közötti átmenet pedig sima: ahogy az egyik tagsága csökken, a másiké ugyanannyival nő. Ez nem kötelező. A 14. rész vizsgajegy-példájában a „ritka” és a „gyakori” szintén partíciót alkot, a pontszám három halmaza viszont nem. <a href="#s-ross">Forrás: Ross, 4. fejezet.</a></p></aside>
+
+<div class="u-lab" id="gorbe-labor"><span class="u-lab-label">PRÓBÁLD KI / TAGSÁGIFÜGGVÉNY-RAJZOLÓ</span><h3>Válassz alakot, és hangold a paramétereit!</h3>
+<p>A görbe azonnal újrarajzolódik. Az x csúszkával egy pontot választasz, és leolvasod a tagsági fokát. Minden csúszka a nyilakkal is állítható.</p>
+<div class="u-js-only">
+<div class="u-form-row"><label>Alak <select id="gorbe-alak">
+<option value="triangle">Háromszög</option>
+<option value="trapezoid">Trapéz</option>
+<option value="ramp">Rámpa</option>
+<option value="gauss">Gauss</option>
+<option value="bell">Általánosított harang</option>
+</select></label></div>
+<div class="u-sliders" id="gorbe-parameterek"></div>
+<div class="u-sliders"><label>x értéke: <output id="gorbe-x-ki">2</output><input type="range" id="gorbe-x" min="-10" max="10" step="0.5" value="2"></label></div>
+<svg id="gorbe-rajz" class="u-live" viewBox="0 0 440 180" role="img" aria-label="A kiválasztott tagsági függvény grafikonja"></svg>
+<div class="u-out" id="gorbe-ki" role="status" aria-live="polite"></div>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. A hat alak és a paraméterek szerepe a fenti ábrákon és a szövegben olvasható.</p>
+</div>
+</section>
+
+<!-- 12 · SZABÁLYOK -->
+<section id="szabalyok" class="chapter-section"><span class="section-index">12 / PDF 137–138.</span>
+<h2>Fuzzy szabályok: ha…, akkor…</h2>
+<p>A PDF szerint a fuzzy következtető rendszer <strong>produkciós, szabályalapú</strong>. Ugyanolyan „ha–akkor” szabályokkal dolgozik, mint a 2. fejezet szakértőrendszerei: <em>R1: Ha x = A, akkor y = B.</em> Az A a szabály <strong>antecedense</strong>, azaz előzménye vagy feltétele. A B a <strong>konzekvense</strong>, azaz következménye. A különbség az, hogy itt minden feltétel és következmény fokozatosan lehet igaz.</p>
+<p>A feltételoldalon <em>fuzzy változó = nyelvi érték</em> alakú tagsági kapcsolatok állnak, fuzzy ÉS és fuzzy VAGY műveletekkel összekötve. Például: „a hőmérséklet = hideg ÉS a páratartalom = magas”. Mindegyik kapcsolat értékét két dolog határozza meg: a fizikai változó mért értéke és a nyelvi értékhez tartozó tagsági függvény. A 16 °C-os mérés és a „hideg” görbéje együtt adja meg, mennyire igaz, hogy hideg van.</p>
+<p>A PDF a két művelet értelmezését is megadja:</p>
+<div class="u-duo" id="fuzzy-muveletek">
+<div class="u-formula u-formula-card"><span class="u-big">μ<sub>A∧B</sub>(x) = min{ μ<sub>A</sub>(x), μ<sub>B</sub>(x) }</span><span>Fuzzy ÉS: a kisebbik tagsági fok. PDF 138. oldal.</span></div>
+<div class="u-formula u-formula-card"><span class="u-big">μ<sub>A∨B</sub>(x) = max{ μ<sub>A</sub>(x), μ<sub>B</sub>(x) }</span><span>Fuzzy VAGY: a nagyobbik tagsági fok. PDF 138. oldal.</span></div>
+</div>
+<p>A minimum észszerű választás az ÉS-hez. Egy lánc olyan erős, mint a leggyengébb szeme: ha az egyik feltétel csak 0,3 mértékben igaz, az egész feltétel sem lehet igazabb ennél. A VAGY-hoz ugyanígy elég a legerősebb feltétel. Ha a tagsági fokok csak 0 és 1 lehetnek, a két képlet pontosan a 4. fejezet igazságtábláit adja. A min(1, 0) = 0 és a max(1, 0) = 1. A fuzzy logika tehát a klasszikus logika kiterjesztése. A tagadás szokásos alakja a PDF-ben nem szerepel: μ<sub>¬A</sub>(x) = 1 − μ<sub>A</sub>(x). Ez Łukasiewicz tagadása a 4. fejezetből.</p>
+<div class="u-example" id="muvelet-pelda"><strong>Végigvezetett példa · Egy feltétel kiértékelése</strong>
+<p>Legyen a hőmérséklet 28 °C, a páratartalom 70%. A 11. rész görbéi alapján a 28 °C 0,5 mértékben „alacsony” és 0,5 mértékben „közepes”. Tegyük fel, hogy a 70% páratartalom 0,8 mértékben „magas”.</p>
+<ol class="u-steps">
+<li><p><strong>ÉS:</strong> „alacsony ÉS magas páratartalom” = min(0,5; 0,8) = <strong>0,5</strong>.</p></li>
+<li><p><strong>VAGY:</strong> „alacsony VAGY közepes” = max(0,5; 0,5) = <strong>0,5</strong>.</p></li>
+<li><p><strong>Összetett:</strong> „(alacsony VAGY közepes) ÉS magas páratartalom” = min(max(0,5; 0,5); 0,8) = <strong>0,5</strong>.</p></li>
+</ol></div>
+<p>A PDF szerint a feltételoldal eredő igazságértéke egyben a <strong>következmény érvényessége</strong> is. A következményoldalon egyetlen <em>fuzzy változó = nyelvi érték</em> állítás áll. Ennek igazságértéke megegyezik a feltételoldalra kiszámolt értékkel. Ha a feltétel 0,5 mértékben igaz, a „klíma = hűt” következmény is 0,5 mértékben érvényes.</p>
+<aside class="u-add"><h3>Kiegészítés · Nem a minimum az egyetlen ÉS</h3><p>A minimum és a maximum Zadeh eredeti javaslata. Ez a legelterjedtebb, a PDF és a kurzus kódja is ezt használja. Más ÉS-műveletek is léteznek, ezeket <strong>t-normáknak</strong> nevezik. A szorzat például 0,5 · 0,8 = 0,4-et ad az előző példában. A Łukasiewicz-féle ÉS pedig max(0; 0,5 + 0,8 − 1) = 0,3-at. Mindegyik ugyanazt tudja a 0 és 1 értékeken, de a köztes értékeken eltér. A választás a feladattól függ. <a href="#s-klir">Forrás: Klir–Yuan, 3. fejezet.</a></p></aside>
+</section>
+
+<!-- 13 · FOLYAMAT -->
+<section id="folyamat" class="chapter-section"><span class="section-index">13 / PDF 139, 141.</span>
+<h2>A fuzzy szabályozó három lépése.</h2>
+<p>A PDF szerint <strong>az összes szabály egyszerre működik</strong>. A fizikai változók mért értékei bemenő tényként szolgálnak, és a szabályok <strong>kollektív döntést</strong> hoznak. Ez nagy különbség a Prologhoz képest. Ott egyetlen szabályt próbáltunk, és zsákutcában visszaléptünk. Itt minden szabály egyszerre, a saját igazságértéke arányában szól bele az eredménybe.</p>
+<p>A PDF 141. oldalának vázlata szerint egy fuzzy szabályozórendszer körben működik:</p>
+<ol class="u-cycle" id="szabalyozasi-kor">
+<li><strong>Mért fizikai értékek</strong><p>Egy érzékelő számot ad, például 16 °C.</p></li>
+<li><strong>1. Fuzzifikálás</strong><p>A számból fuzzy nyelvi értékek lesznek: 0,4 mértékben hideg, 0,6 mértékben meleg.</p></li>
+<li><strong>2. Fuzzy következtetés</strong><p>A szabálybázis minden szabálya kiszámolja a következménye érvényességét.</p></li>
+<li><strong>3. Defuzzifikálás</strong><p>A fuzzy eredményből ismét egyetlen szám lesz: a beállítandó fizikai érték.</p></li>
+<li><strong>Szabályozott folyamat</strong><p>A beavatkozó, például a fűtés, megváltoztatja a folyamatot. Új mérés következik.</p></li>
+</ol>
+<p>A kör azért kör, mert a beavatkozás hatását a következő mérés már mutatja. Ezt <strong>visszacsatolásnak</strong> nevezzük. Egy termosztát így másodpercenként újra és újra végigfut a három lépésen.</p>
+<p>A középső lépés, a következtetés, a mai gyakorlatban három részből áll. A PDF 140. oldalának ábrája mindhármat megmutatja. Először minden szabály kiszámolja a feltétele erősségét a minimummal. Aztán a következmény tagsági függvényét ennél a magasságnál <strong>levágja</strong>, mintha ollóval vágná el a tetejét. Végül a levágott görbéket <strong>egyesíti</strong>: pontonként a maximumukat veszi. Ezt a módszert Mamdaniról nevezik el. Az eredmény egyetlen, összetett fuzzy halmaz a kimeneti tengelyen.</p>
+<p>Ebből a halmazból kell egyetlen számot csinálni. Ez a <strong>defuzzifikálás</strong>. A PDF három módszert sorol fel.</p>
+<div class="u-compare" id="defuzz-modszerek">
+<div><span class="u-tag">1 · TERÜLETKÖZÉPPONT</span><h3>Hol lenne egyensúlyban?</h3><p>Ha az egyesített görbe alatti területet kivágnánk kartonból, hol lehetne egy ujjal egyensúlyban tartani? Ez a <strong>súlypont</strong>: x* = ∫ x · μ(x) dx / ∫ μ(x) dx. A PDF szerint ez a legelterjedtebb eljárás. Minden szabály hatása számít, és az eredmény simán változik a bemenettel.</p></div>
+<div><span class="u-tag">2 · MAXIMUMOK SÚLYOZOTT ÁTLAGA</span><h3>A csúcsok átlaga</h3><p>Minden következmény tagsági függvényének a maximumhelyét, vagyis csúcsát súlyozzuk a szabály erősségével: x* = Σ erősség · csúcs / Σ erősség. Gyors, mert nem kell területet számolni. A következmények alakja viszont elvész.</p></div>
+<div><span class="u-tag">3 · LEGNAGYOBB ÉRVÉNYESSÉG</span><h3>A győztes visz mindent</h3><p>A legerősebb szabály következményének maximumhelyét vesszük. Ez a leggyorsabb, de ugrál: ha két szabály erőssége helyet cserél, a kimenet hirtelen átugrik. Szabályozásra ezért ritkán használják.</p></div>
+</div>
+<aside class="u-add"><h3>Kiegészítés · Mi a maximumhely, ha a csúcs lapos?</h3><p>A levágott háromszög teteje lapos szakasz, a trapézé már eleve az. Ilyenkor nem egy maximumhely van, hanem egy egész szakasz. A gyakorlatban három változat terjedt el. A <strong>maximumok közepe</strong> (MOM, <em>mean of maximum</em>) a szakasz közepét veszi. A <strong>legkisebb maximum</strong> (SOM) a bal szélét, a <strong>legnagyobb maximum</strong> (LOM) a jobb szélét. A PDF nem mondja meg, melyiket érti. A jegyzet a 2. és 3. módszernél a következmények <em>levágás előtti</em> csúcsát használja, ahogy a súlyozott átlagnál szokás. A kurzus kódja egy megjegyzésben a MOM-ot is említi. <a href="#s-skfuzzy">Forrás: scikit-fuzzy dokumentáció, defuzz függvény.</a></p></aside>
+</section>
+
+<!-- 14 · VIZSGA -->
+<section id="vizsga" class="chapter-section"><span class="section-index">14 / PDF 140.</span>
+<h2>Milyen jegyet kap a hallgató?</h2>
+<p>A PDF 140. oldala egy kis fuzzy rendszert mutat, amely a vizsgajegyet becsli. Két bemenete van: a <strong>zárthelyi-eredmény</strong> (nyelvi értékei: közepes, jó, kiváló) és az <strong>előadás-látogatás</strong> (ritka, gyakori). A kimenet a <strong>vizsgajegy</strong> (jó, jeles). A szabálybázis két szabályból áll:</p>
+<ol class="u-stack" id="vizsga-szabalyok">
+<li><strong>R1</strong><p>Ha zárthelyi-eredmény = jó ÉS előadás-látogatás = ritka, akkor vizsgajegy = jeles.</p></li>
+<li><strong>R2</strong><p>Ha zárthelyi-eredmény = közepes ÉS előadás-látogatás = gyakori, akkor vizsgajegy = jó.</p></li>
+</ol>
+<p>Az első szabály meglepő, és talán szándékosan az. Aki ritkán jár be, mégis jó zárthelyit ír, az valószínűleg könnyen tanul. A második szerint a szorgalmas, de közepes zárthelyit író hallgató jó jegyet kap. A szabályok tartalmát nem kell elfogadni. A módszer a lényeg.</p>
+<p>A PDF ábrája a két szabályt egymás alá rajzolja. Egy piros függőleges vonal jelöli a zárthelyi-pontszámot, egy narancssárga az óraszámot. Minden szabályban a két feltétel tagsági fokából a minimum lesz a szabály erőssége. A következmény görbéjét ennél a magasságnál levágják. A két levágott görbét végül egy közös ábrára rajzolják, és ebből jön a jegy. Az ábrán nincsenek számok, ezért a jegyzet saját skálákat választott. Ezek mindig láthatók, és a bemutatóban is ezek működnek.</p>
+<div class="u-table-wrap"><table class="u-table" id="vizsga-parameterek">
+<caption>A jegyzet választott skálái. A PDF csak a görbék elhelyezkedését mutatja, a töréspontokat nem.</caption>
+<thead><tr><th>Nyelvi érték</th><th>Alak</th><th>Töréspontok</th></tr></thead>
+<tbody>
+<tr><td>ZH közepes</td><td>háromszög</td><td>30, 50, 70 pont</td></tr>
+<tr><td>ZH jó</td><td>háromszög</td><td>50, 70, 90 pont</td></tr>
+<tr><td>ZH kiváló</td><td>trapéz</td><td>70, 90, 100, 100 pont</td></tr>
+<tr><td>Látogatás ritka</td><td>trapéz</td><td>0, 0, 3, 9 óra</td></tr>
+<tr><td>Látogatás gyakori</td><td>trapéz</td><td>3, 9, 12, 12 óra</td></tr>
+<tr><td>Jegy jó</td><td>háromszög</td><td>3, 4, 5</td></tr>
+<tr><td>Jegy jeles</td><td>háromszög</td><td>4, 5, 5 (jobb oldalon függőleges)</td></tr>
+</tbody></table></div>
+<div class="u-plot-pair" id="vizsga-bemenetek">
+<figure class="u-plot"><svg viewBox="0 0 300 150" role="img" aria-labelledby="vizsga-zh-t"><title id="vizsga-zh-t">A zárthelyi pontszám három halmaza. A 64 pont tagságai: közepes 0,30, jó 0,70.</title><g class="u-axis"><path d="M22 124H292M22 124V20"/><text x="17" y="24" text-anchor="end">1</text><text x="17" y="128" text-anchor="end">0</text><text x="22" y="140" text-anchor="middle">0</text><text x="103" y="140" text-anchor="middle">30</text><text x="157" y="140" text-anchor="middle">50</text><text x="211" y="140" text-anchor="middle">70</text><text x="265" y="140" text-anchor="middle">90</text><text x="292" y="140" text-anchor="end" class="u-axis-label">pont</text></g><path class="u-s2" d="M22 124L103 124L104.1 121.8L105.3 119.7L107.5 115.3L108.6 113.2L109.8 111L110.9 108.8L112 106.7L114.2 102.3L115.4 100.2L117.6 95.8L118.8 93.7L121 89.3L122.1 87.2L123.3 85L124.4 82.8L125.5 80.7L126.6 78.5L127.8 76.3L128.9 74.2L131.1 69.8L132.3 67.7L134.5 63.3L135.6 61.2L136.8 59L137.9 56.8L139 54.7L140.1 52.5L141.3 50.3L142.4 48.2L144.6 43.8L145.8 41.7L148 37.3L149.1 35.2L150.3 33L151.4 30.8L152.5 28.7L153.6 26.5L154.8 24.3L155.9 22.2L157 20L158.1 22.2L159.3 24.3L161.5 28.7L162.6 30.8L163.8 33L164.9 35.2L166 37.3L167.1 39.5L168.3 41.7L169.4 43.8L171.6 48.2L172.8 50.3L175 54.7L176.1 56.8L177.3 59L178.4 61.2L179.5 63.3L180.6 65.5L181.8 67.7L182.9 69.8L185.1 74.2L186.3 76.3L188.5 80.7L189.6 82.8L190.8 85L191.9 87.2L193 89.3L194.1 91.5L195.3 93.7L196.4 95.8L198.6 100.2L199.8 102.3L202 106.7L203.1 108.8L204.3 111L205.4 113.2L206.5 115.3L207.6 117.5L208.8 119.7L209.9 121.8L211 124L292 124"/><text class="u-t2" x="157" y="15" text-anchor="middle">közepes</text><path class="u-s3" d="M22 124L157 124L158.1 121.8L159.3 119.7L161.5 115.3L162.6 113.2L163.8 111L164.9 108.8L166 106.7L167.1 104.5L168.3 102.3L169.4 100.2L171.6 95.8L172.8 93.7L175 89.3L176.1 87.2L177.3 85L178.4 82.8L179.5 80.7L180.6 78.5L181.8 76.3L182.9 74.2L185.1 69.8L186.3 67.7L188.5 63.3L189.6 61.2L190.8 59L191.9 56.8L193 54.7L194.1 52.5L195.3 50.3L196.4 48.2L198.6 43.8L199.8 41.7L202 37.3L203.1 35.2L204.3 33L205.4 30.8L206.5 28.7L207.6 26.5L208.8 24.3L209.9 22.2L211 20L212.1 22.2L213.2 24.3L214.4 26.5L215.5 28.7L216.6 30.8L217.8 33L218.9 35.2L220 37.3L221.1 39.5L222.3 41.7L223.4 43.8L225.6 48.2L226.8 50.3L229 54.7L230.1 56.8L231.3 59L232.4 61.2L233.5 63.3L234.6 65.5L235.8 67.7L236.9 69.8L239.1 74.2L240.2 76.3L241.4 78.5L242.5 80.7L243.6 82.8L244.8 85L245.9 87.2L247 89.3L248.1 91.5L249.3 93.7L250.4 95.8L252.6 100.2L253.8 102.3L256 106.7L257.1 108.8L258.3 111L259.4 113.2L260.5 115.3L261.6 117.5L262.8 119.7L263.9 121.8L265 124L292 124"/><text class="u-t3" x="211" y="15" text-anchor="middle">jó</text><path class="u-s4" d="M22 124L211 124L212.1 121.8L213.2 119.7L214.4 117.5L215.5 115.3L216.6 113.2L217.8 111L218.9 108.8L220 106.7L221.1 104.5L222.3 102.3L223.4 100.2L225.6 95.8L226.8 93.7L229 89.3L230.1 87.2L231.3 85L232.4 82.8L233.5 80.7L234.6 78.5L235.8 76.3L236.9 74.2L239.1 69.8L240.2 67.7L241.4 65.5L242.5 63.3L243.6 61.2L244.8 59L245.9 56.8L247 54.7L248.1 52.5L249.3 50.3L250.4 48.2L252.6 43.8L253.8 41.7L256 37.3L257.1 35.2L258.3 33L259.4 30.8L260.5 28.7L261.6 26.5L262.8 24.3L263.9 22.2L265 20L292 20"/><text class="u-t4" x="273.1" y="15" text-anchor="middle">kiváló</text><path class="u-guide" d="M194.8 124V20"/><circle class="u-dot" cx="194.8" cy="92.8" r="3.5"/><circle class="u-dot" cx="194.8" cy="51.2" r="3.5"/></svg><figcaption>A zárthelyi pontszám halmazai. A függőleges vonal a 64 pontot jelöli.</figcaption></figure>
+<figure class="u-plot"><svg viewBox="0 0 300 150" role="img" aria-labelledby="vizsga-ora-t"><title id="vizsga-ora-t">Az előadás-látogatás két halmaza. Az 5 óra tagságai: ritka 0,67, gyakori 0,33.</title><g class="u-axis"><path d="M22 124H292M22 124V20"/><text x="17" y="24" text-anchor="end">1</text><text x="17" y="128" text-anchor="end">0</text><text x="22" y="140" text-anchor="middle">0</text><text x="89.5" y="140" text-anchor="middle">3</text><text x="224.5" y="140" text-anchor="middle">9</text><text x="292" y="140" text-anchor="middle">12</text><text x="292" y="140" text-anchor="end" class="u-axis-label">óra</text></g><path class="u-s2" d="M22 20L89.5 20L90.6 20.9L91.8 21.7L94 23.5L95.1 24.3L96.2 25.2L98.5 26.9L99.6 27.8L101.9 29.5L104.1 31.3L105.3 32.1L107.5 33.9L109.8 35.6L110.9 36.5L112 37.3L114.2 39.1L115.4 39.9L117.6 41.7L118.8 42.5L121 44.3L123.3 46L124.4 46.9L125.5 47.7L126.6 48.6L128.9 50.3L131.1 52.1L132.3 52.9L134.5 54.7L136.8 56.4L137.9 57.3L139 58.1L140.1 59L142.4 60.7L144.6 62.5L145.8 63.3L148 65.1L150.3 66.8L151.4 67.7L152.5 68.5L153.6 69.4L155.9 71.1L158.1 72.9L159.3 73.7L161.5 75.5L163.8 77.2L164.9 78.1L166 78.9L167.1 79.8L169.4 81.5L171.6 83.3L172.8 84.1L175 85.9L177.3 87.6L178.4 88.5L179.5 89.3L180.6 90.2L182.9 91.9L185.1 93.7L186.3 94.5L188.5 96.3L190.8 98L191.9 98.9L193 99.7L194.1 100.6L196.4 102.3L198.6 104.1L199.8 104.9L202 106.7L203.1 107.5L204.2 108.4L206.5 110.1L207.6 111L209.9 112.7L212.1 114.5L213.3 115.3L215.5 117.1L217.8 118.8L218.9 119.7L220 120.5L221.1 121.4L223.4 123.1L224.5 124L292 124"/><text class="u-t2" x="55.8" y="15" text-anchor="middle">ritka</text><path class="u-s3" d="M22 124L89.5 124L90.6 123.1L91.8 122.3L94 120.5L95.1 119.7L96.2 118.8L98.5 117.1L99.6 116.2L101.9 114.5L104.1 112.7L105.3 111.9L107.5 110.1L109.8 108.4L110.9 107.5L112 106.7L114.2 104.9L115.4 104.1L117.6 102.3L118.8 101.5L121 99.7L123.3 98L124.4 97.1L125.5 96.3L126.6 95.4L128.9 93.7L131.1 91.9L132.3 91.1L134.5 89.3L136.8 87.6L137.9 86.7L139 85.9L140.1 85L142.4 83.3L144.6 81.5L145.8 80.7L148 78.9L150.3 77.2L151.4 76.3L152.5 75.5L153.6 74.6L155.9 72.9L158.1 71.1L159.3 70.3L161.5 68.5L163.8 66.8L164.9 65.9L166 65.1L167.1 64.2L169.4 62.5L171.6 60.7L172.8 59.9L175 58.1L177.3 56.4L178.4 55.5L179.5 54.7L180.6 53.8L182.9 52.1L185.1 50.3L186.3 49.5L188.5 47.7L190.8 46L191.9 45.1L193 44.3L194.1 43.4L196.4 41.7L198.6 39.9L199.8 39.1L202 37.3L203.1 36.5L204.2 35.6L206.5 33.9L207.6 33L209.9 31.3L212.1 29.5L213.3 28.7L215.5 26.9L217.8 25.2L218.9 24.3L220 23.5L221.1 22.6L223.4 20.9L224.5 20L292 20"/><text class="u-t3" x="258.3" y="15" text-anchor="middle">gyakori</text><path class="u-guide" d="M134.5 124V20"/><circle class="u-dot" cx="134.5" cy="54.7" r="3.5"/><circle class="u-dot" cx="134.5" cy="89.3" r="3.5"/></svg><figcaption>Az előadás-látogatás halmazai. A függőleges vonal az 5 órát jelöli.</figcaption></figure>
+</div>
+<div class="u-example" id="vizsga-levezetes"><strong>Végigvezetett példa · 64 pont a zárthelyin, 5 látogatott előadás</strong>
+<ol class="u-steps">
+<li><p><strong>Fuzzifikálás.</strong> A 64 pont a „közepes” háromszög lefutó oldalán van: (70 − 64) / 20 = <strong>0,3</strong>. A „jó” felfutó oldalán: (64 − 50) / 20 = <strong>0,7</strong>. A „kiváló” tagsága 0. Az 5 óra „ritka”: (9 − 5) / 6 ≈ <strong>0,67</strong>, „gyakori”: (5 − 3) / 6 ≈ <strong>0,33</strong>.</p></li>
+<li><p><strong>Szabályok erőssége a minimummal.</strong> R1: min(jó 0,7; ritka 0,67) = <strong>0,67</strong>. R2: min(közepes 0,3; gyakori 0,33) = <strong>0,3</strong>.</p></li>
+<li><p><strong>Levágás.</strong> A „jeles” görbéjét 0,67, a „jó” görbéjét 0,3 magasságban vágjuk le.</p></li>
+<li><p><strong>Egyesítés.</strong> A két levágott görbe pontonkénti maximuma egy lépcsős alakzat. 3,3 és 4,3 között a „jó” 0,3-es teteje, 4,3 fölött a „jeles” emelkedő oldala, majd 4,67-től 5-ig a 0,67-es teteje adja.</p></li>
+<li><p><strong>Defuzzifikálás.</strong> A területközéppont a görbe alatti terület súlypontja: x* ≈ <strong>4,24</strong>. A maximumok súlyozott átlaga: (0,67 · 5 + 0,3 · 4) / (0,67 + 0,3) ≈ <strong>4,69</strong>. A legnagyobb érvényesség módszere a „jeles” csúcsát adja: <strong>5</strong>.</p></li>
+</ol>
+<figure class="u-plot u-plot-wide" id="vizsga-kimenet"><svg viewBox="0 0 600 190" role="img" aria-labelledby="vizsga-ki-t"><title id="vizsga-ki-t">A két levágott következmény egyesítése a jegy tengelyén. A jó háromszöge 0,3 magasan, a jeles 0,67 magasan van levágva. A súlypont 4,24-nél van.</title><g class="u-axis"><path d="M30 160H586M30 160V20"/><text x="25" y="24" text-anchor="end">1</text><text x="25" y="164" text-anchor="end">0</text><text x="30" y="176" text-anchor="middle">1</text><text x="169" y="176" text-anchor="middle">2</text><text x="308" y="176" text-anchor="middle">3</text><text x="447" y="176" text-anchor="middle">4</text><text x="586" y="176" text-anchor="middle">5</text><text x="586" y="176" text-anchor="end" class="u-axis-label">jegy</text></g><path class="u-s2 u-thin" d="M30 160L308 160L310.3 157.7L312.6 155.3L314.9 153L317.3 150.7L319.6 148.3L324.2 143.7L326.5 141.3L328.8 139L331.2 136.7L333.5 134.3L338.1 129.7L340.4 127.3L342.8 125L345.1 122.7L347.4 120.3L352 115.7L354.3 113.3L356.7 111L359 108.7L361.3 106.3L365.9 101.7L368.2 99.3L370.6 97L372.9 94.7L375.2 92.3L379.8 87.7L382.1 85.3L384.4 83L386.8 80.7L389.1 78.3L393.7 73.7L396 71.3L398.3 69L400.7 66.7L403 64.3L407.6 59.7L409.9 57.3L412.3 55L414.6 52.7L416.9 50.3L421.5 45.7L423.8 43.3L426.2 41L428.5 38.7L430.8 36.3L435.4 31.7L437.7 29.3L440.1 27L442.4 24.7L444.7 22.3L447 20L449.3 22.3L451.6 24.7L453.9 27L456.3 29.3L458.6 31.7L463.2 36.3L465.5 38.7L467.9 41L470.2 43.3L472.5 45.7L477.1 50.3L479.4 52.7L481.8 55L484.1 57.3L486.4 59.7L491 64.3L493.3 66.7L495.6 69L498 71.3L500.3 73.7L504.9 78.3L507.2 80.7L509.6 83L511.9 85.3L514.2 87.7L518.8 92.3L521.1 94.7L523.5 97L525.8 99.3L528.1 101.7L532.7 106.3L535 108.7L537.4 111L539.7 113.3L542 115.7L546.6 120.3L548.9 122.7L551.3 125L553.6 127.3L555.9 129.7L560.5 134.3L562.8 136.7L565.1 139L567.5 141.3L569.8 143.7L574.4 148.3L576.7 150.7L579.1 153L581.4 155.3L583.7 157.7L586 160"/><path class="u-s4 u-thin" d="M30 160L447 160L449.3 157.7L451.6 155.3L453.9 153L456.3 150.7L458.6 148.3L463.2 143.7L465.5 141.3L467.9 139L470.2 136.7L472.5 134.3L477.1 129.7L479.4 127.3L481.8 125L484.1 122.7L486.4 120.3L491 115.7L493.3 113.3L495.6 111L498 108.7L500.3 106.3L504.9 101.7L507.2 99.3L509.6 97L511.9 94.7L514.2 92.3L518.8 87.7L521.1 85.3L523.5 83L525.8 80.7L528.1 78.3L532.7 73.7L535 71.3L537.4 69L539.7 66.7L542 64.3L546.6 59.7L548.9 57.3L551.3 55L553.6 52.7L555.9 50.3L560.5 45.7L562.8 43.3L565.1 41L567.5 38.7L569.8 36.3L574.4 31.7L576.7 29.3L579.1 27L581.4 24.7L583.7 22.3L586 20"/><path class="u-area" d="M30 160L308 160L313.6 154.4L314.9 153L327.5 140.4L328.8 139L342.8 125L344.1 123.6L349.7 118L488.7 118L494.3 112.4L495.6 111L509.6 97L510.9 95.6L523.5 83L524.8 81.6L537.4 69L538.7 67.6L540.1 66.7L586 66.7L586 160L30 160Z"/><text class="u-t2" x="384.4" y="112">jó, levágva 0,3</text><text class="u-t4" x="488.7" y="58.7" text-anchor="end">jeles, levágva 0,67</text><path class="u-guide" d="M480.4 160V27"/><text x="484.4" y="31">súlypont 4,24</text></svg><figcaption>Az egyesített kimenet. A két halvány háromszög a levágás előtti „jó” és „jeles”. A kitöltött terület az egyesítés, a függőleges vonal a súlypont.</figcaption></figure>
+<p>A három módszer három különböző jegyet ad: 4, 5 és 5, ha kerekítünk. Ez nem hiba, hanem a módszerek különbsége. A súlypont a legóvatosabb, mert a gyengébb „jó” szabályt is komolyan veszi. A legnagyobb érvényesség csak a győztest nézi.</p></div>
+<aside class="u-add"><h3>Kiegészítés · Két szabály nem fed le mindent</h3><p>A PDF két szabálya csak két helyzetről szól. Mi lesz azzal, aki kiváló zárthelyit írt, vagy jó zárthelyit írt és gyakran bejárt? Rájuk egyik szabály sem vonatkozik. A 95 pontos, 11 órát látogató hallgatónál mindkét szabály erőssége 0. Az egyesített kimenet üres, a súlypont nem értelmezhető. A rendszer tehát <em>nem ad jegyet</em>, pedig ez a hallgató érdemelné a legjobbat. Egy valódi rendszerben minden bemenet-kombinációhoz kell szabály. Két bemenetnél, három és két nyelvi értékkel ez 3 · 2 = 6 szabály. A lenti bemutató az üres kimenetet is jelzi, és nem talál ki hozzá jegyet. <a href="#s-ross">Forrás: Ross, 8. fejezet.</a></p></aside>
+
+<div class="u-lab" id="vizsga-labor"><span class="u-lab-label">PRÓBÁLD KI / ÉLŐ VIZSGAJEGY</span><h3>Állítsd a pontszámot és a látogatást!</h3>
+<p>A bemutató a fenti skálákkal számol. Minden lépés eredménye látszik: a tagsági fokok, a két szabály erőssége és a választott defuzzifikálási módszer eredménye.</p>
+<div class="u-js-only">
+<div class="u-sliders">
+<label>Zárthelyi pontszám: <output id="vizsga-pont-ki">64</output><input type="range" id="vizsga-pont" min="0" max="100" step="1" value="64"></label>
+<label>Látogatott előadások: <output id="vizsga-ora-ki">5</output><input type="range" id="vizsga-ora" min="0" max="12" step="0.5" value="5"></label>
+</div>
+<div class="u-form-row"><label>Defuzzifikálás módja <select id="vizsga-modszer">
+<option value="centroid">Területközéppont</option>
+<option value="weighted">Maximumok súlyozott átlaga</option>
+<option value="max">Legnagyobb érvényesség</option>
+</select></label></div>
+<svg id="vizsga-rajz" class="u-live" viewBox="0 0 440 170" role="img" aria-label="Az egyesített kimeneti fuzzy halmaz a jegy tengelyén"></svg>
+<div class="u-out" id="vizsga-ki" role="status" aria-live="polite"></div>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. A teljes számítás a fenti végigvezetett példában olvasható.</p>
+</div>
+</section>
+
+<!-- 15 · FUZZY KÓD -->
+<section id="fuzzy-kod" class="chapter-section"><span class="section-index">15 / KÓD · 11_Fuzzy.py</span>
+<h2>Egy termosztát Pythonban.</h2>
+<p>A kurzus kódgyűjteményének <code>11_Fuzzy.py</code> fájlja a PDF 141. oldalának szabályozási körét valósítja meg egy fűtés–hűtés rendszerre. A <code>scikit-fuzzy</code> könyvtárat használja, ez a fuzzy rendszerek egyik elterjedt Python-eszköze. A kód változatlanul:</p>
+<figure class="u-code" id="fuzzy-forras"><pre><code>#pip install scikit-fuzzy
+import matplotlib as matplotlib
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
+import numpy as np
+import scipy
+import packaging
+import networkx
+import matplotlib
+matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
+
+temperature = ctrl.Antecedent(np.arange(0,41,1), 'temperature')
+target = ctrl.Antecedent(np.arange(0,41,1),"target")
+#action = ctrl.Consequent(np.arange(0,4,1), "action", defuzzify_method="mom")
+action = ctrl.Consequent(np.arange(0,4,1), "action") # centroid on default
+
+#temperature.automf(4, names=["kicsi","közepes","nagy","extra nagy"])
+# temperature["kicsi"] = fuzz.trimf(temperature.universe, [0,0,40])
+# temperature["közepes"] = fuzz.gaussmf(temperature.universe, 14, 2)
+# temperature["nagy"] = fuzz.piecemf(temperature.universe, [1,3,26])
+# temperature["extra nagy"] = fuzz.trapmf(temperature.universe, [4,8,16,18])
+
+tempnames = ["very cold", "cold", "warm", "hot", "very hot"]
+
+temperature.automf(5, names= tempnames)
+target.automf(5, names=tempnames)
+
+temperature.view()
+target.view()
+
+
+action.automf(3, names=["Cool", "No change","Heat"])
+action.view()
+
+rule1 = ctrl.Rule((temperature["cold"] | temperature["very cold"]) &amp; target["warm"], action["Heat"])
+
+rule2 = ctrl.Rule((temperature["hot"] | temperature["very hot"]) &amp; target["warm"], action["Cool"])
+
+rule3 = ctrl.Rule(temperature["warm"] &amp; target["warm"], action["No change"])
+
+temperature_control = ctrl.ControlSystem([rule1, rule2, rule3])
+
+temp = ctrl.ControlSystemSimulation(temperature_control)
+
+temp.input["temperature"] = 16
+temp.input["target"] = 22
+
+temp.compute()
+print(temp.output["action"])
+print(action.defuzzify_method)
+
+temperature.view(sim=temp)
+target.view(sim=temp)
+
+action.view(sim=temp)
+
+plt.show()</code></pre>
+<figcaption>A <code>resources/code/11_Fuzzy.py</code> fájl változatlanul.</figcaption></figure>
+<p>A kód a PDF három lépését követi. Nézzük sorban!</p>
+<ol class="u-steps" id="fuzzy-kod-lepesek">
+<li><p><strong>Változók és tartományok.</strong> Két bemenet, azaz <code>Antecedent</code> van: a mért hőmérséklet (<code>temperature</code>) és a kívánt hőmérséklet (<code>target</code>). Mindkettő 0 és 40 °C között, egész fokonként. A kimenet, azaz <code>Consequent</code>, a beavatkozás (<code>action</code>), egy 0 és 3 közötti skálán, négy ponttal: 0, 1, 2, 3.</p></li>
+<li><p><strong>Tagsági függvények.</strong> Az <code>automf(5, …)</code> öt egyenletesen elosztott háromszöget készít: „very cold” (nagyon hideg), „cold” (hideg), „warm” (meleg), „hot” (forró) és „very hot” (nagyon forró). A csúcsok 0, 10, 20, 30 és 40 fokon vannak, és a szomszédos háromszögek fuzzy partíciót alkotnak. A kimenet három háromszöge „Cool” (hűtés), „No change” (nincs változás) és „Heat” (fűtés), csúcsuk 0, 1,5 és 3.</p></li>
+<li><p><strong>Szabálybázis.</strong> Három szabály. Ha hideg VAGY nagyon hideg van, ÉS a cél meleg, akkor fűts. Ha forró VAGY nagyon forró van, ÉS a cél meleg, akkor hűts. Ha meleg van, ÉS a cél meleg, akkor ne változtass. A <code>|</code> jel a fuzzy VAGY (maximum), a <code>&amp;</code> a fuzzy ÉS (minimum).</p></li>
+<li><p><strong>Fuzzifikálás.</strong> A bemenet 16 °C, a cél 22 °C. A 16 °C a „cold” háromszögben (20 − 16) / 10 = 0,4, a „warm”-ban (16 − 10) / 10 = 0,6. A 22 °C a „warm”-ban (30 − 22) / 10 = 0,8, a „hot”-ban 0,2.</p></li>
+<li><p><strong>Következtetés.</strong> Fűtés: min(max(0,4; 0); 0,8) = <strong>0,4</strong>. Hűtés: min(max(0; 0); 0,8) = <strong>0</strong>. Nincs változás: min(0,6; 0,8) = <strong>0,6</strong>.</p></li>
+<li><p><strong>Defuzzifikálás.</strong> Az alapértelmezett módszer a területközéppont (<code>centroid</code>). A „No change” 0,6-nál, a „Heat” 0,4-nél levágott görbéjének súlypontja a kimenet.</p></li>
+</ol>
+<figure class="u-code" id="fuzzy-kimenet"><pre><code>1.6499999999999997
+centroid</code></pre>
+<figcaption>Valódi kimenet, scikit-fuzzy 0.5.0 alatt futtatva. A futtatáshoz a grafikus megjelenítést kikapcsoltuk. A számítási rész változatlan.</figcaption></figure>
+<p>Az eredmény 1,65. Ez a „No change” csúcsa, 1,5 és a „Heat” csúcsa, 3 között van, közelebb az elsőhöz. A termosztát tehát <strong>enyhén fűt</strong>. Ez észszerű: 16 °C van, 22 °C-ot szeretnénk, de a 16 fok már részben „meleg”. A második kiírt sor a használt módszer neve.</p>
+<p>Egy érdekesség: ha a kimeneti tengely folytonos lenne, a súlypont 1,613 lenne, nem 1,65. A különbség a négy pontból álló kimeneti rácsból fakad. A könyvtár a levágott görbéket csak a 0, 1, 2 és 3 pontokban, valamint a levágási szintek metszéspontjaiban ismeri, köztük egyenessel köti össze őket. A jegyzet saját modellje folytonosan számol, és ez a különbség tesztben ellenőrzött. A tanulság: a defuzzifikálás eredménye a kimeneti tartomány felbontásától is függ. A pontosabb eredményhez sűrűbb rács kell, például <code>np.arange(0, 3.01, 0.01)</code>.</p>
+<p>A kódban kikommentezett sorok más lehetőségeket mutatnak. A <code>defuzzify_method="mom"</code> a maximumok közepét választaná. Ugyanerre a bemenetre ez 1,3-at ad. A folytonos görbén a „No change” 0,6-os lapos teteje 0,9-től 2,1-ig tart, ennek közepe 1,5 lenne. A könyvtár a 2,1-es pontban kerekítési hiba miatt 0,5999…-et számol, ezért ezt a pontot nem sorolja a maximumok közé. A <code>trimf</code> háromszöget, a <code>gaussmf</code> Gauss-görbét, a <code>trapmf</code> trapézt ad, akárcsak a 11. rész ábráin. A <code>piecemf</code> egy szakaszonként megadott görbe. A <code>view()</code> hívások a tagsági függvényeket rajzolják ki, a <code>view(sim=temp)</code> pedig a konkrét bemenetet és a levágott kimenetet is.</p>
+</section>
+
+<!-- FOGALMAK -->
+<section id="fogalmak" class="chapter-section"><span class="section-index">FOGALOMKÁRTYÁK</span>
+<h2>Az új szavak egy helyen.</h2>
+<dl class="u-cards">
+<div><dt>Deklaratív nyelv</dt><dd>A programozó azt írja le, mi igaz és mit akar tudni. A lépések sorrendjét a gép találja ki.</dd></div>
+<div><dt>Tény, szabály, cél</dt><dd>A tény feltétel nélkül igaz. A szabály feltételhez kötött. A cél a kérdés.</dd></div>
+<div><dt>Fej és törzs</dt><dd>A szabály „ha” előtti része a fej, utána a törzs. A fej igaz, ha a törzs igaz.</dd></div>
+<div><dt>Horn-klóz</dt><dd>Legfeljebb egy nem tagadott literált tartalmazó klóz. A Prolog minden klóza ilyen.</dd></div>
+<div><dt>Illesztés, egyesítés</dt><dd>A cél és egy klózfej azonossá tétele a változók értékadásával.</dd></div>
+<div><dt>Visszalépés (backtracking)</dt><dd>Zsákutcában visszatérés a legutóbbi választási ponthoz a következő lehetőségért.</dd></div>
+<div><dt>Hátraláncolás</dt><dd>Következtetés a céltól visszafelé, a tények felé.</dd></div>
+<div><dt>Vágás (!, cut)</dt><dd>Rögzíti az addigi választásokat. A zöld vágás csak gyorsít, a vörös vágás a választ is megváltoztatja.</dd></div>
+<div><dt>Algoritmus = logika + vezérlés</dt><dd>Kowalski képlete: a program tudásból és keresési stratégiából áll.</dd></div>
+<div><dt>Fuzzy halmaz</dt><dd>Olyan halmaz, amelybe egy elem 0 és 1 közötti mértékben tartozhat.</dd></div>
+<div><dt>Tagsági függvény, tagsági fok</dt><dd>μ<sub>A</sub>(x): megadja, mennyire tartozik x az A halmazba. Nem valószínűség.</dd></div>
+<div><dt>Nyelvi változó, nyelvi érték</dt><dd>Például „testmagasság” és „hórihorgas”. A nyelvi érték egy fuzzy halmaz neve.</dd></div>
+<div><dt>Antecedens, konzekvens</dt><dd>A fuzzy szabály feltétele és következménye.</dd></div>
+<div><dt>Fuzzy ÉS, VAGY</dt><dd>Minimum és maximum. A tagadás: 1 − μ.</dd></div>
+<div><dt>Fuzzifikálás</dt><dd>Mért számból tagsági fokok kiszámítása.</dd></div>
+<div><dt>Defuzzifikálás</dt><dd>Fuzzy eredményből egyetlen szám: területközéppont, súlyozott maximumátlag vagy legerősebb szabály.</dd></div>
+<div><dt>Fuzzy partíció</dt><dd>Átfedő halmazok, amelyek tagsági fokainak összege minden pontban 1.</dd></div>
+</dl>
+</section>
+
+<!-- KVÍZ -->
+<section id="kviz" class="chapter-section"><span class="section-index">KVÍZ · SZABADON VÁLASZTHATÓ</span>
+<h2>Ellenőrizd magad.</h2>
+<p>A kvíz kihagyható, az eredménye semmit sem zár le. Az eredményt csak a böngésződ tárolja.</p>
+<form class="u-quiz" id="kviz-urlap" novalidate>
+<fieldset data-helyes="b"><legend>1. Mit ír le Kowalski képletében a „vezérlés”?</legend>
+<label><input type="radio" name="k1" value="a"> A feladatra vonatkozó tényeket.</label>
+<label><input type="radio" name="k1" value="b"> A megoldás keresésének stratégiáját.</label>
+<label><input type="radio" name="k1" value="c"> A program kimenetét.</label>
+<p class="u-feedback" data-magyarazat="A logika a tudás, a vezérlés az, hogy milyen úton és sorrendben keressük a választ."></p></fieldset>
+<fieldset data-helyes="c"><legend>2. Melyik Horn-klóz?</legend>
+<label><input type="radio" name="k2" value="a"> p ∨ q ∨ ¬r</label>
+<label><input type="radio" name="k2" value="b"> p ∨ q</label>
+<label><input type="radio" name="k2" value="c"> ¬q ∨ ¬r ∨ p</label>
+<p class="u-feedback" data-magyarazat="Csak ebben van legfeljebb egy nem tagadott literál. Ez a p :- q, r. szabály."></p></fieldset>
+<fieldset data-helyes="a"><legend>3. Mi a válasz mai Prologban a ?- X = 5*7. kérdésre?</legend>
+<label><input type="radio" name="k3" value="a"> X = 5*7</label>
+<label><input type="radio" name="k3" value="b"> X = 35</label>
+<label><input type="radio" name="k3" value="c"> Hibaüzenet</label>
+<p class="u-feedback" data-magyarazat="Az = egyesítés, nem számol. A 35-höz az X is 5*7 kell."></p></fieldset>
+<fieldset data-helyes="b"><legend>4. Felcserélt tényeknél mi az első cél, amely a Kleopátra-programban meghiúsul?</legend>
+<label><input type="radio" name="k4" value="a"> szebb(gina, ursula)</label>
+<label><input type="radio" name="k4" value="b"> szebb(ursula, ursula)</label>
+<label><input type="radio" name="k4" value="c"> sokkal_szebb(Valaki, ursula)</label>
+<p class="u-feedback" data-magyarazat="Az első tény Valaki ← gina, B ← ursula kötést ad. Ursula nem szebb önmagánál, ez zsákutca."></p></fieldset>
+<fieldset data-helyes="c"><legend>5. Mit felel a felcserélt program, ha a szabály szebb(A, B), !, szebb(B, C)?</legend>
+<label><input type="radio" name="k5" value="a"> Valaki = kleopatra</label>
+<label><input type="radio" name="k5" value="b"> Valaki = gina</label>
+<label><input type="radio" name="k5" value="c"> false, pedig van megoldás</label>
+<p class="u-feedback" data-magyarazat="A vágás rögzíti a Valaki ← gina választást, így a visszalépés tilos. Ez vörös vágás."></p></fieldset>
+<fieldset data-helyes="a"><legend>6. Mit jelent, hogy a 200 cm-es ember 0,9 mértékben hórihorgas?</legend>
+<label><input type="radio" name="k6" value="a"> A „hórihorgas” szó 0,9 mértékben illik rá.</label>
+<label><input type="radio" name="k6" value="b"> 90% az esélye, hogy hórihorgas.</label>
+<label><input type="radio" name="k6" value="c"> A magassága 90%-os pontossággal ismert.</label>
+<p class="u-feedback" data-magyarazat="A magasság pontosan ismert. A tagsági fok a fogalom illeszkedését méri, nem esélyt."></p></fieldset>
+<fieldset data-helyes="b"><legend>7. Mennyi a 28 °C tagsága az „alacsony” háromszögben (19, 25, 31)?</legend>
+<label><input type="radio" name="k7" value="a"> 0,25</label>
+<label><input type="radio" name="k7" value="b"> 0,5</label>
+<label><input type="radio" name="k7" value="c"> 1</label>
+<p class="u-feedback" data-magyarazat="A lefutó oldalon: (31 − 28) / (31 − 25) = 3 / 6 = 0,5."></p></fieldset>
+<fieldset data-helyes="c"><legend>8. Mennyi a „(A VAGY B) ÉS C” értéke, ha μA = 0,2, μB = 0,7, μC = 0,5?</legend>
+<label><input type="radio" name="k8" value="a"> 0,2</label>
+<label><input type="radio" name="k8" value="b"> 0,7</label>
+<label><input type="radio" name="k8" value="c"> 0,5</label>
+<p class="u-feedback" data-magyarazat="max(0,2; 0,7) = 0,7, majd min(0,7; 0,5) = 0,5."></p></fieldset>
+<fieldset data-helyes="a"><legend>9. Mi a fuzzy szabályozó helyes lépéssorrendje?</legend>
+<label><input type="radio" name="k9" value="a"> Fuzzifikálás, következtetés, defuzzifikálás.</label>
+<label><input type="radio" name="k9" value="b"> Következtetés, fuzzifikálás, defuzzifikálás.</label>
+<label><input type="radio" name="k9" value="c"> Defuzzifikálás, következtetés, fuzzifikálás.</label>
+<p class="u-feedback" data-magyarazat="Mért számból tagsági fok, abból szabályerősség, végül újra egyetlen szám."></p></fieldset>
+<fieldset data-helyes="b"><legend>10. A vizsgajegy-példában R1 = 0,6 (jeles, csúcs 5), R2 = 0,2 (jó, csúcs 4). Mennyi a maximumok súlyozott átlaga?</legend>
+<label><input type="radio" name="k10" value="a"> 4,5</label>
+<label><input type="radio" name="k10" value="b"> 4,75</label>
+<label><input type="radio" name="k10" value="c"> 5</label>
+<p class="u-feedback" data-magyarazat="(0,6 · 5 + 0,2 · 4) / (0,6 + 0,2) = 3,8 / 0,8 = 4,75."></p></fieldset>
+<div class="u-controls"><button type="submit">Válaszok ellenőrzése</button><button type="reset" class="u-ghost">Újrakezdés</button></div>
+<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2c, 3a, 4b, 5c, 6a, 7b, 8c, 9a, 10b.</p>
+</form>
+</section>
+
+<!-- ÖSSZEGZÉS -->
+<section id="osszegzes" class="chapter-section"><span class="section-index">ÖSSZEFOGLALÓ</span>
+<h2>Amit most már tudsz.</h2>
+<p>A Prolog a logikából programozási nyelvet csinált. Colmerauer és Roussel 1972-ben alkotta meg, Kowalski elméleti munkájára támaszkodva. Deklaratív: a program tényekből és szabályokból áll, a kérdés egy cél. Minden klóza Horn-klóz, ezért a 4. fejezet rezolúciója egyszerű, célirányos formában alkalmazható rá. A Prolog felülről lefelé próbálja a klózokat, balról jobbra a részcélokat, és zsákutcában visszalép. Kowalski képlete szerint a program logika és vezérlés együtt. A tények sorrendje a vezérléshez tartozik: a Kleopátra-példában a keresés útját változtatja meg, a választ nem. A vágás viszont a választ is elronthatja.</p>
+<p>A fuzzy logika Zadeh 1965-ös ötlete. A halmazba tartozás itt fokozat, a tagsági függvény adja meg. A tagsági fok nem valószínűség, hanem azt méri, mennyire illik egy fogalom egy ismert értékre. A fuzzy ÉS a minimum, a VAGY a maximum. Egy fuzzy szabályozó a mért értéket fuzzifikálja, a szabályokat egyszerre értékeli ki, a következményeket levágja és egyesíti, végül defuzzifikálja. A módszer választása számít: a vizsgajegy-példában a súlypont 4,24-et, a súlyozott maximumátlag 4,69-et, a legerősebb szabály 5-öt adott.</p>
+<div class="u-links">
+<a href="04-formalis-logika.html"><small>← Előző fejezet</small>04 · Formális logika: a rezolúció és a Horn-klózok, amelyekre a Prolog épül.</a>
+<a href="../index.html"><small>Vissza →</small>Kezdőlap és fejezetlista. A következő fejezet a neurális hálózatokról szól. A fuzzy rendszerekhez hasonlóan ezek is sok kis döntésből hoznak kollektív döntést.</a>
+</div>
+</section>
+
+<!-- FORRÁSOK -->
+<section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
+<h2>Honnan tudjuk?</h2>
+<p>A fejezet a kurzus PDF-jének 122–141. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből származnak. A „Kiigazítás” dobozok a PDF hat állítását javítják vagy pontosítják. Ezek: a Prolog születésének éve és szerzői (122. oldal), a Horn-halmaz meghatározása (125.), a keresési stratégia gazdája (125.), az aritmetikai egyenlőség (126.), a vágás hatása (126.) és Zadeh keresztneve (132.). A tagsági fok és a valószínűség különbségét kiegészítés tárgyalja, mert a PDF mondata helyes, csak könnyen félreolvasható. A „Kiegészítés” dobozok hátteret adnak.</p>
+<p>A PDF 122. és 126. oldalának egy-egy mondata a dián félbeszakad („…és a”, „…az ágak”). A jegyzet ezeket a mondat értelme szerint egészítette ki. A 127. oldalon a program <code>cleopátra</code> alakot, a 130. oldal keresőfája <code>cleopatra</code> alakot használ. A jegyzet egységesen <code>kleopatra</code>-t ír. A 129., 135., 136. és 140. oldal tartalma kép. Ezeket a jegyzet szöveggel és saját ábrával adja vissza. A hórihorgas görbe töréspontjai a jegyzet leolvasásai. A hat alakzat paraméterei és a vizsgajegy-példa skálái a jegyzet saját választásai. A 136. oldal hőmérsékleti töréspontjai a PDF ábrájáról pontosan leolvashatók. A lista-, az <code>assert</code>- és a családfa-példa, a két keresőfa szöveges alakja, a hibás balrekurzió és a műveleti példa a jegyzet saját anyaga.</p>
+<p>A kurzus kódgyűjteményéből két fájl kapcsolódik a fejezethez. A <code>resources/code/11_Fuzzy.py</code> teljes szövege a 15. részben szerepel. Kimenetét scikit-fuzzy 0.5.0-val futtatva ellenőriztük, csak a grafikus ablakok megnyitását kapcsoltuk ki. A <code>resources/code/12_Logika.py</code> tényei és szabályai a 3. részben a Prolog-átirat mellett állnak. A Prolog-válaszokat a jegyzet saját megoldója adta, amely a bemutatóban is fut.</p>
+<ul class="u-sources">
+<li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 122–141. oldal (<code>resources/presentation/</code>).</li>
+<li id="s-colmerauer">A. Colmerauer, P. Roussel: <a href="https://doi.org/10.1145/154766.155362">The Birth of Prolog</a>, <em>ACM SIGPLAN Notices</em> 28(3), 1993, 37–52.</li>
+<li id="s-kowalski74">R. Kowalski: Predicate Logic as Programming Language, <em>Proceedings of IFIP Congress 74</em>, North-Holland, 1974, 569–574.</li>
+<li id="s-kowalski79">R. Kowalski: <a href="https://doi.org/10.1145/359131.359136">Algorithm = Logic + Control</a>, <em>Communications of the ACM</em> 22(7), 1979, 424–436.</li>
+<li id="s-szeredi">P. Szeredi: The Early Days of Prolog in Hungary, <em>ALP Newsletter</em> 17(4), 2004.</li>
+<li id="s-sterling">L. Sterling, E. Shapiro: <em>The Art of Prolog</em>, 2. kiadás, MIT Press, 1994.</li>
+<li id="s-iso">ISO/IEC 13211-1:1995, <em>Information technology — Programming languages — Prolog — Part 1: General core</em>.</li>
+<li id="s-swi">SWI-Prolog: <a href="https://www.swi-prolog.org/pldoc/man?section=arith">Arithmetic</a>, a SWI-Prolog kézikönyve.</li>
+<li id="s-aima">S. Russell, P. Norvig: <em>Artificial Intelligence: A Modern Approach</em>, 4. kiadás, Pearson, 2020, 7. és 9. fejezet.</li>
+<li id="s-zadeh65">L. A. Zadeh: <a href="https://doi.org/10.1016/S0019-9958(65)90241-X">Fuzzy Sets</a>, <em>Information and Control</em> 8(3), 1965, 338–353.</li>
+<li id="s-zadeh73">L. A. Zadeh: <a href="https://doi.org/10.1109/TSMC.1973.5408575">Outline of a New Approach to the Analysis of Complex Systems and Decision Processes</a>, <em>IEEE Transactions on Systems, Man, and Cybernetics</em> 3(1), 1973, 28–44.</li>
+<li id="s-mamdani">E. H. Mamdani, S. Assilian: <a href="https://doi.org/10.1016/S0020-7373(75)80002-2">An Experiment in Linguistic Synthesis with a Fuzzy Logic Controller</a>, <em>International Journal of Man-Machine Studies</em> 7(1), 1975, 1–13.</li>
+<li id="s-sep-fuzzy">P. Cintula, C. G. Fermüller, C. Noguera: <a href="https://plato.stanford.edu/entries/logic-fuzzy/">Fuzzy Logic</a>, <em>Stanford Encyclopedia of Philosophy</em>.</li>
+<li id="s-bezdek">J. C. Bezdek: <a href="https://doi.org/10.1109/91.227381">Fuzzy Models — What Are They, and Why?</a>, <em>IEEE Transactions on Fuzzy Systems</em> 1(1), 1993, 1–6.</li>
+<li id="s-klir">G. J. Klir, B. Yuan: <em>Fuzzy Sets and Fuzzy Logic: Theory and Applications</em>, Prentice Hall, 1995.</li>
+<li id="s-ross">T. J. Ross: <em>Fuzzy Logic with Engineering Applications</em>, 3. kiadás, Wiley, 2010.</li>
+<li id="s-skfuzzy">scikit-fuzzy: <a href="https://pythonhosted.org/scikit-fuzzy/">a könyvtár dokumentációja</a>.</li>
+</ul>
+</section>
+</main>
+</div>
+<footer>MI-alapok / 05 · Prolog és fuzzy logika <a href="../index.html">Kezdőlap</a></footer>
+</body>
+</html>

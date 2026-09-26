@@ -127,7 +127,7 @@ Az öt labor mellett minden számítás és levezetés JavaScript nélkül is ol
 
 Ellenőrzési nyom: [ELLENORZES-05.md](ELLENORZES-05.md).
 
-A PDF 129., 135., 136. és 140. oldalának képi tartalma is szerepel. A Prolog-labor mindkét ténysorrendet vágással és nélküle játssza le. A tagsági görbék billentyűvel állíthatók. A vizsgalabor három kimeneti módszert és az üres kimenet esetét is kezeli. A teljes statikus számítás saját, világosan jelölt skálát használ. A `resources/code/11_Fuzzy.py` kimenetét scikit-fuzzy 0.5.0-val ellenőriztük. A `resources/code/12_Logika.py` szabálya a közös változók szerepét magyarázza. A tananyag telefonon, mindkét témában és nyomtatásban is olvasható.
+A PDF 129., 135., 136. és 140. oldalának képi tartalma szöveggel és saját ábrával szerepel. A Prolog-labor a jegyzet saját, tesztelt megoldójával mindkét ténysorrendet vágással és nélküle is lejátssza. A tagsági görbék billentyűvel állíthatók. A vizsgalabor három kimeneti módszert és az üres kimenet esetét is kezeli, saját, világosan jelölt skálákkal. A `resources/code/11_Fuzzy.py` kimenetét scikit-fuzzy 0.5.0-val ellenőriztük. A `resources/code/12_Logika.py` tényei és szabályai Prolog-átirattal szerepelnek. A tananyag telefonon, mindkét témában és nyomtatásban is olvasható.
 
 ### 6. mérföldkő
 

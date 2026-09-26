@@ -347,6 +347,8 @@ Legyen benne képletértékelés, formalizálás és egy rövid rezolúció.
 
 # 5. mérföldkő – Prolog és fuzzy logika
 
+**Állapot:** kész. Ellenőrzés: `ELLENORZES-05.md`.
+
 **Forrás:** PDF 122–141. oldal.
 
 **Oldal:** `fejezetek/05-prolog-es-fuzzy.html`
