@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const pages = ['index.html', 'eloadasfelvetelek.html', 'fejezetek/01-mi-es-intelligencia.html', 'fejezetek/02-tudasbazisok.html', 'fejezetek/03-tudasreprezentacio.html', 'fejezetek/04-formalis-logika.html', 'fejezetek/05-prolog-es-fuzzy.html'];
+const pages = ['index.html', 'eloadasfelvetelek.html', 'fejezetek/01-mi-es-intelligencia.html', 'fejezetek/02-tudasbazisok.html', 'fejezetek/03-tudasreprezentacio.html', 'fejezetek/04-formalis-logika.html', 'fejezetek/05-prolog-es-fuzzy.html', 'fejezetek/06-neuralis-halozatok.html'];
 test('A kezdőlap elérhetővé teszi az első magyar fejezetet', () => {
   const home = fs.readFileSync(path.join(root, pages[0]), 'utf8');
   assert.match(home, /href="fejezetek\/01-mi-es-intelligencia.html"/);
@@ -11,7 +11,8 @@ test('A kezdőlap elérhetővé teszi az első magyar fejezetet', () => {
   assert.match(home, /href="fejezetek\/03-tudasreprezentacio.html"/);
   assert.match(home, /href="fejezetek\/04-formalis-logika.html"/);
   assert.match(home, /href="fejezetek\/05-prolog-es-fuzzy.html"/);
-  assert.doesNotMatch(home, /href="fejezetek\/06-/);
+  assert.match(home, /href="fejezetek\/06-neuralis-halozatok.html"/);
+  assert.doesNotMatch(home, /href="fejezetek\/07-/);
   assert.doesNotMatch(home, /-uj\.html/);
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');

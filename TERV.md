@@ -409,6 +409,8 @@ Legyen benne Prolog-nyomkövetés és fuzzy számítás.
 
 # 6. mérföldkő – Mesterséges neurális hálózatok
 
+**Állapot:** kész. Ellenőrzés: `ELLENORZES-06.md`.
+
 **Forrás:** PDF 142–221. oldal.
 
 **Oldal:** `fejezetek/06-neuralis-halozatok.html`

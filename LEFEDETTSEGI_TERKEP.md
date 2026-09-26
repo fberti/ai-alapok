@@ -150,7 +150,7 @@ A PDF 129., 135., 136. és 140. oldalának képi tartalma szöveggel és saját 
 
 Ellenőrzési nyom: [ELLENORZES-06.md](ELLENORZES-06.md).
 
-A képként tárolt oldalak is szerepelnek: neuronábra, mind a 11 aktivációs függvény képlete és grafikonja, a perceptron tanítási lépései, az XOR-háló, a deriválás és a hibavisszaterjesztés képletei. A hat labor lefedi a terv nyolc interaktív elemét. A 17 kiigazítás, ebből kettő az oktatói kódról szól, kezeli a derivált előjelét, a megerősítéses tanulás besorolását, az univerzális közelítést, a visszacsatolt hálók működését és a történeti példák jellegét is. A `resources/code/13_Neuralis_halo_kezzel.py` fájlt 100 véletlenmaggal futtattuk. A `resources/code/14_Neuralis_halo_keras.py` kódját magyarázzuk, de nem futtattuk.
+A képként tárolt oldalak is szerepelnek: neuronábra, mind a 11 aktivációs függvény képlete és grafikonja, a perceptron tanítási lépései, az XOR-háló, a deriválás és a hibavisszaterjesztés képletei. A tizenkét mini példa lefedi a terv nyolc interaktív elemét, és kiegészíti őket a McCulloch–Pitts-neuronnal, az XOR-kapcsolóval, a visszacsatolt neuronnal, az entrópiával és a rétegen belüli mechanizmusokkal. A 17 kiigazítás, ebből kettő az oktatói kódról szól, kezeli a derivált előjelét, a megerősítéses tanulás besorolását, az univerzális közelítést, a visszacsatolt hálók működését és a történeti példák jellegét is. A `resources/code/13_Neuralis_halo_kezzel.py` fájlt 100 véletlenmaggal futtattuk. A `resources/code/14_Neuralis_halo_keras.py` kódját magyarázzuk, de nem futtattuk.
 
 ### 7. mérföldkő
 

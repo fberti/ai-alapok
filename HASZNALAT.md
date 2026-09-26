@@ -16,6 +16,8 @@ A negyedik fejezet: `fejezetek/04-formalis-logika.html`.
 
 Az ötödik fejezet: `fejezetek/05-prolog-es-fuzzy.html`.
 
+A hatodik fejezet: `fejezetek/06-neuralis-halozatok.html`.
+
 A kvízválaszokat minden fejezet külön tárolja.
 
 A tananyag, a bemutatók és a kvíz nem igényelnek internetet.
