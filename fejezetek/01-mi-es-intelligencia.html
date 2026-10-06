@@ -222,21 +222,40 @@
 <!-- 06 · TERÜLETEK -->
 <section id="terulete" class="chapter-section"><span class="section-index">06 / PDF 10.</span>
 <h2>Tizennégy terület, négy nagy kérdés.</h2>
-<p>A PDF tizennégy alkalmazási területet sorol fel. Könnyebb megjegyezni őket, ha aszerint csoportosítjuk, milyen képességet próbálnak gépesíteni. A csoportosítás a jegyzet saját rendezése; minden terület szerepel benne.</p>
+<p>A PDF tizennégy alkalmazási területet sorol fel. Könnyebb megjegyezni őket, ha aszerint csoportosítjuk, milyen képességet próbálnak gépesíteni. Mindegyik csoport egy kérdésre keresi a választ. A csoportosítás a jegyzet saját rendezése; minden terület szerepel benne.</p>
 <div class="u-map" id="teruleti-terkep">
-<section><h3>Gondolkodás és következtetés</h3><ul><li>logikai játékok (logical games)</li><li>tételbizonyítás (theorem proving)</li><li>automatikus programozás (automated programming)</li><li>szimbolikus számítás (symbolic algebraic computation)</li></ul></section>
-<section><h3>Érzékelés és cselekvés</h3><ul><li>gépi látás, képfeldolgozás (vision)</li><li>robotika (robotics)</li><li>beszédfelismerés (voice recognition)</li></ul></section>
-<section><h3>Nyelv és tudás</h3><ul><li>természetes nyelvek feldolgozása (natural language processing)</li><li>szakértőrendszerek (expert systems)</li><li>adatbányászat (data mining)</li></ul></section>
-<section><h3>Keresés, tervezés, tanulás</h3><ul><li>korlátozás kielégítés (constraint satisfaction)</li><li>cselekvési tervek generálása (planning)</li><li>mesterséges neurális hálózatok (artificial neural nets)</li><li>ágensek, multiágensek (agents, multi-agents)</li></ul></section>
+<section><h3>Gondolkodás és következtetés</h3><p class="u-map-q">Tud a gép szabályok szerint, lépésről lépésre okoskodni?</p><ul><li>logikai játékok (logical games)</li><li>tételbizonyítás (theorem proving)</li><li>automatikus programozás (automated programming)</li><li>szimbolikus számítás (symbolic algebraic computation)</li></ul></section>
+<section><h3>Érzékelés és cselekvés</h3><p class="u-map-q">Tudja a gép érzékelni a világot, és tud hatni rá?</p><ul><li>gépi látás, képfeldolgozás (vision)</li><li>robotika (robotics)</li><li>beszédfelismerés (voice recognition)</li></ul></section>
+<section><h3>Nyelv és tudás</h3><p class="u-map-q">Tud a gép bánni a nyelvvel és a felhalmozott tudással?</p><ul><li>természetes nyelvek feldolgozása (natural language processing)</li><li>szakértőrendszerek (expert systems)</li><li>adatbányászat (data mining)</li></ul></section>
+<section><h3>Keresés, tervezés, tanulás</h3><p class="u-map-q">Megtalálja a gép a jó megoldást sok lehetőség között, és javul közben?</p><ul><li>korlátozás kielégítés (constraint satisfaction)</li><li>cselekvési tervek generálása (planning)</li><li>mesterséges neurális hálózatok (artificial neural nets)</li><li>ágensek, multiágensek (agents, multi-agents)</li></ul></section>
 </div>
-<p>Az <strong>adatbányászat</strong> nagy adathalmazokban keres rejtett mintázatokat, például azt, hogy mely termékeket veszik gyakran együtt. Az <strong>ágens</strong> olyan program, amely érzékeli a környezetét és önállóan cselekszik benne; a <strong>multiágens</strong> rendszerben több ilyen program együttműködik vagy versenyez. A <strong>neurális hálózatokkal</strong> a 6. fejezet foglalkozik részletesen. A többi területet a következő részek egyenként mutatják be.</p>
+<p>Három terület nem kap külön részt a fejezetben, ezért itt mutatjuk be őket.</p>
+<p>Az <strong>adatbányászat (data mining)</strong> nagy adathalmazokban keres rejtett mintázatokat. Miben más ez, mint egy adatbázis-lekérdezés? A lekérdezés arra felel, amit megkérdezünk: „hány tésztát adtunk el kedden?” Az adatbányászat olyan összefüggést talál, amelyre rá sem kérdeztünk: „aki tésztát vesz, gyakran paradicsomszószt is vesz”. Három jellemző feladata van. A <strong>társítás</strong> együtt előforduló dolgokat keres, mint a tészta és a szósz. A <strong>csoportosítás</strong> hasonló elemeket gyűjt egy csoportba, például hasonló szokású vásárlókat. Az <strong>osztályozás</strong> régi, már megítélt esetekből tanulja meg, hová tartozik egy új eset. Ilyen a fejezet végén szereplő csalásmegelőzés is: a rendszer a korábbi tranzakciók mintázatából ismeri fel a szokatlant.</p>
+<p>Az <strong>ágens (agent)</strong> olyan program vagy gép, amely érzékeli a környezetét, és önállóan cselekszik benne. A működése egy ismétlődő kör:</p>
+<ol class="u-flow" id="agens-kor">
+<li><strong>1 · ÉRZÉKEL</strong>Adatot gyűjt a környezetéről. A robotporszívó érzékeli a falat és a lépcsőt.</li>
+<li><strong>2 · DÖNT</strong>Az érzékelt adat és a célja alapján kiválaszt egy cselekvést. A porszívó úgy dönt, hogy elfordul.</li>
+<li><strong>3 · CSELEKSZIK</strong>Végrehajtja a lépést, és ezzel megváltoztatja a környezetét. Utána a kör elölről indul.</li>
+</ol>
+<p>A legegyszerűbb ágens a korábban látott termosztát: egyetlen dolgot érzékel, és egyetlen szabály alapján dönt. A <strong>multiágens (multi-agent)</strong> rendszerben több ágens dolgozik ugyanabban a környezetben. Együtt is működhetnek: egy raktár robotjai megosztják egymással, ki melyik polcért megy, hogy ne ütközzenek. Versenyezhetnek is: egy online árverésen több licitáló program próbálja ugyanazt a tételt megszerezni. A nehézség mindkét esetben az, hogy az ágens környezetéhez a többi ágens is hozzátartozik, és ők is döntenek.</p>
+<p>A <strong>mesterséges neurális hálózat (artificial neural net)</strong> sok egyszerű számolóegységből álló rendszer, amely példákból tanul. Részletesen a <a href="06-neuralis-halozatok.html">6. fejezet</a> foglalkozik vele. A többi területet a következő részek egyenként mutatják be.</p>
 </section>
 
 <!-- 07 · JÁTÉKOK -->
 <section id="jatekok" class="chapter-section"><span class="section-index">07 / PDF 11.</span>
 <h2>„A játék nem játék!”</h2>
 <p>A PDF mottója arra utal, hogy a játékok kutatása komoly tudomány. A PDF szerint a játék lényege, hogy <strong>ellenérdekű résztvevők felváltva érvényesítik a stratégiájukat</strong> a végső győzelemért. Ugyanez a szerkezet jelenik meg a gazdaságban (árverseny két cég között) és a katonai tervezésben is. A PDF által vizsgált logikai játékokban a véletlennek nincs szerepe. A fő kérdés: lehet-e esélye a gépnek az ember ellen?</p>
-<p>A válasz ma egyértelmű igen. Az idővonal a legfontosabb fordulópontokat mutatja.</p>
+<aside class="u-add" id="jatekfa"><h3>Kiegészítés · Hogyan választ lépést a gép?</h3>
+<p>A gép nem „érzi” a jó lépést, hanem előre számol. A lehetséges folytatásokat egy <strong>játékfába (game tree)</strong> rendezi. A fa gyökere a mostani állás. Minden ág egy lehetséges lépés, és egy új álláshoz vezet. A gép néhány lépés mélységig építi fel a fát, majd a legalsó állásokat egy számmal értékeli: minél nagyobb a szám, annál jobb az állás a gépnek. Sakkban az értékelés például a táblán maradt bábuk értékét és a helyzetüket veszi figyelembe.</p>
+<figure class="u-figure"><svg viewBox="0 0 360 220" width="360" height="220" role="img" aria-labelledby="jatekfa-cim jatekfa-leiras"><title id="jatekfa-cim">Háromszintű játékfa</title><desc id="jatekfa-leiras">A gyökérből két lépés indul, A és B. Az A lépés után az ellenfél 3 vagy 5 értékű állást választhat, a B lépés után 2 vagy 9 értékűt. Az A ág értéke 3, a B ágé 2, a gyökéré 3.</desc>
+<g class="f-line"><line x1="180" y1="43" x2="270" y2="90"/><line x1="90" y1="120" x2="45" y2="164"/><line x1="90" y1="120" x2="135" y2="164"/><line x1="270" y1="120" x2="225" y2="164"/><line x1="270" y1="120" x2="315" y2="164"/></g>
+<line class="f-acc" x1="180" y1="43" x2="90" y2="90"/>
+<g class="f-box"><rect x="138" y="13" width="84" height="30" rx="5"/><rect x="48" y="90" width="84" height="30" rx="5"/><rect x="228" y="90" width="84" height="30" rx="5"/><circle cx="45" cy="182" r="18"/><circle cx="135" cy="182" r="18"/><circle cx="225" cy="182" r="18"/><circle cx="315" cy="182" r="18"/></g>
+<g class="f-text" text-anchor="middle"><text x="180" y="33">max: 3</text><text x="90" y="110">min: 3</text><text x="270" y="110">min: 2</text><text x="45" y="187">3</text><text x="135" y="187">5</text><text x="225" y="187">2</text><text x="315" y="187">9</text><text x="118" y="62">A</text><text x="242" y="62">B</text></g></svg>
+<figcaption>Felső szint: a gép lép. Középső szint: az ellenfél válaszol. Alsó szint: az így kialakuló állások értéke a gép szemével. A vastag vonal a kiválasztott lépést jelöli.</figcaption></figure>
+<p>Az ábrán a gép két lépés, A és B közül választ. A legnagyobb szám, a 9, a B ágon van, mégsem B a jó lépés. Az ellenfél ugyanis nem segít nekünk: B után a számunkra rosszabb, 2 értékű állást választja. Az A lépés után a legrosszabb eset is 3. A gép ezért alulról felfelé számol. Ahol az ellenfél lép, ott a <em>legkisebb</em> értéket veszi, mert az ellenfél ezt fogja választani. Ahol ő maga lép, ott a <em>legnagyobbat</em>. Így A értéke 3, B értéke 2, a gép tehát A-t lépi. Ez a <strong>minimax</strong> elv: a legrosszabb esetek közül a legjobbat választjuk.</p>
+<p>A nehézség a fa mérete. Sakkban egy állásból átlagosan kb. 35 lépés tehető, ezért a fa minden szinten nagyjából 35-szörösére nő. A <strong>nyers keresés</strong> azt jelenti, hogy a gép óriási sebességgel számol végig rengeteg ágat: a Deep Blue másodpercenként kb. 200 millió állást értékelt. Góban állásonként kb. 250 lépés lehetséges, és az állásokat számmal értékelni is nehéz. Ott a nyers keresés már kevés. A keresési módszereket a kurzus későbbi része tárgyalja részletesen. <a href="#s-aima">Forrás: Russell–Norvig, 5. fejezet.</a></p></aside>
+<p>A PDF kérdésére a válasz ma egyértelmű igen. Az idővonal a legfontosabb fordulópontokat mutatja.</p>
 <ol class="u-timeline" id="jatek-idovonal">
 <li><span class="u-year">1997</span><p>Az IBM Deep Blue nevű gépe hat játszmás párosmérkőzésen legyőzi Garri Kaszparov sakkvilágbajnokot.</p></li>
 <li><span class="u-year">2007</span><p>A Chinook program „megoldja” a dámajátékot: kimutatja, hogy hibátlan játék mellett döntetlen az eredmény.</p></li>
@@ -253,16 +272,40 @@
 <h2>Amikor a gép képletekkel dolgozik.</h2>
 <p>Három rokon terület következik. Mindháromban a gép nem számokat, hanem <strong>szimbólumokat</strong> – betűket, képleteket, logikai állításokat – alakít át szabályok szerint.</p>
 <h3>Tételbizonyítás</h3>
-<p>A <strong>tételbizonyítás (theorem proving)</strong> célja, hogy a gép alapigazságokból, azaz <strong>axiómákból</strong> kiindulva levezessen egy matematikai állítást. Ehhez logikai nyelvet használ: a <strong>kijelentéslogikát</strong> (más néven nulladrendű predikátumkalkulust), vagy a gazdagabb <strong>elsőrendű predikátumkalkulust</strong>. A leggyakoribb módszer a <strong>rezolúció (resolution)</strong>.</p>
+<p>A <strong>tételbizonyítás (theorem proving)</strong> célja, hogy a gép alapigazságokból, azaz <strong>axiómákból</strong> kiindulva levezessen egy matematikai állítást. Ehhez logikai nyelvet használ: a <strong>kijelentéslogikát</strong> (más néven nulladrendű predikátumkalkulust), vagy a gazdagabb <strong>elsőrendű predikátumkalkulust</strong>. A kalkulus itt szabályok szerinti, gépies számolást jelent, csak számok helyett állításokkal.</p>
+<div class="u-compare" id="logika-szintek">
+<div><span class="u-tag">KIJELENTÉSLOGIKA · NULLADREND</span><h4>Az állítás egy darab</h4><p>A legkisebb egység a teljes kijelentés, amely igaz vagy hamis: „esik az eső”, „Szókratész ember”. Az állítás belsejébe nem látunk be. Nincs benne változó, ezért nulladrendű.</p><p><strong>Korlátja:</strong> a „minden ember halandó” mondatból nem tud Szókratészre következtetni, mert a két mondat számára két független betű.</p></div>
+<div><span class="u-tag">PREDIKÁTUMLOGIKA · ELSŐREND</span><h4>Az állítás szétszedhető</h4><p>Az állítás dolgokról és a tulajdonságaikról szól. A tulajdonságot a <strong>predikátum</strong> írja le: <code>Ember(Szókratész)</code> azt mondja, hogy Szókratész ember. A dolog helyére <strong>változó</strong> is kerülhet: <code>Ember(x)</code>.</p><p><strong>Többlete:</strong> a változóval ki tudjuk mondani, hogy valami <em>mindenkire</em> igaz. A lenti példához ez kell.</p></div>
+</div>
+<p>A leggyakoribb bizonyítási módszer a <strong>rezolúció (resolution)</strong>.</p>
 <p>A rezolúció fordított irányból dolgozik. Nem közvetlenül bizonyít, hanem cáfol: felveszi a tények és szabályok mellé a bizonyítandó állítás <em>tagadását</em>, és megmutatja, hogy ez a halmaz ellentmondásos, azaz <strong>kielégíthetetlen</strong>. Ha a tagadás ellentmondáshoz vezet, akkor az eredeti állítás csak igaz lehet.</p>
+<p>A példa három jelet használ. Érdemes őket előre megismerni.</p>
+<div class="u-table-wrap"><table class="u-table" id="logikai-jelek">
+<caption>A rezolúciós példa jelei.</caption>
+<thead><tr><th scope="col">Jel</th><th scope="col">Kiolvasva</th><th scope="col">Jelentése</th></tr></thead>
+<tbody>
+<tr><th scope="row"><code>¬</code></th><td>nem</td><td>Tagadás. <code>¬Ember(x)</code>: x nem ember.</td></tr>
+<tr><th scope="row"><code>∨</code></th><td>vagy</td><td>A két oldal közül legalább az egyik igaz. Lehet mindkettő is.</td></tr>
+<tr><th scope="row"><code>x</code></th><td>iksz</td><td>Változó: bárki vagy bármi állhat a helyén.</td></tr>
+</tbody></table></div>
+<p>Miért lesz a „minden ember halandó” mondatból <code>¬Ember(x) ∨ Halandó(x)</code>? A mondat azt állítja: ha valaki ember, akkor halandó. Ezt egyetlen eset cáfolná: egy ember, aki nem halandó. A „vagy” alakú állítás pontosan ezt az egy esetet zárja ki. Azt mondja, hogy bárkit választunk, vagy nem ember, vagy halandó.</p>
+<div class="u-table-wrap"><table class="u-table" id="vagy-esetek">
+<caption>A <code>¬Ember(x) ∨ Halandó(x)</code> állítás három lehetséges x-re.</caption>
+<thead><tr><th scope="col">x</th><th scope="col">Nem ember?</th><th scope="col">Halandó?</th><th scope="col">Az állítás</th></tr></thead>
+<tbody>
+<tr><th scope="row">Szókratész</th><td>hamis</td><td>igaz</td><td>igaz, a második tag miatt</td></tr>
+<tr><th scope="row">egy márványszobor</th><td>igaz</td><td>hamis</td><td>igaz, az első tag miatt</td></tr>
+<tr><th scope="row">egy halhatatlan ember</th><td>hamis</td><td>hamis</td><td>hamis: őt zárja ki a szabály</td></tr>
+</tbody></table></div>
+<p>A rezolúció azért kéri ezt az alakot, mert így minden tény és szabály egyforma: „vagy”-gyal összekapcsolt tagok sora. Ilyen sorokkal a gép egyetlen egyszerű lépést ismételhet.</p>
 <div class="u-example" id="rezolucio-pelda"><strong>Végigvezetett példa</strong>
 <ol class="u-steps">
 <li><p><strong>Tények és szabályok.</strong> (1) Minden ember halandó: <code>¬Ember(x) ∨ Halandó(x)</code>. (2) Szókratész ember: <code>Ember(Szókratész)</code>.</p></li>
 <li><p><strong>A tagadott állítás.</strong> Bizonyítandó: Szókratész halandó. Felvesszük a tagadását: (3) <code>¬Halandó(Szókratész)</code>.</p></li>
-<li><p><strong>Első rezolúciós lépés.</strong> (1) és (2) összevetéséből <code>x = Szókratész</code> helyettesítéssel: (4) <code>Halandó(Szókratész)</code>.</p></li>
-<li><p><strong>Ellentmondás.</strong> (4) és (3) egymás tagadásai, tehát az üres állítás adódik: ellentmondás. Az eredeti állítás igaz.</p></li>
+<li><p><strong>Első rezolúciós lépés.</strong> (1)-ben x helyére Szókratészt írunk: <code>¬Ember(Szókratész) ∨ Halandó(Szókratész)</code>. A (2) szerint Szókratész ember, tehát az első tag hamis. Egy „vagy” állítás csak úgy maradhat igaz, ha ilyenkor a másik tagja igaz. A két ellentétes tag kiesik, és ez marad: (4) <code>Halandó(Szókratész)</code>.</p></li>
+<li><p><strong>Ellentmondás.</strong> (4) és (3) egymás tagadásai. Ha ezeket is kiejtjük egymással, semmi sem marad. Ez az <strong>üres állítás</strong>, az ellentmondás jele: a tények és a tagadott állítás nem lehetnek egyszerre igazak. A tényekben megbízunk, tehát a tagadás volt hamis, vagyis az eredeti állítás igaz.</p></li>
 </ol>
-<p>A jelölés részletes magyarázata a 4. fejezetben, a formális logikánál következik.</p></div>
+<p>A jelölés teljes rendszere és a rezolúció általános szabálya a <a href="04-formalis-logika.html">4. fejezetben</a>, a formális logikánál következik.</p></div>
 <p>Érdemes összevetni a tételbizonyítót a logikai programozási nyelvekkel, például a Prologgal (5. fejezet).</p>
 <div class="u-compare">
 <div><span class="u-tag">LOGIKAI PROGRAMOZÁS (PROLOG)</span><h3>A felhasználó a logikát adja</h3><p>Megadjuk a tényeket és a szabályokat. A következtetés menetét, vagyis a <strong>vezérlést</strong>, a nyelv beépített módszere intézi.</p></div>
@@ -311,7 +354,21 @@
 <li><strong>4 · VONALCÍMKÉZÉS</strong>Minden élről eldöntjük: külső kontúr, domború vagy homorú törés.</li>
 <li><strong>5 · AZONOSÍTÁS</strong>Mi a tárgy, és hol van a térben?</li>
 </ol>
+<p>A három középső lépés neve keveset árul el, ezért egyenként is megnézzük őket.</p>
+<p>A <strong>mélység</strong> meghatározásának legismertebb módja a két kamerás, azaz sztereó látás. Tartsd az ujjadat az orrod elé, és nézd felváltva az egyik, majd a másik szemeddel. Az ujj nagyot „ugrik” a háttérhez képest, egy távoli fa viszont alig mozdul. A gép ugyanezt méri: megkeresi ugyanazt a pontot a két kamera képén. Minél nagyobb az eltolódás, annál közelebb van a pont.</p>
+<p>Az <strong>alak az árnyékoltságból</strong> lépés a fényességet használja. A fény felé forduló felület világos, az elforduló sötétebb. Egy labda képén a fényesség fokozatosan változik, ebből a gép gömbölyű felületre következtet. Egy ugyanakkora lapos korong egyenletesen világos volna.</p>
+<p>A <strong>vonalcímkézés</strong> az élekből álló vonalrajzot értelmezi. Minden vonal háromféle dolgot jelenthet, és a gép mindegyikre címkét tesz. A <strong>külső kontúr</strong> a tárgy széle: mögötte már a háttér látszik. A <strong>domború él</strong> (jele: +) felénk áll ki, mint a doboz hozzánk közeli éle. A <strong>homorú él</strong> (jele: −) tőlünk távolodó törés, mint a szoba sarka, ahol két fal találkozik.</p>
+<figure class="u-figure" id="vonalcimkek"><svg viewBox="0 0 440 210" width="440" height="210" role="img" aria-labelledby="vonal-cim vonal-leiras"><title id="vonal-cim">Vonalcímkézés két rajzon</title><desc id="vonal-leiras">Bal oldalt egy kívülről nézett kocka: a hat külső vonal kontúr, a középen találkozó három belső él domború, pluszjellel. Jobb oldalt egy belülről nézett szobasarok: a három találkozó él homorú, mínuszjellel.</desc>
+<polygon class="f-acc f-nofill" points="110,25 170,60 170,130 110,165 50,130 50,60"/>
+<g class="f-line"><line x1="110" y1="95" x2="50" y2="60"/><line x1="110" y1="95" x2="170" y2="60"/><line x1="110" y1="95" x2="110" y2="165"/><line x1="330" y1="95" x2="330" y2="25"/><line x1="330" y1="95" x2="265" y2="150"/><line x1="330" y1="95" x2="395" y2="150"/></g>
+<g class="f-text f-big" text-anchor="middle"><text x="76" y="92">+</text><text x="144" y="92">+</text><text x="122" y="138">+</text><text x="342" y="62">−</text><text x="290" y="118">−</text><text x="370" y="118">−</text></g>
+<g class="f-text" text-anchor="middle"><text x="110" y="198">kocka kívülről</text><text x="330" y="198">szobasarok belülről</text></g></svg>
+<figcaption>Balra: a kocka vastag körvonala külső kontúr, a három belső éle domború (+). Jobbra: a szobasarok három éle homorú (−).</figcaption></figure>
+<p>A címkézés azért működik, mert a valódi tárgyakon a címkék nem állhatnak össze akárhogyan. Egy sarokban, ahol három vonal találkozik, csak néhány címkehármas lehetséges fizikailag. Ezt David Huffman és Max Clowes mutatta meg 1971-ben. Ha egy vonal egyik végén eldőlt a címke, az szűkíti a másik végén megengedett lehetőségeket is. A gép így zárja ki sorban a lehetetlen értelmezéseket. Ez ugyanaz a gondolat, amelyet a <a href="#korlatok">korlátkielégítésnél</a> látunk majd: változók (a vonalak), értékek (a címkék) és korlátok (a megengedett sarkok). <a href="#s-waltz">Forrás: Waltz, 1975.</a></p>
 <p>Az első lépés az emberi látást utánozza: a szem recehártyájában is vannak olyan sejtek, amelyek a világos–sötét határokra érzékenyek. A PDF megemlíti az <strong>elektronikus recehártyát</strong> (Carver Mead és Misha Mahowald „szilícium retinája”, 1980-as évek vége). Ez a recehártya sok funkcióját, köztük az elsődleges képfeldolgozást is áramkörrel modellezi, és megkönnyíti a neurális hálózatok bemenőjeleinek előállítását.</p>
+<aside class="u-add" id="latas-ma"><h3>Kiegészítés · A gépi látás ma</h3>
+<p>A fenti öt lépést sokáig kézzel megírt szabályok végezték. 2012-ben fordulat jött: egy mély neurális hálózat (AlexNet) nagy fölénnyel megnyerte az ImageNet képfelismerő versenyt, ahol 1,2 millió képet kellett 1000 kategóriába sorolni. Azóta a rendszerek a lépéseket nem készen kapják, hanem felcímkézett képek millióiból tanulják meg.</p>
+<p>A régi lépések mégsem tűntek el. A betanított hálózatok első rétegei maguktól éldetektorokká válnak, a mélyebb rétegek pedig egyre összetettebb formákat ismernek fel. Az „élektől a tárgyakig” vezető út tehát megmaradt, csak ma a gép tanulja, nem a programozó írja. A neurális hálózatok működését a <a href="06-neuralis-halozatok.html">6. fejezet</a> mutatja be. <a href="#s-alexnet">Forrás: Krizhevsky és mtsai., 2012.</a></p></aside>
 <div class="u-lab" id="el-labor"><span class="u-lab-label">PRÓBÁLD KI / ÉLKERESÉS</span><h3>Rajzolj egy alakzatot, és nézd meg az éleit.</h3>
 <p>A bal oldali rács gombjaival kapcsolhatod a képpontokat (Tab és Enter vagy szóköz is működik). A jobb oldalon kék jelöli az éleket: azokat a sötét képpontokat, amelyeknek van világos szomszédjuk fent, lent, balra vagy jobbra.</p>
 <div class="u-grid-wrap u-js-only"><figure><div class="u-pixels" id="el-be" role="group" aria-label="Bemeneti kép, 8×8 képpont"></div><figcaption>Bemenet: bittérkép.</figcaption></figure><figure><div class="u-pixels" id="el-ki" aria-hidden="true"></div><figcaption>Kimenet: élek (kék) és belső terület (halvány).</figcaption></figure></div>
@@ -408,7 +465,23 @@
 <div><span class="u-tag">MÉLYSÉGBEN ELŐSZÖR</span><h3>Visszalépéses keresés</h3><p>A lehetőségek <strong>fagráfot</strong> alkotnak: a gyökér az üres tábla, az első szint az 1. sor vezérének 8 lehetséges helye, és így tovább. A <strong>mélységben először (depth-first)</strong> bejárás mindig a legújabb ágon halad lefelé, és csak zsákutcában lép vissza.</p></div>
 <div><span class="u-tag">KORLÁTPROPAGÁLÁS</span><h3>Előre kizárás</h3><p>Minden lerakott vezér után kihúzzuk azokat a mezőket, amelyeket üt. Ezek biztosan nem adhatnak megoldást, ezért meg sem próbáljuk őket. Ha egy sorban nem marad szabad mező, már most visszaléphetünk.</p></div>
 </div>
-<p>A kurzus kódgyűjteményében a mélységi keresés egy gráfon szerepel. A lényege egyetlen sor: az új utak a várakozási sor <em>elejére</em> kerülnek, így mindig a legfrissebb, legmélyebb ágat folytatjuk.</p>
+<p>A két módszer nem zárja ki egymást: a korlátpropagálás a visszalépéses keresést gyorsítja. A különbség az, hogy <em>mikor</em> vesszük észre a zsákutcát. A sima visszalépéses keresés csak akkor ellenőrzi a korlátot, amikor egy mezőre éppen vezért akar tenni. A propagálás minden lerakás után előre kihúzza az ütött mezőket a még üres sorokban is.</p>
+<div class="u-example" id="propagalas-pelda"><strong>Végigvezetett példa · A különbség négy vezérrel</strong>
+<p>Vegyünk egy kisebb, 4×4-es táblát négy vezérrel. Az első vezér az 1. sor 1. oszlopába kerül, a második a 2. sor 3. oszlopába. Ez az első hely a 2. sorban, amelyet az első vezér nem üt.</p>
+<pre class="u-board-static" aria-label="Négy vezér tábla két lerakott vezérrel: a 3. sor mind a négy mezője ütésben áll, a 4. sorban csak a 2. oszlop szabad.">1. sor  V · · ·
+2. sor  · · V ·
+3. sor  x x x x
+4. sor  x · x x</pre>
+<p>Jelek: V a vezér, x az ütésben álló mező, · a szabad mező. A betöltött sorokban csak a vezért jelöltük.</p>
+<ol class="u-steps">
+<li><p><strong>Csak ellenőrzés lerakáskor.</strong> A keresés továbblép a 3. sorra, és sorban megpróbálja mind a négy mezőt. Négy sikertelen próba után derül ki, hogy zsákutcában van, és csak ekkor lép vissza.</p></li>
+<li><p><strong>Korlátpropagálás.</strong> A második vezér lerakása után azonnal kihúzzuk az ütött mezőket. A 3. sorban nem marad szabad mező. A zsákutca egyetlen próba nélkül kiderül, és rögtön visszaléphetünk a második vezérhez.</p></li>
+</ol>
+<p>Itt a nyereség csak négy próba. A 8×8-as táblán azonban a propagálás távolabbi sorokban is észreveszi a bajt. Tegyük az első négy vezért sorban az 1., 3., 5. és 2. oszlopba. Az 5. sorban ekkor még van szabad mező, a 6. sorban viszont már egy sem maradt. A propagálás ezt azonnal látja. A sima keresés előbb még vezért próbál tenni az 5. sorba, és csak egy sorral lejjebb, nyolc sikertelen próba után fordul vissza.</p>
+<p>A lenti kódok az első módszert követik: lerakáskor ellenőriznek, előre nem húznak ki mezőket.</p></div>
+<p>A kurzus kódgyűjteményében a mélységi keresés egy gráfon szerepel. A <strong>gráf</strong> csúcsokból és az őket összekötő élekből áll, mint egy térkép városai és útjai. A kód a még folytatandó utakat egy listában tartja. Mindig a lista elejéről vesz ki egy utat, és megnézi, hová lehet belőle továbblépni.</p>
+<p>A lista neve a kódban <code>queue</code>, azaz sor, de ez a név félrevezető. A valódi <strong>sor (queue)</strong> úgy működik, mint a pénztárnál: aki előbb érkezett, előbb kerül sorra. Itt viszont az új utak a lista <em>elejére</em> kerülnek, és onnan is vesszük ki a következőt. Ami utoljára érkezett, az jön ki elsőnek, mint egy tányérkupacban a legfelső tányér. Ez a szerkezet a <strong>verem (stack)</strong>. Emiatt a keresés mindig a legfrissebb, legmélyebb ágat folytatja.</p>
+<p>Az utolsó előtti sor tehát az egész algoritmus lényege. Ugyanebben a fájlban a <code>bfs</code> függvény az új utat a lista <em>végére</em> teszi (<code>queue.append(new_path)</code>). Ott a lista valódi sorként működik, és a keresés szélességben először halad: előbb minden rövid utat megnéz, csak utána a hosszabbakat.</p>
 <figure class="u-code"><pre><code>def dfs(graph, start, goal):
     queue = []
     queue.append([start])
@@ -574,16 +647,30 @@ print(nyolc_vezer())   # [0, 4, 7, 5, 2, 6, 1, 3]</code></pre><figcaption>A fent
 <div><dt>Képességteszt</dt><dd>Azt jelzi előre, mire leszünk képesek gyakorlás után. Ilyen az intelligenciateszt.</dd></div>
 <div><dt>Érvényesség (validity)</dt><dd>A teszt azt méri, amit mérni akarunk.</dd></div>
 <div><dt>Megbízhatóság (reliability)</dt><dd>A teszt ismételve közel azonos eredményt ad.</dd></div>
+<div><dt>Korreláció (correlation)</dt><dd>Két mennyiség együttmozgása: ha az egyik nagyobb, a másik is jellemzően nagyobb vagy kisebb. Az együttmozgás önmagában nem bizonyít okozást.</dd></div>
 <div><dt>Mentális kor</dt><dd>A legmagasabb életkori szint, amelynek feladatait a gyermek még megoldja.</dd></div>
+<div><dt>Intelligenciahányados (IQ)</dt><dd>Stern eredeti képlete: mentális kor ÷ életkor × 100. A mai tesztek a korosztály átlagától való eltérést mérik, ahol az átlag 100.</dd></div>
 <div><dt>Folyékony és kristályos intelligencia</dt><dd>Új problémák megoldása, illetve a megszerzett tudás alkalmazása.</dd></div>
 <div><dt>Turing-teszt (imitation game)</dt><dd>Szöveges játék, amelyben a bíráló egy embert és egy gépet próbál megkülönböztetni.</dd></div>
+<div><dt>Játékfa (game tree)</dt><dd>A játék lehetséges folytatásainak fája: a gyökér a mostani állás, minden ág egy lépés.</dd></div>
+<div><dt>Minimax</dt><dd>Lépésválasztási elv: az ellenfél lépésénél a legkisebb, a saját lépésnél a legnagyobb értékkel számolunk.</dd></div>
 <div><dt>Rezolúció (resolution)</dt><dd>Bizonyítási módszer: a tagadott állítás ellentmondáshoz vezet, tehát az állítás igaz.</dd></div>
+<div><dt>Predikátum</dt><dd>Tulajdonságot vagy kapcsolatot leíró logikai kifejezés, például Ember(x). Az elsőrendű logika építőköve.</dd></div>
+<div><dt>Vonalcímkézés</dt><dd>A vonalrajz éleinek besorolása: külső kontúr, domború vagy homorú él. A lehetetlen címkepárosításokat a sarkok szabályai zárják ki.</dd></div>
 <div><dt>Fonéma</dt><dd>A beszéd legkisebb, jelentést megkülönböztető hangegysége.</dd></div>
+<div><dt>Mintavételezés (sampling)</dt><dd>A folytonos jel értékének megmérése szabályos időközönként. Minél több a minta másodpercenként, annál pontosabb a jel.</dd></div>
 <div><dt>Kvantálás</dt><dd>Mért értékek kerekítése véges számú szintre.</dd></div>
+<div><dt>A jelentés négy szintje</dt><dd>Szintaktikai: a mondat szerkezete. Szemantikai: a szó szerinti tartalom. Pragmatikai: a valóságos jelentés a helyzetben. Intencionális: a beszélő szándéka.</dd></div>
 <div><dt>Korlátkielégítés (constraint satisfaction)</dt><dd>Olyan értékadás keresése, amely minden korlátot teljesít.</dd></div>
 <div><dt>Visszalépéses keresés (backtracking)</dt><dd>Mélységi keresés, amely zsákutcában az előző döntéshez lép vissza.</dd></div>
+<div><dt>Korlátpropagálás</dt><dd>Minden döntés után előre kizárjuk azokat az értékeket, amelyek már biztosan nem adhatnak megoldást.</dd></div>
+<div><dt>Verem (stack)</dt><dd>Tároló, amelyből az utoljára betett elem jön ki először. A mélységi keresés ilyet használ.</dd></div>
+<div><dt>Kombinatorikus robbanás</dt><dd>A lehetőségek száma a feladat méretével olyan gyorsan nő, hogy mindet végigpróbálni lehetetlen. Nyolc vezérnél 8⁸, azaz 16,7 millió elrendezés.</dd></div>
+<div><dt>Szituációkalkulus</dt><dd>A világ egy-egy állapotát, a szituációt és a cselekvések hatását elsőrendű logikával leíró módszer a tervezésben.</dd></div>
+<div><dt>Előre- és hátraláncolás</dt><dd>Előre: a kiinduló állapotból haladunk a cél felé. Hátra: a célból indulunk, és azt keressük, mi kell hozzá.</dd></div>
 <div><dt>Szakértőrendszer (expert system)</dt><dd>Tudásbázisból és következtető gépből álló program, amely egy szűk szakterületen javaslatot tesz.</dd></div>
 <div><dt>Heurisztika (heuristic)</dt><dd>Tapasztalaton alapuló ökölszabály; gyakran segít, de nem garantál helyes megoldást.</dd></div>
+<div><dt>Adatbányászat (data mining)</dt><dd>Rejtett mintázatok keresése nagy adathalmazokban, például együtt vásárolt termékeké.</dd></div>
 </dl>
 </section>
 
@@ -665,6 +752,8 @@ print(nyolc_vezer())   # [0, 4, 7, 5, 2, 6, 1, 3]</code></pre><figcaption>A fent
 <li id="s-jones2025">C. R. Jones, B. K. Bergen: <a href="https://arxiv.org/abs/2503.23674">Large Language Models Pass the Turing Test</a>, 2025.</li>
 <li id="s-searle">J. R. Searle: <a href="https://doi.org/10.1017/S0140525X00005756">Minds, Brains, and Programs</a>, <em>Behavioral and Brain Sciences</em>, 1980.</li>
 <li id="s-pluribus">N. Brown, T. Sandholm: <a href="https://doi.org/10.1126/science.aay2400">Superhuman AI for multiplayer poker</a>, <em>Science</em>, 2019.</li>
+<li id="s-waltz">D. Waltz: <em>Understanding Line Drawings of Scenes with Shadows</em>, in: P. H. Winston (szerk.): The Psychology of Computer Vision, McGraw-Hill, 1975.</li>
+<li id="s-alexnet">A. Krizhevsky, I. Sutskever, G. E. Hinton: <a href="https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html">ImageNet Classification with Deep Convolutional Neural Networks</a>, NeurIPS, 2012.</li>
 <li id="s-capek">Encyclopaedia Britannica: <a href="https://www.britannica.com/technology/robot-technology">Robot</a>.</li>
 <li id="s-fonema">Wikipédia: <a href="https://hu.wikipedia.org/wiki/Fon%C3%A9ma">Fonéma</a>.</li>
 <li id="s-whisper">A. Radford és mtsai.: <a href="https://arxiv.org/abs/2212.04356">Robust Speech Recognition via Large-Scale Weak Supervision</a>, 2022.</li>

@@ -192,3 +192,16 @@ html:not(.js) .u-js-only{display:none}
   .u-table-wrap{overflow:visible}
   .chapter-one a[href^="http"]:after{content:" (" attr(href) ")";font-size:9pt;word-break:break-all}
 }
+
+/* Magyarázó ábrák (játékfa, vonalcímkézés) */
+.u-figure{margin:1.2rem 0}
+.u-figure svg{display:block;max-width:100%;height:auto;color:var(--ink)}
+.u-figure figcaption{font-size:13px;color:var(--muted);margin-top:.4rem;max-width:72ch}
+.u-figure .f-line{stroke:currentColor;stroke-width:1.5;fill:none}
+.u-figure .f-acc{stroke:var(--u-accent);stroke-width:4;stroke-linejoin:round}
+.u-figure .f-nofill{fill:none}
+.u-figure .f-box{fill:var(--u-card);stroke:currentColor;stroke-width:1.5}
+.u-figure .f-text{fill:currentColor;font-size:14px;font-family:inherit}
+.u-figure .f-text.f-big{font-size:20px;font-weight:bold}
+.u-map .u-map-q{margin:.1rem 0 .5rem;font-size:15px;font-style:italic}
+@media print{.u-figure{break-inside:avoid}}
