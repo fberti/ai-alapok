@@ -141,7 +141,8 @@ print(bfs(GRAPH, "könny", "fotel"))</code></pre>
 <figure class="u-code"><pre><code>['sírni', 'szomorú', 'kényelem']
 ['könny', 'sírni', 'szomorú', 'kényelem', 'fotel']</code></pre>
 <figcaption>A kód valódi kimenete Python 3.12 alatt futtatva.</figcaption></figure>
-<p>A <strong>bemenet</strong> két szó, a <strong>kimenet</strong> a köztük vezető legrövidebb lánc. A <code>queue</code> nevű sor a még meg nem vizsgált útvonalakat tárolja. A függvény mindig a legrégebbi útvonalat veszi ki, és minden szomszéddal meghosszabbítja. Az <code>if adjacent not in path</code> feltétel megakadályozza, hogy körbe-körbe járjon. Az első eredmény lényegében Quillian első példája: a sírás és a kényelem a <em>szomorú</em> fogalomban találkozik. Quillian programja két irányból indult, és félúton találkozott. Ez nagy hálóban gyorsabb, de ugyanazt a legrövidebb láncot adja.</p>
+<p>A <strong>bemenet</strong> két szó, a <strong>kimenet</strong> a köztük vezető legrövidebb lánc. A <code>queue</code> nevű sor a még meg nem vizsgált útvonalakat tárolja. A függvény mindig a legrégebbi útvonalat veszi ki, és minden szomszéddal meghosszabbítja. Az új útvonalak a sor végére kerülnek, ezért a rövidebbek mindig előbb kerülnek sorra, mint a hosszabbak. Az 1. fejezet mélységi keresése ugyanebből a fájlból való, és egyetlen dologban tér el: ott az új útvonalak a lista elejére kerülnek. Az <code>if adjacent not in path</code> feltétel megakadályozza, hogy körbe-körbe járjon. Az első eredmény lényegében Quillian első példája: a sírás és a kényelem a <em>szomorú</em> fogalomban találkozik. Quillian programja két irányból indult, és félúton találkozott. Ez nagy hálóban gyorsabb, de ugyanazt a legrövidebb láncot adja.</p>
+<p>Miért gyorsabb két irányból? Tegyük fel, hogy minden szónak tíz szomszédja van, és a két szó hat lépésre van egymástól. Egy irányból keresve a hatodik szintig nagyjából 10<sup>6</sup>, azaz egymillió csomópontot kell megjelölni. Két irányból mindkét keresés csak három lépést tesz meg, ez 2 × 10<sup>3</sup>, azaz kétezer csomópont. A jelölt terület ötszázszor kisebb.</p>
 </section>
 
 <!-- 03 · ÁLLATHÁLÓ -->
@@ -247,6 +248,7 @@ Pityuka tulajdonságai: ['csőr', 'repülni nem tud', 'színes', 'táplálkozik'
 Egy papagáj tulajdonságai: ['csőr', 'repülni tud', 'színes', 'táplálkozik']</code></pre>
 <figcaption>Valódi kimenet, pyDatalog 0.22.4 és Python 3.12 alatt futtatva.</figcaption></figure>
 <p>A <strong>bemenet</strong> öt él és egy ellentétpár. Az <code>Ose</code> szabály harmadik sora a lényeg: ha X őse Y, és Y őse Z, akkor Z is őse X-nek. Így jut el Pityuka a papagájon és a madáron át az állatig. A <code>Tulajdonsaga</code> első sora a saját tulajdonságot adja. A második sor az örökölt tulajdonságot, de csak akkor, ha nincs <code>Elnyomott</code> állapotban. A <code>~</code> jel tagadást jelent. A <strong>kimenetben</strong> Pityuka nem kapja meg a <em>repülni tud</em> tulajdonságot, egy általános papagáj viszont igen. Ez a kivételkezelés, amelyet a 7. rész részletesen megmutat.</p>
+<p>Két jelölés segít a kód olvasásában. A nagybetűs <code>X</code>, <code>Y</code>, <code>Z</code>, <code>P</code> és <code>Q</code> változó, ahogy a 2. fejezet családfa-kódjában: a helyükre bármelyik csomópont vagy tulajdonság kerülhet. Egy kérdés, például az <code>Ose("Pityuka", Y)</code>, az összes megfelelő Y-t visszaadja. A <code>sorted(r[0] for r in …)</code> rész ezekből a válaszokból készít ábécérendbe szedett listát a kiíráshoz.</p>
 <div class="u-simple"><strong>Egyszerűen mondva</strong><p>A háló rajza csak az alapanyag. Az, hogy „a papagáj is repül, mert madár”, egy szabály, amelyet a hálókezelő program alkalmaz. Más szabállyal ugyanaz a rajz mást jelentene.</p></div>
 </section>
 
@@ -260,6 +262,31 @@ Egy papagáj tulajdonságai: ['csőr', 'repülni tud', 'színes', 'táplálkozik
 <div><span class="u-tag">3 · GYORS GÉPI ÁBRÁZOLÁS</span><h3>Mutatók listák helyett</h3><p>A csomópontok memóriaterületekre, az élek <strong>mutatókra (pointer)</strong> képezhetők le. A mutató egy memóriacím, amely közvetlenül a kapcsolódó adatra mutat. Így elmarad a listák kimerítő illesztése, amely a szabály- és logikaalapú ábrázolást jellemezte. Az objektumokat <strong>hasítótábla (hash table)</strong> segítségével gyorsan meg lehet találni. A kapcsolatoknak megfelelő mutatók pedig a kapcsolódó ismeretelemek helyét adják meg.</p></div>
 </div>
 <p>A harmadik előny a gyakorlatban így néz ki. A szabályalapú rendszer minden kérdésnél végignézheti az összes szabályt, hogy melyik illeszkedik. A hálóban a hasítótábla egy lépésben megadja a <em>Cápa</em> csomópontot. Onnan két mutatót követve, a <em>Halon</em> át, eljutunk az <em>Állat</em> csomóponthoz. A válasz ideje a lánc hosszától függ, és nem attól, mekkora a teljes tudásbázis.</p>
+<p>Mi az a hasítótábla? Olyan tároló, amely a keresett névből egy rövid számítással rögtön megkapja, hol van az adat a memóriában. Nem kell végiglapoznia a többi elemet. Olyan, mint egy ruhatár: a számot leadva a ruhatáros egyenesen a megfelelő fogashoz megy, és nem nézi végig az összes kabátot. A Python <code>dict</code> típusa hasítótábla. Az alábbi kód ezzel tárolja az állatháló egy ágát. A <code>szulo</code> mező a mutató szerepét játssza: megadja, melyik csomópontnál kell folytatni.</p>
+<figure class="u-code"><pre><code>HALO = {
+    "Állat": {"szulo": None,    "jellemzok": ["mozog", "táplálkozik", "lélegzik"]},
+    "Hal":   {"szulo": "Állat", "jellemzok": ["uszonya van", "tud úszni", "vízben él"]},
+    "Cápa":  {"szulo": "Hal",   "jellemzok": ["erős fogú", "veszélyes"]},
+}
+
+def hol_van(csomopont, jellemzo):
+    lepes = 0
+    while csomopont is not None:
+        if jellemzo in HALO[csomopont]["jellemzok"]:
+            return csomopont, lepes
+        csomopont = HALO[csomopont]["szulo"]   # a mutató követése
+        lepes += 1
+    return None, lepes
+
+print(hol_van("Cápa", "veszélyes"))
+print(hol_van("Cápa", "lélegzik"))
+print(hol_van("Cápa", "tud repülni"))</code></pre>
+<figcaption>A jegyzet saját példakódja, nem része a kurzus kódgyűjteményének. Bemenet: egy csomópont és egy tulajdonság. Kimenet: az a csomópont, amelynél a tulajdonság tárolva van, és a megtett lépések száma.</figcaption></figure>
+<figure class="u-code"><pre><code>('Cápa', 0)
+('Állat', 2)
+(None, 3)</code></pre>
+<figcaption>A kód valódi kimenete Python 3 alatt futtatva.</figcaption></figure>
+<p>A <code>HALO[csomopont]</code> kifejezés a hasítótáblás keresés: egy lépésben megadja a csomópont adatait, akármekkora a háló. A <code>while</code> ciklus a mutatókat követi felfelé. A „veszélyes” tulajdonság helyben megvan, ez nulla lépés. A „lélegzik” az <em>Állatnál</em> van, ez két lépés. A „tud repülni” a lánc végéig sem kerül elő, ezért a válasz <code>None</code>: a háló nem tud róla. Ha a hálóban ezer másik állat is szerepelne, ez a három kérdés ugyanennyi lépésből állna.</p>
 <aside class="u-fix"><h3>Kiigazítás · Kevesebb redundancia, de nincs garancia az ellentmondásmentességre</h3>
 <p><strong>A PDF-ben:</strong> az osztályhierarchia „Kiküszöböli a redundanciát, ellentmondás-mentességet eredményez.” (PDF 72. oldal).</p>
 <p><strong>Helyesen:</strong> a közös tulajdonság egyetlen helyen történő tárolása csökkenti a <strong>redundanciát</strong>, vagyis a fölösleges ismétlést. Ezzel megelőzi az ellentmondás egyik fajtáját: nem fordulhat elő, hogy ugyanannak a ténynek két másolata közül csak az egyiket javítják ki. Az öröklés azonban új ellentmondásokat is létrehozhat, ezért önmagában nem biztosít ellentmondásmentességet.</p>
@@ -372,10 +399,25 @@ Egy papagáj tulajdonságai: ['csőr', 'repülni tud', 'színes', 'táplálkozik
 <div><span class="u-tag">EXTENZIÓ · A TERJEDELEM</span><h3>Mire vonatkozik a fogalom?</h3><p>Az extenzionális megadás azoknak a valódi objektumoknak a halmaza, amelyekre a leírás illik. A <em>kutya</em> extenzionális jelentése az összes kutya.</p></div>
 </div>
 <p>A kettő nem mindig jár együtt. Az <em>egyenlő oldalú háromszög</em> és az <em>egyenlő szögű háromszög</em> fogalma más-más dolgot mond, tehát intenziójuk különbözik. Pontosan ugyanazokra a háromszögekre illenek, tehát extenziójuk azonos. Fordítva is előfordul. A „ma élő kutyák” extenziója minden nap változik, a „kutyaság” viszont ugyanaz marad. A hálóban egyetlen <em>Kutya</em> csomópont áll. Ebből nem derül ki, hogy egy rá mutató él a fogalomról vagy a kutyák összességéről mond valamit.</p>
+<p>Miért baj ez? Mert az öröklés mindent továbbad, ami a csomópontnál áll. Három mondat, amely mind a „kutyáról” szól, mégis háromféle dologról állít valamit. Tegyük fel, hogy Bodri a <em>Kutya</em> egyede.</p>
+<dl class="u-rows" id="kutya-allitasok">
+<div><dt>„A kutya négylábú.”</dt><dd>Minden egyes kutyáról szól. Öröklődhet: Bodri is négylábú.</dd></div>
+<div><dt>„A kutyából több száz millió él a Földön.”</dt><dd>A kutyák összességéről, vagyis az extenzióról szól. Nem öröklődhet: Bodriból nem él több száz millió.</dd></div>
+<div><dt>„A kutya a farkasból háziasított faj.”</dt><dd>Magáról a fogalomról, vagyis az intenzióról szól. Nem öröklődhet: Bodri nem faj.</dd></div>
+</dl>
+<p>Ha mindhárom állítás ugyanolyan éllel kapcsolódik a <em>Kutya</em> csomóponthoz, a hálókezelő program nem tudja, melyiket adhatja tovább Bodrinak. Ez ugyanaz a csapda, mint az előző rész piros–szín példája, csak más oldalról nézve.</p>
 <p>A PDF végül egy kritikát is felidéz. Egyes szerzők a szemantikus háló hibájául rótták fel, hogy a logikai ábrázolással szemben nem tud olyan fogalmakat kezelni, mint „legalább egy, közelebbről meg nem határozott objektum” vagy „az összes objektum”. Ezeket a logika <strong>kvantoroknak</strong> nevezi. A kvantor azt mondja meg, hány dologra igaz egy állítás.</p>
 <div class="u-example" id="kvantor-pelda"><strong>Végigvezetett példa · „Minden kutya megugatott legalább egy postást.”</strong>
 <p>Próbáljuk meg csomópontokkal lerajzolni! Ha felveszünk egy <em>Kutya</em> és egy <em>Postás</em> csomópontot, és közéjük egy <em>megugatta</em> élt húzunk, az azt sugallja, hogy „a kutya megugatta a postást”. Ez egy kutya és egy postás lenne.</p>
-<p>A mondat azonban két kvantort tartalmaz. A „minden kutya” azt jelenti, hogy <em>minden</em> kutyára igaz. A „legalább egy postás” azt, hogy mindegyik kutyához van <em>egy</em> postás, de kutyánként lehet más. Az egyszerű él egyiket sem tudja kifejezni. Ráadásul azt sem, hogy melyik kvantor „van kívül”. A „van egy postás, akit minden kutya megugatott” egészen mást jelent. A logika ezt pontosan leírja: <code>∀k (Kutya(k) → ∃p (Postás(p) ∧ Megugatta(k, p)))</code>. A jelöléssel a következő fejezet foglalkozik.</p></div>
+<p>A mondat azonban két kvantort tartalmaz. A „minden kutya” azt jelenti, hogy <em>minden</em> kutyára igaz. A „legalább egy postás” azt, hogy mindegyik kutyához van <em>egy</em> postás, de kutyánként lehet más. Az egyszerű él egyiket sem tudja kifejezni. Ráadásul azt sem, hogy melyik kvantor „van kívül”. A „van egy postás, akit minden kutya megugatott” egészen mást jelent. A logika ezt pontosan leírja: <code>∀k (Kutya(k) → ∃p (Postás(p) ∧ Megugatta(k, p)))</code>. A jelöléssel a következő fejezet foglalkozik.</p>
+<p>Addig is a képlet négy jellel elolvasható.</p>
+<dl class="u-rows" id="kvantor-jelek">
+<div><dt><code>∀k</code></dt><dd>„Minden k-ra igaz.” Ez az univerzális kvantor.</dd></div>
+<div><dt><code>∃p</code></dt><dd>„Van legalább egy olyan p.” Ez az egzisztenciális kvantor.</dd></div>
+<div><dt><code>∧</code></dt><dd>„És”: mindkét oldal igaz.</dd></div>
+<div><dt><code>→</code></dt><dd>„Ha …, akkor …”, ahogy a 2. fejezet szabályaiban.</dd></div>
+</dl>
+<p>A képlet kiolvasva: minden k-ra igaz, hogy ha k kutya, akkor van olyan p, amely postás, és k megugatta p-t. A másik olvasatban a két kvantor helyet cserél: <code>∃p (Postás(p) ∧ ∀k (Kutya(k) → Megugatta(k, p)))</code>. Kiolvasva: van olyan p postás, akit minden kutya megugatott. Az első mondat akkor is igaz, ha minden kutya másik postást ugat meg. A második csak akkor, ha van egy közös, szerencsétlen postás. A különbséget kizárólag a két kvantor sorrendje hordozza, és éppen ezt nem lehet egyetlen éllel lerajzolni.</p></div>
 <aside class="u-add"><h3>Kiegészítés · A kritikára adott válasz</h3><p>A kritika a korai hálókra igaz volt. Gary Hendrix 1975-ben <strong>particionált hálókat</strong> javasolt, amelyekben a háló egy része egy „dobozba” kerül, és a doboz jelöli a kvantor hatókörét. Később John Sowa fogalmi gráfjai is ezt az utat követték. A mai leíró logikák (description logics) pedig pontosan meghatározzák, melyik kvantorokat engedik meg, és ennek fejében garantáltan kiszámítható következtetést adnak. <a href="#s-hendrix">Forrás: Hendrix, 1975;</a> <a href="#s-aima">Russell–Norvig, 10.5 szakasz.</a></p></aside>
 </section>
 
@@ -459,6 +501,58 @@ Egy papagáj tulajdonságai: ['csőr', 'repülni tud', 'színes', 'táplálkozik
 <tr><td><code>IF_MODIFIED</code></td><td>Ha a rekesz meglévő értéke megváltozik.</td><td>Ha egy előadás terme megváltozik, értesíti a hallgatókat, és felszabadítja a régi termet.</td></tr>
 <tr><td><code>IF_DELETED</code></td><td>Ha a rekesz értékét törlik.</td><td>Ha egy széket selejteznek, levonja a leltár darabszámából.</td></tr>
 </tbody></table></div>
+<p>A keretben tehát egy rekesz értéke több helyről is származhat: lehet saját érték, alapérték, egy démon eredménye vagy örökölt érték. Melyik érvényes? A keretkezelő program egy rögzített sorrendben keres. A fejezet példái ezt a sorrendet követik.</p>
+<ol class="u-steps" id="rekesz-kereses">
+<li><p><strong>Saját érték.</strong> Ha a keret rekeszében van érték, az a válasz. A Bárszék lábszáma 3.</p></li>
+<li><p><strong>Saját alapérték.</strong> Ha érték nincs, de a keret megad alapértéket, az a válasz. Az MI-előadás időtartama 170 perc.</p></li>
+<li><p><strong>Saját IF_NEEDED démon.</strong> Ha alapérték sincs, de a rekeszhez tartozik kiszámító eljárás, a program lefuttatja.</p></li>
+<li><p><strong>Egy szinttel feljebb.</strong> Ha a keretben semmi sincs, a program a szülő kereten ismétli meg az első három lépést, aztán annak a szülőjén. A Bárszék súlyához így jut el a Széken át a Bútor IF_NEEDED eljárásáig.</p></li>
+</ol>
+<p>Ha a program a legfelső keretnél sem talál semmit, a rekesz értéke ismeretlen. A sorrend a specifikusság elvét követi: ami közelebb van, az nyer. Az egyes keretnyelvek ebben eltérhetnek. Van, amelyik előbb az egész láncon értéket keres, és csak utána alapértéket.</p>
+<aside class="u-add" id="keret-oop"><h3>Kiegészítés · A keret és az objektumorientált programozás</h3>
+<p>Ha tanultál objektumorientált programozást, a keret ismerős lesz. A mai programnyelvek osztályai a keretek közeli rokonai: a két gondolat az 1970-es években egymás mellett fejlődött. A megfeleltetés szinte szóról szóra megadható.</p>
+<dl class="u-rows" id="keret-oop-megfeleles">
+<div><dt>Keret</dt><dd>Osztály, a konkrét egyed pedig az osztály egy példánya.</dd></div>
+<div><dt>Rekesz és kitöltő</dt><dd>Attribútum és az értéke.</dd></div>
+<div><dt>Alapérték</dt><dd>Az osztályban megadott kezdőérték, amelyet a példány felülírhat.</dd></div>
+<div><dt>Alosztály és öröklés</dt><dd>Leszármazott osztály. Az alosztály felülírhatja a szülő értékeit.</dd></div>
+<div><dt>IF_NEEDED démon</dt><dd>Számított tulajdonság: kérésre lefutó függvény.</dd></div>
+<div><dt>IF_ADDED démon</dt><dd>Beállító függvény, amely értékadáskor ellenőriz.</dd></div>
+</dl>
+<p>A PDF bútorkeretei Pythonban így írhatók le:</p>
+<figure class="u-code"><pre><code>class Butor:
+    anyag = "fa"
+    fajsuly = 0.7                        # kg/dm³
+
+    @property
+    def suly(self):                      # IF_NEEDED: csak kérésre számol
+        return round(self.terfogat * self.fajsuly, 2)
+
+    @property
+    def magassag(self):
+        return self._magassag
+
+    @magassag.setter
+    def magassag(self, ertek):           # IF_ADDED: beíráskor ellenőriz
+        if not 0.2 &lt; ertek &lt; 4:
+            raise ValueError("a bútor magassága 0,2 és 4 m közötti")
+        self._magassag = ertek
+
+class Szek(Butor):
+    szin = "barna"
+    labszam = 4
+
+class Barszek(Szek):
+    labszam = 3
+    anyag = "alumínium"
+    fajsuly = 2.7
+
+b17 = Barszek()
+b17.terfogat = 1.1                       # dm³
+b17.magassag = 1.2
+print(b17.labszam, b17.szin, b17.anyag, b17.suly)</code></pre>
+<figcaption>A jegyzet saját példakódja, nem része a kurzus kódgyűjteményének. A kimenete: <code>3 barna alumínium 2.97</code>. A lábszám és az anyag a Bárszék saját értéke, a szín a Széktől öröklődik, a súlyt a Bútor eljárása számítja ki. Egy <code>b17.magassag = 5</code> sor hibát adna, mert a beállító függvény elutasítja.</figcaption></figure>
+<p>Egy fontos különbség azért van. A programozási nyelv osztálya elsősorban azt írja le, hogyan viselkedik a program. A keret azt írja le, mit tudunk a világról, és ezért a hiányzó tudással is számol: alapértékkel, értéktartománnyal, kivétellel.</p></aside>
 <p>A PDF szerint a keretalapú ábrázolás sokkal elterjedtebb, mint a szemantikus háló, mert gyakorlatilag annak minden tulajdonságát magába foglalja. A keretek használatát speciális <strong>keretkezelő nyelvek</strong> könnyítik meg. A keretek több <strong>hibrid</strong>, azaz többféle ábrázolást egyesítő rendszerben is megjelentek. A PDF által felsorolt nevek a következők.</p>
 <div class="u-compare" id="nyelvek">
 <div><span class="u-tag">KERETKEZELŐ NYELVEK</span><p><strong>FRL</strong> (Frame Representation Language, MIT, 1977), <strong>KRL</strong> (Knowledge Representation Language, Bobrow és Winograd, 1977), <strong>OWL</strong> (MIT, 1977), <strong>NETL</strong> (Fahlman, 1979), <strong>KL-ONE</strong> (Brachman, az 1970-es évek végétől) és <strong>ART</strong> (Automated Reasoning Tool).</p></div>
@@ -547,6 +641,7 @@ Egy papagáj tulajdonságai: ['csőr', 'repülni tud', 'színes', 'táplálkozik
 </figure>
 <p>A PDF 86. oldalán a tanulás lépésének utolsó szavai lemaradtak a diáról. Az ábra alapján egyértelmű, hogy a hozzáigazított eset a jóságát vagy rosszaságát jelző minősítéssel együtt kerül vissza.</p>
 <p>A hasonlóság kiszámításához minden jellemzőre egy 0 és 1 közötti <strong>helyi hasonlóságot</strong> számolunk. Az 1 azonosat, a 0 teljesen eltérőt jelent. Ezekből súlyozott átlagot képezünk. A <strong>súly</strong> azt fejezi ki, mennyire fontos az adott jellemző.</p>
+<p>Képlettel, három jellemzőre: hasonlóság = (s<sub>1</sub> × h<sub>1</sub> + s<sub>2</sub> × h<sub>2</sub> + s<sub>3</sub> × h<sub>3</sub>) ÷ (s<sub>1</sub> + s<sub>2</sub> + s<sub>3</sub>). Itt h a jellemző helyi hasonlósága, s a súlya. Az osztás a súlyok összegével azt biztosítja, hogy az eredmény is 0 és 1 közé essen, bármekkorák a súlyok. Ha minden súly 1, a képlet egyszerű átlagot ad.</p>
 <ul class="u-steps" id="metrika-kepletek">
 <li><p><strong>Magasság:</strong> 1 − |eltérés| / 40 cm. A 40 cm-nél nagyobb eltérés 0.</p></li>
 <li><p><strong>Szín:</strong> 1 − (szögeltérés a színkörön) / 180°.</p></li>
@@ -568,6 +663,7 @@ Egy papagáj tulajdonságai: ['csőr', 'repülni tud', 'színes', 'táplálkozik
 <li><p><strong>Tanulás:</strong> a hozzáigazított asztal E4 néven, a leszállítás utáni minősítéssel együtt bekerül az esetbázisba.</p></li>
 </ol>
 <p>Az E3 magassága pontosan egyezik, mégis a sor végére került. A minősítése ráadásul „rossz”. Ha egy rossz eset kerülne az élre, a rendszer figyelmeztetne, hogy ezt a megoldást ne ismételjük meg. A PDF ezt a hibás megoldások elkerülésének nevezi.</p></div>
+<p>A küszöböt és a súlyokat nem a rendszer találja ki, hanem a tervezője állítja be, és ez valódi döntés. Túl magas küszöbnél szinte egyetlen régi eset sem lesz „elég hasonló”. A rendszer ilyenkor mindig hozzáigazítást kér, vagyis folyton embert von be. Túl alacsony küszöbnél gyengén illő megoldásokat is változtatás nélkül felhasznál. A példa harmadik lépése megmutatta, hogy a súlyok megváltoztatása ugyanazt az esetet a küszöb egyik oldaláról a másikra viheti.</p>
 <div class="u-lab" id="eset-labor"><span class="u-lab-label">PRÓBÁLD KI / ESETHASONLÓSÁGI CSÚSZKÁK</span><h3>Állítsd be a megrendelést, a súlyokat és a küszöböt!</h3>
 <p>A bemutató ugyanazokkal a képletekkel számol, mint a fenti példa. Figyeld meg, hogyan cserél helyet a sorrend, amikor egy jellemző súlyát növeled.</p>
 <div class="u-js-only">
@@ -595,10 +691,11 @@ Egy papagáj tulajdonságai: ['csőr', 'repülni tud', 'színes', 'táplálkozik
 <div><span class="u-tag">ELŐNYÖK</span><p>Előzetesen kidolgozott problémamodell nélkül is alkalmazható: nem kell tudni, <em>miért</em> működik egy megoldás, elég, hogy működött.</p><p>Használat közben fejlődik, és könnyen bővíthető: minden új eset gazdagítja.</p><p>Robusztus, azaz hibatűrő: hiányos vagy rosszul definiált fogalmakkal is megadhatók esetek.</p><p>Nem algoritmizálható problémáknál is használható, ahol nincs lépésről lépésre leírható megoldási eljárás.</p><p>Segíthet elkerülni a korábbi hibás megoldásokat.</p></div>
 <div><span class="u-tag">HÁTRÁNYOK</span><p>Az esetek többségében emberi közreműködést igényel, főleg a hozzáigazításnál.</p><p>A minősége romolhat a tanulás során, mert a különböző felhasználók igényszintje eltérő. Ami az egyik felhasználónak „jó” megoldás, azt a másik talán elutasítaná. Ha mindkettő minősítése bekerül, az esetbázis következetlenné válik.</p></div>
 </div>
-<p>Most, hogy mindhárom módszert ismered, érdemes egymás mellé tenni őket. A táblázat a jegyzet saját összegzése a fejezet anyagából.</p>
+<p>Most, hogy mindhárom módszert ismered, érdemes egymás mellé tenni őket. A táblázat a jegyzet saját összegzése a fejezet anyagából. Az első sor összevetésül az előző fejezet szabályalapú ábrázolását is megmutatja.</p>
 <div class="u-table-wrap"><table class="u-table" id="harom-modszer">
 <thead><tr><th>Módszer</th><th>Mit tárol?</th><th>Hogyan következtet?</th><th>Erőssége</th><th>Korlátja</th></tr></thead>
 <tbody>
+<tr><td>Szabályok (2. fejezet)</td><td>HA–AKKOR szabályokat és az aktuális eset tényeit.</td><td>Előre- vagy hátraláncolással.</td><td>Moduláris, egységes, a válaszát szabályokkal indokolja.</td><td>Merev, nincsenek absztrakciós szintjei, sok szabálynál lassú az illesztés.</td></tr>
 <tr><td>Szemantikus háló</td><td>Fogalmakat és a köztük lévő éleket.</td><td>Örökléssel és hálóillesztéssel.</td><td>Szemléletes, takarékos, gyors mutatókövetés.</td><td>Az élek jelentése nincs rögzítve, kivétel és ellentmondás, típus–egyed keveredése, gyenge kvantorkezelés.</td></tr>
 <tr><td>Keret</td><td>Prototípusokat rekeszekkel, alapértékekkel és eljárásokkal.</td><td>Örökléssel, alapértékekkel, démonokkal.</td><td>Egységbe zárt, gazdag, az eljárásokat is örökíti.</td><td>Az öröklési konfliktusokat itt is fel kell oldani, és a démonok működését nehéz áttekinteni.</td></tr>
 <tr><td>Esetalapú</td><td>Konkrét eseteket: problémát, megoldást, minősítést.</td><td>Hasonlóság alapján, hozzáigazítással.</td><td>Nem kell általános modell, használat közben tanul.</td><td>Jó metrika kell, gyakran emberi segítséget igényel, és a minősítések következetlenek lehetnek.</td></tr>
@@ -612,15 +709,24 @@ Egy papagáj tulajdonságai: ['csőr', 'repülni tud', 'színes', 'táplálkozik
 <dl class="u-cards">
 <div><dt>Szemantikus háló</dt><dd>Gráf, amelyben a csomópontok fogalmak, az élek a köztük lévő kapcsolatok. Asszociatív hálónak is nevezik.</dd></div>
 <div><dt>Csomópont és él</dt><dd>A csomópont egy objektum vagy fogalom. Az él két csomópont közötti, megnevezett kapcsolat.</dd></div>
+<div><dt>Szélességi keresés (breadth-first search)</dt><dd>Keresés, amely előbb a közvetlen szomszédokat nézi meg, aztán a távolabbiakat. Mindig a legrövidebb láncot találja meg.</dd></div>
 <div><dt>instance_of / is_a</dt><dd>Taxonómiai élek. Az első az egyedet köti az osztályához, a második az alosztályt a fölötte álló osztályhoz.</dd></div>
+<div><dt>Taxonómiai kapcsolat</dt><dd>Osztálybatartozást kifejező él. Az öröklés ezek mentén halad.</dd></div>
+<div><dt>Tulajdonság-hozzárendelés</dt><dd>Él, amely egy csomóponthoz értéket rendel. Öröklődik, de az öröklést nem vezeti tovább.</dd></div>
 <div><dt>Egyed</dt><dd>Egyetlen, konkrét dolog, amelynek nincsenek példányai. Példa: Pityuka.</dd></div>
 <div><dt>Osztály, alosztály</dt><dd>Kategória, amelynek jellemzői több egyedre vagy alsóbb osztályra igazak. Az alosztály egy tágabb osztály része.</dd></div>
 <div><dt>Öröklés</dt><dd>A felsőbb szinten tárolt tulajdonság az alsóbb szintekre is érvényes. A hálókezelő program számítja ki.</dd></div>
+<div><dt>Hálókezelő program</dt><dd>Az algoritmus, amely a háló éleit értelmezi: kiszámítja az öröklést, és elvégzi az illesztést.</dd></div>
+<div><dt>Redundancia</dt><dd>Fölösleges ismétlés. A háló csökkenti, mert a közös tulajdonságot egyetlen helyen tárolja.</dd></div>
+<div><dt>Mutató és hasítótábla</dt><dd>A mutató egy memóriacím, amely a kapcsolódó adatra mutat. A hasítótábla a névből egy lépésben megadja az adat helyét.</dd></div>
 <div><dt>O–A–É hármas</dt><dd>Objektum, attribútum, érték. Például szék – színe – piros.</dd></div>
 <div><dt>Célháló</dt><dd>A kérdést ábrázoló kis háló, amelyet a tématerület hálójára illesztünk. Az illeszkedő rész adja a választ.</dd></div>
+<div><dt>Hálóillesztés</dt><dd>A célháló ráfektetése a tématerület hálójának azonos csomópontú részére. Az ismeretlen csomópont így kap értéket.</dd></div>
+<div><dt>Zárt világ feltevés</dt><dd>Az a szabály, hogy ami nem vezethető le, az hamis. Hiányos tudású hálóban veszélyes.</dd></div>
 <div><dt>Specifikusság</dt><dd>Feloldási elv: a kérdezett csomóponthoz közelebbi érték elnyomja a távolabbról örököltet.</dd></div>
 <div><dt>Alapérték (default)</dt><dd>Tipikusan igaz érték, amely pontosabb adat esetén felülírható.</dd></div>
 <div><dt>Prioritás</dt><dd>Feloldási elv: a szülők előre megadott rangsora dönti el, melyik örökölt érték érvényes.</dd></div>
+<div><dt>Többszörös öröklés</dt><dd>Egy csomópontnak több szülője van. Ilyenkor ellentétes értékeket is örökölhet.</dd></div>
 <div><dt>Típus és egyed (type/token)</dt><dd>A típus egy fajta, az egyed ennek egy konkrét előfordulása. Ami a típusra igaz, nem feltétlenül öröklődik az egyedre.</dd></div>
 <div><dt>Intenzió</dt><dd>A fogalom lényege, jelentéstartalma. A „kutyaság”.</dd></div>
 <div><dt>Extenzió</dt><dd>Azoknak a valódi dolgoknak a halmaza, amelyekre a fogalom illik. Az összes kutya.</dd></div>
@@ -628,10 +734,17 @@ Egy papagáj tulajdonságai: ['csőr', 'repülni tud', 'színes', 'táplálkozik
 <div><dt>Keret (frame)</dt><dd>Egy sztereotip objektum vagy helyzet leírása rekeszekkel, értékekkel és eljárásokkal.</dd></div>
 <div><dt>Prototípus</dt><dd>Egy fogalom tipikus példája. A keret ezt írja le.</dd></div>
 <div><dt>Rekesz és kitöltő (slot, filler)</dt><dd>A keret attribútuma és annak értéke.</dd></div>
+<div><dt>Keretrendszer</dt><dd>Hierarchiába kapcsolt keretek együttese, amelyben az értékek és az eljárások is öröklődnek.</dd></div>
+<div><dt>Egységbe zárás</dt><dd>Egy keretben együtt van az objektum, az attribútumai, az értékek és a hozzájuk tartozó eljárások.</dd></div>
 <div><dt>Démon</dt><dd>Rekeszhez kötött eljárás, amely egy eseményre magától indul el: <code>IF_NEEDED</code>, <code>IF_ADDED</code>, <code>IF_MODIFIED</code>, <code>IF_DELETED</code>.</dd></div>
 <div><dt>Esetalapú következtetés (CBR)</dt><dd>Új probléma megoldása a leghasonlóbb korábbi eset alapján.</dd></div>
 <div><dt>Eset</dt><dd>Problémaleírás, megoldás és a megoldás minősítése együtt.</dd></div>
+<div><dt>Esetbázis</dt><dd>A korábbi esetek tára. Minden hozzáigazított esettel bővül.</dd></div>
+<div><dt>A CBR négy lépése</dt><dd>Visszakeresés, újrafelhasználás, hozzáigazítás, tanulás.</dd></div>
 <div><dt>Metrika, hasonlóság</dt><dd>Távolságmérték, amellyel két eset problémaleírása számszerűen összevethető.</dd></div>
+<div><dt>Helyi hasonlóság és súly</dt><dd>A helyi hasonlóság egyetlen jellemző egyezése 0 és 1 között. A súly azt adja meg, mennyire fontos a jellemző.</dd></div>
+<div><dt>Hasonlósági küszöb</dt><dd>Az az érték, amely fölött a régi megoldást változtatás nélkül felhasználjuk, alatta pedig hozzáigazítjuk.</dd></div>
+<div><dt>Tudásgráf</dt><dd>Nagy, mai szemantikus háló objektum–attribútum–érték hármasokból, például a Wikidata.</dd></div>
 </dl>
 </section>
 
