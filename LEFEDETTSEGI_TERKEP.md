@@ -31,7 +31,7 @@ A vizuális elem nem lehet puszta dísz, és nem helyettesítheti a teljes magya
 | 5 | 122–141 | Prolog és fuzzy logika | kész |
 | 6 | 142–221 | Mesterséges neurális hálózatok | kész |
 | 7 | 222–255 | P, NP és nevezetes számítási problémák | kész |
-| 8 | 256–275 | Evolúciós és genetikus algoritmusok | tervezve |
+| 8 | 256–275 | Evolúciós és genetikus algoritmusok | kész |
 | 9 | 276–298 | Keresési alapok és neminformált keresés | tervezve |
 | 10 | 299–307 | Informált és lokális keresés | tervezve |
 
@@ -175,19 +175,21 @@ A képes oldalak (228., 236–239., 242., 244., 247–250.) is szerepelnek: a h�
 
 ### 8. mérföldkő
 
-- [ ] Biológiai ihletés és természetes példák.
-- [ ] Evolúciós módszerek osztályai és története.
-- [ ] Az általános evolúciós algoritmus.
-- [ ] Genetikus algoritmus célja és korlátai.
-- [ ] Fenotípus, genotípus, gén, kromoszóma és allél.
-- [ ] Minden kódolási példa.
-- [ ] Mindhárom kiválasztási mód.
-- [ ] Minden keresztezési mód.
-- [ ] Útvonal-újrakapcsolás.
-- [ ] Mutáció.
-- [ ] A teljes algoritmus.
-- [ ] Minden paraméter és leállási feltétel.
-- [ ] Alkalmazhatósági követelmények.
+- [x] Biológiai ihletés és természetes példák.
+- [x] Evolúciós módszerek osztályai és története.
+- [x] Az általános evolúciós algoritmus.
+- [x] Genetikus algoritmus célja és korlátai.
+- [x] Fenotípus, genotípus, gén, kromoszóma és allél.
+- [x] Minden kódolási példa.
+- [x] Mindhárom kiválasztási mód.
+- [x] Minden keresztezési mód.
+- [x] Útvonal-újrakapcsolás.
+- [x] Mutáció.
+- [x] A teljes algoritmus.
+- [x] Minden paraméter és leállási feltétel.
+- [x] Alkalmazhatósági követelmények.
+
+Ellenőrzési nyom: [ELLENORZES-08.md](ELLENORZES-08.md).
 
 ### 9. mérföldkő
 

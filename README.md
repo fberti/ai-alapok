@@ -20,7 +20,8 @@ A forrás 307 oldalból áll.
 - [x] 5. mérföldkő: Prolog, keresési sorrend, vágás és fuzzy szabályozás.
 - [x] 6. mérföldkő: neuron, aktivációk, perceptron, gradienscsökkentés és hibavisszaterjesztés.
 - [x] 7. mérföldkő: P, NP, NP-teljes, NP-nehéz és a PDF nevezetes számítási problémái.
-- [ ] 8–10. mérföldkő: további fejezetek.
+- [x] 8. mérföldkő: evolúciós és genetikus algoritmusok, kódolás, kiválasztás, keresztezés, mutáció és túlélés.
+- [ ] 9–10. mérföldkő: további fejezetek.
 
 ## Az elkészült alkalmazás
 
@@ -45,6 +46,8 @@ Az ötödik fejezet a PDF 122–141. oldalát dolgozza fel. Három labor tartozi
 A hatodik fejezet a PDF 142–221. oldalát dolgozza fel, könnyed hangon, tizenkét kipróbálható mini példával: péntek esti neuron, aktivációs függvények közös grafikonja, hálóépítő, önmagára visszacsatolt neuron, túlillesztés, McCulloch–Pitts-neuron, egyeneshúzó és perceptrontanítás, XOR-kapcsoló, cinkelt érmék, gradiensvölgy, lépésenkénti hibavisszaterjesztés és versengő réteg. Tizennégy választható kvízkérdés segít az ellenőrzésben. Minden ábra, levezetés és számpélda JavaScript nélkül is olvasható. A derivált előjelét a fejezet számpéldával javítja. Az oktató kézzel írt hálójának futtatása kimutatta, hogy nem végez hibavisszaterjesztést; a javított változat is szerepel.
 
 A hetedik fejezet a PDF 222–255. oldalát dolgozza fel. Hét labor tartozik hozzá: növekedési verseny, „Hová tartozik?” halmazábra, SAT mini-megoldó, gráflabor klikkhez, csúcsfedéshez és Hamilton-úthoz, hátizsák, utazóügynök-útvonalrajzoló és rekeszpakoló. Tizennégy választható kvízkérdés segít az ellenőrzésben. A PDF összes feladata egy térképtáblázatban is szerepel, pontos besorolással. Tizennégy kiigazítás javítja többek között az NP jelentését, az NP-teljes feladatok „megoldhatatlanságát”, a csúcsfedés kérdését és a faktorizálás helyét. Az oktatói hátizsák-kód kiértékelő függvényét 100 futással ellenőriztük.
+
+A nyolcadik fejezet a PDF 256–275. oldalát dolgozza fel. Öt labor tartozik hozzá: fenotípus–genotípus átalakító, a három kiválasztási mód összevetése, keresztezés és mutáció kézi laborja, paraméterezhető teljes genetikus algoritmus és egy kétcsúcsú felszín, amelyen a populáció és a hegymászó összevethető. Négy lenyíló gyakorló blokk és tizenkét választható, tippekkel ellátott kvízkérdés segít az ellenőrzésben. Hét kiigazítás javítja többek között az evolúciós programozás tárgyát, az egyenletes keresztezés ábráját és a rangsor alapú képletet. Az oktató három genetikus programját 100–100 futással ellenőriztük.
 
 Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md), [ELLENORZES-06.md](ELLENORZES-06.md), [ELLENORZES-07.md](ELLENORZES-07.md).
 

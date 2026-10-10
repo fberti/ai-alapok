@@ -20,6 +20,8 @@ A hatodik fejezet: `fejezetek/06-neuralis-halozatok.html`.
 
 A hetedik fejezet: `fejezetek/07-szamitasi-problemak.html`.
 
+A nyolcadik fejezet: `fejezetek/08-genetikus-algoritmusok.html`.
+
 A kvízválaszokat minden fejezet külön tárolja.
 
 A tananyag, a bemutatók és a kvíz nem igényelnek internetet.

@@ -1,0 +1,355 @@
+/* 08 · A fejezet saját stílusa: u- előtagú komponensek, saját kiemelőszínnel. */
+.chapter-eight{--u-accent:#3b6420;--u-accent-bg:#e6efd9;--u-fix:#8a3b12;--u-fix-bg:#fff0e0;--u-add:#1f5a44;--u-add-bg:#e5f1e9;--u-key:#d9e8c4;--u-card:#fffef9;--u-ok:#1f6b3a;--u-bad:#a1261b;--u-back:#b3261e}
+:root[data-theme=dark] .chapter-eight{--u-accent:#a9d98a;--u-accent-bg:#1c2a14;--u-fix:#ffb27a;--u-fix-bg:#33241a;--u-add:#8fd9b4;--u-add-bg:#18291f;--u-key:#33481f;--u-card:#19211d;--u-ok:#86dca0;--u-bad:#ff9d91;--u-back:#ff9a8f}
+.chapter-eight .eyebrow,.chapter-eight .section-index,.chapter-eight h1 em{color:var(--u-accent)}
+.chapter-eight a{color:var(--u-accent)}
+.chapter-eight .toc a[aria-current=location]{color:var(--u-accent)}
+.chapter-eight p{max-width:72ch}
+.chapter-eight :focus-visible{outline:3px solid var(--u-accent);outline-offset:2px}
+
+/* Nyitó helyzet és célok */
+.u-scene{border-left:5px solid var(--u-accent);background:var(--u-accent-bg);padding:1rem 1.3rem;border-radius:0 8px 8px 0;margin:1.5rem 0}
+.u-scene p{margin:.4rem 0}
+.u-goals{border:1px solid var(--line);border-radius:8px;padding:1rem 1.3rem;background:var(--u-card)}
+.u-goals ul{margin:.4rem 0 0;padding-left:1.2rem}
+.u-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0;padding:0;list-style:none}
+.u-meta li{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:2px 12px}
+
+/* Idézet – csak valódi forrásszöveg */
+.u-quote{margin:1.4rem 0;padding:0}
+.u-quote blockquote{margin:0;padding:.9rem 1.2rem;border-left:4px solid var(--u-accent);font-family:Georgia,serif;font-size:1.05rem;background:var(--u-card)}
+.u-quote blockquote p{margin:.3rem 0}
+.u-quote figcaption{font-size:13px;color:var(--muted);padding:.3rem 1.2rem 0}
+
+/* Összehasonlítás */
+.u-compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:1rem;margin:1.4rem 0}
+.u-compare>div{border:1px solid var(--line);border-top:4px solid var(--u-accent);border-radius:6px;padding:.8rem 1.1rem;background:var(--u-card)}
+.u-compare h3,.u-compare h4{margin:.2rem 0 .5rem}
+.u-compare p{margin:.4rem 0}
+.u-compare .u-tag{display:inline-block;font-size:12px;letter-spacing:.1em;font-weight:bold;color:var(--u-accent)}
+
+/* Táblázat */
+.u-table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--line);border-radius:6px}
+.u-table{border-collapse:collapse;width:100%;margin:0;font-size:15px;background:var(--u-card)}
+.u-table caption{text-align:left;font-size:13px;color:var(--muted);padding:.5rem .8rem;caption-side:bottom}
+.u-table th,.u-table td{text-align:left;vertical-align:top;padding:.55rem .8rem;border-bottom:1px solid var(--line)}
+.u-table thead th{background:var(--u-accent-bg);font-size:13px;letter-spacing:.04em}
+.u-table td:first-child{font-weight:bold}
+
+/* Idővonal */
+.u-timeline{list-style:none;margin:1.5rem 0;padding:0 0 0 1.4rem;border-left:3px solid var(--u-accent)}
+.u-timeline li{position:relative;margin:0 0 1.1rem;padding-left:.6rem}
+.u-timeline li:before{content:"";position:absolute;left:-1.4rem;top:.55rem;width:13px;height:13px;margin-left:-8px;border-radius:50%;background:var(--paper);border:3px solid var(--u-accent)}
+.u-timeline .u-year{display:inline-block;font-weight:bold;font-size:14px;letter-spacing:.06em;color:var(--u-accent);min-width:4.5rem}
+.u-timeline p{margin:.2rem 0}
+
+/* Lépéssor */
+.u-steps{list-style:none;counter-reset:ustep;margin:1.3rem 0;padding:0}
+.u-steps>li{counter-increment:ustep;position:relative;padding:.4rem 0 .8rem 3.1rem;border-bottom:1px dashed var(--line)}
+.u-steps>li:last-child{border-bottom:0}
+.u-steps>li:before{content:counter(ustep);position:absolute;left:0;top:.35rem;width:2.1rem;height:2.1rem;display:grid;place-items:center;border-radius:50%;background:var(--u-accent);color:var(--paper);font-weight:bold}
+.u-steps p{margin:.2rem 0}
+.u-flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:.4rem;list-style:none;padding:0;margin:1.2rem 0}
+.u-flow li{flex:1 1 130px;border:1px solid var(--line);border-radius:6px;padding:.5rem .7rem;background:var(--u-card);font-size:15px;position:relative}
+.u-flow li strong{display:block;color:var(--u-accent);font-size:13px;letter-spacing:.05em}
+
+/* Kiemelő dobozok */
+.u-simple,.u-fix,.u-add,.u-example{border-radius:8px;padding:.9rem 1.2rem;margin:1.4rem 0}
+.u-simple{background:var(--soft);border:1px dashed var(--muted)}
+.u-simple>strong:first-child,.u-example>strong:first-child{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--u-accent)}
+.u-fix{background:var(--u-fix-bg);border:2px solid var(--u-fix)}
+.u-fix h3,.u-add h3{margin:.1rem 0 .5rem;font-size:1.05rem}
+.u-fix h3{color:var(--u-fix)}
+.u-add{background:var(--u-add-bg);border-left:6px solid var(--u-add)}
+.u-add h3{color:var(--u-add)}
+.u-fix p,.u-add p{margin:.4rem 0}
+.u-example{border:1px solid var(--u-accent);background:var(--u-card)}
+.u-key{display:block;background:var(--u-key);padding:.7rem 1rem;border-radius:4px;font-weight:bold;margin:1.2rem 0;max-width:72ch}
+
+/* Kód */
+.u-code{margin:1.3rem 0}
+.u-code pre{margin:0;padding:1rem;overflow-x:auto;background:#17211d;color:#e8f0e6;border-radius:8px;font-size:14px;line-height:1.5}
+.u-code figcaption{font-size:13px;color:var(--muted);margin-top:.4rem}
+.u-code code{font-family:"DejaVu Sans Mono",Consolas,monospace}
+code{font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:.92em;overflow-wrap:anywhere}
+.u-code pre code{overflow-wrap:normal}
+
+/* Laborok */
+.u-lab{border:2px solid var(--u-accent);border-radius:10px;padding:1rem 1.2rem;margin:1.6rem 0;background:var(--u-card)}
+.u-lab-label{font-size:12px;letter-spacing:.14em;font-weight:bold;color:var(--u-accent)}
+.u-lab h3{margin:.3rem 0 .6rem}
+.u-lab button,.u-quiz button{font:inherit;font-size:15px;padding:.4rem .9rem;border-radius:6px;border:1px solid var(--u-accent);background:var(--u-accent);color:var(--paper);cursor:pointer;min-height:40px}
+.u-lab button.u-ghost,.u-quiz button.u-ghost{background:transparent;color:var(--u-accent)}
+.u-lab button[disabled]{opacity:.5;cursor:default}
+.u-lab label{font-size:15px}
+.u-lab input[type=range]{width:100%;accent-color:var(--u-accent)}
+.u-lab input[type=number],.u-lab input[type=text]{font:inherit;padding:.3rem .5rem;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);max-width:100%}
+.u-controls{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.8rem 0}
+.u-out{border-left:4px solid var(--u-accent);background:var(--u-accent-bg);padding:.5rem .9rem;margin:.8rem 0;min-height:1.5em}
+.u-out p{margin:.2rem 0}
+html:not(.js) .u-js-only{display:none}
+.js .u-nojs-only{display:none}
+.u-ok{color:var(--u-ok);font-weight:bold}
+.u-bad{color:var(--u-bad);font-weight:bold}
+
+/* Fogalomkártyák */
+.u-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:.8rem;margin:1.2rem 0}
+.u-cards>div{border:1px solid var(--line);border-radius:8px;padding:.7rem 1rem;background:var(--u-card)}
+.u-cards dt{font-weight:bold;color:var(--u-accent)}
+.u-cards dd{margin:.3rem 0 0;font-size:15px}
+
+/* Kvíz */
+.u-quiz fieldset{border:1px solid var(--line);border-radius:8px;margin:0 0 1rem;padding:.7rem 1rem}
+.u-quiz legend{font-weight:bold;padding:0 .3rem}
+.u-quiz label{display:block;padding:.2rem 0}
+.u-quiz .u-feedback{margin:.4rem 0 0;font-size:15px}
+
+/* Kapcsolatok */
+.u-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:1rem}
+.u-links a{display:block;border:1px solid var(--line);border-radius:8px;padding:.8rem 1rem;text-decoration:none;background:var(--u-card)}
+.u-links small{display:block;color:var(--muted)}
+.u-sources li{margin:.35rem 0;font-size:15px}
+
+/* Űrlapelemek */
+.u-lab select{font:inherit;font-size:15px;padding:.3rem .5rem;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);max-width:100%}
+.u-form-row{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:end;margin:.6rem 0}
+.u-form-row label{display:grid;gap:.2rem;min-width:0;max-width:100%}
+.u-form-row select{width:100%;min-width:0}
+.u-form-row .u-grow{flex:1 1 240px}
+.u-form-row .u-grow input{width:100%;font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:16px}
+
+/* Egymásra épülő szintek */
+.u-stack{list-style:none;margin:1.3rem 0;padding:0;display:grid;gap:.5rem}
+.u-stack>li{border:1px solid var(--line);border-left:6px solid var(--u-accent);border-radius:6px;padding:.55rem .9rem;background:var(--u-card)}
+.u-stack>li:nth-child(2){margin-left:1.2rem}
+.u-stack>li:nth-child(3){margin-left:2.4rem}
+.u-stack>li>strong{color:var(--u-accent)}
+.u-stack p{margin:.3rem 0}
+
+/* Képletek, tört alakú szabályok */
+.u-formula{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.4rem;margin:1.2rem 0;padding:.7rem 1rem;border:1px dashed var(--u-accent);border-radius:8px;background:var(--u-card)}
+.u-formula>span:last-child{font-size:14px;color:var(--muted)}
+
+/* Ábrák */
+.u-plot{margin:1.3rem 0;padding:.6rem;border:1px solid var(--line);border-radius:10px;background:var(--u-card)}
+.u-plot svg,.u-live{display:block;width:100%;max-width:520px;height:auto;margin:auto}
+.u-plot-wide svg{max-width:680px}
+.u-plot figcaption{font-size:13px;color:var(--muted);margin-top:.5rem}
+.u-plot-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:1rem}
+.u-plot-pair .u-plot{margin:0}
+svg .u-axis path{fill:none;stroke:var(--muted);stroke-width:1.2}
+svg text{fill:var(--ink);font-size:11px;font-family:"DejaVu Sans",Arial,sans-serif}
+svg .u-axis text{fill:var(--muted)}
+svg .u-curve{fill:none;stroke:var(--u-accent);stroke-width:2.5;stroke-linejoin:round}
+svg .u-guide{fill:none;stroke:var(--u-fix);stroke-width:1.4;stroke-dasharray:4 3}
+svg .u-dot{fill:var(--u-fix);stroke:var(--paper);stroke-width:1.5}
+svg .u-area{fill:var(--u-accent);fill-opacity:.35;stroke:var(--u-accent);stroke-width:2}
+svg path[class^=u-s]{fill:none;stroke-width:2.5;stroke-linejoin:round}
+svg .u-thin{stroke-width:1.3;opacity:.7}
+.chapter-eight{--u-s1:#b3261e;--u-s2:#2f7d32;--u-s3:#1d5287;--u-s4:#8a4a00;--u-s5:#8e2d7a}
+:root[data-theme=dark] .chapter-eight{--u-s1:#ff9a8f;--u-s2:#8fdc92;--u-s3:#9cc6f2;--u-s4:#f5bf6e;--u-s5:#eaa0dc}
+svg .u-s1{stroke:var(--u-s1)}svg .u-s2{stroke:var(--u-s2);stroke-dasharray:7 3}svg .u-s3{stroke:var(--u-s3)}svg .u-s4{stroke:var(--u-s4);stroke-dasharray:2 3}svg .u-s5{stroke:var(--u-s5);stroke-dasharray:10 3 2 3}
+svg .u-t1{fill:var(--u-s1)}svg .u-t2{fill:var(--u-s2)}svg .u-t3{fill:var(--u-s3)}svg .u-t4{fill:var(--u-s4)}svg .u-t5{fill:var(--u-s5)}
+svg text[class^=u-t]{font-weight:bold}
+.u-big{font-family:Georgia,serif;font-size:1.15rem}
+.u-formula-card{margin:0;flex-direction:column;align-items:flex-start}
+
+/* Szabályozási kör */
+.u-cycle{list-style:none;counter-reset:cyc;margin:1.3rem 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:.5rem}
+.u-cycle li{counter-increment:cyc;position:relative;border:1px solid var(--line);border-top:4px solid var(--u-accent);border-radius:6px;padding:.5rem .7rem;background:var(--u-card);font-size:15px}
+.u-cycle li strong{display:block;color:var(--u-accent)}
+.u-cycle li p{margin:.3rem 0 0}
+.u-cycle li:last-child:after{content:"↺ vissza az első lépéshez";display:block;margin-top:.4rem;font-size:12px;font-weight:bold;color:var(--muted)}
+
+/* Csúszkák, napló */
+.u-sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:.4rem 1.2rem;margin:.6rem 0}
+.u-sliders label{display:grid;gap:.1rem}
+.u-sliders output{font-weight:bold;color:var(--u-accent)}
+.u-live{margin:.8rem auto;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+.u-log{list-style:none;margin:.8rem 0;padding:0;display:grid;gap:.3rem;max-height:26rem;overflow-y:auto}
+.u-log:empty{display:none}
+.u-log li{border-left:4px solid var(--line);padding:.25rem .6rem;font-size:14.5px;background:var(--paper);border-radius:0 4px 4px 0;overflow-wrap:anywhere}
+.u-log li b{display:inline-block;min-width:6.5rem;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.u-log li:last-child{outline:2px solid var(--u-accent);outline-offset:1px}
+
+/* Aktivációs galéria */
+.u-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(190px,100%),1fr));gap:.8rem;margin:1.3rem 0}
+.u-gallery figure{margin:0;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--u-card);min-width:0}
+.u-gallery svg{display:block;width:100%;height:auto}
+.u-gallery figcaption{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.u-gallery figcaption strong{color:var(--ink)}
+.u-page{display:block;font-size:12px;color:var(--muted)}
+.u-plot-trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr));gap:.8rem;margin:1.3rem 0}
+.u-plot-trio .u-plot{margin:0}
+.u-plot-pair{margin:1.3rem 0}
+
+/* Hálórajzok */
+svg .u-node{fill:var(--paper);stroke:var(--u-accent);stroke-width:2}
+svg .u-node-strong{fill:var(--u-accent-bg)}
+svg .u-node-on{fill:var(--u-accent);stroke:var(--u-accent)}
+svg .u-node-on+text,svg text.u-on{fill:var(--paper)}
+svg .u-neuron-box{fill:none;stroke:var(--muted);stroke-width:1.2;stroke-dasharray:5 4}
+svg .u-edge{fill:none;stroke:var(--ink);stroke-width:1.6}
+svg .u-edge-thin{stroke-width:1;opacity:.55}
+svg .u-edge-neg{stroke-dasharray:6 4}
+svg .u-edge-back{fill:none;stroke:var(--u-back);stroke-width:2.2}
+svg .u-arrowhead{fill:var(--ink)}
+svg .u-svg-label{font-size:12px;fill:var(--muted);letter-spacing:.04em}
+svg .u-back-label{fill:var(--u-back);font-weight:bold}
+svg .u-svg-sym{font-size:16px;font-family:Georgia,serif}
+svg .u-svg-small{font-size:11px}
+svg .u-badge{fill:var(--u-back)}
+svg .u-badge-t{fill:var(--paper);font-weight:bold;font-size:12px}
+svg .u-pt-train{fill:var(--u-accent);stroke:var(--paper);stroke-width:1.2}
+svg .u-pt-test{fill:var(--paper);stroke:var(--u-fix);stroke-width:1.8}
+svg .u-pt-pos{fill:var(--u-accent);stroke:var(--u-accent);stroke-width:2}
+svg .u-pt-neg{fill:var(--paper);stroke:var(--u-accent);stroke-width:2}
+svg .u-pt-pos+.u-pt-label{fill:var(--paper)}
+svg .u-pt-label{font-size:10px;font-weight:bold;fill:var(--u-accent)}
+svg .u-pt-good{fill:none;stroke:var(--u-ok);stroke-width:2.5}
+svg .u-pt-wrong{fill:none;stroke:var(--u-bad);stroke-width:2.5;stroke-dasharray:3 2}
+svg .u-trail{fill:none;stroke:var(--u-fix);stroke-width:1.3;stroke-dasharray:3 3}
+svg .u-dot-s3{fill:var(--u-s3)}svg .u-dot-s4{fill:var(--u-s4)}
+svg .u-fn{fill:none;stroke-width:2.2;stroke-linejoin:round}
+svg .u-ball{fill:var(--u-fix);stroke:var(--paper);stroke-width:2}
+svg .u-num{font-size:11px;font-family:"DejaVu Sans Mono",Consolas,monospace}
+svg .u-delta{fill:var(--u-back);font-weight:bold}
+.u-live-wide{max-width:640px!important}
+.u-live-square{max-width:340px!important}
+.u-live-small{max-width:420px!important}
+
+/* Laborvezérlők */
+.u-checks{display:flex;flex-wrap:wrap;gap:.3rem 1.2rem;margin:.6rem 0;border:0;padding:0}
+.u-checks legend{font-weight:bold;font-size:15px;padding:0;margin-bottom:.3rem}
+.u-checks label{display:flex;gap:.45rem;align-items:center;font-size:15px}
+.u-checks input{accent-color:var(--u-accent);width:1.1rem;height:1.1rem;flex:0 0 auto}
+.u-checks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(190px,100%),1fr))}
+.u-lab button.u-toggle{background:transparent;color:var(--u-accent)}
+.u-lab button.u-toggle[aria-pressed=true]{background:var(--u-accent);color:var(--paper)}
+.u-lab button.u-toggle-inhib{border-color:var(--u-bad);color:var(--u-bad)}
+.u-lab button.u-toggle-inhib[aria-pressed=true]{background:var(--u-bad);color:var(--paper)}
+.u-controls label{display:flex;gap:.4rem;align-items:center;font-size:15px}
+.u-meter{height:12px;border:1px solid var(--line);border-radius:999px;background:var(--paper);overflow:hidden;margin:.6rem 0}
+.u-meter span{display:block;height:100%;background:var(--u-accent);width:0}
+.u-bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;align-items:end;height:150px;margin:.8rem 0;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+.u-bars div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;min-width:0}
+.u-bars span{display:block;width:70%;background:var(--u-accent);border-radius:4px 4px 0 0;min-height:2px}
+.u-bars small{font-size:12px;color:var(--muted);margin-top:.2rem}
+.u-log li.u-log-hit{border-color:var(--u-fix);background:var(--u-fix-bg)}
+.u-log li.u-log-ok{border-color:var(--u-ok)}
+
+/* Táblázatok, rövid lépéssorok */
+.u-table-num td{font-variant-numeric:tabular-nums}
+.u-table-trace{font-size:14px}
+.u-table-trace th,.u-table-trace td{padding:.4rem .45rem}
+.u-table-trace td:nth-child(-n+4){white-space:nowrap}
+.u-table-trace tr.u-row-hit td{background:var(--u-fix-bg)}
+.u-mini-steps{margin:.4rem 0;padding-left:1.3rem;font-size:15px}
+.u-mini-steps li{margin:.25rem 0}
+.u-compare .u-big{margin:.4rem 0}
+dl.u-cards{margin:1.2rem 0}
+
+
+
+/* Sorok és terepkártyák */
+.u-rows{margin:1.2rem 0;border-top:1px solid var(--line)}
+.u-rows>div{display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr);gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.u-rows dt{font-weight:bold}
+.u-rows dd{margin:0}
+.u-rows dd p{margin:.3rem 0}
+.u-field{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:1rem;margin:1.4rem 0}
+.u-field>div{border:1px solid var(--line);border-left:5px solid var(--u-accent);border-radius:6px;padding:.8rem 1.1rem;background:var(--u-card);min-width:0}
+.u-field .u-tag{display:inline-block;font-size:12px;letter-spacing:.1em;font-weight:bold;color:var(--u-accent)}
+.u-field h3{margin:.2rem 0 .5rem}
+.u-field p{margin:.4rem 0;font-size:16px}
+
+/* 08 · Génsorok: a PDF színei (1 sárga, 2 narancs, 3 kék), a szám mindig olvasható */
+.u-genes{display:inline-flex;flex-wrap:wrap;gap:0;margin:.15rem 0;padding:0;list-style:none;border:1px solid var(--ink);border-radius:3px;overflow:hidden;vertical-align:middle}
+.u-genes li{width:1.7rem;height:1.7rem;display:grid;place-items:center;font-weight:bold;font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:14px;border-right:1px solid var(--ink);color:#111}
+.u-genes li:last-child{border-right:0}
+.u-genes .g1{background:#f6dd4f}.u-genes .g2{background:#f3a35c}.u-genes .g3{background:#3d77c9;color:#fff}
+.u-genes .b0{background:var(--paper);color:var(--ink)}.u-genes .b1{background:var(--u-accent);color:var(--paper)}
+.u-genes li.u-cut{box-shadow:inset 3px 0 0 var(--u-bad)}
+.u-genes li.u-mut{outline:3px solid var(--u-bad);outline-offset:-3px}
+.u-genes li.u-swap{text-decoration:underline;text-underline-offset:3px}
+.u-cross{margin:1rem 0;padding:.7rem 1rem;border:1px solid var(--line);border-radius:8px;background:var(--u-card)}
+.u-cross-row{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .7rem;margin:.35rem 0}
+.u-cross-row>span{font-size:13px;color:var(--muted);min-width:4.6rem}
+.u-cross-row>b{color:var(--u-accent);font-size:1.2rem}
+.u-cross-cap{font-size:13px;color:var(--muted);margin:.4rem 0 0}
+
+/* 12 téglalap és bittérkép */
+.u-rects{display:flex;flex-wrap:wrap;gap:4px;margin:.6rem 0;padding:0;list-style:none}
+.u-rects li,.u-rects button{width:2.1rem;height:2.7rem;border:2px solid var(--ink);border-radius:3px;display:grid;place-items:center;font-weight:bold;font-size:13px;padding:0;cursor:default}
+.u-rects .r1{background:#c8372d;color:#fff}.u-rects .r0{background:#4f9a43;color:#fff}
+.u-rects button{cursor:pointer;font:inherit;font-weight:bold;font-size:13px}
+.u-bitmap{display:inline-grid;gap:2px;padding:2px;margin:.6rem 0;background:var(--ink);list-style:none}
+.u-bitmap li,.u-bitmap button{width:1.9rem;height:1.9rem;display:grid;place-items:center;font-size:11px;font-family:"DejaVu Sans Mono",Consolas,monospace;border:0;padding:0}
+.u-bitmap .p0{background:#111;color:#eee}.u-bitmap .p1{background:#fafafa;color:#333}
+.u-bitmap button{cursor:pointer}
+.u-bitmap button.u-miss{box-shadow:inset 0 0 0 3px var(--u-bad)}
+.u-bitstring{font-family:"DejaVu Sans Mono",Consolas,monospace;overflow-wrap:anywhere;letter-spacing:.06em}
+
+/* Kiválasztás: sávok */
+.u-probs{display:grid;gap:.5rem;margin:.8rem 0}
+.u-probs>div{display:grid;grid-template-columns:minmax(5.5rem,auto) minmax(0,1fr);gap:.6rem;align-items:center}
+.u-probs .u-probrow{display:grid;gap:3px}
+.u-probs i{display:block;height:10px;border-radius:999px;background:var(--u-accent);min-width:2px}
+.u-probs i.u-p2{background:var(--u-fix)}.u-probs i.u-p3{background:var(--u-s3)}
+.u-probs small{font-size:12px;color:var(--muted)}
+.u-legend{display:flex;flex-wrap:wrap;gap:.3rem 1rem;font-size:13px;margin:.4rem 0}
+.u-legend span:before{content:"";display:inline-block;width:.9rem;height:.6rem;border-radius:999px;margin-right:.35rem;background:var(--u-accent)}
+.u-legend span.u-p2:before{background:var(--u-fix)}.u-legend span.u-p3:before{background:var(--u-s3)}
+.u-fit-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(110px,100%),1fr));gap:.4rem .8rem;margin:.6rem 0}
+.u-fit-inputs label{display:grid;gap:.1rem}
+.u-fit-inputs input{width:100%}
+.u-mask{display:flex;flex-wrap:wrap;gap:.2rem .8rem;margin:.5rem 0;border:0;padding:0}
+.u-mask legend{font-size:15px;font-weight:bold;padding:0}
+.u-mask label{display:flex;gap:.3rem;align-items:center}
+.u-gen-svg text.u-small{font-size:10px}
+svg .u-heat{stroke:none}
+svg .u-ind{fill:var(--u-fix);stroke:var(--paper);stroke-width:1.2}
+svg .u-ind-best{fill:var(--u-bad);stroke:var(--paper);stroke-width:1.5}
+svg .u-peak{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:3 3}
+svg .u-line-best{fill:none;stroke:var(--u-accent);stroke-width:2.5}
+svg .u-line-avg{fill:none;stroke:var(--u-fix);stroke-width:2;stroke-dasharray:6 3}
+svg .u-ring{fill:none;stroke:var(--u-accent);stroke-width:1.2}
+svg .u-ring-fill{fill:var(--u-accent);fill-opacity:.12;stroke:var(--u-accent);stroke-width:1.2}
+
+/* Gyakorlás és kvíz lenyílói */
+details.u-practice,details.u-quiz-wrap{border:1px solid var(--u-accent);border-radius:8px;margin:1.4rem 0;background:var(--u-card)}
+details.u-practice>summary,details.u-quiz-wrap>summary{cursor:pointer;padding:.7rem 1.1rem;font-weight:bold;color:var(--u-accent)}
+details.u-practice[open]>summary,details.u-quiz-wrap[open]>summary{border-bottom:1px dashed var(--line)}
+details.u-practice>ol{margin:.6rem 0;padding:0 1.1rem 0 2.6rem}
+details.u-practice>ol>li{margin:.8rem 0}
+details.u-practice>ol>li>p{margin:.2rem 0}
+details.u-quiz-wrap>.u-quiz{padding:.8rem 1.1rem}
+.u-sol,.u-hint{margin:.4rem 0;font-size:15px}
+.u-sol>summary,.u-hint>summary{cursor:pointer;color:var(--u-accent);font-weight:bold}
+.u-sol>p,.u-hint>p{margin:.3rem 0;padding-left:.9rem;border-left:3px solid var(--u-accent-bg)}
+.u-decide td:first-child{font-weight:normal}
+
+@media(max-width:760px){
+  .u-genes li{width:1.45rem;height:1.6rem;font-size:13px}
+  .u-rects li,.u-rects button{width:1.85rem}
+  .u-rows>div{grid-template-columns:1fr;gap:.2rem}
+}
+@media(max-width:760px){
+  .u-table{font-size:14px}
+  .u-stack>li:nth-child(2){margin-left:.6rem}
+  .u-table-trace{font-size:13px}
+  .u-log li b{display:block}
+}
+@media(prefers-reduced-motion:reduce){.chapter-eight *{transition:none!important;animation:none!important}}
+@media print{
+  .u-lab,.u-quiz-wrap{display:none}
+  details.u-practice>*{display:block}
+  .u-genes li,.u-rects li,.u-bitmap li{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .u-fix,.u-add,.u-simple,.u-example,.u-compare>div,.u-timeline li,.u-quote,.u-stack>li,.u-plot,.u-gallery figure,.u-cycle li,.u-cards>div,.u-formula,.u-flow li,.u-field>div,.u-rows>div,.u-cross{break-inside:avoid}
+  .u-code pre,.u-mini{background:#fff;color:#000;border:1px solid #999;white-space:pre-wrap}
+  .u-table-wrap{overflow:visible}
+  .chapter-eight a[href^="http"]:after{content:" (" attr(href) ")";font-size:9pt;word-break:break-all}
+  :root[data-theme=dark]{color-scheme:light;--paper:#fff;--ink:#000;--muted:#333;--line:#999;--soft:#eee;--white:#fff;--orange:#91400f;--orange-bg:#fff;--green:#17594c}
+  :root[data-theme=dark] .chapter-eight{--u-accent:#3b6420;--u-accent-bg:#e6efd9;--u-fix:#8a3b12;--u-fix-bg:#fff0e0;--u-add:#1f5a44;--u-add-bg:#e5f1e9;--u-key:#d9e8c4;--u-card:#fffef9;--u-ok:#1f6b3a;--u-bad:#a1261b;--u-back:#b3261e;--u-s1:#b3261e;--u-s2:#2f7d32;--u-s3:#1d5287;--u-s4:#8a4a00;--u-s5:#8e2d7a}
+}
+@media print{details.u-practice::details-content,details.u-sol::details-content{content-visibility:visible;display:block}}
