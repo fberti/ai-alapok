@@ -38,10 +38,9 @@ test('A kezdőlapról elérhetők a magyar nyelvű előadásfelvételek', () => 
   assert.ok(home.indexOf('id="eloadasfelvetelek"') < home.indexOf('id="fejezetek"'));
   assert.match(home, /href="eloadasfelvetelek\.html"/);
   assert.match(recordings, /href="https:\/\/mega\.nz\/folder\/IKQyTSBS#6poeyE_D9RKM5w9HgGcc7w"/);
-  assert.match(recordings, /href="https:\/\/www\.youtube\.com\/watch\?v=TvYmsF3XGj8"/);
-  assert.match(recordings, /href="https:\/\/www\.youtube\.com\/watch\?v=0ROR8cW7tMk"/);
-  assert.match(recordings, /Első előadás · 1\. rész/);
-  assert.match(recordings, /Első előadás · 2\. rész/);
+  assert.match(recordings, /href="https:\/\/www\.youtube\.com\/playlist\?list=PLX8dg4cf86Xc"/);
+  assert.match(recordings, /Tamás felvételei a youtubeon/);
+  assert.doesNotMatch(recordings, /youtube\.com\/watch/);
 });
 test('A téma fájljai verzióval kerülik el a régi böngésző-gyorsítótárat', () => {
   for (const file of pages) {
