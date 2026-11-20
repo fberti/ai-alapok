@@ -275,7 +275,7 @@
       const [i, j] = picked;
       const r = resolvePair(clauses[i].lits, clauses[j].lits);
       if (!r.pivots.length) { out.innerHTML = `<p>C${i + 1} és C${j + 1} nem rezolválható: nincs bennük ellentett literálpár.</p>`; return; }
-      if (r.pivots.length > 1) { out.innerHTML = `<p>C${i + 1} és C${j + 1} ${r.pivots.length} ellentett literálpárt tartalmaz (${r.pivots.map((p) => `${esc(p)} / ${esc(neg(p))}`).join(', ')}). A PDF szerint ez nem rezolválható pár. Bármelyik párt ejtenénk ki, a rezolvensben ott maradna egy másik változó igenlő és tagadott alakja is. Az ilyen klóz tautológia, semmit sem mond.</p>`; return; }
+      if (r.pivots.length > 1) { out.innerHTML = `<p>C${i + 1} és C${j + 1} ${r.pivots.length} ellentett literálpárt tartalmaz (${r.pivots.map((p) => `${esc(p)} / ${esc(neg(p))}`).join(', ')}). Az ilyen pár nem rezolválható. Bármelyik párt ejtenénk ki, a rezolvensben ott maradna egy másik változó igenlő és tagadott alakja is. Az ilyen klóz tautológia, semmit sem mond.</p>`; return; }
       const res = /** @type {string[]} */ (r.res);
       const at = has(res);
       if (at >= 0) { out.innerHTML = `<p>A rezolvens (<code>${esc(key(res))}</code>) már szerepel a halmazban: C${at + 1}. Nem ad új információt.</p>`; return; }

@@ -74,7 +74,7 @@
       a: 'nem akarok erről beszélni. következő',
       b: 'A forralt bor, meg hogy korán sötétedik, és van ürügy otthon maradni egy könyvvel.',
       machine: 'b',
-      lesson: 'Csapda volt: az A valódi ember, csak nem akart együttműködni. Ez a PDF egyik kritikája – az együttműködést megtagadó ember is „megbukhat” a teszten.'
+      lesson: 'Csapda volt: az A valódi ember, csak nem akart együttműködni. Ez a Turing-teszt egyik ismert kritikája – az együttműködést megtagadó ember is „megbukhat” a teszten.'
     }
   ];
   function initTuring() {
