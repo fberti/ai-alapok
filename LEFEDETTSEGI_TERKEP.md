@@ -32,7 +32,7 @@ A vizuális elem nem lehet puszta dísz, és nem helyettesítheti a teljes magya
 | 6 | 142–221 | Mesterséges neurális hálózatok | kész |
 | 7 | 222–255 | P, NP és nevezetes számítási problémák | kész |
 | 8 | 256–275 | Evolúciós és genetikus algoritmusok | kész |
-| 9 | 276–298 | Keresési alapok és neminformált keresés | tervezve |
+| 9 | 276–298 | Keresési alapok és neminformált keresés | kész |
 | 10 | 299–307 | Informált és lokális keresés | tervezve |
 
 A tartományok folytonosak.
@@ -207,21 +207,23 @@ Ellenőrzési nyom: [ELLENORZES-08.md](ELLENORZES-08.md).
 
 ### 9. mérföldkő
 
-- [ ] Keresési feladat és három fő lépése.
-- [ ] Amőba mindhárom reprezentációja.
-- [ ] Teljesség, optimalitás, idő és tár.
-- [ ] Az összes állapottér-fogalom és költség.
-- [ ] Állapotgráf és keresőfa.
-- [ ] Minden keresőgráf-jellemző.
-- [ ] Város- és dominópélda.
-- [ ] Általános keresőeljárás.
-- [ ] Szélességi keresés és példa.
-- [ ] Egyenletes költségű keresés és példa.
-- [ ] Mélységi keresés és példa.
-- [ ] Mélységkorlátos keresés.
-- [ ] Iteratív mélyítés.
+- [x] Keresési feladat és három fő lépése.
+- [x] Amőba mindhárom reprezentációja.
+- [x] Teljesség, optimalitás, idő és tár.
+- [x] Az összes állapottér-fogalom és költség.
+- [x] Állapotgráf és keresőfa.
+- [x] Minden keresőgráf-jellemző.
+- [x] Város- és dominópélda.
+- [x] Általános keresőeljárás.
+- [x] Szélességi keresés és példa.
+- [x] Egyenletes költségű keresés és példa.
+- [x] Mélységi keresés és példa.
+- [x] Mélységkorlátos keresés.
+- [x] Iteratív mélyítés.
 
-A 2025-ös minta-zh 8. feladata (mélységi keresés ABC-sorrenddel, indexelt ismétlődő csomópontokkal, a front tartalma) ehhez a mérföldkőhöz is szempont.
+Ellenőrzési nyom: [ELLENORZES-09.md](ELLENORZES-09.md).
+
+A 2025-ös minta-zh 8(a) feladata (mélységi keresés ABC-sorrenddel, indexelt ismétlődő csomópontokkal, a front tartalma) kidolgozott gyakorlóként szerepel, a belelépéskori és a feltáráskori célteszttel, valamint gráfkereséssel is. A képi oldalak (279., 281., 283–286., 289–290., 292., 294., 297–298.) saját SVG-változatban szerepelnek; a 297. oldal iteratív mélyítése és a 298. oldal tologatós kirakója is. A PDF bejárási sorrendjeit a `assets/js/search.js` modell tesztjei ellenőrzik. A 8 kiigazítás kezeli a front és a keresőfa meghatározását, a célfeltétel és az optimalitás viszonyát, az egyenletes költségű keresés nevét, feltételeit, képletét és táblázatát, a mélységi keresés képleteit, a várospéldák ellentmondásait és a `21_Ugralas_es_elagazas.py` aszimmetrikus élét.
 
 ### 10. mérföldkő
 

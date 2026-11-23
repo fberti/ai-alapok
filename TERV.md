@@ -629,6 +629,8 @@ Legyen benne egy generáció kézi előállítása.
 
 # 9. mérföldkő – Neminformált keresés
 
+**Állapot:** kész. Ellenőrzés: `ELLENORZES-09.md`.
+
 **Forrás:** PDF 276–298. oldal.
 
 **Oldal:** `fejezetek/09-neminformalt-kereses.html`

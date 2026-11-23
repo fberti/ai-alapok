@@ -21,7 +21,8 @@ A forrás 307 oldalból áll.
 - [x] 6. mérföldkő: neuron, aktivációk, perceptron, gradienscsökkentés és hibavisszaterjesztés.
 - [x] 7. mérföldkő: P, NP, NP-teljes, NP-nehéz és a PDF nevezetes számítási problémái.
 - [x] 8. mérföldkő: evolúciós és genetikus algoritmusok, kódolás, kiválasztás, keresztezés, mutáció és túlélés.
-- [ ] 9–10. mérföldkő: további fejezetek.
+- [x] 9. mérföldkő: állapottér, keresőfa, front, szélességi, egyenletes költségű, mélységi és mélységkorlátos keresés, iteratív mélyítés.
+- [ ] 10. mérföldkő: informált és lokális keresés.
 
 ## Az elkészült alkalmazás
 
@@ -49,7 +50,9 @@ A hetedik fejezet a PDF 222–255. oldalát dolgozza fel. Hét labor tartozik ho
 
 A nyolcadik fejezet a PDF 256–275. oldalát dolgozza fel. Öt labor tartozik hozzá: fenotípus–genotípus átalakító, a három kiválasztási mód összevetése, keresztezés és mutáció kézi laborja, paraméterezhető teljes genetikus algoritmus és egy kétcsúcsú felszín, amelyen a populáció és a hegymászó összevethető. Négy lenyíló gyakorló blokk és tizenkét választható, tippekkel ellátott kvízkérdés segít az ellenőrzésben. Hét kiigazítás javítja többek között az evolúciós programozás tárgyát, az egyenletes keresztezés ábráját és a rangsor alapú képletet. Az oktató három genetikus programját 100–100 futással ellenőriztük.
 
-Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md), [ELLENORZES-06.md](ELLENORZES-06.md), [ELLENORZES-07.md](ELLENORZES-07.md), [ELLENORZES-08.md](ELLENORZES-08.md).
+A kilencedik fejezet a PDF 276–298. oldalát dolgozza fel. Három labor tartozik hozzá: az amőba három reprezentációjának elágazás-összevetése, egy közös keresőlabor (városgráf, minta-zh gráf, absztrakt gráf, kurzuskód és saját, szövegesen megadott állapottér; mind az öt eljárás lépésenként, élő fronttal, bejárt listával, térképpel és keresőfával, választható céltesztelési és ismétléskezelési konvencióval), valamint egy idő- és memóriaigény-grafikon. Öt lenyíló gyakorló blokk, köztük a minta-zh mélységi keresési feladatának kidolgozott megoldása mindhárom konvencióval, és tizennégy választható kvízkérdés segít az ellenőrzésben. Nyolc kiigazítás javítja többek között az egyenletes költségű keresés nevét, feltételeit és képletét, a mélységi keresés képleteit, a front meghatározását és a PDF egyenletes költségű táblázatát. Az oktató két keresőprogramját lefuttattuk; a `21_Ugralas_es_elagazas.py` aszimmetrikus éle a futást nem befolyásolja. A keresés logikája a tesztelt `assets/js/search.js` modulban van.
+
+Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md), [ELLENORZES-06.md](ELLENORZES-06.md), [ELLENORZES-07.md](ELLENORZES-07.md), [ELLENORZES-08.md](ELLENORZES-08.md), [ELLENORZES-09.md](ELLENORZES-09.md).
 
 A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.
 
@@ -61,7 +64,7 @@ A fejezetek lenyitható, JavaScript nélkül is olvasható gyakorló feladatokat
 
 Új kiigazítások: a táblai előreláncolás T5–T6 ténybázisa (2.), az Anna–Béla–Cili feladat ellentmondásos premisszái (4.), a táblai fuzzy feladat Meleg(16) értéke (5.) és a dia hibás OX-példája (8.). A részleteket az `ELLENORZES-0N.md` fájlok záró szakaszai tartalmazzák.
 
-A minta-zh legnagyobb feladata (25 pont) mélységi keresés és A* egy súlyozott gráfon. Ez a 9–10. mérföldkő anyaga, amely még nem készült el.
+A minta-zh legnagyobb feladata (25 pont) mélységi keresés és A* egy súlyozott gráfon. A mélységi (a) részt a 9. fejezet kidolgozott gyakorlója tartalmazza; az A*-os (b) rész a még el nem készült 10. mérföldkő anyaga.
 
 ## Tartalmi forma
 

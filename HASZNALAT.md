@@ -22,6 +22,8 @@ A hetedik fejezet: `fejezetek/07-szamitasi-problemak.html`.
 
 A nyolcadik fejezet: `fejezetek/08-genetikus-algoritmusok.html`.
 
+A kilencedik fejezet: `fejezetek/09-neminformalt-kereses.html`.
+
 A kvízválaszokat minden fejezet külön tárolja.
 
 A tananyag, a bemutatók és a kvíz nem igényelnek internetet.
@@ -90,8 +92,8 @@ A `node_modules/` könyvtár nem kell a közzétett oldalhoz.
 
 ## Jelenlegi hatókör
 
-Az 1–8. fejezet készült el.
+Az 1–9. fejezet készült el.
 
-A 9–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
+A 10. fejezet címe szerepel a tanulási úton, de nem kattintható.
 
-A következő fejezethez: `/implement #9`.
+A következő fejezethez: `/implement #10`.
