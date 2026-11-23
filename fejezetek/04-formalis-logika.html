@@ -47,7 +47,7 @@
 <div class="u-scene"><p><strong>Egy menzai rejtvény.</strong> A menza pultján ez a tábla áll: „Aki desszertet kér, levest is kap.” Kati tálcáján nincs leves.</p>
 <p>Kért-e Kati desszertet? A legtöbben habozás nélkül rávágják, hogy nem. Igazuk is van. De honnan ilyen biztos ez? Nem ismerjük Katit, és a menzát sem. A válasz mégis kényszerítő, mert csak a két mondat <em>formájából</em> következik, a tartalmából nem.</p>
 <p>Ha a „desszert” és a „leves” helyére bármi mást írunk, a következtetés ugyanúgy helyes marad. Ez a fejezet arról szól, hogyan lehet ezt a formát jelekkel leírni, és hogyan ellenőrzi egy gép lépésről lépésre. A rejtvényt a 10. részben a gép is megoldja.</p></div>
-<ul class="u-meta"><li>Forrás: PDF 89–121. oldal</li><li>3 kipróbálható bemutató</li><li>12 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>12_Logika.py</code></li></ul>
+<ul class="u-meta"><li>Forrás: PDF 89–121. oldal, MI4 előadásdiák, gyakorlati tábla</li><li>3 kipróbálható bemutató</li><li>Zh-típusú gyakorló feladatok megoldással</li><li>12 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>12_Logika.py</code></li></ul>
 <div class="u-goals"><strong>A fejezet végére…</strong><ul>
 <li>el tudod helyezni a formális logikát a logika ágai között, és ismered a fejlődésének fő állomásait Arisztotelésztől Russellig;</li>
 <li>tudod, mit jelent a modális, a deontikus, a többértékű és a valószínűségi logika;</li>
@@ -164,6 +164,11 @@
 <p><strong>A PDF-ben:</strong> „Az osztályok osztálya eleme-e önmagának?” (PDF 94. oldal).</p>
 <p><strong>Helyesen:</strong> a paradoxon azoknak az osztályoknak az osztályáról szól, amelyek <em>nem</em> elemei önmaguknak. Jelöljük ezt R-rel. Ha R eleme önmagának, akkor a meghatározása szerint nem lehet eleme. Ha nem eleme önmagának, akkor éppen teljesíti a feltételt, tehát eleme. Mindkét válasz ellentmondáshoz vezet.</p>
 <p><strong>Miért fontos?</strong> A PDF kérdésére van egyszerű válasz, és ebből nem következik ellentmondás. Az „összes osztály osztálya” maga is osztály, tehát a naiv halmazelméletben eleme önmagának. A paradoxon ereje éppen a tagadásban rejlik. Hétköznapi változata a borbély, aki a faluban mindenkit megborotvál, aki nem maga borotválkozik, és senki mást. Borotválja-e önmagát? Russell a típuselmélettel úgy oldotta fel, hogy egy osztály csak alacsonyabb típusú dolgokat tartalmazhat. Így az „eleme-e önmagának” kérdés fel sem tehető. <a href="#s-sep-russell">Forrás: Stanford Encyclopedia of Philosophy, Russell’s Paradox;</a> <a href="#s-heijenoort">Russell levele Fregének, 1902.</a></p></aside>
+<p>Frege és Russell nevét gyakran együtt említik. Egy korábbi vizsgasor rá is kérdez, miben azonos és miben tér el a munkájuk (<a href="#s-exam2017">2017-es vizsgasor, 2. kérdés</a>). Az összevetés:</p>
+<div class="u-compare" id="frege-russell">
+<div><span class="u-tag">AZONOSSÁG</span><h3>Ugyanaz a cél, hasonló eszközök</h3><p>Mindketten a matematikát akarták tisztán logikai alapokra építeni. Ezt az irányzatot ma <strong>logicizmusnak</strong> hívják. Mindkettőjük rendszere kvantoros predikátumlogika. Russell Fregétől függetlenül jutott hasonló eredményekre.</p></div>
+<div><span class="u-tag">ELTÉRÉS</span><h3>Az építő és a hibakereső</h3><p>Frege alkotta meg elsőként a teljes formális nyelvet, a logikai függvény fogalmával és a kvantorokkal. Russell az elődök, köztük Frege rendszerében paradoxont talált, és a típuselmélettel javította. Alfred North Whiteheaddel írt közös művük, a <em>Principia Mathematica</em> (1910–1913) már a típuselméletre épül.</p></div>
+</div>
 </section>
 
 <!-- 03 · ÚJ IRÁNYZATOK -->
@@ -192,7 +197,7 @@
 <tr><td>a ∨ b</td><td>a és b közül a nagyobb</td><td>1</td></tr>
 <tr><td>a → b</td><td>1 és (1 − a + b) közül a kisebb</td><td>1</td></tr>
 </tbody></table></div>
-<p>Érdekes következmény: ha p = ½, akkor p ∨ ¬p értéke is csak ½. A „vagy esik, vagy nem esik” itt nem biztosan igaz. Łukasiewicz később eljutott a <strong>végtelen értékű logikáig</strong> is. Ebben 0 és 1 között bármilyen érték megengedett. Ennek közeli rokona a fuzzy logika, amely az 5. fejezet témája. <strong>Emil Post</strong> Łukasiewicztől függetlenül, vele egy időben dolgozott ki többértékű logikát. A <strong>valószínűségi logika</strong> megalapozói között <strong>Keynest</strong> és Peirce-t szokás említeni. A közgazdászként ismert Keynes 1921-es könyvében a valószínűséget két állítás közötti logikai viszonynak tekintette: mennyire támasztja alá az egyik a másikat.</p>
+<p>Érdekes következmény: ha p = ½, akkor p ∨ ¬p értéke is csak ½. A „vagy esik, vagy nem esik” itt nem biztosan igaz. Łukasiewicz később eljutott a <strong>végtelen értékű logikáig</strong> is. Ebben 0 és 1 között bármilyen érték megengedett. Ennek közeli rokona a fuzzy logika, amely az 5. fejezet témája. <strong>Emil Post</strong> Łukasiewicztől függetlenül, vele egy időben dolgozott ki többértékű logikát. A <strong>valószínűségi logika</strong> megalapozói között <strong>Keynest</strong> és Peirce-t szokás említeni. A közgazdászként ismert Keynes 1921-es könyvében a valószínűséget két állítás közötti logikai viszonynak tekintette: mennyire támasztja alá az egyik a másikat. Az előadásdia megfogalmazásában a logikai valószínűség a racionális hit, vagyis az ésszerű meggyőződés foka: egy 0 és 1 közötti érték (MI4 előadásdia, 7. dia).</p>
 <aside class="u-add"><h3>Kiegészítés · Temporális és intuicionista logika</h3><p>Az 1. rész osztályozása két további ágat is tartalmaz. A <strong>temporális logika</strong> az idő kifejezésére szolgál. Arthur Prior dolgozta ki az 1950-es években, ma programok és hardverek helyességének ellenőrzésére használják. Egy ilyen állítás például: „a kérésre <em>előbb-utóbb</em> mindig jön válasz”. Az <strong>intuicionista logika</strong> Luitzen Brouwer matematikai nézeteiből nőtt ki. Arend Heyting 1930-ban formalizálta. Egy állítást csak akkor fogad el igaznak, ha van rá konkrét bizonyítás. Ezért nem fogadja el általános törvényként a p ∨ ¬p formulát. <a href="#s-sep-manyvalued">Forrás: Stanford Encyclopedia of Philosophy, Many-Valued Logic;</a> <a href="#s-sep-modal">Modal Logic;</a> <a href="#s-sep-deontic">Deontic Logic.</a></p></aside>
 </section>
 
@@ -348,10 +353,11 @@
 <p>A rezolúció kiemelkedik a többi közül, mert a <strong>predikátumlogikában is alkalmazható</strong>. Egyetlen szabályból áll:</p>
 <div class="u-formula" id="rezolucio-szabaly"><span class="u-frac"><span>α ∨ β,  ¬β ∨ γ</span><span>α ∨ γ</span></span><span>A rezolúció szabálya.</span></div>
 <p>Az indoklás egyszerű. A β nem lehet egyszerre igaz és hamis. Ha β hamis, akkor az első premisszában α-nak kell igaznak lennie. Ha β igaz, akkor ¬β hamis, tehát a második premisszában γ-nak kell igaznak lennie. Valamelyik tehát biztosan igaz: α ∨ γ. Hétköznapi példa: „Moziba megyünk, vagy esik.” és „Nem esik, vagy otthon olvasunk.” Ebből következik: „Moziba megyünk, vagy otthon olvasunk.”</p>
-<p>A rezolúciós módszer két lépésből áll.</p>
+<p>A rezolúciós módszert a PDF két lépésben írja le: tagadás, majd KNF és rezolválás. A gyakorlati tábla ugyanezt három lépésre bontja, mert a KNF-re hozást külön lépésnek veszi (Gyakorlati tábla, 2. előadás, „3. óra” rész). A tartalom azonos. A gyakorló feladatok és a zárthelyi is ezt a három lépést követik. A módszer fő lépéseire egy korábbi vizsgasor külön is rákérdez (<a href="#s-exam2017">2017-es vizsgasor, 8. kérdés</a>).</p>
 <ol class="u-steps" id="rezolucios-modszer">
 <li><p><strong>Tagadás.</strong> A bizonyítandó tétel tagadott alakját vesszük alapul. Feltesszük, hogy a konklúzió ellentettje igaz a premisszák igaz értékei mellett. Ha az így kapott összetett formula kielégíthetetlen, akkor az eredeti tétel igaz. Ezt a gondolatmenetet <strong>indirekt bizonyításnak</strong> nevezzük.</p></li>
-<li><p><strong>Rezolválás.</strong> Az összetett formulát <strong>konjunktív normálforma (KNF)</strong> alakra hozzuk. Aztán a rezolúció ismételt alkalmazásával, fokozatos egyszerűsítéssel eljutunk az ellentmondáshoz.</p></li>
+<li><p><strong>KNF-re hozás.</strong> Az összetett formulát, vagyis a premisszák és a tagadott konklúzió ÉS-kapcsolatát <strong>konjunktív normálforma (KNF)</strong> alakra hozzuk. Ez klózok ÉS-kapcsolata. A klóz literálok VAGY-kapcsolata, a literál pedig egy ítéletváltozó vagy annak tagadása. A 9. rész mutatja meg, hogyan.</p></li>
+<li><p><strong>Rezolválás.</strong> A klózokon a rezolúciót addig alkalmazzuk, amíg el nem jutunk az ellentmondáshoz, vagy már nem tudunk továbbmenni. Az utóbbi eset a leállást is rögzíti. Pontos jelentését a 10. rész egyik kiigazítása adja meg.</p></li>
 </ol>
 <p>A propozíciós logikában a rezolúció alkalmazása ugyanakkor korlátozott. Ez a logika ugyanis nem ad eszközt bonyolultabb problémák leírására. Ezt a 11. rész mutatja meg.</p>
 </section>
@@ -386,6 +392,18 @@
 <li><p><strong>Disztribúció:</strong> a két ÉS-tag szétosztása négy klózt ad: <code>(p ∨ q) ∧ (p ∨ ¬p) ∧ (¬q ∨ q) ∧ (¬q ∨ ¬p)</code>. A középső kettő tautológia, elhagyjuk. Végül mindkét klózhoz hozzávesszük az r-t: <code>(p ∨ q ∨ r) ∧ (¬p ∨ ¬q ∨ r)</code></p></li>
 </ol>
 <p><strong>Ellenőrzés:</strong> az eredeti formula csak akkor hamis, ha p ≡ q igaz és r hamis. A KNF pontosan ugyanekkor hamis: ha r hamis, és p, q egyszerre igaz vagy egyszerre hamis. A formulavizsgálóba beírva a két formula igazságtáblája megegyezik.</p></div>
+<details class="u-practice" id="gyak-knf"><summary>Gyakorlás · KNF-re hozás (2 feladat)</summary>
+<ol>
+<li><p>Hozd KNF-re ennek az állításnak a formuláját: <em>„Akkor és csak akkor fázik meg Péter, ha folyik az orra és lázas.”</em> (Gyakorlati tábla, 2. előadás, 1. feladat)</p><details class="u-sol"><summary>Megoldás</summary>
+<p><strong>Megfeleltetések:</strong> p = „Péter megfázik”, q = „Péter orra folyik”, r = „Péter lázas”. A formula: <code>p ≡ (q ∧ r)</code>.</p>
+<p><strong>1. lépés, azonosság:</strong> <code>(p → (q ∧ r)) ∧ ((q ∧ r) → p)</code>. A két tagot külön alakítjuk tovább.</p>
+<p><strong>Első tag:</strong> az implikáció helyett <code>¬p ∨ (q ∧ r)</code> (2. lépés), a szétosztással <code>(¬p ∨ q) ∧ (¬p ∨ r)</code> (4. lépés).</p>
+<p><strong>Második tag:</strong> az implikáció helyett <code>¬(q ∧ r) ∨ p</code> (2. lépés), De Morgannal <code>¬q ∨ ¬r ∨ p</code> (3. lépés). Ez már egyetlen klóz.</p>
+<p><strong>A KNF:</strong> <code>(¬p ∨ q) ∧ (¬p ∨ r) ∧ (¬q ∨ ¬r ∨ p)</code>, három klóz. Mind a 8 interpretációban ugyanazt adja, mint az eredeti formula.</p></details></li>
+<li><p>Hozd KNF-re a <code>¬(p → s)</code> formulát! Hány klózra esik szét? Ilyen alakú minden tagadott „ha…, akkor…” konklúzió.</p><details class="u-sol"><summary>Megoldás</summary>
+<p>Az implikáció helyett <code>¬(¬p ∨ s)</code>, De Morgannal <code>¬¬p ∧ ¬s</code>, a kettős tagadás eltüntetése után <code>p ∧ ¬s</code>. Ez két klóz: <code>p</code> és <code>¬s</code>. A tagadott implikáció tehát azt mondja, hogy a feltétel teljesül, a következmény mégsem.</p></details></li>
+</ol>
+</details>
 <p>Ha a konjunktív normálformából elhagyjuk a konjunkció operátorokat, a formula klózokra esik szét. Ezek halmazára alkalmazzuk ciklusban a rezolúció szabályát. Így a rezolúció könnyen automatizálható eljárás lesz. Segítségével egy klózhalmaz, illetve a neki megfelelő KNF kielégíthetetlensége belátható.</p>
 </section>
 
@@ -431,6 +449,60 @@ end</code></pre>
 <p><strong>Helyesen:</strong> véges sok lépésben eljutunk az <strong>üres klózhoz</strong> (NIL, □). A klózhalmaz nem ürül ki, sőt, minden lépéssel bővül.</p>
 <p><strong>Miért fontos?</strong> A két fogalom éppen ellentétes jelentésű. Az üres <em>klóz</em> egy üres VAGY-kapcsolat, ezért mindig hamis. Ez jelzi az ellentmondást. Az üres <em>klózhalmaz</em> egy üres ÉS-kapcsolat: nincs benne egyetlen feltétel sem, ezért mindig igaz. Ha valaki a PDF szövegét szó szerint követné, az ellentmondás helyett éppen a „nincs semmi, ami hamis lehetne” állapotot keresné. A PDF saját ábrája és 106. oldala helyesen az üres klózt említi. Csak a tétel megfogalmazása csúszott el. <a href="#s-robinson">Forrás: Robinson, 1965;</a> <a href="#s-aima">Russell–Norvig, 7.5.2 szakasz.</a></p></aside>
 <p>Most már a menzai rejtvényt is megoldhatja a gép. Legyen d = „Kati desszertet kért”, l = „Kati levest kapott”. A tábla szövege: <code>d → l</code>, KNF-ben <code>¬d ∨ l</code>. A megfigyelés: <code>¬l</code>. A konklúzió <code>¬d</code>, ennek tagadása <code>d</code>. A klózhalmaz: <code>¬d ∨ l</code>, <code>¬l</code>, <code>d</code>. Az első kettőből <code>¬d</code> lesz, ebből és a <code>d</code>-ből pedig NIL. Kati tehát nem kért desszertet. Ezt a következtetési formát <strong>modus tollensnek</strong> hívják.</p>
+<p>A zárthelyiben a rezolúciós feladat mindig ugyanabban a rendben kérdez. Előbb a megfeleltetéseket kérik, aztán a formulákat és azok KNF-jét, a klózok listáját, a levezetést, végül egy mondatos választ (<a href="#s-mintazh">Minta-zh (2025. 12. 05.), 5. feladat</a>). Ez a fenti három lépés, kiírva.</p>
+<ol class="u-flow" id="zh-menet">
+<li><strong>a) MEGFELELTETÉS</strong>Minden atomi állítás kap egy betűt: p = „a mérés elindul”.</li>
+<li><strong>b) FORMULÁK, KNF</strong>Minden mondatból formula, majd KNF. A konklúziót tagadva alakítjuk át.</li>
+<li><strong>c) KLÓZOK</strong>A KNF klózai vesszővel elválasztva, a tagadott konklúzió klózaival együtt.</li>
+<li><strong>d) REZOLÚCIÓ</strong>Klózpárok rezolválása, amíg üres klóz nem lesz.</li>
+<li><strong>e) VÁLASZ</strong>Egy mondat: az ellentmondás miatt a tétel igaz, és mit jelent ez.</li>
+</ol>
+<p>A b) pontnál a gyakorlati tábla két segédjelölést is használ. A <strong>következtetési séma</strong> a 8. rész törtjelölése: a vonal fölött a premisszák, alatta a konklúzió. Az <strong>összetett formula</strong> a premisszák és a tagadott konklúzió ÉS-kapcsolata. Ennek a kielégíthetetlenségét kell belátni. A következő feladat egy korábbi zárthelyi feladata, és a minta-zh 5. feladata is ez. Minden részét külön nyithatod le, így előbb magad is megpróbálhatod.</p>
+<details class="u-practice" id="gyak-meres" open><summary>Kidolgozott zh-feladat · A mérés B vagy C módban (propozíciós logika)</summary>
+<p>Ismert tények: (1) Ha a mérés elindul, akkor az eszköz B vagy C módba kapcsol. (2) Ha az eszköz B módba kapcsol, akkor az érzékelők jelet adnak és a kijelző világít. (3) Ha az eszköz C módba kapcsol, akkor az érzékelők jelet adnak és a biztonsági riasztás bekapcsol. Bizonyítandó: (4) Ha a mérés elindul, akkor az érzékelők jelet adnak. (<a href="#s-mintazh">Minta-zh, 5. feladat</a>; <a href="#s-tabla">Gyakorlati tábla, 3. feladat</a>)</p>
+<ol>
+<li><p>Milyen megfeleltetéseket használunk?</p><details class="u-sol"><summary>a) Megoldás</summary>
+<p>p = „a mérés elindul”, q = „az eszköz B módba kapcsol”, r = „az eszköz C módba kapcsol”, s = „az érzékelők jelet adnak”, t = „a kijelző világít”, u = „a biztonsági riasztás bekapcsol”. Az „és” és a „vagy” nem kap betűt, mert az műveleti jel.</p></details></li>
+<li><p>Mik a formalizált állítások, és mi a KNF-jük?</p><details class="u-sol"><summary>b) Megoldás</summary>
+<p><strong>1. állítás:</strong> <code>p → (q ∨ r)</code> = <code>¬p ∨ q ∨ r</code>.</p>
+<p><strong>2. állítás:</strong> <code>q → (s ∧ t)</code> = <code>¬q ∨ (s ∧ t)</code> = <code>(¬q ∨ s) ∧ (¬q ∨ t)</code>. A szétosztás után két klóz.</p>
+<p><strong>3. állítás:</strong> <code>r → (s ∧ u)</code> = <code>¬r ∨ (s ∧ u)</code> = <code>(¬r ∨ s) ∧ (¬r ∨ u)</code>. Szintén két klóz.</p>
+<p><strong>4. állítás:</strong> <code>p → s</code>. A tagadása: <code>¬(p → s)</code> = <code>¬(¬p ∨ s)</code> = <code>p ∧ ¬s</code>. Ez is két klóz.</p>
+<p>Az összetett formula: <code>(p → (q ∨ r)) ∧ (q → (s ∧ t)) ∧ (r → (s ∧ u)) ∧ ¬(p → s)</code>.</p></details></li>
+<li><p>Írd fel a klózokat vesszővel elválasztva!</p><details class="u-sol"><summary>c) Megoldás</summary>
+<p><code>¬p ∨ q ∨ r, ¬q ∨ s, ¬q ∨ t, ¬r ∨ s, ¬r ∨ u, p, ¬s</code>. Ez hét klóz.</p></details></li>
+<li><p>Végezd el a rezolúciót!</p><details class="u-sol"><summary>d) Megoldás, egy zsákutcával együtt</summary>
+<ol class="u-ladder">
+<li><span class="u-clause">¬p ∨ q ∨ r</span><span class="u-plus">+</span><span class="u-clause">p</span><span class="u-res">⇒ <span class="u-clause">q ∨ r</span></span><small>kiesik: ¬p, p</small></li>
+<li><span class="u-clause">q ∨ r</span><span class="u-plus">+</span><span class="u-clause">¬q ∨ s</span><span class="u-res">⇒ <span class="u-clause">r ∨ s</span></span><small>kiesik: q, ¬q</small></li>
+<li><span class="u-clause">r ∨ s</span><span class="u-plus">+</span><span class="u-clause">¬r ∨ s</span><span class="u-res">⇒ <span class="u-clause">s</span></span><small>kiesik: r, ¬r; az s ∨ s egyetlen s, mert a klózban minden literál egyszer szerepel</small></li>
+<li><span class="u-clause">s</span><span class="u-plus">+</span><span class="u-clause">¬s</span><span class="u-res">⇒ <span class="u-clause u-nil">NIL</span></span><small>kiesik: s, ¬s</small></li>
+</ol>
+<p><strong>A zsákutca.</strong> A táblán egy másik próbálkozás is szerepel: <code>¬p ∨ q ∨ r</code> és <code>¬q ∨ t</code> ⇒ <code>¬p ∨ r ∨ t</code>, ezzel és a <code>p</code>-vel ⇒ <code>r ∨ t</code>, a <code>¬r ∨ s</code>-sel ⇒ <code>s ∨ t</code>, a <code>¬s</code>-sel ⇒ <code>t</code>. A <code>t</code>-nek nincs ellentett párja, mert <code>¬t</code> egyetlen klózban sem szerepel. Ez az ág elakad. A kijelző és a riasztás, vagyis a t és az u, a bizonyításhoz nem is kell.</p></details></li>
+<li><p>Mi a szöveges válasz?</p><details class="u-sol"><summary>e) Megoldás</summary>
+<p>A premisszák és a tagadott állítás együtt ellentmondásra vezettek, vagyis kielégíthetetlenek. Az állítás tehát következik a premisszákból: ha a mérés elindul, akkor az érzékelők jelet adnak, akár B, akár C módba kapcsol az eszköz.</p></details></li>
+</ol>
+</details>
+<p class="u-key">A zsákutca nem telítődés. Ha egy ágon elakadsz, más klózpárt kell választani. A tétel csak akkor nem bizonyítható, ha már <em>semmilyen</em> pár nem ad új klózt.</p>
+<details class="u-practice" id="gyak-rezolucio"><summary>Gyakorlás · Propozíciós rezolúció (2 feladat)</summary>
+<ol>
+<li><p>Tények: (1) Ha süt a nap, akkor Péter focizik. (2) Ha nem süt a nap, akkor hideg van. (3) Ha Péter focizik vagy hideg van, akkor Péter megfázik. Bizonyítandó: (4) Péter megfázik. (Gyakorlati tábla, 2. előadás, 2. feladat)</p><details class="u-sol"><summary>Megoldás</summary>
+<p><strong>a)</strong> p = „süt a nap”, q = „Péter focizik”, r = „hideg van”, s = „Péter megfázik”.</p>
+<p><strong>b)</strong> (1) <code>p → q</code> = <code>¬p ∨ q</code>. (2) <code>¬p → r</code> = <code>¬¬p ∨ r</code> = <code>p ∨ r</code>. (3) <code>(q ∨ r) → s</code> = <code>¬(q ∨ r) ∨ s</code> = <code>(¬q ∧ ¬r) ∨ s</code> = <code>(¬q ∨ s) ∧ (¬r ∨ s)</code>. (4) <code>s</code>, tagadva <code>¬s</code>.</p>
+<p><strong>c)</strong> <code>¬p ∨ q, p ∨ r, ¬q ∨ s, ¬r ∨ s, ¬s</code>.</p>
+<p><strong>d)</strong> <code>¬p ∨ q</code> és <code>p ∨ r</code> ⇒ <code>q ∨ r</code>. Ezzel és a <code>¬q ∨ s</code>-sel ⇒ <code>r ∨ s</code>. Ezzel és a <code>¬r ∨ s</code>-sel ⇒ <code>s</code>. Végül <code>s</code> és <code>¬s</code> ⇒ NIL. A tábla egy másik sorrendet is mutat, amely a tagadott célból indul: <code>¬s</code> ⇒ <code>¬r</code> ⇒ <code>p</code> ⇒ <code>q</code> ⇒ <code>s</code> ⇒ NIL. Ez a célvezérelt irány, a Prolog is így keres.</p>
+<p><strong>e)</strong> Ellentmondásra jutottunk, tehát a tétel igaz: Péter mindenképpen megfázik. Ha süt a nap, a foci miatt, ha nem, a hideg miatt.</p></details></li>
+<li><p>Tények: (1) Ha Anna otthon van, akkor Béla is otthon van. (2) Vagy Béla nincs otthon, vagy Cili otthon van. (3) Anna otthon van. (4) Cili nincs otthon. Bizonyítandó: (5) Béla otthon van. (Gyakorlati tábla, 2. előadás, „3. óra” rész, 1. feladat) Mielőtt a megoldást megnyitod, nézd meg: igaz lehet-e egyszerre mind a négy premissza?</p><details class="u-sol"><summary>Megoldás</summary>
+<p><strong>a)</strong> p = „Anna otthon van”, q = „Béla otthon van”, r = „Cili otthon van”.</p>
+<p><strong>b–c)</strong> A klózok: <code>¬p ∨ q, ¬q ∨ r, p, ¬r, ¬q</code>. Az utolsó a tagadott konklúzió.</p>
+<p><strong>d)</strong> <code>¬p ∨ q</code> és <code>p</code> ⇒ <code>q</code>, ezzel és a <code>¬q</code>-val ⇒ NIL.</p>
+<p><strong>e)</strong> Formálisan a tétel igaz. A feladatnak azonban van egy rejtett hibája: a premisszák egymásnak is ellentmondanak. Ezt mutatja az alábbi kiigazítás.</p></details></li>
+</ol>
+</details>
+<aside class="u-fix"><h3>Kiigazítás · Ha az üres klózhoz nem kell a tagadott állítás</h3>
+<p><strong>A gyakorlati táblán:</strong> az Anna–Béla–Cili feladatnak két levezetése szerepel. Az egyik a <code>¬p ∨ q</code> és a <code>p</code> klózból <code>q</code>-t kap, ebből a <code>¬q ∨ r</code>-rel <code>r</code>-et, végül a <code>¬r</code>-rel üres klózt. A kézírásos feladatsorban a <code>¬p ∨ q</code> és a <code>¬q ∨ r</code> klózból <code>¬p ∨ r</code> lesz, ebből a <code>p</code>-vel <code>r</code>, majd a <code>¬r</code>-rel üres klóz. Mindkét esetben ez a zárás: „Ellentmondásra jutottunk, így az eredeti tételünk igaz.” (<a href="#s-tabla">Gyakorlati tábla, 2. előadás</a>; <a href="#s-feladatsorok">logika_plusz feladatsor, 1. oldal</a>)</p>
+<p><strong>Helyesen:</strong> ezek a levezetések a tagadott konklúziót, a <code>¬q</code>-t egyáltalán nem használják. Az üres klóz tehát már a négy premisszából kijön: <strong>a premisszák önmagukban ellentmondók</strong>. Ilyenkor a „tétel” csak üres értelemben következik. Ellentmondó premisszákból ugyanis bármi levezethető, a „Béla nincs otthon” állítás is.</p>
+<p><strong>Miért fontos?</strong> Józan ésszel: Anna otthon van, ezért az (1) szerint Béla is. Ekkor a (2) szerint Cili is otthon van, ez pedig ütközik a (4)-gyel. A három változó mind a 8 interpretációjában van legalább egy hamis premissza. A rezolúció tehát helyesen jelzett ellentmondást, csak nem a konklúzió miatt. A tanulság: ha az üres klóz a tagadott konklúzió nélkül is levezethető, a feladat premisszái hibásak, és a bizonyítás a konklúzióról semmit sem mond. Ha a (4) premisszát elhagyjuk, a feladat rendben van. A maradék premisszák kielégíthetők, például ha mindhárman otthon vannak. A <code>¬p ∨ q</code>, <code>p</code>, <code>¬q</code> klózokból pedig a fenti rövid levezetés két lépésben üres klózt ad. <a href="#s-aima">Forrás: Russell–Norvig, 7.5 szakasz.</a></p></aside>
 <div class="u-lab" id="rezolucio-labor"><span class="u-lab-label">PRÓBÁLD KI / REZOLÚCIÓS MŰHELY</span><h3>Válassz két klózt, és rezolváld őket!</h3>
 <p>Jelölj ki két klózt, és kattints a rezolválás gombra. Használhatod a gépi lépést is, vagy lefuttathatod a javított algoritmust a végéig. Saját klózhalmazt is megadhatsz: a klózokat pontosvessző, a literálokat ∨ vagy | választja el, a tagadás jele ¬, ! vagy ~.</p>
 <div class="u-js-only">
@@ -439,6 +511,9 @@ end</code></pre>
 <option value="¬d ∨ l; ¬l; d">A menzai rejtvény</option>
 <option value="p ∨ q; ¬p ∨ r; ¬q ∨ r">Kielégíthető halmaz (a kiigazítás példája)</option>
 <option value="p ∨ q; ¬p ∨ ¬q">Két ellentett pár egy klózpárban</option>
+<option value="¬p ∨ q ∨ r; ¬q ∨ s; ¬q ∨ t; ¬r ∨ s; ¬r ∨ u; p; ¬s">Zh-feladat: a mérés B vagy C módban</option>
+<option value="¬p ∨ q; p ∨ r; ¬q ∨ s; ¬r ∨ s; ¬s">Süt a nap, Péter focizik</option>
+<option value="¬p ∨ q; ¬q ∨ r; p; ¬r">Anna, Béla, Cili: csak a négy premissza</option>
 </select></label></div>
 <div class="u-form-row"><label class="u-grow">Saját klózhalmaz <input type="text" id="rez-sajat" spellcheck="false" autocomplete="off" placeholder="például: a ∨ b; ¬a; ¬b"></label><button type="button" id="rez-betolt" class="u-ghost">Betöltés</button></div>
 <fieldset class="u-radios u-clauses" id="rez-klozok"><legend>Klózhalmaz · jelölj ki kettőt</legend></fieldset>
@@ -507,6 +582,13 @@ end</code></pre>
 <p class="u-bind-note">Mindkét x kötött, mert a szögletes zárójel a ∀x hatáskörét az egész kifejezésre kiterjeszti. Az y első előfordulása szabad. A második kötött, mert a ∃y hatáskörében áll.</p>
 </div>
 <p>A második példa mutatja, hogy a kötöttség az <em>előfordulás</em> tulajdonsága, nem a változóé. Ugyanaz az y egyszer szabad, egyszer kötött. Magáról a változóról akkor mondjuk, hogy kötött, ha minden előfordulása kvantor hatása alatt áll. <strong>Mondatnak</strong> nevezzük azt a formulát, amelyben minden változó összes előfordulása kötött. Példa: <code>(∀x) [P(x) ∨ (∃y) Q(x, y)]</code>. A továbbiakban csak mondatokkal foglalkozunk. Ennek oka, hogy egy szabad változós formula, például „x hallgató”, nem igaz és nem hamis, amíg meg nem mondjuk, ki az x.</p>
+<details class="u-practice" id="gyak-elmelet"><summary>Gyakorlás · Elméleti kérdések zh-stílusban (3 feladat)</summary>
+<ol>
+<li><p>Igaz vagy hamis? „A propozíciós logikában vannak univerzális és egzisztenciális kvantorok.” (<a href="#s-mintazh">Minta-zh, 1(k)</a>)</p><details class="u-sol"><summary>Megoldás</summary><p><strong>Hamis.</strong> A kvantorok, a ∀ és a ∃, a predikátumlogika új jelei. A propozíciós logika egész állításokkal dolgozik, ezért nincs mit számszerűsíteni: nincs benne „minden x” vagy „van olyan x”. Lásd a 11. rész összevetését.</p></details></li>
+<li><p>Igaz vagy hamis? „A logikai kifejezés tautológia, ha minden helyettesítésre igaz értéket ad.” (<a href="#s-mintazh">Minta-zh, 1(n)</a>)</p><details class="u-sol"><summary>Megoldás</summary><p><strong>Igaz.</strong> Ez a 7. rész meghatározása. A tautológia más néven érvényes formula, például <code>p ∨ ¬p</code>. Ha minden helyettesítésre <em>hamis</em> lenne, kontradikcióról beszélnénk.</p></details></li>
+<li><p>Melyik betű milyen szintaktikai egység lehet a <code>(∀x) p(f(a, x), y) ∨ q</code> kifejezésben, ha eltekintünk a betűk ábécébeli helyétől és kisbetűs írásmódjától? (A kérdés típusa: <a href="#s-exam2017">2017-es vizsgasor, 9. kérdés</a>.)</p><details class="u-sol"><summary>Megoldás</summary><p>Ilyenkor csak a betű <em>helye</em> dönt. Az <strong>x</strong> a kvantor után áll, tehát elemváltozó, és mindkét előfordulása kötött. Az <strong>f</strong> argumentumokat kap, és egy argumentum helyén áll, tehát kétargumentumú függvényszimbólum. Az <strong>f(a, x)</strong> így term. A <strong>p</strong> argumentumokat kap, és formula helyén áll, tehát kétargumentumú predikátumszimbólum. A <strong>p(f(a, x), y)</strong> atomi formula. Az <strong>a</strong> és az <strong>y</strong> argumentum, kvantor nélkül. Mindkettő lehet elemkonstans vagy szabad elemváltozó. Ha mondatot akarunk, mindkettőnek konstansnak kell lennie. A <strong>q</strong> argumentum nélkül, formula helyén áll, tehát ítéletváltozó. Az egész kifejezés formula.</p></details></li>
+</ol>
+</details>
 </section>
 
 <!-- 13 · FORMALIZÁLÁS -->
@@ -587,7 +669,7 @@ end</code></pre>
 </ol>
 <p>A bizonyítandó (4) állítás: <code>¬hallgató(x) ∨ érti(x, Rezolúció)</code>. Ezt kell tagadni. Ennél a lépésnél könnyű hibázni.</p>
 <aside class="u-fix"><h3>Kiigazítás · A tagadott konklúzióban nem maradhat „minden”-t jelentő változó</h3>
-<p><strong>A PDF-ben:</strong> a (4) tagadása <code>hallgató(x) ∧ ¬érti(x, Rezolúció)</code>. A klózhalmazba ez két klózként, <code>hallgató(x)</code> és <code>¬érti(x, Rezolúció)</code> alakban kerül be (PDF 120–121. oldal).</p>
+<p><strong>A PDF-ben:</strong> a (4) tagadása <code>hallgató(x) ∧ ¬érti(x, Rezolúció)</code>. A klózhalmazba ez két klózként, <code>hallgató(x)</code> és <code>¬érti(x, Rezolúció)</code> alakban kerül be (PDF 120–121. oldal; MI4 előadásdia, 32–33. dia). A gyakorlati tábla ugyanígy jár el ennél a feladatnál és a rénszarvasos zh-feladatnál is: ott a tagadott konklúzióból <code>Rénszarvas(x)</code> és <code>¬Elhúz(x, Mikulás szánja)</code> lesz (<a href="#s-tabla">Gyakorlati tábla, 2. előadás, 3. és 4. feladat</a>).</p>
 <p><strong>Helyesen:</strong> a (4) teljes alakja <code>(∀x)(hallgató(x) → érti(x, Rezolúció))</code>. A tagadása: <code>(∃x)(hallgató(x) ∧ ¬érti(x, Rezolúció))</code>, vagyis „van olyan hallgató, aki nem érti”. Ezt a ∃-t egy új Skolem-konstanssal kell eltüntetni. Legyen ez <code>a</code>, egy ismeretlen hallgató. A két klóz: <code>hallgató(a)</code> és <code>¬érti(a, Rezolúció)</code>.</p>
 <p><strong>Miért fontos?</strong> A klózban maradt x „minden x”-et jelent. A <code>hallgató(x)</code> klóz tehát azt állítja, hogy mindenki hallgató, a <code>¬érti(x, Rezolúció)</code> pedig azt, hogy senki sem érti a rezolúciót. Ez sokkal erősebb, mint a konklúzió tagadása, és hamis bizonyításhoz vezethet. Egy ellenpélda: az egyetlen premissza legyen <code>érti(Anna, Rezolúció)</code>, a konklúzió pedig „minden hallgató érti a rezolúciót”. Ez nem következik, mert lehet egy Bence nevű hallgató, aki nem érti. A PDF módszerével a <code>¬érti(x, Rezolúció)</code> és az <code>érti(Anna, Rezolúció)</code> az <code>x ← Anna</code> helyettesítéssel mégis üres klózt ad. Ez egy hamis „bizonyítás”. Skolem-konstanssal ez nem történhet meg: a <code>¬érti(a, Rezolúció)</code> nem egyesíthető az <code>érti(Anna, Rezolúció)</code> atommal, mert <code>a</code> és <code>Anna</code> két különböző konstans. A PDF feladatában a végeredmény helyes, mert a premisszák valóban maguk után vonják a konklúziót. A módszer azonban csak Skolem-konstanssal megbízható. <a href="#s-robinson">Forrás: Robinson, 1965;</a> <a href="#s-aima">Russell–Norvig, 9.5.1 szakasz.</a></p></aside>
 <div class="u-example" id="ertik-levezetes"><strong>Végigvezetett példa · A levezetés Skolem-konstanssal</strong>
@@ -613,6 +695,41 @@ end</code></pre>
 <li><p>Ez és <code>C(b)</code>, y ← b: <code>¬S(a, b)</code>. Az a nem szereti a b szócséplést.</p></li>
 <li><p><code>S(a, b)</code> és <code>¬S(a, b)</code>: <strong>NIL</strong>. F3 tehát következik F1-ből és F2-ből.</p></li>
 </ol></div>
+<p>A zárthelyi predikátumlogikai feladata ugyanazt az a)–e) menetet kéri, mint a propozíciós: a megfeleltetések helyén itt a predikátumok állnak (<a href="#s-mintazh">Minta-zh, 6. feladat</a>). Két új teendő van. A „minden” változóit a klózokban szabadon hagyjuk, a tagadott konklúzió „van olyan” változója helyére pedig Skolem-konstans kerül. Előbb egy egyszerűbb, változó nélküli konklúzió jön, aztán a minta-zh feladata.</p>
+<details class="u-practice" id="gyak-predikatum" open><summary>Kidolgozott zh-feladatok · Predikátumlogikai rezolúció</summary>
+<ol>
+<li><p>Az állatok értelmezési tartományán: (1) A kutyák harapnak. (2) Ami harap, az veszélyes. (3) Buksi egy kutya. Bizonyítandó: (4) Buksi veszélyes. (<a href="#s-tabla">Gyakorlati tábla, 2. előadás, „3. óra” rész, 2. feladat</a>)</p><details class="u-sol"><summary>Megoldás</summary>
+<p><strong>a)</strong> Predikátumok: Kutya(x), „x egy kutya”; Harap(x), „x harap”; Veszélyes(x), „x veszélyes”. A Buksi individuumkonstans, a tartomány egy eleme.</p>
+<p><strong>b)</strong> (1) <code>(∀x)(Kutya(x) → Harap(x))</code> = <code>¬Kutya(x) ∨ Harap(x)</code>. (2) <code>(∀x)(Harap(x) → Veszélyes(x))</code> = <code>¬Harap(x) ∨ Veszélyes(x)</code>. (3) <code>Kutya(Buksi)</code>. (4) <code>Veszélyes(Buksi)</code>, tagadva <code>¬Veszélyes(Buksi)</code>. Itt nem kell Skolem-konstans, mert a konklúzióban nincs változó.</p>
+<p><strong>c)</strong> <code>¬Kutya(x) ∨ Harap(x), ¬Harap(x) ∨ Veszélyes(x), Kutya(Buksi), ¬Veszélyes(Buksi)</code>.</p>
+<p><strong>d)</strong> Az (1) és a (2) klózból, a Harap kiesésével: <code>¬Kutya(x) ∨ Veszélyes(x)</code>. Ezzel és a <code>Kutya(Buksi)</code>-val, x ← Buksi helyettesítéssel: <code>Veszélyes(Buksi)</code>. Ezzel és a <code>¬Veszélyes(Buksi)</code>-val: NIL.</p>
+<p><strong>e)</strong> Ellentmondásra jutottunk, tehát az ismert tények alapján Buksi veszélyes.</p>
+<p>A tábla egy változatot is megmutat. Ha a konklúzió „Buksi veszélyes vagy Buksi kutya” lenne, a tagadása De Morgannal <code>¬Veszélyes(Buksi) ∧ ¬Kutya(Buksi)</code>, vagyis két klóz.</p></details></li>
+<li><p>Az állatok és tárgyak értelmezési tartományán: (1) A rénszarvasok repülnek. (2) A repülő állatok mindent el tudnak húzni, ami szán. (3) A repülő állatoknak a Mikulás szánja szán. Bizonyítandó: (4) A rénszarvasok el tudják húzni a Mikulás szánját. (<a href="#s-mintazh">Minta-zh, 6. feladat</a>; <a href="#s-tabla">Gyakorlati tábla, 4. feladat</a>)</p>
+<details class="u-sol"><summary>a) Megoldás: predikátumok</summary>
+<p>Rénszarvas(x), „x egy rénszarvas”; Repül(x), „x repül”; Elhúz(x, y), „x el tudja húzni y-t”; Szán(y), „y egy szán”. A Mikulás szánja individuumkonstans, röviden <code>MSz</code>.</p></details>
+<details class="u-sol"><summary>b) Megoldás: formalizált állítások</summary>
+<p><strong>1.</strong> <code>(∀x)(Rénszarvas(x) → Repül(x))</code>, KNF-ben <code>¬Rénszarvas(x) ∨ Repül(x)</code>.</p>
+<p><strong>2.</strong> <code>(∀x)(∀y)((Repül(x) ∧ Szán(y)) → Elhúz(x, y))</code>, KNF-ben <code>¬Repül(x) ∨ ¬Szán(y) ∨ Elhúz(x, y)</code>.</p>
+<p><strong>3.</strong> <code>(∀x)(Repül(x) → Szán(MSz))</code>, KNF-ben <code>¬Repül(x) ∨ Szán(MSz)</code>. Ez a kurzus megszokott alakja, ugyanaz a minta, mint a hallgatós feladat (3) premisszájában.</p>
+<p><strong>4.</strong> <code>(∀x)(Rénszarvas(x) → Elhúz(x, MSz))</code>. A tagadása <code>(∃x)(Rénszarvas(x) ∧ ¬Elhúz(x, MSz))</code>: van egy rénszarvas, amely nem tudja elhúzni. Ennek új Skolem-konstanst adunk, legyen <code>r</code>. Két klóz lesz belőle: <code>Rénszarvas(r)</code> és <code>¬Elhúz(r, MSz)</code>. A táblán itt x áll, a fenti kiigazítás szerint ez pontatlan.</p></details>
+<details class="u-sol"><summary>c) Megoldás: klózok</summary>
+<p><code>¬Rénszarvas(x) ∨ Repül(x), ¬Repül(x) ∨ ¬Szán(y) ∨ Elhúz(x, y), ¬Repül(x) ∨ Szán(MSz), Rénszarvas(r), ¬Elhúz(r, MSz)</code>. Jelölje ezeket (1), (2), (3), (4a) és (4b).</p></details>
+<details class="u-sol"><summary>d) Megoldás: rezolúció</summary>
+<div class="u-table-wrap"><table class="u-table" id="renszarvas-tabla">
+<thead><tr><th>Lépés</th><th>Rezolvált klózok</th><th>Helyettesítés</th><th>Rezolvens</th></tr></thead>
+<tbody>
+<tr><td>5</td><td>(4a) és (1)</td><td>x ← r</td><td><code>Repül(r)</code></td></tr>
+<tr><td>6</td><td>(5) és (2)</td><td>x ← r</td><td><code>¬Szán(y) ∨ Elhúz(r, y)</code></td></tr>
+<tr><td>7</td><td>(6) és (3)</td><td>y ← MSz</td><td><code>Elhúz(r, MSz) ∨ ¬Repül(x)</code></td></tr>
+<tr><td>8</td><td>(7) és (4b)</td><td>–</td><td><code>¬Repül(x)</code></td></tr>
+<tr><td>9</td><td>(8) és (5)</td><td>x ← r</td><td><strong>NIL</strong></td></tr>
+</tbody></table></div>
+<p>A 7. lépésben a (3) klóz x-e a klóz saját változója, nem azonos az r-rel, ezért marad <code>¬Repül(x)</code>. Minden klóz változói függetlenek a többi klózétól. Ez a sorrend a tábláé. A hallgatós feladat táblázata szerinti sorrend, vagyis előbb a (4b), aztán a (3), ugyanígy NIL-hez vezet.</p></details>
+<details class="u-sol"><summary>e) Megoldás: szöveges válasz</summary>
+<p>Ellentmondásra jutottunk, tehát a tétel igaz: a rénszarvasok el tudják húzni a Mikulás szánját. A döntő helyettesítés <code>y ← MSz</code>: a (2) általános szabályát a Mikulás szánjára kellett alkalmazni.</p></details></li>
+</ol>
+</details>
 <p>Ha a konklúzió nem „minden”-t, hanem „ki?”-t kérdez, a helyettesítésekből a válasz is kiolvasható. Pontosan ezt teszi a kurzus logikai kódja. A <code>pyDatalog</code> Python-könyvtár a Prologhoz hasonló logikai programozást tesz lehetővé. Tényeket és szabályokat adunk meg, aztán kérdezünk.</p>
 <figure class="u-code"><pre><code>from pyDatalog import pyDatalog
 
@@ -810,10 +927,16 @@ Anna érti a rezolúciót? True</code></pre>
 <!-- FORRÁSOK -->
 <section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
 <h2>Honnan tudjuk?</h2>
-<p>A fejezet a kurzus PDF-jének 89–121. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből származnak. A PDF-ben szereplő művek magyar címe a PDF fordítása. A „Kiigazítás” dobozok a PDF öt lényeges szakmai hibáját javítják. Ezek: Russell paradoxonának megfogalmazása (94. oldal), a rezolúciós ciklus leállási feltétele (107. oldal), az üres klóz és az üres klózhalmaz összekeverése (108. oldal), a rezolúció döntési képessége a predikátumlogikában (118. oldal), végül a tagadott konklúzió Skolem-konstans nélküli klózai (120–121. oldal). A „Kiegészítés” dobozok hátteret adnak.</p>
-<p>A PDF-ben néhány apró elírás is van, ezeket a jegyzet külön doboz nélkül, helyes alakban közli. A 106. oldal a klózokra bontásnál „diszjunktív normál formát” említ, a helyes a konjunktív. A 117. oldalon a predikátumok leképezése D<sup>2</sup> → {T, F} alakban szerepel, az n-argumentumú esetben helyesen D<sup>n</sup> → {T, F}. A 110. és a 116. oldal eltérően számozza a szócséplés-feladat konklúzióját. A PDF 101. oldalán a formula kiértékelése egyetlen interpretációban szerepel. A 100. oldal két interpretációjának kiértékelése, a Venn-ábrák, a NOR-táblázat, a nem klasszikus logikák összehasonlítása, a KNF-átalakítás példája, a menzai rejtvény és a szócséplés-feladat rezolúciós bizonyítása a jegyzet saját anyaga. A kurzus kódgyűjteményéből a <code>resources/code/12_Logika.py</code> kapcsolódik a fejezethez. A 15. részben változatlanul szerepel, a mintájára készült saját példával együtt. Mindkét kód kimenetét futtatással ellenőriztük.</p>
+<p>A fejezet a kurzus PDF-jének 89–121. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből származnak. A PDF-ben szereplő művek magyar címe a PDF fordítása. A „Kiigazítás” dobozok hat lényeges szakmai hibát javítanak. Ötöt a PDF-ben: Russell paradoxonának megfogalmazása (94. oldal), a rezolúciós ciklus leállási feltétele (107. oldal), az üres klóz és az üres klózhalmaz összekeverése (108. oldal), a rezolúció döntési képessége a predikátumlogikában (118. oldal), végül a tagadott konklúzió Skolem-konstans nélküli klózai (120–121. oldal; ugyanez a gyakorlati táblán is). A hatodik a gyakorlati tábla Anna–Béla–Cili feladata, amelynek premisszái önmagukban ellentmondók. A „Kiegészítés” dobozok hátteret adnak.</p>
+<p>A fejezetet a kurzus újabb anyagaival is összevetettük. Az MI4 előadásdiák 1–33. diája ugyanazt a tartalmat adja, mint a PDF 89–121. oldala; ebből csak Keynes logikai valószínűségének meghatározása került be új mondatként (7. dia). A diák 34–37. diája már a Prologról szól, ez az 5. fejezet anyaga. A gyakorlati tábla és a beszkennelt feladatsorok logikai feladatai, valamint a 2025. december 5-i minta-zh 5. és 6. feladata a fejezet gyakorló blokkjaiban szerepelnek, a táblai levezetések helyes formájában. A tételbizonyítás három lépése a 8. részben, a KNF négy szabálya a 9. részben a táblai megfogalmazással is egyezik.</p>
+<p>A PDF-ben néhány apró elírás is van, ezeket a jegyzet külön doboz nélkül, helyes alakban közli. A 106. oldal a klózokra bontásnál „diszjunktív normál formát” említ, a helyes a konjunktív. A 117. oldalon a predikátumok leképezése D<sup>2</sup> → {T, F} alakban szerepel, az n-argumentumú esetben helyesen D<sup>n</sup> → {T, F}. A 110. és a 116. oldal eltérően számozza a szócséplés-feladat konklúzióját. Az MI4 előadásdia 25. diája atomi formulára a <code>színe(szőke, haj, időskorban)</code> ⇒ True példát hozza. Ez ütközik a 24. dia függvényes példájával, amely szerint a haj színe időskorban ősz. A jegyzet ezért ezt a példát nem veszi át. A PDF 101. oldalán a formula kiértékelése egyetlen interpretációban szerepel. A 100. oldal két interpretációjának kiértékelése, a Venn-ábrák, a NOR-táblázat, a nem klasszikus logikák összehasonlítása, a KNF-átalakítás példája, a menzai rejtvény és a szócséplés-feladat rezolúciós bizonyítása a jegyzet saját anyaga. A kurzus kódgyűjteményéből a <code>resources/code/12_Logika.py</code> kapcsolódik a fejezethez. A 15. részben változatlanul szerepel, a mintájára készült saját példával együtt. Mindkét kód kimenetét futtatással ellenőriztük.</p>
 <ul class="u-sources">
 <li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 89–121. oldal (<code>resources/presentation/</code>).</li>
+<li id="s-mi4">Mesterséges intelligencia alapjai, MI4 előadásdiák: Formális logika, 1–33. dia.</li>
+<li id="s-tabla">Gyakorlati tábla: „Mesterséges intelligencia alapjai előadás_2” (Microsoft Whiteboard), logikai feladatok: KNF, propozíciós és predikátumlogikai rezolúció.</li>
+<li id="s-feladatsorok">Beszkennelt kézírásos feladatsorok: Logika_feladatok, logika_plusz és Logika_plusz_plusz. Tartalmuk a gyakorlati tábla logikai feladataival egyezik.</li>
+<li id="s-mintazh">Mesterséges intelligencia alapjai, minta-zárthelyi, 2025. december 5.: 1(k), 1(n), 5. és 6. feladat.</li>
+<li id="s-exam2017">Mesterséges intelligencia alapjai, vizsgasor, 2017: 2., 8. és 9. kérdés. Kiegészítő forrás.</li>
 <li id="s-aima">S. Russell, P. Norvig: <em>Artificial Intelligence: A Modern Approach</em>, 4. kiadás, Pearson, 2020, 7–9. fejezet.</li>
 <li id="s-robinson">J. A. Robinson: <a href="https://doi.org/10.1145/321250.321253">A Machine-Oriented Logic Based on the Resolution Principle</a>, <em>Journal of the ACM</em> 12(1), 1965, 23–41.</li>
 <li id="s-church">A. Church: <a href="https://doi.org/10.2307/2269326">A Note on the Entscheidungsproblem</a>, <em>Journal of Symbolic Logic</em> 1(1), 1936, 40–41.</li>

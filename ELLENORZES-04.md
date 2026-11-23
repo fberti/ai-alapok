@@ -80,3 +80,20 @@ Javított forráshivatkozás: a Jevons-életrajz önmagában nem támasztotta al
 Nincs nyitott tartalmi hiány. Minden előírt fogalom és példa szerepel. Az öt interakció és a 12 kérdés működik. A normálforma-labor kijelentéslogikai, a faépítő a PDF öt klózából indul; a határokat az oldal kimondja. Az elsőrendű rezolúciót teljes, helyettesítésekkel ellátott statikus levezetés tanítja, nem rejtett automatikus megoldó. Az 5. fejezet tananyagát nem valósítottuk meg előre.
 
 Összesítés: 0 nyitott szabályeltérés; 0 nyitott specifikációs hiány.
+
+## Összevetés az új forrásokkal
+
+Források: az MI4 előadásdiák 1–37. diája, a gyakorlati tábla (2. előadás) logikai feladatai, a beszkennelt feladatsorok (Logika_feladatok, logika_plusz, Logika_plusz_plusz), a 2025. december 5-i minta-zh 1(k), 1(n), 5. és 6. feladata, valamint kiegészítésként a 2017-es vizsgasor 2., 8. és 9. kérdése.
+
+Az MI4 1–33. diája tartalmilag egyezik a PDF 89–121. oldalával. Új mondatként csak Keynes logikai valószínűségének meghatározása került be (7. dia). A 25. dia `színe(szőke, haj, időskorban) ⇒ True` példája ütközik a 24. dia függvényes példájával; ezt a források között apró elírásként jelezzük. A 34–37. dia már a Prologról szól, ez az 5. fejezet anyaga.
+
+Változások:
+
+- A 8. rész rezolúciós módszere a táblai megfogalmazás szerint három lépés lett: tagadás, KNF-re hozás, rezolválás „amíg ellentmondáshoz nem jutunk, vagy nem tudunk továbbmenni”.
+- A 2. rész kapott egy Frege–Russell összevetést (azonosság és eltérés).
+- A 10. rész kapott egy a)–e) lépéssort a zh-feladat menetéről, a mérés B/C mód feladat lenyitható, részenkénti kidolgozását a zsákutca-ággal, egy rövid kiemelést arról, hogy a zsákutca nem telítődés, valamint a Péter focizik és az Anna–Béla–Cili gyakorló feladatot. A rezolúciós műhely három új mintakészletet kapott.
+- Új, hatodik kiigazítás: az Anna–Béla–Cili feladat premisszái önmagukban ellentmondók. A táblai és a kézírásos levezetés egyike a tagadott konklúzió nélkül jut üres klózhoz. Pythonnal ellenőrizve: a négy premissza mind a 8 interpretációban hamis; a (4) premissza nélkül a feladat rendben van.
+- A meglévő Skolem-kiigazítás most a táblai hallgatós és rénszarvasos levezetésre is hivatkozik, mert ott is `hallgató(x)`, illetve `Rénszarvas(x)` maradt a tagadott konklúzióban.
+- A 9. rész kapott egy KNF-gyakorlást (Péter megfázik, `¬(p → s)`), a 12. rész egy elméleti gyakorlást (minta-zh 1(k), 1(n), a vizsgasor szintaktikai egységes kérdésének típusa), a 15. rész pedig a Buksi és a rénszarvas–Mikulás szánja feladat kidolgozását Skolem-konstanssal.
+
+Ellenőrzés: minden propozíciós KNF-et és kielégíthetetlenséget Pythonnal, igazságtáblával és telítéses rezolúcióval ellenőriztünk. A gyakorló blokkok `<details>` elemek, JavaScript nélkül is nyithatók, nyomtatásban kinyílnak. Ideiglenes képernyőképen 320, 390 és 1365 pixelen nincs oldalsó túlnyúlás. A böngészőteszt a hat kiigazítást, az öt gyakorló blokkot és a JavaScript nélküli lenyitást is ellenőrzi; a böngészőteszteket a koordinátor futtatja. `npm run typecheck` sikeres; `npm test` egyetlen hibája az 5. fejezet egy hiányzó horgonya (`#zh-gyakorlas`), amely egy párhuzamos, folyamatban lévő szerkesztésből ered.

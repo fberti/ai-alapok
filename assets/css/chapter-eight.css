@@ -353,3 +353,4 @@ details.u-quiz-wrap>.u-quiz{padding:.8rem 1.1rem}
   :root[data-theme=dark] .chapter-eight{--u-accent:#3b6420;--u-accent-bg:#e6efd9;--u-fix:#8a3b12;--u-fix-bg:#fff0e0;--u-add:#1f5a44;--u-add-bg:#e5f1e9;--u-key:#d9e8c4;--u-card:#fffef9;--u-ok:#1f6b3a;--u-bad:#a1261b;--u-back:#b3261e;--u-s1:#b3261e;--u-s2:#2f7d32;--u-s3:#1d5287;--u-s4:#8a4a00;--u-s5:#8e2d7a}
 }
 @media print{details.u-practice::details-content,details.u-sol::details-content{content-visibility:visible;display:block}}
+details.u-practice>p,details.u-practice>.u-table-wrap,details.u-practice>.u-simple{margin:.6rem 1.1rem}

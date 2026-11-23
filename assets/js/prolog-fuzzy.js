@@ -223,8 +223,12 @@ const CoursePrologFuzzy = (() => {
     };
   }
 
-  /** A resources/code/11_Fuzzy.py szabályai folytonos kimeneti tengelyen. @param {number} t @param {number} target */
-  function thermostat(t, target) {
+  /**
+   * A resources/code/11_Fuzzy.py szabályai folytonos kimeneti tengelyen.
+   * A noChangeTrapezoid az oktató újabb fuzzylev.py változata: ott a „Nincs akció” trapéz (0, 1, 2, 3).
+   * @param {number} t @param {number} target @param {{noChangeTrapezoid?: boolean}} [o]
+   */
+  function thermostat(t, target, o = {}) {
     /** @param {number} x */
     const five = (x) => ({ veryCold: triangle(x, 0, 0, 10), cold: triangle(x, 0, 10, 20), warm: triangle(x, 10, 20, 30), hot: triangle(x, 20, 30, 40), veryHot: triangle(x, 30, 40, 40) });
     const a = five(t), b = five(target);
@@ -234,7 +238,7 @@ const CoursePrologFuzzy = (() => {
       noChange: Math.min(a.warm, b.warm)
     };
     /** @param {number} y */
-    const agg = (y) => Math.max(Math.min(strengths.cool, triangle(y, 0, 0, 1.5)), Math.min(strengths.noChange, triangle(y, 0, 1.5, 3)), Math.min(strengths.heat, triangle(y, 1.5, 3, 3)));
+    const agg = (y) => Math.max(Math.min(strengths.cool, triangle(y, 0, 0, 1.5)), Math.min(strengths.noChange, o.noChangeTrapezoid ? trapezoid(y, 0, 1, 2, 3) : triangle(y, 0, 1.5, 3)), Math.min(strengths.heat, triangle(y, 1.5, 3, 3)));
     return { inputs: { temperature: a, target: b }, strengths, centroid: centroidOf(agg, 0, 3) };
   }
 

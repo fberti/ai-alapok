@@ -49,9 +49,19 @@ A hetedik fejezet a PDF 222–255. oldalát dolgozza fel. Hét labor tartozik ho
 
 A nyolcadik fejezet a PDF 256–275. oldalát dolgozza fel. Öt labor tartozik hozzá: fenotípus–genotípus átalakító, a három kiválasztási mód összevetése, keresztezés és mutáció kézi laborja, paraméterezhető teljes genetikus algoritmus és egy kétcsúcsú felszín, amelyen a populáció és a hegymászó összevethető. Négy lenyíló gyakorló blokk és tizenkét választható, tippekkel ellátott kvízkérdés segít az ellenőrzésben. Hét kiigazítás javítja többek között az evolúciós programozás tárgyát, az egyenletes keresztezés ábráját és a rangsor alapú képletet. Az oktató három genetikus programját 100–100 futással ellenőriztük.
 
-Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md), [ELLENORZES-06.md](ELLENORZES-06.md), [ELLENORZES-07.md](ELLENORZES-07.md).
+Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md), [ELLENORZES-06.md](ELLENORZES-06.md), [ELLENORZES-07.md](ELLENORZES-07.md), [ELLENORZES-08.md](ELLENORZES-08.md).
 
 A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.
+
+## Összevetés az előadásdiákkal és a minta-zh-val
+
+Az 1–8. fejezetet összevetettük a kurzus újabb anyagaival: az MI1–MI6 előadásdiákkal, a gyakorlati táblával, a kézírásos logikai feladatsorokkal, a 2025. december 5-i minta-zárthelyivel, egy 2017-es vizsgasorral és az oktatói kódok újabb változataival (`fuzzylev.py`, `ga_knapsack.py`, `ga_sakkminta.py`). Ezek a források nem részei a tárnak.
+
+A fejezetek lenyitható, JavaScript nélkül is olvasható gyakorló feladatokat kaptak a zh feladattípusaihoz: előre- és hátraláncolás (2.), esetalapú tervezés (3.), propozíciós és predikátumlogikai rezolúció a)–e) menettel (4.), fuzzy szimuláció súlyponttal (5.), előreterjesztés ReLU-hálón (6.), genetikus algoritmus a lámpás hátizsákfeladaton (8.). A minta-zh igaz–hamis állításai a megfelelő fejezetekből eldönthetők.
+
+Új kiigazítások: a táblai előreláncolás T5–T6 ténybázisa (2.), az Anna–Béla–Cili feladat ellentmondásos premisszái (4.), a táblai fuzzy feladat Meleg(16) értéke (5.) és a dia hibás OX-példája (8.). A részleteket az `ELLENORZES-0N.md` fájlok záró szakaszai tartalmazzák.
+
+A minta-zh legnagyobb feladata (25 pont) mélységi keresés és A* egy súlyozott gráfon. Ez a 9–10. mérföldkő anyaga, amely még nem készült el.
 
 ## Tartalmi forma
 

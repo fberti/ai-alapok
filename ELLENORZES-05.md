@@ -59,3 +59,17 @@ A két szempontot két független alügynök vizsgálta: a szabályokat (`AGENTS
 Javítva: a megoldó a névtelen `_` változó előfordulásait egy változóként kezelte (új hibázó teszt, majd javítás). A tagsági fok és a valószínűség dobozát kiegészítéssé alakítottuk. Új „Egyszerűen mondva” doboz került a keresés és a vágás mellé. A vágás hatása az eredeti sorrendben is pontos leírást kapott. Az ábracímek tizedesvesszőt használnak. A hat alakzat paramétereiről a szöveg már kimondja, hogy saját választások. A vizsgalabor a győztes szabály nevét a modellből veszi, és a módszerválasztás csak egyszer rajzol újra.
 
 Nem javított, tudatos döntés: a `$`, `esc`, `initToc` és `initQuiz` függvény másolata az 1–4. fejezet mintáját követi. A közös modulba emelés mind az öt fejezetet érintené, ezért nem ennek a mérföldkőnek a része. A görberajzoló alakválasztós, paraméteres rajzoló, nem szabadkézi. A harmadik tény kapcsolója a vágás „zöld” hatását mutatja, két válasz esetén.
+
+## Összevetés az oktató új forrásaival
+
+Átnéztük: az MI4_Logika diasor 34–53. diáját, a 2. előadás gyakorlati táblájának fuzzy feladatát (5. feladat), az oktató újabb `fuzzylev.py` kódját, a 2025. december 5-i minta-zárthelyi 1(a) és 7. feladatát, valamint a 2017-es vizsgasor két fuzzy kérdését.
+
+- A diák szövege megegyezik a PDF 122–141. oldalával (34. dia = 122. oldal). A Prolog „Colmerauer, Kowalski, 1970” sora a 34. dián is szerepel. A meglévő kiigazítás most a diára is hivatkozik.
+- A `fuzzylev.py` a `11_Fuzzy.py` magyar nevű változata, a „Nincs akció” trapéz (0, 1, 2, 3). Scikit-fuzzy 0.5.0-val futtatva (`uv run --no-project`, Agg háttér) a kimenete `1.5999999999999996`. A régi háromszöges változat továbbra is 1,65. Az algoritmust numpy-val kézzel is utánaszámoltuk: a négypontos rácsba a könyvtár a levágási szintek metszéspontjait (0,6; 2,1; 2,4) szúrja be, a sokszög súlypontja 2,496 / 1,56 = 1,6. Sűrű rácson és folytonosan 1,572, mert a 2,6-os töréspont kimarad.
+- A tábla hibája: a 16 °C „Meleg” tagsága 0,5 helyett 0,6, így a 3. szabály 0,6. A tábla 1,6-os végeredménye helyes. A hibás 0,5-del 1,599 adódna. Ez lett a hetedik kiigazítás (`#fuzzy-kod`).
+- A tábla „új szabály” példáját (értéke 0,2, következménye Fűtés) és két változatát lefuttattuk: Fűtés és Nincs akció → 1,6 marad, Hűtés → 1,548.
+- Új 16. rész (`#zh-gyakorlas`): a minta-zh 7. feladata kidolgozva, lenyíló megoldásokkal. A töréspontokat a PDF-be ágyazott eredeti, 1580 pixel széles képekről olvastuk le. A HŐM „Közepes” és a SEBESSÉG „Nagyon magas” csúcsát a jelmagyarázat takarja, ezt a szöveg kimondja. Ellenőrzött eredmények: tagságok 0,4; 0,3 és 2/15; 0,4; szabályok 0; 0; 0,4; 2/15; 0; súlypont 55,6 (scikit-fuzzy is), új szabályok: 58,9 / 55,6 / 50,0. A 2017-es két tervezési feladat saját mintamegoldással szerepel (IQ-partíció, autótömeg ≈ 1255 kg, saját számolással).
+- A minta-zh 1(a) kérdése lenyíló gyakorlásként a 8. rész végére került.
+- Nyomtatáskor a lenyíló feladatok kinyílnak (`initPrint`, a 8. fejezet mintájára). A `prolog-fuzzy.js` termosztátja `noChangeTrapezoid` kapcsolót kapott, új egységteszttel (1,572). A böngészős teszt a 7 kiigazítást, a 3 gyakorló blokkot, a JavaScript nélküli új levezetéseket és a nyomtatási kinyílást is ellenőrzi.
+
+Futtatás: `npm test` 54 sikeres, `npm run typecheck` hibátlan. A böngészős teszteket a koordinátor futtatja. Gyors saját próba 320 és 1365 pixelen: nincs vízszintes túlcsordulás, az új ábrák olvashatók.

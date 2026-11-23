@@ -59,7 +59,7 @@ const CourseGenetic = (() => {
     }
     return r;
   }
-  /** Lineáris rangsoroló kiválasztás: a valószínűség a ranggal arányos. @param {number[]} fit */
+  /** Rangsoroló kiválasztás: a valószínűség a ranggal egyenesen arányos. @param {number[]} fit */
   function linearRankProbs(fit) {
     const r = ranks(fit), sum = r.reduce((s, x) => s + x, 0);
     return r.map((x) => x / sum);

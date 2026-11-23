@@ -236,6 +236,20 @@ html:not(.js) .u-js-only{display:none}
 .u-world input{width:22px;height:22px;accent-color:var(--u-accent)}
 .u-out .u-verdict{display:inline-block;min-width:4.2rem}
 
+/* Gyakorló feladatok lenyíló megoldással */
+details.u-practice{border:1px solid var(--u-accent);border-radius:8px;margin:1.4rem 0;padding:0;background:var(--u-card)}
+details.u-practice>summary{cursor:pointer;padding:.7rem 1.1rem;font-weight:bold;color:var(--u-accent)}
+details.u-practice[open]>summary{border-bottom:1px dashed var(--line)}
+details.u-practice>ol{margin:.6rem 0;padding:0 1.1rem 0 2.6rem}
+details.u-practice>ol>li{margin:.9rem 0}
+details.u-practice>ol>li>p{margin:.2rem 0}
+details.u-practice>p{margin:.6rem 1.1rem}
+.u-sol{margin:.4rem 0;padding:.2rem 0;border:0;font-size:15px}
+.u-sol>summary{cursor:pointer;color:var(--u-accent);font-weight:bold;min-height:32px}
+.u-sol>*:not(summary){margin:.3rem 0;padding-left:.9rem;border-left:3px solid var(--u-accent-bg)}
+.u-sol>.u-ladder,.u-sol>.u-table-wrap{border-left:0;padding-left:0}
+.u-sol code{overflow-wrap:anywhere}
+
 @media(max-width:760px){
   .u-quote-grid{grid-template-columns:1fr}
   .u-rows>div{grid-template-columns:1fr;gap:.2rem}
@@ -250,10 +264,12 @@ html:not(.js) .u-js-only{display:none}
 @media(prefers-reduced-motion:reduce){.chapter-four *{transition:none!important;animation:none!important}}
 @media print{
   .u-lab,.u-quiz{display:none}
-  .u-fix,.u-add,.u-simple,.u-example,.u-compare>div,.u-timeline li,.u-rows>div,.u-quote,.u-stack>li,.u-tree-fig,.u-venn,.u-ladder li,.u-bind,.u-formula,.u-knf{break-inside:avoid}
+  .u-fix,.u-add,.u-simple,.u-example,.u-compare>div,.u-timeline li,.u-rows>div,.u-quote,.u-stack>li,.u-tree-fig,.u-venn,.u-ladder li,.u-bind,.u-formula,.u-knf,.u-sol{break-inside:avoid}
+  details.u-practice>*,details.u-sol>*{display:block}
   .u-code pre{background:#fff;color:#000;border:1px solid #999;white-space:pre-wrap}
   .u-table-wrap{overflow:visible}
   .u-venn .u-venn-fill,.u-venn .u-venn-box.u-venn-fill{fill:#999}
   .chapter-four a[href^="http"]:after{content:" (" attr(href) ")";font-size:9pt;word-break:break-all}
 }
 .u-lab>p code{white-space:nowrap}
+@media print{details.u-practice::details-content,details.u-sol::details-content{content-visibility:visible;display:block}}

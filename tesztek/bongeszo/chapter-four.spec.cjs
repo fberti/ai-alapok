@@ -9,7 +9,9 @@ test('Az új negyedik fejezet hibaüzenet nélkül betölt', async ({page}) => {
   await expect(page.locator('h1')).toContainText('hogy egy következtetés helyes');
   await expect(page.locator('#idovonal li')).toHaveCount(15);
   await expect(page.locator('#pdf-letra li')).toHaveCount(4);
-  await expect(page.locator('.u-fix')).toHaveCount(5);
+  await expect(page.locator('.u-fix')).toHaveCount(6);
+  await expect(page.locator('details.u-practice')).toHaveCount(5);
+  await expect(page.locator('#zh-menet li')).toHaveCount(5);
   for (const fig of await page.locator('.u-quote').all()) await expect(fig.locator('figcaption')).not.toBeEmpty();
   expect(errors).toEqual([]);
 });
@@ -99,5 +101,12 @@ test('JavaScript nélkül is olvasható minden levezetés', async ({browser}) =>
   await expect(page.locator('#venn svg').first()).toBeVisible();
   await expect(page.locator('#kviz-eredmeny')).toContainText('1c, 2b, 3a');
   await expect(page.locator('#formula-be')).toBeHidden();
+  const meresD = page.locator('#gyak-meres details.u-sol').nth(3);
+  await meresD.locator('summary').click();
+  await expect(meresD.getByText('A zsákutca.')).toBeVisible();
+  const renszD = page.locator('#gyak-predikatum details.u-sol').filter({hasText: 'd) Megoldás'});
+  await renszD.locator('summary').click();
+  await expect(page.locator('#renszarvas-tabla')).toBeVisible();
+  await expect(page.locator('#renszarvas-tabla')).toContainText('y ← MSz');
   await context.close();
 });

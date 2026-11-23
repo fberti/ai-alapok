@@ -46,10 +46,11 @@
 <h1>Okos,<br><em>de mihez képest?</em></h1>
 <p class="lead">A telefonod felismeri az arcodat, a leveleződ kiszűri a kéretlen leveleket, egy csevegőprogram pedig verset ír. Okosak ezek a gépek? A válaszhoz előbb azt kell tisztázni, mit nevezünk egyáltalán intelligenciának.</p>
 <div class="u-scene"><p><strong>Egy hétköznapi helyzet.</strong> Két barátod vitatkozik. Az egyik szerint a sakkprogram intelligens, hiszen legyőzi a világbajnokot. A másik szerint buta, hiszen egy teát sem tud főzni. Mindkettőnek igaza lehet – attól függően, hogy mit értünk intelligencián. Ez a fejezet ezt a vitát bontja ki.</p></div>
-<ul class="u-meta"><li>Forrás: PDF 1–35. oldal</li><li>8 kipróbálható bemutató</li><li>8 opcionális kvízkérdés</li></ul>
+<ul class="u-meta"><li>Forrás: PDF 1–35. oldal, MI1 előadásdiák</li><li>8 kipróbálható bemutató</li><li>9 opcionális kvízkérdés</li></ul>
 <div class="u-goals"><strong>A fejezet végére…</strong><ul>
 <li>el tudod magyarázni, miért nincs az intelligenciának egyetlen elfogadott meghatározása, és melyek a közös elemek;</li>
 <li>meg tudod különböztetni a teljesítménytesztet a képességteszttől, és az érvényességet a megbízhatóságtól;</li>
+<li>meg tudod különböztetni a gyenge és az erős MI álláspontját;</li>
 <li>el tudod mondani, hogyan zajlik a Turing-teszt, mit mér, és mit nem;</li>
 <li>minden fontos MI-alkalmazási területhez tudsz egy működő példát mondani, és látod a korlátait is.</li>
 </ul></div>
@@ -79,6 +80,7 @@
 <tr><td>Következtetés, ítélet</td><td>✓</td><td>–</td><td>✓ (racionálisan gondolkodik)</td><td>✓ (jó döntés, jó okfejtés)</td></tr>
 </tbody></table></div>
 <p class="u-key">Közös mag: az intelligens rendszer tanul, következtet, célja van, és változó környezetben is boldogul. A gépi intelligenciánál is ezeket a képességeket fogjuk keresni.</p>
+<p>Az előadás ugyanezt hat szóval foglalja össze: a fogalomhoz rendszerint a tanulást, az alkalmazkodást, a következtetést, a problémamegoldást, a célszerű cselekvést és a környezettel való eredményes együttműködést társítjuk (MI1 előadásdia, 3. dia). A problémamegoldás a következtetés gyakorlati oldala, az együttműködés a környezettel pedig az alkalmazkodás eredménye, így a két felsorolás ugyanazt a magot írja le.</p>
 <div class="u-simple"><strong>Egyszerűen mondva</strong><p>Az intelligencia nem egyetlen dolog, hanem képességek csokra. Aki csak egyet néz közülük, az mást fog okosnak tartani, mint aki egy másikat.</p></div>
 </section>
 
@@ -104,6 +106,24 @@
 <div><span class="u-tag">3 · TANULÁS</span><h3>Javul a tapasztalattól?</h3><p>A gép viselkedését célszerűen és megismételhető módon változtatja a tapasztalatai alapján. A modern MI-kutatásban ez került előtérbe.</p><p><em>Példa:</em> a szemétszűrő egyre pontosabb, ahogy a felhasználók újabb leveleket jelölnek kéretlennek.</p></div>
 </div>
 <div class="u-simple"><strong>Egyszerűen mondva</strong><p>A termosztát magától működik, de nem okosodik. A játékfigura okosnak látszik, de csak színjáték. A tanuló rendszer viszont a tapasztalatból tényleg jobb lesz. A mai hétköznapi értelemben vett „MI” többnyire ez utóbbi.</p></div>
+<p>A három megközelítés azt mondja meg, <em>mit</em> várunk egy géptől. Patrick Henry Winston, az MIT MI-laboratóriumának egykori vezetője azt írta le, <em>miből</em> áll össze egy intelligensen működő program.</p>
+<figure class="u-quote"><blockquote><p>„Gondolkodást, észlelést, cselekvést célzó modelleket támogató reprezentációk által feltárt megkötések által lehetővé tett algoritmusok”</p></blockquote><figcaption>Patrick Henry Winston meghatározása · MI1 előadásdia, 8. dia</figcaption></figure>
+<p>A hosszú szerkezetet érdemes láncszemekre bontani. Az előadás egyszerűbb megfogalmazása szerint a lánc a reprezentációtól indul:</p>
+<ol class="u-flow" id="winston-lanc">
+<li><strong>1 · REPREZENTÁCIÓ</strong>A rendszer belső formában leírja a világot vagy a megoldandó problémát.</li>
+<li><strong>2 · MEGKÖTÉSEK</strong>A jó leírás megmutatja a lehetséges kapcsolatokat és korlátokat.</li>
+<li><strong>3 · ALGORITMUS</strong>Az eljárás a korlátok alapján választja ki a következő lépést.</li>
+<li><strong>4 · MODELL ÉS CÉL</strong>Mindez a gondolkodást, észlelést vagy cselekvést célzó modelleket szolgálja, például egy döntést vagy egy tárgy felismerését.</li>
+</ol>
+<p>Egy példa a fejezet későbbi részéből. A <a href="#korlatok">nyolc vezér feladatban</a> a reprezentáció az, hogy minden sorba egy vezér kerül, és csak az oszlopát jegyezzük fel. Ez a leírás rögtön feltárja a megkötéseket: két vezér nem állhat azonos oszlopban vagy átlón. Ezekre épül a visszalépéses keresés, az algoritmus. Rossz leírással, például 64 mező szabad betöltésével, ugyanez a keresés sokkal több reménytelen elrendezést próbálna végig. Az intelligens viselkedést tehát a tudás leírása, a feltárt megkötések és az ezeket feldolgozó algoritmus együtt teszi lehetővé.</p>
+<p>Marad egy kérdés, amelyet a Wikipédia-meghatározás „tudat” szava felvetett: elég-e, ha a gép intelligensen <em>viselkedik</em>, vagy valódi elme is kell hozzá? Az előadás így fogalmazza meg a problémát:</p>
+<figure class="u-quote"><blockquote><p>„Egy gép lehet kiváló problémamegoldó anélkül, hogy igazolhatóan tudatos volna, ugyanakkor a tudatosság hiányából önmagában nem következik, hogy működése számítástechnikai értelemben ne lenne intelligens.”</p></blockquote><figcaption>MI1 előadásdia, 9. dia</figcaption></figure>
+<p>Erre a kérdésre két álláspont felel. Az elnevezések John Searle 1980-as cikkéből erednek (<a href="#s-searle">Searle, 1980</a>).</p>
+<div class="u-compare" id="gyenge-eros-mi">
+<div><span class="u-tag">GYENGE MI (WEAK AI)</span><h3>Elég a viselkedés</h3><p>Elsősorban az intelligensnek tekinthető viselkedésről és funkciókról beszél. Azt kérdezi, megoldja-e a gép a feladatot úgy, ahogyan egy intelligens lény tenné. Hogy közben „ért-e” valamit, azt nyitva hagyja.</p><p><em>Példa:</em> a sakkprogram és a levélszemétszűrő a gyenge MI értelmében intelligens.</p></div>
+<div><span class="u-tag">ERŐS MI (STRONG AI)</span><h3>Valódi elme is lehet</h3><p>Azt állítja, hogy megfelelő mesterséges rendszerben valódi gondolkodás vagy elme is létrejöhet. Eszerint a jól megírt program nemcsak utánozza a gondolkodást, hanem gondolkodik is.</p><p><em>Példa:</em> Searle <a href="#kinai-szoba">kínai szoba</a> gondolatkísérlete éppen ezt vitatja.</p></div>
+</div>
+<p>A nyitó vita két barátja tehát nem ugyanarról beszél. A sakkprogram a gyenge MI értelmében intelligens. Az erős MI kérdése az, hogy „tudja-e”, mit csinál. Erre a mai rendszereknél nincs igazolt igen válasz. A tankönyvek és ez a kurzus is a gyenge MI kérdéseivel foglalkozik: mit tud megoldani a gép, és hogyan.</p>
 </section>
 
 <!-- 03 · MÉRÉS -->
@@ -194,7 +214,7 @@
 </div>
 <p>Turing egy óvatos jóslatot is megfogalmazott.</p>
 <figure class="u-quote"><blockquote lang="en"><p>“I believe that in about fifty years’ time it will be possible to programme computers […] to make them play the imitation game so well that an average interrogator will not have more than 70 per cent chance of making the right identification after five minutes of questioning.”</p></blockquote><figcaption>Turing, 1950. Magyarul: „Úgy hiszem, nagyjából ötven év múlva lehetséges lesz úgy programozni a számítógépeket, hogy az átlagos kérdező öt perc kérdezés után legfeljebb 70% eséllyel azonosítsa helyesen a gépet.” (saját fordítás) <a href="#s-turing">Forrás</a></figcaption></figure>
-<p>A jóslat szerint tehát 2000 körül a gép a bírálók legalább 30%-át meg tudja téveszteni öt perc alatt. Az idővonal mutatja, hogyan alakult ez a valóságban.</p>
+<p>A jóslat szerint tehát 2000 körül a gép a bírálók legalább 30%-át meg tudja téveszteni öt perc alatt. Az előadás „legkésőbb 2000-re” alakban adja vissza (MI1 előadásdia, 11. dia); Turing szövegében „nagyjából ötven év” szerepel, határidő nélkül. Az idővonal mutatja, hogyan alakult ez a valóságban.</p>
 <ol class="u-timeline" id="turing-idovonal">
 <li><span class="u-year">1950</span><p>Turing leírja az utánzós játékot és a jóslatát.</p></li>
 <li><span class="u-year">1966</span><p>Joseph Weizenbaum ELIZA nevű programja egyszerű szövegminták alapján „pszichoterapeutát” játszik. Sokan emberinek érezték, pedig semmit sem értett.</p></li>
@@ -214,9 +234,10 @@
 <div><dt>Az együttműködés hiánya</dt><dd>Az az ember is megbukhat, aki nem hajlandó együttműködni. Ugyanez elvben a gépnél sincs kizárva: ha a gép „nem akar” emberként viselkedni, a teszt semmit sem mond a képességeiről.</dd></div>
 <div><dt>A nagy adatbázis csalhat</dt><dd>Kellően nagy, előre eltárolt kérdés–válasz gyűjteménnyel egy gép megértés nélkül is átmehet. Ned Block filozófus 1981-ben ezt gondolatkísérletté fejlesztette: egy hatalmas kikereső táblázat sem intelligens, akármilyen jól válaszol.</dd></div>
 </dl>
-<aside class="u-add"><h3>Kiegészítés · A kínai szoba</h3><p>John Searle 1980-as gondolatkísérletében egy ember kínaiul nem tudva, egy szabálykönyv alapján kínai írásjelekre kínai írásjelekkel válaszol. Kívülről úgy tűnik, érti a nyelvet, valójában csak jeleket rendez. Searle szerint a Turing-teszt legfeljebb a viselkedést méri, a megértést nem. <a href="#s-searle">Forrás: Searle, 1980.</a></p></aside>
+<aside class="u-add" id="kinai-szoba"><h3>Kiegészítés · A kínai szoba</h3><p>John Searle 1980-as gondolatkísérletében egy ember kínaiul nem tudva, egy szabálykönyv alapján kínai írásjelekre kínai írásjelekkel válaszol. Kívülről úgy tűnik, érti a nyelvet, valójában csak jeleket rendez. Searle szerint a Turing-teszt legfeljebb a viselkedést méri, a megértést nem. <a href="#s-searle">Forrás: Searle, 1980.</a></p></aside>
 <p>A tesztet később kiterjesztették: az emberhez hasonlóan <em>gondolkodó</em> gép helyett az emberhez hasonlóan <em>cselekvő</em> gép lett a cél. Egy ilyen gépnek látnia és mozognia is kell, vagyis a robotika és a gépi látás is bekerül a vizsgálatba.</p>
-<p class="u-key">A Turing-teszt a megtévesztés sikerét méri, nem közvetlenül az intelligenciát. Hasznos kiindulópont, de nem végleges mérce.</p>
+<p>Érdemes külön tartani a teszt <em>célját</em> és azt, amit ténylegesen <em>mér</em>. Turing a teszttel az igazi mesterséges intelligencia minősítését kereste (MI1 előadásdia, 10. dia). A célja tehát annak eldöntése, hogy egy gép képes-e emberhez hasonlóan gondolkodni. Ezt a nehéz kérdést cserélte le egy ellenőrizhető játékra. A minta-zárthelyi állítása („A Turing-teszt célja, hogy eldöntse, egy gép képes-e emberhez hasonlóan gondolkodni.”) ezért igaz (Minta-zh, 2025. 12. 05., 1(c) feladat). A fenti kritikák nem a célt vitatják, hanem azt, hogy a játék valóban ezt dönti-e el.</p>
+<p class="u-key">A Turing-teszt célja annak eldöntése, hogy a gép emberhez hasonlóan gondolkodik-e. Ténylegesen viszont a megtévesztés sikerét méri szöveges beszélgetésben, nem közvetlenül az intelligenciát. Hasznos kiindulópont, de nem végleges mérce.</p>
 </section>
 
 <!-- 06 · TERÜLETEK -->
@@ -562,6 +583,7 @@ print(nyolc_vezer())   # [0, 4, 7, 5, 2, 6, 1, 3]</code></pre><figcaption>A fent
 <div><dt>Természetes nyelven kommunikál</dt><dd>A felhasználóval természetes nyelven és megfelelő módon tart kapcsolatot.</dd></div>
 </dl>
 <aside class="u-fix"><h3>Kiigazítás · Csak a saját szűk területén szakértő</h3><p><strong>A PDF állítása:</strong> a szakértőrendszerek a szakértőknél jobban vagy hozzájuk hasonló színvonalon oldják meg a legnehezebb problémákat, és természetes nyelven kommunikálnak.</p><p><strong>Pontosabban:</strong> ez a legjobb rendszerekre, és csak a saját, szűk területükre igaz. A fertőzéseket diagnosztizáló MYCIN egy 1979-es vakteszten a szakértőkkel összemérhető javaslatokat adott, de a klinikai gyakorlatban soha nem használták rendszeresen. A klasszikus rendszerek jellemzően kötött kérdésekkel és igen/nem válaszokkal kommunikáltak, nem szabad szöveggel. A terület határán kívül pedig gyakran értelmetlen választ adtak. <a href="#s-mycin">Forrás: Yu és mtsai., 1979.</a></p></aside>
+<p class="u-key">A kiigazítás a szintet nem vonja kétségbe, csak a terület szűkségét teszi hozzá. A saját szakterületükön a jó szakértőrendszerek a szakértőkhöz hasonló vagy jobb színvonalon dolgoznak (MI1 előadásdia, 28. dia). Az az állítás tehát hamis, hogy a szakértőknél sokkal rosszabb színvonalon oldják meg a problémákat (Minta-zh, 2025. 12. 05., 1(o) feladat).</p>
 <p>A szakértőrendszer két fő része:</p>
 <ol class="u-flow" id="szakerto-felepites">
 <li><strong>BEMENET</strong>A felhasználó adatai, például tünetek vagy mérési eredmények.</li>
@@ -644,6 +666,7 @@ print(nyolc_vezer())   # [0, 4, 7, 5, 2, 6, 1, 3]</code></pre><figcaption>A fent
 <div><dt>Intelligencia</dt><dd>Képességek csokra: tanulás, következtetés, célirányos cselekvés és alkalmazkodás. Nincs egyetlen elfogadott meghatározása.</dd></div>
 <div><dt>Mesterséges intelligencia (artificial intelligence)</dt><dd>Gép vagy program intelligensnek tekintett viselkedése; a név McCarthy 1955-ös javaslatából származik.</dd></div>
 <div><dt>Szoftverágens (software agent)</dt><dd>Program, amely érzékeli a környezetét, és önállóan reagál rá.</dd></div>
+<div><dt>Gyenge és erős MI (weak / strong AI)</dt><dd>Gyenge MI: elég, ha a gép intelligensnek tekinthető módon viselkedik. Erős MI: megfelelő mesterséges rendszerben valódi gondolkodás, elme is létrejöhet.</dd></div>
 <div><dt>Képességteszt</dt><dd>Azt jelzi előre, mire leszünk képesek gyakorlás után. Ilyen az intelligenciateszt.</dd></div>
 <div><dt>Érvényesség (validity)</dt><dd>A teszt azt méri, amit mérni akarunk.</dd></div>
 <div><dt>Megbízhatóság (reliability)</dt><dd>A teszt ismételve közel azonos eredményt ad.</dd></div>
@@ -719,8 +742,13 @@ print(nyolc_vezer())   # [0, 4, 7, 5, 2, 6, 1, 3]</code></pre><figcaption>A fent
 <label><input type="radio" name="k8" value="b"> Almáskertek gondozása.</label>
 <label><input type="radio" name="k8" value="c"> Ismeretlen vegyület szerkezetének kikövetkeztetése tömegspektrumból.</label>
 <p class="u-feedback" data-magyarazat="A diagnózis a MYCIN, az almáskert a POMME feladata volt."></p></fieldset>
+<fieldset data-helyes="a"><legend>9. Egy sakkprogram legyőzi a világbajnokot, de semmi jel nem utal arra, hogy „értené”, mit csinál. Melyik álláspont szerint intelligens?</legend>
+<label><input type="radio" name="k9" value="a"> A gyenge MI szerint, mert az intelligens viselkedés elég.</label>
+<label><input type="radio" name="k9" value="b"> Csak az erős MI szerint, mert az a viselkedést vizsgálja.</label>
+<label><input type="radio" name="k9" value="c"> Egyik szerint sem, mert nem tudatos.</label>
+<p class="u-feedback" data-magyarazat="A gyenge MI a viselkedést és a funkciót nézi. Az erős MI ennél többet állít: valódi elme is létrejöhet. A tudat hiányából nem következik, hogy a működés ne lenne intelligens."></p></fieldset>
 <div class="u-controls"><button type="submit">Válaszok ellenőrzése</button><button type="reset" class="u-ghost">Újrakezdés</button></div>
-<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2c, 3a, 4b, 5c, 6a, 7b, 8c.</p>
+<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2c, 3a, 4b, 5c, 6a, 7b, 8c, 9a.</p>
 </form>
 </section>
 
@@ -728,7 +756,7 @@ print(nyolc_vezer())   # [0, 4, 7, 5, 2, 6, 1, 3]</code></pre><figcaption>A fent
 <section id="osszegzes" class="chapter-section"><span class="section-index">ÖSSZEFOGLALÓ</span>
 <h2>Amit most már tudsz.</h2>
 <p>Az intelligenciának nincs egyetlen meghatározása, de a definíciók közös magja a tanulás, a következtetés, a célirányos cselekvés és az alkalmazkodás. A mérése tesztekkel történik, amelyeknek érvényesnek és megbízhatónak kell lenniük, és amelyek függenek a kortól és a kultúrától. Galton érzékelésméréseitől Binet és Simon mentális korán át Stern hányadosáig vezetett az út a mai tesztekig.</p>
-<p>A mesterséges intelligencia a gépek intelligens viselkedését vizsgálja: az automatikus reagálástól az utánzáson át a tanulásig. A Turing-teszt azt kérdezi, meg tudja-e téveszteni a gép a bírálót. 2025-ben ez egy nagy nyelvi modellnek sikerült, de a teszt a megtévesztést méri, nem a megértést.</p>
+<p>A mesterséges intelligencia a gépek intelligens viselkedését vizsgálja: az automatikus reagálástól az utánzáson át a tanulásig. A gyenge MI ehhez a viselkedést tartja elégnek, az erős MI valódi elmét is lehetségesnek tart. A Turing-teszt célja eldönteni, hogy a gép emberhez hasonlóan gondolkodik-e; ténylegesen azt méri, meg tudja-e téveszteni a bírálót. 2025-ben ez egy nagy nyelvi modellnek sikerült, de a teszt a megtévesztést méri, nem a megértést.</p>
 <p>Az MI területei a játékoktól a tételbizonyításon, a látáson, a beszéden és a nyelven át a keresésig és a szakértőrendszerekig terjednek. Két visszatérő gondolatot érdemes megjegyezni: a <strong>tudás</strong> (a DENDRAL szabályai, a szólások ismerete) és a <strong>keresés</strong> (a vezérek, a tervek) az MI két alappillére. A következő fejezetek ezeket bontják ki.</p>
 <div class="u-links">
 <a href="../index.html"><small>← Vissza</small>Kezdőlap és fejezetlista</a>
@@ -739,9 +767,11 @@ print(nyolc_vezer())   # [0, 4, 7, 5, 2, 6, 1, 3]</code></pre><figcaption>A fent
 <!-- FORRÁSOK -->
 <section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
 <h2>Honnan tudjuk?</h2>
-<p>A fejezet a kurzus PDF-jének 1–35. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből vagy a megnevezett eredeti forrásból származnak; az angol idézetek magyar fordítása saját. A „Kiigazítás” dobozok a PDF hibás vagy elavult állításait javítják, a „Kiegészítés” dobozok hátteret adnak. A kurzus kódgyűjteményéből a <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code> fájl mélységi keresése kapcsolódik a fejezethez; a többi kód későbbi fejezetek témája.</p>
+<p>A fejezet a kurzus PDF-jének 1–35. oldalát és az első előadás diáit (MI1, 37 dia) dolgozza fel; az MI1-ből származó, a PDF-ben nem szereplő részek (Winston meghatározása, gyenge és erős MI) diaszámmal jelöltek. A minta-zárthelyi két igaz/hamis állítására a Turing-teszt és a szakértőrendszerek résznél utalunk. Az idézetek szó szerint a PDF-ből vagy a megnevezett eredeti forrásból származnak; az angol idézetek magyar fordítása saját. A „Kiigazítás” dobozok a PDF hibás vagy elavult állításait javítják, a „Kiegészítés” dobozok hátteret adnak. A kurzus kódgyűjteményéből a <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code> fájl mélységi keresése kapcsolódik a fejezethez; a többi kód későbbi fejezetek témája.</p>
 <ul class="u-sources">
 <li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 1–35. oldal (<code>resources/presentation/</code>).</li>
+<li id="s-mi1">Mesterséges intelligencia alapjai, 1. előadás diái (MI1), 37 dia: „Milyen elvek alapján nevezünk egy természetes vagy mesterséges rendszert intelligensnek?”</li>
+<li id="s-mintazh">Mesterséges intelligencia alapjai, minta-zárthelyi dolgozat, 2025. december 5., 1. feladat (c) és (o) állítás.</li>
 <li id="s-mccarthy">J. McCarthy, M. L. Minsky, N. Rochester, C. E. Shannon: <a href="http://jmc.stanford.edu/articles/dartmouth/dartmouth.pdf">A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence</a>, 1955.</li>
 <li id="s-aima">S. Russell, P. Norvig: <em>Artificial Intelligence: A Modern Approach</em>, 4. kiadás, Pearson, 2020.</li>
 <li id="s-cattell1890">J. McK. Cattell: <a href="https://psychclassics.yorku.ca/Cattell/mental.htm">Mental Tests and Measurements</a>, <em>Mind</em>, 1890.</li>

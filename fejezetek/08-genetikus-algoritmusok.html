@@ -46,7 +46,7 @@
 <p class="lead">Van, amikor nem tudjuk lépésről lépésre leírni, hogyan kell megoldani egy feladatot. Azt viszont meg tudjuk mondani, mennyire jó egy javasolt megoldás. A genetikus algoritmus ebből a kevésből is dolgozik. Sok megoldást tart egyszerre, a jobbakat összepárosítja, néha véletlenül megváltoztatja őket, és generációról generációra javul.</p>
 <div class="u-scene"><p><strong>Egy túra előtt.</strong> Hat tárgy közül választasz, és a hátizsák legfeljebb 10 kg-ot bír. Mindegyik tárgynak van súlya és értéke. Melyiket vidd? A hat tárgynak 2⁶ = 64 részhalmaza van, ezeket gyorsan végig lehet próbálni. Hatvan tárgynál már 2⁶⁰, nagyjából 1,15 · 10¹⁸ részhalmaz van. Egy gép, amely másodpercenként egymilliárdot vizsgál meg, 36 és fél évig dolgozna.</p>
 <p>Az előző fejezetből tudod, hogy a hátizsákfeladat NP-nehéz: nem ismerünk rá gyors és mindig pontos módszert. Ez a fejezet egy másik utat mutat. Nem próbálunk ki mindent, hanem a természetet utánozzuk: sok jelöltből a jobbakat engedjük „szaporodni”. A fejezet végén visszatérünk ehhez a hátizsákhoz, és megnézzük, mit ér el rajta a kurzus genetikus programja.</p></div>
-<ul class="u-meta"><li>Forrás: PDF 256–275. oldal</li><li>5 kipróbálható labor</li><li>12 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>15_Genetikus_algoritmus_sakkminta.py</code>, <code>16_Genetikus_algoritmus_hatizsak.py</code>, <code>17_Genetikus_algoritmus_blackjack.py</code></li></ul>
+<ul class="u-meta"><li>Forrás: PDF 256–275. oldal, MI6 előadásdiák, minta-zh</li><li>5 kipróbálható labor</li><li>12 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>15_Genetikus_algoritmus_sakkminta.py</code>, <code>16_Genetikus_algoritmus_hatizsak.py</code>, <code>17_Genetikus_algoritmus_blackjack.py</code>, valamint az oktató újabb változatai: <code>ga_sakkminta.py</code>, <code>ga_knapsack.py</code></li></ul>
 <div class="u-goals"><strong>A fejezet végére…</strong><ul>
 <li>el tudod magyarázni, hogyan keres egy evolúciós algoritmus egy egész populációval, és miben más, mint a biológiai evolúció;</li>
 <li>meg tudod különböztetni a fenotípust és a genotípust, és tudsz illő kódolást választani;</li>
@@ -196,7 +196,7 @@
 </div>
 <aside class="u-fix" id="fix-kimerito"><h3>Kiigazítás · Nem mindig hatékonyabb a kimerítő keresésnél</h3>
 <p><strong>A PDF állítása:</strong> a genetikus algoritmus „a hasonlóan robusztus és igénytelen kimerítő kereséstől hatékonyabb”.</p>
-<p><strong>Pontosabban:</strong> ez csak nagy állapottérre igaz, és csak olyan feladatra, amelynek van kihasználható szerkezete. Kis feladatnál a kimerítő keresés gyors és biztos. A kurzus hátizsákjának hat tárgya 64 részhalmazt ad. A kimerítő keresés pillanatok alatt, mindig megtalálja a 18-as optimumot. A kurzus genetikus programja 100 futásból csak 79-ben. David Wolpert és William Macready „nincs ingyenebéd” tétele (no free lunch) szerint pedig az összes elképzelhető feladatra átlagolva egyetlen kereső sem jobb a másiknál.</p>
+<p><strong>Pontosabban:</strong> ez csak nagy állapottérre igaz, és csak olyan feladatra, amelynek van kihasználható szerkezete. Kis feladatnál a kimerítő keresés gyors és biztos. A kurzus hátizsákjának hat tárgya 64 részhalmazt ad. A kimerítő keresés pillanatok alatt, mindig megtalálja a 18-as optimumot. A kurzus genetikus programja 100 futásból csak 79-ben, az újabb változata 87-ben. David Wolpert és William Macready „nincs ingyenebéd” tétele (no free lunch) szerint pedig az összes elképzelhető feladatra átlagolva egyetlen kereső sem jobb a másiknál.</p>
 <p><strong>Miért fontos?</strong> A genetikus algoritmus akkor éri meg, ha a tér túl nagy a végigpróbáláshoz, és a jó megoldások részei kombinálhatók. A 13. rész ezt a feltételt nézi meg pontosan. <a href="#s-wolpert">Forrás: Wolpert–Macready, 1997.</a></p></aside>
 <p>Miért kezel egyszerre egy egész populációt? Így megnő az esélye, hogy a globális optimumot megtalálja. Az állapottér feltárásában három dolog játszik szerepet.</p>
 <dl class="u-rows" id="feltaras">
@@ -222,7 +222,7 @@
 </section>
 
 <!-- 06 · KÓDOLÁS -->
-<section id="kodolas" class="chapter-section"><span class="section-index">06 / PDF 264.</span>
+<section id="kodolas" class="chapter-section"><span class="section-index">06 / PDF 264. · MI6 9., 17. DIA</span>
 <h2>Fenotípus és genotípus: mit lát a feladat, és mit lát a gép.</h2>
 <p>A <strong>fenotípus</strong> a megoldás valódi alakja, ahogy a feladat leírja: egy kifestés, egy kép vagy egy útvonal. A <strong>genotípus</strong> ennek a számításban használt modellje, egy jelsorozat, amelyen az operátorok dolgoznak. A <strong>leképezés</strong> minden állapothoz egy ilyen sorozatot rendel. A leképezés meghatározza, milyen operátorok használhatók, és végső soron a genetikus algoritmus hatékonyságát is.</p>
 <p>Három gyakori kódolást különböztetünk meg.</p>
@@ -243,7 +243,7 @@
 <p><strong>Bittérkép két átlóval.</strong> A fenotípus egy m × n méretű fekete-fehér kép. A genotípus egy m · n bites szám: fekete = 0, fehér = 1. Az optimum az a kép, amelyen a két átló fekete. Az 5 × 5-ös optimum így néz ki:</p>
 <ol class="u-bitmap" style="grid-template-columns:repeat(5,auto)" role="img" aria-label="5 × 5-es bittérkép: a két átló fekete (0), a többi képpont fehér (1)"><li class="p0">0</li><li class="p1">1</li><li class="p1">1</li><li class="p1">1</li><li class="p0">0</li><li class="p1">1</li><li class="p0">0</li><li class="p1">1</li><li class="p0">0</li><li class="p1">1</li><li class="p1">1</li><li class="p1">1</li><li class="p0">0</li><li class="p1">1</li><li class="p1">1</li><li class="p1">1</li><li class="p0">0</li><li class="p1">1</li><li class="p0">0</li><li class="p1">1</li><li class="p0">0</li><li class="p1">1</li><li class="p1">1</li><li class="p1">1</li><li class="p0">0</li></ol>
 <p>Genotípus, soronként egymás után írva: <span class="u-bitstring">01110 10101 11011 10101 01110</span>. Egy jelölt rátermettsége az, hogy a 25 képpontból hány egyezik a mintával.</p></div>
-<p>A kurzus <code>15_Genetikus_algoritmus_sakkminta.py</code> programja ugyanezt csinálja kicsiben. A cél egy 3 × 3-as kép, amelyben itt az 1 jelöli az átló mezőit. A fájlnév ellenére ez egyetlen átló, nem sakktáblaminta.</p>
+<p>A kurzus <code>15_Genetikus_algoritmus_sakkminta.py</code> programja ugyanezt csinálja kicsiben. A cél egy 3 × 3-as kép, amelyben itt az 1 jelöli az átló mezőit. A fájlnév ellenére ez egyetlen átló, nem sakktáblaminta. Az újabb változat (<code>ga_sakkminta.py</code>) megjegyzése ki is mondja: az 1 piros, a 0 fekete mező, a cél tehát piros átló fekete háttéren.</p>
 <figure class="u-code"><pre><code>reference = [1, 0, 0, 0, 1, 0, 0, 0, 1]
 
 def calculate_fitness_to_goal(population, reference):
@@ -266,7 +266,7 @@ def calculate_fitness_to_goal(population, reference):
 <li><p><strong>Vetítés.</strong> x = 0 + 10 · 180 / 255 ≈ 7,06.</p></li>
 <li><p><strong>Felbontás.</strong> Két szomszédos kód 10 / 255 ≈ 0,039-cel tér el egymástól. Ennél pontosabban ez a kódolás nem tud x-et megadni. Több bittel finomabb a felbontás, de hosszabb a kromoszóma.</p></li>
 </ol></div>
-<p class="u-simple"><strong>Buktató</strong>Permutációs kódolásnál az egyszerű keresztezés hibás utódot adhat. Legyen a két szülő A B C D E és C A E B D, és vágjunk a második város után. Az első utód eleje az első szülőből, a vége a másodikból jön: A B | E B D. Ebben a B kétszer szerepel, a C pedig hiányzik, vagyis ez már nem is útvonal. A második utód, C A | C D E, ugyanígy rossz. Permutációhoz ezért külön, a sorrendet megőrző operátor kell. Ezt intelligens keresztezésnek nevezik, a 8. rész végén visszatérünk rá.</p>
+<p class="u-simple"><strong>Buktató</strong>Permutációs kódolásnál az egyszerű keresztezés hibás utódot adhat. Az előadásdia példájában a két szülő A B C D E F és D E A F C B, a vágás a harmadik város után van (MI6 előadásdia, 17. dia). Az első utód eleje az első szülőből, a vége a másodikból jön: A B C | F C B. Ebben a B és a C kétszer szerepel, a D és az E pedig hiányzik, vagyis ez már nem is útvonal. A második utód, D E A | D E F, ugyanígy rossz. Permutációhoz ezért külön, a sorrendet megőrző operátor kell. Ezt intelligens keresztezésnek nevezik, a 8. rész végén visszatérünk rá.</p>
 <div class="u-lab" id="kod-labor"><span class="u-lab-label">PRÓBÁLD KI / FENOTÍPUS ÉS GENOTÍPUS</span><h3>Fesd ki a téglalapokat, és nézd a kromoszómát.</h3>
 <p>Kattints egy téglalapra vagy képpontra (Tab és Enter vagy szóköz is működik). A fenotípus változásával a genotípus és a rátermettség is azonnal frissül.</p>
 <div class="u-js-only">
@@ -288,7 +288,7 @@ def calculate_fitness_to_goal(population, reference):
 </section>
 
 <!-- 07 · KIVÁLASZTÁS -->
-<section id="kivalasztas" class="chapter-section"><span class="section-index">07 / PDF 265–266.</span>
+<section id="kivalasztas" class="chapter-section"><span class="section-index">07 / PDF 265–266. · MI6 10–11. DIA</span>
 <h2>Ki lehet szülő? Három kiválasztási mód.</h2>
 <p>A <strong>szelekciós operátor</strong> a szülők kiválasztására szolgál a keresztezéshez. A különféle módszerekben közös, hogy a rátermettebb egyedeket nagyobb arányban választják ki. A gyengébbek is kapnak azonban egy kis esélyt. Miért? Mert egy gyenge egyedben is lehet egy jó gén, amely máshol hiányzik. Ha csak a legjobbak szaporodnának, a populáció gyorsan elvesztené a változatosságát.</p>
 <p>A három módszert egy négyegyedes populáción számoljuk végig. Hogy kézzel követhető legyen, itt hat téglalappal dolgozunk: a rátermettség a piros téglalapok, vagyis az egyesek száma.</p>
@@ -332,10 +332,15 @@ def calculate_fitness_to_goal(population, reference):
         winner = fighter2
     return population[winner]</code></pre>
 <figcaption>Forrás: <code>resources/code/15_Genetikus_algoritmus_sakkminta.py</code>, 33–42. sor. A két versenyzőt egymástól függetlenül sorsolja, így egy egyed önmagával is „versenyezhet”: ez a visszatevéses eset. Döntetlennél az első versenyző nyer.</figcaption></figure>
-<p><strong>3. Rangsorolás.</strong> Itt egy veszélyre kell figyelni. Ha mindig ugyanazok az ősök kerülnek kiválasztásra, a keresztezés felfedező, interpoláló hatása lecsökken. Ez azoknál a módszereknél fenyeget, amelyek közvetlenül a rátermettség értékére építenek. A rangsorolás ezért nem az értéket, hanem a <strong>sorrendet</strong> használja. A legegyszerűbb, lineáris változatban a valószínűség a ranggal arányos: a négy egyed rangja 1, 2, 3, 4, az összegük 10. Így D, A, B, C esélye 0,1, 0,2, 0,3 és 0,4.</p>
+<p><strong>3. Rangsorolás.</strong> Itt egy veszélyre kell figyelni. Ha mindig ugyanazok az ősök kerülnek kiválasztásra, a keresztezés felfedező, interpoláló hatása lecsökken. Ez azoknál a módszereknél fenyeget, amelyek közvetlenül a rátermettség értékére építenek. A rangsorolás ezért nem az értéket, hanem a <strong>sorrendet</strong> használja. A legegyszerűbb változatban a valószínűség <strong>egyenesen arányos a ranggal</strong>: p<sub>i</sub> = R(C<sub>i</sub>) / Σ<sub>j</sub> R(C<sub>j</sub>), ahol R(C<sub>i</sub>) az i-edik egyed rangja növekvő sorrendben, a leggyengébb az 1-es. A négy egyed rangja 1, 2, 3, 4, az összegük 10. Így D, A, B, C esélye 0,1, 0,2, 0,3 és 0,4.</p>
+<p>Az előadásdia egy második, <strong>lineáris</strong> változatot is megad. Ebben egy s paraméter, a <strong>szelekciós nyomás</strong> szabja meg, mennyivel kapjon több esélyt a jobb egyed:</p>
+<p class="u-formula"><span class="u-big">p<sub>i</sub> = (2 − s) / N + 2 · R(C<sub>i</sub>) · (s − 1) / (N · (N − 1))</span><span>N a populáció mérete, 1 ≤ s ≤ 2. Forrás: MI6 előadásdia, 11. dia.</span></p>
+<p>Az s = 1 mindenkinek egyforma esélyt ad, ez semmilyen nyomás. Az s = 2 a legerősebb: ott a leggyengébb esélye 0. A négyegyedes példában s = 1,5 mellett D, A, B, C esélye 0,125, 0,208, 0,292 és 0,375. Az összeg 1.</p>
+<aside class="u-add" id="rang-nullatol"><h3>Kiegészítés · A lineáris képletben a rang 0-tól indul</h3>
+<p>A dia nem mondja meg, honnan számozzuk a rangot. A képlet akkor ad 1-re összegződő valószínűségeket, ha a leggyengébb rangja 0, a legjobbé N − 1. Az előbbi példa is így számolt: D, A, B, C rangja 0, 1, 2, 3. Ha 1-től N-ig számoznánk, s = 1,5 és N = 4 mellett a négy érték összege 1,33 lenne, ami valószínűségnek nem jó. <a href="#s-eiben">Forrás: Eiben–Smith, 2015, 5. fejezet.</a></p></aside>
 <p>A példapopulációban a három módszer még hasonló eredményt ad. A különbség akkor látszik, ha egy egyed sokkal jobb a többinél. Tegyük fel, hogy a négy rátermettség 1, 2, 3 és 14.</p>
 <div class="u-table-wrap"><table class="u-table u-table-num" id="szel-osszevetes">
-<caption>A „szupersztár” populáció kiválasztási valószínűségei. A versenyeztetés két versenyzővel, visszatevéssel számol.</caption>
+<caption>A „szupersztár” populáció kiválasztási valószínűségei. A versenyeztetés két versenyzővel, visszatevéssel számol, a rangsorolás a ranggal arányos változat.</caption>
 <thead><tr><th>Rátermettség</th><th>Rulettkerék</th><th>Versenyeztetés</th><th>Rangsorolás</th></tr></thead>
 <tbody>
 <tr><td>1</td><td>0,05</td><td>0,0625</td><td>0,1</td></tr>
@@ -363,14 +368,14 @@ def calculate_fitness_to_goal(population, reference):
 <ol>
 <li><p>A rátermettségek 5, 3 és 2. Mekkora a kiválasztási valószínűségük rulettkerékkel?</p><details class="u-sol"><summary>Megoldás</summary><p>Az összeg 10, tehát 0,5, 0,3 és 0,2.</p></details></li>
 <li><p>Ugyanennél a populációnál mennyi a valószínűségük kétfős versenyben, visszatevéssel?</p><details class="u-sol"><summary>Megoldás</summary><p>n = 3, n² = 9. A rangok a leggyengébbtől 1, 2, 3. A (2r − 1) / 9 képlettel: a legjobbé 5/9 ≈ 0,56, a középsőé 3/9 ≈ 0,33, a leggyengébbé 1/9 ≈ 0,11.</p></details></li>
-<li><p>És lineáris rangsorolással?</p><details class="u-sol"><summary>Megoldás</summary><p>A rangok összege 1 + 2 + 3 = 6. A valószínűségek 3/6 = 0,5, 2/6 ≈ 0,33 és 1/6 ≈ 0,17.</p></details></li>
+<li><p>És ha a valószínűség a ranggal egyenesen arányos?</p><details class="u-sol"><summary>Megoldás</summary><p>A rangok összege 1 + 2 + 3 = 6. A valószínűségek 3/6 = 0,5, 2/6 ≈ 0,33 és 1/6 ≈ 0,17.</p></details></li>
 <li><p>A rátermettségek 0, 0 és 6. Mi történik rulettkerékkel, és mi kétfős versenyeztetéssel?</p><details class="u-sol"><summary>Megoldás</summary><p>Rulettkerékkel a két nullás egyedet sosem választjuk, a harmadikat mindig. Versenyben a nullások akkor nyernek, ha két nullás kerül össze: ennek esélye (2/3)² = 4/9, ami fele-fele arányban oszlik meg köztük, 2/9 jut mindkettőre. A legjobbé 5/9.</p></details></li>
 <li><p>Egy 10 egyedes populációban, különböző rátermettségek mellett, mekkora eséllyel nyeri meg a legjobb egyed a kétfős versenyt?</p><details class="u-sol"><summary>Megoldás</summary><p>Rangja r = 10, így (2 · 10 − 1) / 10² = 19/100 = 19%. Ez nagyjából kétszerese annak a 10%-nak, amit egyenletes sorsolással kapna.</p></details></li>
 </ol></details>
 </section>
 
 <!-- 08 · KERESZTEZÉS -->
-<section id="keresztezes" class="chapter-section"><span class="section-index">08 / PDF 267–269.</span>
+<section id="keresztezes" class="chapter-section"><span class="section-index">08 / PDF 267–269. · MI6 15–19. DIA</span>
 <h2>Keresztezés: két szülőből két utód.</h2>
 <p>A <strong>keresztezés</strong> (crossover) szerepe utódok, azaz új egyedek előállítása. A példák háromféle génből álló, nyolcgénes kromoszómákat használnak, a gének értéke 1, 2 vagy 3. A színek a génértékeket jelölik, de a számok mindig olvashatók. A két szülő mindhárom példában ugyanaz.</p>
 <p><strong>Egypontos keresztezés.</strong> Véletlenszerűen választunk egy keresztezési pontot. Az első utód a pont előtt az első, utána a második szülő génjeit kapja, a második utód fordítva. A példában a pont az ötödik gén után van. A vágás helyét a génsorokon piros függőleges vonal jelzi.</p>
@@ -425,8 +430,51 @@ def calculate_fitness_to_goal(population, reference):
 <p>Minden lépésben pontosan egy gén változik, mindig P<sub>2</sub> felé. Négy eltérő génnél így három köztes megoldás születik. Az ötlet szerint két jó megoldás között is lehetnek jó megoldások, ezeket érdemes kiértékelni.</p>
 <aside class="u-add" id="ujrakapcsolas-eredete"><h3>Kiegészítés · Honnan ered az útvonal-újrakapcsolás?</h3>
 <p>A módszert Fred Glover vezette be az 1990-es években, a tabukeresés és a szóródásos keresés (scatter search) kiegészítéseként, nem genetikus algoritmushoz. Ott a legjobb talált megoldásokat kötötték össze ilyen útvonalakkal. A genetikus algoritmusban keresztező operátorként használható: két szülőből több utódot ad, és mindegyik a szülők „között” van. <a href="#s-glover">Forrás: Glover–Laguna–Martí, 2000.</a></p></aside>
-<p>A keresztezésről még három dolgot érdemes megjegyezni. Nincs általános módszer a keresztezés megválasztására, mindig a feladathoz kell igazítani. Ha a gének között összefüggés van, speciális keresztező operátor kell, ezt nevezik <strong>intelligens keresztezésnek</strong>. Ilyen a 6. rész permutációs buktatója: ott a városok sorrendjét megőrző operátor kell. Végül a genetikus algoritmus érzékeny arra, milyen operátort választunk.</p>
-<p class="u-key">Ahol a két szülő megegyezik, ott minden utód ugyanazt a gént kapja. A keresztezés tehát csak a szülők génjeit rendezi át, új génértéket nem hoz. Ez az interpoláló hatás.</p>
+<p>A keresztezésről még három dolgot érdemes megjegyezni. Nincs általános módszer a keresztezés megválasztására, mindig a feladathoz kell igazítani. Ha a gének között összefüggés van, speciális keresztező operátor kell, ezt nevezik <strong>intelligens keresztezésnek</strong>. Ilyen a 6. rész permutációs buktatója: ott a városok sorrendjét megőrző operátor kell. Végül a genetikus algoritmus érzékeny arra, milyen operátort választunk. A valós és a permutációs kódolás jó példa arra, hogyan igazodik az operátor a kódoláshoz.</p>
+<p><strong>Valós kódolásnál</strong> a gének valós számok, ezért a szülőket matematikailag is kombinálhatjuk. Az <strong>aritmetikai keresztezés</strong> az utód minden génjét a két szülő azonos helyen álló génjének súlyozott átlagaként számolja:</p>
+<p class="u-formula"><span class="u-big">C = α · P<sub>1</sub> + (1 − α) · P<sub>2</sub>, &nbsp; 0 ≤ α ≤ 1</span><span>Génenként számolunk. Forrás: MI6 előadásdia, 15. dia.</span></p>
+<div class="u-example" id="valos-keresztezes"><strong>Végigvezetett példa · Keresztezés valós számokkal</strong>
+<ol class="u-steps">
+<li><p><strong>Egy utód, α = 0,5.</strong> A szülők P<sub>1</sub> = (2; 6; 4; 8) és P<sub>2</sub> = (8; 2; 10; 4). Az utód a két szülő átlaga: C = (5; 4; 7; 6). Az első gén például 0,5 · 2 + 0,5 · 8 = 5.</p></li>
+<li><p><strong>Két utód, α = 0,3.</strong> A második utód felcseréli a súlyokat: C<sub>1</sub> = α · P<sub>1</sub> + (1 − α) · P<sub>2</sub> és C<sub>2</sub> = (1 − α) · P<sub>1</sub> + α · P<sub>2</sub>. A P<sub>1</sub> = (2; 6) és P<sub>2</sub> = (8; 2) szülőkből C<sub>1</sub> = (0,3 · 2 + 0,7 · 8; 0,3 · 6 + 0,7 · 2) = (6,2; 3,2), és ugyanígy C<sub>2</sub> = (3,8; 4,8).</p></li>
+<li><p><strong>Egyenletes keresztezés maszkkal.</strong> Itt nincs számolás. Egy maszk dönti el génenként, melyik szülő értékét kapja az utód: az 1 az elsőét, a 0 a másodikét. P<sub>1</sub> = (2; 6; 4; 8; 3), P<sub>2</sub> = (7; 1; 9; 5; 6), a maszk (1; 0; 0; 1; 1), az utód C = (2; 1; 9; 8; 3).</p></li>
+</ol>
+<p>Forrás: MI6 előadásdia, 15–16. dia.</p></div>
+<div class="u-compare" id="valos-osszevetes">
+<div><span class="u-tag">ARITMETIKAI KERESZTEZÉS</span><h3>Új köztes értékek</h3><p>Az utód génjei a szülők génjeinek súlyozott átlagai. Az 5-ös gén egyik szülőben sincs meg, mégis megjelenik. Az új érték mindig a két szülői érték közé esik.</p></div>
+<div><span class="u-tag">EGYENLETES KERESZTEZÉS</span><h3>Csak meglévő értékek</h3><p>Az utód minden génje valamelyik szülő génjének másolata. Ugyanúgy működik, mint a bitsorozatokon: csak átrendezi a meglévő értékeket.</p></div>
+</div>
+<p><strong>Permutációs kódolásnál</strong> minden elemnek pontosan egyszer kell szerepelnie az utódban. A 6. rész buktatója megmutatta, hogy az egyszerű egypontos keresztezés ezt elrontja. Az előadásdia ezért három külön operátort nevez meg. Az <strong>OX</strong> (Order Crossover, sorrendi keresztezés) a sorrendet, a <strong>PMX</strong> (Partially Mapped Crossover, részlegesen leképezett keresztezés) a pozíciók megfeleltetését, a <strong>CX</strong> (Cycle Crossover, ciklusos keresztezés) a ciklusokat használja. A cél mindháromnál ugyanaz: az utód érvényes permutáció maradjon, és közben értékes sorrendi vagy pozíciós információt örököljön.</p>
+<div class="u-example" id="ox-pelda"><strong>Végigvezetett példa · Sorrendi keresztezés (OX)</strong>
+<p>Az egyik szülő egy szakaszát megtartjuk, a többi helyet a másik szülő elemeivel, az ő sorrendjükben töltjük fel.</p>
+<ol class="u-steps">
+<li><p><strong>Két vágási pont.</strong> A szülők P<sub>1</sub> = 1 2 3 4 5 6 7 8 és P<sub>2</sub> = 5 7 2 1 8 4 6 3. A vágások a 2. és a 6. gén után vannak.</p></li>
+<li><p><strong>A középső szakasz.</strong> P<sub>1</sub> középső szakaszát, a 3 4 5 6-ot változatlanul átmásoljuk az utód 3–6. helyére: – – 3 4 5 6 – –.</p></li>
+<li><p><strong>P<sub>2</sub> körbejárása.</strong> P<sub>2</sub>-t a második vágási pont után kezdjük olvasni, és a végéről az elejére ugrunk: 6, 3, 5, 7, 2, 1, 8, 4. A már szereplő 3, 4, 5, 6 kimarad, marad a 7, 2, 1, 8.</p></li>
+<li><p><strong>Feltöltés.</strong> A maradékot is a második vágási pont után kezdve, körbehaladva írjuk be: a 7. helyre 7, a 8. helyre 2, majd az 1. helyre 1, a 2. helyre 8. Az utód: 1 8 3 4 5 6 7 2.</p></li>
+</ol>
+<div class="u-cross" id="ox-abra"><div class="u-cross-row"><span>P<sub>1</sub></span><ol class="u-genes" role="img" aria-label="Permutáció: 1 2 3 4 5 6 7 8 (vágás a 2. és a 6. gén után)"><li class="b0">1</li><li class="b0">2</li><li class="b1 u-cut">3</li><li class="b1">4</li><li class="b1">5</li><li class="b1">6</li><li class="b0 u-cut">7</li><li class="b0">8</li></ol></div><div class="u-cross-row"><span>P<sub>2</sub></span><ol class="u-genes" role="img" aria-label="Permutáció: 5 7 2 1 8 4 6 3 (vágás a 2. és a 6. gén után)"><li class="b0">5</li><li class="b0">7</li><li class="b0 u-cut">2</li><li class="b0">1</li><li class="b0">8</li><li class="b0">4</li><li class="b0 u-cut">6</li><li class="b0">3</li></ol></div><div class="u-cross-row"><span>Utód</span><ol class="u-genes" role="img" aria-label="Permutáció: 1 8 3 4 5 6 7 2 (vágás a 2. és a 6. gén után)"><li class="b0">1</li><li class="b0">8</li><li class="b1 u-cut">3</li><li class="b1">4</li><li class="b1">5</li><li class="b1">6</li><li class="b0 u-cut">7</li><li class="b0">2</li></ol></div><p class="u-cross-cap">Sorrendi keresztezés (OX). A kiemelt szakasz P<sub>1</sub>-ből jön, a többi helyre P<sub>2</sub> maradék elemei kerülnek, P<sub>2</sub>-beli sorrendjükben: 7, 2, 1, 8.</p></div>
+<p>Minden elem pontosan egyszer szerepel, és a beírt 7, 2, 1, 8 megtartotta P<sub>2</sub>-beli sorrendjét. Forrás: MI6 előadásdia, 18. dia.</p></div>
+<aside class="u-fix" id="fix-ox"><h3>Kiigazítás · Az OX-példa utódja</h3>
+<p><strong>Az előadásdia ábrája (18. dia):</strong> az utód 2 1 3 4 5 6 7 8.</p>
+<p><strong>Helyesen:</strong> 1 8 3 4 5 6 7 2, ha a maradékot a dia 3. lépése szerint a második vágási pont után kezdve írjuk be. Előfordul az a változat is, amely az üres helyeket balról jobbra tölti ki. Az a 7 2 3 4 5 6 1 8 utódot adja.</p>
+<p><strong>Miért fontos?</strong> A dia maga mondja ki, hogy a beillesztett elemek relatív sorrendje megmarad. A 7, 2, 1, 8 sorrend a dia utódjában egyik olvasatban sincs meg: balról jobbra 2, 1, 7, 8, a második vágási ponttól körbe olvasva 7, 8, 2, 1. A 2 1 3 4 5 6 7 8 érvényes permutáció, de nem az OX eredménye.</p></aside>
+<div class="u-example" id="pmx-pelda"><strong>Végigvezetett példa · Részlegesen leképezett keresztezés (PMX)</strong>
+<p>Ugyanazok a szülők és a vágási pontok. Az előadásdia a párokat és a szabályt adja meg (19. dia), a kész utódot nem. A lépéseket ezért mi vezettük végig.</p>
+<ol class="u-steps">
+<li><p><strong>Párok.</strong> A középső szakasz P<sub>1</sub>-ben 3 4 5 6, P<sub>2</sub>-ben 2 1 8 4. Az egymás alatti elemek párt alkotnak: 3 ↔ 2, 4 ↔ 1, 5 ↔ 8, 6 ↔ 4.</p></li>
+<li><p><strong>Másolás.</strong> P<sub>1</sub> szakaszát átmásoljuk az utódba: – – 3 4 5 6 – –.</p></li>
+<li><p><strong>Feltöltés P<sub>2</sub>-ből.</strong> A többi helyre P<sub>2</sub> ugyanazon a helyen álló eleme kerül, ha még nem szerepel. A 2. helyre így a 7 kerül.</p></li>
+<li><p><strong>Ütközés.</strong> Ha az elem már szerepel, a párokat követjük, amíg szabad elemet nem kapunk. Az 1. helyen P<sub>2</sub>-ben 5 áll, de az már foglalt. Az 5 ↔ 8 pár szerint 8 kerül oda. A 7. helyen 6 állna: 6 ↔ 4, de a 4 is foglalt, 4 ↔ 1, így 1 kerül oda. A 8. helyen 3 állna: 3 ↔ 2, így 2.</p></li>
+<li><p><strong>Eredmény.</strong> Az utód: 8 7 3 4 5 6 1 2. A második utódot fordított szereposztással kapjuk, P<sub>2</sub> szakaszát megtartva: 6 3 2 1 8 4 7 5.</p></li>
+</ol>
+<div class="u-cross" id="pmx-abra"><div class="u-cross-row"><span>P<sub>1</sub></span><ol class="u-genes" role="img" aria-label="Permutáció: 1 2 3 4 5 6 7 8 (vágás a 2. és a 6. gén után)"><li class="b0">1</li><li class="b0">2</li><li class="b1 u-cut">3</li><li class="b1">4</li><li class="b1">5</li><li class="b1">6</li><li class="b0 u-cut">7</li><li class="b0">8</li></ol></div><div class="u-cross-row"><span>P<sub>2</sub></span><ol class="u-genes" role="img" aria-label="Permutáció: 5 7 2 1 8 4 6 3 (vágás a 2. és a 6. gén után)"><li class="b0">5</li><li class="b0">7</li><li class="b1 u-cut">2</li><li class="b1">1</li><li class="b1">8</li><li class="b1">4</li><li class="b0 u-cut">6</li><li class="b0">3</li></ol></div><div class="u-cross-row"><span>Utód</span><ol class="u-genes" role="img" aria-label="Permutáció: 8 7 3 4 5 6 1 2 (vágás a 2. és a 6. gén után)"><li class="b0">8</li><li class="b0">7</li><li class="b1 u-cut">3</li><li class="b1">4</li><li class="b1">5</li><li class="b1">6</li><li class="b0 u-cut">1</li><li class="b0">2</li></ol></div><p class="u-cross-cap">Részlegesen leképezett keresztezés (PMX). A kiemelt szakaszok egymás alatti elemei alkotják a párokat: 3 ↔ 2, 4 ↔ 1, 5 ↔ 8, 6 ↔ 4.</p></div></div>
+<div class="u-compare" id="perm-osszevetes">
+<div><span class="u-tag">OX</span><h3>A sorrendet örökli</h3><p>A másik szülőtől azt veszi át, milyen sorrendben követik egymást az elemek. Hasznos, ha a szomszédságok számítanak, mint egy körúton.</p></div>
+<div><span class="u-tag">PMX</span><h3>A pozíciókat örökli</h3><p>A szülők szakaszai között megfeleltetést hoz létre, és ahol lehet, az elemet a másik szülőbeli helyén hagyja. Az előadásdia szerint ez a fő erőssége: a szülők közötti pozíciós megfeleltetések kezelése.</p></div>
+<div><span class="u-tag">CX</span><h3>A ciklusokat követi</h3><p>Minden elem valamelyik szülőbeli helyén marad. Egy ciklus elemei mind ugyanabból a szülőből jönnek. A fenti két szülőnél egyetlen ciklus fut végig mind a nyolc helyen, ezért a CX itt egyszerűen P<sub>1</sub> másolatát adná.</p></div>
+</div>
+<p class="u-key">Ahol a két szülő megegyezik, ott minden utód ugyanazt a gént kapja. A keresztezés tehát a szülők génjeit rendezi át, a megoldást nem viszi a szülők által kijelölt területen kívülre. Az aritmetikai keresztezés hoz ugyan új számot, de az is a két szülői érték közé esik. Ez az interpoláló hatás.</p>
 </section>
 
 <!-- 09 · MUTÁCIÓ -->
@@ -447,6 +495,19 @@ def calculate_fitness_to_goal(population, reference):
         else:
             candidate[mutation_point] = 0</code></pre>
 <figcaption>Forrás: <code>resources/code/16_Genetikus_algoritmus_hatizsak.py</code>, 51–58. sor. A <code>mutation_rate</code> valószínűséggel egy véletlen pozíciót választ, és az ott álló bitet átfordítja. A függvény helyben módosítja az egyedet, ezért nem ad vissza semmit.</figcaption></figure>
+<p>Az oktató újabb hátizsákprogramja a mutációt <strong>allél-listával</strong> írja meg. Ez pontosan a fenti meghatározás: a gén értéke egy másik allélra cserélődik.</p>
+<figure class="u-code"><pre><code>def mutate(candidate, mutation_rate, allel):
+    chance = random.random()
+    if chance &lt;= mutation_rate:
+        mutation_point = random.randint(0, len(candidate)-1)
+        old = candidate[mutation_point]
+        success = False
+        while not success:
+            candidate[mutation_point] = random.choice(allel)
+            if old != candidate[mutation_point]:
+                success = True
+    return candidate</code></pre>
+<figcaption>Forrás: az oktató újabb változata, <code>ga_knapsack.py</code>, 43–53. sor. Az <code>allel</code> a gén lehetséges értékeinek listája, itt <code>[0, 1]</code>. A kiválasztott gén helyére addig sorsol a listából, amíg a régitől eltérő értéket nem kap. Két allélnál ez ugyanaz a bitátfordítás. A függvény viszont változtatás nélkül működik több allélú génre is, például az <code>[1, 2, 3]</code> értékű gének fenti példáján.</figcaption></figure>
 <p>Egy fontos részlet: hogyan értjük a mutációs rátát? A 11. rész paramétertáblázatában a példaérték 0,001, és ez a szokásos olvasat szerint <strong>génenkénti</strong> valószínűség: minden gén külön-külön ekkora eséllyel változik. A kurzus programjai viszont <strong>egyedenként</strong> egyszer sorsolnak, és legfeljebb egy gént változtatnak. A ráta ott 0,005 (sakkminta), 0,2 (hátizsák) és 0,4 (blackjack).</p>
 <div class="u-example" id="mutacio-szamolas"><strong>Végigvezetett példa · Milyen ritka a génenkénti 0,001?</strong>
 <ol class="u-steps">
@@ -454,7 +515,7 @@ def calculate_fitness_to_goal(population, reference):
 <li><p><strong>Egy generáció.</strong> 16 egyed, egyenként 12 gén: 192 gén. Várhatóan 192 · 0,001 = 0,192 gén változik.</p></li>
 <li><p><strong>Következtetés.</strong> Nagyjából minden ötödik generációban történik egyetlen mutáció. A mutáció tényleg ritka kiegészítője a keresztezésnek.</p></li>
 </ol></div>
-<p class="u-simple"><strong>Buktató</strong>A túl ritka mutáció megrekedéshez vezet. Ha a populáció minden egyedében ugyanott áll egy rossz gén, a keresztezés ezen nem segít: a szülők ott megegyeznek. A sakkmintás program 100 futásából 3-ban pontosan ez történt. Mind a 20 egyed ugyanazt a hibás 8/9-es mintát hordozta, és a 0,005-ös ráta mellett ez 200 generáció alatt sem javult ki. A kód megjegyzése maga is javasolja a 0,05-ös rátát. A túl gyakori mutáció viszont szétrombolja a jó egyedeket, és a keresés véletlen próbálgatássá válik.</p>
+<p class="u-simple"><strong>Buktató</strong>A túl ritka mutáció megrekedéshez vezet. Ha a populáció minden egyedében ugyanott áll egy rossz gén, a keresztezés ezen nem segít: a szülők ott megegyeznek. A sakkmintás program 100 futásából 3-ban pontosan ez történt (az újabb változatnál 4-ben). Mind a 20 egyed ugyanazt a hibás 8/9-es mintát hordozta, és a 0,005-ös ráta mellett ez 200 generáció alatt sem javult ki. A régebbi változat megjegyzése maga is javasolja a 0,05-ös rátát. A túl gyakori mutáció viszont szétrombolja a jó egyedeket, és a keresés véletlen próbálgatássá válik.</p>
 <div class="u-lab" id="ker-labor"><span class="u-lab-label">PRÓBÁLD KI / KERESZTEZÉS ÉS MUTÁCIÓ</span><h3>Válassz operátort, és nézd, mi lesz az utódokból.</h3>
 <p>A két szülő ugyanaz, mint a fenti példákban. Állítsd a vágási pontokat, jelöld be a cserélődő géneket, vagy mutálj egy gént. Útvonal-újrakapcsolásnál a fenti bináris szülőpár jelenik meg.</p>
 <div class="u-js-only">
@@ -573,7 +634,7 @@ def calculate_fitness_to_goal(population, reference):
 </section>
 
 <!-- 12 · ÚJ POPULÁCIÓ -->
-<section id="uj-populacio" class="chapter-section"><span class="section-index">12 / PDF 273–274.</span>
+<section id="uj-populacio" class="chapter-section"><span class="section-index">12 / PDF 273–274. · MI6 23–25. DIA</span>
 <h2>Ki marad meg? Az új populáció és a túlélési valószínűség.</h2>
 <p>A 10. rész 8. lépése az eredeti és az új egyedek közös halmazából választja ki a következő populációt. A leggyakoribb a rátermettség alapú kiválasztás, de más alapján is számolható túlélési valószínűség. Nézzünk erre két példát.</p>
 <p><strong>a) Relatív rátermettség.</strong> Ez a rulettkerék képlete, csak most a túlélésre: P<sub>i</sub> = f<sub>i</sub> / Σ<sub>j</sub> f<sub>j</sub>. A Σ (szumma) jel összeadást jelent: az összes egyed rátermettségét adjuk össze.</p>
@@ -591,14 +652,14 @@ def calculate_fitness_to_goal(population, reference):
 <tr><td>D</td><td>3</td><td>4</td><td>5</td><td>0</td><td>12</td></tr>
 </tbody></table></div>
 <p>A D a legrosszabb rátermettségű, mégis a legváltozatosabbak közé tartozik. Ha csak a rátermettség döntene, kiesne. Diverzitás szerint érdemes megtartani, mert olyan géneket hordoz, amilyenek másban nincsenek.</p></div>
-<p>Háromféle távolságot szokás használni.</p>
+<p>Háromféle távolságot szokás használni. A számpéldák egy része az előadásdiáról való (MI6 előadásdia, 24. dia).</p>
 <div class="u-compare" id="tavolsagok">
-<div><span class="u-tag">HAMMING-TÁVOLSÁG</span><h3>Eltérő bitek száma</h3><p>Bitsorozatokra. A 101000 és a 011010 távolsága 3, mert három pozíción különböznek.</p></div>
+<div><span class="u-tag">HAMMING-TÁVOLSÁG</span><h3>Eltérő bitek száma</h3><p>Főleg bitsorozatokra. A 101000 és a 011010 távolsága 3, mert három pozíción különböznek. Számsorozatokra is használható, akkor csak azt számolja, hány helyen tér el a két gén, azt nem, mennyivel: az [1; 3] és a [2; 5] távolsága 2.</p></div>
 <div><span class="u-tag">EUKLIDESZI TÁVOLSÁG</span><h3>Négyzetösszeg gyöke</h3><p>Valós kódolásra. Az (1; 2; 4) és a (3; 2; 1) távolsága √(2² + 0² + 3²) = √13 ≈ 3,61.</p></div>
-<div><span class="u-tag">MANHATTAN-TÁVOLSÁG</span><h3>Eltérések összege</h3><p>Szintén valós kódolásra. Ugyanennél a két egyednél |1 − 3| + |2 − 2| + |4 − 1| = 5.</p></div>
+<div><span class="u-tag">MANHATTAN-TÁVOLSÁG</span><h3>Eltérések összege</h3><p>Szintén valós kódolásra. Ugyanennél a két egyednél |1 − 3| + |2 − 2| + |4 − 1| = 5. Az [1; 3] és a [2; 5] távolsága 1 + 2 = 3. Könnyebb számolni, mint az euklideszit. Bitsorozaton ugyanazt adja, mint a Hamming-távolság, mert minden eltérés pontosan 1.</p></div>
 </div>
 <aside class="u-fix" id="fix-genenkent"><h3>Kiigazítás · Génenként, nem kromoszómánként</h3>
-<p><strong>A PDF állítása:</strong> az euklideszi távolság az „összegzett kromoszómakénti különbségek négyzetének gyöke”, a Manhattan-távolság a „kromoszómakénti különbségek abszolút értékének összege”.</p>
+<p><strong>A PDF (273. oldal) és az előadásdia (MI6, 24. dia) állítása:</strong> az euklideszi távolság az „összegzett kromoszómakénti különbségek négyzetének gyöke”, a Manhattan-távolság a „kromoszómakénti különbségek abszolút értékének összege”.</p>
 <p><strong>Pontosabban:</strong> génenként. A két kromoszóma azonos helyen álló génjeit vonjuk ki egymásból, és ezeket a különbségeket összegezzük, illetve négyzetre emeljük. A fenti példában a különbségek 2, 0 és 3, mindegyik egy-egy génpárból.</p>
 <p><strong>Miért fontos?</strong> Két egyed összevetésekor csak egy kromoszómapár van. Ha kromoszómánként számolnánk, egyetlen különbség jönne ki, és nem lenne mit összegezni. A képlet csak génenként értelmes.</p></aside>
 <p>Az új populáció összeállítására négy gyakori módszer van.</p>
@@ -616,7 +677,7 @@ def calculate_fitness_to_goal(population, reference):
         new.append(cadidate)
         del population[index]
     return new</code></pre>
-<figcaption>Forrás: <code>resources/code/16_Genetikus_algoritmus_hatizsak.py</code>, 70–76. sor. A <code>get_best</code> a legjobb egyedet és az indexét adja. A függvény k-szor kiveszi a legjobbat a populációból, és az új listához fűzi. A <code>del</code> miatt az eredeti populáció is fogy, a program a maradékból választ tovább rulettkerékkel.</figcaption></figure>
+<figcaption>Forrás: <code>resources/code/16_Genetikus_algoritmus_hatizsak.py</code>, 70–76. sor. A <code>get_best</code> a legjobb egyedet és az indexét adja. A függvény k-szor kiveszi a legjobbat a populációból, és az új listához fűzi. A <code>del</code> miatt az eredeti populáció is fogy, a program a maradékból választ tovább rulettkerékkel. Az újabb változat (<code>ga_knapsack.py</code>, 61–68. sor) a rátermettségi listából is törli ugyanazt az elemet (<code>del scores[index]</code>). Így a két lista együtt fogy, és nem kell minden kivételnél újra kiértékelni a populációt.</figcaption></figure>
 <p>A rangsor alapú módszerben a legjobb egyed túlélési valószínűsége P<sub>1</sub> = P, az utolsóé P<sub>n</sub> = (1 − P)<sup>n−1</sup>. A többi egyednél minden hellyel lejjebb egy újabb (1 − P) szorzó jön.</p>
 <p class="u-formula"><span class="u-big">P<sub>i</sub> = (1 − P)<sup>i−1</sup> · P, ha i &lt; n; &nbsp; P<sub>n</sub> = (1 − P)<sup>n−1</sup></span><span>i a hely a rangsorban, a legjobb az 1-es.</span></p>
 <div class="u-example" id="rang-pelda"><strong>Végigvezetett példa · Négy egyed, P = 0,4</strong>
@@ -696,7 +757,7 @@ def select_based_on_rank(population, scores):
 <!-- 14 · A KURZUS PROGRAMJAI -->
 <section id="kodok" class="chapter-section"><span class="section-index">14 / KÓDOK</span>
 <h2>Vissza a hátizsákhoz: a kurzus három programja.</h2>
-<p>A kurzus kódgyűjteményében három genetikus program van. Mindegyiket 100 különböző véletlenmaggal, változatlan kóddal futtattuk Python 3.12 alatt. A sakkmintás programhoz a numpy könyvtár is kell. Az eredmények megmutatják, mit tud a módszer, és mi múlik a részleteken.</p>
+<p>A kurzus kódgyűjteményében három genetikus program van. A hátizsák- és a sakkmintás programnak az oktató később újabb változatát is kiadta (<code>ga_knapsack.py</code> és <code>ga_sakkminta.py</code>). Mindegyiket 100 különböző véletlenmaggal, változatlan kóddal futtattuk Python 3.12 alatt. A sakkmintás programhoz a numpy könyvtár is kell. Az eredmények megmutatják, mit tud a módszer, és mi múlik a részleteken.</p>
 <p>Kezdjük a nyitó kérdéssel. A hátizsákprogram tárgyai:</p>
 <div class="u-table-wrap"><table class="u-table u-table-num" id="targyak">
 <caption>A <code>16_Genetikus_algoritmus_hatizsak.py</code> tárgyai (96–103. sor). A teherbírás 10 kg.</caption>
@@ -720,21 +781,63 @@ def select_based_on_rank(population, scores):
     new_population.extend(selection_population_relative_wheel(population, 5))
     population = new_population</code></pre>
 <figcaption>Forrás: <code>resources/code/16_Genetikus_algoritmus_hatizsak.py</code>, 126–138. sor. Generációnként egy szülőpár rulettkerékkel, kétpontos keresztezés, egyedenként 0,2 eséllyel mutáció. Az új populáció 3 elit egyedből és 5, rulettkerékkel kiválasztott egyedből áll. A program 10 generációt fut.</figcaption></figure>
-<p>A válasz a nyitó kérdésre: a legjobb érték 18. Kétféleképpen érhető el: az 1., 5. és 6. tárggyal (1 + 3 + 6 = 10 kg, 2 + 7 + 9 = 18), vagy az 1., 3., 4. és 5. tárggyal (1 + 2 + 4 + 3 = 10 kg, 2 + 4 + 5 + 7 = 18). Ezt a 64 részhalmaz végignézése biztosan megadja. A genetikus program 100 futásból 79-ben találta meg.</p>
+<p>Az újabb változat főciklusa ugyanezekből a darabokból másképp rakja össze az új populációt:</p>
+<figure class="u-code"><pre><code>for i in range(generation):
+    new_population = []
+    parents = select_k_individual_wheel(population, fitness, 2)
+    parent1, parent2 = parents[0], parents[1]
+    child1, child2 = crossover_two_points(parent1, parent2)
+    child1 = mutate(child1, mutation_rate, allel)
+    child2 = mutate(child2, mutation_rate, allel)
+    new_population.extend(selection_k_elite(population, fitness, 3))
+    new_population.append(child1)
+    new_population.append(child2)
+    new_population.extend(select_k_individual_wheel(population, fitness, 45 ))
+    population = new_population
+    fitness = []
+    for candidate in population:
+        fitness.append(calculate_fitness(candidate))</code></pre>
+<figcaption>Forrás: az oktató újabb változata, <code>ga_knapsack.py</code>, 102–116. sor; a 10 generációnként kiíró két sort elhagytuk. A 3 elit egyed és a 45 rulettkerékkel húzott egyed a régi populációból jön. Az elitek kivétele után a 45 húzás a maradék 47 egyedből történik, visszatevéssel. A két utód kiválasztás nélkül bekerül. Így 3 + 2 + 45 = 50, a populáció mérete állandó. A ciklus végén a rátermettségi listát újraszámolja. A program 100 generációt fut.</figcaption></figure>
+<p>A válasz a nyitó kérdésre: a legjobb érték 18. Kétféleképpen érhető el: az 1., 5. és 6. tárggyal (1 + 3 + 6 = 10 kg, 2 + 7 + 9 = 18), vagy az 1., 3., 4. és 5. tárggyal (1 + 2 + 4 + 3 = 10 kg, 2 + 4 + 5 + 7 = 18). Ezt a 64 részhalmaz végignézése biztosan megadja. A régebbi genetikus program 100 futásból 79-ben, az újabb 87-ben találta meg. Ennek nagy része azonban nem a keresés érdeme. A 100 futásból 73-ban az optimum már az 50 egyedes, véletlen kezdőpopulációban ott volt. A 64 lehetséges egyed közül kettő optimális, és 50 véletlen egyed között legalább egy ilyen 1 − (62/64)<sup>50</sup> ≈ 0,80 eséllyel akad. Magát a keresést a régebbi program 6, az újabb 14 futásban jutalmazta optimummal.</p>
 <div class="u-table-wrap"><table class="u-table" id="kod-eredmenyek">
-<caption>A három program eredménye 100 futásból, változatlan kóddal, 0–99-es véletlenmagokkal.</caption>
+<caption>A három program és két újabb változat eredménye 100 futásból, változatlan kóddal, 0–99-es véletlenmagokkal.</caption>
 <thead><tr><th>Program</th><th>Feladat</th><th>Eredmény 100 futásból</th></tr></thead>
 <tbody>
 <tr><td>Hátizsák (16)</td><td>A legnagyobb érték 10 kg-ig, optimum 18.</td><td>79-szer 18, 15-ször 17, 6-szor 16. A végső populáció mindig 8 egyedből állt.</td></tr>
+<tr><td>Hátizsák, újabb változat (<code>ga_knapsack.py</code>)</td><td>Ugyanaz a feladat, 50 egyed, 100 generáció.</td><td>87-szer 18, 12-szer 17, egyszer 16. A végső populáció mindig 50 egyedből állt, de 59 futásban legfeljebb 3 különböző kromoszómából.</td></tr>
 <tr><td>Sakkminta (15)</td><td>A 3 × 3-as átlós minta, rátermettség legfeljebb 9.</td><td>97-szer mind a 20 egyed a célminta. 3-szor egyik sem: mind a 20 egyed ugyanazt a 8/9-es mintát hordozta.</td></tr>
+<tr><td>Sakkminta, újabb változat (<code>ga_sakkminta.py</code>)</td><td>Ugyanaz a minta.</td><td>96-szor mind a 20 egyed a célminta, 4-szer mind a 20 ugyanazt a 8/9-es mintát hordozta.</td></tr>
 <tr><td>Blackjack (17)</td><td>Lapok, amelyek összege a lehető legközelebb van 21-hez, de nem lépi túl.</td><td>Csak 8-szor volt a végső populációban 21-es lapkombináció. 48-szor még a legjobb egyed is 0 pontos volt.</td></tr>
 </tbody></table></div>
 <div class="u-field" id="kod-tanulsagok">
-<div><span class="u-tag">HÁTIZSÁK</span><h3>Fogyó populáció</h3><p>A kezdeti populáció 50 egyedes, de az első generáció után csak 3 + 5 = 8 egyed marad. Generációnként mindössze két utód születik. Az elitizmus miatt a legjobb megoldás sosem vész el, ezért ilyen kis térben is jó az eredmény. A két keresztezési pont 1/5 eséllyel egybeesik, ilyenkor az utód a szülő másolata.</p></div>
-<div><span class="u-tag">SAKKMINTA</span><h3>Korai konvergencia</h3><p>A túlélést ötfős verseny dönti el, ez erős szelekció. A mutáció egyedenként csak 0,005 eséllyel történik. Ráadásul a verseny csak az utódok első feléből húz, mert a sorsolás csak a populációméretig számoz. Ha egy rossz gén az egész populációban elterjed, nincs, ami kijavítsa. A 9. rész buktatója ezt írja le. A kód megjegyzése szerint érdemes 0,05-tel is kipróbálni.</p></div>
+<div><span class="u-tag">HÁTIZSÁK</span><h3>Fogyó populáció</h3><p>A kezdeti populáció 50 egyedes, de az első generáció után csak 3 + 5 = 8 egyed marad. Generációnként mindössze két utód születik. Az elitizmus miatt a legjobb megoldás sosem vész el, ezért ilyen kis térben is jó az eredmény. A két keresztezési pont 1/5 eséllyel egybeesik, ilyenkor az utód a szülő másolata.</p><p>Az újabb változat (<code>ga_knapsack.py</code>) a populációt 50 egyeden tartja: 3 elit, 2 utód és 45 rulettkerékkel húzott egyed. A 45 húzás visszatevéses, ezért ugyanannak a kromoszómának sok másolata kerül tovább. A populáció így gyorsan egyformává válik, a 100. generációra a futások többségében legfeljebb 3 különböző kromoszóma marad. Ilyenkor már csak a mutáció hoz újat. A 13 sikertelen futás közül 12-ben a legjobb érték az első generáció után már nem javult, és a 10. generációra legfeljebb 12 különböző kromoszóma maradt az 50 helyen.</p></div>
+<div><span class="u-tag">SAKKMINTA</span><h3>Korai konvergencia</h3><p>A túlélést ötfős verseny dönti el, ez erős szelekció. A mutáció egyedenként csak 0,005 eséllyel történik. Ráadásul a verseny csak az utódok első feléből húz, mert a sorsolás csak a populációméretig számoz. Ha egy rossz gén az egész populációban elterjed, nincs, ami kijavítsa. A 9. rész buktatója ezt írja le. A régebbi változat megjegyzése szerint érdemes 0,05-tel is kipróbálni.</p><p>Az újabb változatban (<code>ga_sakkminta.py</code>) egy névcsere miatt a szülőket végig a kezdő populáció rátermettségi listája alapján versenyezteti. A ciklus a frissített értékeket <code>scores</code> néven menti el, a versenyeztetés viszont a <code>fitness</code> nevűt olvassa. A szülőválasztás így nem a mostani egyedek jóságát nézi, hanem azt, milyen jó volt a kezdő populációban az azonos sorszámú egyed. Az eredmény mégis hasonló: 96 futásban a célminta, 4-ben egy 8/9-es minta. A névcserét kijavítva is ugyanez jön ki, ezen a kis feladaton a túlélési verseny egymagában elvégzi a szelekciót.</p></div>
 <div><span class="u-tag">BLACKJACK</span><h3>Szelekció rátermettség nélkül</h3><p>A 14 lapból véletlenül választott kezdő egyedek összege átlagosan 48 körül van, ezért szinte mind 0 pontos. Az új populációt a program csak változatosság alapján sorsolja, a rátermettség ott nem számít. A rangsoroláshoz használt pontszámokat pedig csak egyszer, a ciklus előtt számolja ki. Így semmi sem húzza a populációt a 21 felé.</p></div>
 </div>
 <p class="u-key">A három program együtt mutatja meg a fejezet legfontosabb tanulságát. A genetikus algoritmust a szelekció hajtja: ha a túlélés nem függ a rátermettségtől, nincs fejlődés. A változatosság fontos kiegészítés, de csak a rátermettség mellett, ahogy a 12. rész együttes rangsora teszi.</p>
+<details class="u-practice" id="gyak-zh"><summary>Gyakorlás · Zárthelyi-feladat: a 8 lámpa (6 részfeladat és 3 elméleti kérdés)</summary>
+<p>Forrás: Minta-zh (2025. 12. 05.), 9. feladat. Egy okos otthonban 8 lámpa van. Mindegyik más fényerővel világít, és más az energiafogyasztása. A cél a lehető legnagyobb összfényerő úgy, hogy az összes energiafogyasztás ne haladja meg a 20 egységet. Ez a hátizsákfeladat: a lámpa a tárgy, a fényerő az érték, az energia a súly.</p>
+<div class="u-table-wrap"><table class="u-table u-table-num" id="zh-lampak">
+<caption>A lámpák fényereje (pont) és energiafogyasztása. A korlát: összesen legfeljebb 20 egység.</caption>
+<thead><tr><th>Lámpa</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th></tr></thead>
+<tbody><tr><td>Fényerő</td><td>8</td><td>6</td><td>10</td><td>4</td><td>7</td><td>5</td><td>9</td><td>12</td></tr><tr><td>Energia</td><td>5</td><td>4</td><td>7</td><td>3</td><td>6</td><td>2</td><td>6</td><td>9</td></tr></tbody></table></div>
+<p>A kromoszóma 8 bites sorozat, a bitek sorrendje A, B, …, H. Az 1 azt jelenti, hogy a lámpa be van kapcsolva, a 0, hogy ki.</p>
+<p class="u-simple"><strong>Konvenció</strong>A zh nem mondja meg, mennyi a fitnesz, ha az energia túllépi a 20-at. Itt a kurzus hátizsákprogramjának szabályát használjuk: a fitnesz az összfényerő, de 0, ha az energia 20 fölött van. Ha a zh-n mást választasz, például büntetőtagot, írd le, melyiket.</p>
+<ol type="a">
+<li><p>Adja meg az egyedeket! C<sub>1</sub>: D, E és F ég. C<sub>2</sub>: A és E. C<sub>3</sub>: A, B, C, E és G. C<sub>4</sub>: A, F és H.</p><details class="u-sol"><summary>Megoldás</summary><p>Írd fel a betűket a bitek fölé: A B C D E F G H. Ahol a lámpa ég, oda 1 kerül.</p><p>C<sub>1</sub> = <span class="u-bitstring">00011100</span>, C<sub>2</sub> = <span class="u-bitstring">10001000</span>, C<sub>3</sub> = <span class="u-bitstring">11101010</span>, C<sub>4</sub> = <span class="u-bitstring">10000101</span>.</p></details></li>
+<li><p>Adja meg az egyedek fitneszét!</p><details class="u-sol"><summary>Megoldás</summary><p>Először az energiát ellenőrizzük, utána a fényerőt adjuk össze.</p><p>C<sub>1</sub>: energia 3 + 6 + 2 = 11, fényerő 4 + 7 + 5 = 16, tehát f(C<sub>1</sub>) = 16.</p><p>C<sub>2</sub>: energia 5 + 6 = 11, fényerő 8 + 7 = 15, tehát f(C<sub>2</sub>) = 15.</p><p>C<sub>3</sub>: energia 5 + 4 + 7 + 6 + 6 = 28 &gt; 20. A fényereje 40 volna, de a korlát sérül, ezért f(C<sub>3</sub>) = 0.</p><p>C<sub>4</sub>: energia 5 + 2 + 9 = 16, fényerő 8 + 5 + 12 = 25, tehát f(C<sub>4</sub>) = 25.</p></details></li>
+<li><p>Két verseny lesz: C<sub>1</sub> és C<sub>3</sub>, valamint C<sub>2</sub> és C<sub>3</sub>. Versenyeztetéses szelekcióval kik lesznek a szülők?</p><details class="u-sol"><summary>Megoldás</summary><p>Mindkét versenyben a nagyobb fitnesz nyer: 16 &gt; 0 és 15 &gt; 0. A szülők C<sub>1</sub> és C<sub>2</sub>.</p><p>Itt látszik, miért kell a konvenció. Ha a túlterhelt C<sub>3</sub> a 40-es fényerejét kapná, mindkét versenyt ő nyerné. A két szülő ugyanaz a hibás egyed lenne, és a keresztezésük csak a másolatát adhatná.</p></details></li>
+<li><p>A két szülőből egypontos keresztezéssel, a 3. bit után vágva két gyereket hozunk létre. Mik az új egyedek, és mennyi a fitneszük?</p><details class="u-sol"><summary>Megoldás</summary><p>C<sub>1</sub> = 000 | 11100, C<sub>2</sub> = 100 | 01000. Az első gyerek eleje C<sub>1</sub>-ből, a vége C<sub>2</sub>-ből jön, a második fordítva.</p><p>C<sub>5</sub> = 000 | 01000 = <span class="u-bitstring">00001000</span>. Csak az E ég: energia 6, f(C<sub>5</sub>) = 7.</p><p>C<sub>6</sub> = 100 | 11100 = <span class="u-bitstring">10011100</span>. Az A, D, E és F ég: energia 5 + 3 + 6 + 2 = 16, f(C<sub>6</sub>) = 8 + 4 + 7 + 5 = 24.</p></details></li>
+<li><p>Elitizmussal három egyed automatikusan a következő populációba jut. Melyek ezek?</p><details class="u-sol"><summary>Megoldás</summary><p>A 10. rész 8. lépése szerint az eredeti egyedek és az utódok közös halmazából választunk. A sorrend: C<sub>4</sub> (25), C<sub>6</sub> (24), C<sub>1</sub> (16), C<sub>2</sub> (15), C<sub>5</sub> (7), C<sub>3</sub> (0). Az elit: <strong>C<sub>4</sub>, C<sub>6</sub> és C<sub>1</sub></strong>.</p><p>Ha az elitet csak az eredeti négy egyed közül választanánk, C<sub>4</sub>, C<sub>1</sub> és C<sub>2</sub> lenne. Az újabb kurzuskód (<code>ga_knapsack.py</code>) így dolgozik: az utódokat kiválasztás nélkül veszi fel. Vizsgán érdemes leírni, melyik halmazból választasz.</p></details></li>
+<li><p>Fitnesz-rangsor alapú túlélés esetén a többi egyed közül melyiknek lesz a legtöbb esélye továbbjutni?</p><details class="u-sol"><summary>Megoldás</summary><p>A maradék rangsora: C<sub>2</sub> (15), C<sub>5</sub> (7), C<sub>3</sub> (0). A legtöbb esélye <strong>C<sub>2</sub></strong>-nek van, mert ő áll az első helyen.</p><p>A 12. rész képletével n = 3 és P = 0,5 mellett az esélyek 0,5, 0,25 és 0,25. Egy figyelmeztetés: a képlet az utolsónak (1 − P)<sup>2</sup> esélyt ad. Ez P &lt; 0,382 esetén már több, mint az első helyezett P esélye. P = 0,3-nál például 0,3, 0,21 és 0,49 jönne ki, és a túlterhelt C<sub>3</sub> kapná a legtöbbet. A válasz tehát P ≥ 0,5 mellett igaz, ahogy a 12. rész kiigazítása javasolja.</p></details></li>
+</ol>
+<p>Kitekintés: mind a 256 lehetséges kapcsolás végignézésével a feladat optimuma 32. Két ilyen kapcsolás van, az A, B, D, F, G és az A, C, F, G, mindkettő éppen 20 egységet fogyaszt.</p>
+<p>Kapcsolódó elméleti kérdések:</p>
+<ol>
+<li><p>Igaz vagy hamis? „A mutáció operátor célja a populáció sokszínűségének növelése.” (Minta-zh, 1. feladat, f)</p><details class="u-sol"><summary>Megoldás</summary><p>Igaz. A mutáció olyan génértéket is hozhat, amely egyik szülőben sincs meg, és ezzel kivezet a keresztezéssel kialakult belterjességből. Lásd a 9. részt.</p></details></li>
+<li><p>Igaz vagy hamis? „A genetikus algoritmusokban a fitnesz függvény értékeli az egyedek jóságát.” (Minta-zh, 1. feladat, m)</p><details class="u-sol"><summary>Megoldás</summary><p>Igaz. A fitnesz, vagyis a rátermettség minden egyedhez egy jóságot rendel. A keresés nyelvén ez a kritériumfüggvény.</p></details></li>
+<li><p>Adja meg a genetikus algoritmus operátorait! Melyik keresési algoritmusra emlékeztet leginkább a sztochasztikus hegymászó? Ismertesse a keresési algoritmust! (Egy 2017-es vizsgasor, más intézmény, 7. feladat)</p><details class="u-sol"><summary>Megoldás</summary><p><strong>Operátorok.</strong> A szelekció a szülőket választja ki: rulettkerék, versenyeztetés vagy rangsorolás. A keresztezés két szülőből utódokat készít: egypontos, kétpontos vagy egyenletes, valós kódolásnál aritmetikai, permutációnál OX, PMX vagy CX. A mutáció egy véletlen gént másik allélra cserél.</p><p><strong>Sztochasztikus hegymászó.</strong> Az evolúciós algoritmus egyelemű populációval, keresztezés nélkül, csak mutációval. A hegymászó keresésre emlékeztet: mindig az aktuális megoldás közvetlen környékén keres, és csak akkor lép, ha a megoldás nem lesz rosszabb.</p><p><strong>Lépései.</strong> 1. Válassz egy kezdő megoldást. 2. Mutációval készíts belőle egy véletlen szomszédot. 3. Ha a szomszéd nem rosszabb, lépj át rá. 4. Ismételd a megállási feltételig. A különbség a sima hegymászóhoz képest: az a legjobb szomszédot választja, a sztochasztikus egy véletlent. Mindkettő elakadhat egy helyi csúcson, ahogy a 4. rész ábrája mutatja.</p></details></li>
+</ol></details>
 </section>
 
 <!-- FOGALOMKÁRTYÁK -->
@@ -762,9 +865,12 @@ def select_based_on_rank(population, scores):
 <div><dt>Rulettkerék</dt><dd>Rátermettség-arányos kiválasztás: p<sub>i</sub> = f<sub>i</sub> / Σ f<sub>j</sub>.</dd></div>
 <div><dt>Versenyeztetés</dt><dd>Néhány véletlenül húzott egyed közül a legrátermettebb nyer.</dd></div>
 <div><dt>Rangsorolás</dt><dd>Kiválasztás a rátermettség sorrendje alapján, nem az értéke alapján.</dd></div>
+<div><dt>Szelekciós nyomás</dt><dd>Az s paraméter a lineáris rangsorolásban, 1 ≤ s ≤ 2. Minél nagyobb, annál inkább a jobbak jutnak szóhoz.</dd></div>
 <div><dt>Korai konvergencia</dt><dd>A populáció egy közepes megoldás körül egyformává válik, mielőtt jobbat találna.</dd></div>
 <div><dt>Keresztezés</dt><dd>Két szülő génjeinek összekeverése. Egypontos, kétpontos vagy egyenletes változatban.</dd></div>
 <div><dt>Keresztezési ráta</dt><dd>Annak valószínűsége, hogy egy szülőpárból keresztezéssel lesz utód. Példaérték: 0,7.</dd></div>
+<div><dt>Aritmetikai keresztezés</dt><dd>Valós kódolásnál az utód génje a szülői gének súlyozott átlaga: C = α · P<sub>1</sub> + (1 − α) · P<sub>2</sub>.</dd></div>
+<div><dt>OX, PMX, CX</dt><dd>Permutációs keresztezések, amelyek érvényes sorrendet adnak. Az OX a sorrendet, a PMX a pozíciós megfeleltetést, a CX a ciklusokat őrzi.</dd></div>
 <div><dt>Útvonal-újrakapcsolás</dt><dd>Két jó megoldás között lépésenként, egy-egy gént átírva létrehozott köztes megoldások.</dd></div>
 <div><dt>Intelligens keresztezés</dt><dd>A gének összefüggéseit figyelembe vevő, a feladatra szabott keresztező operátor.</dd></div>
 <div><dt>Mutáció</dt><dd>Egy véletlen gén értékének cseréje egy másik allélra. Kivezet a belterjességből.</dd></div>
@@ -809,7 +915,7 @@ def select_based_on_rank(population, scores):
 <label><input type="radio" name="k4" value="b"> 0,33</label>
 <label><input type="radio" name="k4" value="c"> 0,8</label>
 <details class="u-hint"><summary>Tipp</summary><p>Oszd el a rátermettségét az összessel.</p></details>
-<p class="u-feedback" data-magyarazat="4 / (1 + 4 + 5) = 0,4. A 0,33 a lineáris rangsorolás értéke (2 / 6), a 0,8 pedig a 4 / 5, amely csak a legjobbhoz méri."></p></fieldset>
+<p class="u-feedback" data-magyarazat="4 / (1 + 4 + 5) = 0,4. A 0,33 a ranggal arányos rangsorolás értéke (2 / 6), a 0,8 pedig a 4 / 5, amely csak a legjobbhoz méri."></p></fieldset>
 <fieldset data-helyes="c"><legend>5. Öt különböző rátermettségű egyed közül mekkora eséllyel nyer a legjobb egy kétfős versenyben, visszatevéssel?</legend>
 <label><input type="radio" name="k5" value="a"> 20%</label>
 <label><input type="radio" name="k5" value="b"> 40%</label>
@@ -868,8 +974,8 @@ def select_based_on_rank(population, scores):
 <section id="osszegzes" class="chapter-section"><span class="section-index">ÖSSZEFOGLALÓ</span>
 <h2>Amit most már tudsz.</h2>
 <p>Az evolúciós algoritmusok a természet két eszközét, a változatosságot és a szelekciót utánozzák. Egy populációnyi megoldással keresnek, és a rátermettség a keresés kritériumfüggvénye. A hasonlat csak hasonlat: a rátermettséget mi írjuk elő, és az algoritmus egy rögzített feladat optimumát keresi. A család négy ága az evolúciós stratégia, az evolúciós programozás, a genetikus algoritmus és a genetikus programozás. Mindegyik ugyanarra az öt lépésre épül: kezdés, megállás, bővítés, szelekció, ismétlés. Egyelemű populációval és csak mutációval ebből sztochasztikus hegymászó lesz, amely helyi csúcson ragadhat.</p>
-<p>A genetikus algoritmus kulcsa a kódolás, vagyis a fenotípus leképezése genotípusra: bináris, valós vagy permutációs kromoszómára, génekre és allélokra. A szülőket rulettkerék, versenyeztetés vagy rangsorolás választja ki. Az utódokat egypontos, kétpontos vagy egyenletes keresztezés, útvonal-újrakapcsolás és ritka mutáció állítja elő. A keresztezés a szülők közé interpolál, a mutáció kivezet a belterjességből. A teljes algoritmus kilenc lépése után az új populációt relatív rátermettség, diverzitás, elitizmus vagy rangsor alapján állítjuk össze. A paraméterek a populációméret, a kromoszómahossz, az operátorok és a ráták. A leállást elég jó megoldás, generációszám, költségvetés vagy plató dönti el.</p>
-<p>A módszer akkor éri meg, ha a tér óriási, a feladat biztosan megoldható, és a jó részmegoldások kombinálhatók. Kis térben a kimerítő keresés jobb, és a globális optimumot a genetikus algoritmus sem garantálja. A kurzus hátizsákjának optimuma 18, a genetikus program 100 futásból 79-szer találta meg. A blackjackprogram pedig megmutatta, hogy rátermettség alapú szelekció nélkül nincs fejlődés.</p>
+<p>A genetikus algoritmus kulcsa a kódolás, vagyis a fenotípus leképezése genotípusra: bináris, valós vagy permutációs kromoszómára, génekre és allélokra. A szülőket rulettkerék, versenyeztetés vagy rangsorolás választja ki. Az utódokat egypontos, kétpontos vagy egyenletes keresztezés, útvonal-újrakapcsolás és ritka mutáció állítja elő. Valós kódolásnál az aritmetikai keresztezés átlagol, permutációnál az OX, a PMX és a CX tartja érvényesnek a sorrendet. A keresztezés a szülők közé interpolál, a mutáció kivezet a belterjességből. A teljes algoritmus kilenc lépése után az új populációt relatív rátermettség, diverzitás, elitizmus vagy rangsor alapján állítjuk össze. A paraméterek a populációméret, a kromoszómahossz, az operátorok és a ráták. A leállást elég jó megoldás, generációszám, költségvetés vagy plató dönti el.</p>
+<p>A módszer akkor éri meg, ha a tér óriási, a feladat biztosan megoldható, és a jó részmegoldások kombinálhatók. Kis térben a kimerítő keresés jobb, és a globális optimumot a genetikus algoritmus sem garantálja. A kurzus hátizsákjának optimuma 18. A genetikus program 100 futásból 79-szer, az újabb változata 87-szer találta meg, de 73 futásban az optimum már a véletlen kezdőpopulációban benne volt. A blackjackprogram pedig megmutatta, hogy rátermettség alapú szelekció nélkül nincs fejlődés.</p>
 <div class="u-links">
 <a href="07-szamitasi-problemak.html"><small>← Előző fejezet</small>07 · Nevezetes számítási problémák. Ott láttuk, miért nehéz a hátizsák és az utazóügynök.</a>
 <a href="../index.html"><small>Vissza →</small>Kezdőlap és fejezetlista. A következő fejezet a neminformált kereséssel folytatja: hogyan járható be szisztematikusan egy állapottér.</a>
@@ -879,11 +985,15 @@ def select_based_on_rank(population, scores):
 <!-- FORRÁSOK -->
 <section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
 <h2>Honnan tudjuk?</h2>
-<p>A fejezet a kurzus PDF-jének 256–275. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből származnak. A PDF ábráit (263., 265–270., 273–274. oldal) képként is átnéztük. A hét „Kiigazítás” doboz a PDF ezen állításait javítja vagy pontosítja: az evolúciós programozás tárgya (259. oldal), a kimerítő kereséssel való összevetés (261.), a genotípus mint bitminta (264.), a kiválasztási módszerek számozása (266.), az egyenletes keresztezés ábrája (268.), a távolságok génenkénti számolása (273.) és a rangsor alapú képlet (274.).</p>
-<p>Saját anyag, nem a PDF-ből: a 12 téglalap és a négyegyedes populáció számpéldái, a hatbites kézi generáció, a szupersztár-populáció, a valós kódolás, a permutációs buktató, a mutációs, a platós, a rangsoros és a diverzitási számítás, valamint a gyakorló feladatok. A döntési táblázat, a hegymászó és a két csúcsú felszín ábrája és laborja is saját. Az idővonal 1964-es, De Jong 1975-ös, 1978-as, 1989-es és 2006-os sora kiegészítés. Minden számot a jegyzet tesztelt modellje (<code>assets/js/genetic.js</code>) vagy Python-számítás ellenőrzött.</p>
-<p>A kurzus kódgyűjteményéből három fájl kapcsolódik a fejezethez: a <code>resources/code/15_Genetikus_algoritmus_sakkminta.py</code>, a <code>resources/code/16_Genetikus_algoritmus_hatizsak.py</code> és a <code>resources/code/17_Genetikus_algoritmus_blackjack.py</code>. A részleteiket a kódolás, a kiválasztás, a keresztezés, a mutáció és a túlélés magyarázatánál mutatjuk be, az eltéréseket a képaláírások jelzik. Mindhárom programot változatlan kóddal, Python 3.12-vel, 0-tól 99-ig terjedő véletlenmagokkal futtattuk. A sakkmintás programhoz numpy 2.5 kellett. Az eredmények a 14. részben állnak.</p>
+<p>A fejezet a kurzus PDF-jének 256–275. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből származnak. A PDF ábráit (263., 265–270., 273–274. oldal) képként is átnéztük. A nyolc „Kiigazítás” doboz közül hét a PDF ezen állításait javítja vagy pontosítja: az evolúciós programozás tárgya (259. oldal), a kimerítő kereséssel való összevetés (261.), a genotípus mint bitminta (264.), a kiválasztási módszerek számozása (266.), az egyenletes keresztezés ábrája (268.), a távolságok génenkénti számolása (273.) és a rangsor alapú képlet (274.). A nyolcadik az MI6 előadásdia OX-példájának utódját javítja (18. dia).</p>
+<p>A fejezetet később összevetettük az MI6 előadásdiákkal (26 dia). Ezekből épült be a ranggal arányos és a szelekciós nyomásos lineáris rangsorolás képlete (11. dia), a valós számos keresztezések (15–16. dia), a permutációs keresztezés hibája és az OX, a PMX, a CX (17–19. dia), valamint a távolságok példái (24. dia). A dia nem adja meg, honnan számozza a rangot a lineáris képletben, ezt a 7. rész kiegészítése pótolja. A PMX kész utódját, a második PMX-utódot és a CX-megjegyzést mi számoltuk ki. A zárthelyi-gyakorló a minta-zh (2025. 12. 05.) 9. feladata és 1. feladatának f) és m) pontja, valamint egy 2017-es, más intézményből származó vizsgasor 7. feladata. A megoldásokat Pythonnal ellenőriztük.</p>
+<p>Saját anyag, nem a PDF-ből: a 12 téglalap és a négyegyedes populáció számpéldái, a hatbites kézi generáció, a szupersztár-populáció, a valós kódolás csőpéldája, a mutációs, a platós, a rangsoros és a diverzitási számítás, valamint a gyakorló feladatok. A döntési táblázat, a hegymászó és a két csúcsú felszín ábrája és laborja is saját. Az idővonal 1964-es, De Jong 1975-ös, 1978-as, 1989-es és 2006-os sora kiegészítés. Minden számot a jegyzet tesztelt modellje (<code>assets/js/genetic.js</code>) vagy Python-számítás ellenőrzött.</p>
+<p>A kurzus kódgyűjteményéből három fájl kapcsolódik a fejezethez: a <code>resources/code/15_Genetikus_algoritmus_sakkminta.py</code>, a <code>resources/code/16_Genetikus_algoritmus_hatizsak.py</code> és a <code>resources/code/17_Genetikus_algoritmus_blackjack.py</code>. A részleteiket a kódolás, a kiválasztás, a keresztezés, a mutáció és a túlélés magyarázatánál mutatjuk be, az eltéréseket a képaláírások jelzik. A hátizsák- és a sakkmintás program újabb, oktatói változata a <code>ga_knapsack.py</code> és a <code>ga_sakkminta.py</code>. Ezek nincsenek a jegyzet <code>resources/</code> mappájában, a fejezet idézett soraik helyét a fájlon belül adja meg. Mind az öt programot változatlan kóddal, Python 3.12-vel, 0-tól 99-ig terjedő véletlenmagokkal futtattuk. A sakkmintás programokhoz numpy 2.5 kellett. Az eredmények a 14. részben állnak.</p>
 <ul class="u-sources">
 <li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 256–275. oldal, Dr. Dudás László diái alapján (<code>resources/presentation/</code>).</li>
+<li id="s-mi6">Genetikus algoritmus, Mesterséges intelligencia alapok előadásdiák (MI6), 2026, Dr. Dudás László diái alapján.</li>
+<li id="s-mintazh">Minta-zárthelyi dolgozat, 2025. december 5., 1. és 9. feladat.</li>
+<li id="s-ujkod">Az oktató újabb kódváltozatai: <code>ga_knapsack.py</code>, <code>ga_sakkminta.py</code>.</li>
 <li id="s-holland">J. H. Holland: <em>Adaptation in Natural and Artificial Systems</em>, University of Michigan Press, 1975.</li>
 <li id="s-rechenberg">I. Rechenberg: <em>Evolutionsstrategie: Optimierung technischer Systeme nach Prinzipien der biologischen Evolution</em>, Frommann-Holzboog, 1973.</li>
 <li id="s-fogel">L. J. Fogel, A. J. Owens, M. J. Walsh: <em>Artificial Intelligence through Simulated Evolution</em>, Wiley, 1966.</li>

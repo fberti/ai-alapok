@@ -10,7 +10,8 @@ test('Az ötödik fejezet hibaüzenet nélkül betölt', async ({page}) => {
   await page.goto(chapter);
   await expect(page.locator('h1')).toContainText('keres választ a gép');
   await expect(page.locator('#prolog-idovonal li')).toHaveCount(9);
-  await expect(page.locator('.u-fix')).toHaveCount(6);
+  await expect(page.locator('.u-fix')).toHaveCount(7);
+  await expect(page.locator('details.u-practice')).toHaveCount(3);
   await expect(page.locator('#gorbe-alakok figure')).toHaveCount(6);
   for (const fig of await page.locator('.u-quote, .u-formula-quote').all()) await expect(fig.locator('figcaption')).toContainText('PDF');
   expect(errors).toEqual([]);
@@ -108,6 +109,8 @@ test('JavaScript nélkül, fájlból is olvasható minden levezetés', async ({b
   await expect(page.locator('#altalanos-fa')).toContainText('F23');
   await expect(page.locator('#vizsga-levezetes')).toContainText('4,24');
   await expect(page.locator('#fuzzy-kimenet')).toContainText('1.6499999999999997');
+  await expect(page.locator('#fuzzylev-kimenet')).toContainText('1.5999999999999996');
+  await expect(page.locator('#zh-toresek')).toContainText('15, 20, 25');
   await expect(page.locator('#homerseklet-halmazok svg')).toBeVisible();
   await expect(page.locator('#kviz-eredmeny')).toContainText('1b, 2c, 3a');
   await expect(page.locator('#prolog-lepes')).toBeHidden();
@@ -131,4 +134,15 @@ test('A kezdőlap és a negyedik fejezet ide vezet', async ({page}) => {
   await page.goto('fejezetek/04-formalis-logika.html');
   await page.locator('.u-links a[href="05-prolog-es-fuzzy.html"]').click();
   await expect(page).toHaveURL(new RegExp(chapter + '$'));
+});
+
+test('Nyomtatásban a gyakorló feladatok és megoldásaik kinyílnak', async ({page}) => {
+  await page.goto(chapter);
+  await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
+  await page.emulateMedia({media: 'print'});
+  expect(await page.locator('#gyak-zh7').getAttribute('open')).not.toBeNull();
+  await expect(page.locator('#gyak-zh7 .u-sol').nth(2)).toContainText('55,6');
+  await expect(page.locator('#zh-kimenet svg')).toBeVisible();
+  await page.evaluate(() => window.dispatchEvent(new Event('afterprint')));
+  expect(await page.locator('#gyak-zh7').getAttribute('open')).toBeNull();
 });

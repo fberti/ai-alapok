@@ -65,10 +65,10 @@ test('Az esethasonlóság a kidolgozott példa számait adja', async ({page}) =>
 
 test('A kvíz minden helyes választ elfogad', async ({page}) => {
   await page.goto(chapter);
-  const answers = {k1: 'b', k2: 'c', k3: 'a', k4: 'b', k5: 'c', k6: 'a', k7: 'b', k8: 'a', k9: 'c', k10: 'b'};
+  const answers = {k1: 'b', k2: 'c', k3: 'a', k4: 'b', k5: 'c', k6: 'a', k7: 'b', k8: 'a', k9: 'c', k10: 'b', k11: 'b', k12: 'c'};
   for (const [name, value] of Object.entries(answers)) await page.locator(`input[name=${name}][value=${value}]`).check();
   await page.getByRole('button', {name: 'Válaszok ellenőrzése'}).click();
-  await expect(page.locator('#kviz-eredmeny')).toContainText('10 kérdésből 10 megválaszolva, 10 helyes');
+  await expect(page.locator('#kviz-eredmeny')).toContainText('12 kérdésből 12 megválaszolva, 12 helyes');
 });
 
 test('Nincs vízszintes túlcsordulás egyik szélességen és témában sem', async ({page}) => {
@@ -97,6 +97,9 @@ test('JavaScript nélkül is olvasható minden levezetés', async ({browser}) =>
   await expect(page.locator('#cbr-szamitas')).toContainText('92,8%');
   await expect(page.locator('#kaszkador-abra svg')).toBeVisible();
   await expect(page.locator('#kviz-eredmeny')).toContainText('1b, 2c, 3a');
+  await expect(page.locator('#kviz-eredmeny')).toContainText('11b, 12c');
+  await expect(page.locator('#halo-alapertek')).toContainText('hamis');
+  await expect(page.locator('#konyha-szamitas')).toContainText('93,3%');
   await expect(page.locator('#halo-csomopont')).toBeHidden();
   await context.close();
 });

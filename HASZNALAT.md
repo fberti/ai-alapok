@@ -90,8 +90,8 @@ A `node_modules/` könyvtár nem kell a közzétett oldalhoz.
 
 ## Jelenlegi hatókör
 
-Az 1–7. fejezet készült el.
+Az 1–8. fejezet készült el.
 
-A 8–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
+A 9–10. fejezet címe szerepel a tanulási úton, de nem kattintható.
 
-A következő fejezethez: `/implement #8`.
+A következő fejezethez: `/implement #9`.

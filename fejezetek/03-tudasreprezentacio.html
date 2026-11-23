@@ -47,7 +47,7 @@
 <div class="u-scene"><p><strong>Egy gyors kísérlet.</strong> Válaszolj fejben, és figyeld, melyik válasz jön a leggyorsabban!</p>
 <p>1. Tud-e énekelni a kanári? 2. Tud-e repülni a kanári? 3. Van-e bőre a kanárinak?</p>
 <p>Mindhárom válasz „igen”. A legtöbb ember mégis az elsőt érzi a legkönnyebbnek, a harmadikon pedig egy pillanatra elgondolkodik. Az 1960-as évek végén ez a kis különbség vezetett el az első gépi fogalomhálóhoz. Ebből a hálóból indul ez a fejezet.</p></div>
-<ul class="u-meta"><li>Forrás: PDF 65–88. oldal</li><li>4 kipróbálható bemutató</li><li>10 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>12_Logika.py</code>, <code>20_Szelessegben_es_melysegben_eloszor.py</code></li></ul>
+<ul class="u-meta"><li>Forrás: PDF 65–88. oldal, azaz az MI3 előadás 1–24. diája</li><li>4 kipróbálható bemutató</li><li>1 gyakorló feladat</li><li>12 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>12_Logika.py</code>, <code>20_Szelessegben_es_melysegben_eloszor.py</code></li></ul>
 <div class="u-goals"><strong>A fejezet végére…</strong><ul>
 <li>tudod, hogyan ábrázol a szemantikus háló fogalmakat és kapcsolatokat, és hogyan válaszol kérdésekre örökléssel és hálóillesztéssel;</li>
 <li>meg tudod különböztetni az egyedet, az alosztályt és az osztályt, és fel tudod oldani az öröklés kivételeit és ellentmondásait;</li>
@@ -91,7 +91,7 @@
 </section>
 
 <!-- 02 · SZÓPÁROK -->
-<section id="szoparok" class="chapter-section"><span class="section-index">02 / PDF 67–69.</span>
+<section id="szoparok" class="chapter-section"><span class="section-index">02 / PDF 67–68.</span>
 <h2>Mi köti össze a sírást és a kényelmet?</h2>
 <p>Quillian a szavak jelentéséből indult ki. A felfogása így foglalható össze:</p>
 <figure class="u-quote"><blockquote><p>„egy szó jelentését meg lehet kapni a szóhoz társított szövegek halmazaként”</p></blockquote><figcaption>Quillian gondolata · PDF 67. oldal</figcaption></figure>
@@ -105,9 +105,9 @@
 </ol>
 <p>Lássunk három valódi kimenetet Quillian programjától, magyar fordításban.</p>
 <div class="u-quote-grid" id="quillian-peldak">
-<figure class="u-quote"><blockquote><p><strong>Összevetés: Sírni, Kényelem</strong><br>A. Kapcsolat: Szomorú</p><p>„(1) A sírás azon dolgok közül való, amelyek szomorú hanggal párosulnak.<br>(2) A kényelem érdekében valamit kevésbé szomorúvá tehetünk.”</p></blockquote><figcaption>PDF 69. oldal, 1. összevetés</figcaption></figure>
-<figure class="u-quote"><blockquote><p><strong>Összevetés: Növény, Élő</strong><br>A. 1. Kapcsolat: Élő · B. 2. Kapcsolat: Élő</p><p>„(1) A növény élő szervezet.<br>(2) A növény olyan szervezet, amely a levegőből is vesz magához táplálékot. Ez a táplálék olyan dolog, amely kell az életéhez.”</p></blockquote><figcaption>PDF 69. oldal, 2. összevetés</figcaption></figure>
-<figure class="u-quote"><blockquote><p><strong>Összevetés: Növény, Ember</strong><br>A. Kapcsolat: Emlős</p><p>„(1) A növény nem emlős szervezet.”</p></blockquote><figcaption>PDF 69. oldal, 3. összevetés</figcaption></figure>
+<figure class="u-quote"><blockquote><p><strong>Összevetés: Sírni, Kényelem</strong><br>A. Kapcsolat: Szomorú</p><p>„(1) A sírás azon dolgok közül való, amelyek szomorú hanggal párosulnak.<br>(2) A kényelem érdekében valamit kevésbé szomorúvá tehetünk.”</p></blockquote><figcaption>PDF 68. oldal, 1. összevetés</figcaption></figure>
+<figure class="u-quote"><blockquote><p><strong>Összevetés: Növény, Élő</strong><br>A. 1. Kapcsolat: Élő · B. 2. Kapcsolat: Élő</p><p>„(1) A növény élő szervezet.<br>(2) A növény olyan szervezet, amely a levegőből is vesz magához táplálékot. Ez a táplálék olyan dolog, amely kell az életéhez.”</p></blockquote><figcaption>PDF 68. oldal, 2. összevetés</figcaption></figure>
+<figure class="u-quote"><blockquote><p><strong>Összevetés: Növény, Ember</strong><br>A. Kapcsolat: Emlős</p><p>„(1) A növény nem emlős szervezet.<br>(2) Az ember egy emlős.”</p></blockquote><figcaption>PDF 68. oldal, 3. összevetés; a (2) mondat csak az MI3 előadásdia 4. diáján szerepel</figcaption></figure>
 </div>
 <p>A három példa háromféle találkozást mutat. Az elsőben a két szó egy harmadik fogalomban, a <em>szomorú</em> szóban találkozik. A két út ellentétes irányú: a sírás szomorúsággal jár, a kényelem csökkenti a szomorúságot. A másodikban a program két különböző utat is talált ugyanahhoz a fogalomhoz. Az egyik közvetlen: a növény élő. A másik hosszabb, a táplálkozáson át vezet. A harmadik példában a kapcsolat <strong>tagadó</strong>: az ember emlős, a növény nem az. A háló tehát nemcsak hasonlóságot, hanem különbséget is fel tud mutatni.</p>
 <p>A kurzus keresőkódja ugyanezt a munkát végzi el. A <code>bfs</code> függvény <strong>szélességi keresés (breadth-first search)</strong>: először a közvetlen szomszédokat nézi meg, aztán a kétlépésnyire lévőket, és így tovább. Ezért mindig a legrövidebb láncot találja meg. A gráf itt egy szótár: minden szóhoz felsoroljuk azokat a szavakat, amelyek a magyarázatában szerepelnek.</p>
@@ -146,7 +146,7 @@ print(bfs(GRAPH, "könny", "fotel"))</code></pre>
 </section>
 
 <!-- 03 · ÁLLATHÁLÓ -->
-<section id="allathalo" class="chapter-section"><span class="section-index">03 / PDF 70.</span>
+<section id="allathalo" class="chapter-section"><span class="section-index">03 / PDF 69–70.</span>
 <h2>Egy kis állatvilág a hálóban.</h2>
 <p>Vegyünk egy klasszikus példahálót hét állatfogalommal. A legfelső szinten az <em>Állat</em> áll. Alatta a <em>Madár</em> és a <em>Hal</em>, legalul négy konkrét állatfajta. Minden csomópont mellett ott vannak azok a tulajdonságok, amelyeket a háló <em>ennél</em> a csomópontnál tárol.</p>
 <figure class="u-net" id="allat-halo">
@@ -492,6 +492,13 @@ print(hol_van("Cápa", "tud repülni"))</code></pre>
 <tr><td>Ábrázolás</td><td>Grafikus ábrázolás is használható, de a grafika inkább a keretleíró nyelvek kiegészítője.</td><td>A procedurális részben értéket előállító függvények és értékváltozásra működésbe lépő mechanizmusok vannak: egy eseményvezérelt <strong>démonrendszer</strong>.</td></tr>
 <tr><td>Karbantartás</td><td>A tudás rugalmasan bővíthető, módosítható és törölhető.</td><td>A démonok működése miatt a keretrendszer dinamikus, „élő” rendszerként viselkedik.</td></tr>
 </tbody></table></div>
+<aside class="u-add" id="halo-alapertek"><h3>Kiegészítés · Vannak-e alapértelmezett értékek a szemantikus hálóban?</h3>
+<p>A kérdés zárthelyin is előfordul, igaz–hamis formában: „A szemantikus hálóban vannak alapértelmezett értékek.” (Minta-zh, 2025. 12. 05., 1. feladat d) pont). Elsőre zavaró, mert a 7. részben a háló öröklési ellentmondását éppen <a href="#feloldasok">alapértelmezéssel</a> oldottuk fel. A két helyen azonban nem ugyanarról van szó.</p>
+<div class="u-compare" id="alapertek-ket-ertelem">
+<div><span class="u-tag">A HÁLÓBAN · MI3, 11. DIA</span><h3>Alapértelmezés mint feloldási elv</h3><p>Az alapértelmezés itt egy döntési szabály, amelyet a hálókezelő program alkalmaz, ha két örökölt állítás ütközik. Azt mondja ki, hogy az egyik állítás csak tipikusan igaz. A háló csomópontjainál nincs külön „alapérték” rovat, és nincs értéktartomány sem.</p></div>
+<div><span class="u-tag">A KERETBEN · MI3, 17–18. DIA</span><h3>Alapérték mint tárolt adat</h3><p>A keret rekeszéhez az érték mellett külön alapértéket is megadhatunk. Ilyen az Asztal 1 m-es magassága vagy az MI-előadás 170 perce. A diák ezt kifejezetten a <em>szemantikus hálón túlmutató</em> tulajdonságok közé sorolják.</p></div>
+</div>
+<p>A kurzus felosztása szerint tehát a válasz <strong>hamis</strong>: az alapértelmezett érték a keret újdonsága. Az árnyalat a szakirodalomból jön. Russell és Norvig tankönyve az öröklést magát is alapértelmezett következtetésnek tekinti. A „madár tud repülni” állítás náluk a Madár kategória alapértéke, amelyet Pityuka saját értéke felülír. Ebben a tágabb értelemben a hálóban is vannak alapértékek. Zárthelyin a kurzus felosztását érdemes követni. Ha van hely indoklásra, a megkülönböztetést is érdemes leírni. <a href="#s-aima">Forrás: Russell–Norvig, 10.5 szakasz;</a> <a href="#s-mi3">MI3 előadásdiák.</a></p></aside>
 <p>A <strong>démon (daemon)</strong> egy rekeszhez kötött kis eljárás. Nem hívja meg senki közvetlenül: magától indul el, ha a rekesszel egy bizonyos esemény történik. Négy fajtáját különböztetjük meg. A táblázat példái a jegyzet sajátjai, a fejezet kereteihez igazítva.</p>
 <div class="u-table-wrap"><table class="u-table" id="demonok">
 <thead><tr><th>Démon</th><th>Mikor indul el?</th><th>Példa</th></tr></thead>
@@ -640,6 +647,8 @@ print(b17.labszam, b17.szin, b17.anyag, b17.suly)</code></pre>
 <p class="u-cbr-loop">↻ Az esetbázis minden hozzáigazítással bővül, ezért a következő hasonló problémánál már közelebbi eset lesz benne.</p>
 </figure>
 <p>A tanulás lépésében a hozzáigazított eset tehát a jóságát vagy rosszaságát jelző minősítéssel együtt kerül vissza az esetbázisba.</p>
+<p>Érdemes az első lépést a szemantikus háló kérdezésével összevetni. A <a href="#celhalo-pelda">célháló illesztésekor</a> a kérdés csomópontjainak <em>pontosan</em> meg kell egyezniük a háló csomópontjaival: a Veréb kiesett, mert nem fészkel kéményen. Az esetalapú visszakeresés nem ilyen. Nem azonos esetet keres, hanem a metrika szerint <em>legközelebbit</em>. Az új, 60 cm-es narancs asztallal egyetlen régi eset sem egyezik meg, a rendszer mégis talál választ. Egzakt illesztéssel üres kézzel maradna.</p>
+<p class="u-key">Az esetalapú következtetés visszakeresése hasonlóság szerinti, nem egzakt illesztés. Ezért hamis a minta-zh állítása: „Az esetalapú következtetésben egzakt illesztéssel történik a visszakeresés.” (Minta-zh, 2025. 12. 05., 1. feladat b) pont; vö. MI3 előadásdia, 22. dia.)</p>
 <p>A hasonlóság kiszámításához minden jellemzőre egy 0 és 1 közötti <strong>helyi hasonlóságot</strong> számolunk. Az 1 azonosat, a 0 teljesen eltérőt jelent. Ezekből súlyozott átlagot képezünk. A <strong>súly</strong> azt fejezi ki, mennyire fontos az adott jellemző.</p>
 <p>Képlettel, három jellemzőre: hasonlóság = (s<sub>1</sub> × h<sub>1</sub> + s<sub>2</sub> × h<sub>2</sub> + s<sub>3</sub> × h<sub>3</sub>) ÷ (s<sub>1</sub> + s<sub>2</sub> + s<sub>3</sub>). Itt h a jellemző helyi hasonlósága, s a súlya. Az osztás a súlyok összegével azt biztosítja, hogy az eredmény is 0 és 1 közé essen, bármekkorák a súlyok. Ha minden súly 1, a képlet egyszerű átlagot ad.</p>
 <ul class="u-steps" id="metrika-kepletek">
@@ -681,6 +690,31 @@ print(b17.labszam, b17.szin, b17.anyag, b17.suly)</code></pre>
 <div class="u-out" id="eset-dontes" role="status" aria-live="polite"><p>A bemutatóhoz JavaScript szükséges. A teljes számítást a fenti példa tartalmazza.</p></div>
 </div>
 <aside class="u-add"><h3>Kiegészítés · A „négy R” köre</h3><p>Az esetalapú következtetés ma legtöbbet idézett leírása Agnar Aamodt és Enric Plaza 1994-es cikke. Ez is négy lépést nevez meg, de kissé máshogy osztja fel őket. <strong>Retrieve</strong>: visszakeresés. <strong>Reuse</strong>: újrafelhasználás, amelybe a hozzáigazítás is beletartozik. <strong>Revise</strong>: a javasolt megoldás kipróbálása a valóságban, és javítása, ha hibásnak bizonyul. <strong>Retain</strong>: megőrzés. Ebben a modellben nemcsak a hozzáigazított, hanem a változatlanul újrafelhasznált és a kudarcba fulladt eseteket is érdemes megőrizni, mert mindegyikből lehet tanulni. A fejezetben bemutatott négy lépés ennek egyszerűsített, a hozzáigazításra összpontosító formája. <a href="#s-aamodt">Forrás: Aamodt–Plaza, 1994.</a></p></aside>
+<details class="u-practice" id="gyak-cbr"><summary>Gyakorlás · Esetalapú tanácsadó konyhai gépekhez (vizsgafeladat)</summary>
+<figure class="u-quote"><blockquote><p>„Ismertesse az esetalapú szakértőrendszerek felépítését, működési lépéseit. Adjon meg három esetet elektromos konyhai készülék vásárlásban való tanácsadásra, problémajellemzők javaslat párosítással.”</p></blockquote><figcaption>Vizsgasor, 2017, 12. kérdés (kiegészítő forrás)</figcaption></figure>
+<ol>
+<li><p>Milyen részekből áll egy esetalapú szakértőrendszer?</p><details class="u-sol"><summary>Megoldás</summary><p>A középpontban az <strong>esetbázis</strong> áll. Minden eset egy problémaleírásból, a megoldás leírásából és a megoldás minősítéséből áll, többnyire keretként tárolva. Mellette egy <strong>hasonlósági metrika</strong> kell, amely két problémaleírást számszerűen összevet, és egy előre megadott <strong>küszöb</strong>. A rendszer négy működő része a négy lépést hajtja végre: a <strong>visszakereső</strong> a legközelebbi esetet keresi meg, az <strong>újrafelhasználó</strong> átveszi a megoldását, a <strong>hozzáigazító</strong> a felhasználóval együtt módosítja azt, a <strong>tanuló</strong> rész pedig a minősített új esetet visszaírja az esetbázisba. A felhasználó egy kezelőfelületen adja meg a problémát, és itt kapja a javaslatot. Ez a felosztás a jegyzet összegzése a folyamatábrából; a diák külön modulneveket nem adnak.</p></details></li>
+<li><p>Sorold fel a működés lépéseit, és mondd meg, mi dönt a 2. és a 3. lépés között!</p><details class="u-sol"><summary>Megoldás</summary><p>1. Visszakeresés: a metrika szerint legközelebbi korábbi eset. 2. Újrafelhasználás, ha a hasonlóság eléri a küszöböt. 3. Hozzáigazítás, ha nem éri el: az eset problémaleírása és vele a megoldása is módosul. 4. Tanulás: a hozzáigazított eset a minősítéssel együtt bekerül az esetbázisba. A 2. és a 3. lépés között a hasonlóság és a küszöb összevetése dönt, ezért a kettő közül mindig csak az egyik fut le.</p></details></li>
+<li><p>Adj meg három esetet egy elektromos konyhai gépeket ajánló tanácsadóhoz! Utána keresd meg a legközelebbit ehhez a vevőhöz: 3 fős háztartás, kicsi konyha, hetente süt, kb. 60 ezer Ft a kerete. A küszöb 95%.</p><details class="u-sol"><summary>Megoldás</summary>
+<p>Egy lehetséges esetbázis négy jellemzővel. A számok a jegyzet saját, szemléltető adatai.</p>
+<div class="u-table-wrap"><table class="u-table" id="konyha-esetek">
+<thead><tr><th>Eset</th><th>Problémajellemzők</th><th>Javaslat</th><th>Minősítés</th></tr></thead>
+<tbody>
+<tr><td>K1</td><td>2 fő, kicsi konyha, hetente süt, 50 ezer Ft</td><td>4 literes forrólevegős sütő</td><td>jó</td></tr>
+<tr><td>K2</td><td>5 fő, nagy konyha, naponta süt, 180 ezer Ft</td><td>beépíthető, légkeveréses sütő gőzfunkcióval</td><td>jó</td></tr>
+<tr><td>K3</td><td>1 fő, kicsi konyha, ritkán süt, 30 ezer Ft</td><td>20 literes mikrohullámú sütő grillel</td><td>rossz: a vevő pizzát is akart sütni, a grill ehhez gyenge volt</td></tr>
+</tbody></table></div>
+<p>Helyi hasonlóságok, minden súly 1. Létszám: 1 − |eltérés| / 5. Konyhaméret (kicsi, közepes, nagy) és sütési gyakoriság (ritkán, hetente, naponta): 1 − lépésszám / 2. Keret: 1 − |eltérés| / 150 ezer Ft, legalább 0.</p>
+<div class="u-table-wrap"><table class="u-table" id="konyha-szamitas">
+<thead><tr><th>Eset</th><th>Létszám</th><th>Konyha</th><th>Sütés</th><th>Keret</th><th>Összesen</th></tr></thead>
+<tbody>
+<tr><td>K1</td><td>1 − 1/5 = 0,8</td><td>1</td><td>1</td><td>1 − 10/150 = 0,933</td><td>3,733 / 4 = <strong>93,3%</strong></td></tr>
+<tr><td>K2</td><td>1 − 2/5 = 0,6</td><td>1 − 2/2 = 0</td><td>1 − 1/2 = 0,5</td><td>1 − 120/150 = 0,2</td><td>1,3 / 4 = 32,5%</td></tr>
+<tr><td>K3</td><td>1 − 2/5 = 0,6</td><td>1</td><td>1 − 1/2 = 0,5</td><td>1 − 30/150 = 0,8</td><td>2,9 / 4 = 72,5%</td></tr>
+</tbody></table></div>
+<p>A legközelebbi eset a K1, de 93,3% &lt; 95%, ezért <strong>hozzáigazítás</strong> következik. Az eltérés főleg a létszámban van: eggyel több főre a tanácsadó az eladóval együtt egy 5–6 literes forrólevegős sütőt javasol. A <strong>tanulás</strong> lépésében ez K4 néven, a vevő későbbi visszajelzésével együtt bekerül az esetbázisba. A K3 rossz minősítése is hasznos: ha egy pizzasütést kérő vevő a K3-hoz kerülne közel, a rendszer figyelmeztetne, hogy ezt a javaslatot ne ismételje meg.</p></details></li>
+</ol>
+</details>
 </section>
 
 <!-- 15 · MÉRLEG -->
@@ -803,8 +837,18 @@ print(b17.labszam, b17.szin, b17.anyag, b17.suly)</code></pre>
 <label><input type="radio" name="k10" value="b"> Hozzáigazítás, majd az új eset tárolása.</label>
 <label><input type="radio" name="k10" value="c"> A rendszer eldobja a problémát.</label>
 <p class="u-feedback" data-magyarazat="A küszöb alatt hozzáigazítás jön, a hozzáigazított eset pedig a tanulás lépésében bekerül az esetbázisba."></p></fieldset>
+<fieldset data-helyes="b"><legend>11. Igaz vagy hamis? „Az esetalapú következtetésben egzakt illesztéssel történik a visszakeresés.”</legend>
+<label><input type="radio" name="k11" value="a"> Igaz: csak a pontosan egyező régi eset használható.</label>
+<label><input type="radio" name="k11" value="b"> Hamis: a metrika szerint legközelebbi esetet keresi meg.</label>
+<label><input type="radio" name="k11" value="c"> Igaz, de csak számadatoknál.</label>
+<p class="u-feedback" data-magyarazat="A visszakeresés a legjobban hasonlító, a metrika szerint legközelebbi esetet adja. Pontos egyezés ritkán van, ezért kell a küszöb és a hozzáigazítás."></p></fieldset>
+<fieldset data-helyes="c"><legend>12. Igaz vagy hamis a kurzus felosztása szerint? „A szemantikus hálóban vannak alapértelmezett értékek.”</legend>
+<label><input type="radio" name="k12" value="a"> Igaz: minden csomópontnak van alapérték-rovata.</label>
+<label><input type="radio" name="k12" value="b"> Igaz: az alapérték a háló találmánya, a keret csak átvette.</label>
+<label><input type="radio" name="k12" value="c"> Hamis: a tárolt alapérték a keret hálón túlmutató tulajdonsága; a hálóban az alapértelmezés csak konfliktusfeloldási elv.</label>
+<p class="u-feedback" data-magyarazat="A diák az alapértelmezett értéket a keretek hálón túlmutató tulajdonságai közé sorolják. Tágabb, szakirodalmi értelemben az öröklés maga is alapértelmezett következtetés, ezt a 11. rész kiegészítése tárgyalja."></p></fieldset>
 <div class="u-controls"><button type="submit">Válaszok ellenőrzése</button><button type="reset" class="u-ghost">Újrakezdés</button></div>
-<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2c, 3a, 4b, 5c, 6a, 7b, 8a, 9c, 10b.</p>
+<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2c, 3a, 4b, 5c, 6a, 7b, 8a, 9c, 10b, 11b, 12c.</p>
 </form>
 </section>
 
@@ -823,9 +867,12 @@ print(b17.labszam, b17.szin, b17.anyag, b17.suly)</code></pre>
 <!-- FORRÁSOK -->
 <section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
 <h2>Honnan tudjuk?</h2>
-<p>A fejezet a kurzus PDF-jének 65–88. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből vagy a megnevezett eredeti forrásból származnak. Minsky mondatának magyar fordítása saját. Ahol a PDF egy diájának szövege félbemaradt (73., 76., 81. és 86. oldal), a folytatás a jegyzet saját értelmezése. A kanári tulajdonságai közül a „sárga”, a „tolla van”, a „lélegzik” és a „táplálkozik” a jegyzet kiegészítése. A Kelep és a Bárszék-17 egyed, a Nixon-példa bemutatása, a démonok példái, az asztalosműhely esetbázisa és a hasonlósági képletek szintén a jegyzet szemléltető példái. A „Kiigazítás” dobozok a PDF lényeges szakmai hibáit javítják. Ilyen kettő van: az egyed meghatározása és az ellentmondásmentesség állítása. A „Kiegészítés” dobozok hátteret adnak. A kurzus kódgyűjteményéből két fájl kapcsolódik a fejezethez. A <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code> keresőfüggvénye a 2. részben szerepel. A <code>resources/code/12_Logika.py</code> szerkezete a 4. rész öröklési kódjának mintája. Mindkét kód kimenetét futtatással ellenőriztük.</p>
+<p>A fejezet a kurzus PDF-jének 65–88. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből vagy a megnevezett eredeti forrásból származnak. Minsky mondatának magyar fordítása saját. Ahol a PDF egy diájának szövege félbemaradt (73., 76., 81. és 86. oldal), a folytatás a jegyzet saját értelmezése. A kanári tulajdonságai közül a „sárga”, a „tolla van”, a „lélegzik” és a „táplálkozik” a jegyzet kiegészítése. A Kelep és a Bárszék-17 egyed, a Nixon-példa bemutatása, a démonok példái, az asztalosműhely esetbázisa és a hasonlósági képletek szintén a jegyzet szemléltető példái. A „Kiigazítás” dobozok a PDF lényeges szakmai hibáit javítják. Ilyen kettő van: az egyed meghatározása és az ellentmondásmentesség állítása. A „Kiegészítés” dobozok hátteret adnak. A fejezetet az MI3 előadásdiákkal is összevetettük. A minta-zárthelyi két igaz–hamis állítását a 11. és a 14. rész dönti el, a 2017-es vizsgasor esetalapú feladatát pedig a 14. rész gyakorló feladata dolgozza fel. A konyhai esetbázis a jegyzet saját példája. A kurzus kódgyűjteményéből két fájl kapcsolódik a fejezethez. A <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code> keresőfüggvénye a 2. részben szerepel. A <code>resources/code/12_Logika.py</code> szerkezete a 4. rész öröklési kódjának mintája. Mindkét kód kimenetét futtatással ellenőriztük.</p>
 <ul class="u-sources">
 <li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 65–88. oldal (<code>resources/presentation/</code>).</li>
+<li id="s-mi3">Mesterséges intelligencia alapjai, 3. előadás: Tudásreprezentáció (MI3), 24 dia. Tartalma megegyezik a PDF 65–88. oldalával: az N. dia a PDF (64 + N). oldala. A 4. dia egy mondattal bővebb, mint a PDF 68. oldala.</li>
+<li id="s-zh">Minta-zárthelyi dolgozat, 2025. december 5., 1. feladat b) és d) pont.</li>
+<li id="s-vizsga">Vizsgasor, 2017 (kiegészítő forrás): 1. kérdés (a szemantikus háló jellegzetességei) és 12. kérdés (esetalapú szakértőrendszer).</li>
 <li id="s-quillian">M. R. Quillian: Semantic Memory. In: M. Minsky (szerk.): <em>Semantic Information Processing</em>, MIT Press, 1968, 227–270.</li>
 <li id="s-collins">A. M. Collins, M. R. Quillian: <a href="https://doi.org/10.1016/S0022-5371(69)80069-1">Retrieval time from semantic memory</a>, <em>Journal of Verbal Learning and Verbal Behavior</em> 8(2), 1969, 240–247.</li>
 <li id="s-rips">L. J. Rips, E. J. Shoben, E. E. Smith: <a href="https://doi.org/10.1016/S0022-5371(73)80056-8">Semantic distance and the verification of semantic relations</a>, <em>Journal of Verbal Learning and Verbal Behavior</em> 12(1), 1973, 1–20.</li>

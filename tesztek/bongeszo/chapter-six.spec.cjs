@@ -174,10 +174,10 @@ test('A versengő réteg egy győztest hagy, az együttműködő együtt telít'
 
 test('A kvíz minden helyes választ elfogad', async ({page}) => {
   await page.goto(chapter);
-  const answers = {k1: 'b', k2: 'c', k3: 'a', k4: 'b', k5: 'c', k6: 'a', k7: 'b', k8: 'c', k9: 'a', k10: 'b', k11: 'c', k12: 'a', k13: 'b', k14: 'c'};
+  const answers = {k1: 'b', k2: 'c', k3: 'a', k4: 'b', k5: 'c', k6: 'a', k7: 'b', k8: 'c', k9: 'a', k10: 'b', k11: 'c', k12: 'a', k13: 'b', k14: 'c', k15: 'b', k16: 'a'};
   for (const [name, value] of Object.entries(answers)) await page.locator(`input[name=${name}][value=${value}]`).check();
   await page.getByRole('button', {name: 'Válaszok ellenőrzése'}).click();
-  await expect(page.locator('#kviz-eredmeny')).toContainText('14 kérdésből 14 megválaszolva, 14 helyes');
+  await expect(page.locator('#kviz-eredmeny')).toContainText('16 kérdésből 16 megválaszolva, 16 helyes');
 });
 
 test('Nincs vízszintes túlcsordulás egyik szélességen és témában sem', async ({page}) => {
@@ -211,6 +211,9 @@ test('JavaScript nélkül, fájlból is olvasható minden levezetés és ábra',
   await expect(page.locator('#derivalt-pelda')).toContainText('0,143');
   await expect(page.locator('#kod-futas')).toContainText('93');
   await expect(page.locator('#kviz-eredmeny')).toContainText('1b, 2c, 3a');
+  await expect(page.locator('#elore-tabla')).toContainText('2·0 + 2·8 = 16');
+  await expect(page.locator('#gyak-elorejatszas .u-sol')).toHaveCount(5);
+  await expect(page.locator('#gyak-elorejatszas')).toContainText('26 − 22 = 4');
   await expect(page.locator('#pc-lepes')).toBeHidden();
   await context.close();
 });

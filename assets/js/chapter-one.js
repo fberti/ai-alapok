@@ -1,24 +1,24 @@
 // 01 · A fejezet interaktív bemutatói.
 (() => {
-  const $ = (sel) => document.querySelector(sel);
-  const el = (tag, attrs = {}, text = '') => {
+  const $ = (/** @type {string} */ sel) => /** @type {any} */ (document.querySelector(sel));
+  const el = (/** @type {any} */ tag, attrs = {}, text = '') => {
     const node = document.createElement(tag);
     Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
     if (text) node.textContent = text;
     return node;
   };
-  const svgEl = (tag, attrs = {}) => {
+  const svgEl = (/** @type {any} */ tag, attrs = {}) => {
     const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
     Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, String(v)));
     return node;
   };
-  const fmt = (n) => n.toLocaleString('hu-HU');
+  const fmt = (/** @type {any} */ n) => n.toLocaleString('hu-HU');
 
   /* Tartalomjegyzék: az aktuális rész jelölése */
   function initToc() {
     const links = [...document.querySelectorAll('.toc a[href^="#"]')];
     if (!('IntersectionObserver' in window)) return;
-    const byId = new Map(links.map((a) => [a.getAttribute('href').slice(1), a]));
+    const byId = new Map(links.map((a) => [(a.getAttribute('href') || '').slice(1), a]));
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -107,7 +107,7 @@
       ['a', 'b'].forEach((key) => {
         const btn = el('button', { type: 'button' }, `${key.toUpperCase()} a gép`);
         btn.addEventListener('click', () => {
-          choice.querySelectorAll('button').forEach((b) => { b.disabled = true; });
+          choice.querySelectorAll('button').forEach((/** @type {any} */ b) => { b.disabled = true; });
           const ok = key === r.machine;
           if (ok) correct += 1;
           feedback.replaceChildren(
@@ -127,7 +127,7 @@
   }
 
   /* Szimbolikus egyszerűsítés */
-  function parsePolynomial(input) {
+  function parsePolynomial(/** @type {any} */ input) {
     let s = input.replace(/\s+/g, '').replace(/[−–]/g, '-').replace(/\*/g, '').replace(/²/g, '^2').replace(/³/g, '^3');
     if (!s) return null;
     if (!/^[+-]/.test(s)) s = '+' + s;
@@ -145,22 +145,22 @@
     }
     return terms;
   }
-  function termHtml(coef, exp, first) {
+  function termHtml(/** @type {any} */ coef, /** @type {any} */ exp, /** @type {any} */ first) {
     const abs = Math.abs(coef);
     const sign = coef < 0 ? (first ? '−' : ' − ') : (first ? '' : ' + ');
     const num = exp === 0 ? String(abs) : (abs === 1 ? '' : String(abs));
     const x = exp === 0 ? '' : exp === 1 ? 'x' : `x<sup>${exp}</sup>`;
     return sign + num + x;
   }
-  function polyHtml(terms) {
-    const nz = terms.filter((t) => t.coef !== 0);
+  function polyHtml(/** @type {any} */ terms) {
+    const nz = terms.filter((/** @type {any} */ t) => t.coef !== 0);
     if (!nz.length) return '0';
-    return nz.map((t, i) => termHtml(t.coef, t.exp, i === 0)).join('');
+    return nz.map((/** @type {any} */ t, /** @type {any} */ i) => termHtml(t.coef, t.exp, i === 0)).join('');
   }
-  function simplify(terms) {
+  function simplify(/** @type {any} */ terms) {
     const groups = new Map();
-    terms.forEach((t) => groups.set(t.exp, [...(groups.get(t.exp) || []), t.coef]));
-    const combined = [...groups.entries()].sort((p, q) => p[0] - q[0]).map(([exp, cs]) => ({ exp, coef: cs.reduce((a, b) => a + b, 0), parts: cs }));
+    terms.forEach((/** @type {any} */ t) => groups.set(t.exp, [...(groups.get(t.exp) || []), t.coef]));
+    const combined = [...groups.entries()].sort((p, q) => p[0] - q[0]).map(([exp, cs]) => ({ exp, coef: cs.reduce((/** @type {any} */ a, /** @type {any} */ b) => a + b, 0), parts: cs }));
     return combined;
   }
   function initSymbolic() {
@@ -175,7 +175,7 @@
       const combined = simplify(terms);
       const grouped = combined.map((g) => {
         const label = g.exp === 0 ? 'konstansok' : g.exp === 1 ? 'x-es tagok' : `x<sup>${g.exp}</sup>-es tagok`;
-        return `${label}: ${g.parts.map((c) => (c < 0 ? '(' + c + ')' : c)).join(' + ')} = ${g.coef}`;
+        return `${label}: ${g.parts.map((/** @type {any} */ c) => (c < 0 ? '(' + c + ')' : c)).join(' + ')} = ${g.coef}`;
       });
       const result = polyHtml(combined);
       const again = polyHtml(simplify(combined.filter((t) => t.coef !== 0)));
@@ -187,7 +187,7 @@
         `<p>Out = <strong>${result}</strong></p>`;
     };
     btn.addEventListener('click', run);
-    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); run(); } });
+    input.addEventListener('keydown', (/** @type {any} */ e) => { if (e.key === 'Enter') { e.preventDefault(); run(); } });
     run();
   }
 
@@ -207,7 +207,7 @@
       return b;
     });
     const cells = px.map(() => { const s = el('span'); outBox.append(s); return s; });
-    const dark = (r, c) => r >= 0 && r < N && c >= 0 && c < N && px[r * N + c];
+    const dark = (/** @type {any} */ r, /** @type {any} */ c) => r >= 0 && r < N && c >= 0 && c < N && px[r * N + c];
     function render() {
       let darkCount = 0, edgeCount = 0;
       px.forEach((on, i) => {
@@ -228,9 +228,9 @@
     const svg = $('#hang-svg'), n = $('#hang-n'), b = $('#hang-b'), nOut = $('#hang-n-ki'), bOut = $('#hang-b-ki'), text = $('#hang-szoveg');
     if (!svg || !n || !b) return;
     const W = 600, H = 220, pad = 14;
-    const f = (t) => 0.6 * Math.sin(2 * Math.PI * 2 * t) + 0.35 * Math.sin(2 * Math.PI * 5 * t + 0.6);
-    const X = (t) => pad + t * (W - 2 * pad);
-    const Y = (v) => H / 2 - v * (H / 2 - pad);
+    const f = (/** @type {any} */ t) => 0.6 * Math.sin(2 * Math.PI * 2 * t) + 0.35 * Math.sin(2 * Math.PI * 5 * t + 0.6);
+    const X = (/** @type {any} */ t) => pad + t * (W - 2 * pad);
+    const Y = (/** @type {any} */ v) => H / 2 - v * (H / 2 - pad);
     function render() {
       const count = Number(n.value), bits = Number(b.value), L = 2 ** bits;
       nOut.textContent = String(count); bOut.textContent = String(bits);
@@ -241,7 +241,7 @@
       let d = '';
       for (let i = 0; i <= 300; i += 1) { const t = i / 300; d += `${i ? 'L' : 'M'}${X(t).toFixed(1)},${Y(f(t)).toFixed(1)}`; }
       svg.append(svgEl('path', { class: 'u-wave', d }));
-      const q = (v) => (L === 1 ? 0 : Math.round(((v + 1) / 2) * (L - 1)) / (L - 1) * 2 - 1);
+      const q = (/** @type {any} */ v) => (L === 1 ? 0 : Math.round(((v + 1) / 2) * (L - 1)) / (L - 1) * 2 - 1);
       let stair = '', err = 0;
       const samples = [];
       for (let i = 0; i < count; i += 1) {
@@ -263,13 +263,14 @@
   }
 
   /* Nyolc vezér */
-  function* queenSearch(state) {
+  function* queenSearch(/** @type {any} */ state) {
     const cols = state.cols;
-    function* rec(row) {
+    /** @returns {any} */
+    function* rec(/** @type {any} */ row) {
       if (row === 8) { yield { type: 'solved' }; return true; }
       for (let c = 0; c < 8; c += 1) {
         state.tries += 1;
-        const safe = cols.every((oc, r) => oc !== c && Math.abs(oc - c) !== row - r);
+        const safe = cols.every((/** @type {any} */ oc, /** @type {any} */ r) => oc !== c && Math.abs(oc - c) !== row - r);
         yield { type: 'try', row, col: c, safe };
         if (safe) {
           cols.push(c); state.placed += 1;
@@ -287,8 +288,11 @@
     const board = $('#vezer-tabla'), status = $('#vezer-allapot');
     if (!board || !status) return;
     let manual = new Set();
-    let search = null, state = null, last = null, done = false;
-    const cells = [];
+    /** @type {any} */ let search = null;
+    /** @type {any} */ let state = null;
+    /** @type {any} */ let last = null;
+    let done = false;
+    /** @type {any[]} */ const cells = [];
     for (let r = 0; r < 8; r += 1) for (let c = 0; c < 8; c += 1) {
       const b = el('button', { type: 'button' });
       if ((r + c) % 2 === 1) b.classList.add('u-dark');
@@ -298,8 +302,8 @@
         if (manual.has(key)) manual.delete(key); else manual.add(key);
         render();
       });
-      b.addEventListener('keydown', (e) => {
-        const moves = { ArrowUp: -8, ArrowDown: 8, ArrowLeft: -1, ArrowRight: 1 };
+      b.addEventListener('keydown', (/** @type {any} */ e) => {
+        const moves = /** @type {Record<string, number>} */ ({ ArrowUp: -8, ArrowDown: 8, ArrowLeft: -1, ArrowRight: 1 });
         if (!(e.key in moves)) return;
         e.preventDefault();
         const next = r * 8 + c + moves[e.key];
@@ -307,11 +311,11 @@
       });
       cells.push(b); board.append(b);
     }
-    const queens = () => (search ? state.cols.map((c, r) => r * 8 + c) : [...manual]);
-    function render(msg) {
+    const queens = () => (search ? state.cols.map((/** @type {any} */ c, /** @type {any} */ r) => r * 8 + c) : [...manual]);
+    function render(/** @type {any} */ msg = undefined) {
       const qs = queens();
       const attacked = new Set();
-      qs.forEach((a) => qs.forEach((b) => {
+      qs.forEach((/** @type {any} */ a) => qs.forEach((/** @type {any} */ b) => {
         if (a === b) return;
         const [ra, ca, rb, cb] = [Math.floor(a / 8), a % 8, Math.floor(b / 8), b % 8];
         if (ra === rb || ca === cb || Math.abs(ra - rb) === Math.abs(ca - cb)) attacked.add(a);
@@ -355,10 +359,10 @@
   /* DENDRAL-szabály */
   function initDendral() {
     const svg = $('#dendral-svg'), out = $('#dendral-ki');
-    const boxes = [...document.querySelectorAll('#dendral-labor input[data-csucs]')];
+    const boxes = /** @type {HTMLInputElement[]} */ ([...document.querySelectorAll('#dendral-labor input[data-csucs]')]);
     if (!svg || !out || !boxes.length) return;
     const W = 560, H = 190, left = 30, right = 20, base = 150;
-    const X = (m) => left + (m / 100) * (W - left - right);
+    const X = (/** @type {any} */ m) => left + (m / 100) * (W - left - right);
     const minor = [[15, 12], [27, 10], [29, 14], [39, 9], [41, 16], [57, 8], [69, 6], [85, 5]];
     const main = { 43: 120, 58: 55, 71: 80, 86: 70 };
     function render() {
@@ -390,7 +394,7 @@
     if (!form || !result) return;
     const key = 'mi-alapok-01-kviz';
     try { const prev = localStorage.getItem(key); if (prev) result.textContent = `Legutóbbi eredményed: ${prev}. Bármikor újra kitöltheted, vagy kihagyhatod.`; else result.textContent = 'Jelölj meg annyi választ, amennyit szeretnél, majd ellenőrizd.'; } catch { result.textContent = 'Jelölj meg annyi választ, amennyit szeretnél, majd ellenőrizd.'; }
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', (/** @type {any} */ e) => {
       e.preventDefault();
       const sets = [...form.querySelectorAll('fieldset')];
       let score = 0, answered = 0;
@@ -409,7 +413,7 @@
       try { localStorage.setItem(key, summary); } catch { /* a tárolás nem kötelező */ }
     });
     form.addEventListener('reset', () => {
-      form.querySelectorAll('.u-feedback').forEach((fb) => { fb.textContent = ''; fb.className = 'u-feedback'; });
+      form.querySelectorAll('.u-feedback').forEach((/** @type {any} */ fb) => { fb.textContent = ''; fb.className = 'u-feedback'; });
       result.textContent = 'Jelölj meg annyi választ, amennyit szeretnél, majd ellenőrizd.';
     });
   }

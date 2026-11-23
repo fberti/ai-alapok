@@ -214,6 +214,7 @@ svg .u-fn{fill:none;stroke-width:2.2;stroke-linejoin:round}
 svg .u-ball{fill:var(--u-fix);stroke:var(--paper);stroke-width:2}
 svg .u-num{font-size:11px;font-family:"DejaVu Sans Mono",Consolas,monospace}
 svg .u-delta{fill:var(--u-back);font-weight:bold}
+svg .u-wt{font-size:13px;font-weight:bold;fill:var(--ink);paint-order:stroke;stroke:var(--u-card);stroke-width:4px;stroke-linejoin:round}
 .u-live-wide{max-width:640px!important}
 .u-live-square{max-width:340px!important}
 .u-live-small{max-width:420px!important}
@@ -247,6 +248,18 @@ svg .u-delta{fill:var(--u-back);font-weight:bold}
 .u-mini-steps{margin:.4rem 0;padding-left:1.3rem;font-size:15px}
 .u-mini-steps li{margin:.25rem 0}
 .u-compare .u-big{margin:.4rem 0}
+
+/* Gyakorló feladat lenyílója */
+details.u-practice{border:1px solid var(--u-accent);border-radius:8px;margin:1.4rem 0;background:var(--u-card)}
+details.u-practice>summary{cursor:pointer;padding:.7rem 1.1rem;font-weight:bold;color:var(--u-accent);min-height:44px}
+details.u-practice[open]>summary{border-bottom:1px dashed var(--line)}
+details.u-practice>p,details.u-practice>figure{margin:.8rem 1.1rem}
+details.u-practice>ol{margin:.6rem 0;padding:0 1.1rem 0 2.6rem}
+details.u-practice>ol>li{margin:.8rem 0}
+details.u-practice>ol>li>p{margin:.2rem 0}
+.u-sol{margin:.4rem 0;font-size:15px}
+.u-sol>summary{cursor:pointer;color:var(--u-accent);font-weight:bold;min-height:32px}
+.u-sol>p{margin:.3rem 0;padding-left:.9rem;border-left:3px solid var(--u-accent-bg)}
 dl.u-cards{margin:1.2rem 0}
 
 /* Aktivációs labor színei */
@@ -258,6 +271,11 @@ svg .u-fn{stroke:var(--k)}
 svg .u-fn.k-leakyRelu,svg .u-fn.k-swish,svg .u-fn.k-elu{stroke-dasharray:7 3}
 .u-swatch{background:var(--k)}
 
+@media(max-width:560px){
+  .u-plot-fw{padding:.3rem}
+  .u-plot-fw svg .u-wt{font-size:21px;stroke-width:5px}
+  .u-plot-fw svg .u-svg-small{font-size:17px}
+}
 @media(max-width:760px){
   .u-table{font-size:14px}
   .u-stack>li:nth-child(2){margin-left:.6rem}
@@ -267,6 +285,10 @@ svg .u-fn.k-leakyRelu,svg .u-fn.k-swish,svg .u-fn.k-elu{stroke-dasharray:7 3}
 @media(prefers-reduced-motion:reduce){.chapter-six *{transition:none!important;animation:none!important}}
 @media print{
   .u-lab,.u-quiz{display:none}
+  details.u-practice>*{display:block}
+  details.u-practice::details-content{content-visibility:visible;display:block}
+  .u-sol::details-content{content-visibility:visible;display:block}
+  svg .u-wt{stroke:#fff}
   .u-fix,.u-add,.u-simple,.u-example,.u-compare>div,.u-timeline li,.u-quote,.u-stack>li,.u-plot,.u-gallery figure,.u-cycle li,.u-cards>div,.u-formula,.u-flow li{break-inside:avoid}
   .u-code pre,.u-mini{background:#fff;color:#000;border:1px solid #999;white-space:pre-wrap}
   .u-table-wrap{overflow:visible}

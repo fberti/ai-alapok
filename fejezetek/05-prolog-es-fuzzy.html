@@ -9,9 +9,9 @@
 <script>document.documentElement.classList.add('js')</script>
 <script src="../assets/js/theme.js?v=2"></script>
 <link rel="stylesheet" href="../assets/css/course.css?v=4">
-<link rel="stylesheet" href="../assets/css/chapter-five.css">
-<script defer src="../assets/js/prolog-fuzzy.js"></script>
-<script defer src="../assets/js/chapter-five.js"></script>
+<link rel="stylesheet" href="../assets/css/chapter-five.css?v=2">
+<script defer src="../assets/js/prolog-fuzzy.js?v=2"></script>
+<script defer src="../assets/js/chapter-five.js?v=2"></script>
 </head>
 <body id="top" class="chapter-five" data-chapter="5">
 <a class="skip" href="#tartalom">Ugrás a tananyaghoz</a>
@@ -34,6 +34,7 @@
 <li><a href="#folyamat">A fuzzy szabályozó</a></li>
 <li><a href="#vizsga">A vizsgajegy-példa</a></li>
 <li><a href="#fuzzy-kod">A termosztát kódja</a></li>
+<li><a href="#zh-gyakorlas">Zh-feladat lépésről lépésre</a></li>
 <li><a href="#fogalmak">Fogalomkártyák</a></li>
 <li><a href="#kviz">Kvíz · szabadon választható</a></li>
 <li><a href="#osszegzes">Összefoglaló</a></li>
@@ -48,14 +49,14 @@
 <div class="u-scene"><p><strong>Két kérdés egy délutánon.</strong> Egy diák a családfát rendezi. Beírja a gépbe, ki kinek a szülője, aztán megkérdezi: „Ki Arisztotelész nagyszülője?” Nem ír hozzá keresőciklust, csak tényeket és egy szabályt. A választ a gép maga keresi meg.</p>
 <p>Közben a barátja a kosárcsapat névsorát nézi. „Magas-e Bence, aki 179 cm?” Ha a határ 180 cm, akkor Bence nem magas, a 181 cm-es társa viszont igen. Egy centi nem tehet ekkora különbséget. Az ember ösztönösen azt mondja: „elég magas”.</p>
 <p>Az első kérdés a <strong>Prolog</strong> világa: a gép szisztematikusan keres, és ha zsákutcába jut, visszalép. A második a <strong>fuzzy logikáé</strong>: az igazság itt fokozat, 0 és 1 közötti szám.</p></div>
-<ul class="u-meta"><li>Forrás: PDF 122–141. oldal</li><li>3 kipróbálható bemutató</li><li>10 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>11_Fuzzy.py</code>, <code>12_Logika.py</code></li></ul>
+<ul class="u-meta"><li>Forrás: PDF 122–141. oldal</li><li>3 kipróbálható bemutató</li><li>10 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>11_Fuzzy.py</code>, <code>fuzzylev.py</code>, <code>12_Logika.py</code></li><li>Kidolgozott minta-zh fuzzy feladat</li></ul>
 <div class="u-goals"><strong>A fejezet végére…</strong><ul>
 <li>tudod, ki és mikor alkotta meg a Prologot, és mit jelent, hogy deklaratív nyelv;</li>
 <li>el tudod mondani Kowalski „algoritmus = logika + vezérlés” képletének jelentését;</li>
 <li>meg tudod különböztetni a tényt, a szabályt és a célt, a fejet és a törzset, és felismered a Horn-klózt;</li>
 <li>lépésről lépésre végig tudod követni, hogyan illeszt és lép vissza a Prolog, és mit változtat ezen a tények sorrendje és a vágás;</li>
 <li>érted a fuzzy halmaz, a tagsági fok és a tagsági függvény fogalmát, és tudod, miben különbözik a tagsági fok a valószínűségtől;</li>
-<li>ki tudsz számolni egy fuzzy szabályrendszert a fuzzifikálástól a defuzzifikálásig.</li>
+<li>ki tudsz számolni egy fuzzy szabályrendszert a fuzzifikálástól a defuzzifikálásig, és meg tudod mondani, hogyan változtat a kimeneten egy új szabály.</li>
 </ul></div>
 <noscript><p class="u-simple"><strong>JavaScript nélkül</strong>A teljes magyarázat, minden keresőfa, ábra és számítás olvasható. Csak a három kipróbálható bemutató és a kvíz ellenőrzése igényel JavaScriptet.</p></noscript>
 </header>
@@ -77,7 +78,7 @@
 <li><span class="u-year">1995</span><p><em>Kiegészítés:</em> elkészül az ISO Prolog szabvány. A mai rendszerek, például a SWI-Prolog, ezt követik.</p></li>
 </ol>
 <aside class="u-fix"><h3>Kiigazítás · Ki és mikor alkotta a Prologot?</h3>
-<p><strong>A PDF-ben:</strong> „Alain Colmerauer, Bob Kowalski, 1970.” (PDF 122. oldal)</p>
+<p><strong>A PDF-ben és a diasorban:</strong> „Alain Colmerauer, Bob Kowalski, 1970.” (PDF 122. oldal; MI4 előadásdia, 34. dia)</p>
 <p><strong>Pontosabban:</strong> az első Prolog-rendszert Alain Colmerauer és Philippe Roussel készítette el Marseille-ben, 1972-ben. Robert Kowalski elméleti munkája, a klózok eljárásként való olvasása ugyanebben az időben, velük együttműködve született. Kowalskit ezért joggal említik a Prolog szellemi szülőatyjai között, de a nyelvet nem ő implementálta.</p>
 <p><strong>Miért fontos?</strong> Az 1970 az előzmények éve, nem a nyelvé. Colmerauer és Roussel visszaemlékezése szerint a név is csak 1972-ben született: Roussel felesége javasolta a <em>programmation en logique</em> rövidítését. <a href="#s-colmerauer">Forrás: Colmerauer–Roussel, 1993;</a> <a href="#s-kowalski74">Kowalski, 1974.</a></p></aside>
 </section>
@@ -336,6 +337,10 @@ sokkal_szebb(A, C) :-
 </div>
 <p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. Mindkét keresőfa és a vágás hatása a fenti szövegben olvasható.</p>
 </div>
+<details class="u-practice" id="gyak-prolog"><summary>Gyakorlás · Igaz vagy hamis? (minta-zh, 1(a))</summary>
+<ol>
+<li><p>„A PROLOG nyelvben létezik a visszalépés mechanizmus.” (Minta-zh, 2025. 12. 05., 1(a) feladat)</p><details class="u-sol"><summary>Megoldás</summary><p><strong>Igaz.</strong> A visszalépés (backtracking) a Prolog működésének egyik alapja. A rendszer automatikusan végzi: zsákutcában visszatér a legutóbbi választási ponthoz, és a következő illeszkedő klózt próbálja. Ezt mutatta a felcserélt tényű keresőfa. A vágás (<code>!</code>) nem szünteti meg a mechanizmust, csak bizonyos választási pontokat töröl. A gyakori csapda épp ez: a vágás miatt „nincs visszalépés” csak a vágás előtti választásokra igaz.</p></details></li>
+</ol></details>
 </section>
 
 <!-- 09 · FUZZY -->
@@ -531,7 +536,7 @@ sokkal_szebb(A, C) :-
 </section>
 
 <!-- 15 · FUZZY KÓD -->
-<section id="fuzzy-kod" class="chapter-section"><span class="section-index">15 / KÓD · 11_Fuzzy.py</span>
+<section id="fuzzy-kod" class="chapter-section"><span class="section-index">15 / KÓD · 11_Fuzzy.py, fuzzylev.py · GYAKORLATI TÁBLA</span>
 <h2>Egy termosztát Pythonban.</h2>
 <p>A kurzus kódgyűjteményének <code>11_Fuzzy.py</code> fájlja a 13. rész szabályozási körét valósítja meg egy fűtés–hűtés rendszerre. A <code>scikit-fuzzy</code> könyvtárat használja, ez a fuzzy rendszerek egyik elterjedt Python-eszköze. A kód változatlanul:</p>
 <figure class="u-code" id="fuzzy-forras"><pre><code>#pip install scikit-fuzzy
@@ -608,6 +613,118 @@ centroid</code></pre>
 <p>Az eredmény 1,65. Ez a „No change” csúcsa, 1,5 és a „Heat” csúcsa, 3 között van, közelebb az elsőhöz. A termosztát tehát <strong>enyhén fűt</strong>. Ez észszerű: 16 °C van, 22 °C-ot szeretnénk, de a 16 fok már részben „meleg”. A második kiírt sor a használt módszer neve.</p>
 <p>Egy érdekesség: ha a kimeneti tengely folytonos lenne, a súlypont 1,613 lenne, nem 1,65. A különbség a négy pontból álló kimeneti rácsból fakad. A könyvtár a levágott görbéket csak a 0, 1, 2 és 3 pontokban, valamint a levágási szintek metszéspontjaiban ismeri, köztük egyenessel köti össze őket. A jegyzet saját modellje folytonosan számol, és ez a különbség tesztben ellenőrzött. A tanulság: a defuzzifikálás eredménye a kimeneti tartomány felbontásától is függ. A pontosabb eredményhez sűrűbb rács kell, például <code>np.arange(0, 3.01, 0.01)</code>.</p>
 <p>A kódban kikommentezett sorok más lehetőségeket mutatnak. A <code>defuzzify_method="mom"</code> a maximumok közepét választaná. Ugyanerre a bemenetre ez 1,3-at ad. A folytonos görbén a „No change” 0,6-os lapos teteje 0,9-től 2,1-ig tart, ennek közepe 1,5 lenne. A könyvtár a 2,1-es pontban kerekítési hiba miatt 0,5999…-et számol, ezért ezt a pontot nem sorolja a maximumok közé. A <code>trimf</code> háromszöget, a <code>gaussmf</code> Gauss-görbét, a <code>trapmf</code> trapézt ad, akárcsak a 11. rész ábráin. A <code>piecemf</code> egy szakaszonként megadott görbe. A <code>view()</code> hívások a tagsági függvényeket rajzolják ki, a <code>view(sim=temp)</code> pedig a konkrét bemenetet és a levágott kimenetet is.</p>
+<p>Az oktató a 2. előadás gyakorlatán ugyanezt a termosztátot egy újabb kóddal, a <code>fuzzylev.py</code> fájllal számolta végig. A táblán ez az 5. feladat. A bemenetek és a három szabály ugyanazok, két dolog változott. A nevek magyarok: „Nagyon hideg”, „Hideg”, „Meleg”, „Forró”, „Nagyon forró”, a kimeneten pedig „Hűtés”, „Nincs akció” és „Fűtés”. A fontosabb változás, hogy a „Nincs akció” háromszög helyett trapéz lett.</p>
+<div class="u-compare" id="fuzzylev-elteres">
+<div><span class="u-tag">11_Fuzzy.py</span>
+<pre class="u-mini"><code>action.automf(3, names=["Cool",
+    "No change","Heat"])</code></pre>
+<p>A „No change” háromszög, csúcsa 1,5. A rács négy pontjában az értéke 0; 0,67; 0,67; 0.</p></div>
+<div><span class="u-tag">fuzzylev.py · ÚJABB VÁLTOZAT</span>
+<pre class="u-mini"><code>action.automf(3, names=["Hűtés",
+    "Nincs akcio","Fűtés"])
+action["Nincs akcio"] = fuzz.trapmf(
+    action.universe, [0,1,2,3])</code></pre>
+<p>A „Nincs akció” trapéz: 0-ban és 3-ban 0, 1 és 2 között teljesen igaz. A rács pontjaiban 0; 1; 1; 0.</p></div>
+</div>
+<p>Az új kód az oktató saját anyagai között van, a kurzus <code>resources/code/</code> mappájában nem szerepel. A fenti sorokon kívül csak annyiban tér el, hogy nem állítja át a grafikus hátteret, és a végén a <code>print_state()</code> hívással a szabályok részeredményeit is kiírja. A kimeneti tengely továbbra is <code>np.arange(0,4,1)</code>, tehát csak a 0, 1, 2 és 3 pont. Ezért a táblázat a három kimeneti halmazt úgy adja meg, ahogy a könyvtár „látja”: a négy rácspontban, köztük egyenessel összekötve. A táblán is így szerepel.</p>
+<div class="u-table-wrap"><table class="u-table" id="akcio-racs">
+<caption>Az Akció három halmaza a négy rácspontban, a <code>fuzzylev.py</code> szerint. A „Hűtés” háromszögének (0, 0, 1,5) értéke 1-nél 1/3, ezért szerepel 0,33.</caption>
+<thead><tr><th>Halmaz</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead>
+<tbody>
+<tr><td>Hűtés</td><td>1</td><td>0,33</td><td>0</td><td>0</td></tr>
+<tr><td>Nincs akció</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>Fűtés</td><td>0</td><td>0</td><td>0,33</td><td>1</td></tr>
+</tbody></table></div>
+<div class="u-example" id="fuzzylev-levezetes"><strong>Végigvezetett példa · A tábla feladata: 16 °C van, 22 °C a cél</strong>
+<ol class="u-steps">
+<li><p><strong>Fuzzifikálás.</strong> A hőmérséklet öt tagsági foka: Nagyon hideg 0, Hideg 0,4, Meleg 0,6, Forró 0, Nagyon forró 0. A Célhőé: 0, 0, 0,8, 0,2, 0. Ugyanaz, mint fent.</p></li>
+<li><p><strong>Szabályok.</strong> (1) Fűtés: min(max(0,4; 0); 0,8) = <strong>0,4</strong>. (2) Hűtés: min(max(0; 0); 0,8) = <strong>0</strong>. (3) Nincs akció: min(0,6; 0,8) = <strong>0,6</strong>.</p></li>
+<li><p><strong>Levágás a rácson.</strong> A „Nincs akció” 0,6-nál levágva: 0; 0,6; 0,6; 0. A „Fűtés” 0,4-nél levágva: 0; 0; 0,33; 0,4. A könyvtár beszúrja azokat a pontokat is, ahol egy görbe éppen eléri a saját levágási szintjét. A „Nincs akció” 0,6-nál és 2,4-nél éri el a 0,6-ot, a „Fűtés” 2,1-nél a 0,4-et.</p></li>
+<li><p><strong>Egyesítés.</strong> Pontonként a nagyobbik érték: (0; 0), (0,6; 0,6), (1; 0,6), (2; 0,6), (2,1; 0,6), (2,4; 0,6), (3; 0,4). A könyvtár ezeket a pontokat köti össze egyenesekkel.</p></li>
+<li><p><strong>Súlypont.</strong> A sokszög három részre bontható. A 0 és 0,6 közötti háromszög területe 0,18, súlypontja 0,4. A 0,6 és 2,4 közötti téglalapé 1,08, súlypontja 1,5. A 2,4 és 3 közötti trapézé 0,3, súlypontja 2,68. Így x* = (0,18 · 0,4 + 1,08 · 1,5 + 0,3 · 2,68) / (0,18 + 1,08 + 0,3) = 2,496 / 1,56 = <strong>1,6</strong>.</p></li>
+</ol>
+<figure class="u-code" id="fuzzylev-kimenet"><pre><code>1.5999999999999996</code></pre><figcaption>A <code>fuzzylev.py</code> számítási részének valódi kimenete, scikit-fuzzy 0.5.0 alatt. A grafikus ablakokat kikapcsoltuk.</figcaption></figure>
+<figure class="u-plot u-plot-wide" id="fuzzylev-abra"><svg viewBox="0 0 600 190" role="img" aria-labelledby="lev-ki-t"><title id="lev-ki-t">A trapézos termosztát egyesített kimenete a négypontos rácson. A scikit-fuzzy a (0; 0), (0,6; 0,6), (2,4; 0,6) és (3; 0,4) pontokat köti össze, súlypontja 1,6. A pontos görbe 2,6-nál megtörik, súlypontja 1,572.</title><g class="u-axis"><path d="M30 160H586M30 160V20"/><text x="25" y="24" text-anchor="end">1</text><text x="25" y="164" text-anchor="end">0</text><text x="30" y="176" text-anchor="middle">0</text><text x="215.3" y="176" text-anchor="middle">1</text><text x="400.7" y="176" text-anchor="middle">2</text><text x="586" y="176" text-anchor="middle">3</text><text x="586" y="188" text-anchor="end" class="u-axis-label">akció</text></g><path class="u-s1 u-thin" d="M30 20L215.3 113.3L400.7 160L586 160"/><path class="u-s3 u-thin" d="M30 160L215.3 20L400.7 20L586 160"/><path class="u-s4 u-thin" d="M30 160L215.3 160L400.7 113.3L586 20"/><path class="u-area" d="M30 160L141.2 76L474.8 76L586 104L586 160L30 160Z"/><path class="u-guide" d="M474.8 76L511.9 104L586 104"/><text class="u-t1" x="44.8" y="14">Hűtés</text><text class="u-t3" x="308" y="14" text-anchor="middle">Nincs akció</text><text class="u-t4" x="571.2" y="14" text-anchor="end">Fűtés</text><path class="u-guide" d="M326.5 160V50.8"/><text x="330.5" y="54.8">1,6 (scikit-fuzzy)</text><path class="u-guide" d="M321.3 160V64.8"/><text x="317.3" y="68.8" text-anchor="end">pontos: 1,572</text></svg>
+<figcaption>Az egyesített kimenet. A három halvány vonal a rácson megadott Hűtés, Nincs akció és Fűtés. A kitöltött sokszöget számolja a könyvtár. A szaggatott törésvonal 2,4 és 3 között a pontos görbe: a „Nincs akció” lefutó oldala 2,6-nál éri el a 0,4-et, onnan a levágott „Fűtés” vízszintes teteje a maximum.</figcaption></figure>
+</div>
+<p class="u-key">A tábla feladatának helyes eredménye a kurzus eszközével <strong>1,6</strong>: a termosztát enyhén fűt. A <code>11_Fuzzy.py</code> háromszöges változata ugyanerre a bemenetre 1,65-öt ad. A különbséget csak a „Nincs akció” alakja okozza.</p>
+<p>A pontos, folytonos görbe súlypontja 1,572. A könyvtár a 2,4 és 3 közötti szakaszt egyetlen egyenessel köti össze, mert a 2,6-os töréspont nem rácspont, és egyik görbe saját levágási szintjének sem metszéspontja. A kitöltött sokszög ezért jobbra kicsit „nehezebb” a valódinál. Sűrű rácson, például <code>np.arange(0, 3.001, 0.001)</code> mellett a könyvtár is 1,572-t ad, és a jegyzet folytonos modellje is ezt számolja. A minta-zárthelyi is csak a súlypont „közelítő” értékét kéri. Kézi számolásnál a helyes menet és a jó helyre eső eredmény a lényeg, a harmadik tizedes nem.</p>
+<aside class="u-fix"><h3>Kiigazítás · A 16 °C 0,6 mértékben meleg, nem 0,5</h3>
+<p><strong>A táblán:</strong> „Hőmérséklet tagsági értékei (16): 0, 0.4, 0.5, 0, 0”, majd a harmadik szabálynál „0.5 és 0.8, így 0.5 az akcio= nincs akcio” (gyakorlati tábla, 2. előadás, 5. feladat).</p>
+<p><strong>Helyesen:</strong> a „Meleg” háromszög (10, 20, 30), a 16 a felfutó oldalán van: (16 − 10) / (20 − 10) = <strong>0,6</strong>. A harmadik szabály értéke ezért min(0,6; 0,8) = <strong>0,6</strong>. A hőmérséklet tagsági fokai: 0; 0,4; 0,6; 0; 0.</p>
+<p><strong>Miért fontos?</strong> Gyors ellenőrzés: a szomszédos háromszögek fuzzy partíciót alkotnak, ezért a két nem nulla fok összege 1. A 0,4 + 0,5 = 0,9 árulkodó. A tábla végeredménye, az 1,6, ennek ellenére helyes. A könyvtár a helyes 0,6-tal számol, és 1,6-ot ad. A hibás 0,5-del 1,599 jönne ki, ami kerekítve szintén 1,6. A hiba tehát a végeredményen nem látszik, de a zárthelyi „szabályok értékei” részében pontot érne.</p></aside>
+<p>A tábla utolsó kérdése: „Adjon meg egy olyan szabályt, amelynek a következmény igazságértéke 0-nál nagyobb”. A tábla példája: Ha (Hőmérséklet = Forró VAGY Hőmérséklet = Meleg) ÉS Célhő = Forró, akkor Akció = Fűtés. Az értéke (0 VAGY 0,6) ÉS 0,2 = min(0,6; 0,2) = 0,2. A táblán a VAGY második tagja a hibás 0,5, de az eredmény ugyanúgy 0,2. A zárójel sem számít itt: Forró VAGY (Meleg ÉS Célhő = Forró) = max(0; min(0,6; 0,2)) is 0,2. Hogy változik-e a kimenet, az a következménytől függ:</p>
+<div class="u-table-wrap"><table class="u-table" id="uj-szabaly-tabla">
+<caption>Ugyanaz a 0,2 értékű feltétel háromféle következménnyel. Az új kimeneteket scikit-fuzzy 0.5.0-val, a <code>fuzzylev.py</code> beállításaival számoltuk.</caption>
+<thead><tr><th>Következmény</th><th>Eddigi érvényesség</th><th>Új érvényesség</th><th>Kimenet</th></tr></thead>
+<tbody>
+<tr><td>Fűtés (a tábla példája)</td><td>0,4</td><td>max(0,4; 0,2) = 0,4</td><td>1,6, nem változik</td></tr>
+<tr><td>Nincs akció</td><td>0,6</td><td>max(0,6; 0,2) = 0,6</td><td>1,6, nem változik</td></tr>
+<tr><td>Hűtés</td><td>0</td><td>max(0; 0,2) = 0,2</td><td>1,548, csökken</td></tr>
+</tbody></table></div>
+<p class="u-key">Az egyesítés pontonkénti maximum. Ha az új szabály egy olyan kimeneti halmazt aktivál, amelyet egy másik szabály már legalább ekkora értékkel aktivált, a kimenet nem változik. Ha egy eddig gyengébben vagy egyáltalán nem aktivált halmazt emel meg, a súlypont e halmaz felé mozdul el.</p>
+</section>
+
+<!-- 16 · ZH-GYAKORLÁS -->
+<section id="zh-gyakorlas" class="chapter-section"><span class="section-index">16 / GYAKORLÁS · MINTA-ZH, 7. FELADAT</span>
+<h2>Egy zárthelyi-feladat lépésről lépésre.</h2>
+<p>A 2025. december 5-i minta-zárthelyi 7. feladata, 10 pontért, pontosan a termosztát menetét kéri, csak más változókkal. Egy ventilátor <strong>SEBESSÉG</strong>ét (%) kell meghatározni a <strong>HŐM</strong>érséklet (°C) és a <strong>PÁRA</strong>tartalom (%) alapján. Mindhárom változónak öt nyelvi értéke van, a tagsági függvényeket grafikon adja meg. Az öt szabály:</p>
+<ol class="u-stack" id="zh-szabalyok">
+<li><strong>1.</strong><p>HA HŐM = Nagyon alacsony ÉS PÁRA = Nagyon nedves AKKOR SEBESSÉG = Nagyon alacsony.</p></li>
+<li><strong>2.</strong><p>HA HŐM = Alacsony ÉS PÁRA = Közepes AKKOR SEBESSÉG = Alacsony.</p></li>
+<li><strong>3.</strong><p>HA HŐM = Közepes ÉS PÁRA = Közepes AKKOR SEBESSÉG = Közepes.</p></li>
+<li><strong>4.</strong><p>HA HŐM = Magas ÉS PÁRA = Száraz AKKOR SEBESSÉG = Magas.</p></li>
+<li><strong>5.</strong><p>HA HŐM = Nagyon magas ÉS PÁRA = Száraz AKKOR SEBESSÉG = Nagyon magas.</p></li>
+</ol>
+<p>A bemenet HŐM = 23 és PÁRA = 38. A kérdések: (a) a tagsági értékek, (b) a szabályok értékei, (c) a súlypont közelítő értéke, (d) egy új, pozitív értékű szabály, (e) ez az új szabály növeli, csökkenti vagy nem változtatja-e a sebességet. A grafikonok helyett itt a töréspontjaik állnak. Mindegyik görbe háromszög, a két szélső a tengely végén váll alakú.</p>
+<div class="u-table-wrap"><table class="u-table" id="zh-toresek">
+<caption>A minta-zh 7. feladatának tagsági függvényei, a grafikonokról leolvasva. A háromszögek (bal talp, csúcs, jobb talp) alakban szerepelnek. Ahol a csúcs a tengely végén van, ott a görbe váll.</caption>
+<thead><tr><th>Nyelvi érték</th><th>HŐM (°C)</th><th>PÁRA (%)</th><th>SEBESSÉG (%)</th></tr></thead>
+<tbody>
+<tr><td>1. Nagyon alacsony / Nagyon száraz</td><td>0, 0, 10</td><td>0, 0, 20</td><td>0, 10, 20</td></tr>
+<tr><td>2. Alacsony / Száraz</td><td>5, 10, 20</td><td>10, 25, 40</td><td>20, 30, 40</td></tr>
+<tr><td>3. Közepes</td><td>15, 20, 25</td><td>30, 50, 70</td><td>40, 50, 60</td></tr>
+<tr><td>4. Magas / Nedves</td><td>20, 30, 35</td><td>60, 75, 90</td><td>60, 70, 80</td></tr>
+<tr><td>5. Nagyon magas / Nagyon nedves</td><td>30, 40, 40</td><td>80, 100, 100</td><td>80, 90, 100</td></tr>
+</tbody></table></div>
+<p>A leolvasáshoz az eredeti, nagy felbontású ábrát használtuk. Minden töréspont 5 egységes rácsvonalra esik, a talppontok egyértelműek. Két helyen a jelmagyarázat takarja a csúcsot. A HŐM „Közepes” csúcsa 20-nál van: a két szára 15-nél és 25-nél indul, és 0,6 magasan 18-nál, illetve 22-nél halad át. A SEBESSÉG „Nagyon magas” csúcsa a 80 és 100 közötti talp közepén, 90-nél van, mint a többi kimeneti háromszögé. A 23 °C és a 38% környékén viszont semmi sincs takarva.</p>
+<p>Két csapdára érdemes figyelni. A HŐM görbéi <strong>nem szimmetrikusak</strong>: az „Alacsony” 5-től 20-ig, a „Magas” 20-tól 35-ig tart, a „Közepes” viszont csak 15-től 25-ig. Ezért itt nincs fuzzy partíció, a tagsági fokok összege nem kell, hogy 1 legyen. A SEBESSÉG öt háromszöge pedig <strong>nem fedi át egymást</strong>, csak a talpuk ér össze. Emiatt a levágott kimeneti halmazok külön-külön alakzatok maradnak, ami a súlypontot nagyon megkönnyíti.</p>
+<details class="u-practice" id="gyak-zh7"><summary>Gyakorlás · A minta-zh 7. feladata megoldással (5 lépés)</summary>
+<ol>
+<li><p><strong>(a) Tagsági értékek.</strong> Húzz függőleges vonalat a HŐM ábráján 23-nál, a PÁRA ábráján 38-nál. Melyik görbéket metszi, és milyen magasan?</p><details class="u-sol"><summary>Megoldás</summary><p>HŐM = 23: a „Közepes” lefutó oldalán (25 − 23) / (25 − 20) = <strong>0,4</strong>, a „Magas” felfutó oldalán (23 − 20) / (30 − 20) = <strong>0,3</strong>. A többi három 0. Sorrendben: 0; 0; 0,4; 0,3; 0.</p><p>PÁRA = 38: a „Száraz” lefutó oldalán (40 − 38) / (40 − 25) = 2/15 ≈ <strong>0,13</strong>, a „Közepes” felfutó oldalán (38 − 30) / (50 − 30) = <strong>0,4</strong>. A többi 0. Sorrendben: 0; 0,13; 0,4; 0; 0.</p></details></li>
+<li><p><strong>(b) Szabályok értékei.</strong> Az ÉS a minimum. Számold ki mind az öt szabályt!</p><details class="u-sol"><summary>Megoldás</summary><p>1. min(0; 0) = 0. 2. min(0; 0,4) = 0. 3. min(0,4; 0,4) = <strong>0,4</strong>. 4. min(0,3; 0,13) = <strong>0,13</strong>. 5. min(0; 0,13) = 0. Csak két szabály működik: a „Közepes” sebesség 0,4, a „Magas” 0,13 mértékben érvényes.</p></details></li>
+<li><p><strong>(c) Súlypont.</strong> Rajzold be a levágott kimeneti halmazokat, és adj közelítő értéket a súlypontra!</p><details class="u-sol"><summary>Megoldás</summary><p>A „Közepes” háromszöget 0,4-nél vágjuk le: trapéz lesz 40, 44, 56, 60 töréspontokkal. A „Magas” háromszöget 0,13-nál: 60; 61,3; 78,7; 80. A többi halmaz üres.</p><p><strong>Gyors közelítés</strong> a csúcsok súlyozott átlagával: (0,4 · 50 + 0,13 · 70) / (0,4 + 0,13) ≈ 55. Ez a 13. rész második módszere, a súlypontot jól megközelíti.</p><p><strong>Pontosabban</strong>, mert a két trapéz szimmetrikus, és nem fedik egymást. Egy 20 egység talpú háromszög h magasan levágva 10 · h · (2 − h) területű trapéz. A „Közepes”: 10 · 0,4 · 1,6 = 6,4, közepe 50. A „Magas”: 10 · (2/15) · (28/15) ≈ 2,49, közepe 70. A súlypont a területekkel súlyozott átlag: (6,4 · 50 + 2,49 · 70) / (6,4 + 2,49) ≈ <strong>55,6%</strong>. A scikit-fuzzy ugyanezt adja.</p>
+<figure class="u-plot u-plot-wide" id="zh-kimenet"><svg viewBox="0 0 600 190" role="img" aria-labelledby="zh-ki-t"><title id="zh-ki-t">A SEBESSÉG egyesített kimenete. A közepes háromszög 0,4, a magas 2/15 ≈ 0,13 magasan van levágva. A súlypont 55,6 százaléknál van.</title><g class="u-axis"><path d="M30 160H586M30 160V20"/><text x="25" y="24" text-anchor="end">1</text><text x="25" y="164" text-anchor="end">0</text><text x="30" y="176" text-anchor="middle">0</text><text x="85.6" y="176" text-anchor="middle">10</text><text x="141.2" y="176" text-anchor="middle">20</text><text x="196.8" y="176" text-anchor="middle">30</text><text x="252.4" y="176" text-anchor="middle">40</text><text x="308" y="176" text-anchor="middle">50</text><text x="363.6" y="176" text-anchor="middle">60</text><text x="419.2" y="176" text-anchor="middle">70</text><text x="474.8" y="176" text-anchor="middle">80</text><text x="530.4" y="176" text-anchor="middle">90</text><text x="586" y="176" text-anchor="middle">100</text><text x="586" y="188" text-anchor="end" class="u-axis-label">SEBESSÉG, %</text></g><path class="u-s1 u-thin" d="M30 160L85.6 20L141.2 160"/><text class="u-t1" x="85.6" y="14" text-anchor="middle">NA</text><path class="u-s2 u-thin" d="M141.2 160L196.8 20L252.4 160"/><text class="u-t2" x="196.8" y="14" text-anchor="middle">A</text><path class="u-s3 u-thin" d="M252.4 160L308 20L363.6 160"/><text class="u-t3" x="308" y="14" text-anchor="middle">K</text><path class="u-s4 u-thin" d="M363.6 160L419.2 20L474.8 160"/><text class="u-t4" x="419.2" y="14" text-anchor="middle">M</text><path class="u-s5 u-thin" d="M474.8 160L530.4 20L586 160"/><text class="u-t5" x="530.4" y="14" text-anchor="middle">NM</text><path class="u-area" d="M252.4 160L274.6 104L341.4 104L363.6 160L371 141.3L467.4 141.3L474.8 160L252.4 160Z"/><path class="u-guide" d="M339.1 160V73.2"/><text x="343.1" y="77.2">súlypont 55,6</text></svg>
+<figcaption>A SEBESSÉG egyesített kimenete. A halvány háromszögek az öt nyelvi érték, a kitöltött terület a két levágott halmaz. A súlypont a nagyobb területű „Közepes” felé húz.</figcaption></figure></details></li>
+<li><p><strong>(d) Új szabály.</strong> Adj meg egy szabályt, amelynek az értéke ezeknél a bemeneteknél pozitív!</p><details class="u-sol"><summary>Megoldás</summary><p>ÉS-sel összekötött feltételnél mindkét feltételnek pozitívnak kell lennie. A HŐM-nél ez a „Közepes” (0,4) vagy a „Magas” (0,3), a PÁRA-nál a „Száraz” (0,13) vagy a „Közepes” (0,4). Négy ilyen pár van. A Közepes–Közepes a 3., a Magas–Száraz a 4. szabály, tehát két új feltétel marad. Egy jó válasz: <strong>HA HŐM = Magas ÉS PÁRA = Közepes AKKOR SEBESSÉG = Magas</strong>, értéke min(0,3; 0,4) = <strong>0,3</strong>. VAGY-gyal könnyebb: elég, ha az egyik feltétel pozitív.</p></details></li>
+<li><p><strong>(e) Hogyan változik a sebesség?</strong> Növeli, csökkenti, vagy nem változtat rajta az új szabály?</p><details class="u-sol"><summary>Megoldás</summary><p>A (d) szabálya a „Magas” halmazt 0,3-mal aktiválja. Eddig ez a halmaz csak 0,13-mal volt aktív. Az egyesítés maximum, ezért a „Magas” trapéz megnő, és a súlypont a 70 felé mozdul: <strong>növeli</strong>, 55,6%-ról 58,9%-ra. A válasz tehát a következményen múlik. A táblázat három lehetséges új szabályt vet össze.</p>
+<div class="u-table-wrap"><table class="u-table" id="zh-uj-szabalyok">
+<caption>Három új szabály hatása a minta-zh 7. feladatában. Az új súlypontokat scikit-fuzzy 0.5.0-val is ellenőriztük.</caption>
+<thead><tr><th>Új szabály</th><th>Értéke</th><th>Hatás</th><th>Súlypont</th></tr></thead>
+<tbody>
+<tr><td>HŐM = Magas ÉS PÁRA = Közepes → Magas</td><td>0,3</td><td>A „Magas” 0,13-ról 0,3-ra nő: <strong>növeli</strong>.</td><td>58,9%</td></tr>
+<tr><td>HŐM = Közepes ÉS PÁRA = Száraz → Közepes</td><td>0,13</td><td>A „Közepes” már 0,4-del aktív, max(0,4; 0,13) = 0,4: <strong>nem változtat</strong>.</td><td>55,6%</td></tr>
+<tr><td>HŐM = Közepes ÉS PÁRA = Száraz → Alacsony</td><td>0,13</td><td>Új halmaz a súlypont bal oldalán: <strong>csökkenti</strong>.</td><td>50,0%</td></tr>
+</tbody></table></div>
+<p>Az utolsó sor szép véletlen. Az „Alacsony” 0,13-mal levágva pontosan a „Magas” tükörképe az 50-re, ezért a kettő kiegyenlíti egymást, és a súlypont éppen a „Közepes” közepére, 50-re kerül.</p></details></li>
+</ol></details>
+<p class="u-key">A (d)–(e) kérdéspár szabálya: az új szabály <em>ugyanazt</em> a halmazt kisebb vagy egyenlő értékkel aktiválva nem változtat. Ha egy halmazt az eddiginél erősebben aktivál, vagy egy új halmazt kapcsol be, a súlypont arra mozdul, amerre ez a halmaz a jelenlegi súlyponthoz képest van.</p>
+<p>A régebbi vizsgasorokban nyitottabb fuzzy kérdések is előfordulnak. Itt a görbéket és a szabályokat neked kell megadnod. Két ilyen feladat egy 2017-es vizsgasorból (Miskolci Egyetem). Más intézmény anyaga, ezért csak kiegészítő gyakorlásnak szántuk.</p>
+<details class="u-practice" id="gyak-fuzzy-tervezes"><summary>Gyakorlás · Tagsági függvények és szabályok tervezése (2 feladat)</summary>
+<ol>
+<li><p>„Adjon meg alkalmas tagsági függvény görbéket a következő fogalom alábbi értékeinek szemléltetéséhez: Szellemi képesség: butuska,penge, okos, debilis. A mért jellemző az IQ.” (2017-es vizsgasor, 12. kérdés)</p><details class="u-sol"><summary>Megoldás</summary><p>Először rendezd sorba az értékeket az IQ szerint. A feladat szándékosan összekeverve adja meg őket: debilis &lt; butuska &lt; okos &lt; penge. A „debilis” régi orvosi besorolás volt, ma sértő szónak számít. Itt csak a vizsgakérdés szövege miatt szerepel.</p><p>Egy jó megoldás az IQ tengelyén, 40 és 160 között. A két szélső érték váll, hiszen az egészen alacsony, illetve egészen magas IQ teljesen ide tartozik. A belső értékek háromszögek. A szomszédos görbék átfedik egymást, így fuzzy partíciót kapunk.</p>
+<div class="u-table-wrap"><table class="u-table">
+<caption>Egy lehetséges felosztás. A pontos számok szabadon választhatók, a sorrend és az átfedés a lényeg.</caption>
+<thead><tr><th>Nyelvi érték</th><th>Alak</th><th>Töréspontok (IQ)</th></tr></thead>
+<tbody>
+<tr><td>debilis</td><td>bal váll (trapéz)</td><td>40, 40, 60, 75</td></tr>
+<tr><td>butuska</td><td>háromszög</td><td>60, 75, 100</td></tr>
+<tr><td>okos</td><td>háromszög</td><td>75, 100, 130</td></tr>
+<tr><td>penge</td><td>jobb váll (trapéz)</td><td>100, 130, 160, 160</td></tr>
+</tbody></table></div>
+<p>Ellenőrzés: a 110-es IQ 0,67 mértékben okos és 0,33 mértékben penge. Az összeg 1.</p></details></li>
+<li><p>„Mutassa be a fuzzy logika működését két szabállyal, ha egy autó súlyát kg-ban akarjuk megbecsülni”. A bemenetek: a hossz (rövid, normál, hosszú, cm-ben) és a személyszállító képesség (sportkupé, családi autó, kisbusz, az ülések számával mérve). A kimeneti oldalhoz saját fuzzy fogalmat és értékeket kell adni. (2017-es vizsgasor, 10. kérdés)</p><details class="u-sol"><summary>Megoldás</summary><p>Egy lehetséges megoldás. Hossz: rövid trapéz (300, 300, 380, 440), normál háromszög (380, 440, 500), hosszú trapéz (440, 500, 600, 600). Ülések: sportkupé trapéz (2, 2, 2, 5), családi autó háromszög (3, 5, 7), kisbusz trapéz (5, 7, 9, 9). A kimeneti fogalom a <strong>tömeg</strong>: könnyű trapéz (800, 800, 1000, 1300 kg), közepes háromszög (1100, 1400, 1700 kg), nehéz trapéz (1500, 1800, 2500, 2500 kg).</p><p>R1: HA hossz = rövid ÉS ülés = sportkupé AKKOR tömeg = könnyű. R2: HA hossz = normál ÉS ülés = családi autó AKKOR tömeg = közepes.</p><p>Egy 420 cm-es, négyüléses autó: rövid (440 − 420) / 60 ≈ 0,33, normál (420 − 380) / 60 ≈ 0,67. Sportkupé (5 − 4) / 3 ≈ 0,33, családi (4 − 3) / 2 = 0,5. R1 = min(0,33; 0,33) ≈ 0,33, R2 = min(0,67; 0,5) = 0,5. A „könnyű” halmazt 0,33-nál, a „közepest” 0,5-nél vágjuk le, és egyesítjük. A súlypont ≈ <strong>1255 kg</strong>. A csúcsok súlyozott átlaga gyorsabb közelítés: a könnyű trapéz lapos tetejének közepét, 900-at véve (0,33 · 900 + 0,5 · 1400) / 0,83 = 1200 kg.</p><p>Két szabály nem fed le minden autót. Egy hosszú kisbuszra mindkettő 0-t ad, ahogy a vizsgajegy-példában. A feladat csak a működés bemutatását kéri, ehhez két szabály elég.</p></details></li>
+</ol></details>
 </section>
 
 <!-- FOGALMAK -->
@@ -708,11 +825,17 @@ centroid</code></pre>
 <!-- FORRÁSOK -->
 <section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
 <h2>Honnan tudjuk?</h2>
-<p>A fejezet a kurzus PDF-jének 122–141. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből származnak. A „Kiigazítás” dobozok a PDF hat állítását javítják vagy pontosítják. Ezek: a Prolog születésének éve és szerzői (122. oldal), a Horn-halmaz meghatározása (125.), a keresési stratégia gazdája (125.), az aritmetikai egyenlőség (126.), a vágás hatása (126.) és Zadeh keresztneve (132.). A tagsági fok és a valószínűség különbségét kiegészítés tárgyalja, mert a PDF mondata helyes, csak könnyen félreolvasható. A „Kiegészítés” dobozok hátteret adnak.</p>
+<p>A fejezet a kurzus PDF-jének 122–141. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből származnak. A „Kiigazítás” dobozok a PDF hat állítását és a gyakorlati tábla egy számítását javítják vagy pontosítják. A PDF-ben: a Prolog születésének éve és szerzői (122. oldal), a Horn-halmaz meghatározása (125.), a keresési stratégia gazdája (125.), az aritmetikai egyenlőség (126.), a vágás hatása (126.) és Zadeh keresztneve (132.). A táblán: a 16 °C „Meleg” tagsági foka (0,6, nem 0,5). A tagsági fok és a valószínűség különbségét kiegészítés tárgyalja, mert a PDF mondata helyes, csak könnyen félreolvasható. A „Kiegészítés” dobozok hátteret adnak.</p>
 <p>A PDF 122. és 126. oldalának egy-egy mondata a dián félbeszakad („…és a”, „…az ágak”). A jegyzet ezeket a mondat értelme szerint egészítette ki. A 127. oldalon a program <code>cleopátra</code> alakot, a 130. oldal keresőfája <code>cleopatra</code> alakot használ. A jegyzet egységesen <code>kleopatra</code>-t ír. A 129., 135., 136. és 140. oldal tartalma kép. Ezeket a jegyzet szöveggel és saját ábrával adja vissza. A hórihorgas görbe töréspontjai a jegyzet leolvasásai. A hat alakzat paraméterei és a vizsgajegy-példa skálái a jegyzet saját választásai. A 136. oldal hőmérsékleti töréspontjai a PDF ábrájáról pontosan leolvashatók. A lista-, az <code>assert</code>- és a családfa-példa, a két keresőfa szöveges alakja, a hibás balrekurzió és a műveleti példa a jegyzet saját anyaga.</p>
-<p>A kurzus kódgyűjteményéből két fájl kapcsolódik a fejezethez. A <code>resources/code/11_Fuzzy.py</code> teljes szövege a 15. részben szerepel. Kimenetét scikit-fuzzy 0.5.0-val futtatva ellenőriztük, csak a grafikus ablakok megnyitását kapcsoltuk ki. A <code>resources/code/12_Logika.py</code> tényei és szabályai a 3. részben a Prolog-átirat mellett állnak. A Prolog-válaszokat a jegyzet saját megoldója adta, amely a bemutatóban is fut.</p>
+<p>Az előadás diasora (MI4_Logika, 34–53. dia) ugyanezt az anyagot tartalmazza, mint a PDF 122–141. oldala: a 34. dia a 122. oldalnak felel meg, és így tovább. Tartalmi eltérést nem találtunk. A Prolog születéséről szóló pontatlanság a 34. dián is szerepel, a kiigazítás erre is vonatkozik. A 41., 47. és 48. dia főleg ábra, ezek a PDF 129., 135. és 136. oldalának ábrái. A 2. előadás gyakorlati táblájának fuzzy feladata a 15. részben, a 2025. december 5-i minta-zárthelyi 7. feladata a 16. részben kidolgozva szerepel, 1(a) kérdése a 8. rész végén. A minta-zh grafikonjainak töréspontjai a jegyzet leolvasásai, a 16. rész leírja, hol takarja őket a jelmagyarázat. A 2017-es vizsgasor két kérdése kiegészítő gyakorlás, a megoldásuk a jegyzet saját javaslata.</p>
+<p>A kurzus kódgyűjteményéből két fájl kapcsolódik a fejezethez. A <code>resources/code/11_Fuzzy.py</code> teljes szövege a 15. részben szerepel. Kimenetét scikit-fuzzy 0.5.0-val futtatva ellenőriztük, csak a grafikus ablakok megnyitását kapcsoltuk ki. A <code>resources/code/12_Logika.py</code> tényei és szabályai a 3. részben a Prolog-átirat mellett állnak. A Prolog-válaszokat a jegyzet saját megoldója adta, amely a bemutatóban is fut. Az oktató újabb <code>fuzzylev.py</code> fájlja nem része a <code>resources/code/</code> mappának. A 15. rész csak az eltérő sorait idézi. A számítási részét scikit-fuzzy 0.5.0-val futtattuk, kimenete <code>1.5999999999999996</code>. A minta-zh feladatát és az új szabályok hatását ugyanígy, scikit-fuzzy-val ellenőriztük.</p>
 <ul class="u-sources">
 <li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 122–141. oldal (<code>resources/presentation/</code>).</li>
+<li id="s-mi4">Mesterséges intelligencia alapjai, előadásdiák: MI4_Logika, 34–53. dia (az oktató 2025-ös anyagai).</li>
+<li id="s-tabla">Mesterséges intelligencia alapjai, 2. előadás, gyakorlati tábla (Microsoft Whiteboard), 5. feladat: fuzzy termosztát.</li>
+<li id="s-fuzzylev"><code>fuzzylev.py</code>, az oktató újabb fuzzy példakódja (az oktató 2025-ös anyagai, <code>py/</code> mappa).</li>
+<li id="s-mintazh">Minta-zárthelyi dolgozat, 2025. december 5., 1(a) és 7. feladat.</li>
+<li id="s-exam2017">Mesterséges intelligencia vizsgasor, 2017 (Miskolci Egyetem), 10. és 12. kérdés. Más intézmény anyaga, kiegészítésként.</li>
 <li id="s-colmerauer">A. Colmerauer, P. Roussel: <a href="https://doi.org/10.1145/154766.155362">The Birth of Prolog</a>, <em>ACM SIGPLAN Notices</em> 28(3), 1993, 37–52.</li>
 <li id="s-kowalski74">R. Kowalski: Predicate Logic as Programming Language, <em>Proceedings of IFIP Congress 74</em>, North-Holland, 1974, 569–574.</li>
 <li id="s-kowalski79">R. Kowalski: <a href="https://doi.org/10.1145/359131.359136">Algorithm = Logic + Control</a>, <em>Communications of the ACM</em> 22(7), 1979, 424–436.</li>

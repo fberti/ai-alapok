@@ -104,3 +104,37 @@ GitHub Pages-re nem tettük közzé az oldalt.
 A forrás PDF 35. oldalának képét a tananyag részeként őrizzük meg, eredeti forrásjelölésével.
 
 Nyilvános közzététel előtt a kép továbbközlési jogát a tár tulajdonosa ellenőrizze.
+
+## Összevetés az új forrásokkal (MI1 diák, minta-zh)
+
+Forrás: az 1. előadás diái (`MI1.pptx`, 37 dia), a 2025. december 5-i minta-zárthelyi, kiegészítésként egy 2017-es vizsgasor.
+
+A diák 1–7. és 10–36. diája a PDF 1–35. oldalával egyezik. Ezeket a fejezet már lefedte.
+
+A korábbi kiigazítások a diákra is érvényesek: McCarthy és 1955, a két Cattell, Binet és a francia kormány, a „ma is használt” DENDRAL, a „rabota”.
+
+Hiányzott a 8. dia: Winston meghatározása.
+
+Most idézetként szerepel a `#mi` részben, négylépéses lánccal (`#winston-lanc`) és a nyolc vezéres példával.
+
+Hiányzott a 9. dia: a gyenge és az erős MI.
+
+Most a dia mondata idézetként, a két álláspont pedig párhuzamos összehasonlításként (`#gyenge-eros-mi`) szerepel. Kapcsolódik a „tudat” kiigazításhoz és a kínai szobához (`#kinai-szoba`).
+
+Új fogalomkártya és 9. kvízkérdés is készült hozzá. Bekerült a tanulási célok közé és az összefoglalóba is.
+
+A 3. dia hat elemű összegzése kiegészíti a „Közös mag” kiemelést.
+
+A 11. dia szerint Turing „legkésőbb 2000-re” jósolt. Az eredeti „nagyjából ötven évet” mond. Ezt egy mondat jelzi a jóslat után.
+
+Minta-zh 1(c): a Turing-teszt célja annak eldöntése, hogy a gép emberhez hasonlóan gondolkodik-e. Ez igaz (10. dia). A fejezet most külön mondja a teszt célját és azt, amit ténylegesen mér. A záró kiemelés ezt mindkettőt tartalmazza.
+
+Minta-zh 1(o): a „sokkal rosszabb színvonal” hamis (28. dia). A szakértőrendszeres kiigazítás után egy kiemelés ezt kimondja.
+
+A 2017-es vizsgasor intelligencia-kérdései közül az alkalmazási területek listája, az érvényesség és a megbízhatóság már szerepelt. Descartes négy elve a 4. fejezetben van.
+
+Newell meghatározását, Sternberg összetevőelméletét és Sloman szándékosság-fogalmát nem vettük át. Ezek nem szerepelnek a kurzus diáin, és más intézmény vizsgájából származnak. Az ágensek bővebb tárgyalása (kooperáció, koordináció) sem került be, mert az a diákon csak listaelem.
+
+`assets/js/chapter-one.js`: a szigorú `checkJs` 58 implicit `any` hibát jelzett már a kiinduló állapotban is. JSDoc-típusjelölésekkel javítottuk, a működés nem változott.
+
+Eredmény: `npm run typecheck` sikeres. `npm test`: az 1. fejezet tesztjei sikeresek. Egy hiba más fejezet (02) folyamatban lévő munkájából ered (`#s-giarratano`). Egy helyi `file://` Chromium-próba asztali és telefonos nézetben hibátlan volt: kvíz, nyolc vezér, DENDRAL, nincs vízszintes görgetés, JavaScript nélkül is látható új elemek. A böngészőtesztsort a koordinátor futtatja.

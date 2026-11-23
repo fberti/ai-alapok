@@ -57,6 +57,8 @@ Az 1–307. oldal mindegyike pontosan egy mérföldkőhöz tartozik.
 
 Ellenőrzési nyom: [ELLENORZES-01.md](ELLENORZES-01.md).
 
+Összevetve az MI1 diákkal (Winston meghatározása, gyenge és erős MI pótolva) és a minta-zh 1(c), 1(o) állításával.
+
 ### 2. mérföldkő
 
 - [x] Tudás és reprezentációs követelmények.
@@ -72,6 +74,8 @@ Ellenőrzési nyom: [ELLENORZES-01.md](ELLENORZES-01.md).
 - [x] Előnyök és hátrányok.
 
 Ellenőrzési nyom: [ELLENORZES-02.md](ELLENORZES-02.md).
+
+Összevetve az MI2 diákkal (négylépéses következtetési ciklus), a gyakorlati tábla két Anna-példájával (T5–T6 kiigazítva) és a minta-zh 1(e), 1(h), 1(o) és 2. feladatával.
 
 A második fejezet átdolgozása megőrzi a PDF 36–64. oldalának lefedését és mind a kilenc kiigazítást. A nyolc reprezentációs elv, a kézikönyv kilenc eleme és a részletes tudás tizenhárom összetevője teljes, látható magyarázatot kapott. A folyamatok, a K1–K6 kérdések, a szerkesztett párbeszéd és a két láncolási irány külön olvasási formát használ. A `resources/code/12_Logika.py` példája közvetlenül a szabályláncolásnál szerepel. A vizuális elemek telefonon, mindkét témában, JavaScript nélkül és nyomtatásban is ellenőrzöttek.
 
@@ -89,6 +93,8 @@ A második fejezet átdolgozása megőrzi a PDF 36–64. oldalának lefedését 
 - [x] Előnyök és hátrányok.
 
 Ellenőrzési nyom: [ELLENORZES-03.md](ELLENORZES-03.md).
+
+Összevetve az MI3 diákkal (1–24. dia = PDF 65–88.) és a minta-zh 1(b), 1(d) állításával; esetalapú gyakorló feladat.
 
 Az átdolgozott harmadik fejezet a PDF 65–88. oldalának összes példáját és a 12 kiigazítást megőrzi. A kanári kérdései útvonalakat, Pityuka adatai külön adatlapot, az öröklési konfliktus két látható ágat kapott. Az előadáskeretek teljes mezőkészlete egymás mellett olvasható. Az esetfolyamat két döntési ága és mindhárom mintaeset pontszáma JavaScript nélkül is követhető. A négy labor változatlanul használható. Az olvasási elemeket telefonon, mindkét témában és nyomtatásban is ellenőriztük.
 
@@ -109,6 +115,8 @@ Az átdolgozott harmadik fejezet a PDF 65–88. oldalának összes példáját �
 
 Ellenőrzési nyom: [ELLENORZES-04.md](ELLENORZES-04.md).
 
+Összevetve az MI4 1–33. diájával, a gyakorlati tábla és a kézírásos feladatsorok logikai feladataival (13 kiigazítás, köztük az Anna–Béla–Cili eset) és a minta-zh 1(k), 1(n), 5. és 6. feladatával.
+
 Az öt labor mellett minden számítás és levezetés JavaScript nélkül is olvasható. A 104. PDF-oldal képi szövege is szerepel. A 12 kiigazítás külön kezeli a kategóriák átfedését, a kielégíthetőséget, a klózforma elírását, a rezolúció leállását és teljességét, valamint a predikátumok, függvények és változók jelentését. Az új tanúállandó és az egyesítések a teljes elsőrendű bizonyításban látszanak.
 
 ### 5. mérföldkő
@@ -126,6 +134,8 @@ Az öt labor mellett minden számítás és levezetés JavaScript nélkül is ol
 - [x] A szabályozórendszer vázlata.
 
 Ellenőrzési nyom: [ELLENORZES-05.md](ELLENORZES-05.md).
+
+Összevetve az MI4 34–53. diájával, a táblai fuzzy feladattal (Meleg(16) = 0,6 kiigazítva, eredmény 1,6), a `fuzzylev.py` kóddal és a minta-zh 1(a) és 7. feladatával (16. rész).
 
 A PDF 129., 135., 136. és 140. oldalának képi tartalma szöveggel és saját ábrával szerepel. A Prolog-labor a jegyzet saját, tesztelt megoldójával mindkét ténysorrendet vágással és nélküle is lejátssza. A tagsági görbék billentyűvel állíthatók. A vizsgalabor három kimeneti módszert és az üres kimenet esetét is kezeli, saját, világosan jelölt skálákkal. A `resources/code/11_Fuzzy.py` kimenetét scikit-fuzzy 0.5.0-val ellenőriztük. A `resources/code/12_Logika.py` tényei és szabályai Prolog-átirattal szerepelnek. A tananyag telefonon, mindkét témában és nyomtatásban is olvasható.
 
@@ -149,6 +159,8 @@ A PDF 129., 135., 136. és 140. oldalának képi tartalma szöveggel és saját 
 - [x] Versengő, együttműködő és normalizáló mechanizmus.
 
 Ellenőrzési nyom: [ELLENORZES-06.md](ELLENORZES-06.md).
+
+Összevetve az MI5 diákkal (softmax és az aktivációválasztás pótolva), a táblai előreterjesztési feladattal és a minta-zh 1(g), 1(j), 3. és 4. feladatával.
 
 A képként tárolt oldalak is szerepelnek: neuronábra, mind a 11 aktivációs függvény képlete és grafikonja, a perceptron tanítási lépései, az XOR-háló, a deriválás és a hibavisszaterjesztés képletei. A tizenkét mini példa lefedi a terv nyolc interaktív elemét, és kiegészíti őket a McCulloch–Pitts-neuronnal, az XOR-kapcsolóval, a visszacsatolt neuronnal, az entrópiával és a rétegen belüli mechanizmusokkal. A 17 kiigazítás, ebből kettő az oktatói kódról szól, kezeli a derivált előjelét, a megerősítéses tanulás besorolását, az univerzális közelítést, a visszacsatolt hálók működését és a történeti példák jellegét is. A `resources/code/13_Neuralis_halo_kezzel.py` fájlt 100 véletlenmaggal futtattuk. A `resources/code/14_Neuralis_halo_keras.py` kódját magyarázzuk, de nem futtattuk.
 
@@ -191,6 +203,8 @@ A képes oldalak (228., 236–239., 242., 244., 247–250.) is szerepelnek: a h�
 
 Ellenőrzési nyom: [ELLENORZES-08.md](ELLENORZES-08.md).
 
+Összevetve az MI6 diákkal (valós és permutációs keresztezés, OX-kiigazítás, PMX, távolság), az újabb `ga_knapsack.py` és `ga_sakkminta.py` kóddal (100–100 futás) és a minta-zh 1(f), 1(m) és 9. feladatával.
+
 ### 9. mérföldkő
 
 - [ ] Keresési feladat és három fő lépése.
@@ -207,6 +221,8 @@ Ellenőrzési nyom: [ELLENORZES-08.md](ELLENORZES-08.md).
 - [ ] Mélységkorlátos keresés.
 - [ ] Iteratív mélyítés.
 
+A 2025-ös minta-zh 8. feladata (mélységi keresés ABC-sorrenddel, indexelt ismétlődő csomópontokkal, a front tartalma) ehhez a mérföldkőhöz is szempont.
+
 ### 10. mérföldkő
 
 - [ ] Heurisztika és `h(n)`.
@@ -221,6 +237,8 @@ Ellenőrzési nyom: [ELLENORZES-08.md](ELLENORZES-08.md).
 - [ ] Rosszabb lépés elfogadása.
 - [ ] Hőmérséklet és hűtési ütem.
 - [ ] A teljes PDF-beli pszeudokód.
+
+A 2025-ös minta-zh 8. feladata (A* keresési fa, talált út, a front tartalma) ehhez a mérföldkőhöz is szempont.
 
 ## Nem szöveges tartalom
 

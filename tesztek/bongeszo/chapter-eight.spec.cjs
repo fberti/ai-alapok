@@ -16,9 +16,9 @@ test('A nyolcadik fejezet hibaüzenet nélkül betölt, a gyakorlás és a kvíz
   page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
   await page.goto(chapter);
   await expect(page.locator('h1')).toContainText('tenyészd ki');
-  await expect(page.locator('.u-fix')).toHaveCount(7);
+  await expect(page.locator('.u-fix')).toHaveCount(8);
   await expect(page.locator('.u-lab')).toHaveCount(5);
-  await expect(page.locator('details.u-practice')).toHaveCount(4);
+  await expect(page.locator('details.u-practice')).toHaveCount(5);
   for (const d of await page.locator('details.u-practice, details.u-quiz-wrap').all()) expect(await d.getAttribute('open')).toBeNull();
   await expect(page.locator('#kviz-urlap fieldset')).toHaveCount(12);
   await expect(page.locator('#kviz-urlap .u-hint')).toHaveCount(12);

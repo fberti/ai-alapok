@@ -549,6 +549,9 @@
     });
   }
 
+  /* Nyomtatáskor a gyakorló feladatok megoldásai is látszódjanak */
+  window.addEventListener('beforeprint', () => { document.querySelectorAll('details').forEach((d) => { d.open = true; }); });
+
   document.addEventListener('DOMContentLoaded', () => {
     initToc();
     initNeuron();

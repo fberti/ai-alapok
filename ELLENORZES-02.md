@@ -81,3 +81,16 @@ A viszonyítási pont a külön témakommit: `81f7614`. Két párhuzamos, csak o
 **Szabályok:** két dokumentált hibát találtak: az interjú pontosításának doboztípusa és a szakmai szavak korai magyarázata. Mindkettőt javítottuk. A két kódminőségi észrevételt is kezeltük: a kérdésgomb stabil adatkulccsal választ megnevezett válaszmezőket; az előreláncolás a szabálymotorba került.
 
 **Terv:** három hibát találtak: a hiányzó ellenőrzési fájlt, a doboztípust és az első előfordulásnál hiányzó magyarázatokat. Ez a fájl pótolja az ellenőrzési nyomot; a másik kettőt a fejezet szövegében javítottuk. A teljes tesztfutás a kódjavítások után történt. Későbbi fejezet tananyagát nem készítettük el.
+
+## Összevetés az új forrásokkal (MI2 diák, gyakorlati tábla, minta-zh)
+
+Összevetettük a fejezetet az MI2 előadásdiák 29 diájával, a gyakorlati tábla (2. előadás) két láncolási feladatával, a 2025. 12. 05-i minta-zárthelyivel és kiegészítésként egy 2017-es vizsgasorral. A diák szövege a PDF 36–64. oldalával egyezik, egy kivétellel: a 28. dia négylépésesnek írja a következtető ciklust.
+
+- A ciklus negyedik lépést kapott (a célállapot tesztelése). A szöveg jelzi, hogy a PDF 63. oldala csak három lépést számoz, a dia négyet.
+- A 27. dia ábráját kicsomagoltuk és összevetettük: a fejezet rajza egyezik vele (négy elem, öt nyíl). A zh 2. feladatához a nyilak jelentése szövegesen is bekerült.
+- Új kiegészítés: felhasználói és fejlesztői interfész (Giarratano–Riley). A konfliktusfeloldási dobozba bekerültek a magyar nevek (megakadályozás, újdonság, specifikusság) és a globális/lokális megkülönböztetés.
+- Új végigvezetett példa: Anna egyetemre indul, T0–T6 és CS1–CS7 jelöléssel (17. rész), valamint Anna kirándul célfával és a „nem bizonyítható ≠ hamis” kiemeléssel (16. rész).
+- Kiigazítás: a táblai T5 és T6 kihagyja a „fennáll az elázás veszélye” tényt; helyesen |T6| = 9. A konfliktushalmazokat és mindkét levezetést Pythonnal újraszámoltuk, a gyakorló feladatok változatait (T0 hideg nélkül, nagyobb sorszám nyer, hiányzó tény hátraláncolásnál) is.
+- Új, lenyíló gyakorlóblokk (`#gyak-lancolas`, hat feladat, `<details>` megoldással, JavaScript nélkül is működik, nyomtatáskor kinyílik). A minta-zh 1(e), 1(h), 1(o) állítása is benne van; az 1(o)-hoz a 18. rész a MYCIN 1979-es vak értékelését hozza (Yu és mtsai., JAMA; az adatokat a PubMed-kivonatból ellenőriztük).
+- Javítás: a ciklusdobozok `strong` stílusa a szövegközi kiemelést is külön sorba törte; most csak a dobozcímre vonatkozik.
+- Ellenőrzés: `npm run typecheck` sikeres; `npm test` 52/53, az egyetlen hiba a 4. fejezet hiányzó `#s-exam2017` horgonya (nem e fejezet része). A fejezet azonosítói egyediek, a belső hivatkozások élnek. Kézi Playwright-ellenőrzés `file://` címről: 390 px sötét és 1280 px világos nézet, nincs vízszintes túllógás, nincs JS-hiba; a JavaScript nélküli nyomtatási PDF tartalmazza a gyakorló megoldásokat. A böngészőtesztcsomagot nem futtattuk.

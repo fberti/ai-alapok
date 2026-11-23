@@ -94,3 +94,16 @@ A két ellenőrzési szempontot kézzel, külön vizsgáltuk. Ebben a munkamenet
 - **Specifikáció:** nincs nyitott hiány. Csak a 3. mérföldkő készült el. A 4. fejezet nem kapott aktív linket. A célháló általános illesztését megoldott példa tanítja; a labor ennek egyszerű osztályút-kereső változatát használja, és ezt jelzi.
 
 A laborok korlátozott tanmodellek. Nem teljes hálókövetkeztető, keretkezelő vagy tanuló CBR-rendszerek. A biztosítás és a bútoreseti értékek nem valós tanácsok. A kvíz kihagyható.
+
+## Összevetés az új forrásokkal (MI3 diák, minta-zh, 2017-es vizsgasor)
+
+Az MI3 előadás (`ea/MI3.pptx`, 24 dia) szövegét diánként összevetettük a fejezettel. A diák tartalma megegyezik a PDF 65–88. oldalával: az N. dia a PDF (64 + N). oldala. Tartalmi ellentmondást nem találtunk, a fejezet minden diát lefed.
+
+- Oldalszám-javítás: a három Quillian-összevetés a PDF 68. oldalán van, nem a 69.-en. A 69. oldal az állatháló ábrája. A 2. rész jelzése ezért „PDF 67–68.”, a 3. részé „PDF 69–70.” lett.
+- A harmadik összevetés idézete kiegészült a „(2) Az ember egy emlős.” mondattal. Ez csak a pptx 4. diáján szerepel, a PDF-ben nem; a felirat ezt jelzi.
+- Minta-zh 1(b) („egzakt illesztéssel történik a visszakeresés”): a 14. rész új bekezdése összeveti a célháló pontos illesztését a CBR legközelebbi-eset keresésével, és kiemelésben kimondja: hamis.
+- Minta-zh 1(d) („a szemantikus hálóban vannak alapértelmezett értékek”): a 11. rész új kiegészítése (`#halo-alapertek`) szétválasztja az alapértelmezést mint öröklési feloldási elvet (MI3, 11. dia) és a tárolt alapértéket mint a keret hálón túlmutató tulajdonságát (MI3, 17–18. dia). A kurzus felosztása szerint a válasz hamis; a Russell–Norvig-féle tágabb értelmezést árnyalatként mutatjuk be.
+- 2017-es vizsgasor: a szemantikus háló jellegzetességeit (Quillian 1968, asszociatív háló, a hierarchia oka) a fejezet már lefedte. Az esetalapú szakértőrendszer felépítéséről és a konyhai készülékes esetekről új, lenyíló megoldású gyakorló feladat készült (`#gyak-cbr`). A K1–K3 hasonlóságait (93,3%, 32,5%, 72,5%) Pythonnal ellenőriztük.
+- A kvíz két új kérdést kapott (11b, 12c). A JavaScript nélküli válaszlista és a böngészős teszt ennek megfelelően frissült. A gyakorló feladat nyomtatáskor kinyílik (`beforeprint` és `::details-content`).
+
+Próbák: `npm test` 53 sikeres teszt. `npm run typecheck`: a 3. fejezet fájljaiban nincs hiba; a jelzett hibák a párhuzamosan szerkesztett `assets/js/chapter-one.js` fájlban vannak. A böngészős teszteket a koordinátor futtatja.

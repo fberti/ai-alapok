@@ -268,3 +268,20 @@ svg text[class^=u-t]{font-weight:bold}
   :root[data-theme=dark]{color-scheme:light;--paper:#fff;--ink:#000;--muted:#333;--line:#999;--soft:#eee;--white:#fff;--orange:#91400f;--orange-bg:#fff;--green:#17594c}
   :root[data-theme=dark] .chapter-five{--u-accent:#1d5287;--u-accent-bg:#e4edf7;--u-fix:#8a3b12;--u-fix-bg:#fff0e0;--u-add:#1f5a44;--u-add-bg:#e5f1e9;--u-key:#f3e7a8;--u-card:#fffef9;--u-ok:#1f6b3a;--u-bad:#a1261b;--u-own:#7a4a00;--u-own-bg:#fbeccd;--u-s1:#b3261e;--u-s2:#2f7d32;--u-s3:#1d5287;--u-s4:#8a4a00;--u-s5:#8e2d7a}
 }
+
+/* Lenyíló gyakorló feladatok (a 8. fejezet mintájára) */
+details.u-practice{border:1px solid var(--u-accent);border-radius:8px;margin:1.4rem 0;background:var(--u-card)}
+details.u-practice>summary{cursor:pointer;padding:.7rem 1.1rem;font-weight:bold;color:var(--u-accent)}
+details.u-practice[open]>summary{border-bottom:1px dashed var(--line)}
+details.u-practice>ol{margin:.6rem 0;padding:0 1.1rem 0 2.6rem}
+details.u-practice>ol>li{margin:.9rem 0}
+details.u-practice>ol>li>p{margin:.2rem 0}
+details.u-practice .u-table-wrap{margin:.4rem 0}
+.u-sol{margin:.4rem 0;font-size:15px}
+.u-sol>summary{cursor:pointer;color:var(--u-accent);font-weight:bold}
+.u-sol>p,.u-sol>.u-table-wrap,.u-sol>figure{margin:.3rem 0;padding-left:.9rem;border-left:3px solid var(--u-accent-bg)}
+@media print{
+  details.u-practice>*{display:block}
+  details.u-practice,.u-sol{break-inside:auto}
+  details.u-practice::details-content,details.u-sol::details-content{content-visibility:visible;display:block}
+}

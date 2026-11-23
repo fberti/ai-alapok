@@ -70,3 +70,20 @@ Javítva:
 - A versengő labor a modell `winner` értékét használja. Egy angol megjegyzés magyar lett.
 
 Tudatosan meghagyva: az egyenes-húzó és a perceptrontanítás egy laborban van, mert ugyanazt az egyenest mozgatják. Az `activations` rekord és a `derivative` elágazása két helyen sorolja a függvényeket. A `bias` és a `Θ` átváltása a felület szélén marad. A témaszínek nyomtatási ismétlése az ötödik fejezet mintáját követi.
+
+## Összevetés a 2026/27-es forrásokkal
+
+Források: az MI5 előadásdiák (`MI5_Mesterséges neurális hálózatok.pptx`, 78 dia), a gyakorlati tábla (2. előadás, „Neurális háló feladat 1”), a 2025. december 5-i minta-zárthelyi (1(g), 1(j), 3. és 4. feladat), kiegészítésként egy 2017-es vizsgasor (Miskolci Egyetem).
+
+Az MI5 diák szövege a PDF 142–221. oldalával egyezik, ellentmondást nem találtunk. A fejezet „mind a 11 függvénye” a diák felsorolásával egyezik, kivéve a softmaxot (26. dia), amely hiányzott. Új vagy eddig hiányzó tartalom, mind „MI5 előadásdia, N. dia” jelöléssel:
+
+- `#aktivacio`: a softmax képlete, szerepe és számpélda (a = (2; 1; 0) → 0,665; 0,245; 0,090). Mivel réteg szintű függvény, nem került a galériába és a táblázatba, ezt a szöveg megmondja. A választás ökölszabálya (27. dia) új párhuzamos nézetben (`#aktivacio-valasztas`). A ReLU „halott neuron” gondja, a Gauss, a szigmoid, a tanh és az ELU gyakorlati előnyei és hátrányai (17–25. dia) a meglévő bekezdésekbe kerültek. Az „átviteli függvény” szinonima is szerepel (a 2017-es vizsgasor így kérdez).
+- A szigmoidról szóló kiigazítás megmaradt (a PDF 162. oldalára vonatkozik), de jelzi, hogy az új diák (21., 27. dia) már a helyes szerepet adják.
+- `#meretezes`: a rejtett neuronok számának ökölszabálya és a validációs adathalmaz (40. dia).
+- `#topologia` végén: előreterjesztés. Végigvezetett példa a gyakorlati tábla hálójával, küszöb- és ReLU-változat egymás mellett (`#elore-pelda`, `#elore-tabla`), SVG-ábrával. A topológiát a tábla PDF-jének kivágott, nagyított képéről olvastuk le, mert a kinyert szövegben a rétegek keveredtek. A küszöbös változatban nincs torzítás, a ReLU-sban a g₂ kap −20-at, az ábra felirata ezt jelzi.
+- Ugyanott lenyíló gyakorló feladat (`#gyak-elorejatszas`, `<details>`, JavaScript nélkül is olvasható, nyomtatáskor kinyílik) a minta-zh 4. feladatával: 13, −7, 11; 4 és 0; kimenet 12; két neuronnál tér el a potenciál a kimenettől; a kimenetet a küszöb, a szigmoid, a tanh vagy α ≠ 1 lineáris függvény változtatja meg, a szivárgó ReLU és az ELU nem. A zh-ábrát 400 dpi-vel nagyítva olvastuk le. Kétértelmű lehet az x₁-ből lefelé induló két él címkéje (1 és 3): a címkék helyzete szerint x₁ → h₂ = 1, x₁ → h₃ = 3. Fordított olvasatnál a kimenet 90 lenne, ezt az ábra felirata jelzi.
+- `#neuron`: utalás a zh 3. feladatára (neuron ábrával). `#megfeleltetes`: a depolarizáció pontosítása és a refrakter állapot. A 2017-es vizsgasor erre adott mintaválasza összemossa a kettőt, ezért azt nem vettük át.
+- `#mechanizmusok`: kiegészítés az alkatrészcsaládok versengő hálós csoportosításáról (2017-es vizsgasor, 7. kérdés).
+- Fogalomkártya: előreterjesztés, softmax. Kvíz: 15. (minta-zh 1(g)) és 16. kérdés (1(j)). A böngészős teszt kvízválaszai és JavaScript nélküli ellenőrzései ennek megfelelően bővültek.
+
+Minden számot Pythonnal ellenőriztünk. A kiigazítások száma nem változott (17). A visszacsatolás ábrája (2017-es vizsgasor, 12. kérdés) már szerepelt (`#visszacsatolt-abra`). Képernyőképen néztük a világos asztali, a sötét telefonos (390 px) és a nyomtatási nézetet. Telefonon a két hálóábra súlyfeliratai nagyobb betűt kapnak. `npm run typecheck`: hibátlan. `npm test`: 54 sikeres próba, 0 hiba. A böngészős teszteket a koordinátor futtatja.

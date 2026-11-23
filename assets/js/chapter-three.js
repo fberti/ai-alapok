@@ -301,8 +301,20 @@
     });
   }
 
+  /* Nyomtatáskor a gyakorló feladat és a megoldásai is látszanak */
+  function initPrint() {
+    /** @type {HTMLDetailsElement[]} */
+    let opened = [];
+    window.addEventListener('beforeprint', () => {
+      opened = /** @type {HTMLDetailsElement[]} */ ([...document.querySelectorAll('details.u-practice, details.u-sol')]).filter((d) => !d.open);
+      opened.forEach((d) => { d.open = true; });
+    });
+    window.addEventListener('afterprint', () => { opened.forEach((d) => { d.open = false; }); opened = []; });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initToc();
+    initPrint();
     initNet();
     initConflict();
     initFrames();

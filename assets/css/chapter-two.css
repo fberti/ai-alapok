@@ -211,7 +211,7 @@ html:not(.js) .u-js-only{display:none}
 /* Következtetési ciklus */
 .u-cycle{list-style:none;margin:1.3rem 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:.6rem;position:relative}
 .u-cycle li{border:1px solid var(--line);border-top:4px solid var(--u-accent);border-radius:6px;padding:.6rem .9rem;background:var(--u-card);font-size:15px}
-.u-cycle li strong{display:block;color:var(--u-accent);font-size:13px;letter-spacing:.06em;margin-bottom:.2rem}
+.u-cycle li>strong:first-child{display:block;color:var(--u-accent);font-size:13px;letter-spacing:.06em;margin-bottom:.2rem}
 .u-cycle:after{content:"↻ a ciklus újraindul, amíg van alkalmazható szabály vagy el nem érjük a célt";grid-column:1/-1;font-size:13px;color:var(--muted);text-align:center}
 
 /* Konfliktus-választó */
@@ -262,4 +262,31 @@ html:not(.js) .u-js-only{display:none}
   .u-code pre{background:#fff;color:#000;border:1px solid #999;white-space:pre-wrap}
   .u-table-wrap{overflow:visible}
   .chapter-two a[href^="http"]:after{content:" (" attr(href) ")";font-size:9pt;word-break:break-all}
+}
+
+/* Szabálylista, célfa és gyakorló feladatok (táblai Anna-példák) */
+.u-rulelist{margin:.6rem 0;padding:.5rem .8rem;border-left:3px solid var(--u-accent-bg);font-size:15px}
+.u-goaltree,.u-goaltree ul{list-style:none;margin:0;padding:0}
+.u-goaltree{margin:.8rem 0;font-size:15px}
+.u-goaltree ul{margin-left:.55rem;padding-left:1rem;border-left:2px solid var(--u-accent)}
+.u-goaltree li{margin:.3rem 0}
+.u-goaltree strong{display:inline-block;min-width:3.6rem;color:var(--u-accent)}
+.u-goaltree span{display:block;font-size:13px;color:var(--muted);padding-left:3.6rem}
+details.u-practice{border:1px solid var(--u-accent);border-radius:8px;margin:1.4rem 0;background:var(--u-card)}
+details.u-practice>summary{cursor:pointer;padding:.7rem 1.1rem;font-weight:bold;color:var(--u-accent)}
+details.u-practice[open]>summary{border-bottom:1px dashed var(--line)}
+details.u-practice>ol{margin:.6rem 0;padding:0 1.1rem 0 2.6rem}
+details.u-practice>ol>li{margin:.8rem 0}
+details.u-practice>ol>li>p{margin:.2rem 0}
+.u-sol{margin:.4rem 0;font-size:15px}
+.u-sol>summary{cursor:pointer;color:var(--u-accent);font-weight:bold}
+.u-sol>p{margin:.3rem 0;padding-left:.9rem;border-left:3px solid var(--u-accent-bg)}
+@media(max-width:760px){
+  .u-goaltree span{padding-left:0}
+  .u-goaltree ul{padding-left:.7rem}
+}
+@media print{
+  details.u-practice>*{display:block}
+  details.u-practice::details-content,details.u-sol::details-content{content-visibility:visible;display:block}
+  .u-goaltree li,.u-practice li{break-inside:avoid}
 }

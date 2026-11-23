@@ -89,6 +89,15 @@ test('A 11_Fuzzy.py termosztátja folytonos számítással 1,613 körüli', () =
   close(r.centroid, 1.613, 2e-3);
 });
 
+test('A fuzzylev.py trapézos változata folytonosan 1,572, a táblán szereplő tagsági fokokkal', () => {
+  const r = M.thermostat(16, 22, {noChangeTrapezoid: true});
+  close(r.inputs.temperature.warm, 0.6);
+  close(r.inputs.temperature.cold + r.inputs.temperature.warm, 1);
+  close(r.strengths.noChange, 0.6);
+  close(r.strengths.heat, 0.4);
+  close(r.centroid, 1.5719, 2e-3);
+});
+
 test('Minden névtelen változó (_) külön változó', () => {
   const prog = M.parseProgram('t(X) :- m(X, _), m(_, X). m(a, b). m(c, a).');
   assert.deepEqual(M.solve(prog, M.parseTerm('t(X)')).answers, ['X = a']);

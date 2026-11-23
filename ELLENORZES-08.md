@@ -74,3 +74,30 @@ Nem a PDF-ből származik: a négyegyedes populáció és minden rá épülő sz
 - `npm run typecheck`: az új fájlokban nincs hiba. A futás korábban is meglévő hibákat jelez a `assets/js/chapter-one.js` fájlban, ehhez a fájlhoz ez a mérföldkő nem nyúlt.
 
 Firefox és Safari nem kapott külön futtatást. A nyomtatást emulált nyomtatási nézetben ellenőriztük, valódi nyomtatón nem.
+
+## Összevetés az új forrásokkal (MI6 diák, minta-zh, újabb kódok)
+
+Források: az MI6 előadásdia (`MI6_Genetikus algoritmus.pptx`, 26 dia; a képletek a dia OMML-képleteiből), a 2025. 12. 05-i minta-zh 9. és 1(f), 1(m) feladata, egy 2017-es, más intézményből származó vizsgasor 7. feladata, valamint az oktató újabb kódjai: `ga_knapsack.py` és `ga_sakkminta.py`. Az új kódok nem kerültek a `resources/` mappába.
+
+| Forrás | Beépített tartalom | Hely |
+|---|---|---|
+| MI6, 11. dia | Ranggal arányos és szelekciós nyomásos lineáris rangsorolás; a korábbi „lineáris” megnevezés javítva „ranggal arányosra” (szöveg, gyakorló feladat, kvízmagyarázat, táblázatfelirat) | `#kivalasztas`, `#rang-nullatol` |
+| MI6, 15–16. dia | Aritmetikai keresztezés (egy és két utód), egyenletes keresztezés maszkkal, összevetés | `#valos-keresztezes`, `#valos-osszevetes` |
+| MI6, 17–19. dia | A permutációs buktató a dia példájával; OX és PMX lépésenként, CX röviden | `#kodolas` buktató, `#ox-pelda`, `#fix-ox`, `#pmx-pelda`, `#perm-osszevetes` |
+| MI6, 24. dia | Hamming számsorozatra, Manhattan példa, Manhattan = Hamming bináris esetben | `#tavolsagok`, `#fix-genenkent` |
+| Minta-zh 9., 1(f), 1(m); 2017/7 | Kidolgozott, lenyitható zh-gyakorló, kimondott konvencióval (túlterhelésnél fitnesz 0) | `#gyak-zh` |
+| `ga_knapsack.py`, `ga_sakkminta.py` | Allél-listás mutáció, együtt fogyó fitneszlista, új főciklus, futási eredmények, sakkminta-névcsere | `#mutacio`, `#uj-populacio`, `#kodok`, `#fix-kimerito`, összefoglaló |
+
+Új kiigazítás (`#fix-ox`): a 18. dia OX-utódja (2 1 3 4 5 6 7 8) nem az OX eredménye; helyesen 1 8 3 4 5 6 7 2 (balról jobbra töltve 7 2 3 4 5 6 1 8). Új kiegészítés (`#rang-nullatol`): a lineáris képlet csak 0-tól N − 1-ig számozott ranggal ad 1-re összegződő valószínűséget (N = 4, s = 1,5: 1-től számozva az összeg 1,33).
+
+Futtatás 0–99-es magokkal, Python 3.12, numpy 2.5.5 (ideiglenes környezetben). A régi programok eredménye ugyanazzal a módszerrel reprodukálódott (79/15/6, 97/3).
+
+| Program | Eredmény 100 futásból |
+|---|---|
+| `ga_knapsack.py` | 87-szer 18, 12-szer 17, egyszer 16. A populáció mindig 50 egyedes, a végén 59 futásban legfeljebb 3 különböző kromoszóma. A 13 sikertelen futásból 12-ben az első generáció után nem javult a legjobb érték. |
+| `ga_sakkminta.py` | 96-szor mind a 20 egyed a célminta, 4-szer mind a 20 ugyanaz a 8/9-es minta. A szülőválasztás a kezdő fitneszlistát használja (a frissített érték `scores` néven kerül mentésre, a verseny `fitness`-t olvas); a névcserét kijavítva is 96/4. |
+| Kezdőpopuláció (mindkét hátizsákprogram) | 73 futásban az optimum (18) már az 50 véletlen egyed között van; elméleti esély 1 − (62/64)⁵⁰ ≈ 0,80. |
+
+A zh-feladat számait (C1–C6 fitnesze 16, 15, 0, 25, 7, 24; elit C4, C6, C1; a rangsoros túlélés P ≥ 0,382 küszöbe; az optimum 32), az OX, PMX, CX utódokat, a valós keresztezéseket és a lineáris rangsorolás értékeit Python ellenőrizte. A böngészőteszt elvárt számai: 8 `.u-fix`, 5 gyakorló blokk. A 7. fejezet hátizsák-részébe egy kereszthivatkozás került a zh-gyakorlóra.
+
+- `npm test`: 54 sikeres teszt. `npm run typecheck`: hibátlan. A böngészőteszteket a koordinátor futtatja; egy saját, fájlból töltő ellenőrzés 320 és 1280 px-en nem talált vízszintes túlcsordulást.
