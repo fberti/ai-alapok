@@ -187,3 +187,152 @@ test('Az SVG-rajzolók érvényes, kódolt szöveget adnak', () => {
   assert.equal((map.match(/marker-end/g) || []).length, 19);
   assert.equal(S.snapshot(t, 0).front.length, 1);
 });
+
+/* ---------- 10. fejezet: informált és lokális keresés ---------- */
+const {CITY_INF, CITY_HEUR_302, CODE18} = S;
+/** f = g + h értékek a front állapotaira. */
+const fvals = (t, ids = t.front) => ids.map(i => t.nodes[i].cost + t.heur[t.nodes[i].state]);
+
+test('Mohó legjobb-első keresés a PDF 302. oldalán: Miskolc, Polgár, Hatvan, Kecskemét, Szolnok', () => {
+  for (const heur of [CITY_INF.heur, CITY_HEUR_302]) {
+    const t = S.search(CITY_INF.adj, 'Miskolc', 'Szolnok', {strategy: 'greedy', heur});
+    assert.deepEqual(order(t), ['Miskolc', 'Polgár', 'Hatvan', 'Kecskemét', 'Szolnok']);
+    assert.deepEqual(t.path, ['Miskolc', 'Hatvan', 'Kecskemét', 'Szolnok']);
+    assert.equal(t.cost, 256);
+    // A PDF táblázatának frontjai (a választott elem nélkül).
+    assert.deepEqual(t.steps.map(s => s.front.map(i => t.nodes[i].state)), [['Polgár', 'Hatvan'], ['Hatvan', 'Debrecen'], ['Kecskemét', 'Debrecen'], ['Szolnok', 'Szeged', 'Debrecen'], ['Szeged', 'Debrecen']]);
+  }
+});
+
+test('A* a PDF 304. oldalán: f-értékek 140, 228, 230, 240, 256, és az optimális 240 km', () => {
+  const t = S.search(CITY_INF.adj, 'Miskolc', 'Szolnok', {strategy: 'astar', heur: CITY_INF.heur});
+  assert.deepEqual(order(t), ['Miskolc', 'Polgár', 'Hatvan', 'Debrecen', 'Szolnok']);
+  assert.deepEqual(t.path, ['Miskolc', 'Polgár', 'Debrecen', 'Szolnok']);
+  assert.equal(t.cost, 240);
+  assert.deepEqual(t.steps.map(s => fvals(t, s.front)), [[140, 228], [228, 230], [230, 256], [240, 256], [256]]);
+  assert.equal(S.hStar(CITY_INF.adj, 'Szolnok').Miskolc, 240);
+  const c = S.checkHeuristic(CITY_INF.adj, CITY_INF.heur, 'Szolnok');
+  assert.ok(c.admissible && c.consistent && c.goalZero);
+  assert.ok(S.checkHeuristic(CITY_INF.adj, CITY_HEUR_302, 'Szolnok').admissible);
+  // A 302. oldal becsléseivel is ugyanez az út.
+  assert.deepEqual(S.search(CITY_INF.adj, 'Miskolc', 'Szolnok', {strategy: 'astar', heur: CITY_HEUR_302}).path, t.path);
+  // h = 0 mellett az A* egyenletes költségű keresés.
+  const zero = S.search(CITY_INF.adj, 'Miskolc', 'Szolnok', {strategy: 'astar', heur: {}});
+  const ucs = S.search(CITY_INF.adj, 'Miskolc', 'Szolnok', {strategy: 'ucs'});
+  assert.deepEqual(order(zero), order(ucs));
+});
+
+test('Minta-zh 8(b): A* ABC-döntetlennel, útellenőrzéses fakereséssel 18-at talál, mert h(W) túlbecsül', () => {
+  const t = S.search(ZH.adj, 'S', 'G', {strategy: 'astar', heur: ZH.heur, order: 'abc', tie: 'abc'});
+  assert.deepEqual(order(t), ['S', 'A', 'B', 'D', 'K', 'V', 'X', 'G']);
+  assert.deepEqual(t.path, ['S', 'A', 'D', 'K', 'V', 'G']);
+  assert.equal(t.cost, 18);
+  assert.deepEqual(front(t), ['C₂', 'W', 'C₁', 'Y₂', 'Y₁']);
+  assert.deepEqual(fvals(t), [19, 19, 29, 36, 38]);
+  assert.deepEqual(t.steps.map(s => fvals(t, s.front)), [[10, 17, 38], [11, 11, 17, 38], [11, 17, 29, 38], [14, 17, 19, 29, 38], [16, 17, 19, 29, 38], [17, 18, 19, 19, 29, 38], [18, 19, 19, 29, 36, 38], [19, 19, 29, 36, 38]]);
+  const c = S.checkHeuristic(ZH.adj, ZH.heur, 'G');
+  assert.deepEqual(c.over, [{state: 'W', h: 4, hStar: 2}]);
+  assert.deepEqual(c.inconsistent.map(e => `${e.from}>${e.to}`), ['Y>B', 'C>E', 'W>G']);
+  assert.equal(c.hStar.S, 17);
+  // Gráfkereséssel ugyanaz az út, a frontból kiesik a drágább C és Y.
+  const g = S.search(ZH.adj, 'S', 'G', {strategy: 'astar', heur: ZH.heur, order: 'abc', tie: 'abc', repeats: 'graph'});
+  assert.equal(g.cost, 18);
+  assert.deepEqual(front(g).map(s => s[0]), ['C', 'W', 'Y']);
+  // Feltáráskori célteszttel is 18.
+  assert.equal(S.search(ZH.adj, 'S', 'G', {strategy: 'astar', heur: ZH.heur, order: 'abc', tie: 'abc', goalTest: 'generate'}).cost, 18);
+  // Javított h(W) = 2 mellett az optimális 17.
+  const fixed = S.search(ZH.adj, 'S', 'G', {strategy: 'astar', heur: {...ZH.heur, W: 2}, order: 'abc', tie: 'abc'});
+  assert.deepEqual(fixed.path, ['S', 'A', 'D', 'K', 'V', 'W', 'G']);
+  assert.equal(fixed.cost, 17);
+  // A mohó keresés ugyanazt a 18-as utat 6 belelépéssel.
+  const gr = S.search(ZH.adj, 'S', 'G', {strategy: 'greedy', heur: ZH.heur, order: 'abc', tie: 'abc'});
+  assert.deepEqual(order(gr), ['S', 'A', 'D', 'K', 'V', 'G']);
+  assert.equal(gr.cost, 18);
+});
+
+test('A 18_A_csillag_algoritmus.py: h(D) = 25 túlbecsül, mégis 32; h(D) = 28 mellett 35; zárt listával 35', () => {
+  const c = S.checkHeuristic(CODE18.adj, CODE18.heur, 'G');
+  assert.deepEqual(c.over, [{state: 'D', h: 25, hStar: 24}]);
+  assert.equal(c.inconsistent.length, 5);
+  const t = S.search(CODE18.adj, 'S', 'G', {strategy: 'astar', heur: CODE18.heur});
+  assert.deepEqual(t.path, ['S', 'A', 'D', 'C', 'E', 'G']);
+  assert.equal(t.cost, 32);
+  assert.equal(t.visits, 12);
+  const bad = S.search(CODE18.adj, 'S', 'G', {strategy: 'astar', heur: {...CODE18.heur, D: 28}});
+  assert.deepEqual(bad.path, ['S', 'B', 'C', 'E', 'G']);
+  assert.equal(bad.cost, 35);
+  const closed = S.search(CODE18.adj, 'S', 'G', {strategy: 'astar', heur: CODE18.heur, repeats: 'graph'});
+  assert.equal(closed.cost, 35);
+  const greedy = S.search(CODE18.adj, 'S', 'G', {strategy: 'greedy', heur: CODE18.heur});
+  assert.deepEqual(greedy.path, ['S', 'B', 'C', 'F', 'G']);
+  assert.equal(greedy.cost, 36);
+});
+
+test('A heurisztikás ábrák g+h=f címkét és h-értéket rajzolnak', () => {
+  const t = S.search(ZH.adj, 'S', 'G', {strategy: 'astar', heur: ZH.heur, order: 'abc', tie: 'abc'});
+  const svg = S.treeSvg(t, {heur: ZH.heur});
+  assert.match(svg, /15\+4=19/);
+  assert.match(svg, /18\+0=18/);
+  assert.match(S.graphSvg(ZH, {heur: ZH.heur}), /class="u-gh">16</);
+  assert.match(S.graphSvg(CITY_INF, {heur: CITY_INF.heur}), /h=130/);
+});
+
+test('Hegymászó: a felszín csúcsai, a fennsík és a vonzási tartományok', () => {
+  const L = S.landscape;
+  assert.equal(L(80), 1);
+  assert.equal(L(56), 0.45);
+  assert.equal(S.hillClimb(L, 0).x, 12);
+  assert.equal(S.hillClimb(L, 40).x, 34);
+  assert.equal(S.hillClimb(L, 70).x, 80);
+  assert.equal(S.hillClimb(L, 100).x, 95);
+  const p = S.hillClimb(L, 56);
+  assert.equal(p.stop, 'plateau');
+  assert.deepEqual(p.path, [56]);
+  assert.equal(S.hillClimb(L, 12).stop, 'peak');
+  let global = 0;
+  for (let x = 0; x <= 100; x++) if (S.hillClimb(L, x).x === 80) global += 1;
+  assert.equal(global, 28);
+  const r = S.restartHill(L, {start: 12, restarts: 10, seed: 3});
+  assert.equal(r.runs.length, 11);
+  assert.deepEqual(S.restartHill(L, {start: 12, restarts: 10, seed: 3}), r);
+});
+
+test('Szimulált hűtés: elfogadási valószínűség, reprodukálható mag, hűtési ütemek', () => {
+  assert.equal(S.acceptance(-0.1, 0.5), 1);
+  assert.ok(Math.abs(S.acceptance(0.1, 0.1) - Math.exp(-1)) < 1e-12);
+  assert.equal(S.acceptance(0.1, 0), 0);
+  assert.ok(S.acceptance(0.2, 1) > S.acceptance(0.2, 0.1));
+  const f = (x) => -S.landscape(x);
+  const a = S.anneal(f, {start: 12, T0: 0.3, alpha: 0.998, seed: 1});
+  const b = S.anneal(f, {start: 12, T0: 0.3, alpha: 0.998, seed: 1});
+  assert.deepEqual(a.xs, b.xs);
+  assert.equal(a.x, 80);
+  assert.equal(a.stop, 'stable');
+  // A hőmérséklet szigorúan csökken.
+  assert.ok(a.Ts.every((T, i) => i === 0 || T < a.Ts[i - 1]));
+  assert.ok(Math.abs(S.temperature('log', 0, 0, 1, 0) - 1) < 1e-12);
+  assert.ok(S.temperature('log', 20000, 0, 1, 0) > 0.069);
+  // Gyors hűtés: ritkán jut a globális csúcsra; lassú: gyakran.
+  const rate = (alpha) => { let n = 0; for (let seed = 1; seed <= 100; seed++) if (Math.abs(S.anneal(f, {start: 12, T0: 0.3, alpha, seed}).x - 80) <= 4) n += 1; return n; };
+  assert.ok(rate(0.95) <= 5);
+  assert.ok(rate(0.999) >= 60);
+  // Nulla közeli hőmérsékleten rontó lépést nem fogad el.
+  const cold = S.anneal(f, {start: 12, T0: 1e-9, alpha: 0.99, seed: 5, tMin: 1e-12});
+  assert.equal(cold.worseAccepted, 0);
+  assert.equal(cold.x, 12);
+});
+
+test('Döntési segéd a záró összevetéshez', () => {
+  assert.deepEqual(S.recommend({need: 'path', costs: 'varied', heuristic: true, memory: 'ok', optimal: true}).ids, ['astar']);
+  assert.deepEqual(S.recommend({need: 'path', costs: 'varied', heuristic: true, memory: 'tight', optimal: true}).ids, ['astar', 'ida']);
+  assert.deepEqual(S.recommend({need: 'path', costs: 'varied', heuristic: false, memory: 'ok', optimal: true}).ids, ['ucs']);
+  assert.deepEqual(S.recommend({need: 'path', costs: 'equal', heuristic: false, memory: 'tight', optimal: true}).ids, ['ids']);
+  assert.deepEqual(S.recommend({need: 'path', costs: 'varied', heuristic: true, memory: 'ok', optimal: false}).ids, ['greedy']);
+  assert.equal(S.recommend({need: 'state', costs: 'equal', heuristic: false, memory: 'ok', optimal: true}).ids[0], 'sa');
+});
+
+test('Feltáráskori célteszt elfogadható becsléssel is elrontja az A* optimalitását (zh, h(W) = 2)', () => {
+  const t = S.search(ZH.adj, 'S', 'G', {strategy: 'astar', heur: {...ZH.heur, W: 2}, order: 'abc', tie: 'abc', goalTest: 'generate'});
+  assert.equal(t.cost, 18);
+  assert.deepEqual(front(t), ['X', 'C₂', 'C₁', 'Y']);
+});

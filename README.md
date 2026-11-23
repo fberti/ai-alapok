@@ -22,7 +22,8 @@ A forrás 307 oldalból áll.
 - [x] 7. mérföldkő: P, NP, NP-teljes, NP-nehéz és a PDF nevezetes számítási problémái.
 - [x] 8. mérföldkő: evolúciós és genetikus algoritmusok, kódolás, kiválasztás, keresztezés, mutáció és túlélés.
 - [x] 9. mérföldkő: állapottér, keresőfa, front, szélességi, egyenletes költségű, mélységi és mélységkorlátos keresés, iteratív mélyítés.
-- [ ] 10. mérföldkő: informált és lokális keresés.
+- [x] 10. mérföldkő: informált és lokális keresés.
+- [x] A teljes kurzus lezárása: fogalomtár és kereső, végső ellenőrzés a GitHub Pages alkönyvtárából.
 
 ## Az elkészült alkalmazás
 
@@ -52,7 +53,11 @@ A nyolcadik fejezet a PDF 256–275. oldalát dolgozza fel. Öt labor tartozik h
 
 A kilencedik fejezet a PDF 276–298. oldalát dolgozza fel. Három labor tartozik hozzá: az amőba három reprezentációjának elágazás-összevetése, egy közös keresőlabor (városgráf, minta-zh gráf, absztrakt gráf, kurzuskód és saját, szövegesen megadott állapottér; mind az öt eljárás lépésenként, élő fronttal, bejárt listával, térképpel és keresőfával, választható céltesztelési és ismétléskezelési konvencióval), valamint egy idő- és memóriaigény-grafikon. Öt lenyíló gyakorló blokk, köztük a minta-zh mélységi keresési feladatának kidolgozott megoldása mindhárom konvencióval, és tizennégy választható kvízkérdés segít az ellenőrzésben. Nyolc kiigazítás javítja többek között az egyenletes költségű keresés nevét, feltételeit és képletét, a mélységi keresés képleteit, a front meghatározását és a PDF egyenletes költségű táblázatát. Az oktató két keresőprogramját lefuttattuk; a `21_Ugralas_es_elagazas.py` aszimmetrikus éle a futást nem befolyásolja. A keresés logikája a tesztelt `assets/js/search.js` modulban van.
 
-Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md), [ELLENORZES-06.md](ELLENORZES-06.md), [ELLENORZES-07.md](ELLENORZES-07.md), [ELLENORZES-08.md](ELLENORZES-08.md), [ELLENORZES-09.md](ELLENORZES-09.md).
+A tizedik fejezet a PDF 299–307. oldalát dolgozza fel. Négy labor tartozik hozzá: heurisztika-tervező a fejezet három gráfjához (városok, minta-zh, kurzuskód) a valódi hátralévő költség, az elfogadhatóság és a konzisztencia ellenőrzésével, a mohó legjobb-első és az A* keresés egymás melletti, lépésenkénti futtatásával; hegymászó egy többcsúcsú, fennsíkos felszínen véletlen újraindításokkal; szimulált hűtés hőmérséklet-, ütem- és véletlenmag-beállítással, száz futásos sikeraránnyal; és egy keresőválasztó a kurzus mind a tíz keresőjét összevető záró táblázathoz. Öt lenyíló gyakorló blokk, köztük a minta-zh A*-feladatának (8(b)) kidolgozott megoldása, és tizenkét választható kvízkérdés segít az ellenőrzésben. Nyolc kiigazítás javítja többek között a mohó keresés teljességét, az A* optimalitásának feltételeit, a hegymászó pszeudokódjának hiányzó megállását és a szimulált hűtés globális optimumra vonatkozó állítását; kettő az oktatói `18_A_csillag_algoritmus.py` (h(D) = 25 > 24) és a minta-zh (h(W) = 4 > 2) túlbecslő becslését mutatja ki. A kurzus zárásaként elkészült a `fogalomtar.html`: mind a tíz fejezet fogalmai és szakaszai egy kereshető oldalon.
+
+A 9. és a 10. fejezet ábráit, valamint a fogalomtárat generálóscriptek állítják elő az `eszkozok/` mappában; a futtatásukat a [HASZNALAT.md](HASZNALAT.md) írja le.
+
+Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md), [ELLENORZES-06.md](ELLENORZES-06.md), [ELLENORZES-07.md](ELLENORZES-07.md), [ELLENORZES-08.md](ELLENORZES-08.md), [ELLENORZES-09.md](ELLENORZES-09.md), [ELLENORZES-10.md](ELLENORZES-10.md).
 
 A kiigazítások kiemelt dobozban, magyarázattal és forrással szerepelnek.
 
@@ -64,7 +69,7 @@ A fejezetek lenyitható, JavaScript nélkül is olvasható gyakorló feladatokat
 
 Új kiigazítások: a táblai előreláncolás T5–T6 ténybázisa (2.), az Anna–Béla–Cili feladat ellentmondásos premisszái (4.), a táblai fuzzy feladat Meleg(16) értéke (5.) és a dia hibás OX-példája (8.). A részleteket az `ELLENORZES-0N.md` fájlok záró szakaszai tartalmazzák.
 
-A minta-zh legnagyobb feladata (25 pont) mélységi keresés és A* egy súlyozott gráfon. A mélységi (a) részt a 9. fejezet kidolgozott gyakorlója tartalmazza; az A*-os (b) rész a még el nem készült 10. mérföldkő anyaga.
+A minta-zh legnagyobb feladata (25 pont) mélységi keresés és A* egy súlyozott gráfon. A mélységi (a) részt a 9., az A*-os (b) részt a 10. fejezet kidolgozott gyakorlója tartalmazza.
 
 ## Tartalmi forma
 

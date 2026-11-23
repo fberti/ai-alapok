@@ -243,7 +243,7 @@
 <p>Ezt a döntést kétféleképpen hozhatjuk meg. A <strong>neminformált</strong> (más néven vak) eljárások gépiesen döntenek, csak a front sorrendje alapján. Az <strong>informált</strong>, más néven heurisztikus eljárások a keresési feladatra vonatkozó plusz információt is felhasználnak, például egy becslést arra, milyen messze van még a cél.</p>
 <div class="u-compare" id="vak-vs-informalt">
 <div><span class="u-tag">NEMINFORMÁLT (VAK) KERESÉS</span><p>Nincs információnk arról, milyen messze van az aktuális állapot a céltól, sem költségben, sem lépésszámban. Az eljárás csak azt képes észrevenni, ha a cél állapotban van. Ezért nem hatékony, viszont általánosan használható: bármely feladatra alkalmazható, amelyet állapottérrel leírtunk.</p></div>
-<div><span class="u-tag">INFORMÁLT (HEURISZTIKUS) KERESÉS</span><p>Egy h(n) becslés segít eldönteni, melyik frontcsomópont tűnik ígéretesebbnek. Jó becsléssel sokkal kevesebb csomópontot kell megnézni. Ez a 10. fejezet témája: legjobb-első keresés, A*, hegymászó keresés és szimulált hűtés.</p></div>
+<div><span class="u-tag">INFORMÁLT (HEURISZTIKUS) KERESÉS</span><p>Egy h(n) becslés segít eldönteni, melyik frontcsomópont tűnik ígéretesebbnek. Jó becsléssel sokkal kevesebb csomópontot kell megnézni. Ez a <a href="10-informalt-kereses.html">10. fejezet</a> témája: legjobb-első keresés, A*, hegymászó keresés és szimulált hűtés.</p></div>
 </div>
 <p>A forrás öt neminformált eljárást sorol fel. Mind az öt az általános eljárás 2. és 4. lépését tölti ki másképp: honnan veszi a következő állapotot, és hová teszi az új állapotokat.</p>
 <div class="u-table-wrap"><table class="u-table u-algo-table" id="ot-eljaras">
@@ -551,7 +551,7 @@ C G 3</textarea>
 <!-- 16 · ZÁRTHELYI -->
 <section id="zh" class="chapter-section"><span class="section-index">16 / MINTA-ZH, 8. FELADAT</span>
 <h2>Zárthelyi-gyakorló: mélységi keresés egy súlyozott gráfon.</h2>
-<p>A 2025. december 5-i minta-zárthelyi legnagyobb feladata (25 pont) egy súlyozott, irányított gráfon kér mélységi keresést és A*-keresést. Az A*-os (b) rész a 10. fejezet anyaga. Az (a) rész ennek a fejezetnek a lényegét kéri számon.</p>
+<p>A 2025. december 5-i minta-zárthelyi legnagyobb feladata (25 pont) egy súlyozott, irányított gráfon kér mélységi keresést és A*-keresést. Az A*-os (b) részt a <a href="10-informalt-kereses.html#zh">10. fejezet zárthelyi-gyakorlója</a> dolgozza ki. Az (a) rész ennek a fejezetnek a lényegét kéri számon.</p>
 <figure class="u-quote"><blockquote><p>„A mélységben először keresés algoritmus által készített keresési fát rajzolja fel, és válaszoljon a kérdésekre. Konfliktus esetén az ABC szerinti sorrendet vegyünk a csomópontokat, ismételt csomópont esetén indexeljük őket. i. A keresési fa: ii. A talált útvonal: iii. Mi(k) maradt(ak) a frontban?”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 8. feladat (a), 7 pont</figcaption></figure>
 <details class="u-practice" id="gyak-zh"><summary>Gyakorlás · Zárthelyi-feladat: mélységi keresés S-ből G-be (3 részfeladat és 6 továbbgondolás)</summary>
 <p>A feladat szövege szerint S állapotból a G állapotba kell eljutni. (A feladatlap zárójeles megjegyzése, „A és H csomópontok közötti utat keressük”, elírás: a gráfban nincs H csomópont.) A gráf csomópontjaiban a zh-n egy-egy szám is áll; ezek a heurisztika értékei az A*-hoz, a mélységi kereséshez nem kellenek.</p>
@@ -723,7 +723,7 @@ C G 3</textarea>
 <p>Az öt neminformált eljárás az általános kereső 4. lépésében különbözik. A szélességi keresés a front végére tesz, szintenként halad, egyforma költségeknél optimális, de O(b<sup>d</sup>) memóriát kér. Az egyenletes költségű keresés költség szerint rendez, pozitív költségeknél optimális, igénye O(b<sup>1+⌊C*/ε⌋</sup>). A mélységi keresés a front elejére tesz, kevés memóriával (O(b · m)), de nem optimális, és körszűrés nélkül nem is teljes. A mélységkorlátos keresés l ≥ d esetén teljes. Az iteratív mélyítés a szélességi teljességét és optimalitását a mélységi kis memóriájával egyesíti. A minta-zh gráfján a mélységi keresés 34, a szélességi 33, az egyenletes költségű 17 költségű utat talált.</p>
 <div class="u-links">
 <a href="08-genetikus-algoritmusok.html"><small>← Előző fejezet</small>08 · Genetikus algoritmusok. Ott egy populációnyi megoldással kerestünk; a rátermettség ott is kritériumfüggvény volt.</a>
-<a href="../index.html"><small>Vissza →</small>Kezdőlap és fejezetlista. A következő, 10. fejezet az informált kereséssel folytatja: mit ér egy jó h(n) becslés, és hogyan talál vele az A* gyorsabban optimális utat.</a>
+<a href="10-informalt-kereses.html"><small>Következő fejezet →</small>10 · Informált és lokális keresés. Mit ér egy jó h(n) becslés, hogyan talál vele az A* gyorsabban optimális utat, és mit tehetünk, ha csak a szomszédokat látjuk.</a>
 </div>
 </section>
 

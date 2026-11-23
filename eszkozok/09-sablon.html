@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3eb">
+<meta name="description" content="Neminformált keresés: állapottér, keresőfa, front, szélességi, egyenletes költségű, mélységi, mélységkorlátos keresés és iteratív mélyítés, közös keresőlaborral és a minta-zh mélységi keresési feladatával. Magyar tananyag a kurzus PDF-jének 276–298. oldalához.">
+<title>09 · Neminformált keresés | MI-alapok</title>
+<script>document.documentElement.classList.add('js')</script>
+<script src="../assets/js/theme.js?v=2"></script>
+<link rel="stylesheet" href="../assets/css/course.css?v=4">
+<link rel="stylesheet" href="../assets/css/chapter-nine.css">
+<script defer src="../assets/js/search.js"></script>
+<script defer src="../assets/js/chapter-nine.js"></script>
+</head>
+<body id="top" class="chapter-nine" data-chapter="9">
+<a class="skip" href="#tartalom">Ugrás a tananyaghoz</a>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">mi.</span> ALAPOK <span class="brand-note">/ interaktív jegyzet</span></a><div class="header-actions"><a href="../index.html#fejezetek">← Összes fejezet</a><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle><span class="theme-toggle-icon" aria-hidden="true"></span><span class="visually-hidden">Sötét mód</span></button></div></header>
+
+<div class="chapter-layout">
+<nav class="toc" aria-label="Fejezet tartalomjegyzéke"><a class="toc-home" href="../index.html">← Főoldal</a><p class="eyebrow">09 / EBBEN A FEJEZETBEN</p><ol>
+<li><a href="#kereses">Mi a keresés?</a></li>
+<li><a href="#harom-lepes">Három lépés</a></li>
+<li><a href="#reprezentacio">A reprezentáció ereje</a></li>
+<li><a href="#jellemzok">Mitől jó egy kereső?</a></li>
+<li><a href="#allapotter">Állapottér és költségek</a></li>
+<li><a href="#keresofa">Állapotgráf és keresőfa</a></li>
+<li><a href="#peldak">Városok és dominók</a></li>
+<li><a href="#altalanos">Az általános eljárás</a></li>
+<li><a href="#szelessegi">Szélességi keresés</a></li>
+<li><a href="#egyenletes">Egyenletes költségű keresés</a></li>
+<li><a href="#melysegi">Mélységi keresés</a></li>
+<li><a href="#korlatos">Mélységi korláttal</a></li>
+<li><a href="#iterativ">Iteratív mélyítés</a></li>
+<li><a href="#labor">Keresőlabor</a></li>
+<li><a href="#osszevetes">Melyiket válaszd?</a></li>
+<li><a href="#zh">Zárthelyi-gyakorló</a></li>
+<li><a href="#fogalmak">Fogalomkártyák</a></li>
+<li><a href="#kviz">Kvíz · szabadon választható</a></li>
+<li><a href="#osszegzes">Összefoglaló</a></li>
+<li><a href="#forrasok">Források</a></li>
+</ol></nav>
+
+<main id="tartalom" class="chapter-main">
+<header class="chapter-hero">
+<p class="eyebrow">09. FEJEZET / NEMINFORMÁLT KERESÉS</p>
+<h1>Térkép van, iránytű nincs:<br><em>keress rendszeresen.</em></h1>
+<p class="lead">Ismered a városokat és a köztük futó utakat, de semmi sem súgja meg, melyik irány visz közelebb a célhoz. Ilyenkor sem kell vaktában bolyongani. Ez a fejezet öt módszert mutat, amelyek pusztán a térkép szerkezetéből, rendszeresen járják be a lehetőségeket. Kiderül, melyik talál biztosan megoldást, melyik a legolcsóbbat, és melyik fér el a memóriában.</p>
+<div class="u-scene"><p><strong>Egy autóút Budapestről Debrecenbe.</strong> A térképen tíz város és tizennégy egyirányú útszakasz van, mindegyiken a hossza kilométerben. Az egyik barátod azt mondja: „menj mindig az első útelágazáson balra, és ha zsákutcába érsz, fordulj vissza”. A másik: „nézd meg előbb az összes egy lépésre lévő várost, aztán a két lépésre lévőket”. A harmadik: „mindig ott folytasd, ahová eddig a legrövidebb úton jutottál”.</p>
+<p>Mindhárom tanács egy-egy keresési algoritmus: a mélységi, a szélességi és az egyenletes költségű keresés. Mindhárom eljut Debrecenbe, de nem ugyanazon az úton, és nem ugyanannyi munkával. A fejezet végére pontosan meg tudod mondani, melyik mit garantál, és ki tudod számolni a lépéseiket papíron is, ahogy a zárthelyi kéri.</p></div>
+<ul class="u-meta"><li>Forrás: PDF 276–298. oldal, minta-zh 8. feladat</li><li>3 kipróbálható labor, köztük egy közös keresőlabor</li><li>14 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>20_Szelessegben_es_melysegben_eloszor.py</code>, <code>21_Ugralas_es_elagazas.py</code></li></ul>
+<div class="u-goals"><strong>A fejezet végére…</strong><ul>
+<li>egy feladatot le tudsz írni állapottal, operátorral, célfeltétellel és költséggel;</li>
+<li>meg tudod különböztetni az állapotgráfot és a keresőfát, a fakeresést és a gráfkeresést;</li>
+<li>kézzel végig tudod vezetni a szélességi, az egyenletes költségű, a mélységi és a mélységkorlátos keresést és az iteratív mélyítést, a front minden állapotával;</li>
+<li>pontos feltételekkel ki tudod mondani, melyik eljárás teljes és optimális, és mennyi az idő- és tárigénye;</li>
+<li>egy adott feladathoz meg tudod indokolni, melyik neminformált keresést választanád.</li>
+</ul></div>
+<ol class="u-flow" id="utiterv" aria-label="A fejezet útja">
+<li><strong>1 · FELADAT</strong><a href="#kereses">Mi a keresés?</a> és <a href="#reprezentacio">miért számít a reprezentáció?</a></li>
+<li><strong>2 · NYELV</strong><a href="#allapotter">Állapottér, költség</a>, <a href="#keresofa">keresőfa és front</a>.</li>
+<li><strong>3 · ELJÁRÁS</strong><a href="#altalanos">Az általános kereső</a> négy lépése.</li>
+<li><strong>4 · ÖT MÓDSZER</strong><a href="#szelessegi">Szélességi</a>, <a href="#egyenletes">egyenletes költségű</a>, <a href="#melysegi">mélységi</a>, <a href="#korlatos">korlátos</a>, <a href="#iterativ">iteratív</a>.</li>
+<li><strong>5 · DÖNTÉS</strong><a href="#osszevetes">Összevetés</a> és <a href="#zh">zh-gyakorlás</a>.</li>
+</ol>
+<noscript><p class="u-simple"><strong>JavaScript nélkül</strong>A teljes magyarázat, minden keresőfa, fronttáblázat, kidolgozott példa és gyakorló feladat olvasható. Csak a három kipróbálható labor és a kvíz kiértékelése igényel JavaScriptet.</p></noscript>
+</header>
+
+<!-- 01 · KERESÉS -->
+<section id="kereses" class="chapter-section"><span class="section-index">01 / PDF 277.</span>
+<h2>A keresés kiválaszt a lehetőségek közül.</h2>
+<p>Sok feladatnál a megoldás „ott van” a lehetőségek között, csak meg kell találni. Egy útvonal a térkép útjai közül, egy lépés a sakktábla szabad mezői közül, egy bizonyítás a levezethető állítások közül. A kurzus forrása így fogalmazza meg a célt:</p>
+<figure class="u-quote"><blockquote><p>„Cél: egy adott problémára a szóbajöhető lehetőségek közül egy adott kritériumrendszernek eleget tévő megoldás megtalálása.”</p></blockquote><figcaption>PDF 277. oldal</figcaption></figure>
+<p>A <strong>kritériumrendszer</strong> mondja meg, mi számít megoldásnak. Lehet egyetlen feltétel („Debrecenben vagyunk”), lehet egy legjobb érték („a lehető legrövidebb úton”), és lehet egy tűréshatár is („legfeljebb 5%-kal hosszabb a legrövidebbnél”).</p>
+<p>A forrás a keresést az <strong>ismeretfeldolgozási eljárások</strong> közé sorolja. A tudásbázisban tárolt, „szemléltetett” ismeret magától nem csinál semmit. Egy eljárás kell hozzá, amely aktívvá teszi, és új tudást nyer ki belőle. A keresés ilyen eljárás.</p>
+<ol class="u-flow" id="ismeretfeldolgozas" aria-label="Az ismeretfeldolgozás három eleme">
+<li><strong>SZEMLÉLTETETT ISMERET</strong>A térkép városai és útjai, vagy egy szabálybázis tényei és szabályai.</li>
+<li><strong>ISMERETFELDOLGOZÁSI ELJÁRÁS</strong>A keresés, amely rendszeresen bejárja a lehetőségeket.</li>
+<li><strong>TUDÁS, AKTÍV ISMERET</strong>Egy konkrét útvonal, vagy egy levezetett új tény.</li>
+</ol>
+<p>A forrás azt is kiemeli, hogy a keresést gyakran <strong>következtetőgráfokon</strong> használják, következmények előállítására. Ezt már láttad. A <a href="02-tudasbazisok.html#lancolas">2. fejezet</a> előre- és hátraláncolása egy szabálygráfban keres utat a tényektől a célig. Az <a href="05-prolog-es-fuzzy.html#keresofak">5. fejezet</a> Prologja pedig mélységi kereséssel és visszalépéssel járja be a keresőfát, ahogy ebben a fejezetben a mélységi keresés is. A <a href="08-genetikus-algoritmusok.html#optimum">8. fejezet</a> genetikus algoritmusa is keresés: ott a rátermettség a kritériumfüggvény.</p>
+</section>
+
+<!-- 02 · HÁROM LÉPÉS -->
+<section id="harom-lepes" class="chapter-section"><span class="section-index">02 / PDF 278.</span>
+<h2>Felismerni, leírni, keresni.</h2>
+<p>A kereséssel történő problémamegoldás három lépésből áll. Az első kettő gyakran nehezebb, mint maga a keresés.</p>
+<ol class="u-steps" id="harom-lepes-sor">
+<li><p><strong>A probléma beazonosítása kereséssel megoldható problémaként.</strong> Meg kell látni, hogy a feladat állapotokból és lépésekből áll, és van egy feltétel, amely eldönti, hogy egy állapot jó-e.</p></li>
+<li><p><strong>A problémára vonatkozó ismeretek reprezentálása, szemléltetése.</strong> El kell dönteni, mi legyen egy állapot, és milyen lépések vezetnek egyikből a másikba. Ez a döntés sokszor nagyságrendekkel gyorsabbá vagy lassabbá teszi a keresést, ahogy a következő rész amőbapéldája mutatja.</p></li>
+<li><p><strong>A kereső eljárás alkalmazása.</strong> Az eljárást a tulajdonságai alapján választjuk: talál-e biztosan megoldást, a legjobbat találja-e, és mennyi időt és memóriát kér.</p></li>
+</ol>
+<p>Mikor oldható meg egy feladat kereséssel? A forrás ezt egy mondatban adja meg:</p>
+<figure class="u-quote"><blockquote><p>„Egy operátorkészlettel bejárható állapotok mindegyikén értelmezhető egy kritériumfüggvény. A probléma megoldása megfeleltethető a kritériumfüggvény adott értékének, értékhalmazának, vagy extrémumának.”</p></blockquote><figcaption>PDF 278. oldal</figcaption></figure>
+<p>Lefordítva: vannak állapotok, és vannak <strong>operátorok</strong>, vagyis lépések, amelyekkel egyik állapotból a másikba jutunk. Minden állapotra kiszámolható egy <strong>kritériumfüggvény</strong>. A megoldás egy olyan állapot, ahol ez a függvény egy adott értéket vesz fel („a célvárosban vagyunk”: igaz), egy értékhalmazba esik („legalább 17 érték a hátizsákban”), vagy szélsőértéket ér el („a lehető legkisebb útköltség”).</p>
+<p>A második lépéshez a forrás a jó tudásszemléltetés elvárt jellemzőire utal vissza, Patrick Winston nyomán. Ezeket a <a href="02-tudasbazisok.html#winston-tabla">2. fejezet táblázata</a> sorolja fel: a jó ábrázolás egyebek között láthatóvá teszi a fontos dolgokat, elrejti a lényegteleneket, és gyorsan feldolgozható.</p>
+</section>
+
+<!-- 03 · REPREZENTÁCIÓ -->
+<section id="reprezentacio" class="chapter-section"><span class="section-index">03 / PDF 279.</span>
+<h2>Ugyanaz a játék, ezerszer kisebb fa.</h2>
+<p>Az ismeretek reprezentálása erősen kihat a keresés hatékonyságára. A forrás ezt az <strong>amőbán</strong> (ötödölőn) mutatja meg. Egy 20 × 20-as négyzetrácson keressük a következő jó lépést úgy, hogy hat <strong>féllépésre</strong> előre tekintünk. Egy féllépés az egyik játékos egy lépése: hat féllépés tehát három saját és három ellenfél-lépés.</p>
+<p>A keresés fát épít. A gyökér a mostani állás, a gyerekei a lehetséges következő lépések, azok gyerekei a válaszlépések, és így tovább hat szintig. Egy csomópont gyerekeinek száma az <strong>elágazási tényező</strong>, jele b. Hat szint mélyen nagyjából b<sup>6</sup> állás van. A kérdés tehát az, mekkora b-vel dolgozunk. A forrás három reprezentációt vet össze.</p>
+<div class="u-compare" id="amoba-reprezentaciok">
+<div><span class="u-tag">1 · MINDEN ÜRES MEZŐ</span><h3>b ≈ 400</h3><p>Minden üres mezőt jelöltnek tekintünk. A játék elején ez a „százas nagyságrendű” elágazás: körülbelül 400 mező. Hat féllépés mélyen ez 400<sup>6</sup> ≈ 4,1 · 10<sup>15</sup> állás.</p></div>
+<div><span class="u-tag">2 · 9 × 9-ES NÉGYZET</span><h3>b ≤ 80</h3><p>Csak az előző lépés körüli 9 × 9-es négyzet üres mezőit nézzük, mert az utoljára lerakott jel csak ebben a részben alkothat nyerő ötöst. A négyzet 81 mezőjéből egy maga a jel, így legfeljebb 80 jelölt marad: 80<sup>6</sup> ≈ 2,6 · 10<sup>11</sup> állás.</p></div>
+<div><span class="u-tag">3 · CSILLAG</span><h3>b ≤ 32</h3><p>Csak az előző lépésre illesztett csillag alakzat üres helyeit nézzük: a vízszintes, a függőleges és a két átlós irányban mindkét oldalon 4–4 mezőt. Ezek vannak közvetlen kapcsolatban az utolsó jellel: 4 · 2 · 4 = 32 jelölt, 32<sup>6</sup> ≈ 1,1 · 10<sup>9</sup> állás.</p></div>
+</div>
+<figure class="u-plot" id="amoba-abra"><!--@amoba-board--><figcaption>A 20 × 20-as tábla, az utolsó jel (X) a 10. sor 10. mezőjén. Világos kék a 9 × 9-es négyzet 80 mezője, sötétebb kék ebből a csillag 32 mezője. A csillag a négyzet része, az 1. reprezentáció pedig mind a 399 üres mezőt nézi.</figcaption></figure>
+<p>Mit jelent ez időben? Ha egy program másodpercenként egymillió állást értékel ki, az 1. reprezentációval hat féllépés körülbelül 130 évig tartana. A 2. reprezentációval nagyjából 3 napig, a 3.-kal 18 percig. A három számítás ugyanarról a játékról szól, csak más a keresési tér.</p>
+<figure class="u-quote"><blockquote><p>„Megj.: a reprezentációk gyengülésétől sokkal nagyobb előnyt jelent a kivitelezhető keresések hatékonyságnövekedése. A reprezentációnak összhangban kell lennie a kereső eljárással.”</p></blockquote><figcaption>PDF 279. oldal</figcaption></figure>
+<p>A „gyengülés” szó fontos. A 2. és a 3. reprezentáció lemond bizonyos lépésekről: egy távoli mezőre tett saját támadó lépést például nem is vizsgál. A forrás szerint ez a veszteség kisebb, mint a nyereség, mert a szűkebb fa egyáltalán végigkereshető. A kiterjedtebb, „erősebb” reprezentáció hiába tartalmaz minden lépést, ha a keresés nem fut le belátható időn belül.</p>
+<p class="u-simple"><strong>Egyszerűen mondva</strong>A jó reprezentáció kidobja a nyilvánvalóan felesleges lehetőségeket, mielőtt a keresés elkezdődne. A b kis csökkenése a mélység kitevőjén keresztül óriási nyereség: 400-ról 32-re csökkentve hat szint mélyen négymilliószor kevesebb állás marad.</p>
+<div class="u-lab" id="amoba-labor"><span class="u-lab-label">PRÓBÁLD KI / HÁROM AMŐBA-REPREZENTÁCIÓ</span><h3>Tedd máshová az utolsó jelet, és nézd az elágazást.</h3>
+<p>Add meg az utolsó jel helyét, a táblán lévő jelek számát és az előretekintés mélységét. A tábla szélén a négyzet és a csillag is kisebb lesz.</p>
+<div class="u-js-only">
+<div class="u-form-row"><label>Sor (1–20) <input type="number" id="am-sor" min="1" max="20" value="10"></label><label>Oszlop (1–20) <input type="number" id="am-oszlop" min="1" max="20" value="10"></label><label>Jelek a táblán <input type="number" id="am-jelek" min="1" max="399" value="1"></label></div>
+<div class="u-sliders"><label for="am-mely"><span>Előretekintés: <output id="am-mely-ki">6</output> féllépés</span><input type="range" id="am-mely" min="1" max="6" value="6"></label></div>
+<div id="am-tabla"></div>
+<div class="u-out" id="am-ki" role="status" aria-live="polite"></div>
+</div>
+<p class="u-nojs-only">A bemutatóhoz JavaScript szükséges. A három reprezentáció számai a fenti összevetésben és ábrán is szerepelnek.</p></div>
+</section>
+
+<!-- 04 · JELLEMZŐK -->
+<section id="jellemzok" class="chapter-section"><span class="section-index">04 / PDF 280.</span>
+<h2>Négy kérdés minden keresőhöz.</h2>
+<p>A harmadik lépésben, a kereső eljárás kiválasztásakor az eljárások közös jellemzőit vetjük össze. A forrás hangsúlyozza, hogy ezek a jellemzők a megoldandó konkrét problémától is függenek: ugyanaz az eljárás az egyik feladaton teljes, a másikon nem.</p>
+<dl class="u-rows" id="negy-jellemzo">
+<div><dt>Teljesség</dt><dd><p>Ha létezik megoldás, azt az eljárás meg is adja. (És ha nincs megoldás, egy teljes eljárás ezt véges időben jelzi, ha az állapottér véges.)</p></dd></div>
+<div><dt>Optimalitás</dt><dd><p>A talált Start–Cél útvonal egyben költségoptimális is: nincs nála olcsóbb út a célba.</p></dd></div>
+<div><dt>Időigény</dt><dd><p>Felső korlát az algoritmus lépésszámára. A gyakorlatban a feltárt vagy kiterjesztett csomópontok számával mérjük.</p></dd></div>
+<div><dt>Tárigény</dt><dd><p>Felső korlát a megoldás megtalálásához felhasznált memória méretére. A gyakorlatban az egyszerre tárolt csomópontok számával mérjük.</p></dd></div>
+</dl>
+<p>Az idő- és a tárigényt a keresőfa néhány jellemzőjével fejezzük ki. Ezeket a 6. rész vezeti be pontosan. Előre: b az elágazási tényező, d a legsekélyebb megoldás mélysége, m a fa legnagyobb mélysége, l egy választott mélységi korlát, C* az optimális megoldás költsége, ε pedig a legkisebb lépésköltség. Az idő- és tárigényt nagyságrendben adjuk meg, például „O(b<sup>d</sup>)”, vagyis „legfeljebb b<sup>d</sup>-vel arányos”.</p>
+<p class="u-key">A teljesség és az optimalitás mindig feltételhez kötött. A „teljes” szó mellé oda kell írni, milyen állapottérben (véges vagy végtelen, van-e benne kör), az „optimális” mellé pedig azt, milyen lépésköltségek mellett.</p>
+</section>
+
+<!-- 05 · ÁLLAPOTTÉR -->
+<section id="allapotter" class="chapter-section"><span class="section-index">05 / PDF 281–282.</span>
+<h2>Állapotok, lépések, cél és ár.</h2>
+<p>Minden kereső eljárás ugyanazokból az összetevőkből dolgozik. A forrás egy absztrakt példán mutatja be őket: tíz állapot, köztük irányított élek.</p>
+<figure class="u-plot u-graph" id="absztrakt-graf"><!--@abs-graph--><figcaption>A PDF 281. oldalának állapotgráfja. Minden él egy operátor, a nyíl a lépés iránya. Két kör is van benne: Start → b → f → Start, valamint d → g → d. Ezekre a fa- és gráfkeresésnél még szükség lesz.</figcaption></figure>
+<dl class="u-rows" id="osszetevok">
+<div><dt>Állapottér</dt><dd><p>Az összes állapot és a köztük vezető lépések. Az állapotoknak a gráf csomópontjai, az állapotok közötti mozgást jelentő <strong>operátoroknak</strong> az irányított élek felelnek meg.</p></dd></div>
+<div><dt>Kiinduló állapot</dt><dd><p>Ahonnan a keresés indul: <strong>Start</strong>.</p></dd></div>
+<div><dt>Célállapot</dt><dd><p>A kritériumnak megfelelő állapot vagy állapotok: <strong>Cél</strong>. Több cél is lehet, például „bármelyik benzinkút”.</p></dd></div>
+<div><dt>Út, útvonal</dt><dd><p>Egy állapotból egy másikba átvivő operátorsorozat, illetve az érintett csomópontok rendezett listája. Például Start, b, e, h, Cél.</p></dd></div>
+<div><dt>Leállási feltétel</dt><dd><p>Előírhatja a kritérium pontos teljesítését, vagy adott tűrésen belüli közelítését. Az utóbbi esetben <strong>kvázioptimális</strong> megoldásról beszélünk: gyakorlatilag jó, és kompromisszum a keresés időigénye, költsége és a megoldás minősége között.</p></dd></div>
+</dl>
+<p>A keresésnek ára van, és nem csak egyféle. A forrás négy költséget különít el. Az első kettő az útról szól, a harmadik a keresés munkájáról, a negyedik a kettő összege.</p>
+<ol class="u-stack" id="koltsegek">
+<li><strong>Az operátor költsége.</strong><p>Az operátoroknak a feladat valós tartalmától függő költségük lehet. Városok közötti legrövidebb út keresésekor ez az útszakasz hossza. Lehet érdektelen is: a bűvös kocka kitekerésénél csak a célállapot és az odavezető út számít, minden forgatás „egyformán drága”.</p></li>
+<li><strong>Az út költsége.</strong><p>Az úton alkalmazott operátorok költségének összege. Ezt jelöli majd g(n).</p></li>
+<li><strong>A keresés költsége.</strong><p>A keresés idő- és tárigényéhez kapcsolódó költség: mennyit számol és mennyit tárol a gép, mire megtalálja az utat.</p></li>
+<li><strong>A keresés teljes költsége.</strong><p>Az út költsége + a keresés költsége. A forrás példája: városban útkeresés közben a benzin az útszakaszokon is fogy, de az elágazásoknál is, amíg az útválasztási döntést meghozzuk, mert közben is jár a motor.</p></li>
+</ol>
+<p class="u-simple"><strong>Egyszerűen mondva</strong>Az optimalitás csak az út költségéről szól. Egy eljárás lehet optimális, mégis rossz választás, ha órákig gondolkodik egy olyan úton, amely alig rövidebb egy azonnal megtalálhatónál. A teljes költség ezt a kettőt méri össze.</p>
+</section>
+
+<!-- 06 · KERESŐFA -->
+<section id="keresofa" class="chapter-section"><span class="section-index">06 / PDF 283–284.</span>
+<h2>A gráf a térkép, a fa a keresés naplója.</h2>
+<p>Az <strong>állapotgráf</strong> a feladatot írja le: minden állapot egyszer szerepel benne. A <strong>keresőfa</strong> (a forrásban keresőgráf) a keresés menetét: a gyökere a Start, és minden csomópontja egy út a Starttól az adott állapotig. Ha létezik megoldás, a fa valamelyik levele a Cél.</p>
+<p>A fa a <strong>kiterjesztéssel</strong> nő. A forrás szóhasználata pontos és érdemes megjegyezni:</p>
+<figure class="u-quote"><blockquote><p>„Kiterjesztés: egy állapot kiterjesztése alatt az állapotból egyetlen lépéssel elérhető állapotok feltérképezését, azokba való betekintést, de még bele nem lépést értünk.”</p></blockquote><figcaption>PDF 283. oldal</figcaption></figure>
+<p>A keresés tehát két dolgot csinál felváltva. <strong>Belelép</strong> egy állapotba (kiválasztja), majd <strong>kiterjeszti</strong>: feltárja a gyerekeit, és felrajzolja őket a fába, egy szinttel lejjebb. A feltárt, de még be nem lépett csomópontok alkotják a <strong>keresési frontot</strong>. Az ábrán a Start és a b kiterjesztése látszik.</p>
+<div class="u-pair" id="graf-es-fa">
+<figure class="u-plot u-graph"><!--@abs-graph-hl--><figcaption>Állapotgráf. Kiemelve a Start és a b kiterjesztésekor bejárt élek. A kitöltött kör a már kiterjesztett állapot, a szaggatott keretes a front.</figcaption></figure>
+<figure class="u-plot u-tree"><div class="u-scroll"><!--@abs-tree--></div><figcaption>Keresőfa ugyanebben a pillanatban. A Start gyerekei a, b és c; a b gyerekei d, e és f. A kitöltött kör a kiterjesztett csomópont, a szaggatott keretes a front: a, c, d, e és f.</figcaption></figure>
+</div>
+<p>Miért nem elég a gráf? Mert egy állapotba több úton is el lehet jutni, és a fa minden utat külön csomópontként tárol. A 281. oldal gráfjában a d-be a-ból és b-ből is eljutunk, így a fában két d csomópont lesz. A körök még rosszabbak: a Start → b → f → Start kör miatt a fa végtelen, a Start újra és újra megjelenhet benne. Erre a 8. részben, a fa- és a gráfkeresés különbségénél visszatérünk.</p>
+<p>A keresőfát néhány számmal jellemezzük. Ezek adják majd az idő- és tárigény képleteinek betűit.</p>
+<dl class="u-rows" id="fa-jellemzok">
+<div><dt>Elágazási tényező (branching factor), b</dt><dd><p>Egy adott csomópont kiterjesztésekor keletkező ágak száma.</p></dd></div>
+<div><dt>Átlagos elágazási tényező</dt><dd><p>Több csomópontra, leggyakrabban a teljes keresőfára értelmezett jellemző: a figyelembe vett csomópontok elágazási tényezőinek összege osztva a csomópontok számával. A képletekben ezt (vagy a legnagyobb értéket) használjuk b-ként.</p></dd></div>
+<div><dt>A fa mélysége, m</dt><dd><p>A fa legmélyebb szintjének száma. A Start a 0. szint. Végtelen fában m = ∞.</p></dd></div>
+<div><dt>A megoldás mélysége (depth), d</dt><dd><p>Annak a szintnek a száma, ahol a legsekélyebb cél van.</p></dd></div>
+<div><dt>Mélységi korlát, l</dt><dd><p>Egy esetlegesen megadott szint, amely alá a keresés nem megy.</p></dd></div>
+<div><dt>A keresés frontja</dt><dd><p>Az összes, kiterjesztéssel feltárt, de még be nem lépett csomópont. (A forrás „a keresési fa leveleinek” is nevezi; a pontosítást lásd lent.)</p></dd></div>
+<div><dt>g(n), h(n), f(n)</dt><dd><p>Az n állapotba vezető út költsége g(n). Az n állapotból a Cél elérésének becsült költsége h(n). Az n állapoton átvezető út (becsült) költsége f(n) = g(n) + h(n). Ebben a fejezetben csak g(n) kell: az egyenletes költségű keresés ezt használja. A h(n) és f(n) a 10. fejezet informált kereséseinek, köztük az A*-nak az alapja.</p></dd></div>
+</dl>
+<!--@lvl-tree-->
+<aside class="u-fix" id="fix-front"><h3>Kiigazítás · Keresőfa, és a front nem minden levél</h3>
+<p><strong>A PDF állítása:</strong> „A keresőgráf: egy fagráf …”, illetve a front „az összes, kiterjesztéssel feltárt, de még bele nem lépett csomópont, azaz a keresési fa levelei.”</p>
+<p><strong>Pontosabban:</strong> a szokásos név <strong>keresőfa</strong> (search tree), mert fa szerkezetű; a keresőgráf szó könnyen összekeverhető az állapotgráffal. A front pedig a <em>még be nem lépett</em> levelek halmaza. A fa leveleinek egy része már nem a front része: azok a csomópontok, amelyekbe beléptünk, de nincs gyerekük (zsákutca), vagy a mélységi korlát miatt nem terjesztettük ki őket.</p>
+<p><strong>Példa:</strong> a 9. rész városos szélességi keresésében a Kecskemét alatti Szeged levél, de már beléptünk, és kiderült, hogy nincs kimenő útja. A frontban nincs benne. A front tehát mindig részhalmaza a leveleknek, de nem feltétlenül egyenlő velük. <a href="#s-aima">Forrás: Russell–Norvig, AIMA, 4. kiadás, 3.3. szakasz.</a></p></aside>
+</section>
+
+<!-- 07 · PÉLDÁK -->
+<section id="peldak" class="chapter-section"><span class="section-index">07 / PDF 285–286.</span>
+<h2>Két feladat, két tanulság.</h2>
+<p>Az első példa az útkeresés két város között. Ez lesz a fejezet összes algoritmusának közös terepe.</p>
+<figure class="u-plot u-graph" id="varos-terkep"><!--@city-map--><figcaption>A PDF várospéldája. Az utak egyirányúak, a nyíl a haladás iránya, a szám a hossz kilométerben. Budapest a Start. A cél a 285. és 290. oldalon Debrecen, a 292. oldalon Kecskemét, a 294. oldalon Szolnok. A Budapest–Dunaújváros szakasz a 285. oldalon 60, a későbbi oldalakon 61 km; a fejezet mindenhol 61-gyel számol.</figcaption></figure>
+<dl class="u-rows" id="varos-formalis">
+<div><dt>Probléma</dt><dd>Melyik a legrövidebb útvonal Budapestről Debrecenbe?</dd></div>
+<div><dt>Start állapot</dt><dd>Budapesten vagyunk.</dd></div>
+<div><dt>Állapotok</dt><dd>Valamelyik városban vagyunk. Tíz állapot van.</dd></div>
+<div><dt>Operátorok</dt><dd>Utazás egy szomszédos városba, a nyíl irányában.</dd></div>
+<div><dt>Célfeltétel</dt><dd>Debrecenben vagyunk.</dd></div>
+<div><dt>Költség</dt><dd>A megtalált Start–Cél útvonal hossza, az útszakaszok hosszának összege.</dd></div>
+</dl>
+<p>Kézzel könnyű végignézni a lehetőségeket. Budapestről Debrecenbe négy út vezet: Hatvan–Miskolc–Polgár érintésével 320 km, Kecskemét–Szolnok érintésével 240 km, Hatvan–Kecskemét–Szolnok érintésével 296 km, és Dunaújváros–Kecskemét–Szolnok érintésével 276 km. A legrövidebb tehát Budapest → Kecskemét → Szolnok → Debrecen, 240 km. Az algoritmusok ezt fogják keresni, de egy nagyobb térképen már nem tudnánk minden utat felsorolni.</p>
+<aside class="u-fix" id="fix-leallas"><h3>Kiigazítás · A célfeltétel nem garantál optimális utat</h3>
+<p><strong>A PDF állítása:</strong> a leállási feltétel „a legrövidebb úton odajutva a Célban, Debrecenben vagyunk már? (A leállási feltétel egyben optimális utat is garantál.)”</p>
+<p><strong>Pontosabban:</strong> a célfeltétel csak az állapotot vizsgálja: „Debrecenben vagyunk-e?”. Egy állapotról nem lehet eldönteni, hogy a legrövidebb úton értünk-e oda, hiszen a többi utat még nem ismerjük. Az optimalitás a <em>kereső eljárás</em> tulajdonsága. Az egyenletes költségű keresés például azért ad legrövidebb utat, mert mindig a legolcsóbb frontcsomópontba lép, és csak belelépéskor ellenőrzi a célt.</p>
+<p><strong>Ellenpélda:</strong> a mélységi keresés ugyanezzel a célfeltétellel Budapest → Dunaújváros → Kecskemét → Szolnok → Debrecen utat talál, 276 km-t (11. rész). A feltétel teljesül, „Debrecenben vagyunk”, az út mégsem a legrövidebb. <a href="#s-aima">Forrás: AIMA, 3.1. és 3.4. szakasz.</a></p></aside>
+<p>A második példa egy <strong>lefedési probléma</strong>: hogyan lehet 31 dominóval lefedni egy olyan sakktáblát, amelynek két átellenes sarka hiányzik? Egy dominó pontosan két szomszédos mezőt fed le.</p>
+<div class="u-pair" id="domino">
+<figure class="u-plot"><!--@domino-board--><figcaption>A csonka sakktábla: a jobb felső és a bal alsó sarok hiányzik, 62 mező marad. Egy dominó mindig egy világos és egy sötét mezőt takar.</figcaption></figure>
+<dl class="u-rows">
+<div><dt>Start állapot</dt><dd>Az üres sakktábla.</dd></div>
+<div><dt>Állapotok</dt><dd>Mindig eggyel több dominó valamilyen elrendezésben.</dd></div>
+<div><dt>Operátor</dt><dd>Egy újabb dominó elhelyezése.</dd></div>
+<div><dt>Leállás</dt><dd>Mind a 62 mező le van fedve, vagy megállapítottuk, hogy a lefedés lehetetlen.</dd></div>
+<div><dt>Költség</dt><dd>Nincs: csak az számít, sikerül-e.</dd></div>
+</dl>
+</div>
+<aside class="u-add" id="domino-megoldas"><h3>Kiegészítés · A válasz: lehetetlen, és ezt keresés nélkül is tudjuk</h3>
+<p>A két hiányzó sarok azonos színű, mindkettő világos. A táblán így 30 világos és 32 sötét mező marad. Egy dominó mindig egy világos és egy sötét mezőt fed le, akárhogy is tesszük le. 31 dominó tehát pontosan 31 világos és 31 sötét mezőt takarna. Ennyi világos mező nincs, tehát a lefedés lehetetlen.</p>
+<p>A kereséssel ezt csak úgy tudnánk meg, ha az összes elrendezést kipróbálnánk, és mind elakadna. Ez rengeteg állapot. A „színezett” reprezentáció viszont azonnal választ ad. Ez a 3. rész tanulsága más köntösben: a jó reprezentáció néha a keresést is feleslegessé teszi. (Ha két különböző színű mezőt veszünk el, a tábla mindig lefedhető; ez Ralph Gomory tétele.) A feladatot John McCarthy 1964-ben éppen azért ajánlotta a gépi bizonyítás kutatóinak, mert puszta kereséssel reménytelenül nehéz. <a href="#s-mccarthy">Forrás: McCarthy, 1964.</a></p></aside>
+<details class="u-practice" id="gyak-allapotter"><summary>Gyakorlás · Állapottér és költségek (5 feladat)</summary>
+<ol>
+<li><p>Írd le állapottérrel a tologatós kirakót (8-as kirakó): 3 × 3-as keret, nyolc számozott lapka és egy üres hely. Mi az állapot, az operátor, a célfeltétel és a költség?</p><details class="u-sol"><summary>Megoldás</summary><p><strong>Állapot:</strong> a kilenc mező tartalma, például 1 2 3 / 8 4 5 / 7 _ 6. <strong>Operátor:</strong> az üres hely mozgatása fel, jobbra, le vagy balra (ha a keret engedi). Így legfeljebb 4, a sarokban csak 2 lépés van. <strong>Célfeltétel:</strong> az állás egyezik a célállással. <strong>Költség:</strong> minden lépés 1, az út költsége a lépések száma. A 9. rész végén ennek a keresőfáját is megnézzük.</p></details></li>
+<li><p>Egy futárcég útvonalat tervez. Melyik költségről szól: (a) a sofőr órabére a vezetés idejére, (b) a tervezőprogram futási ideje, (c) a kettő együtt?</p><details class="u-sol"><summary>Megoldás</summary><p>(a) Az út költsége, az operátorköltségek összege. (b) A keresés költsége. (c) A keresés teljes költsége.</p></details></li>
+<li><p>Mennyi az átlagos elágazási tényező abban a fában, amelyben a gyökérnek 4, a három kiterjesztett belső csomópontnak 2, 3 és 1 gyereke van?</p><details class="u-sol"><summary>Megoldás</summary><p>A kiterjesztett csomópontok elágazási tényezőit átlagoljuk: (4 + 2 + 3 + 1) / 4 = 2,5.</p></details></li>
+<li><p>Egy sakkfeladványnál „matt két lépésben” a cél. Mi a megoldás mélysége féllépésben, és mekkora a fa, ha b ≈ 35?</p><details class="u-sol"><summary>Megoldás</summary><p>Két saját és egy ellenfél-lépés között: a matt a 3. féllépésnél van, d = 3. A fa ekkor nagyjából 35<sup>3</sup> ≈ 43 ezer csomópont. Ha az ellenfél második lépésére is ránézünk (4 féllépés), már 35<sup>4</sup> ≈ 1,5 millió.</p></details></li>
+<li><p>A csonka sakktábláról nem két átellenes sarkot, hanem a bal felső és a mellette lévő mezőt vesszük el. Lefedhető-e a tábla 31 dominóval?</p><details class="u-sol"><summary>Megoldás</summary><p>A két szomszédos mező különböző színű, így 31 világos és 31 sötét mező marad, a színezési érv nem zárja ki a lefedést. Gomory tétele szerint ilyenkor mindig van lefedés. Itt még egyszerűbb: az első sor maradék 6 mezőjét 3 vízszintes dominó fedi le, a többi 7 teljes sort pedig soronként 4 dominó.</p></details></li>
+</ol></details>
+</section>
+
+<!-- 08 · ÁLTALÁNOS ELJÁRÁS -->
+<section id="altalanos" class="chapter-section"><span class="section-index">08 / PDF 287–288.</span>
+<h2>Egy váz, öt kitöltés.</h2>
+<p>A kereső eljárások lényegi lépéseit az <strong>általános kereső eljárás</strong> tartalmazza. A konkrét eljárások ettől csak kis részben térnek el. A front kezdetben egyetlen csomópontból áll, a Startból, és minden csomóponttal együtt a hozzá vezető utat is tároljuk.</p>
+<ol class="u-steps" id="altalanos-lepesek">
+<li><p><strong>Kezdés.</strong> A keresési front legyen egyenlő a Start állapottal.</p></li>
+<li><p><strong>Választás.</strong> Ha a front üres, akkor nincs megoldás, vége. Egyébként legyen n a front egyik állapota.</p></li>
+<li><p><strong>Célteszt.</strong> Ha n kielégíti a cél-kritériumot, akkor add vissza a hozzá vezető útvonallal együtt, vége.</p></li>
+<li><p><strong>Kiterjesztés.</strong> Egyébként a front n állapota helyére vedd fel a kiterjesztésével adódó új állapotokat, és jegyezd fel a hozzájuk vezető útvonalakat. Ismételd a 2. ponttól.</p></li>
+</ol>
+<figure class="u-quote"><blockquote><p>„Az algoritmus szabad kezet adó pontja a 2., amelyben arról döntünk, hogy melyik állapot szomszédai irányába terjesszük ki a keresést.”</p></blockquote><figcaption>PDF 287. oldal</figcaption></figure>
+<p>Ezt a döntést kétféleképpen hozhatjuk meg. A <strong>neminformált</strong> (más néven vak) eljárások gépiesen döntenek, csak a front sorrendje alapján. Az <strong>informált</strong>, más néven heurisztikus eljárások a keresési feladatra vonatkozó plusz információt is felhasználnak, például egy becslést arra, milyen messze van még a cél.</p>
+<div class="u-compare" id="vak-vs-informalt">
+<div><span class="u-tag">NEMINFORMÁLT (VAK) KERESÉS</span><p>Nincs információnk arról, milyen messze van az aktuális állapot a céltól, sem költségben, sem lépésszámban. Az eljárás csak azt képes észrevenni, ha a cél állapotban van. Ezért nem hatékony, viszont általánosan használható: bármely feladatra alkalmazható, amelyet állapottérrel leírtunk.</p></div>
+<div><span class="u-tag">INFORMÁLT (HEURISZTIKUS) KERESÉS</span><p>Egy h(n) becslés segít eldönteni, melyik frontcsomópont tűnik ígéretesebbnek. Jó becsléssel sokkal kevesebb csomópontot kell megnézni. Ez a <a href="10-informalt-kereses.html">10. fejezet</a> témája: legjobb-első keresés, A*, hegymászó keresés és szimulált hűtés.</p></div>
+</div>
+<p>A forrás öt neminformált eljárást sorol fel. Mind az öt az általános eljárás 2. és 4. lépését tölti ki másképp: honnan veszi a következő állapotot, és hová teszi az új állapotokat.</p>
+<div class="u-table-wrap"><table class="u-table u-algo-table" id="ot-eljaras">
+<caption>Az öt neminformált keresés: a 2. lépés mindig a front első elemét választja, a különbség a 4. lépésben van.</caption>
+<thead><tr><th>Eljárás</th><th>Angol neve</th><th>4. lépés: az új állapotok helye</th></tr></thead>
+<tbody>
+<tr><td>Szélességi keresés</td><td>breadth-first search, BFS</td><td>A front <strong>végére</strong>: a front sor (FIFO).</td></tr>
+<tr><td>Egyenletes költségű keresés (a PDF-ben: elágaztatás és ugrálás)</td><td>uniform-cost search, UCS</td><td>A frontba, majd a frontot <strong>útköltség szerint növekvő</strong> sorrendbe rendezzük.</td></tr>
+<tr><td>Mélységi keresés</td><td>depth-first search, DFS</td><td>A front <strong>elejére</strong>: a front verem (LIFO).</td></tr>
+<tr><td>Mélységkorlátos keresés</td><td>depth-limited search, DLS</td><td>Mint a mélységinél, de az l mélységű csomópontokat nem terjesztjük ki.</td></tr>
+<tr><td>Iteratív mélyítés</td><td>iterative deepening (depth-first) search, IDS</td><td>Mélységkorlátos keresés l = 0, 1, 2, … korláttal, amíg megoldást nem talál.</td></tr>
+</tbody></table></div>
+<p>Két kérdést az általános eljárás nyitva hagy, pedig a zárthelyin és a gyakorlatban is számítanak. Az egyik: mikor ellenőrizzük a célt? A másik: mit kezdünk a már látott állapotokkal?</p>
+<aside class="u-add" id="celteszt"><h3>Kiegészítés · Mikor teszteljük a célt?</h3>
+<p>Az általános eljárás a 3. lépésben, <strong>belelépéskor</strong> teszteli a célt: amikor n-t kivesszük a frontból. Így dolgozik a kurzus mindkét programja is. A PDF szélességi példájának ábrája viszont úgy készült, hogy a keresés már akkor megáll, amikor a cél <strong>feltárás</strong> közben, valamelyik csomópont gyerekeként előkerül. Ez a korai célteszt.</p>
+<p>Szélességi keresésnél a korai célteszt nem rontja az eredményt, csak egy szintnyi munkát spórol meg: az idő b<sup>d</sup>, nem b<sup>d+1</sup> nagyságrendű. Egyenletes költségű keresésnél viszont elrontja az optimalitást. A zh-gráfon (16. rész) a korai célteszt az S → A → D → C → G, 23 költségű utat adja, holott a legolcsóbb út 17. Ez a fejezet ezért mindig megmondja, melyik konvenciót használja, és ahol a kettő eltér, mindkettőt megmutatja.</p></aside>
+<div class="u-compare" id="fa-vs-graf">
+<div><span class="u-tag">FAKERESÉS</span><h3>Nem jegyzi meg, hol járt</h3><p>Ugyanaz az állapot több úton is bekerülhet a frontba, és többször is kiterjesztődhet. A fában ezek külön csomópontok: Kecskemét₁, Kecskemét₂. A körök miatt a fa végtelen is lehet. A kurzus kódja és a PDF példái fakeresést végeznek, egy szerény védelemmel: egy állapotot nem veszünk fel újra <em>ugyanarra az útra</em> (útellenőrzés). Ez a végtelen köröket kizárja, a különböző utakon érkező ismétléseket nem.</p></div>
+<div><span class="u-tag">GRÁFKERESÉS</span><h3>Bejárt halmazt vezet</h3><p>Minden kiterjesztett állapotot feljegyez egy <strong>bejárt</strong> (zárt) halmazba, és a már bejárt vagy a frontban lévő állapotot nem veszi fel újra. Így minden állapot legfeljebb egyszer terjesztődik ki. Ára a memória: a bejárt halmaz az egész feltárt állapotteret tárolja, ezért a mélységi keresés elveszíti kis tárigényét. Egyenletes költségű keresésnél a frontban lévő drágább utat a most talált olcsóbb úttal kell lecserélni.</p></div>
+</div>
+<p>Mekkora a különbség? A városos példában Budapestről Debrecenbe a szélességi fakeresés 15 csomópontba lép be, a gráfkeresés csak 9-be; az egyenletes költségű fakeresés 17-be, a gráfkeresés 9-be. A talált út mindkét esetben ugyanaz, 240 km. A keresőlaborban (14. rész) a két változat egy kapcsolóval összevethető.</p>
+<p class="u-key">A tananyag példái és a zárthelyi-feladatok fakeresést használnak útellenőrzéssel, a csomópontokat a feltárás sorrendjében indexelve. Ha ettől eltérsz, írd le, melyik változatot követed.</p>
+</section>
+
+<!-- 09 · SZÉLESSÉGI -->
+<section id="szelessegi" class="chapter-section"><span class="section-index">09 / PDF 289–290., 298.</span>
+<h2>Szélességi keresés: szintről szintre.</h2>
+<p>A <strong>szélességi keresés</strong> (breadth-first search) egy adott mélységi szint csomópontjainak mindegyikét kiterjeszti, mielőtt a következő szintre lépne. Olyan, mint a vízbe dobott kő hullámai: előbb az egy lépésre lévő állapotok, aztán a két lépésre lévők jönnek sorra.</p>
+<!--@bfs-num-->
+<p>Az általános eljárás két ponton módosul. A 2. lépésben a front <strong>első</strong> állapota lesz a választott n. A 4. lépésben a kiterjesztéssel kapott új állapotokat a frontlista <strong>végéhez</strong> csatoljuk. A front így sorként (FIFO: first in, first out) működik: ami előbb bekerült, előbb kerül sorra.</p>
+<p>Nézzük a várospéldát Budapestről Debrecenbe. A gyerekek sorrendje az ábrák sorrendje: Budapestből Dunaújváros, Kecskemét, Hatvan. A célt itt <strong>feltáráskor</strong> ellenőrizzük, mert a PDF ábrája is így készült.</p>
+<!--@city-bfs-tree-->
+<!--@city-bfs-table-->
+<p>A szélességi keresés a legkevesebb lépésből álló utat találja meg: Debrecen a 3. szinten van, és ennél sekélyebben nincs. Hogy ez itt egyben a legrövidebb, 240 km-es út is, az szerencse. A kurzus <code>21_Ugralas_es_elagazas.py</code> gráfjában (10. rész) a szélességi keresés az S → A → D → G utat adja, amely 3 lépés, de 40 költségű, miközben az S → A → D → C → E → G út 5 lépés, és csak 32.</p>
+<dl class="u-rows" id="bfs-tulajdonsagok">
+<div><dt>Teljes</dt><dd>Igen, ha az elágazási tényező véges. Ekkor minden szint véges, és a d. szintre véges idő alatt eljut.</dd></div>
+<div><dt>Optimális</dt><dd>Ha minden útszakasz egyforma költségű. (Általánosabban: ha az út költsége a mélységgel nem csökken.)</dd></div>
+<div><dt>Időigény</dt><dd>O(b<sup>d</sup>): 1 + b + b<sup>2</sup> + … + b<sup>d</sup> csomópont feltáráskori célteszttel. Belelépéskori célteszttel a d. szint majdnem minden csomópontját is kiterjeszti, így O(b<sup>d+1</sup>).</dd></div>
+<div><dt>Tárigény</dt><dd>O(b<sup>d</sup>): a d. szint teljes frontját egyszerre tárolni kell. Ez a módszer igazi gyenge pontja.</dd></div>
+</dl>
+<p>A forrás szerint az idő- és a tárigény is „meredeken nő a mélységgel”. A 15. rész táblázata megmutatja, mennyire: b = 10 mellett 12 szint mélyen a szélességi keresés 13 napig dolgozna, és egy petabájt memóriát kérne.</p>
+<p>A kurzus <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code> programja a szélességi keresést egy útlistákat tároló sorral valósítja meg. A front elemei nem állapotok, hanem teljes utak: így a végén nem kell visszafelé összeszedni az útvonalat.</p>
+<figure class="u-code"><pre><code>def bfs(graph, start, goal):
+    queue = []
+    queue.append([start])
+    while queue:
+        path = queue.pop(0)          # a front első útja
+        end_node = path[-1]
+
+        if end_node == goal:         # célteszt belelépéskor
+            return path
+        for adjacent in graph.get(end_node, []):
+            if adjacent not in path: # útellenőrzés: nincs kör
+                new_path = list(path) + [adjacent]
+                queue.append(new_path)   # a front végére
+    return None</code></pre>
+<figcaption>Forrás: <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code>, 12–25. sor; a megjegyzéseket mi írtuk hozzá. A program gráfja S, A, B, C, D, E, F csomópontú, G a cél. A futás eredménye <code>['S', 'A', 'D', 'G']</code>: a legkevesebb lépésből álló út. A célteszt belelépéskor történik, ahogy az általános eljárásban. Az <code>adjacent not in path</code> feltétel csak az aktuális útra néz: ez fakeresés útellenőrzéssel, nem gráfkeresés.</figcaption></figure>
+<p>A PDF szélességi része egy szöveg nélküli ábrával zárul: a <strong>tologatós kirakó</strong> (8-as kirakó) keresőfájával. A keret kilenc mezején nyolc számozott lapka és egy üres hely van. Egy lépés az üres helyet cseréli egy szomszédos lapkával. Az ábra a szélességi keresést mutatja három szint mélyen.</p>
+<div class="u-pair" id="kirako-allas">
+<div><p><strong>Induló állás</strong></p><ol class="u-puzzle" aria-label="Induló állás: 1 2 3, 8 4 5, 7 üres 6"><li>1</li><li>2</li><li>3</li><li>8</li><li>4</li><li>5</li><li>7</li><li class="u-empty"></li><li>6</li></ol></div>
+<div><p><strong>Célállás</strong></p><ol class="u-puzzle" aria-label="Célállás: 1 2 3, 8 üres 4, 7 6 5"><li>1</li><li>2</li><li>3</li><li>8</li><li class="u-empty"></li><li>4</li><li>7</li><li>6</li><li>5</li></ol></div>
+</div>
+<!--@puzzle-tree-->
+<p>Az ábra két dolgot tanít. Először: a megoldás három lépés. Az üres hely jobbra, felfelé, majd balra lép, vagyis a 6-os balra, az 5-ös lefelé, a 4-es jobbra csúszik. A szélességi keresés ezt a legrövidebb megoldást találja meg, mert szintenként halad. Másodszor: a fában újra és újra megjelenik az induló állás, mert minden lépés visszacsinálható. Útellenőrzés vagy bejárt halmaz nélkül a fakeresés így sok fölösleges csomópontot tár fel.</p>
+<aside class="u-add" id="bfs-feltetelek"><h3>Kiegészítés · A „teljes” és az „optimális” feltételei</h3>
+<p>A PDF a szélességi keresést feltétel nélkül teljesnek nevezi. Ehhez véges elágazási tényező kell: ha egy állapotnak végtelen sok szomszédja van, az első szintet sem lehet végigjárni. Az optimalitás feltételét a PDF helyesen adja meg: egyforma költségű útszakaszok. Az időigény b<sup>d</sup> alakja a PDF ábrájához illő korai céltesztre igaz; a belelépéskori célteszt, amelyet a kurzus programja használ, egy szinttel többet, b<sup>d+1</sup> nagyságrendet ad. <a href="#s-aima">Forrás: AIMA, 3.4.1. szakasz.</a></p></aside>
+</section>
+
+<!-- 10 · EGYENLETES KÖLTSÉGŰ -->
+<section id="egyenletes" class="chapter-section"><span class="section-index">10 / PDF 291–292.</span>
+<h2>Egyenletes költségű keresés: mindig a legolcsóbbat.</h2>
+<p>Az <strong>egyenletes költségű keresés</strong> (uniform-cost search) a front azon állapotába lép, amelyhez a Starttól a legkisebb költségű út vezet. A forrás ezt „elágaztatás és ugrálás” néven is említi. A név második fele jól leírja, mit látunk a fán: a keresés nem halad szépen szintenként vagy ágon lefelé, hanem mindig oda „ugrik”, ahol éppen a legolcsóbb frontcsomópont van, akár a fa egészen más részére.</p>
+<p>Az általános eljárás 2. lépésében a front első állapotát választjuk. A 4. lépésben az új állapotokat a frontlistához adjuk, majd a frontot <strong>növekvő útköltség</strong> szerint rendezzük. Így a front első eleme mindig a legkisebb g(n) értékű csomópont. Ha minden útszakasz egyforma költségű, ez éppen a szélességi keresés.</p>
+<p>A PDF példájában a cél ezúttal <strong>Kecskemét</strong>. A célt <strong>belelépéskor</strong> ellenőrizzük: a forrás szerint az algoritmus akkor áll le, ha cél-állapotba léptünk, vagyis amikor a front összes többi állapotába már nagyobb költségű út vezet.</p>
+<!--@city-ucs-tree-->
+<!--@city-ucs-table-->
+<p>Érdemes végigkövetni az ugrásokat. Budapest után a legolcsóbb a 60 km-es Hatvan. Hatvan kiterjesztése után a 61 km-es Dunaújváros lesz a legolcsóbb: a keresés átugrik a fa bal oldalára. Utána a 75 km-es Kecskemét₁ következik, amely a fa közepén van, közvetlenül Budapest alatt. Ez a cél, és a front minden más eleme drágább: 111, 111, 131 és 190 km. Ennél olcsóbb út Kecskemétre nem lehet, hiszen minden más út egy már drágább frontcsomóponton át vezetne.</p>
+<aside class="u-fix" id="fix-ucs-tabla"><h3>Kiigazítás · A PDF táblázatának számozása és sorrendje</h3>
+<p><strong>A PDF táblázata</strong> (292. oldal) a lépéseket 0., 1., 3., 4. sorszámmal jelöli, és a frontot a felvétel sorrendjében, rendezetlenül írja fel (például Dunaújváros, Kecskemét₁, Hatvan).</p>
+<p><strong>Pontosabban:</strong> a lépések 0., 1., 2., 3., a 2. sorszám kimaradt. A front a módszer szerint növekvő költség szerint rendezett, így a választás mindig az első elem: Hatvan (60), Dunaújváros (61), Kecskemét₁ (75). A PDF választásai helyesek, csak a táblázat nem mutatja, miért éppen azok. A fenti táblázat a javított számozást és a rendezett frontot mutatja. A cél ebben a példában Kecskemét, nem Debrecen, mint az előző oldalakon: a 292. oldal térképén a „Cél” felirat Kecskemét mellé került.</p></aside>
+<p>Ugyanez Debrecen felé hosszabb. A keresés a 17. lépésben lép be a 240 km-es Debrecenbe. Előtte minden 240-nél olcsóbb frontcsomópontot kiterjeszt: Pécset, két Kecskemétet, három Szolnokot (130, 166 és 186 km), Miskolcot és öt Szegedet. A frontban a végén két drágább Debrecen-csomópont is ott marad, 276 és 296 km-rel.</p>
+<details class="u-practice" id="gyak-ucs-debrecen"><summary>Kidolgozott példa · Egyenletes költségű keresés Budapestről Debrecenbe (17 lépés)</summary>
+<!--@city-ucs-deb-->
+</details>
+<dl class="u-rows" id="ucs-tulajdonsagok">
+<div><dt>Teljes</dt><dd>Igen, ha az elágazási tényező véges, és minden lépés költsége legalább egy ε &gt; 0 érték.</dd></div>
+<div><dt>Optimális</dt><dd>Igen, ugyanilyen feltétellel (nemnegatív lépésköltségek, belelépéskori célteszt).</dd></div>
+<div><dt>Idő- és tárigény</dt><dd>O(b<sup>1 + ⌊C*/ε⌋</sup>), ahol C* az optimális megoldás költsége, ε a legkisebb lépésköltség. Egyforma lépésköltségnél ez O(b<sup>d+1</sup>).</dd></div>
+</dl>
+<aside class="u-fix" id="fix-ucs"><h3>Kiigazítás · Az egyenletes költségű keresés feltételei és képlete</h3>
+<p><strong>A PDF állítása:</strong> az eljárás teljes, optimális, időigénye b<sup>d</sup>, tárigénye b<sup>d</sup>.</p>
+<p><strong>Pontosabban:</strong> a teljesség és az optimalitás feltétele, hogy minden lépés költsége legalább ε &gt; 0 legyen. Nulla költségű körrel a keresés végtelen ciklusba kerülhet: ha A → B és B → A is 0 költségű, a front legolcsóbb eleme örökké ezen a körön marad. Az idő- és tárigényt nem a megoldás d mélysége, hanem a C*/ε arány szabja meg, mert a keresés minden C*-nál olcsóbb utat kiterjeszt, és egy ilyen út legfeljebb ⌊C*/ε⌋ lépés hosszú. A képlet O(b<sup>1 + ⌊C*/ε⌋</sup>), ami sok olcsó lépés esetén jóval nagyobb lehet b<sup>d</sup>-nél.</p>
+<p><strong>Példa:</strong> Budapestről Debrecenbe C* = 240, a legrövidebb útszakasz ε = 50, így 1 + ⌊240/50⌋ = 5, a felső korlát b<sup>5</sup>, pedig d = 3. Valóban: a keresés egy 4. szintű csomópontba, a 231 km-es Szegedbe be is lép, mielőtt a 3. szintű Debrecent kiválasztaná. <a href="#s-aima">Forrás: AIMA, 3.4.2. szakasz.</a></p></aside>
+<aside class="u-fix" id="fix-nev"><h3>Kiigazítás · „Elágaztatás és ugrálás” = egyenletes költségű keresés, nem az általános branch and bound</h3>
+<p><strong>A PDF állítása:</strong> „Elágaztatás és ugrálás (branch and bound), vagy másnéven egyenletes költségű keresés (uniform cost search)”.</p>
+<p><strong>Pontosabban:</strong> a ma szokásos név az egyenletes költségű keresés; lényegében Dijkstra 1959-es legrövidebbút-algoritmusa, egyetlen célra leállítva. Az angol <em>branch and bound</em> egy tágabb optimalizálási módszercsalád, amelynek magyar neve <strong>korlátozás és szétválasztás</strong> (vagy elágazás és korlátozás). Ott a „bound” korlátot jelent: ha egy részmegoldás alsó becslése már rosszabb, mint az eddigi legjobb teljes megoldás, azt az ágat levágjuk. Az „ugrálás” nem a bound fordítása, hanem a keresés ugráló viselkedésére utal.</p>
+<p><strong>Miért fontos?</strong> A tananyagban és a vizsgán mindkét név előfordulhat; ugyanazt az eljárást jelentik. De ha egy tankönyvben a branch and bound kifejezést olvasod, az általában a levágásos optimalizálást jelenti. A kurzus <code>21_Ugralas_es_elagazas.py</code> programja sem vág le ágakat: tisztán egyenletes költségű keresés. <a href="#s-aima">Forrás: AIMA, 3.4.2. szakasz;</a> <a href="#s-dijkstra">Dijkstra, 1959;</a> <a href="#s-landdoig">Land–Doig, 1960.</a></p></aside>
+<p>A kurzus programja a <code>resources/code/21_Ugralas_es_elagazas.py</code>. A front elemei (út, költség) párok, és minden kiterjesztés után költség szerint rendezzük a teljes frontot.</p>
+<figure class="u-plot u-graph" id="kod21-graf"><!--@code21-map--><figcaption>A program gráfja. A legtöbb él mindkét irányban szerepel, azonos költséggel. Kivétel a C → F (8) és az F → C (10) él. G-ből nem indul él.</figcaption></figure>
+<figure class="u-code"><pre><code>def bandb(graph, start, goal):
+    queue = []
+    queue.append(([start],0))
+    while queue:
+        first_element = queue.pop(0)     # a legolcsóbb út
+        path = first_element[0]
+        end_node = path[-1]
+        current_cost = first_element[1]
+
+        if end_node == goal:             # célteszt belelépéskor
+            return path
+        for adjacent in graph.get(end_node, []):
+            if adjacent[0] not in path:
+                new_path = list(path) + [adjacent[0]]
+                new_cost = current_cost + adjacent[1]
+                queue.append((new_path, new_cost))
+        queue = sorted(queue, key=lambda element: element[-1])
+    return None</code></pre>
+<figcaption>Forrás: <code>resources/code/21_Ugralas_es_elagazas.py</code>, 11–28. sor; a megjegyzések tőlünk. A futás eredménye <code>['S', 'A', 'D', 'C', 'E', 'G']</code>, költsége 2 + 6 + 2 + 10 + 12 = 32, ez a legolcsóbb út. A program 14 utat vesz ki a frontból. A Python <code>sorted</code> függvénye stabil, így egyenlő költségnél a korábban felvett út marad elöl. A program csak az utat adja vissza, a költséget nem.</figcaption></figure>
+<aside class="u-fix" id="fix-kod21"><h3>Kiigazítás · Az oktatói gráf F → C éle</h3>
+<p><strong>A kódban:</strong> <code>"C": [… ("F",8)]</code>, de <code>"F": [("C",10), …]</code>. Minden más élpár mindkét irányban azonos költségű (S–A 2, S–B 12, A–D 6, B–C 1, C–D 2, C–E 10).</p>
+<p><strong>Valószínűleg elírás</strong>, és egy irányítatlan úthálózatot akart leírni. A futásra azonban nincs hatása. F-be csak C-ből lehet eljutni, így minden F-en átmenő út már tartalmazza C-t, és az útellenőrzés (<code>adjacent[0] not in path</code>) miatt az F → C élt sosem használjuk. A fejezet tesztje ezt ki is próbálja: F → C = 8 mellett ugyanaz az út, ugyanaz a 32-es költség és ugyanaz a 14 lépés jön ki.</p>
+<p><strong>Mire figyelj?</strong> Ha egy gráfot szótárral adsz meg, mindkét irányt külön kell beírni, és könnyű elgépelni. Irányítatlan gráfnál biztonságosabb egyszer felsorolni az éleket, és a programmal generálni a fordított irányt. A keresőlabor „saját gráf” mezője ezt egy jelölőnégyzettel teszi meg.</p></aside>
+</section>
+
+<!-- 11 · MÉLYSÉGI -->
+<section id="melysegi" class="chapter-section"><span class="section-index">11 / PDF 293–294.</span>
+<h2>Mélységi keresés: le az aljáig, aztán vissza.</h2>
+<p>A <strong>mélységi keresés</strong> (depth-first search) a keresési fát balra lefelé tartva járja be. Ha nem tud tovább lefelé menni, visszalép a legalsó elágazásig, és a következő ágat választja. Visszalépéskor a sikertelen ág állapotait elejti. Pontosan így dolgozik a Prolog is, ahogy az <a href="05-prolog-es-fuzzy.html#keresofak">5. fejezet</a> keresőfáin láttad.</p>
+<p>Az általános eljárás 2. lépésében a front első állapotát választjuk, a 4. lépésben pedig az új állapotokat a frontlista <strong>elejéhez</strong> adjuk, eredeti sorrendjükben. A front így veremként (LIFO: last in, first out) működik: mindig a legutoljára feltárt ágon megyünk tovább.</p>
+<p>A PDF példájában a cél <strong>Szolnok</strong>. A célt belelépéskor ellenőrizzük.</p>
+<!--@city-dfs-tree-->
+<!--@city-dfs-table-->
+<p>A keresés Budapestről rögtön Dunaújvárosba, onnan Pécsre, majd Szegedre megy. Szegedről nincs tovább, ezért visszalép Dunaújvárosig, és a következő ágat, Kecskemétet választja. Innen Szeged után Szolnok következik: megvan a cél. A talált út 166 km, pedig Budapest → Kecskemét → Szolnok csak 130 km. A mélységi keresés az első talált utat adja vissza, nem a legjobbat.</p>
+<p>A mélységi keresés nagy előnye a memória. Csak egyetlen út állapotait és az út leágazásain található, még be nem lépett állapotokat kell tárolnia. A példában a front sosem nagyobb négy elemnél. Egy b elágazású, m mélységű fában ez legfeljebb körülbelül b · m csomópont.</p>
+<figure class="u-code"><pre><code>def dfs(graph, start, goal):
+    queue = []
+    queue.append([start])
+    while queue:
+        path = queue.pop(0)
+        end_node = path[-1]
+
+        if end_node == goal:
+            return path
+        new_paths = []
+        for adjacent in graph.get(end_node, []):
+            if adjacent not in path:
+                new_path = list(path) + [adjacent]
+                new_paths.append(new_path)
+        queue[0:0] = new_paths       # a front elejére, sorrendben
+    return None</code></pre>
+<figcaption>Forrás: <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code>, 27–42. sor. A szélességi változattól egyetlen sor különbözik: a <code>queue[0:0] = new_paths</code> az új utakat a front elejére szúrja, megtartva a sorrendjüket. A futás eredménye <code>['S', 'A', 'D', 'C', 'E', 'G']</code>: 5 lépés, holott a szélességi 3 lépéses utat talált ugyanabban a gráfban.</figcaption></figure>
+<dl class="u-rows" id="dfs-tulajdonsagok">
+<div><dt>Teljes</dt><dd>Véges állapottérben igen, ha útellenőrzéssel vagy gráfkereséssel kizárjuk a köröket. Végtelen állapottérben vagy végtelen (a memóriának túl mély) ágon nem.</dd></div>
+<div><dt>Optimális</dt><dd>Nem.</dd></div>
+<div><dt>Időigény</dt><dd>O(b<sup>m</sup>), ahol m a fa legnagyobb mélysége.</dd></div>
+<div><dt>Tárigény</dt><dd>O(b · m) fakereséssel: ez a módszer nagy előnye.</dd></div>
+</dl>
+<aside class="u-fix" id="fix-dfs"><h3>Kiigazítás · A mélységi keresés képletei m-mel, nem d-vel</h3>
+<p><strong>A PDF állítása:</strong> az időigény b<sup>d</sup>, a tárigény b · d; az eljárás teljes, „ha nincs végtelen, vagy túl mély ág”.</p>
+<p><strong>Pontosabban:</strong> a mélységi keresés nem áll meg a megoldás mélységénél. Ha az első ágak mélyek, előbb azokat járja végig, ezért az idő- és tárigény a fa legnagyobb m mélységétől függ: O(b<sup>m</sup>) és O(b · m). m sokkal nagyobb lehet d-nél, sőt végtelen is. A teljességhez az is kell, hogy a köröket kizárjuk: ismétlésszűrés nélkül a mélységi keresés véges gráfban is végtelen ciklusba eshet.</p>
+<p><strong>Ellenpélda:</strong> a 281. oldal gráfjában a g → d és a d → g él kört alkot. Ellenőrzés nélkül a keresés a Start, a, d, g, d, g, d, … úton halad, és sosem jut el a Célba, pedig a Cél g egyik gyereke. Útellenőrzéssel (ahogy a kurzus kódja dolgozik) a Start, a, d, g, Cél úton 5 lépésben célba ér. A keresőlaborban ezt az „ismétlés: semmit” beállítással ki is próbálhatod. <a href="#s-aima">Forrás: AIMA, 3.4.3. szakasz.</a></p></aside>
+<aside class="u-fix" id="fix-varosok"><h3>Kiigazítás · A várospéldák apró ellentmondásai</h3>
+<p><strong>A PDF ábráin</strong> a Budapest–Dunaújváros szakasz a 285. oldalon 60, a 290–294. oldalon 61 km. A cél a 285. és 290. oldalon Debrecen, a 292. oldalon Kecskemét, a 294. oldalon Szolnok, és ezt csak a térképen elhelyezett „Cél” felirat jelzi. A 294. oldal mélységi fájáról hiányzik a Kecskemét₂ alatti Szeged.</p>
+<p><strong>A fejezet megoldása:</strong> mindenhol 61 km-rel számolunk, a célt minden példánál kiírjuk, és a keresőfákat a tesztelt modell rajzolja. A mélységi keresés Kecskemét₂-ből előbb Szegedet tárja fel és lépi be (zsákutca), csak utána Szolnokot. A talált út és költsége (166 km) ettől nem változik. A 60 és 61 km közötti különbség egyik példa eredményét sem befolyásolja.</p></aside>
+</section>
+
+<!-- 12 · MÉLYSÉGKORLÁTOS -->
+<section id="korlatos" class="chapter-section"><span class="section-index">12 / PDF 295.</span>
+<h2>Mélységkorlátos keresés: eddig, és ne tovább.</h2>
+<p>A <strong>mélységkorlátos keresés</strong> (depth-limited search) célja, hogy egy jól megbecsült <strong>mélységi korláttal</strong> elkerülje a mélységi keresés végtelen, vagy gyakorlatilag végtelen mély ágainak veszélyét. Működése azonos a mélységi keresésével, de úgy viselkedik, mintha az l korlát alatti állapotok nem is léteznének: az l mélységű csomópontokba még belelép, de nem terjeszti ki őket.</p>
+<p>A forrás egy hétköznapi példát ad: benzinkút keresése egy városban, ha már csak adott liternyi benzinünk van. Ha a benzin legfeljebb 5 útszakaszra elég, értelmetlen 6 szakasznál hosszabb utakat vizsgálni. A korlátot itt a feladatról szóló tudás adja meg:</p>
+<figure class="u-quote"><blockquote><p>„Átmenet az informált kereséshez, amennyiben a korlát mélységének megadásához problémafüggő információt is használ.”</p></blockquote><figcaption>PDF 295. oldal</figcaption></figure>
+<p>Futtassuk a várospéldán, Szolnok a cél, l = 2. Dunaújváros alatt Pécs és Kecskemét₂ már 2. szintű, ezekbe belelépünk, de nem terjesztjük ki őket. Így a keresés nem téved el a Dunaújváros alatti mély ágban, hanem visszatér Kecskemét₁-hez, és ott megtalálja Szolnokot.</p>
+<!--@city-dls-table-->
+<p>Az eredmény Budapest → Kecskemét → Szolnok, 130 km. Ez most a legrövidebb út is, de csak azért, mert a korlát éppen a megoldás mélysége volt. l = 1 mellett a keresés nem talál semmit: Szolnok a 2. szinten van. Ilyenkor a keresés két rossz hírt különböztet meg. A „nincs megoldás” azt jelenti, hogy a front kiürült, és sehol nem vágtunk le ágat. A „korlát miatt nincs megoldás” azt, hogy volt levágott ág, mélyebben még lehet cél.</p>
+<dl class="u-rows" id="dls-tulajdonsagok">
+<div><dt>Teljes</dt><dd>Ha l nagyobb vagy egyenlő, mint a legsekélyebb cél mélysége, d.</dd></div>
+<div><dt>Optimális</dt><dd>Nem.</dd></div>
+<div><dt>Időigény</dt><dd>O(b<sup>l</sup>): meredeken nő a mélységi korláttal.</dd></div>
+<div><dt>Tárigény</dt><dd>O(b · l): nagyon kis igény.</dd></div>
+</dl>
+</section>
+
+<!-- 13 · ITERATÍV MÉLYÍTÉS -->
+<section id="iterativ" class="chapter-section"><span class="section-index">13 / PDF 296–297.</span>
+<h2>Iteratív mélyítés: korlát nélkül, kevés memóriával.</h2>
+<p>Honnan tudnánk előre a jó korlátot? Az <strong>iteratív mélyítés</strong> (iterative deepening search) ezt a kérdést kerüli meg. Nulla korlátmélységről indul, és egy-egy szinttel növeli a korlátot. Minden korlátnál elvégez egy teljes mélységkorlátos keresést. Addig mélyít, amíg megoldást nem talál.</p>
+<p>A PDF 297. oldalának ábrája egy teljes bináris fán mutatja a menetet, három szint mélyen. A cél a jobb–bal–jobb úton elérhető levél. A csomópont felirata a <strong>feltárás</strong> sorszáma (a PDF-ben „kiterjesztés sorrendje”), a # utáni szám a <strong>belelépésé</strong>.</p>
+<!--@ids-trees-->
+<p>Minden kör elölről kezdi a keresést. Korlát = 3 mellett a 12. belelépés éri el a célt, amelyet 13.-ként tártunk fel. A PDF ábráján a korábbi ágak szaggatott vonallal tűnnek el: a mélységi keresés a bejárt ágat elfelejti, csak az aktuális utat és leágazásait tartja meg. Ezért marad kicsi a memória.</p>
+<p>Nem pazarlás ennyit ismételni? Kevésbé, mint gondolnád. Egy fában a csomópontok zöme a legalsó szinten van. A d. szint csomópontjait egyszer, a d − 1. szintét kétszer, a gyökeret d + 1-szer tárjuk fel. b = 10 és d = 5 mellett ez 6 + 50 + 400 + 3000 + 20 000 + 100 000 = 123 456 feltárás, a szélességi keresés 111 111 feltárásával szemben. Alig 11% többletmunka, cserébe a memória b · d = 50 csomópont, nem 100 000.</p>
+<dl class="u-rows" id="ids-tulajdonsagok">
+<div><dt>Teljes</dt><dd>Igen, ha az elágazási tényező véges.</dd></div>
+<div><dt>Optimális</dt><dd>Ha a költség a lépések száma (egyforma lépésköltségek).</dd></div>
+<div><dt>Időigény</dt><dd>O(b<sup>d</sup>): az újrakezdések ellenére nagyságrendileg nem változik a b<sup>d</sup> értékhez képest.</dd></div>
+<div><dt>Tárigény</dt><dd>O(b · d): nagyon kedvező.</dd></div>
+</dl>
+<p class="u-key">Az iteratív mélyítés egyesíti a szélességi keresés teljességét és lépésszám szerinti optimalitását a mélységi keresés kis memóriájával. Ha a megoldás mélységét nem ismerjük, és nagy az állapottér, általában ez a legjobb neminformált választás.</p>
+<p>A várospéldán a korlátok 0, 1, 2, 3: a négy kör összesen 1 + 4 + 10 + 12 = 27 belelépés, és a 3. korlátnál megkerül Budapest → Kecskemét → Szolnok → Debrecen. A korábbi körök azért kellettek, mert Debrecen a 3. szinten van.</p>
+<details class="u-practice" id="gyak-bejaras"><summary>Gyakorlás · Bejárási sorrendek a 281. oldal gráfján (5 feladat)</summary>
+<p>A gráf az 5. rész ábrája: Startból a Célba keresünk. A gyerekeket ebben a sorrendben tárjuk fel: Start → a, b, c; a → d; b → d, e, f; c → f; d → g; e → g, h; f → Start, h; g → d, Cél; h → Cél. Útellenőrzést használunk, a célt belelépéskor teszteljük. Ez a feladattípus egy 2017-es vizsgasoron is szerepelt: „Számozza be a gráf csomópontjait olyan sorrendben, ahogy a … algoritmus érintené azokat. Egy csomópontnak több száma is lehet.”</p>
+<ol>
+<li><p>Számozd be a csomópontokat a szélességi keresés belelépési sorrendjében!</p><details class="u-sol"><summary>Megoldás</summary><p>Start 1; a 2; b 3; c 4; d 5 és 6 (az a és a b alatt); e 7; f 8 és 9 (a b és a c alatt); g 10, 11, 12; h 13, 14, 15; Cél 16. A talált út: Start, a, d, g, Cél, 4 lépés. Feltáráskori célteszttel a keresés már a 10. belelépésnél, a g kiterjesztésekor megáll.</p></details></li>
+<li><p>Milyen sorrendben lép be a mélységi keresés, és mi marad a frontban?</p><details class="u-sol"><summary>Megoldás</summary><p>Start, a, d, g, Cél: 5 belelépés. A front a végén: b, c. Itt a mélységi keresés szerencsés, mert az első ág rögtön a célba visz.</p></details></li>
+<li><p>Számozd be a csomópontokat az iteratív mélyítés belelépési sorrendjében! (Egy csomópontnak több száma is lehet.)</p><details class="u-sol"><summary>Megoldás</summary><p>Korlát 0: Start 1. Korlát 1: Start 2, a 3, b 4, c 5. Korlát 2: Start 6, a 7, d 8, b 9, d 10, e 11, f 12, c 13, f 14. Korlát 3: Start 15, a 16, d 17, g 18, b 19, d 20, g 21, e 22, g 23, h 24, f 25, h 26, c 27, f 28, h 29. Korlát 4: Start 30, a 31, d 32, g 33, Cél 34. Összesen 34 belelépés. Az f gyereke, a Start, sosem kerül sorra, mert már az úton van.</p></details></li>
+<li><p>Mi történik, ha a mélységi keresés semmilyen ismétlést nem szűr?</p><details class="u-sol"><summary>Megoldás</summary><p>Start, a, d, g után a g gyerekei közül a d jön előbb (a sorrend: d, Cél), és onnan újra g. A keresés a d, g, d, g, … körben ragad, és sosem lép a Célba. Ez a <a href="#fix-dfs">mélységi keresés kiigazításának</a> ellenpéldája.</p></details></li>
+<li><p>Melyik eljárás adja garantáltan a legkevesebb lépésből álló utat ezen a gráfon?</p><details class="u-sol"><summary>Megoldás</summary><p>A szélességi keresés és az iteratív mélyítés, mert minden él költsége egyforma (1). Mindkettő a 4 lépéses Start, a, d, g, Cél utat adja. A mélységi keresés itt véletlenül szintén ezt találja, de ez nem garantált.</p></details></li>
+</ol></details>
+</section>
+
+<!-- 14 · KERESŐLABOR -->
+<section id="labor" class="chapter-section"><span class="section-index">14 / PDF 287–297. · LABOR</span>
+<h2>Mind az öt egy laborban.</h2>
+<p>A laborban az öt eljárást ugyanazon a gráfon futtathatod, lépésenként. A térképen látszik, hol jár a keresés, mellette nő a keresőfa, alatta a front és a bejárt állapotok listája. Kipróbálhatod a fejezet összes konvencióját is: a célteszt helyét, az ismétlések kezelését és a gyerekek sorrendjét. A „saját gráf” lehetőséggel egy állapotteret is megadhatsz, soronként egy éllel.</p>
+<div class="u-lab" id="kereso-labor"><span class="u-lab-label">PRÓBÁLD KI / KÖZÖS KERESŐLABOR</span><h3>Válassz gráfot és eljárást, majd lépkedj.</h3>
+<p>A gombok billentyűzettel is működnek (Tab, majd Enter vagy szóköz). A gyorsgombok a fejezet példáit töltik be.</p>
+<div class="u-js-only">
+<div class="u-controls" aria-label="A fejezet példái"><button type="button" class="u-ghost" data-kl="city,bfs,Budapest,Debrecen,generate,given">Szélességi, Debrecen (290.)</button><button type="button" class="u-ghost" data-kl="city,ucs,Budapest,Kecskemét,expand,given">Egyenletes, Kecskemét (292.)</button><button type="button" class="u-ghost" data-kl="city,dfs,Budapest,Szolnok,expand,given">Mélységi, Szolnok (294.)</button><button type="button" class="u-ghost" data-kl="zh,dfs,S,G,expand,abc">Minta-zh, mélységi</button></div>
+<div class="u-form-row">
+<label>Gráf <select id="kl-graf"><option value="city">Városok (PDF 285.)</option><option value="zh">Minta-zh, 8. feladat</option><option value="abstract">Absztrakt gráf (PDF 281.)</option><option value="code21">Kurzuskód (21_…py)</option><option value="sajat">Saját gráf</option></select></label>
+<label>Start <select id="kl-start"></select></label>
+<label>Cél <select id="kl-cel"></select></label>
+<label>Eljárás <select id="kl-alg"><option value="bfs">Szélességi</option><option value="ucs">Egyenletes költségű</option><option value="dfs">Mélységi</option><option value="dls">Mélységkorlátos</option><option value="ids">Iteratív mélyítés</option></select></label>
+<label>Korlát (l) <input type="number" id="kl-korlat" min="0" max="12" value="2"></label>
+</div>
+<div class="u-form-row">
+<label>Célteszt <select id="kl-celteszt"><option value="expand">belelépéskor</option><option value="generate">feltáráskor</option></select></label>
+<label>Ismétlés <select id="kl-ismetles"><option value="path">az úton lévőt kihagyja (fakeresés)</option><option value="graph">bejártat és frontbelit is kihagyja (gráfkeresés)</option><option value="none">semmit nem hagy ki</option></select></label>
+<label>Gyerekek sorrendje <select id="kl-sorrend"><option value="given">ahogy a gráf megadja</option><option value="abc">ABC-sorrend</option></select></label>
+</div>
+<div id="kl-sajat-doboz" hidden>
+<label for="kl-sajat">Saját gráf: soronként „honnan hová költség”, például <code>A B 3</code> vagy <code>A -&gt; B 3</code></label>
+<textarea id="kl-sajat" spellcheck="false">S A 1
+S B 4
+A B 2
+A C 5
+B C 1
+C G 3</textarea>
+<div class="u-controls"><label><input type="checkbox" id="kl-iranyitatlan"> Minden él mindkét irányba (irányítatlan gráf)</label></div>
+<p class="u-out" id="kl-hiba" role="alert"></p>
+</div>
+<div class="u-controls"><button type="button" id="kl-ujra" class="u-ghost">Elejére</button><button type="button" id="kl-vissza" class="u-ghost">← Vissza</button><button type="button" id="kl-lep">Lépés →</button><button type="button" id="kl-vegig">Végig</button><button type="button" id="kl-lejatszas" class="u-ghost" aria-pressed="false">Lejátszás</button></div>
+<p class="u-out" id="kl-ki" role="status" aria-live="polite"></p>
+<div class="u-stats" id="kl-stat"></div>
+<div class="u-panel"><h4>Front (a következő választás elöl)</h4><ul class="u-chips" id="kl-front" aria-label="A front elemei"></ul><h4>Bejárt állapotok</h4><ul class="u-chips u-chips-vis" id="kl-bejart" aria-label="A bejárt állapotok"></ul></div>
+<div class="u-panel"><h4>Térkép</h4><ul class="u-legend-tree"><li class="l-vis">bejárt</li><li class="l-cur">éppen belépünk</li><li class="l-front">a frontban</li><li class="l-goal">a talált út</li></ul><div class="u-scroll" id="kl-terkep"></div></div>
+<div class="u-panel"><h4>Keresőfa</h4><ul class="u-legend-tree"><li class="l-vis">kiterjesztett</li><li class="l-cur">éppen belépünk</li><li class="l-front">front</li><li class="l-goal">cél</li></ul><div class="u-scroll" id="kl-fa"></div></div>
+</div>
+<p class="u-nojs-only">A labor JavaScriptet igényel. A fejezet minden példájának keresőfája és fronttáblázata JavaScript nélkül is olvasható a 9–13. részben és a 16. rész zárthelyi-gyakorlójában.</p></div>
+<p>Néhány kísérlet, amelyet érdemes kipróbálni. A városokon váltsd a szélességi keresés céltesztjét feltáráskorira és vissza: az út ugyanaz, de a belelépések száma 15 helyett 8. Az egyenletes költségű keresésnél a minta-zh gráfján a feltáráskori célteszt 23 költségű utat ad a 17 helyett. A 281. oldal gráfján a mélységi keresés „semmit nem hagy ki” beállítással (a gyerekek sorrendje: ahogy a gráf megadja) a d–g körben ragad. A gráfkeresés pedig a zh-gráfon a mélységi keresés útját is megváltoztatja; a 16. rész elmagyarázza, miért.</p>
+</section>
+
+<!-- 15 · ÖSSZEVETÉS -->
+<section id="osszevetes" class="chapter-section"><span class="section-index">15 / PDF 289–296. ÖSSZEVETVE</span>
+<h2>Öt eljárás egy táblázatban.</h2>
+<p>A táblázat a pontos, feltételekkel kimondott jellemzőket gyűjti össze. Fakeresést feltételez, ahogy a PDF. A lábjegyzetek a feltételek: ¹ ha b véges; ² ha minden lépés költsége legalább ε &gt; 0; ³ ha minden lépés költsége egyforma.</p>
+<div class="u-table-wrap"><table class="u-table" id="osszevetes-tabla">
+<caption>A neminformált keresések jellemzői. b: elágazási tényező, d: a legsekélyebb cél mélysége, m: a fa legnagyobb mélysége, l: mélységi korlát, C*: az optimális költség, ε: a legkisebb lépésköltség.</caption>
+<thead><tr><th>Eljárás</th><th>Teljes?</th><th>Optimális?</th><th>Időigény</th><th>Tárigény</th></tr></thead>
+<tbody>
+<tr><td>Szélességi</td><td>igen¹</td><td>igen³</td><td>O(b<sup>d</sup>)</td><td>O(b<sup>d</sup>)</td></tr>
+<tr><td>Egyenletes költségű</td><td>igen¹ ²</td><td>igen²</td><td>O(b<sup>1+⌊C*/ε⌋</sup>)</td><td>O(b<sup>1+⌊C*/ε⌋</sup>)</td></tr>
+<tr><td>Mélységi</td><td>véges térben, körszűréssel; egyébként nem</td><td>nem</td><td>O(b<sup>m</sup>)</td><td>O(b · m)</td></tr>
+<tr><td>Mélységkorlátos</td><td>ha l ≥ d</td><td>nem</td><td>O(b<sup>l</sup>)</td><td>O(b · l)</td></tr>
+<tr><td>Iteratív mélyítés</td><td>igen¹</td><td>igen³</td><td>O(b<sup>d</sup>)</td><td>O(b · d)</td></tr>
+</tbody></table></div>
+<p>A PDF eltérései ehhez képest: az egyenletes költségű keresés képlete b<sup>d</sup> helyett a C*/ε aránytól függ, a mélységi keresésé d helyett m-mel írandó. Ezeket a 10. és a 11. rész kiigazítása magyarázza. A szélességi keresés b<sup>d</sup> képlete korai céltesztre igaz, belelépéskori céltesztnél b<sup>d+1</sup>.</p>
+<!--@cost-table-->
+<p>A táblázat a szélességi keresés gyenge pontját mutatja: a memória előbb fogy el, mint a türelem. 10 szint mélyen 3 óra még kivárható, de 10 terabájt memória nincs egy átlagos gépben. Az iteratív mélyítés ugyanebben a helyzetben 100 kilobájttal beéri.</p>
+<div class="u-lab" id="koltseg-labor"><span class="u-lab-label">PRÓBÁLD KI / IDŐ ÉS MEMÓRIA</span><h3>Állítsd a fa méreteit, és hasonlítsd össze a növekedést.</h3>
+<p>A sávok logaritmikus skálán mutatják a feltárt csomópontok számát (idő) és az egyszerre tárolt csomópontok számát (tár). Az időbecslés másodpercenként egymillió csomóponttal számol.</p>
+<div class="u-js-only">
+<div class="u-sliders">
+<label for="ko-b"><span>Elágazási tényező, b = <output id="ko-b-ki">10</output></span><input type="range" id="ko-b" min="2" max="10" value="10"></label>
+<label for="ko-d"><span>A cél mélysége, d = <output id="ko-d-ki">5</output></span><input type="range" id="ko-d" min="1" max="12" value="5"></label>
+<label for="ko-m"><span>A fa mélysége, m = <output id="ko-m-ki">8</output></span><input type="range" id="ko-m" min="1" max="20" value="8"></label>
+<label for="ko-l"><span>Mélységi korlát, l = <output id="ko-l-ki">5</output></span><input type="range" id="ko-l" min="1" max="20" value="5"></label>
+<label for="ko-arany"><span>C*/ε arány = <output id="ko-arany-ki">5</output></span><input type="range" id="ko-arany" min="1" max="20" value="5"></label>
+</div>
+<p class="u-legend"><span>idő (feltárt csomópont)</span><span class="u-mem">tár (egyszerre tárolt csomópont)</span></p>
+<div class="u-out" id="ko-ki" role="status" aria-live="polite"></div>
+</div>
+<p class="u-nojs-only">A grafikonhoz JavaScript szükséges. A képleteket a fenti összevető táblázat, a szélességi keresés számait a b = 10 táblázat tartalmazza.</p></div>
+<p>Melyiket válaszd? A döntés a feladat három tulajdonságán múlik: egyformák-e a lépésköltségek, ismerjük-e a megoldás mélységét, és mennyi a memória.</p>
+<div class="u-table-wrap"><table class="u-table u-decide" id="valasztas">
+<caption>Döntési segédlet a neminformált keresések közötti választáshoz.</caption>
+<thead><tr><th>Ha a feladat…</th><th>…akkor válaszd</th><th>Miért?</th></tr></thead>
+<tbody>
+<tr><td>eltérő lépésköltségű, és a legolcsóbb út kell</td><td>egyenletes költségű keresés</td><td>Az egyetlen optimális a négy közül, ha a költségek eltérnek.</td></tr>
+<tr><td>egyforma költségű, a megoldás mélysége ismeretlen, a tér nagy</td><td>iteratív mélyítés</td><td>Teljes, lépésszámban optimális, és csak O(b · d) memóriát kér.</td></tr>
+<tr><td>egyforma költségű, sekély megoldású, és van elég memória</td><td>szélességi keresés</td><td>Egyszerű, és nem ismétel. A memóriája d kis értékénél még elfogadható.</td></tr>
+<tr><td>a megoldás mélysége előre korlátozott (benzinkút, lépésszám-limit)</td><td>mélységkorlátos keresés</td><td>A korlát a feladatból jön, a memória kicsi, és nem téved el végtelen ágon.</td></tr>
+<tr><td>sok megoldású, minden megoldás egyformán jó, és véges mélységű</td><td>mélységi keresés</td><td>Gyorsan talál egy megoldást, nagyon kevés memóriával; az optimalitás itt nem számít.</td></tr>
+</tbody></table></div>
+<details class="u-practice" id="gyak-koltseg"><summary>Gyakorlás · Algoritmusválasztás és nagyságrendek (5 feladat)</summary>
+<ol>
+<li><p>b = 3 és d = 4. Hány csomópontot tár fel a szélességi keresés korai céltesztnél legfeljebb, és hányat az iteratív mélyítés?</p><details class="u-sol"><summary>Megoldás</summary><p>Szélességi: 1 + 3 + 9 + 27 + 81 = 121. Iteratív mélyítés: 5 · 1 + 4 · 3 + 3 · 9 + 2 · 27 + 1 · 81 = 5 + 12 + 27 + 54 + 81 = 179. Ez kis b mellett nagyobb arányú többlet (48%), mint b = 10-nél (11%).</p></details></li>
+<li><p>Egy robot egy 1000 × 1000-es rácson keres utat; minden lépés 1 egység. Melyik eljárást választanád, ha a memória szűkös?</p><details class="u-sol"><summary>Megoldás</summary><p>Iteratív mélyítést: a lépések egyformák, így lépésszámban optimális utat ad, és csak O(b · d) memóriát kér. (A rácsban rengeteg ismétlődő állapot van; ha a memória engedi, gráfkereséssel a szélességi keresés gyorsabb lenne.)</p></details></li>
+<li><p>Egy szállítási feladatban az útszakaszok díja 1 és 100 euró között változik. Melyik eljárás ad biztosan legolcsóbb útvonalat?</p><details class="u-sol"><summary>Megoldás</summary><p>Az egyenletes költségű keresés, belelépéskori célteszttel. A szélességi és az iteratív mélyítés csak a lépések számát minimalizálja.</p></details></li>
+<li><p>Az egyenletes költségű keresésben C* = 30 és ε = 3, b = 2. Mekkora a felső korlát a feltárt csomópontok számára? És ha minden lépés 3, és a megoldás 10 lépés mélyen van?</p><details class="u-sol"><summary>Megoldás</summary><p>1 + ⌊30/3⌋ = 11, tehát O(2<sup>11</sup>), nagyjából 2048 csomópont. Ha minden lépés 3 költségű, a 30-as út éppen 10 lépés: d = 10, és a képlet b<sup>d+1</sup> = 2<sup>11</sup>, összhangban az előzővel.</p></details></li>
+<li><p>Igaz vagy hamis? „A mélységi keresés tárigénye mindig kisebb, mint a szélességié.”</p><details class="u-sol"><summary>Megoldás</summary><p>Fakeresésnél nagyságrendben igaz: O(b · m) a O(b<sup>d</sup>)-vel szemben, ha m nem óriási. Gráfkeresésnél viszont a bejárt halmaz miatt a mélységi is az egész feltárt teret tárolja, így az előnye elvész. A pontos válasz tehát: fakeresésnél igen, gráfkeresésnél nem feltétlenül.</p></details></li>
+</ol></details>
+</section>
+
+<!-- 16 · ZÁRTHELYI -->
+<section id="zh" class="chapter-section"><span class="section-index">16 / MINTA-ZH, 8. FELADAT</span>
+<h2>Zárthelyi-gyakorló: mélységi keresés egy súlyozott gráfon.</h2>
+<p>A 2025. december 5-i minta-zárthelyi legnagyobb feladata (25 pont) egy súlyozott, irányított gráfon kér mélységi keresést és A*-keresést. Az A*-os (b) részt a <a href="10-informalt-kereses.html#zh">10. fejezet zárthelyi-gyakorlója</a> dolgozza ki. Az (a) rész ennek a fejezetnek a lényegét kéri számon.</p>
+<figure class="u-quote"><blockquote><p>„A mélységben először keresés algoritmus által készített keresési fát rajzolja fel, és válaszoljon a kérdésekre. Konfliktus esetén az ABC szerinti sorrendet vegyünk a csomópontokat, ismételt csomópont esetén indexeljük őket. i. A keresési fa: ii. A talált útvonal: iii. Mi(k) maradt(ak) a frontban?”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 8. feladat (a), 7 pont</figcaption></figure>
+<details class="u-practice" id="gyak-zh"><summary>Gyakorlás · Zárthelyi-feladat: mélységi keresés S-ből G-be (3 részfeladat és 6 továbbgondolás)</summary>
+<p>A feladat szövege szerint S állapotból a G állapotba kell eljutni. (A feladatlap zárójeles megjegyzése, „A és H csomópontok közötti utat keressük”, elírás: a gráfban nincs H csomópont.) A gráf csomópontjaiban a zh-n egy-egy szám is áll; ezek a heurisztika értékei az A*-hoz, a mélységi kereséshez nem kellenek.</p>
+<figure class="u-plot u-graph" id="zh-graf"><!--@zh-map--><figcaption>A minta-zh gráfja. Élek: S→A 2, S→X 1, S→Y 23, X→Y 20, Y→B 4, A→B 1, A→D 2, B→C 15, D→C 4, D→K 5, C→E 2, C→G 15, E→F 4, E→G 10, F→V 4, K→V 3, V→G 6, V→W 3, W→G 2. A gráfban nincs kör.</figcaption></figure>
+<p class="u-simple"><strong>Konvenció</strong>A gyerekeket ABC-sorrendben tárjuk fel, és a front elejére tesszük őket, így mindig az ABC-ben első gyereknél folytatjuk. A célt belelépéskor ellenőrizzük, ahogy a PDF általános kereső eljárása (3. lépés) és a kurzus programjai. Fakeresést végzünk útellenőrzéssel; ebben a gráfban nincs kör, így az útellenőrzés semmit sem zár ki. Az ismétlődő csomópontok indexe a feltárás sorrendje: G₁ a korábban feltárt G. Ha a zh-n feltáráskori céltesztet választasz, írd le; az eredmény akkor más (lásd lent).</p>
+<ol type="i">
+<li><p>Rajzolja fel a keresési fát!</p><details class="u-sol"><summary>Megoldás</summary><p>S kiterjesztése: A, X, Y (ABC-sorrend). A-ba lépünk: B, D. B-be: C. C-be: E, G₁. E-be: F, G₂. F-be: V. V-be: G₃, W. A következő választás G₃, ez a cél.</p>
+<!--@zh-dfs-tree-->
+<!--@zh-dfs-table-->
+</details></li>
+<li><p>Adja meg a talált útvonalat!</p><details class="u-sol"><summary>Megoldás</summary><p><strong>S → A → B → C → E → F → V → G</strong>, költsége 2 + 1 + 15 + 2 + 4 + 4 + 6 = 34. A mélységi keresés a költséggel nem törődik: ez nem a legolcsóbb út.</p></details></li>
+<li><p>Mi(k) maradt(ak) a frontban?</p><details class="u-sol"><summary>Megoldás</summary><p>A front a cél kiválasztása után: <strong>W, G₂, G₁, D, X, Y</strong>. (W a V gyereke, G₂ az E-é, G₁ a C-é, D az A-é, X és Y az S-é.) A két G is a front része: feltártuk őket, de nem léptünk beléjük.</p></details></li>
+</ol>
+<p>A konvenció számít. Az alábbi két változat ugyanerre a feladatra más eredményt ad, ezért vizsgán mindig írd le, melyiket követed.</p>
+<div class="u-compare" id="zh-konvenciok">
+<div><span class="u-tag">FELTÁRÁSKORI CÉLTESZT</span><p>A C kiterjesztésekor G₁ előkerül, és a keresés rögtön megáll. Belelépések: S, A, B, C. Az út <strong>S → A → B → C → G</strong>, költsége 2 + 1 + 15 + 15 = 33. A front: <strong>E, D, X, Y</strong>. A fában nincs ismétlődő csomópont, így indexre sincs szükség.</p></div>
+<div><span class="u-tag">GRÁFKERESÉS (FRONTSZŰRÉSSEL)</span><p>Belelépéskori célteszt, de egy állapotot nem veszünk fel újra, ha már a frontban van. Amikor E-t és V-t, majd W-t kiterjesztjük, G már a frontban van (G₁), ezért nem kerül be újra. A belelépések: S, A, B, C, E, F, V, W, G. Az út ismét <strong>S → A → B → C → G</strong>, 33. A front: <strong>D, X, Y</strong>.</p></div>
+</div>
+<!--@zh-dfs-gen-tree-->
+<!--@zh-dfs-gen-table-->
+<p>Továbbgondolás ugyanezen a gráfon: a többi neminformált eljárás. Mindegyik ABC-sorrendet és belelépéskori céltesztet használ.</p>
+<ol start="4">
+<li><p>Mit talál a szélességi keresés, és hány belelépés kell hozzá?</p><details class="u-sol"><summary>Megoldás</summary><p>15 belelépés: S, A, X, Y, B, D, Y, B, C, C, K, B, C, E, G. Az út S → A → B → C → G, 4 lépés, költsége 33. Ennél kevesebb lépésből álló út nincs (az S → A → D → C → G is 4 lépés, de az ABC-sorrend miatt a B-s ág jön előbb). Feltáráskori célteszttel már 9 belelépés után, a C kiterjesztésekor megáll, ugyanezzel az úttal.</p></details></li>
+<li><p>Vezesd végig az egyenletes költségű keresést! Mi az út, mennyi a költsége, és mi marad a frontban?</p><details class="u-sol"><summary>Megoldás</summary><!--@zh-ucs-table--><p>Az út <strong>S → A → D → K → V → W → G</strong>, költsége 2 + 2 + 5 + 3 + 3 + 2 = 17. Ez a legolcsóbb út. A front a végén: C (18), G (18), V (18), G (20), Y (21), Y (23), G (23), mindegyik drágább 17-nél, ezért olcsóbb út nem lehet. Figyeld meg az ugrásokat: X (1) után A (2), B (3), D (4) jön, majd a keresés a C (8), K (9), E (10) között ugrál.</p></details></li>
+<li><p>Hány kör kell az iteratív mélyítésnek, és mit talál?</p><details class="u-sol"><summary>Megoldás</summary><!--@zh-ids--><p>Öt kör (korlát 0–4), összesen 1 + 4 + 8 + 13 + 6 = 32 belelépés. Az út S → A → B → C → G, 33: a legkevesebb lépésből álló út, ahogy a szélességi keresésnél.</p></details></li>
+<li><p>Feltáráskori célteszttel mit adna az egyenletes költségű keresés?</p><details class="u-sol"><summary>Megoldás</summary><p>Az S → A → D → C → G utat, 23 költséggel, mert a C (8) kiterjesztésekor előkerülő G-nél azonnal megállna. A 17-es út így elveszne. Ez mutatja, hogy az egyenletes költségű keresésnél a célt belelépéskor kell ellenőrizni.</p></details></li>
+<li><p>Melyik eljárás adja a legolcsóbb utat, és melyik a legkevesebb lépésből állót?</p><details class="u-sol"><summary>Megoldás</summary><p>A legolcsóbbat (17) csak az egyenletes költségű keresés. A legkevesebb lépésből állót (4 lépés) a szélességi keresés és az iteratív mélyítés. A mélységi keresés egyiket sem garantálja: 7 lépést és 34 költséget adott.</p></details></li>
+<li><p>Mélységkorlátos keresés l = 3 korláttal: talál-e utat?</p><details class="u-sol"><summary>Megoldás</summary><p>Nem. A legsekélyebb G a 4. szinten van (S, A, B, C, G), így l = 3 mellett a keresés a korlát miatt nem talál megoldást. Ez éppen az iteratív mélyítés 3. köre a fenti táblázatban.</p></details></li>
+</ol></details>
+</section>
+
+<!-- FOGALOMKÁRTYÁK -->
+<section id="fogalmak" class="chapter-section"><span class="section-index">FOGALOMKÁRTYÁK</span>
+<h2>Az új szavak egy helyen.</h2>
+<dl class="u-cards">
+<div><dt>Keresés</dt><dd>Ismeretfeldolgozási eljárás: a szóba jöhető lehetőségek közül egy kritériumrendszernek eleget tevő megoldás megtalálása.</dd></div>
+<div><dt>Kritériumfüggvény</dt><dd>Minden állapothoz értéket rendel; a megoldás egy adott érték, értékhalmaz vagy szélsőérték.</dd></div>
+<div><dt>Állapot, állapottér</dt><dd>Egy állapot a feladat egy helyzete; az állapottér az összes állapot a köztük vezető lépésekkel.</dd></div>
+<div><dt>Operátor</dt><dd>Egy lépés, amely egy állapotból egy másikba visz; az állapotgráf irányított éle.</dd></div>
+<div><dt>Start és Cél</dt><dd>A kiinduló állapot, illetve a kritériumnak megfelelő állapot vagy állapotok.</dd></div>
+<div><dt>Út, útvonal</dt><dd>Operátorsorozat, illetve az érintett csomópontok rendezett listája.</dd></div>
+<div><dt>Kvázioptimális megoldás</dt><dd>Adott tűrésen belül közelíti a kritériumot: kompromisszum a keresés ideje és a megoldás minősége között.</dd></div>
+<div><dt>Útköltség, g(n)</dt><dd>Az n-be vezető úton alkalmazott operátorok költségének összege.</dd></div>
+<div><dt>Teljes költség</dt><dd>Az út költsége és a keresés (idő- és tárigény) költsége együtt.</dd></div>
+<div><dt>Állapotgráf</dt><dd>A feladat leírása: minden állapot egyszer szerepel benne.</dd></div>
+<div><dt>Keresőfa</dt><dd>A keresés naplója: gyökere a Start, minden csomópontja egy út. Egy állapot többször is szerepelhet benne.</dd></div>
+<div><dt>Kiterjesztés</dt><dd>Egy állapot gyerekeinek feltárása, beléjük lépés nélkül.</dd></div>
+<div><dt>Belelépés</dt><dd>Egy frontcsomópont kiválasztása; ekkor teszteljük (belelépéskori célteszt esetén) a célt, és ekkor terjesztjük ki.</dd></div>
+<div><dt>Front</dt><dd>A feltárt, de még be nem lépett csomópontok. Más néven nyitott lista (open list, frontier).</dd></div>
+<div><dt>Bejárt halmaz</dt><dd>A már kiterjesztett állapotok (zárt lista); a gráfkeresés vezeti.</dd></div>
+<div><dt>Fakeresés és gráfkeresés</dt><dd>A fakeresés nem jegyzi meg a bejárt állapotokat, a gráfkeresés igen, és mindegyiket legfeljebb egyszer terjeszti ki.</dd></div>
+<div><dt>Elágazási tényező, b</dt><dd>Egy csomópont gyerekeinek száma; az átlagos érték a fára átlagolva.</dd></div>
+<div><dt>d, m, l</dt><dd>A legsekélyebb cél mélysége, a fa legnagyobb mélysége, illetve a mélységi korlát. A Start a 0. szint.</dd></div>
+<div><dt>C* és ε</dt><dd>Az optimális megoldás költsége és a legkisebb lépésköltség; az egyenletes költségű keresés képletében szerepelnek.</dd></div>
+<div><dt>Teljesség</dt><dd>Ha létezik megoldás, az eljárás meg is találja.</dd></div>
+<div><dt>Optimalitás</dt><dd>A talált út a legolcsóbb Start–Cél út.</dd></div>
+<div><dt>Neminformált (vak) keresés</dt><dd>Csak azt veszi észre, ha a célban van; a céltól való távolságról nincs információja.</dd></div>
+<div><dt>Szélességi keresés</dt><dd>Szintenként halad; a front sor (FIFO).</dd></div>
+<div><dt>Egyenletes költségű keresés</dt><dd>Mindig a legkisebb g(n) értékű frontcsomópontba lép. A PDF-ben: elágaztatás és ugrálás.</dd></div>
+<div><dt>Mélységi keresés</dt><dd>Lefelé halad, zsákutcában visszalép; a front verem (LIFO).</dd></div>
+<div><dt>Mélységkorlátos keresés</dt><dd>Mélységi keresés, amely az l mélységű csomópontokat nem terjeszti ki.</dd></div>
+<div><dt>Iteratív mélyítés</dt><dd>Mélységkorlátos keresés l = 0, 1, 2, … korláttal, amíg megoldást nem talál.</dd></div>
+<div><dt>Korai célteszt</dt><dd>A célt már feltáráskor ellenőrzi. Szélességinél spórol, egyenletes költségűnél elrontja az optimalitást.</dd></div>
+<div><dt>Féllépés</dt><dd>Kétszemélyes játékban az egyik játékos egy lépése.</dd></div>
+</dl>
+</section>
+
+<!-- KVÍZ -->
+<section id="kviz" class="chapter-section"><span class="section-index">KVÍZ · SZABADON VÁLASZTHATÓ</span>
+<h2>Ellenőrizd magad.</h2>
+<p>A kvíz kihagyható, az eredménye semmit sem zár le. Az eredményt csak a böngésződ tárolja. Minden kérdésnél kérhetsz tippet.</p>
+<details class="u-quiz-wrap" id="kviz-lenyilo"><summary>Kvíz megnyitása · 14 kérdés</summary>
+<form class="u-quiz" id="kviz-urlap">
+<fieldset data-helyes="b"><legend>1. Milyen adatszerkezetként működik a szélességi keresés frontja?</legend>
+<label><input type="radio" name="k1" value="a"> Veremként: az utoljára felvett elem jön elsőként</label>
+<label><input type="radio" name="k1" value="b"> Sorként: a legrégebben felvett elem jön elsőként</label>
+<label><input type="radio" name="k1" value="c"> Útköltség szerint rendezett listaként</label>
+<details class="u-hint"><summary>Tipp</summary><p>Hová kerülnek az új állapotok: a front elejére vagy a végére?</p></details>
+<p class="u-feedback" data-magyarazat="A szélességi keresés az új állapotokat a front végére teszi, ezért előbb a korábbi szint minden csomópontja kerül sorra. A verem a mélységi, a rendezett lista az egyenletes költségű keresés frontja."></p></fieldset>
+<fieldset data-helyes="c"><legend>2. Az útszakaszok költsége eltérő. Melyik eljárás adja garantáltan a legolcsóbb utat?</legend>
+<label><input type="radio" name="k2" value="a"> A szélességi keresés</label>
+<label><input type="radio" name="k2" value="b"> Az iteratív mélyítés</label>
+<label><input type="radio" name="k2" value="c"> Az egyenletes költségű keresés</label>
+<details class="u-hint"><summary>Tipp</summary><p>Melyik nézi a g(n) értéket?</p></details>
+<p class="u-feedback" data-magyarazat="Az egyenletes költségű keresés mindig a legkisebb útköltségű frontcsomópontba lép, így (pozitív költségek és belelépéskori célteszt mellett) optimális. A szélességi és az iteratív mélyítés csak a lépésszámot minimalizálja."></p></fieldset>
+<fieldset data-helyes="a"><legend>3. Mennyi a mélységi keresés időigénye fakeresésnél?</legend>
+<label><input type="radio" name="k3" value="a"> O(b<sup>m</sup>), m a fa legnagyobb mélysége</label>
+<label><input type="radio" name="k3" value="b"> O(b<sup>d</sup>), d a megoldás mélysége</label>
+<label><input type="radio" name="k3" value="c"> O(b · m)</label>
+<details class="u-hint"><summary>Tipp</summary><p>Megáll-e a mélységi keresés a megoldás szintjén, ha az első ág sokkal mélyebb?</p></details>
+<p class="u-feedback" data-magyarazat="A mélységi keresés előbb végigjárja a mély ágakat, ezért a legnagyobb m mélység számít: O(b^m). A PDF b^d értéke ezt alábecsüli. Az O(b · m) a tárigénye, nem az időigénye."></p></fieldset>
+<fieldset data-helyes="a"><legend>4. Mennyi az iteratív mélyítés tárigénye?</legend>
+<label><input type="radio" name="k4" value="a"> O(b · d)</label>
+<label><input type="radio" name="k4" value="b"> O(b<sup>d</sup>)</label>
+<label><input type="radio" name="k4" value="c"> O(b<sup>d+1</sup>)</label>
+<details class="u-hint"><summary>Tipp</summary><p>Minden kör egy mélységi keresés.</p></details>
+<p class="u-feedback" data-magyarazat="Minden kör mélységkorlátos mélységi keresés, amely csak az aktuális utat és leágazásait tárolja: O(b · d). A b^d a szélességi keresés tárigénye."></p></fieldset>
+<fieldset data-helyes="c"><legend>5. A városos példában melyik a szélességi keresés első négy belelépése?</legend>
+<label><input type="radio" name="k5" value="a"> Budapest, Dunaújváros, Pécs, Szeged</label>
+<label><input type="radio" name="k5" value="b"> Budapest, Hatvan, Dunaújváros, Kecskemét</label>
+<label><input type="radio" name="k5" value="c"> Budapest, Dunaújváros, Kecskemét, Hatvan</label>
+<details class="u-hint"><summary>Tipp</summary><p>Előbb az 1. szint mind a három városa jön, az ábra sorrendjében.</p></details>
+<p class="u-feedback" data-magyarazat="A szélességi keresés előbb Budapest mindhárom gyerekébe lép, a megadott sorrendben. Az a) a mélységi keresés sorrendje, a b) az egyenletes költségűé (60, 61, 75 km)."></p></fieldset>
+<fieldset data-helyes="a"><legend>6. A minta-zh mélységi keresésénél (ABC-sorrend, belelépéskori célteszt) mi marad a frontban?</legend>
+<label><input type="radio" name="k6" value="a"> W, G₂, G₁, D, X, Y</label>
+<label><input type="radio" name="k6" value="b"> E, D, X, Y</label>
+<label><input type="radio" name="k6" value="c"> D, X, Y</label>
+<details class="u-hint"><summary>Tipp</summary><p>A célt csak akkor teszteljük, amikor kivesszük a frontból.</p></details>
+<p class="u-feedback" data-magyarazat="A keresés G₃-ba lépve áll meg, a frontban W, G₂, G₁, D, X és Y marad. A b) a feltáráskori célteszt, a c) a frontszűrő gráfkeresés eredménye."></p></fieldset>
+<fieldset data-helyes="c"><legend>7. Mekkora az elágazási tényező az amőba csillag alakú reprezentációjában, a tábla közepén?</legend>
+<label><input type="radio" name="k7" value="a"> 80</label>
+<label><input type="radio" name="k7" value="b"> Kb. 400</label>
+<label><input type="radio" name="k7" value="c"> 32</label>
+<details class="u-hint"><summary>Tipp</summary><p>Négy irány, mindkét oldalon négy mező.</p></details>
+<p class="u-feedback" data-magyarazat="4 irány · 2 oldal · 4 mező = 32. A 80 a 9 × 9-es négyzet (81 − 1), a kb. 400 az összes üres mező."></p></fieldset>
+<fieldset data-helyes="b"><legend>8. Mi a keresési front?</legend>
+<label><input type="radio" name="k8" value="a"> A keresőfa összes levele</label>
+<label><input type="radio" name="k8" value="b"> A feltárt, de még be nem lépett csomópontok</label>
+<label><input type="radio" name="k8" value="c"> A már kiterjesztett állapotok halmaza</label>
+<details class="u-hint"><summary>Tipp</summary><p>Egy zsákutca levél, de már beléptünk.</p></details>
+<p class="u-feedback" data-magyarazat="A front a még be nem lépett levelek halmaza. A zsákutcák és a korlát miatt ki nem terjesztett csomópontok levelek, de nem a front részei. A c) a gráfkeresés bejárt halmaza."></p></fieldset>
+<fieldset data-helyes="a"><legend>9. Egyforma lépésköltségek, ismeretlen megoldásmélység, nagy állapottér, kevés memória. Mit választasz?</legend>
+<label><input type="radio" name="k9" value="a"> Iteratív mélyítést</label>
+<label><input type="radio" name="k9" value="b"> Szélességi keresést</label>
+<label><input type="radio" name="k9" value="c"> Mélységkorlátos keresést</label>
+<details class="u-hint"><summary>Tipp</summary><p>Teljes legyen, lépésszámban optimális, és kevés memóriájú.</p></details>
+<p class="u-feedback" data-magyarazat="Az iteratív mélyítés teljes, egyforma költségeknél optimális, és O(b · d) memóriát kér. A szélességi memóriája O(b^d), a mélységkorlátoshoz pedig ismerni kellene a mélységet."></p></fieldset>
+<fieldset data-helyes="c"><legend>10. Mi történhet az egyenletes költségű kereséssel, ha a gráfban egy nulla költségű kör van?</legend>
+<label><input type="radio" name="k10" value="a"> Semmi, továbbra is teljes</label>
+<label><input type="radio" name="k10" value="b"> Szélességi kereséssé válik</label>
+<label><input type="radio" name="k10" value="c"> Végtelen ciklusba kerülhet</label>
+<details class="u-hint"><summary>Tipp</summary><p>Mi a feltétele a teljességnek?</p></details>
+<p class="u-feedback" data-magyarazat="A teljességhez minden lépés költsége legalább ε > 0 kell. Nulla költségű körön az útköltség nem nő, így a front legolcsóbb eleme örökké a körön maradhat."></p></fieldset>
+<fieldset data-helyes="b"><legend>11. Lefedhető-e 31 dominóval a két átellenes sarkától megfosztott sakktábla?</legend>
+<label><input type="radio" name="k11" value="a"> Igen, ha jó sorrendben rakjuk le</label>
+<label><input type="radio" name="k11" value="b"> Nem, mert 30 világos és 32 sötét mező marad</label>
+<label><input type="radio" name="k11" value="c"> Csak teljes kereséssel dönthető el</label>
+<details class="u-hint"><summary>Tipp</summary><p>Milyen színű mezőket takar egy dominó?</p></details>
+<p class="u-feedback" data-magyarazat="Egy dominó mindig egy világos és egy sötét mezőt takar. A két hiányzó sarok azonos színű, így nem lehet egyforma a két szín száma. A színezett reprezentáció keresés nélkül eldönti a kérdést."></p></fieldset>
+<fieldset data-helyes="a"><legend>12. A legsekélyebb cél a 3. szinten van. Mit ad a mélységkorlátos keresés l = 2 korláttal?</legend>
+<label><input type="radio" name="k12" value="a"> Nem talál megoldást: a korlát miatt</label>
+<label><input type="radio" name="k12" value="b"> Megtalálja, de nem optimális úton</label>
+<label><input type="radio" name="k12" value="c"> Megtalálja az optimális utat</label>
+<details class="u-hint"><summary>Tipp</summary><p>Mikor teljes a mélységkorlátos keresés?</p></details>
+<p class="u-feedback" data-magyarazat="Csak akkor teljes, ha l ≥ d. Itt l = 2 < 3, így a cél a korlát alatt van, és a keresés „a korlát miatt nincs megoldás” választ ad."></p></fieldset>
+<fieldset data-helyes="c"><legend>13. A 21_Ugralas_es_elagazas.py gráfjában C → F 8, de F → C 10. Mi ennek a hatása a futásra?</legend>
+<label><input type="radio" name="k13" value="a"> Más utat talál, mint 8-as F → C mellett</label>
+<label><input type="radio" name="k13" value="b"> Végtelen ciklusba kerül</label>
+<label><input type="radio" name="k13" value="c"> Nincs hatása, az F → C élt sosem használja</label>
+<details class="u-hint"><summary>Tipp</summary><p>Honnan lehet F-be eljutni, és mit tilt az útellenőrzés?</p></details>
+<p class="u-feedback" data-magyarazat="F-be csak C-ből lehet jutni, így minden F-et tartalmazó úton C már szerepel; az útellenőrzés miatt az F → C élt nem használja. Az út, a 32-es költség és a 14 lépés is ugyanaz."></p></fieldset>
+<fieldset data-helyes="b"><legend>14. A PDF egyenletes költségű példájában (cél: Kecskemét) melyik állapotba lép a keresés Budapest után?</legend>
+<label><input type="radio" name="k14" value="a"> Dunaújvárosba (61 km)</label>
+<label><input type="radio" name="k14" value="b"> Hatvanba (60 km)</label>
+<label><input type="radio" name="k14" value="c"> Kecskemétbe (75 km)</label>
+<details class="u-hint"><summary>Tipp</summary><p>A rendezett front első eleme a legkisebb útköltségű.</p></details>
+<p class="u-feedback" data-magyarazat="A front rendezve: Hatvan 60, Dunaújváros 61, Kecskemét 75. Hatvan a legolcsóbb, ezért oda lép. Dunaújváros a második, Kecskemét a harmadik választás, és ez a cél."></p></fieldset>
+<div class="u-controls"><button type="submit">Válaszok ellenőrzése</button><button type="reset" class="u-ghost">Újrakezdés</button></div>
+<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2c, 3a, 4a, 5c, 6a, 7c, 8b, 9a, 10c, 11b, 12a, 13c, 14b.</p>
+</form>
+</details>
+</section>
+
+<!-- ÖSSZEGZÉS -->
+<section id="osszegzes" class="chapter-section"><span class="section-index">ÖSSZEFOGLALÓ</span>
+<h2>Amit most már tudsz.</h2>
+<p>A keresés ismeretfeldolgozási eljárás: a szóba jöhető lehetőségek közül kiválasztja a kritériumnak megfelelőt. Három lépése a probléma felismerése, a reprezentáció és a kereső eljárás alkalmazása. A reprezentáció döntő: az amőbánál a csillag alakú jelöltkészlet 400 helyett 32-es elágazással, hat féllépésnél négymilliószor kisebb fával dolgozik, a csonka sakktáblánál pedig a színezés keresés nélkül bizonyítja a lehetetlenséget. Egy eljárást négy jellemzővel írunk le: teljesség, optimalitás, időigény és tárigény, mindig feltétellel.</p>
+<p>Az állapottér állapotokból és operátorokból áll; van Start, Cél, út, és négyféle költség: operátorköltség, útköltség, keresési költség és teljes költség. Az állapotgráf a feladat, a keresőfa a keresés naplója. A keresés belelép egy frontcsomópontba, teszteli, majd kiterjeszti. A front a feltárt, de még be nem lépett csomópontok halmaza. A fakeresés nem jegyzi meg, hol járt; a gráfkeresés bejárt halmazt vezet. A célteszt helye (belelépéskor vagy feltáráskor) befolyásolhatja az eredményt.</p>
+<p>Az öt neminformált eljárás az általános kereső 4. lépésében különbözik. A szélességi keresés a front végére tesz, szintenként halad, egyforma költségeknél optimális, de O(b<sup>d</sup>) memóriát kér. Az egyenletes költségű keresés költség szerint rendez, pozitív költségeknél optimális, igénye O(b<sup>1+⌊C*/ε⌋</sup>). A mélységi keresés a front elejére tesz, kevés memóriával (O(b · m)), de nem optimális, és körszűrés nélkül nem is teljes. A mélységkorlátos keresés l ≥ d esetén teljes. Az iteratív mélyítés a szélességi teljességét és optimalitását a mélységi kis memóriájával egyesíti. A minta-zh gráfján a mélységi keresés 34, a szélességi 33, az egyenletes költségű 17 költségű utat talált.</p>
+<div class="u-links">
+<a href="08-genetikus-algoritmusok.html"><small>← Előző fejezet</small>08 · Genetikus algoritmusok. Ott egy populációnyi megoldással kerestünk; a rátermettség ott is kritériumfüggvény volt.</a>
+<a href="10-informalt-kereses.html"><small>Következő fejezet →</small>10 · Informált és lokális keresés. Mit ér egy jó h(n) becslés, hogyan talál vele az A* gyorsabban optimális utat, és mit tehetünk, ha csak a szomszédokat látjuk.</a>
+</div>
+</section>
+
+<!-- FORRÁSOK -->
+<section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
+<h2>Honnan tudjuk?</h2>
+<p>A fejezet a kurzus PDF-jének 276–298. oldalát dolgozza fel. Az idézetek szó szerint a PDF-ből, illetve a minta-zh feladatlapjáról származnak. A képként tárolt vagy ábrát tartalmazó oldalakat (279., 281., 283–286., 289–290., 292., 294., 297–298.) nagy felbontásban átnéztük, és a gráfokat, keresőfákat, a sakktáblát és a tologatós kirakót a jegyzet tesztelt modelljével (<code>assets/js/search.js</code>) rajzoltuk újra. A PDF bejárási sorrendjei (290., 292., 294., 297. oldal) és a 298. oldal keresőfája a modellből pontosan visszaadódnak; a modell tesztjei ezt ellenőrzik.</p>
+<p>A nyolc „Kiigazítás” doboz közül hat a PDF állításait javítja vagy pontosítja: a keresőfa neve és a front meghatározása (283–284. oldal), a célfeltétel és az optimalitás viszonya (285.), az egyenletes költségű keresés neve (288., 291.), feltételei és képlete (291.), a 292. oldal táblázata, valamint a mélységi keresés képletei és teljessége (293.). Egy doboz a várospéldák apró ellentmondásait oldja fel (285–294.), egy pedig a kurzus <code>21_Ugralas_es_elagazas.py</code> programjának aszimmetrikus élét vizsgálja.</p>
+<p>A minta-zh (2025. 12. 05.) 8(a) feladatának gráfját a feladatlap képéről vettük át, az élsúlyokat kétszer ellenőriztük. A feladat megoldását, a többi eljárás továbbgondolását és a 2017-es, más intézményből származó vizsgasor 3–4. feladatának mintájára készült számozási gyakorlatot a modell és egy független Python-program is kiszámolta; a két eredmény egyezik. Saját anyag, nem a PDF-ből: a három labor, a b = 10 táblázat, a dominófeladat megoldása, a fa- és gráfkeresés összevetése, a döntési segédlet, a gyakorló feladatok és a kvíz.</p>
+<p>A kurzus kódgyűjteményéből két fájl kapcsolódik a fejezethez: a <code>resources/code/20_Szelessegben_es_melysegben_eloszor.py</code> (a szélességi és a mélységi keresésnél) és a <code>resources/code/21_Ugralas_es_elagazas.py</code> (az egyenletes költségű keresésnél). Mindkettőt változatlanul, Python 3-mal futtattuk. A kimenetük: <code>['S', 'A', 'D', 'G']</code>, <code>['S', 'A', 'D', 'C', 'E', 'G']</code>, illetve <code>['S', 'A', 'D', 'C', 'E', 'G']</code>. A kódrészletekhez írt megjegyzések tőlünk származnak.</p>
+<ul class="u-sources">
+<li id="s-pdf">Mesterséges intelligencia alapjai, levelező tagozat, előadásdiák 276–298. oldal, Dr. Dudás László diái alapján (<code>resources/presentation/</code>).</li>
+<li id="s-mintazh">Minta-zárthelyi dolgozat, 2025. december 5., 8. feladat.</li>
+<li id="s-vizsga">Egy 2017-es, más intézményből származó vizsgasor, 3–4. feladat (mélységi keresés fája; a csomópontok számozása szélességi és iteratív mélyítéses bejárásban).</li>
+<li id="s-aima">S. Russell, P. Norvig: <em>Artificial Intelligence: A Modern Approach</em>, 4. kiadás, Pearson, 2020, 3. fejezet (3.1–3.4. szakasz: problémamegoldás kereséssel, neminformált keresések).</li>
+<li id="s-korf">R. E. Korf: Depth-first iterative-deepening: An optimal admissible tree search, <em>Artificial Intelligence</em> 27(1), 1985, 97–109.</li>
+<li id="s-dijkstra">E. W. Dijkstra: A note on two problems in connexion with graphs, <em>Numerische Mathematik</em> 1, 1959, 269–271.</li>
+<li id="s-landdoig">A. H. Land, A. G. Doig: An automatic method of solving discrete programming problems, <em>Econometrica</em> 28(3), 1960, 497–520.</li>
+<li id="s-mccarthy">J. McCarthy: A Tough Nut for Proof Procedures, Stanford Artificial Intelligence Project, Memo 16, 1964.</li>
+<li id="s-winston">P. H. Winston: <em>Artificial Intelligence</em>, 3. kiadás, Addison-Wesley, 1992, 2. és 4. fejezet.</li>
+</ul>
+</section>
+</main>
+</div>
+<footer>MI-alapok / 09 · Neminformált keresés <a href="../index.html">Kezdőlap</a></footer>
+<a class="to-top" href="#top" aria-label="Vissza az oldal tetejére" title="Vissza az oldal tetejére"><span aria-hidden="true">↑</span></a>
+</body>
+</html>

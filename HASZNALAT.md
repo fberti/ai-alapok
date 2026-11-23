@@ -24,6 +24,10 @@ A nyolcadik fejezet: `fejezetek/08-genetikus-algoritmusok.html`.
 
 A kilencedik fejezet: `fejezetek/09-neminformalt-kereses.html`.
 
+A tizedik fejezet: `fejezetek/10-informalt-kereses.html`.
+
+A fogalomtár és kereső: `fogalomtar.html`. A kezdőlap keresőmezője is ide visz (`fogalomtar.html?q=…`).
+
 A kvízválaszokat minden fejezet külön tárolja.
 
 A tananyag, a bemutatók és a kvíz nem igényelnek internetet.
@@ -44,6 +48,24 @@ python3 -m http.server 48174 --bind 127.0.0.1
 
 Ezután nyisd meg: `http://127.0.0.1:48174`.
 
+## Generált oldalak
+
+A 9. és a 10. fejezet statikus ábráit (gráfok, keresőfák, fronttáblázatok, a felszín és a hűtés ábrái) és a fogalomtárat script állítja elő. A forrásuk:
+
+- `eszkozok/09-sablon.html` és `eszkozok/09-abrak.cjs` → `fejezetek/09-neminformalt-kereses.html`;
+- `eszkozok/10-sablon.html` és `eszkozok/10-abrak.cjs` → `fejezetek/10-informalt-kereses.html`;
+- `eszkozok/fogalomtar.cjs` → `fogalomtar.html` (a fejezetek fogalomkártyáiból és tartalomjegyzékéből).
+
+A két fejezet szövegét a sablonban kell szerkeszteni, nem a kész HTML-ben. A sablon `<!--@név-->` jelölői helyére a script a tesztelt `assets/js/search.js` modellből rajzolt SVG-ket és táblázatokat illeszti. Szerkesztés után a projekt gyökeréből:
+
+```bash
+node eszkozok/09-abrak.cjs
+node eszkozok/10-abrak.cjs
+node eszkozok/fogalomtar.cjs
+```
+
+A fogalomtárat minden fejezetmódosítás után újra kell generálni. Az `npm test` ellenőrzi, hogy a három kimenet megegyezik a script friss eredményével.
+
 ## Fejlesztői ellenőrzés
 
 Node.js 24 és Python 3 szükséges.
@@ -56,7 +78,7 @@ npm test
 npm run test:browser
 ```
 
-A böngészőtesztek a 48173-as portot használják.
+A böngészőtesztek a 48173-as portot használják. A `tesztek/bongeszo/kurzus.spec.cjs` a teljes kurzust ellenőrzi: minden oldal közvetlen megnyitását és újratöltését, a JavaScript-hibákat és az összes belső hivatkozást, horgonyokkal együtt.
 
 A tesztkiszolgáló a projektet `/ai-alapok/` alkönyvtárból szolgálja ki.
 
@@ -80,9 +102,11 @@ A következő lépésekhez saját GitHub-tár szükséges.
 4. Válaszd a feltöltött ágat és a `/(root)` mappát.
 5. Mentsd a beállítást.
 6. A GitHub által megadott címen nyisd meg a kezdőlapot.
-7. Nyisd meg közvetlenül az első fejezet címét is.
+7. Nyisd meg közvetlenül egy fejezet címét is (például `…/fejezetek/10-informalt-kereses.html`), és töltsd újra az oldalt.
 
-A szükséges kiadási fájlok: `index.html`, `eloadasfelvetelek.html`, `fejezetek/`, `assets/` és `resources/`.
+A közzétett cím `https://<felhasznalo>.github.io/<repo>/` alakú. Minden hivatkozás relatív, ezért az alkönyvtárban is működik; a helyi böngészőtesztek pontosan ezt az `/ai-alapok/` alkönyvtárat utánozzák.
+
+A szükséges kiadási fájlok: `index.html`, `eloadasfelvetelek.html`, `fogalomtar.html`, `fejezetek/`, `assets/` és `resources/`. Az `eszkozok/`, `tesztek/` és a Markdown-fájlok fejlesztői anyagok; közzétételük nem árt, de nem szükséges.
 
 A `resources/` mappa a helyben hivatkozott oktatói PDF-et és kódokat is tartalmazza.
 
@@ -92,8 +116,6 @@ A `node_modules/` könyvtár nem kell a közzétett oldalhoz.
 
 ## Jelenlegi hatókör
 
-Az 1–9. fejezet készült el.
+Mind a tíz fejezet elkészült, a fogalomtárral és keresővel együtt.
 
-A 10. fejezet címe szerepel a tanulási úton, de nem kattintható.
-
-A következő fejezethez: `/implement #10`.
+A kurzus közzétételre kész. A tényleges közzététel külön döntés: a fenti lépéseket a tár tulajdonosa végzi el.

@@ -33,7 +33,7 @@ A vizuális elem nem lehet puszta dísz, és nem helyettesítheti a teljes magya
 | 7 | 222–255 | P, NP és nevezetes számítási problémák | kész |
 | 8 | 256–275 | Evolúciós és genetikus algoritmusok | kész |
 | 9 | 276–298 | Keresési alapok és neminformált keresés | kész |
-| 10 | 299–307 | Informált és lokális keresés | tervezve |
+| 10 | 299–307 | Informált és lokális keresés | kész |
 
 A tartományok folytonosak.
 
@@ -227,20 +227,22 @@ A 2025-ös minta-zh 8(a) feladata (mélységi keresés ABC-sorrenddel, indexelt 
 
 ### 10. mérföldkő
 
-- [ ] Heurisztika és `h(n)`.
-- [ ] Globális és helyi információ.
-- [ ] Legjobb-első keresés és várospélda.
-- [ ] A, A* és `g(n)+h(n)`.
-- [ ] Elfogadható heurisztika.
-- [ ] A* várospélda.
-- [ ] Hegymászó keresés.
-- [ ] Lokális optimum.
-- [ ] Szimulált hűtés hasonlata.
-- [ ] Rosszabb lépés elfogadása.
-- [ ] Hőmérséklet és hűtési ütem.
-- [ ] A teljes PDF-beli pszeudokód.
+- [x] Heurisztika és `h(n)`.
+- [x] Globális és helyi információ.
+- [x] Legjobb-első keresés és várospélda.
+- [x] A, A* és `g(n)+h(n)`.
+- [x] Elfogadható heurisztika.
+- [x] A* várospélda.
+- [x] Hegymászó keresés.
+- [x] Lokális optimum.
+- [x] Szimulált hűtés hasonlata.
+- [x] Rosszabb lépés elfogadása.
+- [x] Hőmérséklet és hűtési ütem.
+- [x] A teljes PDF-beli pszeudokód.
 
-A 2025-ös minta-zh 8. feladata (A* keresési fa, talált út, a front tartalma) ehhez a mérföldkőhöz is szempont.
+Ellenőrzési nyom: [ELLENORZES-10.md](ELLENORZES-10.md).
+
+A 2025-ös minta-zh 8(b) feladata (A* keresési fa g+h=f értékekkel, ABC-döntetlen, talált út, a front tartalma) kidolgozott gyakorlóként szerepel, a gráfkeresés és a feltáráskori célteszt változatával, a mohó keresés összevetésével és egy javított becsléssel. A zh becslése W-nél túloz (h(W) = 4 > 2), ezért az eredmény 18, nem az optimális 17; ezt kiigazítás jelzi. A 302. és 304. oldal térképe, becslései és keresőfái saját SVG-változatban szerepelnek, a bejárási sorrendeket és az f-értékeket a `assets/js/search.js` tesztjei ellenőrzik. A 8 kiigazítás kezeli a mohó keresés teljességét, az A* optimalitásának feltételeit (fa: elfogadható, zárt lista: konzisztens), az A* és a „lokális optimum” viszonyát, a várostáblázatok hibáit, a hegymászó hiányzó megállását, a szimulált hűtés globális optimumra vonatkozó állítását (logaritmikus hűtés), a `18_A_csillag_algoritmus.py` túlbecslő h(D) értékét és a minta-zh h(W) értékét.
 
 ## Nem szöveges tartalom
 

@@ -3,8 +3,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const pages = ['index.html', 'eloadasfelvetelek.html', 'fejezetek/01-mi-es-intelligencia.html', 'fejezetek/02-tudasbazisok.html', 'fejezetek/03-tudasreprezentacio.html', 'fejezetek/04-formalis-logika.html', 'fejezetek/05-prolog-es-fuzzy.html', 'fejezetek/06-neuralis-halozatok.html', 'fejezetek/07-szamitasi-problemak.html', 'fejezetek/08-genetikus-algoritmusok.html', 'fejezetek/09-neminformalt-kereses.html'];
-test('A kezdőlap elérhetővé teszi az első magyar fejezetet', () => {
+const pages = ['index.html', 'eloadasfelvetelek.html', 'fejezetek/01-mi-es-intelligencia.html', 'fejezetek/02-tudasbazisok.html', 'fejezetek/03-tudasreprezentacio.html', 'fejezetek/04-formalis-logika.html', 'fejezetek/05-prolog-es-fuzzy.html', 'fejezetek/06-neuralis-halozatok.html', 'fejezetek/07-szamitasi-problemak.html', 'fejezetek/08-genetikus-algoritmusok.html', 'fejezetek/09-neminformalt-kereses.html', 'fejezetek/10-informalt-kereses.html', 'fogalomtar.html'];
+test('A kezdőlap elérhetővé teszi mind a tíz fejezetet', () => {
   const home = fs.readFileSync(path.join(root, pages[0]), 'utf8');
   assert.match(home, /href="fejezetek\/01-mi-es-intelligencia.html"/);
   assert.match(home, /href="fejezetek\/02-tudasbazisok.html"/);
@@ -15,7 +15,9 @@ test('A kezdőlap elérhetővé teszi az első magyar fejezetet', () => {
   assert.match(home, /href="fejezetek\/07-szamitasi-problemak.html"/);
   assert.match(home, /href="fejezetek\/08-genetikus-algoritmusok.html"/);
   assert.match(home, /href="fejezetek\/09-neminformalt-kereses.html"/);
-  assert.doesNotMatch(home, /href="fejezetek\/10-/);
+  assert.match(home, /href="fejezetek\/10-informalt-kereses.html"/);
+  assert.doesNotMatch(home, /Tervezett fejezet/);
+  assert.match(home, /href="fogalomtar.html"/);
   assert.doesNotMatch(home, /-uj\.html/);
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
@@ -65,4 +67,28 @@ test('A helyi linkek és erőforrások alkönyvtárból is elérhetők', () => {
       if (anchor) assert.ok(fs.readFileSync(resolved, 'utf8').includes(`id="${anchor}"`), `Hiányzó horgony: ${url}`);
     }
   }
+});
+
+test('A generált fejezetek és a fogalomtár naprakészek a sablonokhoz és a modellhez képest', () => {
+  const {execFileSync} = require('node:child_process');
+  const os = require('node:os');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mi-alapok-'));
+  for (const [script, tpl, out] of [['09-abrak.cjs', '09-sablon.html', 'fejezetek/09-neminformalt-kereses.html'], ['10-abrak.cjs', '10-sablon.html', 'fejezetek/10-informalt-kereses.html']]) {
+    const target = path.join(tmp, path.basename(out));
+    execFileSync(process.execPath, [path.join(root, 'eszkozok', script), path.join(root, 'eszkozok', tpl), target], {stdio: 'pipe'});
+    assert.equal(fs.readFileSync(target, 'utf8'), fs.readFileSync(path.join(root, out), 'utf8'), `${out} elavult: futtasd a node eszkozok/${script} parancsot`);
+  }
+  const {build} = require('../eszkozok/fogalomtar.cjs');
+  assert.equal(build(), fs.readFileSync(path.join(root, 'fogalomtar.html'), 'utf8'), 'fogalomtar.html elavult: futtasd a node eszkozok/fogalomtar.cjs parancsot');
+});
+test('A kilencedik fejezet a tizedikre, a tizedik a kezdőlapra és a fogalomtárra vezet', () => {
+  const nine = fs.readFileSync(path.join(root, 'fejezetek/09-neminformalt-kereses.html'), 'utf8');
+  const ten = fs.readFileSync(path.join(root, 'fejezetek/10-informalt-kereses.html'), 'utf8');
+  assert.match(nine, /<a href="10-informalt-kereses.html"><small>Következő fejezet/);
+  assert.match(ten, /<a href="09-neminformalt-kereses.html"><small>← Előző fejezet/);
+  assert.match(ten, /<a href="\.\.\/index.html"><small>Vissza/);
+  assert.match(ten, /<a href="\.\.\/fogalomtar.html">/);
+  const glossary = fs.readFileSync(path.join(root, 'fogalomtar.html'), 'utf8');
+  for (let i = 1; i <= 10; i++) assert.match(glossary, new RegExp(`id="f-${String(i).padStart(2, '0')}"`));
+  assert.match(glossary, /Elfogadható heurisztika/);
 });

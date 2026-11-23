@@ -1,0 +1,19 @@
+/* Fogalomtár és kereső */
+.g-main{max-width:980px;margin:0 auto;padding:2rem 5% 4rem}
+.g-main h1{font-family:Georgia,serif;font-size:clamp(2rem,6vw,3.2rem);margin:.2rem 0 .6rem;line-height:1.1}
+.g-main h2{font-family:Georgia,serif;margin:2.2rem 0 .8rem;border-bottom:1px solid var(--line);padding-bottom:.3rem}
+.g-main h2 small{font-family:"Trebuchet MS",Verdana,sans-serif;font-size:13px;color:var(--muted);font-weight:normal}
+.g-search{position:sticky;top:0;z-index:5;background:var(--paper);padding:.8rem 0;border-bottom:1px solid var(--line)}
+.g-search label{display:block;font-weight:bold}
+.g-search input{width:100%;font:inherit;font-size:18px;padding:.6rem .8rem;border:2px solid var(--green);border-radius:6px;background:var(--white);color:var(--ink)}
+.g-search p{margin:.3rem 0 0;font-size:14px;color:var(--muted);min-height:1.2em}
+html:not(.js) .js-only{display:none}
+.g-chapter-list{padding-left:0;list-style:none;display:grid;gap:.6rem}
+.g-chapter-list>li{border:1px solid var(--line);border-radius:8px;padding:.6rem .9rem;background:var(--white)}
+.g-sections{display:flex;flex-wrap:wrap;gap:.2rem .9rem;margin:.3rem 0 0;padding:0;list-style:none;font-size:14px}
+.g-terms{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:.6rem}
+.g-terms>li{border:1px solid var(--line);border-radius:8px;padding:.6rem .9rem;background:var(--white);overflow-wrap:anywhere}
+.g-terms a{font-weight:bold}
+.g-terms p{margin:.3rem 0 0;font-size:15px}
+.g-tag{font-size:12px;color:var(--muted)}
+@media print{.g-search{display:none}.g-terms>li,.g-chapter-list>li{break-inside:avoid}}

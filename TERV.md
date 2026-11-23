@@ -693,6 +693,8 @@ Legyen benne algoritmusválasztás és bejárási sorrend.
 
 # 10. mérföldkő – Informált és lokális keresés
 
+**Állapot:** kész. Ellenőrzés: `ELLENORZES-10.md`.
+
 **Forrás:** PDF 299–307. oldal.
 
 **Oldal:** `fejezetek/10-informalt-kereses.html`
@@ -751,6 +753,8 @@ Legyen benne heurisztika-ellenőrzés és keresési sorrend.
 ---
 
 # A teljes kurzus lezárása
+
+**Állapot:** kész. A végső ellenőrzés eredménye: `ELLENORZES-10.md`. A fogalomtár és kereső: `fogalomtar.html`.
 
 A 10. mérföldkő készítse el a teljes kurzus végső ellenőrzését is.
 

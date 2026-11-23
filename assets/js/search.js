@@ -1,4 +1,4 @@
-// 09 · Neminformált keresés: a fejezet tesztelt keresőmodellje.
+// 09–10 · Neminformált, informált és lokális keresés: a két fejezet tesztelt keresőmodellje.
 // Klasszikus szkript: a böngészőben CourseSearch néven, Node alatt modulként érhető el.
 const CourseSearch = (() => {
   /**
@@ -7,7 +7,7 @@ const CourseSearch = (() => {
    */
   /**
    * Egy ábrázolható gráf: szomszédsági lista, csomópont-koordináták és címkék.
-   * @typedef {{name:string, adj:Adjacency, pos:Record<string,[number,number]>, start:string, goal:string, weighted:boolean, w:number, h:number}} GraphDef
+   * @typedef {{name:string, adj:Adjacency, pos:Record<string,[number,number]>, start:string, goal:string, weighted:boolean, w:number, h:number, heur?:Record<string,number>}} GraphDef
    */
   /**
    * A keresőfa egy csomópontja.
@@ -19,11 +19,12 @@ const CourseSearch = (() => {
    */
   /**
    * Egy keresés teljes nyoma.
-   * @typedef {{nodes:TreeNode[], steps:Step[], initialFront:number[], found:boolean, goalNode:number|null, path:string[], cost:number, reason:'found'|'exhausted'|'cutoff'|'limit', visits:number, generated:number, maxFront:number, front:number[], strategy:string, limit:number|null}} Trace
+   * @typedef {{nodes:TreeNode[], steps:Step[], initialFront:number[], found:boolean, goalNode:number|null, path:string[], cost:number, reason:'found'|'exhausted'|'cutoff'|'limit', visits:number, generated:number, maxFront:number, front:number[], strategy:string, limit:number|null, heur:Record<string,number>|null}} Trace
    */
   /**
-   * A keresés beállításai.
-   * @typedef {{strategy?:'bfs'|'ucs'|'dfs'|'dls', goalTest?:'expand'|'generate', repeats?:'path'|'graph'|'none', order?:'given'|'abc', limit?:number|null, maxVisits?:number}} SearchOptions
+   * A keresés beállításai. A greedy (mohó legjobb-első) és az astar (A, illetve A*) a heur becslést használja;
+   * a tie a rendezett frontban az egyenlő kulcsú csomópontok sorrendje: fifo = a korábban felvett elöl, abc = ábécérend.
+   * @typedef {{strategy?:'bfs'|'ucs'|'dfs'|'dls'|'greedy'|'astar', goalTest?:'expand'|'generate', repeats?:'path'|'graph'|'none', order?:'given'|'abc', limit?:number|null, maxVisits?:number, heur?:Record<string,number>, tie?:'fifo'|'abc'}} SearchOptions
    */
 
   /* ---------- A fejezet gráfjai ---------- */
@@ -61,7 +62,9 @@ const CourseSearch = (() => {
       D: [['C', 4], ['K', 5]], C: [['E', 2], ['G', 15]], E: [['F', 4], ['G', 10]], F: [['V', 4]], K: [['V', 3]],
       V: [['G', 6], ['W', 3]], W: [['G', 2]]
     }),
-    pos: { Y: [30, 30], B: [300, 30], C: [570, 30], X: [138, 70], A: [205, 125], D: [300, 125], E: [435, 125], S: [84, 179], F: [435, 233], G: [570, 233], K: [300, 341], V: [435, 341], W: [570, 341] }
+    pos: { Y: [30, 30], B: [300, 30], C: [570, 30], X: [138, 70], A: [205, 125], D: [300, 125], E: [435, 125], S: [84, 179], F: [435, 233], G: [570, 233], K: [300, 341], V: [435, 341], W: [570, 341] },
+    // A feladatlap csomópontjaiban álló alsó számok: a 8(b) rész heurisztikája.
+    heur: { S: 0, Y: 15, X: 16, A: 8, B: 8, D: 7, C: 11, E: 8, F: 5, G: 0, K: 5, V: 4, W: 4 }
   };
 
   /** A PDF 281. és 283. oldalának absztrakt állapotgráfja: egységnyi élköltség, két körrel. */
@@ -86,6 +89,24 @@ const CourseSearch = (() => {
     pos: { S: [30, 150], A: [150, 50], B: [150, 250], D: [290, 50], C: [290, 250], E: [400, 160], F: [420, 280], G: [530, 120] }
   };
 
+  /** A PDF 302. és 304. oldalának térképe (legjobb-első és A*): Miskolcról Szolnokra, a 304. oldal élhosszaival és becsléseivel. */
+  /** @type {GraphDef} */
+  const CITY_INF = {
+    name: 'Városok, informált (PDF 302–304.)', weighted: true, start: 'Miskolc', goal: 'Szolnok', w: 470, h: 330,
+    adj: withSinks({
+      Miskolc: [['Hatvan', 130], ['Polgár', 70]], Hatvan: [['Kecskemét', 71]], Polgár: [['Debrecen', 60]], Debrecen: [['Szolnok', 110]],
+      Kecskemét: [['Szolnok', 55], ['Szeged', 75]], Szeged: [['Szolnok', 65]]
+    }),
+    pos: { Miskolc: [235, 14], Hatvan: [70, 80], Polgár: [300, 105], Debrecen: [440, 150], Kecskemét: [40, 215], Szolnok: [265, 215], Szeged: [250, 322] },
+    heur: { Miskolc: 130, Hatvan: 98, Polgár: 70, Debrecen: 100, Kecskemét: 55, Szolnok: 0, Szeged: 65 }
+  };
+  /** A 302. oldal két eltérő becslése (a 304. oldalon Polgár 70, Debrecen 100). */
+  const CITY_HEUR_302 = { ...CITY_INF.heur, Polgár: 90, Debrecen: 110 };
+
+  /** A resources/code/18_A_csillag_algoritmus.py gráfja és HEURISTICS szótára, változatlanul. */
+  /** @type {GraphDef} */
+  const CODE18 = { ...CODE21, name: 'Kurzuskód (18_A_csillag_algoritmus.py)', heur: { S: 30, A: 25, B: 20, C: 17, D: 25, E: 6, F: 5, G: 0 } };
+
   /** A PDF 297. oldalának teljes bináris fája: 3 mélységű, a cél a jobb–bal–jobb levél. */
   const BINARY = (() => {
     /** @type {Adjacency} */
@@ -97,6 +118,9 @@ const CourseSearch = (() => {
 
   /** @type {Record<string, GraphDef>} */
   const GRAPHS = { city: CITY, zh: ZH, abstract: ABSTRACT, code21: CODE21 };
+  /** Az informált keresések gráfjai (10. fejezet). */
+  /** @type {Record<string, GraphDef>} */
+  const INFORMED = { city: CITY_INF, zh: ZH, code18: CODE18 };
 
   /* ---------- Segédek ---------- */
   /** @param {Adjacency} adj @param {string} state @param {'given'|'abc'} order @returns {Array<[string, number]>} */
@@ -121,9 +145,10 @@ const CourseSearch = (() => {
     return out;
   }
 
-  /* ---------- Az általános kereső eljárás (PDF 287.) ---------- */
+  /* ---------- Az általános kereső eljárás (PDF 287., 301., 303.) ---------- */
   /**
-   * Egyetlen keresés: szélességi, egyenletes költségű, mélységi vagy mélységkorlátos.
+   * Egyetlen keresés: szélességi, egyenletes költségű, mélységi, mélységkorlátos, mohó legjobb-első vagy A (A*).
+   * A rendezett frontú eljárások kulcsa: ucs → g(n), greedy → h(n), astar → f(n) = g(n) + h(n).
    * A front a csomópontok azonosítóinak listája; az első elem a következő választás.
    * @param {Adjacency} adj @param {string} start @param {string} goal @param {SearchOptions} [opts]
    * @returns {Trace}
@@ -135,6 +160,13 @@ const CourseSearch = (() => {
     const order = opts.order || 'given';
     const limit = strategy === 'dls' ? (opts.limit ?? 0) : null;
     const maxVisits = opts.maxVisits || 400;
+    const heur = opts.heur || null;
+    const tie = opts.tie || 'fifo';
+    /** @param {string} s */
+    const hv = (s) => (heur && Number.isFinite(heur[s]) ? heur[s] : 0);
+    const sorted = strategy === 'ucs' || strategy === 'greedy' || strategy === 'astar';
+    /** @param {number} id */
+    const key = (id) => strategy === 'greedy' ? hv(nodes[id].state) : strategy === 'astar' ? nodes[id].cost + hv(nodes[id].state) : nodes[id].cost;
     /** @type {TreeNode[]} */
     const nodes = [{ id: 0, state: start, parent: null, depth: 0, cost: 0, gen: 1, visit: null, status: 'front' }];
     /** @type {number[]} */
@@ -150,9 +182,10 @@ const CourseSearch = (() => {
     let reason = 'exhausted';
     const initialFront = [0];
     const sortFront = () => {
-      if (strategy !== 'ucs') return;
-      // Stabil rendezés: egyenlő költségnél a korábban felvett csomópont marad elöl.
-      front = front.map((id, i) => [id, i]).sort((a, b) => nodes[a[0]].cost - nodes[b[0]].cost || a[1] - b[1]).map((p) => p[0]);
+      if (!sorted) return;
+      // Stabil rendezés: egyenlő kulcsnál a korábban felvett csomópont marad elöl (abc: előbb az ábécérend dönt).
+      front = front.map((id, i) => [id, i]).sort((a, b) => key(a[0]) - key(b[0])
+        || (tie === 'abc' ? nodes[a[0]].state.localeCompare(nodes[b[0]].state, 'hu') : 0) || a[1] - b[1]).map((p) => p[0]);
     };
     if (goalTest === 'generate' && start === goal) {
       nodes[0].status = 'goal';
@@ -193,7 +226,7 @@ const CourseSearch = (() => {
           if (explored.has(t)) { step.skipped.push(t); continue; }
           const inFront = front.concat(kids).find((f) => nodes[f].state === t);
           if (inFront !== undefined) {
-            if (strategy === 'ucs' && nodes[inFront].cost > n.cost + c) {
+            if ((strategy === 'ucs' || strategy === 'astar') && nodes[inFront].cost > n.cost + c) {
               nodes[inFront].status = 'dropped';
               front = front.filter((f) => f !== inFront);
               const k = kids.indexOf(inFront);
@@ -233,7 +266,7 @@ const CourseSearch = (() => {
         nodes, steps, initialFront, found, goalNode, reason: why,
         path: gid === null ? [] : pathOf(nodes, gid),
         cost: gid === null ? NaN : nodes[gid].cost,
-        visits, generated: nodes.length, maxFront, front: [...front], strategy, limit
+        visits, generated: nodes.length, maxFront, front: [...front], strategy, limit, heur
       };
     }
   }
@@ -261,7 +294,7 @@ const CourseSearch = (() => {
     };
   }
 
-  /** Futtatás név szerint, az IDS-t is beleértve, egyforma alakú eredménnyel. @param {Adjacency} adj @param {string} start @param {string} goal @param {Omit<SearchOptions, 'strategy'> & {strategy?: 'bfs'|'ucs'|'dfs'|'dls'|'ids', maxDepth?:number}} opts */
+  /** Futtatás név szerint, az IDS-t is beleértve, egyforma alakú eredménnyel. @param {Adjacency} adj @param {string} start @param {string} goal @param {Omit<SearchOptions, 'strategy'> & {strategy?: 'bfs'|'ucs'|'dfs'|'dls'|'ids'|'greedy'|'astar', maxDepth?:number}} opts */
   function run(adj, start, goal, opts) {
     if (opts.strategy === 'ids') return ids(adj, start, goal, { ...opts, strategy: 'dls' });
     const t = search(adj, start, goal, /** @type {SearchOptions} */ (opts));
@@ -382,14 +415,16 @@ const CourseSearch = (() => {
   /**
    * A keresőfa SVG-je. A csomópont alatt a belelépés sorszáma (#) és kérésre az útköltség (g).
    * @param {Trace} trace
-   * @param {{title?:string, id?:string, showCost?:boolean, showVisit?:boolean, gap?:number, step?:number, levels?:boolean, current?:boolean, name?:(n:TreeNode, label:string) => string}} [opt]
+   * heur megadásakor a csomópont alatt „g+h=f” (heurMode: 'h' esetén „h=…”) áll, a belelépés sorszáma alatta.
+   * @param {{title?:string, id?:string, showCost?:boolean, showVisit?:boolean, gap?:number, step?:number, levels?:boolean, current?:boolean, name?:(n:TreeNode, label:string) => string, heur?:Record<string,number>, heurMode?:'f'|'h'}} [opt]
    */
   function treeSvg(trace, opt = {}) {
     const snap = snapshot(trace, opt.step ?? trace.steps.length);
     const shown = trace.nodes.filter((n) => n.id < snap.generated);
     const lay = layoutTree(shown);
     const lab = labels(trace.nodes);
-    const gap = opt.gap || 96, rowH = opt.showCost ? 74 : 62, pad = opt.levels ? 52 : 10;
+    const heur = opt.heur || null;
+    const gap = opt.gap || 96, rowH = heur ? 86 : opt.showCost ? 74 : 62, pad = opt.levels ? 52 : 10;
     const W = Math.max(1, lay.leaves) * gap + 2 * pad, H = lay.depth * rowH + 64;
     /** @param {number} id */
     const X = (id) => pad + gap / 2 + lay.x[id] * gap;
@@ -428,8 +463,15 @@ const CourseSearch = (() => {
       if (name !== null) s += `<text x="${x}" y="${y + 23}" text-anchor="middle" class="u-tname">${esc(name)}</text>`;
       else s += `<text x="${x}" y="${y + 23}" text-anchor="middle" class="u-tname">${esc(l.name)}${l.index === null ? '' : `<tspan class="u-tsub" dy="4">${l.index}</tspan>`}</text>`;
       const meta = [];
-      if (opt.showVisit !== false && visited(n)) meta.push(`#${n.visit}`);
-      if (opt.showCost) meta.push(`${num(n.cost)}`);
+      if (heur) {
+        const hn = Number.isFinite(heur[n.state]) ? heur[n.state] : 0;
+        const expr = opt.heurMode === 'h' ? `h=${num(hn)}` : `${num(n.cost)}+${num(hn)}=${num(n.cost + hn)}`;
+        s += `<text x="${x}" y="${y + 38}" text-anchor="middle" class="u-tmeta u-tf">${esc(expr)}</text>`;
+        if (opt.showVisit !== false && visited(n)) s += `<text x="${x}" y="${y + 51}" text-anchor="middle" class="u-tmeta">#${n.visit}</text>`;
+      } else {
+        if (opt.showVisit !== false && visited(n)) meta.push(`#${n.visit}`);
+        if (opt.showCost) meta.push(`${num(n.cost)}`);
+      }
       if (meta.length) s += `<text x="${x}" y="${y + 38}" text-anchor="middle" class="u-tmeta">${esc(meta.join(' · '))}</text>`;
       s += '</g>';
     });
@@ -439,13 +481,15 @@ const CourseSearch = (() => {
   /**
    * Az állapotgráf (térkép) SVG-je; a csomópontok állapota CSS-osztályként jelenik meg.
    * @param {GraphDef} g
-   * @param {{id?:string, title?:string, marks?:Record<string,string>, pathEdges?:string[], showGoal?:boolean}} [opt]
+   * heur megadásakor a csomópontoknál a becslés is látszik (rövid nevű csomópontban a név alatt, egyébként „h=…” a kör fölött).
+   * @param {{id?:string, title?:string, marks?:Record<string,string>, pathEdges?:string[], showGoal?:boolean, heur?:Record<string,number>}} [opt]
    */
   function graphSvg(g, opt = {}) {
     const marks = opt.marks || {};
     const onPath = new Set(opt.pathEdges || []);
+    const heur = opt.heur || null;
     const inside = Object.keys(g.pos).every((n) => n.length <= 2);
-    const r = inside ? 13 : 9;
+    const r = inside ? (heur ? 17 : 13) : 9;
     let s = `<svg viewBox="-16 -16 ${g.w + 32} ${g.h + (inside ? 32 : 40)}" role="img" class="u-graph-svg" style="min-width:${Math.round(g.w * 0.7)}px"${opt.id ? ` aria-labelledby="${esc(opt.id)}-t"` : ''}>`;
     if (opt.title) s += `<title${opt.id ? ` id="${esc(opt.id)}-t"` : ''}>${esc(opt.title)}</title>`;
     s += '<defs><marker id="' + esc(opt.id || 'g') + '-nyil" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="u-arrowhead"/></marker></defs>';
@@ -471,7 +515,11 @@ const CourseSearch = (() => {
     Object.entries(g.pos).forEach(([n, [x, y]]) => {
       const m = marks[n] ? ` u-g-${marks[n]}` : '';
       const role = n === g.start ? ' u-g-start' : (opt.showGoal !== false && n === g.goal ? ' u-g-goal' : '');
-      s += `<g class="u-gnode${m}${role}${inside ? ' u-gnode-in' : ''}"><circle cx="${x}" cy="${y}" r="${r}"/><text x="${x}" y="${inside ? y + 5 : y + 24}" text-anchor="middle">${esc(n)}</text></g>`;
+      const hn = heur && Number.isFinite(heur[n]) ? num(heur[n]) : null;
+      const ty = inside ? (hn !== null ? y + 1 : y + 5) : y + 24;
+      let label = `<text x="${x}" y="${ty}" text-anchor="middle">${esc(n)}</text>`;
+      if (hn !== null) label += inside ? `<text x="${x}" y="${y + 13}" text-anchor="middle" class="u-gh">${hn}</text>` : `<text x="${x}" y="${y - 14}" text-anchor="middle" class="u-gh">h=${hn}</text>`;
+      s += `<g class="u-gnode${m}${role}${inside ? ' u-gnode-in' : ''}"><circle cx="${x}" cy="${y}" r="${r}"/>${label}</g>`;
     });
     return s + '</svg>';
   }
@@ -544,7 +592,251 @@ const CourseSearch = (() => {
     return adj;
   }
 
+  /* ---------- Heurisztika: valódi hátralévő költség, elfogadhatóság, konzisztencia (PDF 299., 303.) ---------- */
+  /**
+   * h*(n): a valódi legolcsóbb költség n-ből a célba (Dijkstra a megfordított gráfon). Elérhetetlen állapotnál Infinity.
+   * @param {Adjacency} adj @param {string} goal @returns {Record<string, number>}
+   */
+  function hStar(adj, goal) {
+    /** @type {Record<string, Array<[string, number]>>} */
+    const rev = {};
+    states(adj).forEach((n) => { rev[n] = []; });
+    Object.entries(adj).forEach(([a, list]) => list.forEach(([b, c]) => { (rev[b] = rev[b] || []).push([a, c]); }));
+    /** @type {Record<string, number>} */
+    const dist = {};
+    Object.keys(rev).forEach((n) => { dist[n] = Infinity; });
+    dist[goal] = 0;
+    const done = new Set();
+    for (;;) {
+      let best = null, bd = Infinity;
+      for (const n of Object.keys(dist)) if (!done.has(n) && dist[n] < bd) { bd = dist[n]; best = n; }
+      if (best === null) break;
+      done.add(best);
+      (rev[best] || []).forEach(([a, c]) => { if (bd + c < dist[a]) dist[a] = bd + c; });
+    }
+    return dist;
+  }
+  /**
+   * Egy becslés ellenőrzése: hol becsül túl (h(n) > h*(n)), és mely éleken sérül a konzisztencia (h(n) > c(n, n') + h(n')).
+   * @param {Adjacency} adj @param {Record<string, number>} heur @param {string} goal
+   */
+  function checkHeuristic(adj, heur, goal) {
+    const star = hStar(adj, goal);
+    /** @param {string} s */
+    const hv = (s) => (Number.isFinite(heur[s]) ? heur[s] : 0);
+    const over = states(adj).filter((s) => Number.isFinite(star[s]) && hv(s) > star[s]).map((s) => ({ state: s, h: hv(s), hStar: star[s] }));
+    /** @type {Array<{from:string, to:string, cost:number, hFrom:number, hTo:number}>} */
+    const inconsistent = [];
+    Object.entries(adj).forEach(([a, list]) => list.forEach(([b, c]) => { if (hv(a) > c + hv(b)) inconsistent.push({ from: a, to: b, cost: c, hFrom: hv(a), hTo: hv(b) }); }));
+    return { hStar: star, over, inconsistent, admissible: over.length === 0, consistent: inconsistent.length === 0, goalZero: hv(goal) === 0 };
+  }
+
+  /* ---------- Lokális keresés egy többcsúcsú felszínen (PDF 305–307.) ---------- */
+  /**
+   * Determinisztikus álvéletlen-generátor (mulberry32): ugyanaz a mag ugyanazt a sorozatot adja.
+   * @param {number} seed @returns {() => number} egyenletes eloszlású szám a [0, 1) intervallumban
+   */
+  function rng(seed) {
+    let a = (Math.floor(seed) >>> 0) || 1;
+    return () => {
+      a = (a + 0x6D2B79F5) >>> 0;
+      let t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  /** A felszín értelmezési tartománya: egész x, 0 ≤ x ≤ 100. */
+  const LAND_MAX = 100;
+  /**
+   * A fejezet többcsúcsú felszíne: 0,25-ös alapszint, négy csúcs (x = 12: 0,55; x = 34: 0,75; x = 80: 1, a globális; x = 95: 0,6)
+   * és egy lapos fennsík (50 ≤ x ≤ 62: 0,45).
+   * A fennsíkon az érték pontosan 0,45, máshol sehol sincs két egyforma szomszéd. @param {number} x
+   */
+  function landscape(x) {
+    const g = (/** @type {number} */ m, /** @type {number} */ w, /** @type {number} */ a) => a * Math.exp(-(((x - m) / w) ** 2));
+    let v = 0.25 + g(12, 4, 0.3) + g(34, 6, 0.5) + g(80, 8, 0.75) + g(95, 2.5, 0.33);
+    if (x >= 50 && x <= 62) v = Math.max(v, 0.45);
+    return v;
+  }
+  /** @param {number} x */
+  const clampX = (x) => Math.max(0, Math.min(LAND_MAX, Math.round(x)));
+  /**
+   * Hegymászó keresés (legmeredekebb emelkedő): a két szomszéd (x − 1, x + 1) közül a jobbikba lép, ha az szigorúan jobb; különben megáll.
+   * @param {(x:number) => number} f @param {number} start
+   * @returns {{path:number[], x:number, value:number, stop:'peak'|'plateau'}}
+   */
+  function hillClimb(f, start) {
+    let x = clampX(start);
+    const path = [x];
+    for (let guard = 0; guard <= LAND_MAX + 1; guard++) {
+      const nb = [x - 1, x + 1].filter((y) => y >= 0 && y <= LAND_MAX);
+      const best = nb.reduce((a, b) => (f(b) > f(a) ? b : a));
+      if (f(best) <= f(x)) {
+        const flat = nb.some((y) => f(y) === f(x));
+        return { path, x, value: f(x), stop: flat ? 'plateau' : 'peak' };
+      }
+      x = best;
+      path.push(x);
+    }
+    return { path, x, value: f(x), stop: 'peak' };
+  }
+  /**
+   * Hegymászó véletlen újraindításokkal: az első indulás a megadott pont, a többi álvéletlen.
+   * @param {(x:number) => number} f @param {{start?:number, restarts?:number, seed?:number}} [opt]
+   */
+  function restartHill(f, opt = {}) {
+    const rand = rng(opt.seed ?? 1);
+    const runs = [hillClimb(f, opt.start ?? 0)];
+    for (let i = 0; i < (opt.restarts ?? 0); i++) runs.push(hillClimb(f, Math.floor(rand() * (LAND_MAX + 1))));
+    const best = runs.reduce((a, b) => (b.value > a.value ? b : a));
+    return { runs, best, steps: runs.reduce((s, r) => s + r.path.length - 1, 0) };
+  }
+  /**
+   * Rontó lépés elfogadásának valószínűsége minimalizálásnál: Δ = f(r) − f(n) > 0 esetén exp(−Δ / T), különben 1.
+   * @param {number} delta @param {number} T
+   */
+  function acceptance(delta, T) {
+    if (delta <= 0) return 1;
+    if (T <= 0) return 0;
+    return Math.exp(-delta / T);
+  }
+  /**
+   * A hőmérséklet a k. lépésben. geom: T_k = α · T_(k−1); log: T_k = T0 · ln 2 / ln(k + 2) (Geman–Geman, Hajek-féle lassú hűtés).
+   * @param {'geom'|'log'} schedule @param {number} k @param {number} prev @param {number} T0 @param {number} alpha
+   */
+  function temperature(schedule, k, prev, T0, alpha) {
+    return schedule === 'log' ? T0 * Math.LN2 / Math.log(k + 2) : prev * alpha;
+  }
+  /**
+   * Szimulált hűtés a PDF minimalizáló pszeudokódja szerint (307. oldal). A szomszéd egy álvéletlen pont n ± radius-on belül (alapérték 8).
+   * Leállás: az utolsó window lépésben f(n) legfeljebb eps-szel változott, vagy T < tMin, vagy elfogyott a maxIter.
+   * @param {(x:number) => number} f minimalizálandó függvény
+   * @param {{start?:number, T0?:number, alpha?:number, schedule?:'geom'|'log', seed?:number, radius?:number, maxIter?:number, tMin?:number, eps?:number, window?:number}} [opt]
+   */
+  function anneal(f, opt = {}) {
+    const T0 = opt.T0 ?? 0.3, alpha = opt.alpha ?? 0.995, schedule = opt.schedule || 'geom';
+    const radius = Math.max(1, Math.round(opt.radius ?? 8)), maxIter = opt.maxIter ?? 6000, tMin = opt.tMin ?? 1e-4;
+    const eps = opt.eps ?? 5e-4, win = opt.window ?? 100;
+    const rand = rng(opt.seed ?? 1);
+    let n = clampX(opt.start ?? 12), T = T0, k = 0;
+    const xs = [n], fs = [f(n)], Ts = [T];
+    let worseAccepted = 0, worseRejected = 0, better = 0;
+    let best = { x: n, value: f(n), k: 0 };
+    /** @type {'stable'|'tmin'|'maxIter'} */
+    let stop = 'maxIter';
+    while (k < maxIter) {
+      let r = n;
+      while (r === n) r = clampX(n + Math.floor(rand() * (2 * radius + 1)) - radius);
+      const fr = f(r), fn = f(n);
+      if (fr <= fn) { n = r; better += 1; }
+      else if (Math.exp((fn - fr) / T) > rand()) { n = r; worseAccepted += 1; }
+      else worseRejected += 1;
+      k += 1;
+      T = temperature(schedule, k, T, T0, alpha);
+      xs.push(n); fs.push(f(n)); Ts.push(T);
+      if (f(n) < best.value) best = { x: n, value: f(n), k };
+      if (k >= win) {
+        const last = fs.slice(-win);
+        if (Math.max(...last) - Math.min(...last) <= eps) { stop = 'stable'; break; }
+      }
+      if (T < tMin) { stop = 'tmin'; break; }
+    }
+    return { xs, fs, Ts, x: n, value: f(n), best, iterations: k, worseAccepted, worseRejected, better, stop };
+  }
+
+  /* ---------- A felszín és az idősorok rajza ---------- */
+  /**
+   * A felszín SVG-je. runs: hegymászó-utak (kezdőpont karika, végpont pötty, nyíl a lépések irányában);
+   * trail: szimulált hűtés pályája (pontok, a későbbiek erősebbek); marks: feliratozott pontok.
+   * @param {{id?:string, title?:string, runs?:Array<{path:number[], cls?:string}>, trail?:number[], labels?:boolean}} [opt]
+   */
+  function landscapeSvg(opt = {}) {
+    const W = 560, H = 250, L = 34, R = 10, T = 18, B = 34;
+    /** @param {number} x */
+    const X = (x) => L + (x / LAND_MAX) * (W - L - R);
+    /** @param {number} y */
+    const Y = (y) => T + (1 - y / 1.1) * (H - T - B);
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" class="u-land-svg"${opt.id ? ` aria-labelledby="${esc(opt.id)}-t"` : ''}>`;
+    if (opt.title) s += `<title${opt.id ? ` id="${esc(opt.id)}-t"` : ''}>${esc(opt.title)}</title>`;
+    s += `<g class="u-axis"><path d="M${L} ${T - 6}V${H - B}H${W - R}"/>`;
+    [0, 0.25, 0.5, 0.75, 1].forEach((v) => { s += `<text x="${L - 5}" y="${Y(v) + 4}" text-anchor="end">${num(v).replace(/,0+$/, '')}</text><path class="u-grid" d="M${L} ${Y(v)}H${W - R}"/>`; });
+    for (let x = 0; x <= LAND_MAX; x += 10) s += `<text x="${X(x)}" y="${H - B + 15}" text-anchor="middle">${x}</text>`;
+    s += `<text x="${W - R}" y="${H - 4}" text-anchor="end">állapot (x)</text><text x="4" y="${T - 6}">magasság</text></g>`;
+    s += `<rect class="u-plateau" x="${X(50)}" y="${Y(0.45)}" width="${X(62) - X(50)}" height="${Y(0) - Y(0.45)}"/>`;
+    let d = '';
+    for (let x = 0; x <= LAND_MAX; x++) d += `${x ? 'L' : 'M'}${X(x).toFixed(1)} ${Y(landscape(x)).toFixed(1)}`;
+    s += `<path class="u-curve" d="${d}"/>`;
+    if (opt.labels !== false) {
+      [[12, 'helyi csúcs 0,55'], [34, 'helyi csúcs 0,75'], [80, 'globális csúcs 1'], [95, 'helyi 0,6']].forEach(([x, t]) => {
+        s += `<text class="u-peak" x="${X(Number(x))}" y="${Y(landscape(Number(x))) - 7}" text-anchor="middle">${t}</text>`;
+      });
+      s += `<text class="u-peak" x="${X(56)}" y="${Y(0.45) - 7}" text-anchor="middle">fennsík 0,45</text>`;
+    }
+    (opt.trail || []).forEach((x, i, a) => {
+      const op = (0.15 + 0.85 * (i / Math.max(1, a.length - 1))).toFixed(2);
+      s += `<circle class="u-trail" cx="${X(x).toFixed(1)}" cy="${Y(landscape(x)).toFixed(1)}" r="3" style="opacity:${op}"/>`;
+    });
+    if (opt.trail && opt.trail.length) {
+      const e = opt.trail[opt.trail.length - 1];
+      s += `<circle class="u-end" cx="${X(e)}" cy="${Y(landscape(e))}" r="6"/>`;
+    }
+    (opt.runs || []).forEach((r) => {
+      const cls = r.cls || 'u-run';
+      const pts = r.path.map((x) => `${X(x).toFixed(1)} ${(Y(landscape(x)) - 0).toFixed(1)}`);
+      if (pts.length > 1) s += `<path class="${cls}" d="M${pts.join('L')}"/>`;
+      const a = r.path[0], e = r.path[r.path.length - 1];
+      s += `<circle class="${cls}-start" cx="${X(a)}" cy="${Y(landscape(a))}" r="5"/><circle class="${cls}-end" cx="${X(e)}" cy="${Y(landscape(e))}" r="5"/>`;
+    });
+    return s + '</svg>';
+  }
+  /**
+   * Egyszerű idősor-grafikon (például T_k és a magasság a lépésszám függvényében), saját skálával soronként.
+   * @param {{id?:string, title?:string, series:Array<{values:number[], cls:string, label:string, max?:number}>}} opt
+   */
+  function seriesSvg(opt) {
+    const W = 560, H = 170, L = 34, R = 10, T = 40, B = 26;
+    const n = Math.max(...opt.series.map((x) => x.values.length)) - 1 || 1;
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" class="u-series-svg"${opt.id ? ` aria-labelledby="${esc(opt.id)}-t"` : ''}>`;
+    if (opt.title) s += `<title${opt.id ? ` id="${esc(opt.id)}-t"` : ''}>${esc(opt.title)}</title>`;
+    s += `<g class="u-axis"><path d="M${L} ${T - 4}V${H - B}H${W - R}"/><text x="${L}" y="${H - 8}">0</text><text x="${W - R}" y="${H - 8}" text-anchor="end">${n} lépés</text></g>`;
+    opt.series.forEach((ser, k) => {
+      const max = ser.max ?? Math.max(...ser.values, 1e-9);
+      const step = Math.max(1, Math.floor(ser.values.length / 400));
+      let d = '';
+      for (let i = 0; i < ser.values.length; i += step) d += `${d ? 'L' : 'M'}${(L + (i / n) * (W - L - R)).toFixed(1)} ${(T + (1 - Math.min(1, ser.values[i] / max)) * (H - T - B)).toFixed(1)}`;
+      s += `<path class="${ser.cls}" d="${d}"/><text class="${ser.cls}-label" x="${L}" y="${12 + k * 14}">${esc(ser.label)}</text>`;
+    });
+    return s + '</svg>';
+  }
+
+  /* ---------- Döntési segéd a záró összevetéshez ---------- */
+  /**
+   * Ajánlott eljárás(ok) néhány kérdés alapján. A kulcsok az összevető táblázat sorainak azonosítói.
+   * @param {{need:'path'|'state', costs:'equal'|'varied', heuristic:boolean, memory:'ok'|'tight', optimal:boolean}} q
+   * @returns {{ids:string[], why:string}}
+   */
+  function recommend(q) {
+    if (q.need === 'state') {
+      return q.optimal
+        ? { ids: ['sa', 'hill'], why: 'Csak a jó állapot kell, az út nem: lokális keresés. A globális optimum esélyét a szimulált hűtés (vagy az újraindított hegymászó) növeli, garanciát gyakorlati időben egyik sem ad.' }
+        : { ids: ['hill', 'sa'], why: 'Csak egy elég jó állapot kell: a hegymászó gyors és szinte memória nélküli. Ha gyakran helyi csúcson ragad, jöhet a szimulált hűtés.' };
+    }
+    if (q.heuristic) {
+      if (!q.optimal) return { ids: ['greedy'], why: 'Van becslés, és bármilyen út megfelel: a mohó legjobb-első gyakran nagyon gyorsan célba ér, de nem garantál legolcsóbb utat.' };
+      return q.memory === 'tight'
+        ? { ids: ['astar', 'ida'], why: 'Elfogadható becsléssel az A* optimális, de a frontja nagy lehet. Szűkös memóriánál az IDA* ugyanezt a garanciát kis memóriával adja, több újraszámolás árán.' }
+        : { ids: ['astar'], why: 'Elfogadható becsléssel az A* optimális, és a jó becslés miatt jóval kevesebb csomópontot terjeszt ki, mint az egyenletes költségű keresés.' };
+    }
+    if (q.costs === 'varied') return { ids: ['ucs'], why: 'Nincs becslés, a költségek eltérnek: az egyenletes költségű keresés optimális (ez az A* h = 0 mellett).' };
+    return q.memory === 'tight'
+      ? { ids: ['ids'], why: 'Egyforma lépésköltség, nincs becslés, kevés memória: az iteratív mélyítés teljes, lépésszámban optimális, és O(b · d) memóriát kér.' }
+      : { ids: ['bfs', 'ids'], why: 'Egyforma lépésköltség és van memória: a szélességi keresés egyszerű és optimális; nagy mélységnél az iteratív mélyítés takarékosabb.' };
+  }
+
   return { CITY, ZH, ABSTRACT, CODE21, BINARY, GRAPHS, neighbors, states, pathOf, search, ids, run, labels, labelText,
-    parseGraph, circleLayout, layoutTree, snapshot, treeSvg, graphSvg, complexity, gomoku, puzzleMoves, puzzleSpace, esc };
+    parseGraph, circleLayout, layoutTree, snapshot, treeSvg, graphSvg, complexity, gomoku, puzzleMoves, puzzleSpace, esc,
+    CITY_INF, CITY_HEUR_302, CODE18, INFORMED, hStar, checkHeuristic,
+    rng, LAND_MAX, landscape, hillClimb, restartHill, acceptance, temperature, anneal, landscapeSvg, seriesSvg, recommend };
 })();
 if (typeof module !== 'undefined') module.exports = CourseSearch;
