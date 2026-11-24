@@ -24,6 +24,7 @@ A forrás 307 oldalból áll.
 - [x] 9. mérföldkő: állapottér, keresőfa, front, szélességi, egyenletes költségű, mélységi és mélységkorlátos keresés, iteratív mélyítés.
 - [x] 10. mérföldkő: informált és lokális keresés.
 - [x] A teljes kurzus lezárása: fogalomtár és kereső, végső ellenőrzés a GitHub Pages alkönyvtárából.
+- [x] 11. fejezet: zárthelyi-gyakorló a 2025. december 5-i minta-zh alapján.
 
 ## Az elkészült alkalmazás
 
@@ -55,7 +56,9 @@ A kilencedik fejezet a PDF 276–298. oldalát dolgozza fel. Három labor tartoz
 
 A tizedik fejezet a PDF 299–307. oldalát dolgozza fel. Négy labor tartozik hozzá: heurisztika-tervező a fejezet három gráfjához (városok, minta-zh, kurzuskód) a valódi hátralévő költség, az elfogadhatóság és a konzisztencia ellenőrzésével, a mohó legjobb-első és az A* keresés egymás melletti, lépésenkénti futtatásával; hegymászó egy többcsúcsú, fennsíkos felszínen véletlen újraindításokkal; szimulált hűtés hőmérséklet-, ütem- és véletlenmag-beállítással, száz futásos sikeraránnyal; és egy keresőválasztó a kurzus mind a tíz keresőjét összevető záró táblázathoz. Öt lenyíló gyakorló blokk, köztük a minta-zh A*-feladatának (8(b)) kidolgozott megoldása, és tizenkét választható kvízkérdés segít az ellenőrzésben. Nyolc kiigazítás javítja többek között a mohó keresés teljességét, az A* optimalitásának feltételeit, a hegymászó pszeudokódjának hiányzó megállását és a szimulált hűtés globális optimumra vonatkozó állítását; kettő az oktatói `18_A_csillag_algoritmus.py` (h(D) = 25 > 24) és a minta-zh (h(W) = 4 > 2) túlbecslő becslését mutatja ki. A kurzus zárásaként elkészült a `fogalomtar.html`: mind a tíz fejezet fogalmai és szakaszai egy kereshető oldalon.
 
-A 9. és a 10. fejezet ábráit, valamint a fogalomtárat generálóscriptek állítják elő az `eszkozok/` mappában; a futtatásukat a [HASZNALAT.md](HASZNALAT.md) írja le.
+A tizenegyedik, gyakorló fejezet (`fejezetek/11-zh-gyakorlo.html`) a 2025. december 5-i minta-zárthelyi mind a kilenc feladatát a feladatlap sorrendjében dolgozza fel. Minden feladathoz tartozik a feladatlap szó szerinti szövege, egy lenyitható megoldás a kulcslépésekkel (a teljes levezetésre a megfelelő fejezet hivatkozik) és egy gyakorló blokk új, ugyanolyan típusú kérdésekkel: 36 új igaz–hamis állítás, 8 kifejtős kérdés mintaválasszal, új láncolási, rezolúciós (köztük egy nem bizonyítható), predikátumlogikai, fuzzy (köztük egy hiányos szabálybázisú), keresési és genetikus feladatok. A keresési gyakorláshoz egy új, elfogadható és konzisztens becslésű gráf tartozik mind az öt keresővel, amelyet a kurzus `18_A_csillag_algoritmus.py` programjával is ellenőriztünk. Két eszköz segít: egy változatgenerátor a 4., 7. és 9. feladathoz, és egy önértékelő pontlap, amely a gyenge pontokhoz tartozó fejezetekre mutat. Egy döntési táblázat, tizennégy fogalomkártya és tizenkét kvízkérdés zárja. A számításokat a tesztelt `assets/js/zh.js` modell végzi.
+
+A 9., a 10. és a 11. fejezet ábráit, valamint a fogalomtárat generálóscriptek állítják elő az `eszkozok/` mappában; a futtatásukat a [HASZNALAT.md](HASZNALAT.md) írja le.
 
 Ellenőrzés: [ELLENORZES-02.md](ELLENORZES-02.md), [ELLENORZES-03.md](ELLENORZES-03.md), [ELLENORZES-04.md](ELLENORZES-04.md), [ELLENORZES-05.md](ELLENORZES-05.md), [ELLENORZES-06.md](ELLENORZES-06.md), [ELLENORZES-07.md](ELLENORZES-07.md), [ELLENORZES-08.md](ELLENORZES-08.md), [ELLENORZES-09.md](ELLENORZES-09.md), [ELLENORZES-10.md](ELLENORZES-10.md).
 

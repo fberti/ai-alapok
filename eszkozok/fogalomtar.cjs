@@ -37,14 +37,14 @@ function build() {
   });
   return `<!doctype html>
 <html lang="hu">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f3eb"><meta name="description" content="Az MI-alapok kurzus fogalomtára és keresője: mind a tíz fejezet fogalmai magyarul és angolul, a fejezetek és szakaszok listájával."><title>Fogalomtár és kereső | MI-alapok</title><script>document.documentElement.classList.add('js')</script><script src="assets/js/theme.js?v=2"></script><link rel="stylesheet" href="assets/css/course.css?v=4"><link rel="stylesheet" href="assets/css/fogalomtar.css"><script defer src="assets/js/fogalomtar.js"></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f3eb"><meta name="description" content="Az MI-alapok kurzus fogalomtára és keresője: mind a tizenegy fejezet fogalmai magyarul és angolul, a fejezetek és szakaszok listájával."><title>Fogalomtár és kereső | MI-alapok</title><script>document.documentElement.classList.add('js')</script><script src="assets/js/theme.js?v=2"></script><link rel="stylesheet" href="assets/css/course.css?v=4"><link rel="stylesheet" href="assets/css/fogalomtar.css"><script defer src="assets/js/fogalomtar.js"></script></head>
 <body id="top" class="glossary">
 <a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
 <header class="site-header"><a class="brand" href="index.html"><span class="brand-mark">mi.</span> ALAPOK <span class="brand-note">/ interaktív jegyzet</span></a><div class="header-actions"><a href="index.html#fejezetek">← Összes fejezet</a><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle><span class="theme-toggle-icon" aria-hidden="true"></span><span class="visually-hidden">Sötét mód</span></button></div></header>
 <main id="tartalom" class="g-main">
 <p class="eyebrow">A KURZUS EGY HELYEN</p>
 <h1>Fogalomtár és kereső</h1>
-<p class="lead">A tíz fejezet ${total} fogalma, a fejezetek és szakaszaik. Írj be egy szót magyarul vagy angolul – például „A*”, „perceptron”, „rezolúció”, „hill climbing” –, és a lista csak a találatokat mutatja. Az ékezeteket nem kell pontosan beírni.</p>
+<p class="lead">A ${chapters.length} fejezet ${total} fogalma, a fejezetek és szakaszaik. Írj be egy szót magyarul vagy angolul – például „A*”, „perceptron”, „rezolúció”, „hill climbing” –, és a lista csak a találatokat mutatja. Az ékezeteket nem kell pontosan beírni.</p>
 <div class="g-search js-only"><label for="g-kereso">Keresés</label><input type="search" id="g-kereso" autocomplete="off" placeholder="fogalom, algoritmus vagy fejezet"><p id="g-talalat" role="status" aria-live="polite"></p></div>
 <noscript><p>JavaScript nélkül a teljes lista olvasható; a böngésző saját keresője (Ctrl+F) is használható.</p></noscript>
 <section class="g-chapters" aria-labelledby="g-fejezetek-cim"><h2 id="g-fejezetek-cim">Fejezetek és szakaszok</h2><ol class="g-chapter-list">${chapterList}</ol></section>

@@ -557,7 +557,7 @@ def astar(graph, heuristics, start, goal):
 <p>Az informált keresés egy h(n) becslést használ arra, mennyi van még hátra a célig. A jó becslés nem túloz (elfogadható), és a célban 0. A globális eljárások a teljes frontot tárolják, és utat keresnek; a lokális eljárások csak az aktuális állapotot és szomszédait látják, és egy jó állapotot keresnek.</p>
 <p>A mohó legjobb-első keresés a legkisebb h(n)-ű csomópontba lép: gyors, de nem optimális, és teljes is csak véges térben, ismétlésszűréssel. Az A keresés az f(n) = g(n) + h(n) összeget minimalizálja; elfogadható becsléssel ez az A*, amely fakeresésként optimális, gráfkeresésként zárt listával pedig konzisztens becsléssel az. A célt belelépéskor kell ellenőrizni. A PDF várospéldáján a mohó keresés 256, az A* 240 km-es utat talált. A kurzus A*-programjának becslése D-nél túloz, mégis optimális utat ad, de csak szerencséből. A minta-zh becslése W-nél túloz, és ott az eredmény 18 a valódi 17 helyett.</p>
 <p>A hegymászó keresés mindig a legjobb szomszédba lép, és megáll, ha egyik sem jobb. Kevés időt és szinte semmi memóriát nem kér, de a felszín alakjától függően helyi csúcson vagy fennsíkon ragad. A szimulált hűtés exp(−Δ / T) valószínűséggel rontó lépéseket is elfogad, és a hőmérsékletet fokozatosan csökkenti. Lassú hűtéssel sokkal gyakrabban jut a globális csúcsra, de garancia csak a gyakorlatban kivárhatatlan logaritmikus hűtésre van.</p>
-<p>Ezzel a kurzus végére értél. A tíz fejezet íve a gépi intelligencia meghatározásától a tudás ábrázolásán és a logikai következtetésen át a tanuló és kereső eljárásokig vezetett.</p>
+<p>Ezzel a kurzus anyagának végére értél. A tíz fejezet íve a gépi intelligencia meghatározásától a tudás ábrázolásán és a logikai következtetésen át a tanuló és kereső eljárásokig vezetett.</p>
 <ol class="u-flow" id="kurzus-ive" aria-label="A kurzus tíz fejezete">
 <li><strong>01 · MI</strong><a href="01-mi-es-intelligencia.html">Intelligencia, Turing-teszt, alkalmazások</a></li>
 <li><strong>02–03 · TUDÁS</strong><a href="02-tudasbazisok.html">Szakértőrendszerek</a>, <a href="03-tudasreprezentacio.html">hálók, keretek, esetek</a></li>
@@ -569,7 +569,8 @@ def astar(graph, heuristics, start, goal):
 <p>A szálak összeérnek. A Prolog mélységi kereséssel bizonyít, a genetikus algoritmus és a szimulált hűtés ugyanannak a felszínnek a csúcsait keresi, a neurális háló tanítása pedig egy hibafelszín völgyében ereszkedik lefelé, ahogy egy fordított hegymászó. A mai MI-rendszerek is ezekre az ötletekre építenek: az útvonaltervezők A*-ot és rokonait futtatják, a nagy nyelvi modelleket gradienscsökkentéssel tanítják, és a játékprogramok keresőfái is a 9–10. fejezet gondolatait viszik tovább.</p>
 <div class="u-links">
 <a href="09-neminformalt-kereses.html"><small>← Előző fejezet</small>09 · Neminformált keresés. Ott a front, a keresőfa és a g(n) útköltség; ez a fejezet a h(n) becsléssel egészítette ki őket.</a>
-<a href="../fogalomtar.html"><small>Ismétléshez →</small>Fogalomtár és kereső. A kurzus mind a tíz fejezetének fogalmai egy helyen, magyarul és angolul, kereshetően.</a>
+<a href="11-zh-gyakorlo.html"><small>Következő fejezet →</small>11 · Zárthelyi-gyakorló. A minta-zh mind a kilenc feladata megoldással, új változatokkal és önértékelő pontlappal.</a>
+<a href="../fogalomtar.html"><small>Ismétléshez →</small>Fogalomtár és kereső. A kurzus fejezeteinek fogalmai egy helyen, magyarul és angolul, kereshetően.</a>
 <a href="../index.html"><small>Vissza →</small>Kezdőlap és fejezetlista. A teljes tanulási út, az előadásfelvételek és az eredeti oktatói anyagok.</a>
 </div>
 </section>

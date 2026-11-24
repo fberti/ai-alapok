@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3eb">
+<meta name="description" content="Zárthelyi-gyakorló: a 2025. december 5-i minta-zárthelyi mind a kilenc feladata megoldással, feladattípusonként új, kidolgozott gyakorló kérdésekkel, változatgenerátorral, önértékelő pontlappal és kvízzel.">
+<title>11 · Zárthelyi-gyakorló | MI-alapok</title>
+<script>document.documentElement.classList.add('js')</script>
+<script src="../assets/js/theme.js?v=2"></script>
+<link rel="stylesheet" href="../assets/css/course.css?v=4">
+<link rel="stylesheet" href="../assets/css/chapter-eleven.css">
+<script defer src="../assets/js/zh.js"></script>
+<script defer src="../assets/js/chapter-eleven.js"></script>
+</head>
+<body id="top" class="chapter-eleven" data-chapter="11">
+<a class="skip" href="#tartalom">Ugrás a tananyaghoz</a>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">mi.</span> ALAPOK <span class="brand-note">/ interaktív jegyzet</span></a><div class="header-actions"><a href="../index.html#fejezetek">← Összes fejezet</a><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle><span class="theme-toggle-icon" aria-hidden="true"></span><span class="visually-hidden">Sötét mód</span></button></div></header>
+
+<div class="chapter-layout">
+<nav class="toc" aria-label="Fejezet tartalomjegyzéke"><a class="toc-home" href="../index.html">← Főoldal</a><p class="eyebrow">11 / EBBEN A FEJEZETBEN</p><ol>
+<li><a href="#terkep">A zh térképe</a></li>
+<li><a href="#igaz-hamis">1. Igaz vagy hamis?</a></li>
+<li><a href="#lancolas">2. Előreláncolás</a></li>
+<li><a href="#neuron">3. A mesterséges neuron</a></li>
+<li><a href="#kifejtos">További kifejtős kérdések</a></li>
+<li><a href="#halo">4. Előreterjesztés</a></li>
+<li><a href="#propozicios">5. Propozíciós rezolúció</a></li>
+<li><a href="#predikatum">6. Predikátumlogika</a></li>
+<li><a href="#fuzzy">7. Fuzzy szabályozó</a></li>
+<li><a href="#kereses">8. Keresés a gráfon</a></li>
+<li><a href="#genetikus">9. Genetikus algoritmus</a></li>
+<li><a href="#generator">Változatgenerátor</a></li>
+<li><a href="#pontlap">Önértékelő pontlap</a></li>
+<li><a href="#dontes">Melyik feladat, milyen menet?</a></li>
+<li><a href="#fogalmak">Fogalomkártyák</a></li>
+<li><a href="#kviz">Kvíz · szabadon választható</a></li>
+<li><a href="#osszegzes">Összefoglaló</a></li>
+<li><a href="#forrasok">Források</a></li>
+</ol></nav>
+
+<main id="tartalom" class="chapter-main">
+<header class="chapter-hero">
+<p class="eyebrow">11. FEJEZET / ZÁRTHELYI-GYAKORLÓ</p>
+<h1>Kilenc feladat, száz pont,<br><em>egy biztos menet.</em></h1>
+<p class="lead">A tíz fejezet után jön a próba. Ez a fejezet a 2025. december 5-i minta-zárthelyi mind a kilenc feladatát végigveszi, a feladatlap sorrendjében. Minden feladatnál megtalálod a megoldást, a tipikus csapdákat és új, ugyanolyan típusú kérdéseket. Ezekből látszik, mit kérdezhetnek még.</p>
+<div class="u-scene"><p><strong>Egy héttel a zh előtt.</strong> A fejezeteket már olvastad, a laborokat kipróbáltad. Mégis más érzés egy üres feladatlap előtt ülni. Ott nincs tipp, nincs „Ellenőrzés” gomb. Van viszont egy jó hír: a zh feladatai nagyon kiszámíthatók. Ugyanaz a menet ismétlődik, csak a számok és a mondatok változnak. Aki a menetet biztosan tudja, az új számokkal sem akad el.</p>
+<p>Ezért ez a fejezet nem új anyagot tanít. Minden feladattípusnál leírja a menetet, megmutatja a minta-zh megoldását, majd ad egy-két új változatot. A végén egy pontlappal felmérheted magad, és látod, hova érdemes még visszalapoznod.</p></div>
+<ul class="u-meta"><li>Forrás: minta-zh (2025. 12. 05.), 9 feladat, 100 pont</li><li>2 kipróbálható eszköz</li><li>36 új igaz–hamis állítás</li><li>12 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>18_A_csillag_algoritmus.py</code></li></ul>
+<div class="u-goals"><strong>A fejezet végére…</strong><ul>
+<li>tudod, melyik zh-feladat melyik fejezetre épül, és mennyi pontot ér;</li>
+<li>a minta-zh mind a kilenc feladatát önállóan meg tudod oldani, a konvenciók leírásával együtt;</li>
+<li>a két kifejtős kérdésre (előreláncolás, mesterséges neuron) ábrával együtt tudsz válaszolni;</li>
+<li>új számokkal is végig tudod vezetni az előreterjesztést, a rezolúciót, a fuzzy szimulációt, a keresést és a genetikus algoritmus egy generációját;</li>
+<li>felismered az igaz–hamis állítások tipikus csapdáit.</li>
+</ul></div>
+<ol class="u-flow" id="utiterv" aria-label="A fejezet útja">
+<li><strong>1 · TÉRKÉP</strong><a href="#terkep">Mi van a zh-ban</a>, és hol tanultad.</li>
+<li><strong>2 · ELMÉLET</strong><a href="#igaz-hamis">Igaz–hamis</a>, <a href="#lancolas">láncolás</a>, <a href="#neuron">neuron</a>, <a href="#kifejtos">kifejtős kérdések</a>.</li>
+<li><strong>3 · GYAKORLAT</strong><a href="#halo">Háló</a>, <a href="#propozicios">rezolúció</a>, <a href="#fuzzy">fuzzy</a>, <a href="#kereses">keresés</a>, <a href="#genetikus">GA</a>.</li>
+<li><strong>4 · PRÓBA</strong><a href="#generator">Új változatok</a> és <a href="#pontlap">pontlap</a>.</li>
+<li><strong>5 · ÖSSZEGZÉS</strong><a href="#dontes">Döntési táblázat</a> és <a href="#kviz">kvíz</a>.</li>
+</ol>
+<noscript><p class="u-simple"><strong>JavaScript nélkül</strong>Minden feladat, megoldás, ábra és gyakorló kérdés olvasható. Csak a változatgenerátor, a pontlap és a kvíz kiértékelése igényel JavaScriptet.</p></noscript>
+</header>
+
+<!-- 01 · TÉRKÉP -->
+<section id="terkep" class="chapter-section"><span class="section-index">01 / A ZH TÉRKÉPE</span>
+<h2>Kilenc feladat, két rész, tíz fejezet.</h2>
+<p>A minta-zh két részből áll. Az <strong>I. Elmélet</strong> három feladata 30 pontot ér: egy igaz–hamis sor és két kifejtős kérdés, mindkettő ábrával. A <strong>II. Gyakorlat</strong> hat feladata 70 pontot ér. Ezek mind „menetes” feladatok: egy jól begyakorolható eljárást kell lépésenként végrehajtani, és minden részeredményt leírni. A táblázat azt is megmutatja, melyik fejezet tanítja az adott feladat anyagát.</p>
+<div class="u-table-wrap"><table class="u-table u-points" id="zh-pontok"><caption>A minta-zh (2025. 12. 05.) feladatai, pontjai és a hozzájuk tartozó fejezetek. A sáv hossza a pontszámmal arányos.</caption>
+<thead><tr><th>Feladat</th><th>Mit kérnek?</th><th>Pont</th><th>Hol tanulod?</th></tr></thead><tbody>
+<tr><td><a href="#igaz-hamis">1.</a></td><td>15 igaz–hamis állítás a teljes anyagból</td><td>15 <span class="u-pbar" style="width:45px" aria-hidden="true"></span></td><td>1–10. fejezet</td></tr>
+<tr><td><a href="#lancolas">2.</a></td><td>Előreláncolás és a szakértőrendszer ábrája</td><td>10 <span class="u-pbar" style="width:30px" aria-hidden="true"></span></td><td><a href="02-tudasbazisok.html#felepites">2. fejezet</a></td></tr>
+<tr><td><a href="#neuron">3.</a></td><td>A mesterséges neuron ábrával</td><td>5 <span class="u-pbar" style="width:15px" aria-hidden="true"></span></td><td><a href="06-neuralis-halozatok.html#neuron">6. fejezet</a></td></tr>
+<tr><td><a href="#halo">4.</a></td><td>Előreterjesztés egy ReLU-hálón</td><td>5 <span class="u-pbar" style="width:15px" aria-hidden="true"></span></td><td><a href="06-neuralis-halozatok.html#gyak-elorejatszas">6. fejezet</a></td></tr>
+<tr><td><a href="#propozicios">5.</a></td><td>Propozíciós formalizálás és rezolúció</td><td>10 <span class="u-pbar" style="width:30px" aria-hidden="true"></span></td><td><a href="04-formalis-logika.html#rezolucio">4. fejezet</a></td></tr>
+<tr><td><a href="#predikatum">6.</a></td><td>Predikátumlogikai formalizálás és rezolúció</td><td>10 <span class="u-pbar" style="width:30px" aria-hidden="true"></span></td><td><a href="04-formalis-logika.html#pl-rezolucio">4. fejezet</a></td></tr>
+<tr><td><a href="#fuzzy">7.</a></td><td>Fuzzy szimuláció súlypont-módszerrel</td><td>10 <span class="u-pbar" style="width:30px" aria-hidden="true"></span></td><td><a href="05-prolog-es-fuzzy.html#zh-gyakorlas">5. fejezet</a></td></tr>
+<tr><td><a href="#kereses">8.</a></td><td>Mélységi keresés (7) és A* (18) egy súlyozott gráfon</td><td>25 <span class="u-pbar" style="width:75px" aria-hidden="true"></span></td><td><a href="09-neminformalt-kereses.html#zh">9.</a> és <a href="10-informalt-kereses.html#zh">10. fejezet</a></td></tr>
+<tr><td><a href="#genetikus">9.</a></td><td>Egy generáció a 8 lámpás hátizsákfeladaton</td><td>10 <span class="u-pbar" style="width:30px" aria-hidden="true"></span></td><td><a href="08-genetikus-algoritmusok.html#gyak-zh">8. fejezet</a></td></tr>
+</tbody></table></div>
+<p class="u-key">A legtöbb pontot a keresés hozza: egyedül a 8. feladat 25 pont, a zh negyede. A gyakorlati rész együtt 70 pont. Ezeket a menetek biztos tudásával lehet megszerezni.</p>
+<p>A kétféle feladatrész más tudást kér. Érdemes ezért kétféleképpen készülni rájuk.</p>
+<div class="u-compare" id="elmelet-gyakorlat">
+<div><span class="u-tag">I. ELMÉLET · 30 PONT</span><h3>Felismerés és kifejtés</h3><p>Az igaz–hamis állítások egy-egy fogalom meghatározását tesztelik. A csapda gyakran egyetlen szó: „mindig”, „nem befolyásolja”, „propozíciós” a „predikátum” helyett. A kifejtős kérdésekre néhány összefüggő mondattal és egy ábrával kell felelni. Itt az ábra elemei és a lépések sorrendje ér pontot.</p></div>
+<div><span class="u-tag">II. GYAKORLAT · 70 PONT</span><h3>Menet és konvenció</h3><p>Minden gyakorlati feladat egy eljárás végrehajtása: előreterjesztés, KNF és rezolúció, fuzzy kiértékelés, keresés, egy GA-generáció. A pontok a részeredményekért járnak, ezért minden lépést írj le. Ahol a feladat nem mond meg valamit (célteszt, ismétlések, túlsúlyos egyed fitnesze), ott írd le, melyik szabályt követed.</p></div>
+</div>
+<p>A fejezet minden feladatnál ugyanazt a rendet követi. Ezt a rendet érdemes neked is követned, amikor gyakorolsz.</p>
+<ol class="u-steps" id="gyakorlas-menete">
+<li><strong>Olvasd el a feladatot.</strong> A minta-zh szövegét idézetként találod, a feladatlap oldalszámával.</li>
+<li><strong>Oldd meg papíron.</strong> Ne nyisd ki rögtön a megoldást. A zh-n sem lesz kéznél.</li>
+<li><strong>Ellenőrizd a megoldással.</strong> A lenyíló a végeredményt és a kulcslépéseket mutatja. A teljes levezetés a hivatkozott fejezetben van.</li>
+<li><strong>Gyakorolj egy új változaton.</strong> Minden feladat után jön egy „Gyakorlás” blokk új számokkal vagy új mondatokkal. A <a href="#generator">változatgenerátor</a> még többet ad.</li>
+</ol>
+</section>
+
+<!-- 02 · IGAZ VAGY HAMIS -->
+<section id="igaz-hamis" class="chapter-section"><span class="section-index">02 / 1. FELADAT · 15 PONT</span>
+<h2>Igaz vagy hamis? Tizenöt állítás, egy-egy pontért.</h2>
+<p>Az első feladat a teljes anyagot átfogja. Minden állítás egy fogalom meghatározását vagy egy fontos tulajdonságát kérdezi. Nem kell indokolni, de a jó döntéshez tudnod kell, miért igaz vagy hamis az állítás. Ezért a megoldás mindig egy mondatos indoklást is ad, és megmutatja, melyik fejezet tárgyalja a fogalmat.</p>
+<figure class="u-quote"><blockquote><p>„Melyik állítás igaz és melyik hamis?”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 1. feladat, 1. oldal, 15 pont</figcaption></figure>
+<details class="u-practice" id="gyak-tf-zh"><summary>Gyakorlás · A minta-zh 15 állítása megoldással</summary>
+<p>Az állítások szó szerint a feladatlapról származnak (Minta-zh, 1. oldal). Döntsd el mindet, és csak utána nyisd ki a megoldásokat.</p>
+<ol type="a" class="u-tf">
+<li><p>„A PROLOG nyelvben létezik a visszalépés mechanizmus.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A visszalépés (backtracking) a Prolog működésének alapja: zsákutcában visszatér a legutóbbi választási ponthoz, és a következő illeszkedő klózt próbálja. Lásd: <a href="05-prolog-es-fuzzy.html#mukodes">5. fejezet, illesztés és visszalépés</a>.</p></details></li>
+<li><p>„Az esetalapú következtetésben egzakt illesztéssel történik a visszakeresés.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> A visszakeresés hasonlóság alapján történik: a legközelebbi, nem a pontosan egyező esetet keressük. Egzakt illesztéssel egy új eset legtöbbször semmit sem találna. Lásd: <a href="03-tudasreprezentacio.html#cbr">3. fejezet, esetalapú következtetés</a>.</p></details></li>
+<li><p>„A Turing-teszt célja, hogy eldöntse, egy gép képes-e emberhez hasonlóan gondolkodni.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Turing éppen ezt a kérdést cserélte le egy ellenőrizhető játékra. Hogy a játék ténylegesen ezt méri-e, azt sokan vitatják, de a teszt <em>célja</em> ez. Lásd: <a href="01-mi-es-intelligencia.html#turing">1. fejezet, az utánzós játék</a>.</p></details></li>
+<li><p>„A szemantikus hálóban vannak alapértelmezett értékek.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis</span> a kurzus felosztása szerint. Az alapértelmezett érték (alapérték) a keretek újdonsága: a keret rekeszéhez tartozik. A hálóban az „alapértelmezés” csak az öröklési ütközések feloldási elve, nem tárolt adat. Ha van hely indoklásra, ezt a különbséget érdemes leírni. Lásd: <a href="03-tudasreprezentacio.html#keretek">3. fejezet, keretek</a> és a <a href="03-tudasreprezentacio.html#keret-tobb">háló és a keret összevetése</a>.</p></details></li>
+<li><p>„A részletes tudás kinyerésének tárgya a terület szakértõjétõl a privát tudásának megszerzése, mely tudás több éves tanulást és tapasztalatot tükröz.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Ez szinte szó szerint a részletes tudás meghatározása. Lásd: <a href="02-tudasbazisok.html#reszletes">2. fejezet, részletes tudás</a>.</p></details></li>
+<li><p>„A mutáció operátor célja a populáció sokszínűségének növelése.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A mutáció olyan génértéket is behozhat, amely egyik szülőben sincs meg. Így kivezet a belterjességből. Lásd: <a href="08-genetikus-algoritmusok.html#mutacio">8. fejezet, mutáció</a>.</p></details></li>
+<li><p>„A felügyelet nélküli tanulás során a hálózatnak szüksége van előre megadott helyes válaszokra.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Ez a felügyelt tanulás jellemzője. A felügyelet nélküli tanulás címkézetlen adatokban keres szerkezetet, például csoportokat. Lásd: <a href="06-neuralis-halozatok.html#felugyelet-nelkul">6. fejezet, tanulás tanár nélkül</a>.</p></details></li>
+<li><p>„A szabályalapú rendszerek egyik előnye, hogy könnyen bővíthetők új szabályokkal.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Ez a modularitás: egy új szabály a többi módosítása nélkül hozzáadható. Lásd: <a href="02-tudasbazisok.html#merleg">2. fejezet, erős és gyenge pontok</a>.</p></details></li>
+<li><p>„A vak keresés nem veszi figyelembe a heurisztikát.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A vak (neminformált) keresés nem tud semmit arról, milyen messze van a cél. Csak azt veszi észre, ha már a célban van. A heurisztikát az informált keresés használja. Lásd: <a href="09-neminformalt-kereses.html#vak-vs-informalt">9. fejezet, vak és informált keresés</a>.</p></details></li>
+<li><p>„A rejtett rétegek száma nem befolyásolja a hálózat tanulási képességét.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Rejtett réteg nélkül például a XOR sem tanulható meg. A túl nagy háló pedig túlilleszt. Lásd: <a href="06-neuralis-halozatok.html#tobbretegu">6. fejezet, több réteg</a>.</p></details></li>
+<li><p>„A propozíciós logikában vannak univerzális és egzisztenciális kvantorok.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> A ∀ és a ∃ kvantor a predikátumlogika jele. A propozíciós logika egész állításokkal dolgozik, nincs benne változó, amit számszerűsíteni lehetne. Lásd: <a href="04-formalis-logika.html#predikatum">4. fejezet, predikátumlogika</a>.</p></details></li>
+<li><p>„A keresési front a fa leveleit jelenti.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz</span> a kurzus PDF-jének meghatározása szerint, és a zh-n ezt várják. Pontosabban a front a fa <em>még be nem lépett</em> leveleinek halmaza. Egy levél, amelybe már beléptünk, de nincs gyereke, nem része a frontnak. Ezt a <a href="09-neminformalt-kereses.html#fix-front">9. fejezet kiigazítása</a> részletezi.</p></details></li>
+<li><p>„A genetikus algoritmusokban a fitnesz függvény értékeli az egyedek jóságát.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A fitnesz (rátermettség) minden egyedhez egy jósági értéket rendel; a kiválasztás erre épül. Lásd: <a href="08-genetikus-algoritmusok.html#kivalasztas">8. fejezet, kiválasztás</a>.</p></details></li>
+<li><p>„A logikai kifejezés tautológia, ha minden helyettesítésre igaz értéket ad.”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Ez a tautológia (érvényes formula) meghatározása, például p ∨ ¬p. Ha minden helyettesítésre hamis, az ellentmondás (kielégíthetetlen formula). Lásd: <a href="04-formalis-logika.html#ervenyes">4. fejezet, mindig igaz, néha igaz, soha</a>.</p></details></li>
+<li><p>„A szakértőrendszerek a szakértőknél sokkal rosszabb színvonalon tudják megoldani a problémákat”</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> A saját szűk területükön a jó szakértőrendszerek szakértői szinten dolgoznak. A gyengéjük a szűk terület és a merevség, nem a színvonal. Lásd: <a href="01-mi-es-intelligencia.html#szakerto">1. fejezet, szakértőrendszerek</a>.</p></details></li>
+</ol></details>
+<p>A tizenöt állításból hat hamis. A hamis állítások szinte mind egy tipikus mintát követnek. Ha ezeket ismered, egy ismeretlen állításnál is tudod, mire figyelj.</p>
+<div class="u-compare" id="tf-csapdak">
+<div><span class="u-tag">1 · FELCSERÉLT PÁR</span><p>Az állítás egy fogalompár másik tagjára igaz. Felügyelt ↔ felügyelet nélküli, propozíciós ↔ predikátum, háló ↔ keret, előre- ↔ hátraláncolás, mutáció ↔ keresztezés.</p></div>
+<div><span class="u-tag">2 · ABSZOLÚT SZÓ</span><p>„Mindig”, „soha”, „nem befolyásolja”, „sokkal rosszabb”. Egyetlen ellenpélda elég, hogy hamis legyen. A XOR például megcáfolja, hogy a rejtett réteg nem számít.</p></div>
+<div><span class="u-tag">3 · TÚL SZIGORÚ SZÓ</span><p>„Egzakt”, „pontosan”, „csak”. Az esetalapú következtetés hasonlóságot keres, nem egyezést.</p></div>
+<div><span class="u-tag">4 · KURZUS ÉS SZAKIRODALOM</span><p>Néhány kérdésnél a tankönyvek árnyaltabbak (alapérték a hálóban, front és levelek). A zh-n a kurzus meghatározása számít. Ha lehet, írd mellé az árnyalatot.</p></div>
+</div>
+<p>A következő gyakorló blokk 36 új állítást ad, fejezetenként csoportosítva. Ugyanezekre a csapdákra épülnek, mint a minta-zh állításai. Ilyen kérdések bármelyik zh-n előfordulhatnak.</p>
+<details class="u-practice" id="gyak-tf-uj"><summary>Gyakorlás · 36 új igaz–hamis állítás a teljes anyagból</summary>
+<h3>MI, szakértőrendszerek, tudásreprezentáció (1–3. fejezet)</h3>
+<ol class="u-tf">
+<li><p>A Turing-tesztben a bíráló csak szövegesen, billentyűzeten keresztül kommunikál a két tesztalannyal.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Így a hang, a külső és a kézírás nem árulkodik. <a href="01-mi-es-intelligencia.html#turing">1. fejezet</a></p></details></li>
+<li><p>Az erős MI álláspontja szerint elég, ha a gép kívülről intelligensen viselkedik.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Ez a gyenge MI álláspontja. Az erős MI szerint a gép valóban érti is, amit csinál. (Felcserélt pár.) <a href="01-mi-es-intelligencia.html#gyenge-eros-mi">1. fejezet</a></p></details></li>
+<li><p>Az előreláncolás a célból indul, és visszafelé keresi a szükséges tényeket.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Ez a hátraláncolás. Az előreláncolás a tényekből indul, és addig alkalmazza a szabályokat, amíg új tény születik. <a href="02-tudasbazisok.html#irany">2. fejezet</a></p></details></li>
+<li><p>A konfliktushalmaz azokból a szabályokból áll, amelyek feltételrésze a ténybázis tényeivel teljesül.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Ezek közül a konfliktusfeloldás választ ki egyet. <a href="02-tudasbazisok.html#kovetkezteto-ciklus">2. fejezet</a></p></details></li>
+<li><p>A szabálybázis esetről esetre változik, a ténybázis viszont minden esetben ugyanaz.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Fordítva: a szabálybázis a tartós, általános tudás, a ténybázis az aktuális eset adatait tartalmazza. <a href="02-tudasbazisok.html#felepites">2. fejezet</a></p></details></li>
+<li><p>A hátraláncoló rendszer csak azokra az adatokra kérdez rá, amelyek a vizsgált célhoz szükségesek.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Ezért jó diagnosztikai kérdező. <a href="02-tudasbazisok.html#hianyzo-teny">2. fejezet</a></p></details></li>
+<li><p>A keret rekeszeihez démonok, vagyis esemény hatására elinduló eljárások kapcsolhatók.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Például az IF_NEEDED démon akkor számol értéket, ha valaki egy üres rekeszt kérdez. <a href="03-tudasreprezentacio.html#keretek">3. fejezet</a></p></details></li>
+<li><p>A szemantikus hálóban az alosztály örökli a felettes osztály tulajdonságait.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A kanári azért tud repülni, mert madár. Kivétel esetén a saját érték felülírja az örököltet. <a href="03-tudasreprezentacio.html#orokles">3. fejezet</a></p></details></li>
+<li><p>Az esetalapú következtetés ciklusa: a hasonló eset visszakeresése, felhasználása, az új helyzethez igazítása és a megoldás eltárolása.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Ez a négylépéses ciklus. <a href="03-tudasreprezentacio.html#cbr">3. fejezet</a></p></details></li>
+</ol>
+<h3>Logika, Prolog és fuzzy (4–5. fejezet)</h3>
+<ol class="u-tf" start="10">
+<li><p>Egy formula kielégíthetetlen, ha minden helyettesítésre hamis.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A kielégíthetetlen formula más néven ellentmondás. <a href="04-formalis-logika.html#ervenyes">4. fejezet</a></p></details></li>
+<li><p>A rezolúciós bizonyítás a bizonyítandó állítás tagadásából indul, és az üres klózt (NIL) keresi.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Ez a cáfolati bizonyítás: ha a premisszák és a tagadott állítás együtt ellentmondásosak, az állítás következik. <a href="04-formalis-logika.html#rezolucio">4. fejezet</a></p></details></li>
+<li><p>A p → q formula klózalakja p ∨ ¬q.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> A helyes alak ¬p ∨ q. A tagadás a feltételt kapja, nem a következményt. <a href="04-formalis-logika.html#knf">4. fejezet</a></p></details></li>
+<li><p>Ha a rezolúció egy ágon elakad, akkor a bizonyítandó állítás biztosan nem következik a premisszákból.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Egy zsákutca nem telítődés: más klózpárral még eljuthatunk a NIL-ig. Csak akkor nem következik, ha már semmilyen pár nem ad új klózt. (Abszolút szó.) <a href="04-formalis-logika.html#gyak-meres">4. fejezet</a></p></details></li>
+<li><p>A Skolem-konstans a „van olyan” (∃) kvantort tünteti el: a változó helyére egy új, máshol nem szereplő név kerül.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A klózokban maradó változók ezután mind „minden”-t jelentenek. <a href="04-formalis-logika.html#pl-rezolucio">4. fejezet</a></p></details></li>
+<li><p>A Prolog a célokat balról jobbra, a klózokat felülről lefelé próbálja ki.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Ez a Prolog vezérlése, visszalépéssel kiegészítve. <a href="05-prolog-es-fuzzy.html#mukodes">5. fejezet</a></p></details></li>
+<li><p>A vágás (!) után a Prolog visszaléphet a vágás előtti célok újabb megoldásaira.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> A vágás éppen ezt tiltja: a vágás előtti választásokat rögzíti. A visszalépés mechanizmusa ettől még létezik, csak a vágáson nem jut át. <a href="05-prolog-es-fuzzy.html#keresofak">5. fejezet</a></p></details></li>
+<li><p>A fuzzy logikában egy elem egyszerre több halmazhoz is tartozhat, különböző mértékben.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A minta-zh 23 °C-ja például 0,4 mértékben közepes és 0,3 mértékben magas. <a href="05-prolog-es-fuzzy.html#tagsag">5. fejezet</a></p></details></li>
+<li><p>A fuzzy szabály ÉS-sel összekötött feltételeinek értékét a maximummal számoljuk.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Az ÉS a minimum, a VAGY a maximum. (Felcserélt pár.) <a href="05-prolog-es-fuzzy.html#szabalyok">5. fejezet</a></p></details></li>
+<li><p>A súlypont-módszer a defuzzifikálás egyik módja: a kimeneti fuzzy halmazból egyetlen éles számot ad.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A minta-zh-ban ez adja az 55,6%-os sebességet. <a href="05-prolog-es-fuzzy.html#folyamat">5. fejezet</a></p></details></li>
+</ol>
+<h3>Neurális hálók, nehéz feladatok, genetikus algoritmus (6–8. fejezet)</h3>
+<ol class="u-tf" start="20">
+<li><p>Egyetlen perceptron meg tudja tanulni a XOR függvényt.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> A XOR nem választható el egyetlen egyenessel, ehhez rejtett réteg kell. <a href="06-neuralis-halozatok.html#perceptron">6. fejezet</a></p></details></li>
+<li><p>A ReLU kimenete negatív aktivációs potenciálnál 0, nemnegatívnál maga a potenciál.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> ReLU(a) = max(0, a). Ezért a minta-zh hálójában csak a negatív potenciálú neuronoknál tér el a kimenet a potenciáltól. <a href="06-neuralis-halozatok.html#aktivacio">6. fejezet</a></p></details></li>
+<li><p>Felügyelt tanulásnál minden tanítópéldához ismert a kívánt kimenet.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A háló a saját kimenetét ehhez hasonlítja, és a hibából tanul. <a href="06-neuralis-halozatok.html#tanulas">6. fejezet</a></p></details></li>
+<li><p>A hibavisszaterjesztés a kimeneti hibát a rétegeken visszafelé haladva osztja szét a súlyok között.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Minden súly annyit változik, amennyire a hibához hozzájárult. <a href="06-neuralis-halozatok.html#visszaterjesztes">6. fejezet</a></p></details></li>
+<li><p>Minél több rejtett neuron van egy hálóban, annál jobban teljesít új adatokon.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> A túl nagy háló „bemagolja” a tanítóadatokat, és új adatokon rosszabb lesz: ez a túlilleszkedés. <a href="06-neuralis-halozatok.html#meretezes">6. fejezet</a></p></details></li>
+<li><p>Az NP-teljes feladatokra ismert polinomiális idejű megoldó algoritmus.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Ilyet nem ismerünk. Ha egyre lenne, mindegyikre lenne: ez a P = NP kérdés. <a href="07-szamitasi-problemak.html#osztalyok">7. fejezet</a></p></details></li>
+<li><p>A hátizsákfeladat döntési változata NP-teljes.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A minta-zh lámpás feladata is hátizsákfeladat. <a href="07-szamitasi-problemak.html#hatizsak">7. fejezet</a></p></details></li>
+<li><p>Rulettkerék-kiválasztásnál a nagyobb fitneszű egyed nagyobb eséllyel lesz szülő.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Az esély a fitnesszel arányos. <a href="08-genetikus-algoritmusok.html#kivalasztas">8. fejezet</a></p></details></li>
+<li><p>Az elitizmus garantálja, hogy a populáció eddigi legjobb egyede nem vész el.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> A legjobbak változtatás nélkül jutnak a következő generációba. <a href="08-genetikus-algoritmusok.html#uj-populacio">8. fejezet</a></p></details></li>
+<li><p>A keresztezés egyetlen szülő génjeit változtatja meg véletlenszerűen.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Ez a mutáció. A keresztezés két szülő génjeit kombinálja. (Felcserélt pár.) <a href="08-genetikus-algoritmusok.html#keresztezes">8. fejezet</a></p></details></li>
+</ol>
+<h3>Keresés (9–10. fejezet)</h3>
+<ol class="u-tf" start="30">
+<li><p>A szélességi keresés mindig a legkisebb költségű utat találja meg.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> A legkevesebb lépésből álló utat találja meg. Ez csak egyforma élköltségeknél a legolcsóbb. A <a href="#kereses">gyakorló gráfon</a> 13 költségű utat ad, pedig van 10-es. (Abszolút szó.)</p></details></li>
+<li><p>A mélységi keresés általában kevesebb memóriát igényel, mint a szélességi.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Csak az aktuális ágat és a mellette álló testvéreket tárolja. <a href="09-neminformalt-kereses.html#osszevetes">9. fejezet</a></p></details></li>
+<li><p>A mohó legjobb-első keresés mindig optimális utat talál.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Csak a becslést nézi, a megtett utat nem. A gyakorló gráfon 13-at talál a 10 helyett. <a href="10-informalt-kereses.html#legjobb-elso">10. fejezet</a></p></details></li>
+<li><p>Elfogadható (sosem túlbecslő) heurisztikával az A* fakeresés optimális utat talál.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Feltétel, hogy a célt belelépéskor ellenőrizzük. <a href="10-informalt-kereses.html#a-csillag">10. fejezet</a></p></details></li>
+<li><p>Az iteratív mélyítés a mélységkorlátos keresést egyre nagyobb korláttal ismétli.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Így a szélességi keresés teljességét a mélységi kis memóriájával kapjuk. <a href="09-neminformalt-kereses.html#iterativ">9. fejezet</a></p></details></li>
+<li><p>A hegymászó keresés elakadhat egy helyi csúcson.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-i">Igaz.</span> Ha egyik szomszéd sem jobb, megáll, akkor is, ha máshol van magasabb csúcs. <a href="10-informalt-kereses.html#hegymaszo">10. fejezet</a></p></details></li>
+<li><p>A szimulált hűtés soha nem fogad el rosszabb állapotot.</p><details class="u-sol"><summary>Megoldás</summary><p><span class="u-verdict u-h">Hamis.</span> Éppen ez a lényege: exp(−Δ / T) valószínűséggel rontó lépést is elfogad, így kijuthat a helyi csúcsokról. <a href="10-informalt-kereses.html#hutes">10. fejezet</a></p></details></li>
+</ol></details>
+</section>
+
+<!-- 03 · LÁNCOLÁS -->
+<section id="lancolas" class="chapter-section"><span class="section-index">03 / 2. FELADAT · 10 PONT</span>
+<h2>Előreláncolás: négy lépés körbe-körbe.</h2>
+<figure class="u-quote"><blockquote><p>„Ismerte a következtetési működést előrehaladó szabályláncolás esetében, és a szabályalapú tudásszemléltetést alkalmazó szakértőrendszer felépítésének ábráját!”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 2. feladat, 2. oldal, 10 pont. A feladatlapon „Ismerte” áll, nyilván „Ismertesse” helyett.</figcaption></figure>
+<p>A kérdés két részből áll: egy ábrából és egy működésleírásból. Mindkettőt a <a href="02-tudasbazisok.html#felepites">2. fejezet 17. része</a> tárgyalja részletesen. Itt egy olyan mintaválasz következik, amely mindkét részre teljes pontot érhet.</p>
+<p><strong>Az ábra.</strong> A szabályalapú szakértőrendszer négy részből áll. Fent egymás mellett a szabálybázis és a ténybázis, alattuk középen a következtető automata, legalul a kezelői interfész. A nyilak az információ útját mutatják.</p>
+<div class="u-arch" id="szakerto-abra" role="img" aria-label="A szabályalapú szakértőrendszer felépítése: fent a szabálybázis és a ténybázis, alattuk a következtető automata, legalul a kezelői interfész. A szabálybázisból egy nyíl megy az automatához, a ténybázis és az automata között két irányú a nyíl, az automata és az interfész között is.">
+<div><strong>SZABÁLYBÁZIS</strong>HA … AKKOR … szabályok</div>
+<div><strong>TÉNYBÁZIS</strong>Tény₁, Tény₂, …</div>
+<div class="u-arr">↓ csak olvassa</div>
+<div class="u-arr">↕ olvassa és új tényekkel bővíti</div>
+<div class="u-wide"><strong>KÖVETKEZTETŐ AUTOMATA</strong>illeszt, választ, alkalmaz</div>
+<div class="u-arr u-wide">↕ kérdések és adatok · válasz és indoklás</div>
+<div class="u-wide"><strong>KEZELŐI INTERFÉSZ</strong>a felhasználó felé</div>
+</div>
+<p>Szövegesen: a szabálybázist a következtető automata csak olvassa, ezért onnan egyetlen nyíl megy lefelé. A ténybázis és az automata között két nyíl van, mert az automata a tényeket olvassa, és a kikövetkeztetett új tényeket vissza is írja. Az automata és a kezelői interfész között szintén kétirányú a kapcsolat: lefelé a kérdések és a válasz, felfelé a felhasználó adatai.</p>
+<p><strong>A működés.</strong> A következtető automata feladata, hogy a szabálybázis és az aktuális tények felhasználásával elérje a célállapotot. Előreláncolásnál ezt egy négylépéses ciklussal teszi, amely addig ismétlődik, amíg van alkalmazható szabály, vagy amíg el nem érjük a célt.</p>
+<ol class="u-flow" id="elore-ciklus" aria-label="Az előreláncolás négylépéses ciklusa">
+<li><strong>1 · MINTAILLESZTÉS</strong>Kikeresi azokat a szabályokat, amelyek feltételrésze a ténybázis tényeivel teljesül.</li>
+<li><strong>2 · KONFLIKTUSFELOLDÁS</strong>Ezek alkotják a konfliktushalmazt. Ebből egyetlen szabályt választ ki, például az elsőt.</li>
+<li><strong>3 · SZABÁLYALKALMAZÁS</strong>Végrehajtja a kiválasztott szabály következményrészét: az új tény bekerül a ténybázisba.</li>
+<li><strong>4 · CÉLTESZT</strong>Ha a célállapot létrejött, megáll. Különben vissza az 1. lépéshez.</li>
+</ol>
+<p>Egy rövid példa teszi teljessé a választ. Legyen négy tény: a, b, c, d, és három szabály: R1: HA a ÉS b AKKOR e; R2: HA c ÉS d AKKOR f; R3: HA e ÉS f AKKOR g. Az első körben az R1 és az R2 is illeszkedik; a konfliktusfeloldás az R1-et választja, így e új tény lesz. A második körben az R2 sül el (f), a harmadikban az R3 (g). Ha a g a cél, itt megállunk. A rendszer a tényektől halad a végkövetkeztetés felé: ezért hívják adatvezérelt következtetésnek.</p>
+<p class="u-key">Pontot ér: a négy elem a helyén, a nyilak iránya, a négy lépés neve és tartalma, a megállás feltétele. Egy kis példa jelzi, hogy a menetet érted is, nem csak megtanultad.</p>
+<details class="u-practice" id="gyak-lancolas-uj"><summary>Gyakorlás · Láncolás új szabályokkal (3 feladat)</summary>
+<p>Szabályok: R1: HA láz ÉS köhögés AKKOR fertőzés. R2: HA fertőzés ÉS gyengeség AKKOR ágynyugalom. R3: HA láz AKKOR folyadékpótlás. R4: HA ágynyugalom AKKOR táppénz. Tények: láz, köhögés, gyengeség. A konfliktusfeloldás mindig a legkisebb sorszámú, még el nem sült szabályt választja.</p>
+<ol>
+<li><p>Vezesd végig az előreláncolást! Milyen sorrendben sülnek el a szabályok, és mi a ténybázis a végén?</p><details class="u-sol"><summary>Megoldás</summary><p>1. kör: illeszkedik az R1 és az R3; elsül az R1 → fertőzés. 2. kör: illeszkedik az R2 és az R3; elsül az R2 → ágynyugalom. 3. kör: illeszkedik az R3 és az R4; elsül az R3 → folyadékpótlás. 4. kör: elsül az R4 → táppénz. 5. kör: nincs több alkalmazható szabály, megáll. A ténybázis: láz, köhögés, gyengeség, fertőzés, ágynyugalom, folyadékpótlás, táppénz.</p></details></li>
+<li><p>Igazold hátraláncolással a „táppénz” célt! Melyik szabályt nem kellett megvizsgálni?</p><details class="u-sol"><summary>Megoldás</summary><p>Cél: táppénz. Az R4 adja, részcél: ágynyugalom. Az R2 adja, részcélok: fertőzés és gyengeség. A gyengeség ismert tény. A fertőzést az R1 adja, részcélok: láz és köhögés, mindkettő ismert. Tehát a fertőzés, az ágynyugalom és a táppénz is igazolt. Az R3-at (folyadékpótlás) egyszer sem kellett megvizsgálni: a hátraláncolás csak a célhoz szükséges szabályokat nézi.</p></details></li>
+<li><p>Tegyük fel, hogy a köhögésről nem tudunk semmit. Mi történik az előre-, és mi a hátraláncolásnál?</p><details class="u-sol"><summary>Megoldás</summary><p>Előreláncolásnál csak az R3 sül el (folyadékpótlás), aztán a folyamat leáll. A táppénz nem születik meg, és a rendszer nem mondja meg, mi hiányzott. Hátraláncolásnál a rendszer a fertőzés részcélnál elakad a köhögésen. Mivel egyetlen szabály sem adja a köhögést, megkérdezi a felhasználót: „Köhög a beteg?” Ez a hátraláncolás előnye: tudja, mire kell rákérdezni. Lásd: <a href="02-tudasbazisok.html#hianyzo-teny">2. fejezet, hiányzó tény</a>.</p></details></li>
+</ol></details>
+</section>
+
+<!-- 04 · NEURON -->
+<section id="neuron" class="chapter-section"><span class="section-index">04 / 3. FELADAT · 5 PONT</span>
+<h2>A mesterséges neuron: súlyoz, összead, dönt.</h2>
+<figure class="u-quote"><blockquote><p>„Ismertesse a mesterséges neuront (ábrával is szemléltesse)!”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 3. feladat, 2. oldal, 5 pont</figcaption></figure>
+<p>Öt pontért egy rövid, de pontos válasz kell. A mintaválasz egy ábrából, egy képletből és néhány mondatból áll. A részletes magyarázat a <a href="06-neuralis-halozatok.html#neuron">6. fejezet 4. részében</a> található.</p>
+<figure class="u-plot u-plot-wide" id="neuron-abra"><svg class="u-neuron-svg" viewBox="0 0 560 210" role="img" aria-labelledby="neuron-abra-t"><title id="neuron-abra-t">A mesterséges neuron: az x₁ … xₙ bemenetek w₁ … wₙ súllyal, valamint az 1 értékű bemenet w₀ torzítással egy összegzőbe futnak; az összeg az aktivációs potenciál, a; ebből az f aktivációs függvény adja az y kimenetet.</title>
+<defs><marker id="neuron-nyil" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="u-arrowhead"/></marker></defs>
+<path class="u-n-line" d="M48 48L218 92" marker-end="url(#neuron-nyil)"/><path class="u-n-line" d="M48 108L214 108" marker-end="url(#neuron-nyil)"/><path class="u-n-line" d="M48 178L218 124" marker-end="url(#neuron-nyil)"/><path class="u-n-line" d="M250 26L250 70" marker-end="url(#neuron-nyil)"/>
+<text x="20" y="53">x₁</text><text x="20" y="113">x₂</text><text x="26" y="148">⋮</text><text x="20" y="183">xₙ</text><text x="236" y="20">1</text>
+<text class="u-n-w" x="118" y="58">w₁</text><text class="u-n-w" x="118" y="102">w₂</text><text class="u-n-w" x="118" y="168">wₙ</text><text class="u-n-w" x="258" y="50">w₀ (torzítás)</text>
+<circle class="u-n-body" cx="250" cy="108" r="34"/><text x="250" y="116" text-anchor="middle" style="font-size:24px">Σ</text>
+<text x="250" y="166" text-anchor="middle">a = w₁x₁ + … + wₙxₙ + w₀</text>
+<path class="u-n-line" d="M284 108L350 108" marker-end="url(#neuron-nyil)"/>
+<rect class="u-n-body" x="352" y="84" width="84" height="48" rx="8"/><text x="394" y="114" text-anchor="middle">f(a)</text>
+<text x="394" y="152" text-anchor="middle">aktivációs függvény</text>
+<path class="u-n-line" d="M436 108L520 108" marker-end="url(#neuron-nyil)"/><text x="530" y="113">y</text>
+</svg><figcaption>A mesterséges neuron. A bemenetek súlyozott összege és a torzítás adja az aktivációs potenciált (a). Az aktivációs függvény (f) ebből számolja a kimenetet (y = f(a)), amely a következő neuronok bemenete lesz.</figcaption></figure>
+<p><strong>Mintaválasz.</strong> A mesterséges neuron a biológiai idegsejt egyszerűsített matematikai modellje. Bemenetei az x₁, …, xₙ számok; ezek a biológiai dendriteknek felelnek meg. Minden bemenethez egy w<sub>i</sub> súly tartozik, amely azt fejezi ki, mennyire erős és milyen irányú az adott kapcsolat. A pozitív súly serkent, a negatív gátol. A neuron először összegzi a súlyozott bemeneteket, és hozzáadja a w₀ torzítást (eltolást). Ez az <strong>aktivációs potenciál</strong>: a = Σ w<sub>i</sub>x<sub>i</sub> + w₀. Ezután az <strong>aktivációs függvény</strong> ebből kiszámolja a kimenetet: y = f(a). Gyakori aktivációs függvény a küszöbfüggvény (0 vagy 1), a szigmoid (0 és 1 közötti, folytonos) és a ReLU (max(0, a)). A kimenet a következő réteg neuronjainak bemenete lesz. A tanulás a súlyok változtatását jelenti.</p>
+<p class="u-key">Az ábrán öt dolognak kell látszania: a bemenetek, a súlyok, az összegző, az aktivációs függvény és a kimenet. A torzítás és a képlet a teljes pontért jár.</p>
+</section>
+
+<!-- 05 · KIFEJTŐS -->
+<section id="kifejtos" class="chapter-section"><span class="section-index">05 / TOVÁBBI KIFEJTŐS KÉRDÉSEK</span>
+<h2>Mit kérdezhetnek még az elméleti részben?</h2>
+<p>A minta-zh két kifejtős kérdése egy-egy fejezet központi ábrájára épül. Egy másik zh-n könnyen jöhet egy másik fejezet központi ábrája vagy eljárása. Az alábbi nyolc kérdés ilyen lehetőségeket mutat. Mindegyikre 5–10 mondatos válasz és, ahol értelmes, egy ábra illik. Írd meg a választ, és csak utána nézd meg a mintát.</p>
+<details class="u-practice" id="gyak-kifejtos"><summary>Gyakorlás · 8 lehetséges kifejtős kérdés mintaválasszal</summary>
+<ol>
+<li><p>Ismertesse a hátrafelé haladó szabályláncolást! Miben különbözik az előrehaladótól?</p><details class="u-sol"><summary>Mintaválasz</summary><p>A hátraláncolás egy kitűzött célból (hipotézisből) indul. Megkeresi azokat a szabályokat, amelyek következményrésze a cél, és ezek feltételeit részcélként veszi fel. A részcélokat ugyanígy bontja tovább, amíg ismert tényekhez nem jut. Ha egy részcél sem tényként, sem szabályból nem adódik, megkérdezi a felhasználót. Ha minden részcél igazolt, a cél is igazolt. Az előreláncolás ezzel szemben a tényekből indul, és minden alkalmazható szabályt végrehajt, amíg új tény születik. Az előreláncolás adatvezérelt: akkor jó, ha sok adatunk van, de nincs elképzelésünk a megoldásról. A hátraláncolás célvezérelt: akkor jó, ha egy hipotézist kell ellenőrizni, és csak a szükséges adatokat akarjuk bekérni. <a href="02-tudasbazisok.html#irany">2. fejezet</a></p></details></li>
+<li><p>Ismertesse a szemantikus hálót! Mutassa be az öröklést egy példán!</p><details class="u-sol"><summary>Mintaválasz</summary><p>A szemantikus háló irányított gráf: a csomópontok fogalmak, egyedek vagy tulajdonságok, az élek a köztük lévő kapcsolatok. A legfontosabb élek az „egy” (az egyed egy osztály eleme) és a „fajtája” (alosztály). A tulajdonságokat a lehető legáltalánosabb szinten tároljuk, és az alosztályok öröklik őket. Példa: Madár –tud→ repülni; Kanári –fajtája→ Madár; Pityuka –egy→ Kanári. A „Tud-e Pityuka repülni?” kérdésre a rendszer felfelé lépked az éleken, és a Madár csomópontnál megtalálja a választ. Kivételnél (a strucc nem repül) a közelebbi, saját érték felülírja az örököltet. Előnye a tömör tárolás és a természetes szerkezet. Hátránya, hogy az élek jelentése nincs rögzítve, és öröklési ütközések adódhatnak. <a href="03-tudasreprezentacio.html#allathalo">3. fejezet</a></p></details></li>
+<li><p>Ismertesse a keretalapú tudásábrázolást! Mik a démonok?</p><details class="u-sol"><summary>Mintaválasz</summary><p>A keret egy tipikus helyzet vagy tárgy adatlapja. Neve van, és rekeszekből (slot) áll; minden rekeszben egy tulajdonság értéke áll. Egy rekesz alapértéket is tartalmazhat, amely akkor érvényes, ha nincs konkrét érték. A keretek hierarchiába rendezhetők, és az alkeret örökli a felettes keret rekeszeit. A rekeszekhez démonok kapcsolhatók: ezek kis eljárások, amelyek egy esemény hatására maguktól indulnak el. Az IF_NEEDED akkor számol értéket, ha valaki egy üres rekeszt kérdez; az IF_ADDED akkor fut, ha a rekesz új értéket kap; ugyanígy van törléskor és módosításkor induló démon is. A démonok miatt a keretrendszer „élő”, eseményvezérelt rendszer. <a href="03-tudasreprezentacio.html#keretek">3. fejezet</a></p></details></li>
+<li><p>Ismertesse az esetalapú következtetés működését!</p><details class="u-sol"><summary>Mintaválasz</summary><p>Az esetalapú következtetés a korábban megoldott esetekből tanul, ahogy egy tapasztalt szakember. Egy új problémánál négylépéses ciklust követ. Visszakeresés: az esetbázisból kikeresi a leghasonlóbb régi esetet. A hasonlóság a jellemzők helyi hasonlóságainak súlyozott átlaga, nem egzakt egyezés. Újrafelhasználás: a régi eset megoldását javaslatként átveszi. Felülvizsgálat: a megoldást az új helyzethez igazítja, és ellenőrzi. Megtartás: az új esetet a megoldásával együtt eltárolja, így a rendszer tanul. Előnye, hogy nem kell szabályokat megfogalmazni, és hiányos tudással is működik. <a href="03-tudasreprezentacio.html#cbr">3. fejezet</a></p></details></li>
+<li><p>Ismertesse a fuzzy szabályozó működését!</p><details class="u-sol"><summary>Mintaválasz</summary><p>A fuzzy szabályozó éles bemenetekből éles kimenetet számol, nyelvi szabályok alapján, három lépésben. Fuzzifikálás: a bemeneti értékekről a tagsági függvények leolvassák, mennyire tartoznak az egyes nyelvi értékekhez (például 23 °C 0,4 mértékben közepes). Szabálykiértékelés: minden „HA … AKKOR …” szabály kap egy értéket; az ÉS a minimum, a VAGY a maximum. A szabály értéke levágja a következmény tagsági függvényét, a levágott halmazokat pedig maximummal egyesítjük. Defuzzifikálás: az egyesített halmazból egy éles számot készítünk, például a súlypont-módszerrel. Az eredmény a vezérelt mennyiség, például a ventilátor sebessége. <a href="05-prolog-es-fuzzy.html#folyamat">5. fejezet</a></p></details></li>
+<li><p>Ismertesse a perceptron tanulási szabályát!</p><details class="u-sol"><summary>Mintaválasz</summary><p>A perceptron egyetlen küszöbfüggvényes neuron, amely tanítópéldákból tanul. Minden példánál kiszámolja a kimenetét, és összeveti a kívánt kimenettel. Ha egyezik, nem változtat. Ha nem, minden súlyt a hibával és a bemenettel arányosan módosít: w<sub>i</sub> ← w<sub>i</sub> + η · (d − y) · x<sub>i</sub>, ahol d a kívánt, y a kapott kimenet, η a tanulási ráta. A torzítást ugyanígy, x₀ = 1 bemenettel. A példákon addig megy végig újra és újra, amíg minden példát jól nem osztályoz. Ha a két osztály egy egyenessel (síkkal) elválasztható, véges sok lépésben megtalálja a megoldást. A XOR-hoz hasonló, lineárisan nem elválasztható feladatokat nem tudja megtanulni. <a href="06-neuralis-halozatok.html#perceptron">6. fejezet</a></p></details></li>
+<li><p>Ismertesse a genetikus algoritmus lépéseit!</p><details class="u-sol"><summary>Mintaválasz</summary><p>A genetikus algoritmus jelöltek egész populációjával keres. Először a megoldásokat kódoljuk, például bitsorozattal (kromoszóma), és létrehozunk egy véletlen kezdő populációt. Minden egyedhez kiszámoljuk a fitneszét, vagyis a jóságát. Kiválasztással (rulettkerék, versenyeztetés, rangsor) szülőket választunk; a jobb egyednek nagyobb az esélye. A szülőkből keresztezéssel utódokat készítünk, az utódokon kis valószínűséggel mutációt végzünk. Az új populációt a túlélési szabály állítja össze, gyakran elitizmussal: a legjobbak változtatás nélkül továbbjutnak. Ezt addig ismételjük, amíg egy leállási feltétel (generációszám, elég jó fitnesz, megtorpanás) nem teljesül. <a href="08-genetikus-algoritmusok.html#algoritmus">8. fejezet</a></p></details></li>
+<li><p>Ismertesse az általános keresőeljárást! Mi a front?</p><details class="u-sol"><summary>Mintaválasz</summary><p>A keresés a Start állapotból indul, és egy keresőfát épít. A front a feltárt, de még be nem lépett csomópontok halmaza; kezdetben csak a Start van benne. Minden lépésben kiválasztunk egy csomópontot a frontból, és belelépünk. Ha ez cél, megállunk, és a fában visszafelé kiolvassuk az utat. Ha nem, kiterjesztjük: a gyerekeit, vagyis az egy lépésben elérhető állapotokat felvesszük a frontba. Ha a front kiürül, nincs megoldás. Az egyes eljárások abban különböznek, hogy melyik frontcsomópontot választják. A szélességi a legrégebbit, a mélységi a legújabbat, az egyenletes költségű a legolcsóbbat, az A* a legkisebb g + h értékűt. <a href="09-neminformalt-kereses.html#altalanos">9. fejezet</a></p></details></li>
+</ol></details>
+</section>
+
+<!-- 06 · HÁLÓ -->
+<section id="halo" class="chapter-section"><span class="section-index">06 / 4. FELADAT · 5 PONT</span>
+<h2>Előreterjesztés: rétegről rétegre, a kimenettel tovább.</h2>
+<figure class="u-quote"><blockquote><p>„Adott az alábbi mesterséges neurális háló. Válaszoljon az alábbi kérdésekre: (a) Mi az 1. rejtett réteg neuronjainak aktivációs potenciáljai? (b) Mi a 2. rejtett réteg neuronjainak kimenetei? (c) Mi az egész háló kimenete? (d) Hány neuron esetében nem egyezik meg az aktivációs potenciál és a neuron kimenete? (e) Ha meg szeretnénk változtatni a háló kimenetetét, milyen aktivációs függvényt lehetne megadni a kimeneti réteg neuronjához?”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 4. feladat, 3. oldal, 5 pont</figcaption></figure>
+<!--@zh-net-->
+<p>A menet mindig ugyanaz. Minden neuronnál kiszámolod a bejövő élek súlyának és a küldő neuron <em>kimenetének</em> szorzatösszegét, hozzáadod a torzítást, és erre alkalmazod az aktivációs függvényt. A bemeneti réteg csak továbbadja a bemenetet. Jelölje h₁, h₂, h₃ az első, g₁, g₂ a második rejtett réteg neuronjait, y a kimenetet.</p>
+<details class="u-practice" id="gyak-halo-zh"><summary>Gyakorlás · A minta-zh 4. feladata megoldással</summary>
+<ol type="a">
+<li><p>Az 1. rejtett réteg aktivációs potenciáljai?</p><details class="u-sol"><summary>Megoldás</summary><p>a(h₁) = 3·5 + (−2)·(−2) + 2·(−3) = <strong>13</strong>; a(h₂) = 1·5 + 4·(−3) = <strong>−7</strong>; a(h₃) = 3·5 + 2·(−2) = <strong>11</strong>. A ReLU utáni kimenetek: 13, 0, 11.</p></details></li>
+<li><p>A 2. rejtett réteg kimenetei?</p><details class="u-sol"><summary>Megoldás</summary><p>a(g₁) = 2·13 + 2·0 + (−2)·11 = 4 → <strong>4</strong>; a(g₂) = 2·0 + 2·11 − 25 = −3 → <strong>0</strong>. A h₂ kimenetével (0) számolunk, nem a −7-es potenciáljával.</p></details></li>
+<li><p>Az egész háló kimenete?</p><details class="u-sol"><summary>Megoldás</summary><p>a(y) = 3·4 + 5·0 = 12, a kimenet <strong>12</strong>.</p></details></li>
+<li><p>Hány neuronnál tér el a potenciál a kimenettől?</p><details class="u-sol"><summary>Megoldás</summary><p><strong>Kettőnél</strong>: h₂ (−7 → 0) és g₂ (−3 → 0). A ReLU csak a negatív potenciált változtatja meg.</p></details></li>
+<li><p>Milyen aktivációs függvény változtatná meg a kimenetet?</p><details class="u-sol"><summary>Megoldás</summary><p>A kimeneti potenciál 12, pozitív; itt a ReLU nem változtat. Küszöbfüggvénnyel a kimenet 1, szigmoiddal ≈ 0,999994. A lineáris (identitás), a szivárgó ReLU és az ELU viszont 12-t adna, mert a pozitív oldalon ezek is identitások. A teljes levezetés: <a href="06-neuralis-halozatok.html#gyak-elorejatszas">6. fejezet</a>.</p></details></li>
+</ol></details>
+<aside class="u-add" id="add-halo-cimke"><h3>Kiegészítés · Olvasd le gondosan a súlyokat</h3><p>A feladatlap rajzán az x₁-ből lefelé induló két él címkéje (1 és 3) közel esik egymáshoz. A címkék helyzete alapján az x₁ → h₂ él súlya 1, az x₁ → h₃ élé 3. Fordított olvasatnál a(h₂) = 3, a(h₃) = 1 lenne, és a háló kimenete 90. Ha a zh-n egy rajz kétértelmű, írd le, hogyan olvastad, és azzal számolj tovább. A javító így a menetet akkor is értékelni tudja, ha más olvasatot várt.</p></aside>
+<p>Ugyanaz a háló új bemenetekkel már új feladat. A következő blokk három ilyen változatot és két „mi lenne, ha” kérdést ad. A <a href="#generator">változatgenerátor</a> tetszőleges számú újat készít.</p>
+<details class="u-practice" id="gyak-halo-uj"><summary>Gyakorlás · Ugyanez a háló új bemenetekkel (5 feladat)</summary>
+<ol>
+<li><p>x₁ = 2, x₂ = 3, x₃ = 1. Mennyi a háló kimenete, és hány neuronnál tér el a potenciál a kimenettől?</p><details class="u-sol"><summary>Megoldás</summary><p>a(h₁) = 6 − 6 + 2 = 2, a(h₂) = 2 + 4 = 6, a(h₃) = 6 + 6 = 12; mind pozitív, a kimenetek ugyanezek. a(g₁) = 2·2 + 2·6 − 2·12 = −8 → 0; a(g₂) = 2·6 + 2·12 − 25 = 11 → 11. a(y) = 3·0 + 5·11 = <strong>55</strong>. Egyetlen neuronnál, a g₁-nél tér el a potenciál a kimenettől.</p></details></li>
+<li><p>x₁ = −1, x₂ = 4, x₃ = 2. Mik az első rejtett réteg potenciáljai, és mi a kimenet?</p><details class="u-sol"><summary>Megoldás</summary><p>a(h₁) = −3 − 8 + 4 = <strong>−7</strong>, a(h₂) = −1 + 8 = <strong>7</strong>, a(h₃) = −3 + 8 = <strong>5</strong>. A kimenetek: 0, 7, 5. a(g₁) = 0 + 14 − 10 = 4, a(g₂) = 14 + 10 − 25 = −1 → 0. a(y) = 3·4 + 0 = <strong>12</strong>. Két neuronnál tér el a potenciál és a kimenet (h₁, g₂). A kimenet véletlenül ugyanaz, mint a zh-ban, de más úton jön ki.</p></details></li>
+<li><p>x₁ = x₂ = x₃ = 1. Mennyi a 2. rejtett réteg két kimenete?</p><details class="u-sol"><summary>Megoldás</summary><p>a(h₁) = 3 − 2 + 2 = 3, a(h₂) = 1 + 4 = 5, a(h₃) = 3 + 2 = 5. a(g₁) = 6 + 10 − 10 = <strong>6</strong>, a(g₂) = 10 + 10 − 25 = −5 → <strong>0</strong>. A háló kimenete 3·6 = 18.</p></details></li>
+<li><p>A zh bemenetével (5, −2, −3): mekkora torzítást kellene adni a kimeneti neuronnak, hogy a ReLU-kimenet 0 legyen?</p><details class="u-sol"><summary>Megoldás</summary><p>A kimeneti potenciál torzítás nélkül 12. A ReLU akkor ad 0-t, ha 12 + b ≤ 0, vagyis <strong>b ≤ −12</strong>. Egy torzítás tehát ugyanúgy „kikapcsolhat” egy neuront, ahogy a −25 a g₂-t.</p></details></li>
+<li><p>A zh bemenetével: mekkora legyen a h₃ → g₁ súly, hogy a g₁ kimenete 0 legyen?</p><details class="u-sol"><summary>Megoldás</summary><p>a(g₁) = 2·13 + 2·0 + w·11 = 26 + 11w ≤ 0, vagyis <strong>w ≤ −26/11 ≈ −2,36</strong>. A zh −2-es súlya ehhez nem elég negatív, ezért lett a g₁ kimenete 4.</p></details></li>
+</ol></details>
+</section>
+
+<!-- 07 · PROPOZÍCIÓS -->
+<section id="propozicios" class="chapter-section"><span class="section-index">07 / 5. FELADAT · 10 PONT</span>
+<h2>Propozíciós rezolúció öt lépésben.</h2>
+<figure class="u-quote"><blockquote><p>„Adott az alábbi ismert tények, illetve az azok alapján bizonyítandó állítás. Ezeket szeretnénk formulázni PROPOZÍCIÓS logika segítségével, valamint bizonyítani rezolúcióval. 1. Ha a mérés elindul, akkor az eszköz B vagy C módba kapcsol. 2. Ha az eszköz B módba kapcsol, akkor az érzékelők jelet adnak és a kijelző világít. 3. Ha az eszköz C módba kapcsol, akkor az érzékelők jelet adnak és a biztonsági riasztás bekapcsol. 4. Ha a mérés elindul, akkor az érzékelők jelet adnak.”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 5. feladat, 3. oldal, 10 pont. A vonal alatti 4. mondat a bizonyítandó állítás.</figcaption></figure>
+<p>A feladatlap öt részt kér, mindig ugyanabban a sorrendben: (a) megfeleltetések, (b) formulák és KNF, (c) klózok, (d) rezolúció, (e) szöveges válasz. A menetet a <a href="04-formalis-logika.html#zh-menet">4. fejezet</a> részletesen bemutatja. A kulcs a (b) lépés: minden premisszát KNF-re hozunk, a bizonyítandó állítást viszont előbb <strong>tagadjuk</strong>, és csak utána alakítjuk át.</p>
+<ol class="u-steps" id="knf-receptje">
+<li><strong>Implikáció ki:</strong> A → B helyett ¬A ∨ B.</li>
+<li><strong>Tagadás be:</strong> De Morgan-azonosságokkal a ¬ a betűk elé kerül: ¬(A ∨ B) = ¬A ∧ ¬B, ¬(A ∧ B) = ¬A ∨ ¬B, ¬¬A = A.</li>
+<li><strong>Szétosztás:</strong> A ∨ (B ∧ C) = (A ∨ B) ∧ (A ∨ C). Az ÉS-ek szétválasztják a klózokat.</li>
+</ol>
+<details class="u-practice" id="gyak-meres-zh"><summary>Gyakorlás · A minta-zh 5. feladata megoldással</summary>
+<ol type="a">
+<li><p>Megfeleltetések?</p><details class="u-sol"><summary>Megoldás</summary><p>p = „a mérés elindul”, q = „B módba kapcsol”, r = „C módba kapcsol”, s = „az érzékelők jelet adnak”, t = „a kijelző világít”, u = „a riasztás bekapcsol”.</p></details></li>
+<li><p>Formulák és KNF?</p><details class="u-sol"><summary>Megoldás</summary><p>1. p → (q ∨ r) = ¬p ∨ q ∨ r. 2. q → (s ∧ t) = (¬q ∨ s) ∧ (¬q ∨ t). 3. r → (s ∧ u) = (¬r ∨ s) ∧ (¬r ∨ u). 4. p → s, tagadva ¬(¬p ∨ s) = p ∧ ¬s.</p></details></li>
+<li><p>Klózok?</p><details class="u-sol"><summary>Megoldás</summary><p><code>¬p ∨ q ∨ r, ¬q ∨ s, ¬q ∨ t, ¬r ∨ s, ¬r ∨ u, p, ¬s</code> – hét klóz.</p></details></li>
+<li><p>Rezolúció?</p><details class="u-sol"><summary>Megoldás</summary>
+<ol class="u-ladder">
+<li><span class="u-clause">¬p ∨ q ∨ r</span> + <span class="u-clause">p</span> ⇒ <span class="u-clause">q ∨ r</span></li>
+<li><span class="u-clause">q ∨ r</span> + <span class="u-clause">¬q ∨ s</span> ⇒ <span class="u-clause">r ∨ s</span></li>
+<li><span class="u-clause">r ∨ s</span> + <span class="u-clause">¬r ∨ s</span> ⇒ <span class="u-clause">s</span><small>s ∨ s egyetlen s</small></li>
+<li><span class="u-clause">s</span> + <span class="u-clause">¬s</span> ⇒ <span class="u-clause u-nil">NIL</span></li>
+</ol></details></li>
+<li><p>Szöveges válasz?</p><details class="u-sol"><summary>Megoldás</summary><p>Ellentmondásra jutottunk, tehát az állítás következik: ha a mérés elindul, az érzékelők jelet adnak, akár B, akár C módba kapcsol az eszköz. A t és az u klózaira nem is volt szükség. A zsákutcával együtt: <a href="04-formalis-logika.html#gyak-meres">4. fejezet</a>.</p></details></li>
+</ol></details>
+<p class="u-key">Két tipikus hiba: a tagadott állítás KNF-je nem ¬p ∨ ¬s, hanem két külön klóz, p és ¬s. És egy elakadt ág még nem jelenti, hogy az állítás nem következik.</p>
+<p>A következő gyakorló blokk három új feladatot ad. Az első szerkezete a zh-éval azonos. A második egy „vagy”-os állítást bizonyít, ennek tagadása De Morgannal bomlik szét. A harmadikban az állítás <em>nem</em> következik: itt azt kell felismerni, hogy a rezolúció telítődik.</p>
+<details class="u-practice" id="gyak-prop-uj"><summary>Gyakorlás · Három új rezolúciós feladat a)–e) menettel</summary>
+<ol>
+<li><p>(1) Ha a riasztó megszólal, akkor betörő van vagy a macska mozog a házban. (2) Ha betörő van, akkor a kamera rögzít. (3) Ha a macska mozog, akkor a mozgásérzékelő jelez és a kamera rögzít. Bizonyítandó: (4) Ha a riasztó megszólal, akkor a kamera rögzít.</p><details class="u-sol"><summary>Megoldás</summary>
+<p><strong>a)</strong> r = „a riasztó megszólal”, b = „betörő van”, m = „a macska mozog”, k = „a kamera rögzít”, z = „a mozgásérzékelő jelez”.</p>
+<p><strong>b)</strong> (1) r → (b ∨ m) = ¬r ∨ b ∨ m. (2) b → k = ¬b ∨ k. (3) m → (z ∧ k) = (¬m ∨ z) ∧ (¬m ∨ k). (4) r → k, tagadva r ∧ ¬k.</p>
+<p><strong>c)</strong> <code>¬r ∨ b ∨ m, ¬b ∨ k, ¬m ∨ z, ¬m ∨ k, r, ¬k</code>.</p>
+<p><strong>d)</strong></p><ol class="u-ladder"><li><span class="u-clause">¬r ∨ b ∨ m</span> + <span class="u-clause">r</span> ⇒ <span class="u-clause">b ∨ m</span></li><li><span class="u-clause">b ∨ m</span> + <span class="u-clause">¬b ∨ k</span> ⇒ <span class="u-clause">m ∨ k</span></li><li><span class="u-clause">m ∨ k</span> + <span class="u-clause">¬m ∨ k</span> ⇒ <span class="u-clause">k</span></li><li><span class="u-clause">k</span> + <span class="u-clause">¬k</span> ⇒ <span class="u-clause u-nil">NIL</span></li></ol>
+<p><strong>e)</strong> Az állítás következik: ha a riasztó megszólal, a kamera mindkét esetben rögzít. A mozgásérzékelő (z) nem kellett. Ez a zh feladatának pontos mása, csak más szavakkal: így ismerheted fel a szerkezetet.</p></details></li>
+<li><p>(1) Ha Dóra tanul, akkor átmegy a zh-n. (2) Ha Dóra nem tanul, akkor dolgozik. (3) Ha Dóra dolgozik, akkor pénzt keres. Bizonyítandó: (4) Dóra átmegy a zh-n vagy pénzt keres.</p><details class="u-sol"><summary>Megoldás</summary>
+<p><strong>a)</strong> t = „Dóra tanul”, a = „átmegy a zh-n”, d = „dolgozik”, p = „pénzt keres”.</p>
+<p><strong>b)</strong> (1) t → a = ¬t ∨ a. (2) ¬t → d = ¬¬t ∨ d = t ∨ d. (3) d → p = ¬d ∨ p. (4) a ∨ p, tagadva ¬(a ∨ p) = ¬a ∧ ¬p.</p>
+<p><strong>c)</strong> <code>¬t ∨ a, t ∨ d, ¬d ∨ p, ¬a, ¬p</code>.</p>
+<p><strong>d)</strong></p><ol class="u-ladder"><li><span class="u-clause">¬t ∨ a</span> + <span class="u-clause">¬a</span> ⇒ <span class="u-clause">¬t</span></li><li><span class="u-clause">t ∨ d</span> + <span class="u-clause">¬t</span> ⇒ <span class="u-clause">d</span></li><li><span class="u-clause">¬d ∨ p</span> + <span class="u-clause">d</span> ⇒ <span class="u-clause">p</span></li><li><span class="u-clause">p</span> + <span class="u-clause">¬p</span> ⇒ <span class="u-clause u-nil">NIL</span></li></ol>
+<p><strong>e)</strong> Az állítás következik: Dóra vagy tanul, és akkor átmegy, vagy nem tanul, és akkor dolgozik, tehát pénzt keres. Itt a tagadott „vagy” két egyliterálos klózra esett szét; ebből a célvezérelt sorrend (¬a-val kezdve) gyorsan kijön.</p></details></li>
+<li><p>(1) Ha a szerver túlterhelt, akkor lassú az oldal. (2) Ha lassú az oldal, akkor a felhasználók panaszkodnak. (3) A felhasználók panaszkodnak. Bizonyítandó: (4) A szerver túlterhelt.</p><details class="u-sol"><summary>Megoldás</summary>
+<p><strong>a)</strong> s = „a szerver túlterhelt”, l = „lassú az oldal”, p = „a felhasználók panaszkodnak”.</p>
+<p><strong>b–c)</strong> <code>¬s ∨ l, ¬l ∨ p, p, ¬s</code>. Az utolsó a tagadott állítás.</p>
+<p><strong>d)</strong> Az egyetlen ellentett pár az l: <span class="u-clause">¬s ∨ l</span> + <span class="u-clause">¬l ∨ p</span> ⇒ <span class="u-clause">¬s ∨ p</span>. Több új klóz nem keletkezik. Az s sehol sem áll tagadás nélkül, ezért a ¬s semmivel sem rezolválható. A rezolúció <strong>telítődik</strong>, NIL nélkül.</p>
+<p><strong>e)</strong> Az állítás nem következik a premisszákból. Ellenpélda: a szerver nincs túlterhelve, de az oldal más okból lassú, és a felhasználók panaszkodnak (s hamis, l és p igaz). Mindhárom premissza igaz, az állítás mégis hamis. Ez a következmény állításának hibája: a panaszból nem következik a túlterhelés.</p></details></li>
+</ol></details>
+</section>
+
+<!-- 08 · PREDIKÁTUM -->
+<section id="predikatum" class="chapter-section"><span class="section-index">08 / 6. FELADAT · 10 PONT</span>
+<h2>Predikátumlogika: ugyanaz a menet, változókkal.</h2>
+<figure class="u-quote"><blockquote><p>„Adott az alábbi ismert tények, illetve az azok alapján bizonyítandó állítás. Ezeket szeretnénk formulázni PREDIKÁTUMLOGIKA segítségével. 1. A rénszarvasok repülnek. 2. A repülő állatok mindent el tudnak húzni, ami szán 3. A repülő állatoknak a Mikulás szánja szán. 4. A rénszarvasok el tudják húzni a Mikulás szánját.”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 6. feladat, 5. oldal, 10 pont</figcaption></figure>
+<p>A menet ugyanaz az öt lépés, két új művelettel. A „van olyan” (∃) kvantort Skolem-konstanssal tüntetjük el, a rezolúció előtt pedig a két ellentett literált <strong>egyesítjük</strong>: helyettesítéssel azonossá tesszük. A „minden” (∀) kvantoros változók a klózban szabadon maradnak, és minden klóznak saját változói vannak.</p>
+<details class="u-practice" id="gyak-mikulas-zh"><summary>Gyakorlás · A minta-zh 6. feladata megoldással</summary>
+<ol type="a">
+<li><p>Predikátumok?</p><details class="u-sol"><summary>Megoldás</summary><p>Rénszarvas(x), Repül(x), Elhúz(x, y), Szán(y); konstans: MSz, a Mikulás szánja.</p></details></li>
+<li><p>Formalizált állítások?</p><details class="u-sol"><summary>Megoldás</summary><p>1. (∀x)(Rénszarvas(x) → Repül(x)). 2. (∀x)(∀y)((Repül(x) ∧ Szán(y)) → Elhúz(x, y)). 3. (∀x)(Repül(x) → Szán(MSz)). 4. (∀x)(Rénszarvas(x) → Elhúz(x, MSz)); a tagadása (∃x)(Rénszarvas(x) ∧ ¬Elhúz(x, MSz)), Skolem-konstanssal: Rénszarvas(r) ∧ ¬Elhúz(r, MSz).</p></details></li>
+<li><p>Klózok?</p><details class="u-sol"><summary>Megoldás</summary><p><code>¬Rénszarvas(x) ∨ Repül(x), ¬Repül(x) ∨ ¬Szán(y) ∨ Elhúz(x, y), ¬Repül(x) ∨ Szán(MSz), Rénszarvas(r), ¬Elhúz(r, MSz)</code>.</p></details></li>
+<li><p>Rezolúció?</p><details class="u-sol"><summary>Megoldás</summary>
+<ol class="u-ladder">
+<li><span class="u-clause">Rénszarvas(r)</span> + <span class="u-clause">¬Rénszarvas(x) ∨ Repül(x)</span> ⇒ <span class="u-clause">Repül(r)</span><small>x ← r</small></li>
+<li><span class="u-clause">Repül(r)</span> + <span class="u-clause">¬Repül(x) ∨ ¬Szán(y) ∨ Elhúz(x, y)</span> ⇒ <span class="u-clause">¬Szán(y) ∨ Elhúz(r, y)</span><small>x ← r</small></li>
+<li><span class="u-clause">¬Szán(y) ∨ Elhúz(r, y)</span> + <span class="u-clause">¬Elhúz(r, MSz)</span> ⇒ <span class="u-clause">¬Szán(MSz)</span><small>y ← MSz</small></li>
+<li><span class="u-clause">¬Szán(MSz)</span> + <span class="u-clause">¬Repül(x) ∨ Szán(MSz)</span> ⇒ <span class="u-clause">¬Repül(x)</span></li>
+<li><span class="u-clause">¬Repül(x)</span> + <span class="u-clause">Repül(r)</span> ⇒ <span class="u-clause u-nil">NIL</span><small>x ← r</small></li>
+</ol></details></li>
+<li><p>Szöveges válasz?</p><details class="u-sol"><summary>Megoldás</summary><p>Ellentmondásra jutottunk, tehát a rénszarvasok el tudják húzni a Mikulás szánját. A döntő helyettesítés y ← MSz. A tábla sorrendje és egy kiigazítás a Skolem-konstansról: <a href="04-formalis-logika.html#gyak-predikatum">4. fejezet</a>.</p></details></li>
+</ol></details>
+<p class="u-key">A tagadott „minden” állításból „van olyan” lesz. Ennek az x-ét új konstans (itt r) váltja fel, nem marad szabad változó: a „van egy rénszarvas, amely nem tudja elhúzni” egy konkrét, megnevezett rénszarvasról szól.</p>
+<details class="u-practice" id="gyak-pred-uj"><summary>Gyakorlás · Két új predikátumlogikai feladat és formalizálás (3 feladat)</summary>
+<ol>
+<li><p>(1) Minden hallgató, aki tanul, átmegy a vizsgán. (2) Aki átmegy a vizsgán, az boldog. (3) Péter hallgató, és Péter tanul. Bizonyítandó: (4) Van, aki boldog. Ki az?</p><details class="u-sol"><summary>Megoldás</summary>
+<p><strong>a)</strong> Hallgató(x), Tanul(x), Átmegy(x), Boldog(x); konstans: Péter.</p>
+<p><strong>b)</strong> (1) (∀x)((Hallgató(x) ∧ Tanul(x)) → Átmegy(x)) = ¬Hallgató(x) ∨ ¬Tanul(x) ∨ Átmegy(x). (2) (∀x)(Átmegy(x) → Boldog(x)) = ¬Átmegy(x) ∨ Boldog(x). (3) Hallgató(Péter) ∧ Tanul(Péter). (4) (∃x)Boldog(x). A tagadása (∀x)¬Boldog(x): itt <em>nem</em> kell Skolem-konstans, mert a tagadás „minden”-t ad.</p>
+<p><strong>c)</strong> <code>¬Hallgató(x) ∨ ¬Tanul(x) ∨ Átmegy(x), ¬Átmegy(x) ∨ Boldog(x), Hallgató(Péter), Tanul(Péter), ¬Boldog(x)</code>.</p>
+<p><strong>d)</strong></p><ol class="u-ladder"><li><span class="u-clause">¬Boldog(x)</span> + <span class="u-clause">¬Átmegy(x) ∨ Boldog(x)</span> ⇒ <span class="u-clause">¬Átmegy(x)</span></li><li><span class="u-clause">¬Átmegy(x)</span> + <span class="u-clause">¬Hallgató(x) ∨ ¬Tanul(x) ∨ Átmegy(x)</span> ⇒ <span class="u-clause">¬Hallgató(x) ∨ ¬Tanul(x)</span></li><li><span class="u-clause">¬Hallgató(x) ∨ ¬Tanul(x)</span> + <span class="u-clause">Hallgató(Péter)</span> ⇒ <span class="u-clause">¬Tanul(Péter)</span><small>x ← Péter</small></li><li><span class="u-clause">¬Tanul(Péter)</span> + <span class="u-clause">Tanul(Péter)</span> ⇒ <span class="u-clause u-nil">NIL</span></li></ol>
+<p><strong>e)</strong> Van, aki boldog, és a helyettesítés meg is mondja, ki: x ← Péter. A rezolúció tehát nemcsak igazol, hanem választ is ad. Így dolgozik a Prolog is.</p></details></li>
+<li><p>(1) Van olyan robot, amely minden csomagot kézbesít. (2) Az A12 egy csomag. Bizonyítandó: (3) Valaki kézbesíti az A12-t.</p><details class="u-sol"><summary>Megoldás</summary>
+<p><strong>a)</strong> Robot(x), Csomag(y), Kézbesít(x, y); konstans: A12.</p>
+<p><strong>b)</strong> (1) (∃x)(Robot(x) ∧ (∀y)(Csomag(y) → Kézbesít(x, y))). Itt a <em>premisszában</em> van ∃: a robotnak Skolem-konstanst adunk, legyen k. Két klóz lesz belőle: Robot(k) és ¬Csomag(y) ∨ Kézbesít(k, y). (2) Csomag(A12). (3) (∃x)Kézbesít(x, A12), tagadva (∀x)¬Kézbesít(x, A12).</p>
+<p><strong>c)</strong> <code>Robot(k), ¬Csomag(y) ∨ Kézbesít(k, y), Csomag(A12), ¬Kézbesít(x, A12)</code>.</p>
+<p><strong>d)</strong></p><ol class="u-ladder"><li><span class="u-clause">¬Kézbesít(x, A12)</span> + <span class="u-clause">¬Csomag(y) ∨ Kézbesít(k, y)</span> ⇒ <span class="u-clause">¬Csomag(A12)</span><small>x ← k, y ← A12</small></li><li><span class="u-clause">¬Csomag(A12)</span> + <span class="u-clause">Csomag(A12)</span> ⇒ <span class="u-clause u-nil">NIL</span></li></ol>
+<p><strong>e)</strong> Az állítás igaz: az A12-t kézbesíti valaki, mégpedig x ← k, az (1)-ben említett robot. A Skolem-konstans neve mögött tehát „az a robot” áll, akiről a premissza beszél.</p></details></li>
+<li><p>Formalizáld predikátumlogikával! (a) Nem minden madár repül. (b) Senki sem szereti a hétfőt. (c) Minden hallgatónak van egy kedvenc tárgya. (d) Van olyan tárgy, amelyet minden hallgató szeret.</p><details class="u-sol"><summary>Megoldás</summary>
+<p>(a) ¬(∀x)(Madár(x) → Repül(x)), ami ugyanaz, mint (∃x)(Madár(x) ∧ ¬Repül(x)): van olyan madár, amely nem repül. (b) (∀x)¬Szeret(x, Hétfő), vagy ugyanez ¬(∃x)Szeret(x, Hétfő). (c) (∀x)(Hallgató(x) → (∃y)(Tárgy(y) ∧ Kedvenc(x, y))). (d) (∃y)(Tárgy(y) ∧ (∀x)(Hallgató(x) → Szeret(x, y))).</p>
+<p>A (c) és a (d) a kvantorok sorrendjében tér el, és ez a jelentést is megváltoztatja. A (c)-ben mindenkinek lehet más kedvence, a (d)-ben egyetlen közös tárgy van. Figyelj arra is, hogy a ∀ mellé → illik, a ∃ mellé ∧. A (∀x)(Madár(x) ∧ Repül(x)) azt állítaná, hogy minden létező madár, és mind repül.</p></details></li>
+</ol></details>
+</section>
+
+<!-- 09 · FUZZY -->
+<section id="fuzzy" class="chapter-section"><span class="section-index">09 / 7. FELADAT · 10 PONT</span>
+<h2>Fuzzy szimuláció: leolvasni, minimumot venni, súlypontot számolni.</h2>
+<figure class="u-quote"><blockquote><p>„Adottak az alábbi fuzzy változók, tagsági függvényeik, és a fuzzy szabályok. 1. HA HŐM=Nagyon alacsony ÉS PÁRA=Nagyon nedves AKKOR SEBESSÉG Nagyon alacsony 2. HA HŐM=Alacsony ÉS PÁRA=Közepes AKKOR SEBESSÉG Alacsony 3. HA HŐM=Közepes ÉS PÁRA=Közepes AKKOR SEBESSÉG Közepes 4. HA HŐM=Magas ÉS PÁRA=Száraz AKKOR SEBESSÉG Magas 5. HA HŐM=Nagyon magas ÉS PÁRA=Száraz AKKOR SEBESSÉG Nagyon magas”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 7. feladat, 7–8. oldal, 10 pont</figcaption></figure>
+<p>A feladatlap a három változó tagsági függvényeit grafikonon adja meg. Mindegyik görbe háromszög; a két szélső a tengely végén váll alakú. A grafikonok helyett itt a töréspontjaik állnak, a <a href="05-prolog-es-fuzzy.html#zh-gyakorlas">5. fejezet</a> leolvasása szerint. Egy háromszög (bal talp, csúcs, jobb talp) alakú. A felfutó oldalon a tagsági fok (x − bal talp) / (csúcs − bal talp), a lefutó oldalon (jobb talp − x) / (jobb talp − csúcs).</p>
+<div class="u-table-wrap"><table class="u-table" id="fuzzy-torespontok"><caption>A minta-zh 7. feladatának tagsági függvényei (bal talp, csúcs, jobb talp). Ahol a csúcs a tengely végén van, ott a görbe váll.</caption>
+<thead><tr><th>Nyelvi érték</th><th>HŐM (°C)</th><th>PÁRA (%)</th><th>SEBESSÉG (%)</th></tr></thead><tbody>
+<tr><td>1. Nagyon alacsony / Nagyon száraz</td><td>0, 0, 10</td><td>0, 0, 20</td><td>0, 10, 20</td></tr>
+<tr><td>2. Alacsony / Száraz</td><td>5, 10, 20</td><td>10, 25, 40</td><td>20, 30, 40</td></tr>
+<tr><td>3. Közepes</td><td>15, 20, 25</td><td>30, 50, 70</td><td>40, 50, 60</td></tr>
+<tr><td>4. Magas / Nedves</td><td>20, 30, 35</td><td>60, 75, 90</td><td>60, 70, 80</td></tr>
+<tr><td>5. Nagyon magas / Nagyon nedves</td><td>30, 40, 40</td><td>80, 100, 100</td><td>80, 90, 100</td></tr>
+</tbody></table></div>
+<p>A súlyponthoz egy kényelmes képlet tartozik. A SEBESSÉG öt háromszöge nem fedi át egymást, és mindegyik talpa 20 egység széles. Egy ilyen háromszöget h magasságban levágva <strong>10 · h · (2 − h)</strong> területű, szimmetrikus trapéz marad, amelynek a közepe a háromszög csúcsa. A súlypont ezért a csúcsok területtel súlyozott átlaga.</p>
+<details class="u-practice" id="gyak-fuzzy-zh"><summary>Gyakorlás · A minta-zh 7. feladata megoldással (HŐM = 23, PÁRA = 38)</summary>
+<ol type="a">
+<li><p>Tagsági értékek?</p><details class="u-sol"><summary>Megoldás</summary><p>HŐM = 23: Közepes (25 − 23) / 5 = <strong>0,4</strong>, Magas (23 − 20) / 10 = <strong>0,3</strong>, a többi 0. PÁRA = 38: Száraz (40 − 38) / 15 ≈ <strong>0,13</strong>, Közepes (38 − 30) / 20 = <strong>0,4</strong>, a többi 0.</p></details></li>
+<li><p>A szabályok értékei?</p><details class="u-sol"><summary>Megoldás</summary><p>1. min(0; 0) = 0. 2. min(0; 0,4) = 0. 3. min(0,4; 0,4) = <strong>0,4</strong>. 4. min(0,3; 0,13) = <strong>0,13</strong>. 5. min(0; 0,13) = 0.</p></details></li>
+<li><p>Súlypont?</p><details class="u-sol"><summary>Megoldás</summary><p>A „Közepes” 0,4-nél levágva: 10 · 0,4 · 1,6 = 6,4 terület, közepe 50. A „Magas” 0,13-nál: ≈ 2,49 terület, közepe 70. Súlypont: (6,4 · 50 + 2,49 · 70) / 8,89 ≈ <strong>55,6%</strong>. Gyors közelítés a csúcsmagasságokkal súlyozva: (0,4 · 50 + 0,13 · 70) / 0,53 ≈ 55.</p></details></li>
+<li><p>Új, pozitív értékű szabály?</p><details class="u-sol"><summary>Megoldás</summary><p>Mindkét feltételnek pozitívnak kell lennie: HŐM Közepes vagy Magas, PÁRA Száraz vagy Közepes. Egy jó válasz: HA HŐM = Magas ÉS PÁRA = Közepes AKKOR SEBESSÉG = Magas, értéke min(0,3; 0,4) = <strong>0,3</strong>.</p></details></li>
+<li><p>Hogyan hat ez a sebességre?</p><details class="u-sol"><summary>Megoldás</summary><p><strong>Növeli.</strong> A „Magas” halmaz 0,13 helyett 0,3-mal aktív, a súlypont a 70 felé mozdul: 55,6%-ról 58,9%-ra. Ugyanaz a halmaz kisebb értékkel nem változtatna, egy 50 alatti halmaz csökkentené. A három esetet táblázat veti össze: <a href="05-prolog-es-fuzzy.html#zh-uj-szabalyok">5. fejezet</a>.</p></details></li>
+</ol></details>
+<p class="u-key">Az (e) kérdés szabálya: az új szabály csak akkor változtat, ha egy kimeneti halmazt az eddiginél erősebben aktivál, vagy újat kapcsol be. A súlypont arra mozdul, amerre az a halmaz a jelenlegi súlyponthoz képest van.</p>
+<details class="u-practice" id="gyak-fuzzy-uj"><summary>Gyakorlás · Ugyanaz a szabálybázis új bemenetekkel (5 feladat)</summary>
+<ol>
+<li><p>HŐM = 17, PÁRA = 35. Végezd el a szimulációt!</p><details class="u-sol"><summary>Megoldás</summary><p>HŐM: Alacsony (20 − 17) / 10 = 0,3; Közepes (17 − 15) / 5 = 0,4. PÁRA: Száraz (40 − 35) / 15 ≈ 0,33; Közepes (35 − 30) / 20 = 0,25. Szabályok: 2. min(0,3; 0,25) = <strong>0,25</strong> (Alacsony); 3. min(0,4; 0,25) = <strong>0,25</strong> (Közepes); 4. min(0; 0,33) = 0; a többi 0. Két egyforma magas trapéz, 30 és 50 közepű: a súlypont pontosan <strong>40%</strong>. Számolás nélkül is látszik a szimmetriából.</p></details></li>
+<li><p>Az előző bemenethez vegyük fel: HA HŐM = Alacsony ÉS PÁRA = Száraz AKKOR SEBESSÉG = Nagyon alacsony. Mennyi az értéke, és hogyan hat?</p><details class="u-sol"><summary>Megoldás</summary><p>Értéke min(0,3; 0,33) = <strong>0,3</strong>. Új halmazt kapcsol be a 10-es csúcsnál, a 40-es súlyponttól balra: <strong>csökkenti</strong>. Területek: 10 · 0,3 · 1,7 = 5,1 (közepe 10), és kétszer 10 · 0,25 · 1,75 = 4,375 (közepe 30 és 50). Az új súlypont (5,1 · 10 + 4,375 · 30 + 4,375 · 50) / 13,85 ≈ <strong>29,0%</strong>.</p></details></li>
+<li><p>HŐM = 32, PÁRA = 22. Mennyi a sebesség?</p><details class="u-sol"><summary>Megoldás</summary><p>HŐM: Magas (35 − 32) / 5 = 0,6; Nagyon magas (32 − 30) / 10 = 0,2. PÁRA: Nagyon száraz 0 (a görbe 20-nál véget ér); Száraz (22 − 10) / 15 = 0,8. Szabályok: 4. min(0,6; 0,8) = <strong>0,6</strong>; 5. min(0,2; 0,8) = <strong>0,2</strong>. Területek: 10 · 0,6 · 1,4 = 8,4 (közepe 70) és 10 · 0,2 · 1,8 = 3,6 (közepe 90). Súlypont: (8,4 · 70 + 3,6 · 90) / 12 = <strong>76%</strong>.</p></details></li>
+<li><p>HŐM = 8, PÁRA = 85. Mennyi a sebesség? Adj meg egy új szabályt, amely növeli!</p><details class="u-sol"><summary>Megoldás</summary><p>HŐM: Nagyon alacsony (10 − 8) / 10 = 0,2; Alacsony (8 − 5) / 5 = 0,6. PÁRA: Nedves (90 − 85) / 15 ≈ 0,33; Nagyon nedves (85 − 80) / 20 = 0,25. Csak az 1. szabály működik: min(0,2; 0,25) = 0,2. Egyetlen levágott háromszög, a súlypont a csúcsa: <strong>10%</strong>. Növeli például: HA HŐM = Alacsony ÉS PÁRA = Nedves AKKOR SEBESSÉG = Alacsony, értéke min(0,6; 0,33) ≈ 0,33. Új súlypont: (3,6 · 10 + 5,56 · 30) / 9,16 ≈ <strong>22,1%</strong>.</p></details></li>
+<li><p>HŐM = 12, PÁRA = 95. Mennyi a sebesség?</p><details class="u-sol"><summary>Megoldás</summary><p>HŐM: Alacsony (20 − 12) / 10 = 0,8, a többi 0. PÁRA: Nagyon nedves (95 − 80) / 20 = 0,75, a többi 0. Az 1. szabályhoz Nagyon alacsony HŐM kellene (0), a 2.-hoz Közepes PÁRA (0). <strong>Egyetlen szabály sem aktív</strong>, a kimeneti halmaz üres, súlypontja nincs. A szabálybázis hiányos: erre a helyzetre senki sem írt szabályt. Ilyenkor a helyes válasz ennek kimondása, nem egy kitalált szám. A javítás egy új szabály, például HA HŐM = Alacsony ÉS PÁRA = Nagyon nedves AKKOR SEBESSÉG = Nagyon alacsony.</p></details></li>
+</ol></details>
+</section>
+
+<!-- 10 · KERESÉS -->
+<section id="kereses" class="chapter-section"><span class="section-index">10 / 8. FELADAT · 25 PONT</span>
+<h2>Keresés egy súlyozott gráfon: mélységi és A*.</h2>
+<figure class="u-quote"><blockquote><p>„Adott az alábbi gráf súlyozott, irányított gráf. Célunk eljutni az S állapottól a g állapotig eljutni. (A és H csomópontok közötti utat keressük.) (a) A mélységben először keresés algoritmus által készített keresési fát rajzolja fel, és válaszoljon a kérdésekre. Konfliktus esetén az ABC szerinti sorrendet vegyünk a csomópontokat, ismételt csomópont esetén indexeljük őket. i. A keresési fa: ii. A talált útvonal: iii. Mi(k) maradt(ak) a frontban? (b) Az A* algoritmus által készített keresési fát rajzolja fel, és válaszoljon a kérdésekre. Konfliktus esetén az ABC szerinti sorrendet vegyünk.”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 8. feladat, 9–11. oldal; (a) 7 pont, (b) 18 pont</figcaption></figure>
+<figure class="u-plot u-graph" id="zh-graf-11"><!--@zh-map--><figcaption>A minta-zh gráfja. A csomópontban a név alatt a becslés, h(n). Élek: S→A 2, S→X 1, S→Y 23, X→Y 20, Y→B 4, A→B 1, A→D 2, B→C 15, D→C 4, D→K 5, C→E 2, C→G 15, E→F 4, E→G 10, F→V 4, K→V 3, V→G 6, V→W 3, W→G 2.</figcaption></figure>
+<p>A két részfeladat ugyanazt kéri: a keresőfát, a talált utat és a front tartalmát a megálláskor. A fát lépésenként építed: mindig kiválasztasz egy frontcsomópontot, belelépsz, és felveszed a gyerekeit. A front vezetéséhez egy egyszerű táblázat a legbiztosabb: minden sorban az, amibe beléptél, és a front utána.</p>
+<div class="u-compare" id="dfs-vs-astar">
+<div><span class="u-tag">(a) MÉLYSÉGI · 7 PONT</span><p>Az új gyerekek ABC-sorrendben a front <strong>elejére</strong> kerülnek, és mindig a front első elemébe lépsz. A költség nem számít.</p><p><strong>Eredmény:</strong> S → A → B → C → E → F → V → G, költsége 34. A front a végén: W, G₂, G₁, D, X, Y.</p><p><a href="09-neminformalt-kereses.html#gyak-zh">A teljes fa és fronttáblázat: 9. fejezet</a></p></div>
+<div><span class="u-tag">(b) A* · 18 PONT</span><p>Minden frontcsomópont mellé f = g + h kerül. A front f szerint rendezett, egyenlőségnél az ABC dönt. Mindig a legkisebb f-be lépsz.</p><p><strong>Eredmény:</strong> S → A → D → K → V → G, költsége 18. A front a végén: C₂ (19), W (19), C₁ (29), Y₂ (36), Y₁ (38).</p><p><a href="10-informalt-kereses.html#gyak-zh">A teljes fa és fronttáblázat: 10. fejezet</a></p></div>
+</div>
+<p>Mindkét eredmény egy konvencióra épül, amelyet a feladatlap nem rögzít. A célt <strong>belelépéskor</strong> ellenőrizzük, vagyis amikor kivesszük a frontból, nem amikor felvesszük. Ismétlődést csak az aktuális úton szűrünk, ezért egy állapot több ágon is szerepelhet; ezek kapnak indexet. Más konvencióval más front jön ki. A 9. és a 10. fejezet mindkét változatot megmutatja. A zh-n egy mondatban írd le, melyiket követed.</p>
+<aside class="u-fix" id="fix-zh-graf"><h3>Kiigazítás · Két hiba a 8. feladat szövegében és gráfjában</h3>
+<p><strong>A feladatlapon:</strong> „(A és H csomópontok közötti utat keressük.)”, illetve „Az A* algoritmus …” a csomópontokban álló becslésekkel, köztük h(W) = 4.</p>
+<p><strong>Pontosabban:</strong> a gráfban nincs H csomópont; a zárójeles megjegyzés elírás, az S → G utat keressük, ahogy a feladat első mondata mondja. A W-ből a célba egyetlen, 2 költségű él vezet, a h(W) = 4 tehát túlbecsül. A becslés így nem elfogadható, az eljárás szigorúan véve A, nem A*. A talált 18-as út nem is optimális: a legolcsóbb út S → A → D → K → V → W → G, 17. A zh-n a mechanikus végrehajtás a feladat, ezért a 18-as út a várt válasz. Ha mellé írod, hogy h(W) túlbecsül, azzal azt is megmutatod, hogy érted, mikor garantált az optimum. A részletek és a javított becsléssel futtatott A*: <a href="10-informalt-kereses.html#fix-zh">10. fejezet, kiigazítás</a>.</p></aside>
+<p>A gyakorláshoz egy új, kisebb gráf következik. Ugyanaz a forma: irányított, súlyozott élek, a csomópontokban a becslés. Ezen a gráfon a becslés elfogadható és konzisztens, így az A* garantáltan a legolcsóbb utat adja. Az öt kereső itt öt különböző tanulságot mutat.</p>
+<figure class="u-plot u-graph" id="g2-graf"><!--@g2-map--><figcaption>A gyakorló gráf. Élek: <!--@g2-edges-->. Becslések: <!--@g2-heur-->.</figcaption></figure>
+<details class="u-practice" id="gyak-kereses-uj"><summary>Gyakorlás · Öt kereső a gyakorló gráfon (7 feladat)</summary>
+<p>Konvenció mindegyik feladatnál: ABC-sorrend és ABC-döntetlen, belelépéskori célteszt, ismétlésszűrés csak az aktuális úton, az ismétlődő csomópontok indexe a feltárás sorrendje.</p>
+<ol>
+<li><p>Rajzold fel a mélységi keresés fáját! Mi a talált út, és mi marad a frontban?</p><details class="u-sol"><summary>Megoldás</summary>
+<!--@g2-dfs-tree-->
+<!--@g2-dfs-table-->
+<p>Az út <strong><!--@g2-dfs-path--></strong>. A front a végén: <strong><!--@g2-dfs-front--></strong>. A mélységi keresés az első ágon gyorsan célba ér, de a költséggel nem törődik.</p></details></li>
+<li><p>Rajzold fel az A* fáját g + h = f értékekkel! Mi a talált út, és mi marad a frontban?</p><details class="u-sol"><summary>Megoldás</summary>
+<!--@g2-astar-tree-->
+<!--@g2-astar-table-->
+<p>Az út <strong><!--@g2-astar-path--></strong>. A front a végén: <strong><!--@g2-astar-front--></strong>. Figyeld meg az első lépést: az A f-értéke 11, a C-é 10, pedig az A-ba vezető él olcsóbb (1 &lt; 2). A becslés szerint A-ból még sok van hátra, ezért az A* a C-t választja.</p></details></li>
+<li><p>Mit talál a szélességi keresés?</p><details class="u-sol"><summary>Megoldás</summary><!--@g2-bfs-table--><p>Az S → B → G utat, két éllel. Ez a legkevesebb lépésű út, de a költsége 13, a legolcsóbbé 10. A szélességi keresés a lépésszámot minimalizálja, nem a költséget.</p></details></li>
+<li><p>Vezesd végig az egyenletes költségű keresést!</p><details class="u-sol"><summary>Megoldás</summary><!--@g2-ucs-table--><p>Az út S → C → F → H → G, 10: ez az optimum. De 13 belelépés kellett hozzá, az A*-nak csak 5. A jó becslés ennyi munkát takarít meg ugyanazzal a garanciával.</p></details></li>
+<li><p>Mit talál a mohó legjobb-első keresés?</p><details class="u-sol"><summary>Megoldás</summary><!--@g2-greedy-table--><p>Az S → B → G utat, 13 költséggel, mindössze 3 belelépéssel. A B becslése (7) a legkisebb, a G-é 0, így a mohó keresés rögtön oda lép, és nem veszi észre a 9 költségű élt.</p></details></li>
+<li><p>Ellenőrizd a becslést! Elfogadható? Konzisztens?</p><details class="u-sol"><summary>Megoldás</summary><p>A valódi hátralévő költségek: h*(H) = 3, h*(F) = 5, h*(E) = 6, h*(B) = 7 (B → E → G), h*(D) = 8 (D → E → G), h*(C) = 8 (C → F → H → G), h*(S) = 10, h*(A) = 12 (A → E → G). Minden csomópontban h(n) ≤ h*(n), tehát <strong>elfogadható</strong>. Pontos a H, az F, az E és a B becslése. Minden élre teljesül h(n) ≤ c(n, n′) + h(n′), például S → C: 9 ≤ 2 + 8, B → E: 7 ≤ 1 + 6, E → G: 6 ≤ 6 + 0. A becslés tehát <strong>konzisztens</strong> is.</p></details></li>
+<li><p>Írd át a becslést h(F) = 9-re! Mit talál most az A*, és miért?</p><details class="u-sol"><summary>Megoldás</summary><!--@g2-over-table--><p>Az utat <strong><!--@g2-over-path--></strong>, az optimális 10 helyett. Az F-ből valójában csak 5 van hátra, a 9 túlbecsül. Az F így 14-es f-értékkel a front végére kerül, és a 11 költségű cél előbb sorra kerül. Ez az A és az A* különbsége: túlbecslő becsléssel elvész az optimalitás garanciája. Ugyanez történik a minta-zh W-jénél.</p></details></li>
+</ol></details>
+<p>Az öt eredmény egy táblázatban mutatja, mit garantál az egyes eljárás, és mit nem.</p>
+<!--@g2-summary-->
+<p>A kurzus A*-programja (<code>resources/code/18_A_csillag_algoritmus.py</code>) ezen a gráfon is lefuttatható. Csak a két szótárat kell kicserélni; a program az A* függvényt változatlanul futtatja.</p>
+<figure class="u-code"><pre><code>GRAPH = {
+    "S": [("A",1),("B",4),("C",2)], "A": [("D",5),("E",6)],
+    "B": [("E",1),("G",9)],         "C": [("D",2),("F",3)],
+    "D": [("E",2),("H",6)],         "E": [("G",6)],
+    "F": [("H",2)],                 "H": [("G",3)]
+}
+HEURISTICS = {"S":9, "A":10, "B":7, "C":8, "D":7, "E":6, "F":5, "H":3, "G":0}
+
+print(astar(GRAPH, HEURISTICS, "S", "G"))   # ['S', 'C', 'F', 'H', 'G']</code></pre><figcaption>A <code>18_A_csillag_algoritmus.py</code> két szótára a gyakorló gráffal; az <code>astar</code> függvény változatlan. Python 3-mal futtatva a kimenet <code>['S', 'C', 'F', 'H', 'G']</code>. A <code>"F":9</code> becsléssel <code>['S', 'B', 'E', 'G']</code> lesz, mint a 7. feladatban. A program a gyerekeket a szótár sorrendjében veszi fel, és egyenlő f-nél a korábbi utat tartja elöl; ezen a gráfon ez ugyanazt adja, mint az ABC-szabály.</figcaption></figure>
+</section>
+
+<!-- 11 · GENETIKUS -->
+<section id="genetikus" class="chapter-section"><span class="section-index">11 / 9. FELADAT · 10 PONT</span>
+<h2>Egy generáció kézzel: nyolc lámpa, húsz egység.</h2>
+<figure class="u-quote"><blockquote><p>„Egy okos otthonban 8 lámpa van. Minden lámpa különböző fényerővel világít, és különböző energiafogyasztása van. A cél az, hogy a lehető legnagyobb fényerőt érjük el, miközben az összes energiafogyasztás nem haladhatja meg a 20 egységet.”</p></blockquote><figcaption>Minta-zh (2025. 12. 05.), 9. feladat, 12. oldal, 10 pont</figcaption></figure>
+<div class="u-table-wrap"><table class="u-table u-table-num" id="lampak"><caption>A lámpák fényereje (pont) és energiafogyasztása. A kromoszóma 8 bit, A-tól H-ig; az 1 bekapcsolt lámpát jelent.</caption>
+<thead><tr><th>Lámpa</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th></tr></thead>
+<tbody><tr><th>Fényerő</th><td>8</td><td>6</td><td>10</td><td>4</td><td>7</td><td>5</td><td>9</td><td>12</td></tr><tr><th>Energia</th><td>5</td><td>4</td><td>7</td><td>3</td><td>6</td><td>2</td><td>6</td><td>9</td></tr></tbody></table></div>
+<p>A feladat egy generációt kér, hat részben: (a) kódolás, (b) fitnesz, (c) versenyeztetés, (d) egypontos keresztezés, (e) elitizmus, (f) rangsor alapú túlélés. A feladatlap egy dolgot nem mond meg: mennyi a fitnesz, ha egy egyed túllépi a 20 egységet. A kurzus hátizsákprogramjának szabálya szerint ilyenkor <strong>0</strong>. Ezt a zh-n írd le, mert minden további lépés ezen múlik.</p>
+<details class="u-practice" id="gyak-lampa-zh"><summary>Gyakorlás · A minta-zh 9. feladata megoldással</summary>
+<p>Egyedek: C₁: D, E, F ég. C₂: A, E. C₃: A, B, C, E, G. C₄: A, F, H. Versenyek: C₁–C₃ és C₂–C₃. Keresztezés a 3. bit után, elit: 3 egyed.</p>
+<ol type="a">
+<li><p>Kódolás?</p><details class="u-sol"><summary>Megoldás</summary><p>C₁ = 00011100, C₂ = 10001000, C₃ = 11101010, C₄ = 10000101.</p></details></li>
+<li><p>Fitnesz?</p><details class="u-sol"><summary>Megoldás</summary><p>f(C₁) = 16 (energia 11), f(C₂) = 15 (11), f(C₃) = <strong>0</strong> (energia 28 &gt; 20), f(C₄) = 25 (16).</p></details></li>
+<li><p>Szülők?</p><details class="u-sol"><summary>Megoldás</summary><p>16 &gt; 0 és 15 &gt; 0: a szülők <strong>C₁ és C₂</strong>.</p></details></li>
+<li><p>Utódok?</p><details class="u-sol"><summary>Megoldás</summary><p>C₅ = 000|01000, csak E ég: f = 7. C₆ = 100|11100, A, D, E, F ég, energia 16: f = 24.</p></details></li>
+<li><p>Elit?</p><details class="u-sol"><summary>Megoldás</summary><p>A szülőjelöltek és az utódok közös rangsorából: <strong>C₄ (25), C₆ (24), C₁ (16)</strong>. Írd le, melyik halmazból választasz: csak a négy eredetiből C₄, C₁, C₂ lenne.</p></details></li>
+<li><p>Rangsor alapú túlélés?</p><details class="u-sol"><summary>Megoldás</summary><p>A maradék rangsora: C₂ (15), C₅ (7), C₃ (0). A legtöbb esélye <strong>C₂</strong>-nek van. A képlet buktatói és a részletes levezetés: <a href="08-genetikus-algoritmusok.html#gyak-zh">8. fejezet</a>.</p></details></li>
+</ol></details>
+<p class="u-key">A teljes feladat egyetlen táblázattal követhető: egyed, kromoszóma, égő lámpák, energia, fitnesz. Minden új egyed (utód, mutáns) új sort kap. Az elit és a túlélés ebből a táblázatból olvasható le.</p>
+<details class="u-practice" id="gyak-lampa-uj"><summary>Gyakorlás · Új populáció ugyanazokkal a lámpákkal (8 feladat)</summary>
+<p>Egyedek: C₁: B, D, F, G ég. C₂: C, H. C₃: A, B, E, F, H. C₄: A, D, G. Versenyek: C₁–C₃ és C₂–C₄. Egypontos keresztezés a 3. bit után, elit: 3 egyed. A túlsúlyos egyed fitnesze 0.</p>
+<ol>
+<li><p>Add meg a négy kromoszómát!</p><details class="u-sol"><summary>Megoldás</summary><p>C₁ = 01010110, C₂ = 00100001, C₃ = 11001101, C₄ = 10010010.</p></details></li>
+<li><p>Számold ki a fitneszeket!</p><details class="u-sol"><summary>Megoldás</summary><p>C₁: energia 4 + 3 + 2 + 6 = 15, fényerő 6 + 4 + 5 + 9 = <strong>24</strong>. C₂: energia 7 + 9 = 16, fényerő <strong>22</strong>. C₃: energia 5 + 4 + 6 + 2 + 9 = 26 &gt; 20, a fényereje 38 lenne, de a fitnesz <strong>0</strong>. C₄: energia 5 + 3 + 6 = 14, fényerő 8 + 4 + 9 = <strong>21</strong>.</p></details></li>
+<li><p>Kik a szülők?</p><details class="u-sol"><summary>Megoldás</summary><p>C₁–C₃: 24 &gt; 0, C₁ nyer. C₂–C₄: 22 &gt; 21, C₂ nyer. A szülők <strong>C₁ és C₂</strong>.</p></details></li>
+<li><p>Mik az utódok és a fitneszük?</p><details class="u-sol"><summary>Megoldás</summary><p>C₁ = 010|10110, C₂ = 001|00001. C₅ = 010|00001: B és H ég, energia 13, f(C₅) = <strong>18</strong>. C₆ = 001|10110: C, D, F, G ég, energia 18, f(C₆) = <strong>28</strong>. Az egyik utód jobb mindkét szülőnél: a keresztezés két jó „részmegoldást” rakott össze.</p></details></li>
+<li><p>Melyik három egyed az elit, és a többiek közül kinek a legnagyobb az esélye rangsor alapú túlélésnél?</p><details class="u-sol"><summary>Megoldás</summary><!--@ga2-rank--><p>Az elit <strong>C₆, C₁ és C₂</strong>. A maradék rangsora C₄ (21), C₅ (18), C₃ (0), tehát a <strong>C₄</strong>-nek van a legtöbb esélye.</p></details></li>
+<li><p>Kétpontos keresztezés: a C₁ és a C₂ középső szakasza (3–5. bit) cserélődik. Mik az utódok?</p><details class="u-sol"><summary>Megoldás</summary><p>C₁ = 01|010|110, C₂ = 00|100|001. Az első utód 01|100|110 = 01100110: B, C, F, G ég, energia 19, f = <strong>30</strong>. A második 00|010|001 = 00010001: D és H, energia 12, f = <strong>16</strong>.</p></details></li>
+<li><p>A C₆ egy bitje mutálódik. Mi a fitnesz, ha az 1. bit, és mi, ha a 4. bit változik?</p><details class="u-sol"><summary>Megoldás</summary><p>1. bit: 10110110, az A is bekapcsol, energia 23 &gt; 20: f = <strong>0</strong>. 4. bit: 00100110, a D kikapcsol, C, F, G ég, energia 15: f = <strong>24</strong>. A mutáció tehát ronthat is. Ettől a kis valószínűsége, és ettől hasznos mégis: olyan kapcsolást is kipróbál, amelyet a keresztezés nem hozna létre.</p></details></li>
+<li><p>Mit jelent a 10100110 kromoszóma? Lehet-e ennél jobb?</p><details class="u-sol"><summary>Megoldás</summary><p>A, C, F, G ég: energia 5 + 7 + 2 + 6 = 20, éppen a korláton; fényerő 8 + 10 + 5 + 9 = <strong>32</strong>. Ennél jobb nincs: mind a 256 kapcsolást végignézve 32 a maximum. Egy másik 32-es megoldás az A, B, D, F, G (11010110).</p></details></li>
+</ol></details>
+</section>
+
+<!-- 12 · GENERÁTOR -->
+<section id="generator" class="chapter-section"><span class="section-index">12 / VÁLTOZATGENERÁTOR</span>
+<h2>Végtelen gyakorlás három számolós feladathoz.</h2>
+<p>A számolós feladatoknál a menet a fontos, a számok cserélhetők. A generátor a minta-zh hálójához, fuzzy szabálybázisához és lámpáihoz készít új bemeneteket. Számold ki papíron, aztán nyisd meg a megoldást. Minden változatnak sorszáma van; ugyanaz a sorszám mindig ugyanazt a feladatot adja, így egy társaddal is ugyanazt gyakorolhatjátok.</p>
+<div class="u-lab u-gen" id="gen-labor"><span class="u-lab-label">GYAKORLÓ ESZKÖZ</span><h3>Új változat a 4., a 7. és a 9. feladathoz</h3>
+<div class="u-js-only">
+<div class="u-tabs" role="tablist" aria-label="Feladattípus">
+<button type="button" role="tab" id="gen-tab-halo" aria-selected="true" aria-controls="gen-panel" data-gen="halo">4. Háló</button>
+<button type="button" role="tab" id="gen-tab-fuzzy" aria-selected="false" aria-controls="gen-panel" data-gen="fuzzy">7. Fuzzy</button>
+<button type="button" role="tab" id="gen-tab-lampa" aria-selected="false" aria-controls="gen-panel" data-gen="lampa">9. Lámpák</button>
+</div>
+<div id="gen-panel" role="tabpanel" aria-labelledby="gen-tab-halo">
+<div class="u-gen-task" id="gen-feladat" aria-live="polite"></div>
+<div class="u-controls"><button type="button" id="gen-uj">Új változat</button> <button type="button" class="u-ghost" id="gen-megoldas" aria-expanded="false" aria-controls="gen-megoldas-doboz">Megoldás mutatása</button></div>
+<div class="u-gen-task u-gen-sol" id="gen-megoldas-doboz" hidden></div>
+</div>
+</div>
+<p class="u-nojs-only">A generátor JavaScriptet igényel. Ugyanilyen feladatok kidolgozva a <a href="#gyak-halo-uj">4.</a>, a <a href="#gyak-fuzzy-uj">7.</a> és a <a href="#gyak-lampa-uj">9. feladat</a> gyakorló blokkjában vannak.</p>
+</div>
+</section>
+
+<!-- 13 · PONTLAP -->
+<section id="pontlap" class="chapter-section"><span class="section-index">13 / ÖNÉRTÉKELŐ PONTLAP</span>
+<h2>Írd meg, aztán pontozd.</h2>
+<p>A legjobb próba a teljes minta-zh egyben, megoldások nélkül. Ha kész vagy, vesd össze a fenti megoldásokkal, és jelöld be, mi sikerült. A pontlap összeadja a pontjaidat, és megmutatja, melyik fejezethez érdemes visszatérned.</p>
+<p>A feladatlap a kilenc feladat pontját, a 8. feladat két részének pontját (7 és 18) és a 9. feladat részfeladatainak pontját adja meg. A többi bontás a jegyzet becslése, nem hivatalos pontozás. A pontlap semmit sem küld el; az eredményt csak a böngésződ tárolja.</p>
+<div class="u-lab u-score" id="pontlap-labor"><span class="u-lab-label">ÖNÉRTÉKELÉS</span><h3>A minta-zh pontlapja · 100 pont</h3>
+<div class="u-js-only">
+<form id="pontlap-urlap">
+<fieldset data-fejezet="1–10. fejezet" data-link="#gyak-tf-uj"><legend>1. Igaz–hamis (15)</legend><label><span>Hány állítást döntöttél el helyesen?</span><select id="pl-tf" aria-label="Helyes igaz–hamis válaszok száma"></select></label></fieldset>
+<fieldset data-fejezet="2. fejezet" data-link="02-tudasbazisok.html#felepites"><legend>2. Előreláncolás (10)</legend>
+<label><input type="checkbox" data-pont="3"><span>A négy elem a helyén az ábrán</span><b>3</b></label>
+<label><input type="checkbox" data-pont="2"><span>A nyilak iránya helyes</span><b>2</b></label>
+<label><input type="checkbox" data-pont="4"><span>A négy lépés neve és tartalma</span><b>4</b></label>
+<label><input type="checkbox" data-pont="1"><span>A megállás feltétele</span><b>1</b></label></fieldset>
+<fieldset data-fejezet="6. fejezet" data-link="06-neuralis-halozatok.html#neuron"><legend>3. Mesterséges neuron (5)</legend>
+<label><input type="checkbox" data-pont="2"><span>Ábra: bemenetek, súlyok, összegző, függvény, kimenet</span><b>2</b></label>
+<label><input type="checkbox" data-pont="2"><span>Képlet: a = Σ wᵢxᵢ + w₀ és y = f(a)</span><b>2</b></label>
+<label><input type="checkbox" data-pont="1"><span>Aktivációs függvények példái</span><b>1</b></label></fieldset>
+<fieldset data-fejezet="6. fejezet" data-link="06-neuralis-halozatok.html#gyak-elorejatszas"><legend>4. Előreterjesztés (5)</legend>
+<label><input type="checkbox" data-pont="1"><span>(a) 13, −7, 11</span><b>1</b></label>
+<label><input type="checkbox" data-pont="1"><span>(b) 4 és 0</span><b>1</b></label>
+<label><input type="checkbox" data-pont="1"><span>(c) 12</span><b>1</b></label>
+<label><input type="checkbox" data-pont="1"><span>(d) 2 neuron</span><b>1</b></label>
+<label><input type="checkbox" data-pont="1"><span>(e) például küszöb vagy szigmoid</span><b>1</b></label></fieldset>
+<fieldset data-fejezet="4. fejezet" data-link="04-formalis-logika.html#gyak-meres"><legend>5. Propozíciós rezolúció (10)</legend>
+<label><input type="checkbox" data-pont="1"><span>(a) Megfeleltetések</span><b>1</b></label>
+<label><input type="checkbox" data-pont="3"><span>(b) Formulák és KNF, a tagadott állítással</span><b>3</b></label>
+<label><input type="checkbox" data-pont="2"><span>(c) A hét klóz</span><b>2</b></label>
+<label><input type="checkbox" data-pont="3"><span>(d) Rezolúció a NIL-ig</span><b>3</b></label>
+<label><input type="checkbox" data-pont="1"><span>(e) Szöveges válasz</span><b>1</b></label></fieldset>
+<fieldset data-fejezet="4. fejezet" data-link="04-formalis-logika.html#gyak-predikatum"><legend>6. Predikátumlogika (10)</legend>
+<label><input type="checkbox" data-pont="1"><span>(a) Predikátumok és konstans</span><b>1</b></label>
+<label><input type="checkbox" data-pont="3"><span>(b) Formulák kvantorokkal, Skolem-konstans</span><b>3</b></label>
+<label><input type="checkbox" data-pont="2"><span>(c) Az öt klóz</span><b>2</b></label>
+<label><input type="checkbox" data-pont="3"><span>(d) Rezolúció helyettesítésekkel</span><b>3</b></label>
+<label><input type="checkbox" data-pont="1"><span>(e) Szöveges válasz</span><b>1</b></label></fieldset>
+<fieldset data-fejezet="5. fejezet" data-link="05-prolog-es-fuzzy.html#zh-gyakorlas"><legend>7. Fuzzy (10)</legend>
+<label><input type="checkbox" data-pont="2"><span>(a) Tagsági értékek</span><b>2</b></label>
+<label><input type="checkbox" data-pont="2"><span>(b) Az öt szabály értéke</span><b>2</b></label>
+<label><input type="checkbox" data-pont="3"><span>(c) Levágott halmazok és súlypont (≈ 55–56%)</span><b>3</b></label>
+<label><input type="checkbox" data-pont="2"><span>(d) Új szabály pozitív értékkel</span><b>2</b></label>
+<label><input type="checkbox" data-pont="1"><span>(e) Hatás a sebességre</span><b>1</b></label></fieldset>
+<fieldset data-fejezet="9–10. fejezet" data-link="10-informalt-kereses.html#gyak-zh"><legend>8. Keresés (25)</legend>
+<label><input type="checkbox" data-pont="4"><span>(a) i. Mélységi keresőfa</span><b>4</b></label>
+<label><input type="checkbox" data-pont="1"><span>(a) ii. Út: S A B C E F V G</span><b>1</b></label>
+<label><input type="checkbox" data-pont="2"><span>(a) iii. Front: W, G₂, G₁, D, X, Y</span><b>2</b></label>
+<label><input type="checkbox" data-pont="12"><span>(b) i. A*-keresőfa f-értékekkel</span><b>12</b></label>
+<label><input type="checkbox" data-pont="2"><span>(b) ii. Út: S A D K V G</span><b>2</b></label>
+<label><input type="checkbox" data-pont="4"><span>(b) iii. Front: C₂, W, C₁, Y₂, Y₁</span><b>4</b></label></fieldset>
+<fieldset data-fejezet="8. fejezet" data-link="08-genetikus-algoritmusok.html#gyak-zh"><legend>9. Genetikus algoritmus (10)</legend>
+<label><input type="checkbox" data-pont="2"><span>(a) A négy kromoszóma</span><b>2</b></label>
+<label><input type="checkbox" data-pont="2"><span>(b) Fitnesz: 16, 15, 0, 25</span><b>2</b></label>
+<label><input type="checkbox" data-pont="1"><span>(c) Szülők: C₁ és C₂</span><b>1</b></label>
+<label><input type="checkbox" data-pont="2"><span>(d) Utódok: 7 és 24</span><b>2</b></label>
+<label><input type="checkbox" data-pont="1"><span>(e) Elit: C₄, C₆, C₁</span><b>1</b></label>
+<label><input type="checkbox" data-pont="2"><span>(f) Legtöbb esély: C₂</span><b>2</b></label></fieldset>
+<div class="u-controls"><button type="reset" class="u-ghost">Pontlap törlése</button></div>
+</form>
+<p class="u-score-sum" id="pontlap-osszeg" role="status" aria-live="polite">0 / 100 pont</p>
+<div class="u-score-bar" aria-hidden="true"><i id="pontlap-sav"></i></div>
+<p id="pontlap-tanacs"></p>
+</div>
+<p class="u-nojs-only">A pontlap JavaScriptet igényel. Kézzel ugyanígy pontozhatsz: a <a href="#terkep">zh térképének</a> pontjai és a megoldások alapján.</p>
+</div>
+</section>
+
+<!-- 14 · DÖNTÉS -->
+<section id="dontes" class="chapter-section"><span class="section-index">14 / DÖNTÉSI TÁBLÁZAT</span>
+<h2>Ha a feladatban ez áll, ezt csináld.</h2>
+<p>A zh-n nincs idő a menetet újra kitalálni. Az alábbi táblázat feladattípusonként összefoglalja a menetet, a leggyakoribb hibát és azt a konvenciót, amelyet érdemes leírni. A gyakorlás végén ezt nézd át utoljára.</p>
+<div class="u-table-wrap"><table class="u-table u-decide" id="dontesi-tabla"><caption>A minta-zh feladattípusai: menet, tipikus hiba és leírandó konvenció.</caption>
+<thead><tr><th>Ha a feladatban…</th><th>A menet</th><th>Tipikus hiba</th><th>Írd le!</th></tr></thead><tbody>
+<tr><td>„Melyik állítás igaz és melyik hamis?”</td><td>Keresd a fogalompárt és az abszolút szót.</td><td>Felcserélt pár (felügyelt ↔ felügyelet nélküli).</td><td>–</td></tr>
+<tr><td>„Ismertesse … ábrával”</td><td>Ábra, aztán a működés lépésenként, végül egy kis példa.</td><td>Hiányzó nyílirány, megállás feltétele.</td><td>Az ábra elemeinek szerepét.</td></tr>
+<tr><td>neurális háló, „aktivációs potenciál”, „kimenet”</td><td>Rétegről rétegre: szorzatösszeg + torzítás, aztán f.</td><td>A potenciállal számolni tovább a kimenet helyett.</td><td>Kétértelmű élcímke olvasatát.</td></tr>
+<tr><td>„PROPOZÍCIÓS logika … rezolúcióval”</td><td>a) betűk, b) KNF, a tétel tagadva, c) klózok, d) NIL, e) mondat.</td><td>A tagadott implikáció egy klózba írva.</td><td>Melyik klózpárt rezolválod.</td></tr>
+<tr><td>„PREDIKÁTUMLOGIKA”</td><td>Ugyanaz, kvantorokkal, Skolem-konstanssal és helyettesítésekkel.</td><td>A tagadott ∀ x-e szabad változóként marad.</td><td>Minden helyettesítést (x ← r).</td></tr>
+<tr><td>fuzzy változók, „súlypont”</td><td>Leolvasás, ÉS = min, levágás, max-egyesítés, súlypont.</td><td>ÉS-hez maximumot venni; a súlypontot a csúcsmagassággal súlyozni.</td><td>A töréspontok leolvasását.</td></tr>
+<tr><td>„mélységben először”</td><td>Gyerekek ABC-ben a front elejére, belépés az első elembe.</td><td>A gyerekeket a front végére tenni (az a szélességi).</td><td>Célteszt belelépéskor, indexelés.</td></tr>
+<tr><td>„A* algoritmus”</td><td>f = g + h, front f szerint, döntetlennél ABC.</td><td>A célt már felvételkor elfogadni.</td><td>Célteszt belelépéskor; ha h túlbecsül, jelezd.</td></tr>
+<tr><td>kromoszóma, fitnesz, elitizmus</td><td>Táblázat: egyed, bitek, energia, fitnesz; minden új egyed új sor.</td><td>A túlsúlyos egyed fényerejét fitnesznek venni.</td><td>Túlsúly → 0; melyik halmazból az elit.</td></tr>
+</tbody></table></div>
+<p class="u-simple"><strong>Egyszerűen mondva</strong>A zh gyakorlati része hat recept. Ha egy recept minden lépését leírod, a részpontok akkor is járnak, ha egy számot elszámolsz. Ha egy lépés egy konvención múlik, egy mondatban írd le, melyiket követed.</p>
+</section>
+
+<!-- FOGALOMKÁRTYÁK -->
+<section id="fogalmak" class="chapter-section"><span class="section-index">FOGALOMKÁRTYÁK</span>
+<h2>A feladatlap szavai egy helyen.</h2>
+<p>Ezek a kifejezések a zh feladatlapján szerepelnek. Mindegyiknél azt írjuk le, mit kér a feladat, amikor használja.</p>
+<dl class="u-cards">
+<div><dt>Megfeleltetés</dt><dd>Melyik ítéletváltozó (p, q, …) melyik egyszerű állítást jelenti. Az „és” és a „vagy” nem kap betűt.</dd></div>
+<div><dt>Formalizált állítás</dt><dd>A magyar mondat logikai formulája; a feladatlap mellé a KNF-alakot is kéri.</dd></div>
+<div><dt>Klóz</dt><dd>Literálok VAGY-kapcsolata. A KNF ÉS-sel összekötött klózokra bomlik; ezeket kell vesszővel elválasztva felsorolni.</dd></div>
+<div><dt>NIL (üres klóz)</dt><dd>A rezolúció végpontja: ellentmondás, tehát a bizonyítandó állítás következik.</dd></div>
+<div><dt>Skolem-konstans</dt><dd>Új név a „van olyan” (∃) kvantoros változó helyett, például a tagadott „minden” állításban.</dd></div>
+<div><dt>Aktivációs potenciál</dt><dd>A neuron súlyozott bemeneti összege a torzítással, az aktivációs függvény előtt (a).</dd></div>
+<div><dt>Szabály értéke</dt><dd>Fuzzy szabálynál a feltétel teljesülésének mértéke: ÉS-nél a tagsági fokok minimuma.</dd></div>
+<div><dt>Súlypont-módszer</dt><dd>Defuzzifikálás: az egyesített kimeneti halmaz súlypontja adja az éles kimenetet (centroid).</dd></div>
+<div><dt>Konfliktus (keresésben)</dt><dd>Több egyformán jó frontcsomópont; a feladatlap szerint ilyenkor az ABC-sorrend dönt.</dd></div>
+<div><dt>Indexelés</dt><dd>Az ismétlődő csomópontok megkülönböztetése (C₁, C₂) a keresőfában, a feltárás sorrendjében.</dd></div>
+<div><dt>Belelépéskori célteszt</dt><dd>A célt akkor ellenőrizzük, amikor a frontból kivesszük, nem amikor felvesszük. Az A* optimalitásához ez kell.</dd></div>
+<div><dt>Versenyeztetéses szelekció</dt><dd>Két (vagy több) egyed közül a nagyobb fitneszű lesz szülő (tournament selection).</dd></div>
+<div><dt>Elitizmus</dt><dd>A legjobb néhány egyed változtatás nélkül a következő populációba jut.</dd></div>
+<div><dt>Rangsor alapú túlélés</dt><dd>A továbbjutás esélye a fitnesz szerinti helyezéstől függ, nem a fitnesz nagyságától.</dd></div>
+</dl>
+</section>
+
+<!-- KVÍZ -->
+<section id="kviz" class="chapter-section"><span class="section-index">KVÍZ · SZABADON VÁLASZTHATÓ</span>
+<h2>Ellenőrizd magad.</h2>
+<p>A kvíz kihagyható, az eredménye semmit sem zár le. A kérdések a zh-feladatok kulcslépéseire kérdeznek rá. Az eredményt csak a böngésződ tárolja. Minden kérdésnél kérhetsz tippet.</p>
+<details class="u-quiz-wrap" id="kviz-lenyilo"><summary>Kvíz megnyitása · 12 kérdés</summary>
+<form class="u-quiz" id="kviz-urlap">
+<fieldset data-helyes="b"><legend>1. Egy ReLU-hálóban mi megy tovább a következő rétegbe?</legend>
+<label><input type="radio" name="k1" value="a"> Az aktivációs potenciál</label>
+<label><input type="radio" name="k1" value="b"> A neuron kimenete, vagyis f(a)</label>
+<label><input type="radio" name="k1" value="c"> A potenciál és a kimenet összege</label>
+<details class="u-hint"><summary>Tipp</summary><p>Mit „lát” a következő neuron egy negatív potenciálú ReLU-neuronból?</p></details>
+<p class="u-feedback" data-magyarazat="A kimenet megy tovább. A zh-ban a h₂ potenciálja −7, de a g-réteg 0-val számol vele. A −7-tel számolva a g₁ potenciálja −10 lenne a helyes 4 helyett."></p></fieldset>
+<fieldset data-helyes="c"><legend>2. A bizonyítandó állítás p → s. Mik a tagadásának klózai?</legend>
+<label><input type="radio" name="k2" value="a"> ¬p ∨ s</label>
+<label><input type="radio" name="k2" value="b"> ¬p ∨ ¬s</label>
+<label><input type="radio" name="k2" value="c"> p és ¬s, két külön klóz</label>
+<details class="u-hint"><summary>Tipp</summary><p>¬(¬p ∨ s) – mit csinál a De Morgan-azonosság a VAGY-gyal?</p></details>
+<p class="u-feedback" data-magyarazat="¬(p → s) = ¬(¬p ∨ s) = p ∧ ¬s: két klóz. A ¬p ∨ s maga az állítás, nem a tagadása; a ¬p ∨ ¬s a tipikus elírás."></p></fieldset>
+<fieldset data-helyes="a"><legend>3. „Minden rénszarvas el tudja húzni a szánt.” A tagadásából milyen klózok lesznek?</legend>
+<label><input type="radio" name="k3" value="a"> Rénszarvas(r) és ¬Elhúz(r, MSz), r új konstans</label>
+<label><input type="radio" name="k3" value="b"> ¬Rénszarvas(x) ∨ Elhúz(x, MSz)</label>
+<label><input type="radio" name="k3" value="c"> Rénszarvas(x) és ¬Elhúz(x, MSz), x szabad változó</label>
+<details class="u-hint"><summary>Tipp</summary><p>A „nem minden” azt jelenti: „van olyan, amelyik nem”.</p></details>
+<p class="u-feedback" data-magyarazat="A tagadás (∃x)(Rénszarvas(x) ∧ ¬Elhúz(x, MSz)); a ∃ helyett Skolem-konstans áll. A szabad x „minden”-t jelentene, ami túl erős állítás. A b) a tagadatlan állítás klóza."></p></fieldset>
+<fieldset data-helyes="b"><legend>4. A minta-zh HŐM-grafikonján a „Közepes” háromszög (15, 20, 25). Mennyi a tagsági fok 23 °C-nál?</legend>
+<label><input type="radio" name="k4" value="a"> 0,6</label>
+<label><input type="radio" name="k4" value="b"> 0,4</label>
+<label><input type="radio" name="k4" value="c"> 0,3</label>
+<details class="u-hint"><summary>Tipp</summary><p>A 23 a lefutó oldalon van: (jobb talp − x) / (jobb talp − csúcs).</p></details>
+<p class="u-feedback" data-magyarazat="(25 − 23) / (25 − 20) = 0,4. A 0,6 a felfutó oldal képletével jönne ki tévesen, a 0,3 a „Magas” görbe értéke."></p></fieldset>
+<fieldset data-helyes="a"><legend>5. Egy ÉS-szabály két feltételének tagsági foka 0,3 és 0,13. Mennyi a szabály értéke?</legend>
+<label><input type="radio" name="k5" value="a"> 0,13</label>
+<label><input type="radio" name="k5" value="b"> 0,3</label>
+<label><input type="radio" name="k5" value="c"> 0,43</label>
+<details class="u-hint"><summary>Tipp</summary><p>Egy lánc olyan erős, mint a leggyengébb szeme.</p></details>
+<p class="u-feedback" data-magyarazat="Az ÉS a minimum: 0,13. A 0,3 a VAGY (maximum) lenne, a 0,43 az összeg, amely fuzzy logikában nem művelet."></p></fieldset>
+<fieldset data-helyes="c"><legend>6. Az új szabály a „Közepes” sebességet 0,13-mal aktiválja, amely eddig 0,4-del volt aktív. Hogyan változik a súlypont?</legend>
+<label><input type="radio" name="k6" value="a"> Nő</label>
+<label><input type="radio" name="k6" value="b"> Csökken</label>
+<label><input type="radio" name="k6" value="c"> Nem változik</label>
+<details class="u-hint"><summary>Tipp</summary><p>Ugyanannak a halmaznak két levágási szintje van. Melyiket tartja meg az egyesítés?</p></details>
+<p class="u-feedback" data-magyarazat="Az egyesítés maximum: max(0,4; 0,13) = 0,4, a halmaz nem változik, a súlypont sem."></p></fieldset>
+<fieldset data-helyes="a"><legend>7. Mélységi keresésnél hová kerülnek a kiterjesztett csomópont gyerekei?</legend>
+<label><input type="radio" name="k7" value="a"> A front elejére, ABC-sorrendben</label>
+<label><input type="radio" name="k7" value="b"> A front végére, ABC-sorrendben</label>
+<label><input type="radio" name="k7" value="c"> A frontba, útköltség szerint rendezve</label>
+<details class="u-hint"><summary>Tipp</summary><p>„Le az aljáig”: a legújabb csomóponttal kell folytatni.</p></details>
+<p class="u-feedback" data-magyarazat="A front eleje: a front verem. A front vége a szélességi, az útköltség szerinti rendezés az egyenletes költségű keresés."></p></fieldset>
+<fieldset data-helyes="b"><legend>8. Az A* kiterjesztésekor a gyerekek között megjelenik a cél. Mit teszel?</legend>
+<label><input type="radio" name="k8" value="a"> Megállok, megvan az út</label>
+<label><input type="radio" name="k8" value="b"> Felveszem a frontba, és csak akkor állok meg, ha a legkisebb f-ként belelépek</label>
+<label><input type="radio" name="k8" value="c"> Eldobom, és a többi ágat vizsgálom</label>
+<details class="u-hint"><summary>Tipp</summary><p>Lehet-e a frontban még olcsóbb út a célhoz?</p></details>
+<p class="u-feedback" data-magyarazat="A célt belelépéskor ellenőrizzük. A javított becslésű minta-zh gráfon a felvételkor elfogadott G 18-at adna a valódi 17 helyett."></p></fieldset>
+<fieldset data-helyes="c"><legend>9. Az A* frontjában C₂ (19) és W (19) áll, más nem kisebb. Melyikbe lépsz?</legend>
+<label><input type="radio" name="k9" value="a"> W-be, mert később került be</label>
+<label><input type="radio" name="k9" value="b"> Abba, amelyiknek kisebb a g értéke</label>
+<label><input type="radio" name="k9" value="c"> C₂-be, mert az ABC szerint előbb van</label>
+<details class="u-hint"><summary>Tipp</summary><p>Mit mond a feladatlap a konfliktusról?</p></details>
+<p class="u-feedback" data-magyarazat="„Konfliktus esetén az ABC szerinti sorrendet vegyünk”: a C megelőzi a W-t. Más döntetlenszabály is létezik, de a zh ezt írja elő."></p></fieldset>
+<fieldset data-helyes="a"><legend>10. Egy lámpakapcsolás energiája 26, fényereje 38, a korlát 20. Mennyi a fitnesze a kurzus szabálya szerint?</legend>
+<label><input type="radio" name="k10" value="a"> 0</label>
+<label><input type="radio" name="k10" value="b"> 38</label>
+<label><input type="radio" name="k10" value="c"> 38 − 26 = 12</label>
+<details class="u-hint"><summary>Tipp</summary><p>Mit tesz a hátizsákprogram egy túlterhelt hátizsákkal?</p></details>
+<p class="u-feedback" data-magyarazat="A túlsúlyos egyed fitnesze 0. A 38-cal a megengedhetetlen egyed nyerné a versenyeket. Büntetőtag is használható, de akkor le kell írni a képletét."></p></fieldset>
+<fieldset data-helyes="b"><legend>11. Versenyeztetés: C₂ fitnesze 22, C₄-é 21. Ki lesz a szülő?</legend>
+<label><input type="radio" name="k11" value="a"> Mindkettő</label>
+<label><input type="radio" name="k11" value="b"> C₂</label>
+<label><input type="radio" name="k11" value="c"> Véletlenszerűen az egyik, a fitnesztől függetlenül</label>
+<details class="u-hint"><summary>Tipp</summary><p>Egy verseny, egy győztes.</p></details>
+<p class="u-feedback" data-magyarazat="A versenyben a nagyobb fitneszű nyer: C₂. A véletlen a versenyzők kiválasztásában van, nem a verseny eldöntésében."></p></fieldset>
+<fieldset data-helyes="c"><legend>12. A minta-zh 25 pontos 8. feladatából mennyit ér az A*-os (b) rész?</legend>
+<label><input type="radio" name="k12" value="a"> 7 pontot</label>
+<label><input type="radio" name="k12" value="b"> 12,5 pontot</label>
+<label><input type="radio" name="k12" value="c"> 18 pontot</label>
+<details class="u-hint"><summary>Tipp</summary><p>A feladatlap a részfeladatok mellé is pontot ír.</p></details>
+<p class="u-feedback" data-magyarazat="A (b) rész 18 pont, a mélységi (a) rész 7. Az A* egyedül a zh csaknem ötöde, ezért érdemes a legtöbbet gyakorolni."></p></fieldset>
+<div class="u-controls"><button type="submit">Válaszok ellenőrzése</button> <button type="reset" class="u-ghost">Újrakezdés</button></div>
+<p class="u-out" id="kviz-eredmeny" role="status" aria-live="polite"></p>
+</form>
+<p class="u-nojs-only">Az ellenőrzéshez JavaScript szükséges. A helyes válaszok: 1b, 2c, 3a, 4b, 5a, 6c, 7a, 8b, 9c, 10a, 11b, 12c.</p>
+</details>
+</section>
+
+<!-- ÖSSZEGZÉS -->
+<section id="osszegzes" class="chapter-section"><span class="section-index">ÖSSZEFOGLALÓ</span>
+<h2>Amit most már tudsz.</h2>
+<p>A minta-zh kilenc feladata két részre oszlik. Az elméleti rész (30 pont) fogalmak pontos ismeretét és két ábrás kifejtést kér: a szabályalapú szakértőrendszer felépítését az előreláncolás négylépéses ciklusával, és a mesterséges neuront a súlyozott összeggel és az aktivációs függvénnyel. Az igaz–hamis állítások csapdái kiszámíthatók: felcserélt fogalompár, abszolút szó, túl szigorú szó.</p>
+<p>A gyakorlati rész (70 pont) hat receptet kér. Az előreterjesztésnél rétegről rétegre a kimenet megy tovább. A rezolúciónál a tételt tagadva hozzuk KNF-re, és a NIL-t keressük; predikátumlogikában ehhez Skolem-konstans és helyettesítés is kell. A fuzzy szimulációnál ÉS-hez minimum, egyesítéshez maximum, a végén súlypont jár. A keresésnél a front vezetése a kulcs: mélységinél a front eleje, A*-nál a legkisebb f, döntetlennél az ABC, célteszt belelépéskor. A genetikus algoritmusnál egyetlen táblázat viszi végig a generációt, a túlsúlyos egyed fitnesze 0.</p>
+<p>Ahol a feladat egy konvenciót nem rögzít, írd le, melyiket követed. A minta-zh két hibája is erre tanít: a 8. feladat túlbecslő h(W)-je miatt az „A*” valójában A, és a 18-as út nem optimális. A mechanikus válasz mellé egy mondatos megjegyzés mutatja meg, hogy érted is, amit csinálsz.</p>
+<div class="u-links">
+<a href="10-informalt-kereses.html"><small>← Előző fejezet</small>10 · Informált és lokális keresés. Az A*, a heurisztikák ellenőrzése és a minta-zh A*-feladatának teljes levezetése.</a>
+<a href="../fogalomtar.html"><small>Ismétléshez →</small>Fogalomtár és kereső. A kurzus összes fogalma egy helyen, magyarul és angolul, kereshetően.</a>
+<a href="../index.html"><small>Vissza →</small>Kezdőlap és fejezetlista. A teljes tanulási út, az előadásfelvételek és az eredeti oktatói anyagok.</a>
+</div>
+</section>
+
+<!-- FORRÁSOK -->
+<section id="forrasok" class="chapter-section"><span class="section-index">FORRÁSOK ÉS PONTOSÍTÁSOK</span>
+<h2>Honnan tudjuk?</h2>
+<p>A fejezet a 2025. december 5-i minta-zárthelyi dolgozat (12 oldal) mind a kilenc feladatát dolgozza fel. Az idézetek szó szerint a feladatlapról származnak, az eredeti helyesírással; ahol a feladatlap ábrát ad, a rajzot újra elkészítettük, és a szövegben megadtuk minden adatát. A hálót a 6. fejezet rajzáról vettük át, a fuzzy töréspontjait az 5. fejezet leolvasásából, a gráfot a 9–10. fejezet tesztelt modelljéből (<code>assets/js/search.js</code>).</p>
+<p>A minta-zh feladatainak részletes megoldása az egyes fejezetekben szerepel; itt a végeredményt és a kulcslépéseket adjuk meg, a hivatkozott fejezetekkel egyezően. Egy „Kiigazítás” doboz a 8. feladat két hibáját jelzi (a nem létező H csomópont és a túlbecslő h(W)); a 6. feladat Skolem-konstansát a 4. fejezet kiigazítása tárgyalja. A 4. feladat élcímkéinek olvasatát egy „Kiegészítés” doboz rögzíti.</p>
+<p>Saját anyag, nem a feladatlapról: a 36 új igaz–hamis állítás, a nyolc kifejtős kérdés és mintaválasza, a láncolási, rezolúciós, predikátumlogikai, fuzzy, keresési és genetikus gyakorló feladatok, a gyakorló gráf, a változatgenerátor, a pontlap részpontjai (a 2–7. feladatnál és a 8. feladat i–iii. bontásánál becslés), a döntési táblázat és a kvíz. Minden számpéldát a fejezet tesztelt modelljével (<code>assets/js/zh.js</code>, <code>tesztek/zh.test.cjs</code>) és egy tőle független Python-számolással is ellenőriztünk; a rezolúciós feladatok következményét igazságtáblával is. A gyakorló gráfon a kurzus <code>resources/code/18_A_csillag_algoritmus.py</code> programját változatlan <code>astar</code> függvénnyel, Python 3-mal futtattuk: kimenete <code>['S', 'C', 'F', 'H', 'G']</code>, a túlbecslő változattal <code>['S', 'B', 'E', 'G']</code>.</p>
+<ul class="u-sources">
+<li id="s-mintazh">Mesterséges intelligencia alapjai, minta-zárthelyi dolgozat, 2025. december 5., 1–9. feladat (12 oldal).</li>
+<li id="s-fejezetek">A kurzus 1–10. fejezete, különösen a <a href="02-tudasbazisok.html#forrasok">2.</a>, <a href="04-formalis-logika.html#forrasok">4.</a>, <a href="05-prolog-es-fuzzy.html#forrasok">5.</a>, <a href="06-neuralis-halozatok.html#forrasok">6.</a>, <a href="08-genetikus-algoritmusok.html#forrasok">8.</a>, <a href="09-neminformalt-kereses.html#forrasok">9.</a> és <a href="10-informalt-kereses.html#forrasok">10. fejezet</a> forrásai.</li>
+<li id="s-aima">S. Russell, P. Norvig: <em>Artificial Intelligence: A Modern Approach</em>, 4. kiadás, Pearson, 2020: 3. fejezet (keresés, A*), 7–9. fejezet (logika, rezolúció).</li>
+<li id="s-kod18"><code>resources/code/18_A_csillag_algoritmus.py</code>, a kurzus A*-programja.</li>
+</ul>
+</section>
+</main>
+</div>
+<footer>MI-alapok / 11 · Zárthelyi-gyakorló <a href="../index.html">Kezdőlap</a> <a href="../fogalomtar.html">Fogalomtár</a></footer>
+<a class="to-top" href="#top" aria-label="Vissza az oldal tetejére" title="Vissza az oldal tetejére"><span aria-hidden="true">↑</span></a>
+</body>
+</html>

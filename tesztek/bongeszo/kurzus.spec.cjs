@@ -5,8 +5,8 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '../..');
 const pages = ['index.html', 'eloadasfelvetelek.html', 'fogalomtar.html', ...fs.readdirSync(path.join(root, 'fejezetek')).filter(f => /^\d\d-.*\.html$/.test(f)).sort().map(f => `fejezetek/${f}`)];
 
-test('Mind a tíz fejezet szerepel, és minden oldal közvetlenül megnyitva és újratöltve hibátlan', async ({page}) => {
-  expect(pages.filter(p => p.startsWith('fejezetek/'))).toHaveLength(10);
+test('Mind a tizenegy fejezet szerepel, és minden oldal közvetlenül megnyitva és újratöltve hibátlan', async ({page}) => {
+  expect(pages.filter(p => p.startsWith('fejezetek/'))).toHaveLength(11);
   for (const p of pages) {
     const errors = [];
     const onErr = e => errors.push(e.message);

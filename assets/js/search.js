@@ -67,6 +67,18 @@ const CourseSearch = (() => {
     heur: { S: 0, Y: 15, X: 16, A: 8, B: 8, D: 7, C: 11, E: 8, F: 5, G: 0, K: 5, V: 4, W: 4 }
   };
 
+  /** A 11. fejezet (zárthelyi-gyakorló) saját gráfja: a minta-zh 8. feladatával azonos formájú, elfogadható és konzisztens becsléssel. */
+  /** @type {GraphDef} */
+  const ZH2 = {
+    name: 'Gyakorló gráf (11. fejezet)', weighted: true, start: 'S', goal: 'G', w: 600, h: 300,
+    adj: withSinks({
+      S: [['A', 1], ['B', 4], ['C', 2]], A: [['D', 5], ['E', 6]], B: [['E', 1], ['G', 9]], C: [['D', 2], ['F', 3]],
+      D: [['E', 2], ['H', 6]], E: [['G', 6]], F: [['H', 2]], H: [['G', 3]]
+    }),
+    pos: { S: [30, 150], B: [170, 25], A: [170, 140], C: [170, 260], E: [320, 112], D: [320, 205], F: [320, 295], H: [465, 245], G: [580, 140] },
+    heur: { S: 9, A: 10, B: 7, C: 8, D: 7, E: 6, F: 5, H: 3, G: 0 }
+  };
+
   /** A PDF 281. és 283. oldalának absztrakt állapotgráfja: egységnyi élköltség, két körrel. */
   /** @type {GraphDef} */
   const ABSTRACT = {
@@ -834,7 +846,7 @@ const CourseSearch = (() => {
       : { ids: ['bfs', 'ids'], why: 'Egyforma lépésköltség és van memória: a szélességi keresés egyszerű és optimális; nagy mélységnél az iteratív mélyítés takarékosabb.' };
   }
 
-  return { CITY, ZH, ABSTRACT, CODE21, BINARY, GRAPHS, neighbors, states, pathOf, search, ids, run, labels, labelText,
+  return { CITY, ZH, ZH2, ABSTRACT, CODE21, BINARY, GRAPHS, neighbors, states, pathOf, search, ids, run, labels, labelText,
     parseGraph, circleLayout, layoutTree, snapshot, treeSvg, graphSvg, complexity, gomoku, puzzleMoves, puzzleSpace, esc,
     CITY_INF, CITY_HEUR_302, CODE18, INFORMED, hStar, checkHeuristic,
     rng, LAND_MAX, landscape, hillClimb, restartHill, acceptance, temperature, anneal, landscapeSvg, seriesSvg, recommend };

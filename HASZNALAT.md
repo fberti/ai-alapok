@@ -54,6 +54,7 @@ A 9. és a 10. fejezet statikus ábráit (gráfok, keresőfák, fronttáblázato
 
 - `eszkozok/09-sablon.html` és `eszkozok/09-abrak.cjs` → `fejezetek/09-neminformalt-kereses.html`;
 - `eszkozok/10-sablon.html` és `eszkozok/10-abrak.cjs` → `fejezetek/10-informalt-kereses.html`;
+- `eszkozok/11-sablon.html` és `eszkozok/11-abrak.cjs` → `fejezetek/11-zh-gyakorlo.html` (a minta-zh gráfja és hálója, a gyakorló gráf keresőfái és táblázatai);
 - `eszkozok/fogalomtar.cjs` → `fogalomtar.html` (a fejezetek fogalomkártyáiból és tartalomjegyzékéből).
 
 A két fejezet szövegét a sablonban kell szerkeszteni, nem a kész HTML-ben. A sablon `<!--@név-->` jelölői helyére a script a tesztelt `assets/js/search.js` modellből rajzolt SVG-ket és táblázatokat illeszti. Szerkesztés után a projekt gyökeréből:
@@ -61,6 +62,7 @@ A két fejezet szövegét a sablonban kell szerkeszteni, nem a kész HTML-ben. A
 ```bash
 node eszkozok/09-abrak.cjs
 node eszkozok/10-abrak.cjs
+node eszkozok/11-abrak.cjs
 node eszkozok/fogalomtar.cjs
 ```
 
