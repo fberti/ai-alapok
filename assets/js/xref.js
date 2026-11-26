@@ -127,7 +127,7 @@
       '<input type="search" class="xref-search" placeholder="Keresés a fejezetek és szakaszok között…" aria-label="Keresés a fejezetek és szakaszok között">' +
       '<div class="xref-cat"><p class="xref-muted">Betöltés…</p></div>' +
       '</div>' +
-      '<iframe class="xref-frame" title="Hivatkozott rész"></iframe>';
+      '<iframe class="xref-frame" title="Hivatkozott rész" allow="fullscreen"></iframe>';
     document.body.appendChild(panel);
     frame = /** @type {HTMLIFrameElement} */ (panel.querySelector('iframe'));
     titleEl = /** @type {HTMLElement} */ (panel.querySelector('.xref-title'));

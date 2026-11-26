@@ -102,3 +102,41 @@ test('A fejléc görgetés után keskeny sávként látható marad, a tetején t
   await page.evaluate(() => window.scrollTo(0, 0));
   await expect(page.locator('html')).not.toHaveClass(/header-compact/);
 });
+
+test('A keresőlabor teljes méretben egyszerre mutatja a vezérlőket, a térképet és a fát, kilépéskor visszaáll', async ({page}) => {
+  await page.goto('fejezetek/09-neminformalt-kereses.html');
+  const lab = page.locator('#kereso-labor');
+  const order = () => lab.locator('.u-js-only').evaluate(el => [...el.querySelectorAll('[id]')].map(e => e.id).join(','));
+  const before = await order();
+  const btn = lab.locator(':scope > .lab-full-btn');
+  await expect(btn).toHaveText(/Teljes méret/);
+  await btn.click();
+  await expect(btn).toHaveText(/Kilépés/);
+  await expect(lab).toHaveClass(/lab-is-full/);
+  if (test.info().project.name === 'asztali') {
+    await expect(lab.locator('.lab-split-main #kl-terkep')).toBeVisible();
+    await expect(lab.locator('.lab-split-main #kl-fa')).toBeVisible();
+    await expect(lab.locator('.lab-split-side #kl-lep')).toBeVisible();
+  }
+  await lab.locator('#kl-lep').click();
+  await expect(lab.locator('#kl-ki')).toContainText('1. lépés');
+  await btn.click();
+  await expect(btn).toHaveText(/Teljes méret/);
+  await expect(lab.locator('.lab-split')).toHaveCount(0);
+  expect(await order()).toBe(before);
+});
+
+test('Teljes képernyős mód nélkül a labor a teljes ablakot tölti ki, és Esc-kel bezárul', async ({page}) => {
+  await page.addInitScript(() => Object.defineProperty(Document.prototype, 'fullscreenEnabled', {get: () => false}));
+  await page.goto('fejezetek/09-neminformalt-kereses.html');
+  const lab = page.locator('#kereso-labor');
+  await lab.locator(':scope > .lab-full-btn').click();
+  await expect(lab).toHaveClass(/lab-full/);
+  const box = await lab.boundingBox();
+  const vp = page.viewportSize();
+  expect(Math.round(box.width)).toBe(vp.width);
+  expect(box.y).toBe(0);
+  await page.keyboard.press('Escape');
+  await expect(lab).not.toHaveClass(/lab-full/);
+  await expect(page.locator('html')).not.toHaveClass(/lab-full-open/);
+});

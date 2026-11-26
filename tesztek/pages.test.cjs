@@ -98,6 +98,7 @@ test('A fejezetek és a fogalomtár betöltik az oldalsávos kereszthivatkozást
   for (const file of pages.filter((f) => f.startsWith('fejezetek/') || f === 'fogalomtar.html')) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
     assert.match(html, /<script defer src="(\.\.\/)?assets\/js\/xref\.js"><\/script>/, file);
+    if (file.startsWith('fejezetek/')) assert.match(html, /<script defer src="\.\.\/assets\/js\/labor-teljes\.js"><\/script>/, file);
   }
 });
 test('Minden xref kereszthivatkozás létező oldalra és horgonyra mutat', () => {

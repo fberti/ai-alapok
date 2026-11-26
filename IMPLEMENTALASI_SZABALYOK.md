@@ -197,6 +197,8 @@ Az interaktív elemek segítsék a megértést.
 
 Ne legyen öncélú animáció.
 
+Minden `.u-lab` labor „Teljes méret” gombot kap (`assets/js/labor-teljes.js`). Teljes méretben a rajzos panelek (`.u-panel` benne SVG-vel) jobbra, nagyba kerülnek, a vezérlők balra. Új fejezet a `<head>`-ben töltse be: `<script defer src="../assets/js/labor-teljes.js"></script>`.
+
 Minden interaktív elem működjön billentyűzettel is.
 
 Minden grafika kapjon szöveges magyarázatot.
