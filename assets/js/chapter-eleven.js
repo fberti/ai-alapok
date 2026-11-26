@@ -147,7 +147,7 @@
       bar.style.width = `${total}%`;
       weak.sort((a, b) => b.missing - a.missing);
       advice.innerHTML = total === 0 ? 'Jelöld be, mi sikerült. A pontlap a böngésződben marad.'
-        : weak.length ? `A legtöbb pontot itt hagytad: ${weak.slice(0, 3).map((w) => `<a href="${esc(w.link)}">${esc(w.name)}</a> (−${w.missing}, ${esc(w.where)})`).join('; ')}. Ezeket érdemes újra átnézni.`
+        : weak.length ? `A legtöbb pontot itt hagytad: ${weak.slice(0, 3).map((w) => `<a class="xref" href="${esc(w.link)}">${esc(w.name)}</a> (−${w.missing}, ${esc(w.where)})`).join('; ')}. Ezeket érdemes újra átnézni.`
           : 'Minden feladatban megszerezted a pontok nagy részét. Próbáld ki a változatgenerátort új számokkal!';
       write(key, JSON.stringify({ tf: Number(tf.value), boxes: boxes.map((b) => b.checked) }));
     };

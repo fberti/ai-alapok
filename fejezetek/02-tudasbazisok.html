@@ -7,8 +7,9 @@
 <meta name="description" content="Hogyan kerül egy szakértő tapasztalata egy szabályalapú rendszerbe? Tudásábrázolás, tudáskinyerés, interjútechnikák, szabályláncolás. Magyar tananyag a kurzus PDF-jének 36–64. oldalához.">
 <title>02 · Tudásbázisok és szakértőrendszerek | MI-alapok</title>
 <script>document.documentElement.classList.add('js')</script>
-<script src="../assets/js/theme.js?v=2"></script>
-<link rel="stylesheet" href="../assets/css/course.css?v=4">
+<script src="../assets/js/theme.js?v=3"></script>
+<script defer src="../assets/js/xref.js"></script>
+<link rel="stylesheet" href="../assets/css/course.css?v=5">
 <link rel="stylesheet" href="../assets/css/chapter-two.css">
 <script defer src="../assets/js/chapter-two.js"></script>
 </head>
@@ -47,7 +48,7 @@
 <header class="chapter-hero">
 <p class="eyebrow">02. FEJEZET / TAPASZTALATBÓL SZABÁLY</p>
 <h1>Hogyan kerül<br><em>a tapasztalat a gépbe?</em></h1>
-<p class="lead">Az előző fejezet végén a DENDRAL egyetlen szabálya már megmutatta, hogyan dönt egy szakértőrendszer. Most azt nézzük meg, honnan jönnek a szabályok, hogyan kerülnek a gépbe, és hogyan következtet belőlük a program.</p>
+<p class="lead">Az előző fejezet végén a <a class="xref" href="01-mi-es-intelligencia.html#dendral-labor">DENDRAL egyetlen szabálya</a> már megmutatta, hogyan dönt egy szakértőrendszer. Most azt nézzük meg, honnan jönnek a szabályok, hogyan kerülnek a gépbe, és hogyan következtet belőlük a program.</p>
 <div class="u-scene"><p><strong>Egy hétköznapi helyzet.</strong> Kovács Irén harminc éve javít számítógépeket egy kisvárosi szervizben. Jövőre nyugdíjba megy. Ránéz egy rakoncátlan billentyűzetre, és két kérdés után megmondja, mi a baja. A cég szeretné, ha ez a tudás nem menne el vele. Csakhogy Irén maga sem tudja pontosan elmondani, honnan tudja, amit tud. Ez a fejezet végigköveti, hogyan lesz az ilyen tapasztalatból gép által használható tudásbázis.</p></div>
 <ul class="u-meta"><li>Forrás: PDF 36–64. oldal</li><li>4 kipróbálható bemutató</li><li>10 opcionális kvízkérdés</li><li>Kapcsolódó kód: <code>12_Logika.py</code></li></ul>
 <div class="u-goals"><strong>A fejezet végére…</strong><ul>
@@ -73,7 +74,7 @@
 </div>
 <p>A meghatározáshoz két további gondolat kapcsolódik. Az első: bár az intelligenciát sokféleképpen definiálják, abban a kutatók egyetértenek, hogy az emberivel összemérhető gépi intelligenciának rendelkeznie kell az ember <strong>általános tudásával</strong> is. Ide tartozik például, hogy a leejtett pohár leesik, vagy hogy a halott ember nem vásárol. A második gondolat a fejezet egyik fő üzenete:</p>
 <p class="u-key">Egy tudással rendelkező mesterséges rendszer intelligenciája attól függ, hogyan szervezzük meg ezt az ismerethalmazt.</p>
-<p>Két rendszer tudhatja ugyanazt, mégis az egyik gyorsan és helyesen következtet, a másik pedig lassan vagy egyáltalán nem. A különbség a tudás szervezésében van. A következő részek ezt bontják ki.</p>
+<p>Két rendszer tudhatja ugyanazt, mégis az egyik gyorsan és helyesen következtet, a másik pedig lassan vagy egyáltalán nem. A különbség a tudás szervezésében van. A <a class="xref" href="#kodolas">következő részek</a> ezt bontják ki.</p>
 </section>
 
 <!-- 02 · KÓDOLÁS -->
@@ -96,14 +97,14 @@
 <div><span class="u-tag">STATIKUS MODELL</span><h3>Egyszer megalkotják, aztán használják</h3><p>A tudásmérnök elkészíti a tudásszemléltető modellt, a rendszer pedig ezt alkalmazza. A tudás csak akkor változik, ha ember átírja.</p><p><em>Példa:</em> Irén szabályaiból egyszer összeállított hibakereső program.</p></div>
 <div><span class="u-tag">DINAMIKUS, ÖNSZERVEZŐ MODELL</span><h3>Működés közben maga is tanul</h3><p>A rendszer maga szerzi meg és rendezi el az ismereteket. Ez ugyanolyan fontos része a működésnek, mint az ismeret alkalmazása. Az <strong>öntanuló</strong> rendszer ehhez nem igényel emberi közreműködést.</p><p><em>Példa:</em> a levélszemétszűrő, amely a felhasználók jelöléseiből folyamatosan frissíti, mit tart kéretlen levélnek.</p></div>
 </div>
-<p>Az <strong>önszervező</strong> modell tehát nem csak új tényeket vesz fel. A tudás szerkezetét is maga alakítja ki, például maga dönti el, mely fogalmak tartoznak össze. A 6. fejezet neurális hálói ilyen rendszerek.</p>
+<p>Az <strong>önszervező</strong> modell tehát nem csak új tényeket vesz fel. A tudás szerkezetét is maga alakítja ki, például maga dönti el, mely fogalmak tartoznak össze. A <a class="xref" href="06-neuralis-halozatok.html#felugyelet-nelkul">6. fejezet neurális hálói</a> ilyen rendszerek.</p>
 <p>Ezzel együtt előtérbe kerül a tudás <strong>szimbolikus</strong> jellege. A fogalmakat jelek, szimbólumok képviselik, és egy fogalom jelentése mindaz, ami hozzá <strong>asszociálódott</strong>, vagyis hozzá kapcsolódik. Ezek a kapcsolatok lehetnek térbeliek, időbeliek, minőségiek és még sokfélék. Az ábra ezt az „eső” fogalmon mutatja meg.</p>
 <figure class="u-assoc" id="eso-fogalom"><p class="u-assoc-core">ESŐ</p><dl>
 <div><dt>Térbeli</dt><dd>felhő, ég, pocsolya, esőcsatorna</dd></div>
 <div><dt>Időbeli</dt><dd>ősz, nyári zivatar, „utána szivárvány”</dd></div>
 <div><dt>Minőségi</dt><dd>nedves, hideg, szitáló vagy zuhogó</dd></div>
 <div><dt>Ok és cél</dt><dd>esernyő, elmarad a kirándulás, jó a vetésnek</dd></div>
-</dl><figcaption>A jegyzet saját példája. A fogalmat a kapcsolatai adják meg: ha ezeket kivesszük, az „eső” szó puszta betűsor marad a gép számára. A 3. fejezet szemantikus hálói pontosan ilyen kapcsolatokat tárolnak.</figcaption></figure>
+</dl><figcaption>A jegyzet saját példája. A fogalmat a kapcsolatai adják meg: ha ezeket kivesszük, az „eső” szó puszta betűsor marad a gép számára. A <a class="xref" href="03-tudasreprezentacio.html#allathalo">3. fejezet szemantikus hálói</a> pontosan ilyen kapcsolatokat tárolnak.</figcaption></figure>
 </section>
 
 <!-- 03 · JELLEMZŐK -->
@@ -121,7 +122,7 @@
 <tr><td>5. Legyen átlátható számunkra.</td><td>Az ember is értse és ellenőrizni tudja.</td><td>Egy turista is kiigazodik rajta, nyelvtudás nélkül is.</td></tr>
 <tr><td>6. Legyen alkalmas gyors feldolgozásra.</td><td>A szükséges műveletek gyorsan elvégezhetők legyenek.</td><td>Ránézésre megtalálod az útvonalat.</td></tr>
 <tr><td>7. Rejtse el a részleteket, de tegye elérhetővé azokat szükség esetén.</td><td>A részlet ne zavarjon, de ha kell, elő lehessen venni.</td><td>A pontos távolságok nincsenek rajta, de a menetrendből vagy a várostérképből kikereshetők.</td></tr>
-<tr><td>8. Létezzen rá számítógépi eljárás.</td><td>A gép is tudjon rajta dolgozni.</td><td>A hálózat gráfként tárolható, a legrövidebb utat algoritmus keresi meg. Ezt a 9. fejezet mutatja be.</td></tr>
+<tr><td>8. Létezzen rá számítógépi eljárás.</td><td>A gép is tudjon rajta dolgozni.</td><td>A hálózat gráfként tárolható, a legrövidebb utat algoritmus keresi meg. Ezt a <a class="xref" href="09-neminformalt-kereses.html#egyenletes">9. fejezet</a> mutatja be.</td></tr>
 </tbody></table></div>
 <p>A jellemzők között feszültség is van. A <em>teljesség</em> és a <em>tömörség</em> egymás ellen húz: ha mindent felveszünk, a térkép áttekinthetetlen lesz. A jó ábrázolás ezért mindig egy feladathoz készül. A metrótérkép kiváló az utazáshoz, de használhatatlan egy vízvezeték javításához.</p>
 <div class="u-simple"><strong>Egyszerűen mondva</strong><p>Nincs „mindenre jó” ábrázolás. Az a jó ábrázolás, amelyben az adott feladat kérdéseire gyorsan és helyesen lehet válaszolni.</p></div>
@@ -169,10 +170,10 @@
 <h2>Négy szakasz a feltárástól a dokumentálásig.</h2>
 <p>A <strong>tudásgyűjtés</strong> vagy <strong>tudáskinyerés</strong> feladata, hogy beazonosítsa, kinyerje, dokumentálja és elemezze a szakértő információfeldolgozó tevékenységét. A cél a szakértőrendszer <strong>tudásbázisának</strong> és <strong>következtető automatájának</strong> meghatározása. A tudásmérnök tehát nemcsak azt gyűjti, <em>mit</em> tud a szakértő, hanem azt is, <em>hogyan</em> gondolkodik. A folyamat négy fő szakaszból áll. A fejezet következő részei ezeket sorra bemutatják.</p>
 <ol class="u-steps" id="gyujtes-szakaszai">
-<li><p><strong>Az előzetes tudás és a problématartomány feltárása.</strong> Mekkora a terület, mit várnak a felhasználók? Az eredmény a Tudás Kézikönyv első változata. <a href="#kezikonyv">→ 07. rész</a></p></li>
-<li><p><strong>Az információforrások beazonosítása.</strong> Kitől és miből tanulunk? Itt választjuk ki és nyerjük meg a szakértőt. <a href="#szakerto">→ 08. rész</a></p></li>
-<li><p><strong>A részletes tudás kinyerése a forrásokból.</strong> Interjúk, megfigyelések, kérdőívek, beszámolók. <a href="#reszletes">→ 09–11. rész</a></p></li>
-<li><p><strong>A kinyert tudás elemzése, kódolása és dokumentálása.</strong> A jegyzetekből rendezett, a gép számára előkészített tudás lesz. <a href="#elemzes">→ 12. rész</a></p></li>
+<li><p><strong>Az előzetes tudás és a problématartomány feltárása.</strong> Mekkora a terület, mit várnak a felhasználók? Az eredmény a Tudás Kézikönyv első változata. <a class="xref" href="#kezikonyv">→ 07. rész</a></p></li>
+<li><p><strong>Az információforrások beazonosítása.</strong> Kitől és miből tanulunk? Itt választjuk ki és nyerjük meg a szakértőt. <a class="xref" href="#szakerto">→ 08. rész</a></p></li>
+<li><p><strong>A részletes tudás kinyerése a forrásokból.</strong> Interjúk, megfigyelések, kérdőívek, beszámolók. <a class="xref" href="#reszletes">→ 09–11. rész</a></p></li>
+<li><p><strong>A kinyert tudás elemzése, kódolása és dokumentálása.</strong> A jegyzetekből rendezett, a gép számára előkészített tudás lesz. <a class="xref" href="#elemzes">→ 12. rész</a></p></li>
 </ol>
 </section>
 
@@ -257,7 +258,7 @@
 <div><dt>Az adatok bizonyossága és relatív valószínűsége</dt><dd>Az ügyfél szerint „talán villámlott”. Ez bizonytalanabb adat, mint egy mért feszültség.</dd></div>
 <div><dt>A szakértő közelítéseinek alapja</dt><dd>Irén azért kezdi a porttal, mert gyors ellenőrizni, és régen sokszor az volt a hiba.</dd></div>
 <div><dt>A feladatok prioritása és sorrendje</dt><dd>Előbb az olcsó próba (másik billentyűzet csatlakoztatása), csak utána a szétszerelés.</dd></div>
-<div><dt>A szabályok és következmények közötti konfliktusok feloldása</dt><dd>Ha egy szabály a portot, egy másik a kábelt gyanúsítja, melyiket kövessük? A választ a <a href="#felepites">17. rész</a> konfliktusfeloldása gépesíti.</dd></div>
+<div><dt>A szabályok és következmények közötti konfliktusok feloldása</dt><dd>Ha egy szabály a portot, egy másik a kábelt gyanúsítja, melyiket kövessük? A választ a <a class="xref" href="#felepites">17. rész</a> konfliktusfeloldása gépesíti.</dd></div>
 <div><dt>A problémamegoldás alternatív lehetőségei</dt><dd>Ha nincs tesztdugó, egy másik géphez csatlakoztatva is kiderül, a billentyűzet vagy a gép a hibás.</dd></div>
 <div><dt>A következtetésekben elvégezhető ésszerűsítések</dt><dd>Ha minden billentyű hibás, a kontaktusok vizsgálata kihagyható: az ennyi billentyűnél egyszerre nem romlik el.</dd></div>
 <div><dt>Részletes válaszok a várt és a váratlan helyzetekre</dt><dd>Mi a teendő, ha a billentyűzet csak hidegben rossz? A ritka eseteket is fel kell tárni.</dd></div>
@@ -274,7 +275,7 @@
 <li><p><strong>A szabály bizonyossága.</strong> Irén szerint a szabály „tízből nyolcszor bejön”: 0,8.</p></li>
 <li><p><strong>A következmény bizonyossága.</strong> A kettő szorzata: 0,6 × 0,8 = 0,48. A „port gyanús” tény tehát 0,48 bizonyossággal kerül a tények közé.</p></li>
 </ol></div>
-<p>A bizonytalanság így végigkíséri a láncolást: egy bizonytalan adatból levont következtetés sosem lehet biztosabb, mint maga az adat. A bizonytalanság egy másik kezelési módját, a fuzzy logikát az <a href="05-prolog-es-fuzzy.html">5. fejezet</a> mutatja be. <a href="#s-buchanan">Forrás: Buchanan–Shortliffe, 1984.</a></p></aside>
+<p>A bizonytalanság így végigkíséri a láncolást: egy bizonytalan adatból levont következtetés sosem lehet biztosabb, mint maga az adat. A bizonytalanság egy másik kezelési módját, a fuzzy logikát az <a class="xref" href="05-prolog-es-fuzzy.html#fuzzy">5. fejezet</a> mutatja be. <a href="#s-buchanan">Forrás: Buchanan–Shortliffe, 1984.</a></p></aside>
 </section>
 
 <!-- 10 · INTERJÚ -->
@@ -321,7 +322,7 @@
 <div class="u-lab" id="interju-labor"><span class="u-lab-label">PRÓBÁLD KI / INTERJÚSZIMULÁTOR</span><h3>Te vagy a tudásmérnök. Melyik sablonnal kérdezel?</h3>
 <p>A szakértő ezt mondta: <em>„Megvizsgáltam a számítógép portját.”</em> Válassz egy kérdéssablont. A szakértő válaszol, a jegyzetfüzetbe pedig bekerül a válaszból kinyerhető szabály. A K1 és a K4 válasza a PDF-ből származik, a többi a jegyzet szemléltető kiegészítése.</p>
 <div class="u-kbuttons u-js-only" id="interju-gombok" role="group" aria-label="Kérdéssablonok"></div>
-<div class="u-out" id="interju-valasz" role="status" aria-live="polite"><p>A szimulátorhoz JavaScript szükséges. A kérdések hatását a fenti táblázat, egy valódi interjút a párbeszéd mutat be.</p></div>
+<div class="u-out" id="interju-valasz" role="status" aria-live="polite"><p>A szimulátorhoz JavaScript szükséges. A kérdések hatását a <a class="xref" href="#k-sablonok">fenti táblázat</a>, egy valódi interjút a <a class="xref" href="#villamlas-parbeszed">párbeszéd</a> mutat be.</p></div>
 <div class="u-notebook u-js-only"><p class="u-notebook-title">Jegyzetfüzet · kinyert szabályok</p><ol id="interju-jegyzet"><li class="u-empty">Még nincs szabály.</li></ol></div>
 <div class="u-controls u-js-only"><button type="button" class="u-ghost" id="interju-ujra">Új interjú</button></div>
 </div>
@@ -408,7 +409,7 @@
 <aside class="u-fix"><h3>Kiigazítás · Az implikáció és a modus ponens nem ugyanaz</h3>
 <p><strong>A PDF megfogalmazása:</strong> „A logikában neve: implikáció, modus ponens”, mintha a szabálynak két egyenértékű neve volna.</p>
 <p><strong>Pontosabban:</strong> az <em>implikáció</em> maga az állítás (<code>α → β</code>), a <em>modus ponens</em> pedig a következtetési szabály, amely az implikációt felhasználja. A szabálybázisban implikációk vannak, a következtető automata pedig modus ponenssel dolgozik velük.</p>
-<p><strong>Miért fontos?</strong> Egy implikációból más következtetési szabállyal mást is ki lehet hozni. A <em>modus tollens</em> például <code>¬β</code>-ból és <code>α → β</code>-ból <code>¬α</code>-t vezeti le: ha nincs meleg, akkor a hőmérséklet nem lehet 30 fok fölött. A két fogalom a 4. fejezetben, a formális logikánál kerül elő újra. <a href="#s-aima">Forrás: Russell–Norvig, 7. fejezet.</a></p></aside>
+<p><strong>Miért fontos?</strong> Egy implikációból más következtetési szabállyal mást is ki lehet hozni. A <em>modus tollens</em> például <code>¬β</code>-ból és <code>α → β</code>-ból <code>¬α</code>-t vezeti le: ha nincs meleg, akkor a hőmérséklet nem lehet 30 fok fölött. A két fogalom a <a class="xref" href="04-formalis-logika.html#bizonyitas">4. fejezetben</a>, a formális logikánál kerül elő újra. <a href="#s-aima">Forrás: Russell–Norvig, 7. fejezet.</a></p></aside>
 </section>
 
 <!-- 15 · LÁNCOLÁS -->
@@ -440,7 +441,7 @@
 <span class="u-rule-line"><code>R2: HA c ÉS d AKKOR f</code></span>
 <span class="u-rule-line"><code>R3: HA e ÉS f AKKOR g</code></span>
 <span class="u-rule-line"><code>R4: HA b ÉS c AKKOR h</code> <small>(a jegyzet kiegészítése, szaggatott vonal)</small></span>
-Az R1–R3 szabály a PDF 59. oldalának példája. Az R4 szabályt a jegyzet vette fel, hogy a következő részben látható legyen, mikor végez fölösleges munkát az előreláncolás.</figcaption>
+Az R1–R3 szabály a PDF 59. oldalának példája. Az R4 szabályt a jegyzet vette fel, hogy a <a class="xref" href="#irany">következő részben</a> látható legyen, mikor végez fölösleges munkát az előreláncolás.</figcaption>
 </figure>
 <p>A fa leveleinél a <strong>tények</strong>, a csúcsán a <strong>végkövetkeztetés</strong> áll. Az R1 következménye (<code>e</code>) és az R2 következménye (<code>f</code>) együtt adja az R3 feltételét. Az R3 tehát csak akkor „sülhet el”, ha előtte az R1 és az R2 is elsült. Ez a láncolódás.</p>
 <p>Itt egy fontos korlátba ütközünk. Ha a szabálybázis összes lehetséges kapcsolódását előre megvalósítanánk, előállna az összes következtetési fa. Ezek a leveleiken álló tényeket kötnék össze a csúcsukon álló végkövetkeztetésekkel. Egy valódi szabálybázisban azonban ez a fák száma miatt gyakorlatilag lehetetlen. Húsz eldöntendő bemenő tény már 2<sup>20</sup>, azaz több mint egymillió különböző esetet ad, és mindegyikhez más fa tartozhat. Egy néhány száz szabályos rendszer ennél jóval több adatot kezel. Ezért egy konkrét esetre mindig a <strong>következtető automata</strong> végzi el a következtetést, csak azokkal a tényekkel, amelyek éppen adottak.</p>
@@ -455,7 +456,7 @@ Az R1–R3 szabály a PDF 59. oldalának példája. Az R4 szabályt a jegyzet ve
 <div><span class="u-tag">ELŐREHALADÓ LÁNCOLÁS (FORWARD CHAINING) · „!”</span><h3>A tényekből indul</h3><p>A feladat a végkövetkeztetés megtalálása a megadott tényekből kiindulva. A levelektől halad a csúcs felé: minden szabályt alkalmaz, amelynek a feltétele teljesül, amíg már nem születik új tény.</p><p><strong>Mikor előnyös?</strong> Chabris szerint akkor, ha sok összegyűjtött adatunk van, de nincs jó elképzelésünk a megoldásról. A rendszer elvégzi az összes végrehajtható következtetést, és előállítja a tényekből következő összes szóba jöhető megoldást.</p><p><em>Példa:</em> egy üzem érzékelőinek adataiból minden lehetséges riasztás előállítása.</p></div>
 <div><span class="u-tag">HÁTRAFELÉ HALADÓ LÁNCOLÁS (BACKWARD CHAINING) · „?”</span><h3>A célból indul</h3><p>Az elérendő cél adott. A feladat a szükséges előfeltételek megtalálása, illetve annak megállapítása, hogy a megadott tények elegendőek-e. A csúcstól halad a levelek felé.</p><p><strong>Mikor előnyös?</strong> Chabris szerint akkor, ha egy vagy több hipotézisünk van a megoldásra, és azt akarjuk, hogy a rendszer tesztelje őket. A hipotézistől visszafelé haladva a rendszer <em>bekéri</em> a teljesüléshez szükséges adatokat.</p><p><em>Példa:</em> „Az ügyfél gépén a port a hibás?” – a rendszer csak az ehhez szükséges kérdéseket teszi fel.</p></div>
 </div>
-<p>Vezessük le mindkét irányban a <code>g</code> végkövetkeztetést az előző rész fájából. Mind a négy tény (<code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>) igaz. Előreláncolásnál minden körben az első alkalmazható szabály sül el, és egy szabály ugyanarra az esetre csak egyszer alkalmazható.</p>
+<p>Vezessük le mindkét irányban a <code>g</code> végkövetkeztetést az <a class="xref" href="#kovetkeztetesi-fa">előző rész fájából</a>. Mind a négy tény (<code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>) igaz. Előreláncolásnál minden körben az első alkalmazható szabály sül el, és egy szabály ugyanarra az esetre csak egyszer alkalmazható.</p>
 <div class="u-duo" id="ket-levezetes">
 <div class="u-example"><strong>Előreláncolás · a tényekből</strong>
 <ol class="u-steps">
@@ -521,8 +522,8 @@ Az R1–R3 szabály a PDF 59. oldalának példája. Az R4 szabályt a jegyzet ve
 <p>A fa alulról felfelé zárul. A G1.1.1 tény, ezért teljesül a G1.1. A G1.2.1 és a G1.2.2 tény, ezért teljesül a G1.2. Így teljesül a G1. A G2.1 és a G2.2 tény, ezért teljesül a G2. Végül G1 és G2 együtt adja a G-t: Anna elindulhat kirándulni. A fa levelei pontosan azokat a tényeket sorolják fel, amelyekre a következtetés támaszkodik.</p>
 <p><strong>Mi van, ha a „van hátizsákja” tény hiányzik?</strong> Az első kilenc lépés változatlan. A 10. lépésben a G2.2-re nincs se ilyen tény, se ilyen következményű szabály. Ezért a G2 nem teljesül, és a G sem bizonyítható a rendelkezésre álló tényekből és szabályokból.</p>
 <p><small>Forrás: Gyakorlati tábla (2. előadás), „Hátrafelé láncolás” feladat. A táblán az R5 feltétele „a kirándulás feltételei”, az R4 következménye „alapfeltételei” alakban szerepel; itt egységesen „alapfeltételei”.</small></p></div>
-<p class="u-key">Nem bizonyítható ≠ hamis. Hátizsák nélkül a rendszer nem tudja levezetni, hogy Anna elindulhat. Ebből nem következik, hogy Anna nem indulhat el: lehet, hogy van hátizsákja, csak a ténybázis nem tud róla. Egy valódi hátraláncoló rendszer ilyenkor rákérdez: „Van hátizsákja?”</p>
-<p>Az 5. fejezetben tárgyalt Prolog ezt a különbséget másképp kezeli: a tagadott kérdésnél a nem bizonyíthatót hamisnak veszi. Ez a <strong>zárt világ feltételezés</strong>: ami nincs a tudásbázisban, és nem is vezethető le belőle, azt a program hamisnak tekinti.</p>
+<p class="u-key" id="nem-bizonyithato">Nem bizonyítható ≠ hamis. Hátizsák nélkül a rendszer nem tudja levezetni, hogy Anna elindulhat. Ebből nem következik, hogy Anna nem indulhat el: lehet, hogy van hátizsákja, csak a ténybázis nem tud róla. Egy valódi hátraláncoló rendszer ilyenkor rákérdez: „Van hátizsákja?”</p>
+<p>Az <a class="xref" href="05-prolog-es-fuzzy.html#zart-vilag">5. fejezetben tárgyalt Prolog</a> ezt a különbséget másképp kezeli: a tagadott kérdésnél a nem bizonyíthatót hamisnak veszi. Ez a <strong>zárt világ feltételezés</strong>: ami nincs a tudásbázisban, és nem is vezethető le belőle, azt a program hamisnak tekinti.</p>
 <div class="u-lab" id="lanc-labor"><span class="u-lab-label">PRÓBÁLD KI / KATTINTHATÓ SZABÁLYLÁNC</span><h3>Kapcsold a tényeket, és kövesd mindkét irányt.</h3>
 <p>Jelöld be, mely tények igazak. A fa azonnal mutatja, mi vezethető le. A két lépésgomb ugyanazt a feladatot oldja meg előre- és hátraláncolással, lépésenként. Próbáld ki, mi történik, ha a <code>d</code> tényt kikapcsolod: a hátraláncolás ilyenkor rákérdezne a hiányzó adatra.</p>
 <fieldset class="u-checks u-js-only" id="lanc-tenyek"><legend>Igaz tények</legend>
@@ -531,7 +532,7 @@ Az R1–R3 szabály a PDF 59. oldalának példája. Az R4 szabályt a jegyzet ve
 <label><input type="checkbox" value="c" checked> c</label>
 <label><input type="checkbox" value="d" checked> d</label></fieldset>
 <div class="u-tree u-js-only" id="lanc-fa" aria-hidden="true"></div>
-<p class="u-out" id="lanc-osszegzes" role="status" aria-live="polite">A bemutatóhoz JavaScript szükséges. A levezetést a fenti két oszlop írásban tartalmazza.</p>
+<p class="u-out" id="lanc-osszegzes" role="status" aria-live="polite">A bemutatóhoz JavaScript szükséges. A levezetést a <a class="xref" href="#ket-levezetes">fenti két oszlop</a> írásban tartalmazza.</p>
 <div class="u-duo u-js-only">
 <div class="u-trace"><p class="u-trace-title">Előreláncolás</p><ol id="lanc-elore"></ol><div class="u-controls"><button type="button" id="lanc-elore-lep">Következő lépés</button></div></div>
 <div class="u-trace"><p class="u-trace-title">Hátraláncolás · cél: g</p><ol id="lanc-hatra"></ol><div class="u-controls"><button type="button" id="lanc-hatra-lep">Következő lépés</button></div></div>
@@ -541,7 +542,7 @@ Az R1–R3 szabály a PDF 59. oldalának példája. Az R4 szabályt a jegyzet ve
 <p>Az előreláncolást alkalmazó rendszert <strong>deduktív rendszernek</strong> is szokták nevezni. A név a sorozatban végzett deduktív logikai következtetésre, a modus ponensre utal: minden lépés az általánosból (a szabályból) és az adott tényből a konkrét következményt vezeti le.</p>
 <aside class="u-add"><h3>Kiegészítés · A hátraláncolás is deduktív</h3><p>Az elnevezésből nem szabad arra következtetni, hogy a hátraláncolás nem deduktív. Visszafelé haladva is ugyanazokat a modus ponens lépéseket igazolja, csak más sorrendben keresi meg őket. Ezért a szakirodalom a két irányt inkább <strong>adatvezérelt (data-driven)</strong> és <strong>célvezérelt (goal-driven)</strong> következtetésnek nevezi. A MYCIN hátraláncolással, a konfigurációs XCON rendszer előreláncolással dolgozott. <a href="#s-aima">Forrás: Russell–Norvig, 7. és 9. fejezet.</a></p></aside>
 <p>A kurzus kódgyűjteményében a <code>12_Logika.py</code> fájl ugyanezt a szerkezetet mutatja egy családfán. A <strong>pyDatalog</strong> Python-könyvtárral tényeket és szabályokat adunk meg, majd kérdéseket teszünk fel.</p>
-<figure class="u-code"><pre><code>from pyDatalog import pyDatalog
+<figure class="u-code" id="csaladfa-kod"><pre><code>from pyDatalog import pyDatalog
 
 def igaz_e(kifejezes):
     return len(kifejezes) > 0
@@ -563,7 +564,7 @@ print(Szulo(X,"Platon"))
 print(Nagyszulo(X,"Arisztotelesz"))
 print(igaz_e(Nagyszulo("Szokratesz","Arisztotelesz")))</code></pre><figcaption>Forrás: <code>resources/code/12_Logika.py</code>. Elhagytunk néhány üres sort és a kiírt kísérőszövegeket, a kód többi része változatlan.</figcaption></figure>
 <p>A kód elemei pontosan megfelelnek a fejezet fogalmainak. A <code>+Apa(…)</code> sorok a <strong>tények</strong>. A <code>&lt;=</code> jel a szabály nyila, balra mutat: a bal oldal a következmény, a jobb oldal a feltétel. A <code>Szulo(X,Y) &lt;= Apa(X,Y)</code> tehát ezt jelenti: HA X apja Y-nak, AKKOR X szülője Y-nak. A <code>Szulo</code> két szabálya együtt „VAGY” kapcsolatot ad: szülő az apa vagy az anya. A <code>&amp;</code> jel az „ÉS”. A nagyszülő-szabály maga egy láncolás: két szülő-következmény illeszkedik egy harmadik szabály feltételére.</p>
-<p>Egy dologban a kód többet tud, mint az eddigi <code>a</code>, <code>b</code>, <code>c</code> példa: <strong>változókat</strong> használ. A <code>create_terms</code> sor hozza létre a neveket. Ebben a programban az <code>X</code>, az <code>Y</code> és a <code>Z</code> a változó: a helyükre bárki kerülhet. Az idézőjeles nevek, például a <code>"Platon"</code>, konkrét személyek. Egy szabály így nem egyetlen esetről szól, hanem mindenkiről egyszerre. Az 1. fejezet rezolúciós példájában az <code>Ember(x)</code> ugyanezt tette.</p>
+<p>Egy dologban a kód többet tud, mint az eddigi <code>a</code>, <code>b</code>, <code>c</code> példa: <strong>változókat</strong> használ. A <code>create_terms</code> sor hozza létre a neveket. Ebben a programban az <code>X</code>, az <code>Y</code> és a <code>Z</code> a változó: a helyükre bárki kerülhet. Az idézőjeles nevek, például a <code>"Platon"</code>, konkrét személyek. Egy szabály így nem egyetlen esetről szól, hanem mindenkiről egyszerre. Az <a class="xref" href="01-mi-es-intelligencia.html#rezolucio-pelda">1. fejezet rezolúciós példájában</a> az <code>Ember(x)</code> ugyanezt tette.</p>
 <p>Változókkal az illesztés is többet jelent. A gép nem csak azt nézi meg, hogy egy tény szerepel-e a tények között. Azt keresi, mit kell a változók helyére írni, hogy a feltétel egy ismert ténnyel egyezzen. Ez a <strong>lekötés</strong>. A <code>Szulo(X,Y) &lt;= Apa(X,Y)</code> szabály feltétele az <code>Apa("Szokratesz","Platon")</code> tényre az X = Szokratesz, Y = Platon lekötéssel illeszkedik. A következmény ugyanezzel a lekötéssel jön létre: <code>Szulo("Szokratesz","Platon")</code>.</p>
 <p>A nagyszülő-szabályban az <code>Y</code> kétszer szerepel: <code>Szulo(X,Y) &amp; Szulo(Y,Z)</code>. Egy változó egy illesztésen belül csak egy értéket kaphat, ezért a két feltételnek ugyanarra az emberre kell hivatkoznia. Ő a középső nemzedék. A három szülő-tényből két feltételhez kilenc pár állítható össze. A sorok hármat mutatnak közülük: bal oldalon az első és a második feltételre próbált tény, jobb oldalon az eredmény.</p>
 <dl class="u-rows" id="lekotes-tabla">
@@ -614,7 +615,7 @@ True</code></pre><figcaption>A <code>resources/code/12_Logika.py</code> kimenete
 <li><strong>3 · SZABÁLYALKALMAZÁS</strong>Végre kell hajtani a kiválasztott szabály következményrészében szereplő tevékenységet, illetve fel kell venni az új tényt. Az új tény az adott feladatra nézve igaz, kikövetkeztetett tény.</li>
 <li><strong>4 · A CÉLÁLLAPOT TESZTELÉSE</strong>Meg kell vizsgálni, eljutottunk-e a célállapotba. Ha igen, a következtetés véget ér. Ha nem, a ciklus az 1. lépéstől folytatódik.</li>
 </ol>
-<p>A ciklus egy rövid Python-programban is leírható. A kódot a jegyzet készítette az előző rész R1–R4 szabályaihoz, nem része a kurzus kódgyűjteményének. Az első három lépés egy-egy sor benne. Külön célja nincs, ezért a 4. lépés itt annyi, hogy a ciklus leáll, ha a konfliktushalmaz üres.</p>
+<p>A ciklus egy rövid Python-programban is leírható. A kódot a jegyzet készítette az <a class="xref" href="#kovetkeztetesi-fa">R1–R4 szabályokhoz</a>, nem része a kurzus kódgyűjteményének. Az első három lépés egy-egy sor benne. Külön célja nincs, ezért a 4. lépés itt annyi, hogy a ciklus leáll, ha a konfliktushalmaz üres.</p>
 <figure class="u-code"><pre><code>szabalyok = [
     ({"a", "b"}, "e"),   # R1
     ({"c", "d"}, "f"),   # R2
@@ -646,7 +647,7 @@ print(sorted(tenyek))</code></pre><figcaption>A jegyzet saját példakódja. Bem
 <div class="u-out" id="konfliktus-ki" role="status" aria-live="polite"><p>A választás kiértékeléséhez JavaScript szükséges. A megoldás: szabálysorrend szerint S1, specifikusság szerint S2 (két feltétele van), frissesség szerint S3 (a legutóbbi, 3. tényre épül). Egyik sem „az egyetlen helyes”; a stratégia a tudásmérnök döntése.</p></div>
 </div>
 <div class="u-example" id="teljes-ciklus"><strong>Végigvezetett példa · Három ciklus Irén szabályaival</strong>
-<p>A szabálybázis a 10. rész öt szabálya, specifikusság szerinti konfliktusfeloldással. Kezdeti tények: villámlás volt, kettőnél több billentyű furcsa, minden billentyű furcsa.</p>
+<p>A szabálybázis a <a class="xref" href="#interju-szabalyok">10. rész öt szabálya</a>, specifikusság szerinti konfliktusfeloldással. Kezdeti tények: villámlás volt, kettőnél több billentyű furcsa, minden billentyű furcsa.</p>
 <ol class="u-steps">
 <li><p><strong>1. ciklus.</strong> Illeszkedik: az 1. szabály (villámlás ÉS kettőnél több) és a 4. szabály (minden billentyű). A specifikusabb nyer, az 1. szabály. Új tény: <code>a port gyanús</code>.</p></li>
 <li><p><strong>2. ciklus.</strong> Illeszkedik: a 3. szabály (port gyanús) és a 4. szabály. Mindkettőnek egy feltétele van. Döntetlen esetén a szabálysorrend dönt, így a 3. szabály sül el. Teendő: <code>vizsgáld meg a portot</code>.</p></li>
@@ -675,7 +676,7 @@ print(sorted(tenyek))</code></pre><figcaption>A jegyzet saját példakódja. Bem
 <li><p><strong>7. lépés.</strong> Minden szabály alkalmazva volt, a <code>CS7</code> üres. Új tény nem vezethető le, a következtetés leáll.</p></li>
 </ol>
 <p>A végső ténybázis kilenc tényből áll: <code>T6 = {esik az eső, hideg van, Anna gyalog megy, szükség van esernyőre, szükség van kabátra, fennáll az elázás veszélye, Anna esernyőt visz, Anna kabátot vesz fel, Anna felkészült az indulásra}</code>. A végkövetkeztetés: Anna felkészült az indulásra.</p>
-<p>Az R4 és az R5 következménye a táblán eljárási, felszólító alak: „Anna vigyen magával esernyőt”, „Anna vegyen fel kabátot”. Az R6 feltétele viszont tényt vár. A tábla ezért a teendőt elvégzettnek veszi, és tényként írja a ténybázisba („vigyen ~ visz”). A fenti szabályok ezt az egyszerűsítést már a szabály szövegében megteszik.</p>
+<p>Az R4 és az R5 következménye a táblán eljárási, felszólító alak: „Anna vigyen magával esernyőt”, „Anna vegyen fel kabátot”. Az R6 feltétele viszont tényt vár. A tábla ezért a teendőt elvégzettnek veszi, és tényként írja a ténybázisba („vigyen ~ visz”). A <a class="xref" href="#anna-elore">fenti szabályok</a> ezt az egyszerűsítést már a szabály szövegében megteszik.</p>
 <p><small>Forrás: Gyakorlati tábla (2. előadás), „Előreláncolás” feladat. A szabályok megfogalmazása kissé egységesítve.</small></p></div>
 <p class="u-key">Előreláncolásnál a ténybázis csak bővül. Ebben a példában minden lépés pontosan egy új tényt ad hozzá, ezért T<sub>k</sub> mindig T<sub>k−1</sub> összes tényét tartalmazza.</p>
 <aside class="u-fix" id="tabla-t5"><h3>Kiigazítás · A táblai T5 és T6 kihagy egy tényt</h3>
@@ -688,7 +689,7 @@ print(sorted(tenyek))</code></pre><figcaption>A jegyzet saját példakódja. Bem
 <div class="u-other"><dt>Rendszer</dt><dd>Az 1. szabály alapján. A feltételei teljesültek: villámlás volt, és kettőnél több billentyű furcsa.</dd></div>
 <div><dt>Ügyintéző</dt><dd>Miért kérdezed, hogy volt-e villámlás?</dd></div>
 <div class="u-other"><dt>Rendszer</dt><dd>Azt vizsgálom, gyanús-e a port. Az 1. szabály szerint ehhez tudnom kell, volt-e villámlás.</dd></div>
-</dl><figcaption>A jegyzet saját szemléltető párbeszéde Irén szabályaival. Az első kérdés a fenti három ciklus nyomából válaszolható meg. A második hátraláncolás közben hangzik el, amikor a rendszer adatot kér be.</figcaption></figure>
+</dl><figcaption>A jegyzet saját szemléltető párbeszéde Irén szabályaival. Az első kérdés a <a class="xref" href="#teljes-ciklus">fenti három ciklus</a> nyomából válaszolható meg. A második hátraláncolás közben hangzik el, amikor a rendszer adatot kér be.</figcaption></figure>
 <p>Ez az átláthatóság a szabályalapú rendszerek egyik fő értéke. Minden válasz visszavezethető néhány olvasható szabályra, amelyet a szakértő ellenőrizni tud. <a href="#s-buchanan">Forrás: Buchanan–Shortliffe, 1984.</a></p>
 <details class="u-practice" id="gyak-lancolas"><summary>Gyakorlás · Láncolás és felépítés (6 feladat)</summary>
 <ol>
@@ -697,7 +698,7 @@ print(sorted(tenyek))</code></pre><figcaption>A jegyzet saját példakódja. Bem
 <li><p>A táblai levezetés 2. lépésében az R1 feltétele (esik az eső) továbbra is igaz. Miért nincs mégis a CS2-ben?</p><details class="u-sol"><summary>Megoldás</summary><p>Mert az R1-et az 1. lépésben már alkalmaztuk. A megakadályozás (refrakció) elve szerint ugyanaz a szabály ugyanazokra a tényekre nem sül el újra. Nélküle a „kisebb sorszám nyer” stratégia minden lépésben újra az R1-et választaná, és a következtetés sosem jutna tovább.</p></details></li>
 <li><p>A kirándulás feladatban tegyük fel, hogy a ténybázisból az „Anna kipihent” hiányzik. Melyik részcél bukik el, és mit mond a rendszer a G célról?</p><details class="u-sol"><summary>Megoldás</summary><p>A G1.2.2 levélre nincs se tény, se szabály, ezért a G1.2, vele a G1, és végül a G sem teljesül. A rendszer válasza: a G a rendelkezésre álló tényekből és szabályokból nem bizonyítható. Ez nem jelenti azt, hogy Anna nem indulhat el. Egy valódi hátraláncoló rendszer itt rákérdezne: „Anna kipihent?”</p></details></li>
 <li><p>Rajzold le a szabályalapú tudásszemléltetést alkalmazó szakértőrendszer felépítését, és mondd el, mit jelentenek a nyilak.</p><details class="u-sol"><summary>Megoldás</summary><p>Négy elem: szabálybázis és ténybázis fent, alattuk a következtető automata, legalul a kezelői interfész. Öt nyíl: szabálybázis → automata (a szabályokat csak olvassa); ténybázis → automata és automata → ténybázis (olvassa a tényeket, és beírja az új tényeket); automata → interfész és interfész → automata (kérdés és válasz a felhasználó felé, adatok a felhasználótól). A működéshez a négy lépést is érdemes mellé írni: mintaillesztés, konfliktusfeloldás, szabályalkalmazás, a célállapot tesztelése.</p></details></li>
-<li><p>Igaz vagy hamis? (a) A részletes tudás kinyerésének tárgya a szakértő privát tudása, amely több év tanulását és tapasztalatát tükrözi. (b) A szabályalapú rendszerek egyik előnye, hogy könnyen bővíthetők új szabályokkal. (c) A szakértőrendszerek a szakértőknél sokkal rosszabb színvonalon tudják megoldani a problémákat.</p><details class="u-sol"><summary>Megoldás</summary><p>(a) Igaz, ez a részletes tudás meghatározása a 9. részben. (b) Igaz, ez a modularitás: egy szabály a többi módosítása nélkül hozzáadható. (c) Hamis. A saját szűk szakterületükön a jó szakértőrendszerek szakértői szinten dolgoznak; a 18. rész MYCIN-értékelése ezt mutatja. A gyengéjük nem a színvonal, hanem a szűk terület és a merevség. <small>(Minta-zh, 2025. 12. 05., 1. feladat (e), (h), (o).)</small></p></details></li>
+<li><p>Igaz vagy hamis? (a) A részletes tudás kinyerésének tárgya a szakértő privát tudása, amely több év tanulását és tapasztalatát tükrözi. (b) A szabályalapú rendszerek egyik előnye, hogy könnyen bővíthetők új szabályokkal. (c) A szakértőrendszerek a szakértőknél sokkal rosszabb színvonalon tudják megoldani a problémákat.</p><details class="u-sol"><summary>Megoldás</summary><p>(a) Igaz, ez a részletes tudás meghatározása a <a class="xref" href="#reszletes">9. részben</a>. (b) Igaz, ez a modularitás: egy szabály a többi módosítása nélkül hozzáadható. (c) Hamis. A saját szűk szakterületükön a jó szakértőrendszerek szakértői szinten dolgoznak; a 18. rész <a class="xref" href="#mycin-ertekeles">MYCIN-értékelése</a> ezt mutatja. A gyengéjük nem a színvonal, hanem a szűk terület és a merevség. <small>(Minta-zh, 2025. 12. 05., 1. feladat (e), (h), (o).)</small></p></details></li>
 </ol></details>
 </section>
 
@@ -711,7 +712,7 @@ print(sorted(tenyek))</code></pre><figcaption>A jegyzet saját példakódja. Bem
 <p><strong>Egyöntetűség.</strong> Minden tudás ugyanabban a homogén HA–AKKOR formában szerepel, ezért könnyű megérteni. Egy új kolléga is el tudja olvasni a szabálybázist.</p>
 <p><strong>Természetesség.</strong> A szabályok az emberi problémamegoldáshoz hasonlítanak. Irén is így beszél: „ha villámlott, megnézem a portot”.</p></div>
 <div><span class="u-tag">HÁTRÁNYOK</span>
-<p><strong>Merevség.</strong> Nem kínálnak különböző absztrakciós szinteket. Minden szabály ugyanazon a szinten áll, nem lehet például „a billentyűzethibák általában” és „ez a konkrét típus” szerint csoportosítani őket. A 3. fejezet keretei ezt a hiányt pótolják.</p>
+<p><strong>Merevség.</strong> Nem kínálnak különböző absztrakciós szinteket. Minden szabály ugyanazon a szinten áll, nem lehet például „a billentyűzethibák általában” és „ez a konkrét típus” szerint csoportosítani őket. A <a class="xref" href="03-tudasreprezentacio.html#keretek">3. fejezet keretei</a> ezt a hiányt pótolják.</p>
 <p><strong>Kis hatékonyság.</strong> Minden ciklusban a ténybázist a szabálybázishoz kell illeszteni. Sok szabálynál és sok ténynél a lehetséges illesztések száma gyorsan nő. Ez a <strong>kombinatorikus robbanás</strong>. A családfa-kód nagyszülő-szabálya két feltételből áll, és három szülő-ténynél 3 × 3 = 9 párt kellett megnéznie. Ezer szülő-ténynél ugyanez az egy szabály már 1000 × 1000 = egymillió párt jelent. Egy háromfeltételes szabály egymilliárd hármast. És ez csak egyetlen szabály egyetlen ciklusban.</p></div>
 </div>
 <p>A hátrányok ellenére ma is igaz ez a megállapítás:</p>

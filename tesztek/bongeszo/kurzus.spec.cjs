@@ -53,3 +53,52 @@ test('A kezdőlapi kereső a fogalomtárba visz, és a találatokra szűr', asyn
   await page.locator('#g-kereso').fill('');
   await expect(page.locator('#g-talalat')).toHaveText('');
 });
+
+test('A kereszthivatkozás a jobb oldali sávban nyílik, a célhoz görget, követi a témát és bezárható', async ({page}) => {
+  await page.goto('fejezetek/03-tudasreprezentacio.html');
+  const link = page.locator('a.xref[href*="09-neminformalt-kereses.html#szelessegi"]');
+  await link.scrollIntoViewIfNeeded();
+  const before = await link.evaluate(el => el.getBoundingClientRect().top);
+  await link.click();
+  const panel = page.locator('.xref-panel');
+  await expect(panel).toBeVisible();
+  await expect(page).toHaveURL(/03-tudasreprezentacio\.html$/);
+  const frame = page.frameLocator('.xref-frame');
+  await expect(frame.locator('.xref-target')).toHaveCount(1);
+  await expect(frame.locator('.site-header')).toBeHidden();
+  const after = await link.evaluate(el => el.getBoundingClientRect().top);
+  expect(Math.abs(after - before)).toBeLessThan(80);
+  if (test.info().project.name === 'asztali') {
+    await page.locator('.site-header [data-theme-toggle]').click();
+    await expect(frame.locator('html')).toHaveAttribute('data-theme', await page.locator('html').getAttribute('data-theme'));
+  }
+  await page.keyboard.press('Escape');
+  await expect(panel).toBeHidden();
+  const width = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(width).toBeLessThanOrEqual(1);
+});
+
+test('Az Oldalsáv gomb tartalomlistát nyit, és onnan egy szakasz a sávban olvasható', async ({page}) => {
+  await page.goto('fejezetek/01-mi-es-intelligencia.html');
+  await page.locator('[data-xref-browse]').click();
+  await expect(page.locator('.xref-chapter')).toHaveCount(12);
+  await page.locator('.xref-search').fill('rezolucio');
+  const hit = page.locator('.xref-chapter:not([hidden]) li:not([hidden]) a').first();
+  await expect(hit).toBeVisible();
+  await hit.click();
+  await expect(page.locator('.xref-frame')).toBeVisible();
+  await expect(page.frameLocator('.xref-frame').locator('.xref-target')).toHaveCount(1);
+});
+
+test('A fejléc görgetés után keskeny sávként látható marad, a tetején teljes méretű', async ({page}) => {
+  await page.goto('fejezetek/03-tudasreprezentacio.html');
+  const header = page.locator('.site-header');
+  const full = (await header.boundingBox()).height;
+  await page.evaluate(() => window.scrollTo(0, 2500));
+  await expect(page.locator('html')).toHaveClass(/header-compact/);
+  await expect.poll(async () => (await header.boundingBox()).y).toBe(0);
+  await expect.poll(async () => (await header.boundingBox()).height).toBeLessThan(Math.min(full, 60));
+  await expect(page.locator('.site-header [data-theme-toggle]')).toBeVisible();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(page.locator('html')).not.toHaveClass(/header-compact/);
+});

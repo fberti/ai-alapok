@@ -29,15 +29,15 @@ function readChapters() {
 function build() {
   const chapters = readChapters();
   const total = chapters.reduce((s, c) => s + c.cards.length, 0);
-  const item = (href, title, body, tag) => `<li data-kereses="${esc((title + ' ' + body + ' ' + tag).toLowerCase())}"><a href="${href}">${esc(title)}</a> <span class="g-tag">${esc(tag)}</span>${body ? `<p>${esc(body)}</p>` : ''}</li>`;
+  const item = (href, title, body, tag) => `<li data-kereses="${esc((title + ' ' + body + ' ' + tag).toLowerCase())}"><a class="xref" href="${href}">${esc(title)}</a> <span class="g-tag">${esc(tag)}</span>${body ? `<p>${esc(body)}</p>` : ''}</li>`;
   let chapterList = '', terms = '';
   chapters.forEach((c) => {
-    chapterList += `<li data-kereses="${esc((c.num + '. fejezet ' + c.name).toLowerCase())}"><a href="fejezetek/${c.file}"><strong>${c.num}</strong> ${esc(c.name)}</a><ul class="g-sections">${c.sections.map((s) => `<li data-kereses="${esc(s.name.toLowerCase())}"><a href="fejezetek/${c.file}#${s.id}">${esc(s.name)}</a></li>`).join('')}</ul></li>`;
+    chapterList += `<li data-kereses="${esc((c.num + '. fejezet ' + c.name).toLowerCase())}"><a href="fejezetek/${c.file}"><strong>${c.num}</strong> ${esc(c.name)}</a><ul class="g-sections">${c.sections.map((s) => `<li data-kereses="${esc(s.name.toLowerCase())}"><a class="xref" href="fejezetek/${c.file}#${s.id}">${esc(s.name)}</a></li>`).join('')}</ul></li>`;
     terms += `<section class="g-chapter" id="f-${c.num}" aria-labelledby="f-${c.num}-cim"><h2 id="f-${c.num}-cim">${c.num} · ${esc(c.name)} <small>${c.cards.length} fogalom</small></h2><ul class="g-terms">${c.cards.map((k) => item(`fejezetek/${c.file}#fogalmak`, k.term, k.def, `${c.num}. fejezet`)).join('')}</ul></section>`;
   });
   return `<!doctype html>
 <html lang="hu">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f3eb"><meta name="description" content="Az MI-alapok kurzus fogalomtára és keresője: mind a tizenegy fejezet fogalmai magyarul és angolul, a fejezetek és szakaszok listájával."><title>Fogalomtár és kereső | MI-alapok</title><script>document.documentElement.classList.add('js')</script><script src="assets/js/theme.js?v=2"></script><link rel="stylesheet" href="assets/css/course.css?v=4"><link rel="stylesheet" href="assets/css/fogalomtar.css"><script defer src="assets/js/fogalomtar.js"></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f3eb"><meta name="description" content="Az MI-alapok kurzus fogalomtára és keresője: mind a tizenegy fejezet fogalmai magyarul és angolul, a fejezetek és szakaszok listájával."><title>Fogalomtár és kereső | MI-alapok</title><script>document.documentElement.classList.add('js')</script><script src="assets/js/theme.js?v=3"></script><script defer src="assets/js/xref.js"></script><link rel="stylesheet" href="assets/css/course.css?v=5"><link rel="stylesheet" href="assets/css/fogalomtar.css"><script defer src="assets/js/fogalomtar.js"></script></head>
 <body id="top" class="glossary">
 <a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
 <header class="site-header"><a class="brand" href="index.html"><span class="brand-mark">mi.</span> ALAPOK <span class="brand-note">/ interaktív jegyzet</span></a><div class="header-actions"><a href="index.html#fejezetek">← Összes fejezet</a><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle><span class="theme-toggle-icon" aria-hidden="true"></span><span class="visually-hidden">Sötét mód</span></button></div></header>

@@ -24,4 +24,5 @@
 - Keep every visual aid useful for learning.
 - Keep all necessary content available without JavaScript.
 - Check each visual aid on phones, in print, and in light and dark themes.
+- Link every cross-reference to its exact target with `class="xref"`; it opens in the right sidebar (`assets/js/xref.js`).
 - Follow `IMPLEMENTALASI_SZABALYOK.md` for the full rules.

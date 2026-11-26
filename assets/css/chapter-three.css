@@ -248,3 +248,4 @@ details.u-practice>ol>li>p{margin:.2rem 0}
   .chapter-three a[href^="http"]:after{content:" (" attr(href) ")";font-size:9pt;word-break:break-all}
 }
 @media print{details.u-practice::details-content,details.u-sol::details-content{content-visibility:visible;display:block}}
+.u-add .u-more{margin-top:.7rem}.u-add .u-more>summary{color:var(--u-add)}.u-add .u-more>p{border-left-color:var(--u-add)}

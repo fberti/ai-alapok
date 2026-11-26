@@ -49,8 +49,8 @@ test('A kezdőlapról elérhetők a magyar nyelvű előadásfelvételek', () => 
 test('A téma fájljai verzióval kerülik el a régi böngésző-gyorsítótárat', () => {
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
-    assert.match(html, /course\.css\?v=4/);
-    assert.match(html, /theme\.js\?v=2/);
+    assert.match(html, /course\.css\?v=5/);
+    assert.match(html, /theme\.js\?v=3/);
   }
 });
 test('A helyi linkek és erőforrások alkönyvtárból is elérhetők', () => {
@@ -93,4 +93,29 @@ test('A kilencedik fejezet a tizedikre, a tizedik a kezdőlapra és a fogalomtá
   assert.match(ten, /<a href="11-zh-gyakorlo.html"><small>Következő fejezet/);
   for (let i = 1; i <= 11; i++) assert.match(glossary, new RegExp(`id="f-${String(i).padStart(2, '0')}"`));
   assert.match(glossary, /Elfogadható heurisztika/);
+});
+test('A fejezetek és a fogalomtár betöltik az oldalsávos kereszthivatkozást', () => {
+  for (const file of pages.filter((f) => f.startsWith('fejezetek/') || f === 'fogalomtar.html')) {
+    const html = fs.readFileSync(path.join(root, file), 'utf8');
+    assert.match(html, /<script defer src="(\.\.\/)?assets\/js\/xref\.js"><\/script>/, file);
+  }
+});
+test('Minden xref kereszthivatkozás létező oldalra és horgonyra mutat', () => {
+  const ids = new Map();
+  const idsOf = (file) => {
+    if (!ids.has(file)) ids.set(file, new Set([...fs.readFileSync(path.join(root, file), 'utf8').matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])));
+    return ids.get(file);
+  };
+  for (const file of pages) {
+    const html = fs.readFileSync(path.join(root, file), 'utf8');
+    for (const [tag] of html.matchAll(/<a\b[^>]*\bclass="[^"]*\bxref\b[^"]*"[^>]*>/g)) {
+      const href = (tag.match(/href="([^"]+)"/) || [])[1];
+      assert.ok(href, `${file}: xref href nélkül: ${tag}`);
+      if (/^https?:/.test(href)) continue;
+      const [target, hash] = href.split('#');
+      const targetFile = target ? path.posix.normalize(path.posix.join(path.posix.dirname(file), target)) : file;
+      assert.ok(fs.existsSync(path.join(root, targetFile)), `${file}: hiányzó céloldal: ${href}`);
+      if (hash) assert.ok(idsOf(targetFile).has(decodeURIComponent(hash)), `${file}: hiányzó horgony: ${href}`);
+    }
+  }
 });

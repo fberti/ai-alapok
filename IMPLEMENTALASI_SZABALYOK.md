@@ -221,6 +221,32 @@ A `localStorage` a böngésző helyi, kis adattára.
 
 Ne legyen szükség fiókra.
 
+## Kereszthivatkozások
+
+Ha a szöveg egy másik részre épít, és nem ismétli meg a tartalmát, az utalás mindig link legyen a pontos helyre.
+
+Ez vonatkozik a korábbi és a későbbi fejezetekre, szakaszokra, példákra, laborokra, dobozokra és a fogalomtárra.
+
+A link nélküli „lásd a 3. fejezetet”, „korábban láttuk” vagy „a fenti példa” típusú utalás hiba.
+
+A tartalmi kereszthivatkozás `xref` osztályt kap: `<a class="xref" href="09-neminformalt-kereses.html#szelessegi">9. fejezet</a>`, ugyanazon az oldalon `<a class="xref" href="#allathalo">az állatháló</a>`.
+
+Az `assets/js/xref.js` a hivatkozott oldalt a jobb oldali sávban nyitja meg, a célhoz görgetve és kiemelve, így a saját szöveg a helyén marad.
+
+JavaScript nélkül az `xref` link sima link marad.
+
+Ha a célnak nincs horgonya, adj neki beszédes `id`-t.
+
+Navigációs linkre (tartalomjegyzék, lapozó, főoldal), a forráslista horgonyaira (`#s-…`) és a forráslista külső linkjeire nem kell `xref`.
+
+Kvíz válaszopciójába, címsorba és gombfeliratba ne tegyél linket.
+
+Külső oldalra csak kivételesen, valóban hasznos háttérolvasmányhoz kerüljön `xref`, és csak akkor, ha az oldal engedi a beágyazást (nincs `X-Frame-Options` vagy tiltó `frame-ancestors` fejléce).
+
+A Wikipédia, az MDN és sok kiadó tiltja a beágyazást; ezekre sima linket tegyél.
+
+Új oldal a `<head>`-ben töltse be: `<script defer src="../assets/js/xref.js"></script>`.
+
 ## Minőség és ellenőrzés
 
 Minden mérföldkő végén ellenőrizni kell:

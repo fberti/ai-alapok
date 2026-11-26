@@ -48,6 +48,27 @@
     });
   });
 
+  // Görgetés után a ragadós fejléc keskeny sávvá húzódik össze (CSS: .header-compact).
+  // A két küszöb közti rés megakadályozza a villogást, amikor a fejléc magassága változik.
+  let compact = false;
+  let ticking = false;
+  function updateHeader() {
+    ticking = false;
+    const y = window.scrollY;
+    const next = compact ? y > 24 : y > 120;
+    if (next !== compact) {
+      compact = next;
+      root.classList.toggle('header-compact', compact);
+    }
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(updateHeader);
+    }
+  }, {passive: true});
+  document.addEventListener('DOMContentLoaded', updateHeader);
+
   window.addEventListener('storage', (event) => {
     if (event.key === storageKey) setTheme(event.newValue);
   });
