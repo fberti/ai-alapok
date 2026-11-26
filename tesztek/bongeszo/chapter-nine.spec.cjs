@@ -35,6 +35,9 @@ test('A keresőlabor a PDF példáit és a minta-zh mélységi keresését adja'
   await page.locator('#kl-vegig').click();
   await expect(page.locator('#kl-ki')).toContainText('S → A → B → C → E → F → V → G, költség 34');
   await expect(page.locator('#kl-front li')).toHaveText(['W (31)', 'G₂ (30)', 'G₁ (33)', 'D (4)', 'X (1)', 'Y (23)']);
+  await expect(page.locator('#kl-egyeni')).toBeHidden();
+  await page.locator('#kl-egyeni-gomb').click();
+  await expect(page.locator('#kl-egyeni-gomb')).toHaveAttribute('aria-expanded', 'true');
   await page.locator('#kl-celteszt').selectOption('generate');
   await page.locator('#kl-vegig').click();
   await expect(page.locator('#kl-ki')).toContainText('S → A → B → C → G, költség 33');
@@ -47,6 +50,7 @@ test('A keresőlabor a PDF példáit és a minta-zh mélységi keresését adja'
 
 test('A keresőlabor iteratív mélyítést, korlátot, saját gráfot és ismétlésszűrést kezel', async ({page}) => {
   await page.goto(chapter);
+  await page.locator('#kl-egyeni-gomb').click();
   await page.locator('#kl-alg').selectOption('ids');
   await page.locator('#kl-vegig').click();
   await expect(page.locator('#kl-ki')).toContainText('korlát = 3');
@@ -72,6 +76,9 @@ test('A keresőlabor iteratív mélyítést, korlátot, saját gráfot és ismé
   await page.locator('#kl-lejatszas').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#kl-lejatszas')).toHaveAttribute('aria-pressed', /true|false/);
+  await page.locator('#kl-egyeni-gomb').click();
+  await expect(page.locator('#kl-egyeni')).toBeHidden();
+  await expect(page.locator('#kl-egyeni-gomb')).toHaveAttribute('aria-expanded', 'false');
 });
 
 test('Az amőba- és a költséglabor a fejezet számait mutatja', async ({page}) => {

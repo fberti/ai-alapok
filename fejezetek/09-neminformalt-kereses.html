@@ -461,9 +461,10 @@
 <h2>Mind az öt egy laborban.</h2>
 <p>A laborban az öt eljárást ugyanazon a gráfon futtathatod, lépésenként. A térképen látszik, hol jár a keresés, mellette nő a keresőfa, alatta a front és a bejárt állapotok listája. Kipróbálhatod a fejezet összes konvencióját is: a célteszt helyét, az ismétlések kezelését és a gyerekek sorrendjét. A „saját gráf” lehetőséggel egy állapotteret is megadhatsz, soronként egy éllel.</p>
 <div class="u-lab" id="kereso-labor"><span class="u-lab-label">PRÓBÁLD KI / KÖZÖS KERESŐLABOR</span><h3>Válassz gráfot és eljárást, majd lépkedj.</h3>
-<p>A gombok billentyűzettel is működnek (Tab, majd Enter vagy szóköz). A gyorsgombok a fejezet példáit töltik be.</p>
+<p>A gombok billentyűzettel is működnek (Tab, majd Enter vagy szóköz). A gyorsgombok a fejezet példáit töltik be. Az <strong>Egyéni</strong> gomb nyitja meg és csukja be a részletes beállításokat: gráf, start, cél, eljárás, célteszt, ismétléskezelés, sorrend vagy saját gráf.</p>
 <div class="u-js-only">
-<div class="u-controls" aria-label="A fejezet példái"><button type="button" class="u-ghost" data-kl="city,bfs,Budapest,Debrecen,generate,given">Szélességi, Debrecen (290.)</button><button type="button" class="u-ghost" data-kl="city,ucs,Budapest,Kecskemét,expand,given">Egyenletes, Kecskemét (292.)</button><button type="button" class="u-ghost" data-kl="city,dfs,Budapest,Szolnok,expand,given">Mélységi, Szolnok (294.)</button><button type="button" class="u-ghost" data-kl="zh,dfs,S,G,expand,abc">Minta-zh, mélységi</button></div>
+<div class="u-controls" aria-label="A fejezet példái"><button type="button" class="u-ghost" data-kl="city,bfs,Budapest,Debrecen,generate,given">Szélességi, Debrecen (290.)</button><button type="button" class="u-ghost" data-kl="city,ucs,Budapest,Kecskemét,expand,given">Egyenletes, Kecskemét (292.)</button><button type="button" class="u-ghost" data-kl="city,dfs,Budapest,Szolnok,expand,given">Mélységi, Szolnok (294.)</button><button type="button" class="u-ghost" data-kl="zh,dfs,S,G,expand,abc">Minta-zh, mélységi</button><button type="button" class="u-ghost u-egyeni-gomb" id="kl-egyeni-gomb" aria-expanded="false" aria-controls="kl-egyeni">Egyéni <span aria-hidden="true">▾</span></button></div>
+<div id="kl-egyeni" class="u-egyeni" hidden>
 <div class="u-form-row">
 <label>Gráf <select id="kl-graf"><option value="city">Városok (PDF 285.)</option><option value="zh">Minta-zh, 8. feladat</option><option value="abstract">Absztrakt gráf (PDF 281.)</option><option value="code21">Kurzuskód (21_…py)</option><option value="sajat">Saját gráf</option></select></label>
 <label>Start <select id="kl-start"></select></label>
@@ -486,6 +487,7 @@ B C 1
 C G 3</textarea>
 <div class="u-controls"><label><input type="checkbox" id="kl-iranyitatlan"> Minden él mindkét irányba (irányítatlan gráf)</label></div>
 <p class="u-out" id="kl-hiba" role="alert"></p>
+</div>
 </div>
 <div class="u-controls"><button type="button" id="kl-ujra" class="u-ghost">Elejére</button><button type="button" id="kl-vissza" class="u-ghost">← Vissza</button><button type="button" id="kl-lep">Lépés →</button><button type="button" id="kl-vegig">Végig</button><button type="button" id="kl-lejatszas" class="u-ghost" aria-pressed="false">Lejátszás</button></div>
 <p class="u-out" id="kl-ki" role="status" aria-live="polite"></p>

@@ -217,6 +217,14 @@
         if (pos >= frames.length - 1) stop();
       }, reduceMotion ? 1600 : 900);
     });
+    // Az „Egyéni” gomb nyitja és csukja a részletes beállításokat.
+    const customBtn = /** @type {HTMLButtonElement | null} */ (document.getElementById('kl-egyeni-gomb'));
+    const customBox = document.getElementById('kl-egyeni');
+    if (customBtn && customBox) customBtn.addEventListener('click', () => {
+      const open = customBox.hidden;
+      customBox.hidden = !open;
+      customBtn.setAttribute('aria-expanded', String(open));
+    });
     // Előbeállítások a fejezet példáihoz.
     document.querySelectorAll('[data-kl]').forEach((b) => b.addEventListener('click', () => {
       const [g, a, s, c, test, order] = String(/** @type {HTMLElement} */ (b).dataset.kl).split(',');

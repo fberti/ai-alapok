@@ -347,3 +347,9 @@ svg .u-tname,svg .u-tmeta{paint-order:stroke;stroke:var(--u-card);stroke-width:4
 .u-panel+.u-panel{margin-top:.8rem}
 .u-lab .u-panel{margin-top:.8rem}
 .u-plot .u-tree-svg{width:auto}
+/* Keresőlabor: az „Egyéni” gomb nyitja a részletes beállításokat */
+.u-lab button.u-egyeni-gomb[aria-expanded=true]{background:var(--u-accent);color:var(--paper)}
+.u-egyeni-gomb span{display:inline-block;transition:rotate .15s ease}
+.u-egyeni-gomb[aria-expanded=true] span{rotate:180deg}
+.u-egyeni{margin:.5rem 0 .2rem;padding:.1rem 0 .1rem .9rem;border-left:3px solid var(--u-accent)}
+@media(prefers-reduced-motion:reduce){.u-egyeni-gomb span{transition:none}}
