@@ -353,3 +353,10 @@ svg .u-tname,svg .u-tmeta{paint-order:stroke;stroke:var(--u-card);stroke-width:4
 .u-egyeni-gomb[aria-expanded=true] span{rotate:180deg}
 .u-egyeni{margin:.5rem 0 .2rem;padding:.1rem 0 .1rem .9rem;border-left:3px solid var(--u-accent)}
 @media(prefers-reduced-motion:reduce){.u-egyeni-gomb span{transition:none}}
+/* Iteratív mélyítés labor: a négy kör jelzősávja */
+.u-ids-korok{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none;padding:0;margin:.6rem 0}
+.u-ids-korok li{padding:.25rem .7rem;border:1px solid var(--line);border-radius:999px;font-size:14px;color:var(--muted)}
+.u-ids-korok li.is-done{border-color:var(--u-accent);color:var(--u-accent)}
+.u-ids-korok li.is-done::before{content:"✓ "}
+.u-ids-korok li.is-now{border-color:var(--u-accent);background:var(--u-accent);color:var(--paper);font-weight:bold}
+.u-tnode-cur.u-tnode-cut circle{fill:var(--u-fix);stroke:var(--u-fix)}

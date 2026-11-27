@@ -237,6 +237,61 @@
   }
 
   /* 3 · Idő- és tárigény – PDF 289–296. */
+  /* 4 · Iteratív mélyítés lépésről lépésre – PDF 297. (rögzített bináris fa, beállítások nélkül) */
+  function initIds() {
+    const box = $('#ids-labor');
+    if (!box) return;
+    const res = K.ids(K.BINARY.adj, 'gyökér', 'RLR');
+    /** @type {Array<[number, number]>} kör, lépés */
+    const frames = [];
+    res.iterations.forEach((t, it) => { for (let k = 0; k <= t.steps.length; k++) frames.push([it, k]); });
+    let pos = 0;
+    const tree = $('#ids-fa'), out = $('#ids-ki'), stat = $('#ids-stat');
+    const rounds = [...box.querySelectorAll('#ids-korok li')];
+    /** @param {string} s */
+    const nice = (s) => (s === 'gyökér' ? 'gyökér' : s);
+    function render() {
+      const [it, k] = frames[pos];
+      const t = res.iterations[it];
+      const snap = K.snapshot(t, k);
+      rounds.forEach((li, i) => {
+        li.className = i < it ? 'is-done' : i === it ? 'is-now' : '';
+        if (i === it) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
+      });
+      tree.innerHTML = K.treeSvg(t, { id: 'ids-t', title: `Korlát = ${it}, ${k}. lépés: a keresőfa`, step: k, current: true, gap: window.innerWidth < 600 ? 38 : 58, name: (n) => nice(n.state) });
+      let msg;
+      if (k === 0) {
+        msg = it === 0
+          ? 'Kezdés: korlát = 0. A front egyetlen eleme a gyökér.'
+          : `Új kör, korlát = ${it}. A keresés elölről kezdődik: az előző kör fáját elfelejtjük, a front ismét csak a gyökér.`;
+      } else {
+        const step = t.steps[k - 1], node = t.nodes[step.visit];
+        msg = `Belépünk ide: ${nice(node.state)} (mélység ${node.depth}). `;
+        if (step.goal && node.status === 'goal') msg += 'Ez a cél!';
+        else if (step.cut) msg += `A mélysége elérte a korlátot (${it}), ezért a gyerekeit nem tárjuk fel.`;
+        else if (step.children.length) msg += `Feltárjuk a gyerekeit: ${step.children.map((/** @type {number} */ c) => nice(t.nodes[c].state)).join(', ')}. Mélységi sorrendben a bal gyerek jön előbb.`;
+        else msg += 'Levél, nincs gyereke.';
+        if (k === t.steps.length && !t.found) msg += ` A kör véget ért cél nélkül: a korlát ${it + 1}-re nő.`;
+      }
+      if (pos === frames.length - 1 && res.found) msg += ` Kész: ${res.path.map(nice).join(' → ')}, ${res.path.length - 1} lépés. A négy kör alatt összesen ${res.visits} belelépés történt.`;
+      out.textContent = msg;
+      const total = res.iterations.slice(0, it).reduce((s, x) => s + x.visits, 0) + k;
+      stat.innerHTML = '';
+      [['Korlát', String(it)], ['Belelépés ebben a körben', String(k)], ['Belelépés összesen', String(total)], ['A front mérete (memória)', String(snap.front.length)]].forEach(([a, b]) => {
+        const d = el('div'); d.append(el('b', '', b), a); stat.append(d);
+      });
+      $('#ids-vissza').disabled = $('#ids-elejere').disabled = pos === 0;
+      $('#ids-elore').disabled = $('#ids-vegere').disabled = pos === frames.length - 1;
+    }
+    /** @param {number} p */
+    const go = (p) => { pos = Math.max(0, Math.min(frames.length - 1, p)); render(); };
+    $('#ids-elejere').addEventListener('click', () => go(0));
+    $('#ids-vissza').addEventListener('click', () => go(pos - 1));
+    $('#ids-elore').addEventListener('click', () => go(pos + 1));
+    $('#ids-vegere').addEventListener('click', () => go(frames.length - 1));
+    render();
+  }
+
   function initCost() {
     const out = $('#ko-ki');
     if (!out) return;
@@ -316,6 +371,7 @@
     initToc();
     initGomoku();
     initLab();
+    initIds();
     initCost();
     initQuiz();
     initPrint();

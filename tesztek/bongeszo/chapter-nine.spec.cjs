@@ -10,7 +10,7 @@ test('A kilencedik fejezet hibaüzenet nélkül betölt, a gyakorlás és a kví
   await page.goto(chapter);
   await expect(page.locator('h1')).toContainText('keress rendszeresen');
   await expect(page.locator('.u-fix')).toHaveCount(8);
-  await expect(page.locator('.u-lab')).toHaveCount(3);
+  await expect(page.locator('.u-lab')).toHaveCount(4);
   await expect(page.locator('details.u-practice')).toHaveCount(5);
   for (const d of await page.locator('details.u-practice, details.u-quiz-wrap').all()) expect(await d.getAttribute('open')).toBeNull();
   await expect(page.locator('#kviz-urlap fieldset')).toHaveCount(14);
@@ -199,4 +199,24 @@ test('A szélességi kód szavai rámutatásra, fókuszra és koppintásra kezd�
   expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize().width);
   await page.locator('h1').click();
   await expect(tip).toBeHidden();
+});
+
+test('Az iteratív mélyítés labor négy körön át lépeget előre és hátra, beállítások nélkül', async ({page}) => {
+  await page.goto(chapter);
+  const lab = page.locator('#ids-labor');
+  await expect(lab.locator('select, input')).toHaveCount(0);
+  await expect(page.locator('#ids-ki')).toContainText('korlát = 0');
+  await expect(page.locator('#ids-vissza')).toBeDisabled();
+  await expect(lab.locator('#ids-korok li[aria-current="step"]')).toHaveText('Korlát 0');
+  await page.locator('#ids-elore').click();
+  await page.locator('#ids-elore').click();
+  await expect(page.locator('#ids-ki')).toContainText('Új kör, korlát = 1');
+  await expect(lab.locator('#ids-korok li[aria-current="step"]')).toHaveText('Korlát 1');
+  await page.locator('#ids-vissza').click();
+  await expect(lab.locator('#ids-korok li[aria-current="step"]')).toHaveText('Korlát 0');
+  await page.locator('#ids-vegere').click();
+  await expect(page.locator('#ids-ki')).toContainText('gyökér → R → RL → RLR');
+  await expect(page.locator('#ids-ki')).toContainText('23 belelépés');
+  await expect(page.locator('#ids-fa svg .u-tnode-goal')).toHaveCount(1);
+  await expect(page.locator('#ids-elore')).toBeDisabled();
 });
