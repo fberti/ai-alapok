@@ -331,6 +331,26 @@
 <div><span class="u-tag">KIELÉGÍTHETETLENSÉGI TÖRVÉNY</span><h3>Ha A kielégíthetetlen</h3><p><code>A ∨ B = B</code>: a „vagy” értékét egyedül B dönti el.</p><p><code>A ∧ B = A</code>: az „és” mindig hamis lesz, mint A.</p></div>
 </div>
 <p>Hétköznapi párhuzam: az „esik vagy nem esik, és hideg van” mondat pontosan annyit mond, mint a „hideg van”. Az első fele semmilyen információt nem hordoz.</p>
+<aside class="u-add" id="de-morgan"><h3>Kiegészítés · A De Morgan-azonosságok</h3>
+<p>Két további törvény azt mondja meg, hogyan lehet egy zárójeles kifejezést tagadni. Augustus De Morgan (1806–1871) nevét viselik, aki 1847-ben, Boole-lal egy évben adta ki <em>Formal Logic</em> című könyvét. A KNF-re hozásnál és a rezolúciónál folyamatosan szükség lesz rájuk.</p>
+<div class="u-compare" id="de-morgan-par">
+<div><span class="u-tag">1 · VAGY TAGADÁSA</span><h3><code>¬(A ∨ B) ≡ ¬A ∧ ¬B</code></h3><p>Egy VAGY-kapcsolat akkor hamis, ha egyik tagja sem igaz.</p><p><em>Példa:</em> „Nem igaz, hogy esik vagy fúj a szél” ugyanazt jelenti, mint „nem esik, <strong>és</strong> nem fúj a szél”.</p></div>
+<div><span class="u-tag">2 · ÉS TAGADÁSA</span><h3><code>¬(A ∧ B) ≡ ¬A ∨ ¬B</code></h3><p>Egy ÉS-kapcsolat akkor hamis, ha legalább az egyik tagja hamis.</p><p><em>Példa:</em> „Nem igaz, hogy kávét és süteményt is kértem” ugyanazt jelenti, mint „nem kértem kávét, <strong>vagy</strong> nem kértem süteményt”.</p></div>
+</div>
+<p class="u-key">Szabály: a tagadást bevisszük a zárójelbe, minden tag elé ¬ kerül, és a ∧ és a ∨ helyet cserél.</p>
+<p>Az azonosság igazságtáblával ellenőrizhető. A két kiemelt oszlop mind a négy interpretációban megegyezik, tehát a két formula ekvivalens. A második azonosság ugyanígy igazolható.</p>
+<div class="u-table-wrap"><table class="u-table u-truth" id="de-morgan-tabla">
+<caption>Az első De Morgan-azonosság igazságtáblája. T = igaz, F = hamis.</caption>
+<thead><tr><th>A</th><th>B</th><th>A ∨ B</th><th class="u-main">¬(A ∨ B)</th><th>¬A</th><th>¬B</th><th class="u-main">¬A ∧ ¬B</th></tr></thead>
+<tbody>
+<tr><td>T</td><td>T</td><td>T</td><td class="u-main u-f">F</td><td>F</td><td>F</td><td class="u-main u-f">F</td></tr>
+<tr><td>T</td><td>F</td><td>T</td><td class="u-main u-f">F</td><td>F</td><td>T</td><td class="u-main u-f">F</td></tr>
+<tr><td>F</td><td>T</td><td>T</td><td class="u-main u-f">F</td><td>T</td><td>F</td><td class="u-main u-f">F</td></tr>
+<tr><td>F</td><td>F</td><td>F</td><td class="u-main u-t">T</td><td>T</td><td>T</td><td class="u-main u-t">T</td></tr>
+</tbody></table></div>
+<p>Gyakori hiba, hogy a tagadást bevisszük, de a műveleti jelet nem cseréljük meg. A <code>¬(A ∨ B)</code> <strong>nem</strong> egyenlő a <code>¬A ∨ ¬B</code> formulával. Ellenpélda: A = T és B = F esetén a bal oldal <code>¬(T ∨ F) = ¬T = F</code>, a jobb oldal viszont <code>F ∨ T = T</code>.</p>
+<p>Az azonosságok kettőnél több tagra is érvényesek: <code>¬(A ∨ B ∨ C) ≡ ¬A ∧ ¬B ∧ ¬C</code>. Gyakran a <strong>kettős tagadás</strong> szabályával együtt használjuk őket: <code>¬¬A ≡ A</code>. Például <code>¬(¬p ∨ s)</code> De Morgannal <code>¬¬p ∧ ¬s</code>, a kettős tagadás eltüntetése után <code>p ∧ ¬s</code>. Az első azonosságot a <a class="xref" href="#formula-labor">formulavizsgálóban</a> is kipróbálhatod: a „Minta” listában „Egy De Morgan-azonosság” néven szerepel, és mind a 4 interpretációban igaz. <a href="#s-aima">Forrás: Russell–Norvig, 7. fejezet, a logikai ekvivalenciák táblázata.</a></p>
+</aside>
 <p>Miért fontos mindez? A <strong>tétel</strong> azt jelenti, hogy állításokból logikailag következik a konklúzió. A <em>logikai következés</em> pontos jelentése: nincs olyan interpretáció, amelyben a premisszák mind igazak, a konklúzió pedig hamis. Ebből két egyenértékű vizsgálat adódik.</p>
 <ol class="u-flow" id="kovetkezes">
 <li><strong>A TÉTEL</strong>Az α, β, γ premisszákból következik δ.</li>
@@ -399,7 +419,7 @@
 <ol class="u-steps" id="knf-lepesek">
 <li><p><strong>Azonosságok kiküszöbölése.</strong> <code>A ≡ B</code> helyett <code>(A → B) ∧ (B → A)</code>.</p></li>
 <li><p><strong>Implikációk kiküszöbölése.</strong> <code>A → B</code> helyett <code>¬A ∨ B</code>. A két formula igazságtáblája azonos: mindkettő csak akkor hamis, ha A igaz és B hamis.</p></li>
-<li><p><strong>A negálás hatáskörének redukálása.</strong> A De Morgan-azonosságok a tagadást a zárójelen belülre viszik: <code>¬(A ∨ B)</code> helyett <code>¬A ∧ ¬B</code>, és <code>¬(A ∧ B)</code> helyett <code>¬A ∨ ¬B</code>. Így a végén a ¬ csak változók előtt áll.</p></li>
+<li><p><strong>A negálás hatáskörének redukálása.</strong> A <a class="xref" href="#de-morgan">De Morgan-azonosságok</a> a tagadást a zárójelen belülre viszik: <code>¬(A ∨ B)</code> helyett <code>¬A ∧ ¬B</code>, és <code>¬(A ∧ B)</code> helyett <code>¬A ∨ ¬B</code>. Így a végén a ¬ csak változók előtt áll.</p></li>
 <li><p><strong>Klózok konjunkciójának létrehozása.</strong> A disztributív szabállyal a VAGY-okat az ÉS-ek alá visszük: <code>A ∨ (B ∧ C)</code> helyett <code>(A ∨ B) ∧ (A ∨ C)</code>.</p></li>
 </ol>
 <aside class="u-add"><h3>Kiegészítés · Két apró, de szükséges szabály</h3><p>A négy lépés mellé két egyszerű szabály kell. A 3. lépés közben kettős tagadás keletkezhet. Ezt a <code>¬¬A = A</code> szabállyal tüntetjük el. A 4. lépés után pedig kialakulhat olyan klóz, amely egy változót tagadva és tagadás nélkül is tartalmaz, például <code>p ∨ ¬p ∨ q</code>. Ez tautológia, tehát a <a class="xref" href="#torvenyek">tautologikus törvény</a> szerint elhagyható. <a href="#s-aima">Forrás: Russell–Norvig, 7.5.2 szakasz.</a></p></aside>
@@ -418,7 +438,7 @@
 <p><strong>Megfeleltetések:</strong> p = „Péter megfázik”, q = „Péter orra folyik”, r = „Péter lázas”. A formula: <code>p ≡ (q ∧ r)</code>.</p>
 <p><strong>1. lépés, azonosság:</strong> <code>(p → (q ∧ r)) ∧ ((q ∧ r) → p)</code>. A két tagot külön alakítjuk tovább.</p>
 <p><strong>Első tag:</strong> az implikáció helyett <code>¬p ∨ (q ∧ r)</code> (2. lépés), a szétosztással <code>(¬p ∨ q) ∧ (¬p ∨ r)</code> (4. lépés).</p>
-<p><strong>Második tag:</strong> az implikáció helyett <code>¬(q ∧ r) ∨ p</code> (2. lépés), De Morgannal <code>¬q ∨ ¬r ∨ p</code> (3. lépés). Ez már egyetlen klóz.</p>
+<p><strong>Második tag:</strong> az implikáció helyett <code>¬(q ∧ r) ∨ p</code> (2. lépés), <a class="xref" href="#de-morgan">De Morgannal</a> <code>¬q ∨ ¬r ∨ p</code> (3. lépés). Ez már egyetlen klóz.</p>
 <p><strong>A KNF:</strong> <code>(¬p ∨ q) ∧ (¬p ∨ r) ∧ (¬q ∨ ¬r ∨ p)</code>, három klóz. Mind a 8 interpretációban ugyanazt adja, mint az eredeti formula.</p></details></li>
 <li><p>Hozd KNF-re a <code>¬(p → s)</code> formulát! Hány klózra esik szét? Ilyen alakú minden tagadott „ha…, akkor…” konklúzió.</p><details class="u-sol"><summary>Megoldás</summary>
 <p>Az implikáció helyett <code>¬(¬p ∨ s)</code>, De Morgannal <code>¬¬p ∧ ¬s</code>, a kettős tagadás eltüntetése után <code>p ∧ ¬s</code>. Ez két klóz: <code>p</code> és <code>¬s</code>. A tagadott implikáció tehát azt mondja, hogy a feltétel teljesül, a következmény mégsem.</p></details></li>
