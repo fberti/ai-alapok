@@ -429,7 +429,20 @@
 <li><p><strong>Azonosság:</strong> <code>((p → q) ∧ (q → p)) → r</code></p></li>
 <li><p><strong>Implikációk</strong> (belül és kívül is): <code>¬((¬p ∨ q) ∧ (¬q ∨ p)) ∨ r</code></p></li>
 <li><p><strong>Negálás befelé:</strong> előbb <code>(¬(¬p ∨ q) ∨ ¬(¬q ∨ p)) ∨ r</code>, aztán még egyszer, a kettős tagadást is eltüntetve: <code>(p ∧ ¬q) ∨ (q ∧ ¬p) ∨ r</code></p></li>
-<li><p><strong>Disztribúció:</strong> a két ÉS-tag szétosztása négy klózt ad: <code>(p ∨ q) ∧ (p ∨ ¬p) ∧ (¬q ∨ q) ∧ (¬q ∨ ¬p)</code>. A középső kettő tautológia, elhagyjuk. Végül mindkét klózhoz hozzávesszük az r-t: <code>(p ∨ q ∨ r) ∧ (¬p ∨ ¬q ∨ r)</code></p></li>
+<li><p><strong>Disztribúció:</strong> a 3. lépés után ez áll előttünk: <code>(p ∧ ¬q) ∨ (q ∧ ¬p) ∨ r</code>. Ez VAGY-kapcsolat, amelynek a tagjai között ÉS-csoportok vannak. A KNF éppen fordítva épül fel: ÉS-sel összekötött VAGY-csoportokból. A ∨-t tehát a zárójeleken belülre kell vinnünk. Ezt a <a class="xref" href="#knf-lepesek">disztributív szabály</a> teszi lehetővé: <code>A ∨ (B ∧ C) ≡ (A ∨ B) ∧ (A ∨ C)</code>. Négy kisebb lépésben haladunk.</p>
+<ol class="u-substeps" id="knf-disztribucio">
+<li><p><strong>Az r-t egyelőre félretesszük.</strong> Jelöljük a két ÉS-csoport VAGY-kapcsolatát K-val: <code>K = (p ∧ ¬q) ∨ (q ∧ ¬p)</code>. A formula így <code>K ∨ r</code>. Előbb K-t hozzuk KNF-re, az r-t a végén adjuk hozzá.</p></li>
+<li><p><strong>K szétosztása.</strong> A szabályt kétszer alkalmazzuk. Először a bal oldali csoportot osztjuk szét, a jobb oldalit egyetlen egésznek véve: <code>(p ∨ (q ∧ ¬p)) ∧ (¬q ∨ (q ∧ ¬p))</code>. Aztán mindkét zárójelben a jobb oldali csoportot is: <code>(p ∨ q) ∧ (p ∨ ¬p) ∧ (¬q ∨ q) ∧ (¬q ∨ ¬p)</code>. Rövidebben: a bal csoport minden literálja párt alkot a jobb csoport minden literáljával, így 2 × 2 = 4 klóz keletkezik. A táblázat ezeket a párokat mutatja.</p>
+<div class="u-table-wrap"><table class="u-table u-truth u-pairs" id="knf-parok"><caption>A szétosztás párjai: sorban a (p ∧ ¬q), oszlopban a (q ∧ ¬p) csoport literáljai. Minden cella egy klóz.</caption>
+<thead><tr><th scope="col">∨</th><th scope="col">q</th><th scope="col">¬p</th></tr></thead>
+<tbody>
+<tr><th scope="row">p</th><td><code>p ∨ q</code></td><td class="u-taut"><code>p ∨ ¬p</code> <small>tautológia</small></td></tr>
+<tr><th scope="row">¬q</th><td class="u-taut"><code>¬q ∨ q</code> <small>tautológia</small></td><td><code>¬q ∨ ¬p</code></td></tr>
+</tbody></table></div></li>
+<li><p><strong>A tautológiák elhagyása.</strong> A <code>p ∨ ¬p</code> és a <code>¬q ∨ q</code> minden interpretációban igaz, hiszen egy változó és a tagadása közül az egyik mindig igaz. A <a class="xref" href="#torvenyek">tautologikus törvény</a> szerint egy mindig igaz tag az ÉS-kapcsolatból elhagyható, mert nem változtat az értékén. Marad: <code>K ≡ (p ∨ q) ∧ (¬q ∨ ¬p)</code>.</p></li>
+<li><p><strong>Az r visszavétele.</strong> Most <code>((p ∨ q) ∧ (¬q ∨ ¬p)) ∨ r</code> áll előttünk. Ez megint egy ∨ egy ÉS-kapcsolat előtt, tehát ugyanaz a szabály: az r mindkét klózba bekerül. A második klózban a literálokat a jobb olvashatóság kedvéért ábécérendbe tesszük, a VAGY-kapcsolatban a sorrend nem számít. Az eredmény két klóz: <code>(p ∨ q ∨ r) ∧ (¬p ∨ ¬q ∨ r)</code>.</p></li>
+</ol>
+<p>Ha az r-t nem tesszük félre, ugyanez jön ki, csak több munkával: a négy klóz mindegyikébe bekerülne az r, és a két tautológiát utána kellene elhagyni. Érdemes tehát előbb egyszerűsíteni, aztán bővíteni.</p></li>
 </ol>
 <p><strong>Ellenőrzés:</strong> az eredeti formula csak akkor hamis, ha p ≡ q igaz és r hamis. A KNF pontosan ugyanekkor hamis: ha r hamis, és p, q egyszerre igaz vagy egyszerre hamis. A <a class="xref" href="#formula-labor">formulavizsgálóba</a> beírva a két formula igazságtáblája megegyezik.</p></div>
 <details class="u-practice" id="gyak-knf"><summary>Gyakorlás · KNF-re hozás (2 feladat)</summary>

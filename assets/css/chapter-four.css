@@ -284,3 +284,14 @@ details.u-practice>p{margin:.6rem 1.1rem}
 .u-defs .u-defs-ex{font-size:14px;color:var(--muted)}
 @media(max-width:560px){.u-defs>div{grid-template-columns:1fr}}
 @media print{.u-defs{break-inside:avoid}}
+/* KNF-példa: a disztribúció allépései és a párosítási táblázat */
+.u-substeps{list-style:lower-alpha;margin:.5rem 0 .6rem;padding-left:1.6rem}
+.u-substeps>li{margin:.55rem 0;padding-left:.2rem}
+.u-substeps>li::marker{font-weight:bold;color:var(--u-accent)}
+.u-substeps p{margin:.2rem 0}
+.u-pairs{width:auto;min-width:min(100%,22rem)}
+.u-pairs th[scope=row]{background:var(--soft)}
+.u-pairs td.u-taut{color:var(--muted)}
+.u-pairs td.u-taut code{text-decoration:line-through;text-decoration-color:var(--u-bad)}
+.u-pairs td.u-taut small{display:block;font-size:12px}
+.u-table-wrap:has(> .u-pairs){display:inline-block;max-width:100%;vertical-align:top}
