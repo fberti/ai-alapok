@@ -1,0 +1,428 @@
+{
+ "_leiras": "Közös kódtippek. A fejezetek eszkozok/kodtippek/NN.json fájljai felülírhatják vagy a skip listával kikapcsolhatják őket.",
+ "python": {
+  "def": {
+   "tip": "A def kulcsszóval függvényt adunk meg (definiálunk). Utána jön a függvény neve, zárójelben a bemenetei (paraméterei), a sor végén kettőspont. A beljebb kezdett (behúzott) sorok tartoznak a függvényhez: Pythonban a behúzás jelöli, mi van a függvényen, cikluson vagy elágazáson belül.",
+   "ex": "def dupla(x):\n    return 2 * x\n\nprint(dupla(5))   # 10"
+  },
+  "return": {
+   "tip": "Kilép a függvényből, és a mögötte álló értéket adja vissza annak, aki a függvényt meghívta. Ha nincs mögötte semmi, None-t ad vissza.",
+   "ex": "def dupla(x):\n    return 2 * x\n\nprint(dupla(5))   # 10"
+  },
+  "if": {
+   "tip": "Elágazás: a behúzott sorok csak akkor futnak le, ha a feltétel igaz. Ha hamis, a program átugorja őket (vagy az else ágat futtatja). Listaértelmezésben azt szűri, mely elemek kerüljenek az új listába: [x for x in lista if x > 0].",
+   "ex": "x = 7\nif x > 5:\n    print('nagy')   # ezt írja ki\nif x > 10:\n    print('óriás')  # ez kimarad"
+  },
+  "elif": {
+   "tip": "Az else if rövidítése: ha az előző feltétel hamis volt, ezt a feltételt nézi meg.",
+   "ex": "x = 5\nif x > 10:\n    print('nagy')\nelif x > 3:\n    print('közepes')   # ezt írja ki\nelse:\n    print('kicsi')"
+  },
+  "else": {
+   "tip": "Különben-ág: akkor fut le, ha a hozzá tartozó if (és elif) feltétele hamis volt.",
+   "ex": "x = 2\nif x > 5:\n    print('nagy')\nelse:\n    print('kicsi')   # ezt írja ki"
+  },
+  "for": {
+   "tip": "Ciklus egy sorozat (lista, szöveg, range) elemein: a for és az in közötti változó sorban felveszi minden elem értékét, és mindegyikre egyszer lefut a behúzott rész. Szögletes zárójelen belül (listaértelmezés) egy sorban új listát készít: [x * 2 for x in lista].",
+   "ex": "for v in ['A', 'B']:\n    print(v)       # A, majd B\nprint([x * 2 for x in [1, 2, 3]])   # [2, 4, 6]"
+  },
+  "in": {
+   "tip": "Két jelentése van. A for x in lista ciklus a lista elemein megy végig. Feltételben az x in lista igaz, ha x benne van a listában (szótárnál: ha x kulcs).",
+   "ex": "print('A' in ['A', 'B'])   # True\nprint('C' in ['A', 'B'])   # False\nfor v in [1, 2]:\n    print(v)               # 1, majd 2"
+  },
+  "not in": {
+   "tip": "Tartalmazás vizsgálata: igaz, ha az elem nincs benne a listában (szótárnál: nem kulcs).",
+   "ex": "ut = ['S', 'A']\nprint('A' not in ut)   # False\nprint('D' not in ut)   # True"
+  },
+  "while": {
+   "tip": "Ciklus: amíg a mögötte álló feltétel igaz, újra és újra végrehajtja a behúzott sorokat. Minden kör elején újra megnézi a feltételt. Egy lista feltételként akkor igaz, ha nem üres.",
+   "ex": "n = 3\nwhile n > 0:\n    print(n)\n    n = n - 1\n# kiírja: 3, 2, 1"
+  },
+  "not": {
+   "tip": "Logikai tagadás: igazból hamisat, hamisból igazat csinál. A not lista igaz, ha a lista üres.",
+   "ex": "print(not True)   # False\nprint(not [])     # True (üres lista)\nprint(not [1])    # False"
+  },
+  "and": {
+   "tip": "Logikai ÉS: csak akkor igaz, ha mindkét oldala igaz.",
+   "ex": "x = 5\nprint(x > 0 and x < 10)   # True\nprint(x > 0 and x > 10)   # False"
+  },
+  "or": {
+   "tip": "Logikai VAGY: igaz, ha legalább az egyik oldala igaz.",
+   "ex": "x = 5\nprint(x < 0 or x > 3)   # True\nprint(x < 0 or x > 9)   # False"
+  },
+  "None": {
+   "tip": "A None a Python „nincs érték” jelzése. Gyakran ezt adja vissza egy függvény, ha nem talált semmit.",
+   "ex": "def keres(lista, x):\n    for v in lista:\n        if v == x:\n            return v\n    return None\n\nprint(keres(['A'], 'B'))   # None"
+  },
+  "True": {
+   "tip": "Logikai igaz érték. A párja a False (hamis). Az összehasonlítások (==, <, in…) ilyen értéket adnak.",
+   "ex": "print(3 > 2)   # True"
+  },
+  "False": {
+   "tip": "Logikai hamis érték. A párja a True (igaz).",
+   "ex": "print(3 < 2)   # False"
+  },
+  "import": {
+   "tip": "Egy modult (kész kódgyűjteményt, könyvtárat) tölt be, hogy a függvényeit használhassuk. Utána a modul nevével és egy ponttal érjük el őket.",
+   "ex": "import math\nprint(math.sqrt(16))   # 4.0"
+  },
+  "from": {
+   "tip": "A from modul import név alakkal egy modulból csak a megnevezett részeket töltjük be, és utána a modulnév nélkül használjuk őket.",
+   "ex": "from math import sqrt\nprint(sqrt(16))   # 4.0"
+  },
+  "as": {
+   "tip": "Rövid becenevet ad a betöltött modulnak vagy névnek, hogy kevesebbet kelljen gépelni.",
+   "ex": "import math as m\nprint(m.pi)   # 3.141592653589793"
+  },
+  "break": {
+   "tip": "Azonnal kilép a legbelső ciklusból, akkor is, ha még lenne mit bejárni.",
+   "ex": "for v in [1, 2, 3, 4]:\n    if v == 3:\n        break\n    print(v)\n# kiírja: 1, 2"
+  },
+  "continue": {
+   "tip": "A ciklus aktuális körét befejezi, és a következő elemmel folytatja.",
+   "ex": "for v in [1, 2, 3]:\n    if v == 2:\n        continue\n    print(v)\n# kiírja: 1, 3"
+  },
+  "pass": {
+   "tip": "Üres utasítás: nem csinál semmit. Ott használjuk, ahol a nyelvtan utasítást kér, de még nincs mit írni."
+  },
+  "print": {
+   "tip": "Kiírja a zárójelben lévő értékeket a képernyőre (a konzolra). Több értéket vesszővel elválasztva, szóközzel kiír.",
+   "ex": "x = 3\nprint('x értéke:', x)   # x értéke: 3"
+  },
+  "len": {
+   "tip": "len(x): a lista, szöveg vagy szótár hossza, vagyis elemeinek száma.",
+   "ex": "print(len(['a', 'b', 'c']))   # 3\nprint(len('alma'))            # 4"
+  },
+  "range": {
+   "tip": "range(n): a 0, 1, …, n−1 számok sorozata; range(a, b): a-tól b−1-ig. Leggyakrabban for ciklusban számlálásra használjuk.",
+   "ex": "for i in range(3):\n    print(i)\n# kiírja: 0, 1, 2\nprint(list(range(2, 5)))   # [2, 3, 4]"
+  },
+  "list": {
+   "tip": "list(x): új listát készít x elemeiből. Egy lista másolatát is így kapjuk meg: a másolat módosítása nem változtatja az eredetit.",
+   "ex": "regi = ['S', 'A']\nuj = list(regi)\nuj.append('D')\nprint(regi)   # ['S', 'A']\nprint(uj)     # ['S', 'A', 'D']"
+  },
+  "dict": {
+   "tip": "dict: szótár, kulcs–érték párok gyűjteménye. A kulcs alapján gyorsan kikereshető az érték.",
+   "ex": "d = dict(a=1, b=2)\nprint(d['a'])   # 1\nprint(d)        # {'a': 1, 'b': 2}"
+  },
+  "sorted": {
+   "tip": "sorted(lista): a lista elemeinek rendezett másolatát adja (növekvő sorrendben); az eredeti lista nem változik. A key= megadja, mi szerint rendezzen, a reverse=True csökkenő sorrendet kér.",
+   "ex": "szamok = [3, 1, 2]\nprint(sorted(szamok))                 # [1, 2, 3]\nprint(sorted(szamok, reverse=True))   # [3, 2, 1]\nprint(szamok)                         # [3, 1, 2]"
+  },
+  "min": {
+   "tip": "min(…): a legkisebb elem. A key= megadja, mi alapján hasonlítson.",
+   "ex": "print(min([4, 2, 7]))                 # 2\nprint(min(['banán', 'kivi'], key=len))   # kivi"
+  },
+  "max": {
+   "tip": "max(…): a legnagyobb elem. A key= megadja, mi alapján hasonlítson.",
+   "ex": "print(max([4, 2, 7]))   # 7"
+  },
+  "sum": {
+   "tip": "sum(lista): a számok összege. A NumPy-tömbök .sum() metódusa ugyanezt adja; az axis= megadja, sorok vagy oszlopok mentén összegezzen.",
+   "ex": "print(sum([1, 2, 3]))   # 6"
+  },
+  "abs": {
+   "tip": "abs(x): x abszolút értéke, vagyis a nullától mért távolsága, előjel nélkül.",
+   "ex": "print(abs(-3))   # 3"
+  },
+  "enumerate": {
+   "tip": "enumerate(lista): a lista elemeit a sorszámukkal együtt adja (0-tól), párokban.",
+   "ex": "for i, v in enumerate(['a', 'b']):\n    print(i, v)\n# kiírja: 0 a, majd 1 b"
+  },
+  "zip": {
+   "tip": "zip(a, b): két listát párosít: az első elemeket egymással, a másodikakat egymással, és így tovább.",
+   "ex": "for x, y in zip([1, 2], ['a', 'b']):\n    print(x, y)\n# kiírja: 1 a, majd 2 b"
+  },
+  "str": {
+   "tip": "str(x): x szöveggé (stringgé) alakítva.",
+   "ex": "print(str(42) + '!')   # 42!"
+  },
+  "int": {
+   "tip": "int(x): egész számmá alakít; tizedes törtnél levágja a törtrészt.",
+   "ex": "print(int('7') + 1)   # 8\nprint(int(3.9))       # 3"
+  },
+  "float": {
+   "tip": "float(x): tizedes törtté (lebegőpontos számmá) alakít.",
+   "ex": "print(float('2.5') * 2)   # 5.0"
+  },
+  "round": {
+   "tip": "round(x, n): x kerekítve n tizedesjegyre.",
+   "ex": "print(round(3.14159, 2))   # 3.14"
+  },
+  "append": {
+   "tip": "lista.append(x): az x-et a lista végére fűzi, és a listát helyben módosítja.",
+   "ex": "lista = ['S']\nlista.append('A')\nprint(lista)   # ['S', 'A']"
+  },
+  "extend": {
+   "tip": "lista.extend(masik): a másik lista minden elemét a lista végére fűzi.",
+   "ex": "a = [1, 2]\na.extend([3, 4])\nprint(a)   # [1, 2, 3, 4]"
+  },
+  "insert": {
+   "tip": "lista.insert(i, x): az x-et az i. helyre szúrja be, a többit hátrébb tolja.",
+   "ex": "a = ['b', 'c']\na.insert(0, 'a')\nprint(a)   # ['a', 'b', 'c']"
+  },
+  "remove": {
+   "tip": "lista.remove(x): kiveszi a listából az x első előfordulását.",
+   "ex": "a = ['a', 'b', 'a']\na.remove('a')\nprint(a)   # ['b', 'a']"
+  },
+  "pop": {
+   "tip": "lista.pop(i): kiveszi a listából az i. elemet, és visszaadja. Sorszám nélkül az utolsót veszi ki. A Python 0-tól számoz, így a pop(0) az első elemet adja.",
+   "ex": "sor = ['a', 'b', 'c']\nelso = sor.pop(0)\nprint(elso)   # a\nprint(sor)    # ['b', 'c']"
+  },
+  "sort": {
+   "tip": "lista.sort(): a listát helyben rendezi (növekvő sorrendbe). A key= megadja, mi szerint rendezzen.",
+   "ex": "a = [3, 1, 2]\na.sort()\nprint(a)   # [1, 2, 3]"
+  },
+  "get": {
+   "tip": "szótár.get(kulcs, alapérték): visszaadja a kulcshoz tartozó értéket. Ha a kulcs nincs a szótárban, hibaüzenet helyett az alapértéket adja (ha az nincs megadva, None-t).",
+   "ex": "g = {'S': ['A', 'B']}\nprint(g.get('S', []))   # ['A', 'B']\nprint(g.get('X', []))   # []\nprint(g['X'])           # KeyError: hiba!"
+  },
+  "items": {
+   "tip": "szótár.items(): a szótár kulcs–érték párjai, for ciklusban kényelmesen bejárhatók.",
+   "ex": "d = {'a': 1, 'b': 2}\nfor k, v in d.items():\n    print(k, v)\n# kiírja: a 1, majd b 2"
+  },
+  "keys": {
+   "tip": "szótár.keys(): a szótár kulcsai.",
+   "ex": "d = {'a': 1, 'b': 2}\nprint(list(d.keys()))   # ['a', 'b']"
+  },
+  "values": {
+   "tip": "szótár.values(): a szótár értékei.",
+   "ex": "d = {'a': 1, 'b': 2}\nprint(list(d.values()))   # [1, 2]"
+  },
+  "==": {
+   "tip": "Egyenlőség vizsgálata: igaz (True), ha a két oldal egyenlő, különben hamis (False). Vigyázat: két egyenlőségjel kell. Az egy darab = értékadás: azt jelenti, „legyen egyenlő”.",
+   "ex": "x = 3            # értékadás\nprint(x == 3)    # True\nprint(x == 4)    # False"
+  },
+  "!=": {
+   "tip": "Nem egyenlő: igaz, ha a két oldal különbözik.",
+   "ex": "print(3 != 4)   # True\nprint(3 != 3)   # False"
+  },
+  ">=": {
+   "tip": "Nagyobb vagy egyenlő.",
+   "ex": "print(5 >= 5)   # True\nprint(4 >= 5)   # False"
+  },
+  "<=": {
+   "tip": "Kisebb vagy egyenlő.",
+   "ex": "print(4 <= 5)   # True\nprint(6 <= 5)   # False"
+  },
+  "+=": {
+   "tip": "Hozzáadás helyben: az x += 1 ugyanaz, mint az x = x + 1.",
+   "ex": "x = 5\nx += 2\nprint(x)   # 7"
+  },
+  "-=": {
+   "tip": "Kivonás helyben: az x -= 1 ugyanaz, mint az x = x - 1.",
+   "ex": "x = 5\nx -= 2\nprint(x)   # 3"
+  },
+  "**": {
+   "tip": "Hatványozás: a ** b az a b-edik hatványa.",
+   "ex": "print(2 ** 3)    # 8\nprint(9 ** 0.5)  # 3.0"
+  },
+  "//": {
+   "tip": "Egész osztás: az osztás eredményének egész része (lefelé kerekítve).",
+   "ex": "print(7 // 2)   # 3"
+  },
+  "[-1]": {
+   "tip": "A [-1] a lista, tuple vagy szöveg utolsó elemét adja: a negatív sorszám hátulról számol.",
+   "ex": "ut = ['S', 'A', 'D']\nprint(ut[0])    # S\nprint(ut[-1])   # D\nprint(ut[-2])   # A"
+  },
+  "[]": {
+   "tip": "Üres lista. A lista szögletes zárójelek közé írt, vesszővel elválasztott elemek sorozata, például [1, 2, 3].",
+   "ex": "ut = []\nprint(len(ut))   # 0\nut.append('S')\nprint(ut)        # ['S']"
+  },
+  "random.random": {
+   "tip": "random.random(): véletlen tizedes tört 0 és 1 között (a 0-t felveheti, az 1-et nem). Valószínűség szimulálására jó: a random.random() < 0.1 nagyjából minden tizedik esetben igaz.",
+   "ex": "import random\nx = random.random()\nprint(0 <= x < 1)   # True\nprint(random.random() < 0.1)  # többnyire False"
+  },
+  "random.randint": {
+   "tip": "random.randint(a, b): véletlen egész szám a és b között, mindkét végpontot beleértve.",
+   "ex": "import random\nd = random.randint(1, 6)   # dobókocka\nprint(1 <= d <= 6)         # True"
+  },
+  "random.choice": {
+   "tip": "random.choice(lista): a lista egy véletlenszerűen választott eleme.",
+   "ex": "import random\nprint(random.choice(['fej', 'írás']))   # fej vagy írás"
+  },
+  "random.sample": {
+   "tip": "random.sample(lista, k): k különböző elem véletlenszerűen, ismétlés nélkül.",
+   "ex": "import random\nprint(random.sample([1, 2, 3, 4], 2))   # pl. [3, 1]"
+  },
+  "random.shuffle": {
+   "tip": "random.shuffle(lista): a lista elemeit helyben, véletlenszerűen összekeveri.",
+   "ex": "import random\na = [1, 2, 3]\nrandom.shuffle(a)\nprint(sorted(a))   # [1, 2, 3]: ugyanazok az elemek"
+  },
+  "random.uniform": {
+   "tip": "random.uniform(a, b): véletlen tizedes tört a és b között.",
+   "ex": "import random\nx = random.uniform(-1, 1)\nprint(-1 <= x <= 1)   # True"
+  },
+  "random.seed": {
+   "tip": "random.seed(n): rögzíti a véletlenszám-generátor kezdőállapotát, így minden futás ugyanazokat a „véletlen” számokat adja. Ellenőrzéshez hasznos.",
+   "ex": "import random\nrandom.seed(1)\na = random.random()\nrandom.seed(1)\nprint(a == random.random())   # True"
+  },
+  "pyDatalog": {
+   "tip": "A pyDatalog könyvtár Prolog-szerű logikai programozást tesz lehetővé Pythonban: tényeket és szabályokat adunk meg, majd kérdezünk."
+  },
+  "pyDatalog.create_terms": {
+   "tip": "pyDatalog.create_terms('…'): bejelenti a használt neveket. A nagybetűs nevek közül a predikátumok (pl. Apa) relációk, az egybetűsek (X, Y, Z) logikai változók.",
+   "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, X')\n+Apa('Platon', 'Arisztotelesz')\nprint(Apa(X, 'Arisztotelesz'))\n# kiírja:\n# X\n# ------\n# Platon"
+  },
+  "pyDatalog.clear": {
+   "tip": "pyDatalog.clear(): törli az eddig megadott összes tényt és szabályt, tiszta lappal indulunk."
+  },
+  "=": {
+   "tip": "Értékadás: a bal oldali név (változó) a jobb oldali értéket kapja. Függvényhívásban (pl. k=1) a paramétert a nevével adjuk meg. Nem összehasonlítás: arra a == való.",
+   "ex": "x = 5\nx = x + 1\nprint(x)   # 6"
+  },
+  "+": {
+   "tip": "Számoknál összeadás. Listáknál és szövegeknél összefűzés: új listát (szöveget) készít a kettőből, az eredetiek nem változnak.",
+   "ex": "print(2 + 3)           # 5\nprint([1, 2] + [3])    # [1, 2, 3]\nprint('al' + 'ma')     # alma"
+  },
+  "-": {
+   "tip": "Kivonás; szám előtt negatív előjel.",
+   "ex": "print(7 - 2)   # 5\nprint(-3 + 1)  # -2"
+  },
+  "*": {
+   "tip": "Szorzás. Listánál és szövegnél ismétlés.",
+   "ex": "print(3 * 4)      # 12\nprint([0] * 3)    # [0, 0, 0]"
+  },
+  "/": {
+   "tip": "Osztás; az eredmény mindig tizedes tört (float).",
+   "ex": "print(7 / 2)   # 3.5\nprint(6 / 2)   # 3.0"
+  },
+  "%": {
+   "tip": "Maradékos osztás maradéka (modulo).",
+   "ex": "print(7 % 3)   # 1\nprint(8 % 2)   # 0 (páros)"
+  },
+  "<": {
+   "tip": "Kisebb: igaz, ha a bal oldal kisebb a jobbnál. Láncolható: a < x < b.",
+   "ex": "print(3 < 5)       # True\nx = 4\nprint(1 < x < 3)   # False"
+  },
+  ">": {
+   "tip": "Nagyobb: igaz, ha a bal oldal nagyobb a jobbnál.",
+   "ex": "print(5 > 3)   # True\nprint(2 > 3)   # False"
+  },
+  "is": {
+   "tip": "Azonosság vizsgálata: ugyanaz az objektum-e. Leggyakrabban a None-nal használjuk: x is None.",
+   "ex": "x = None\nprint(x is None)       # True\nprint(x is not None)   # False"
+  },
+  "is not": {
+   "tip": "Az is tagadása: igaz, ha a két oldal nem ugyanaz az objektum. Tipikusan: x is not None, vagyis van értéke.",
+   "ex": "x = 5\nprint(x is not None)   # True"
+  },
+  "lambda": {
+   "tip": "Névtelen, egysoros függvény: lambda bemenet: kifejezés. Gyakran a sorted vagy a min key= paraméterében adjuk meg, hogy mi szerint rendezzen.",
+   "ex": "dupla = lambda x: 2 * x\nprint(dupla(4))   # 8\nprint(sorted(['ccc', 'a', 'bb'], key=lambda s: len(s)))   # ['a', 'bb', 'ccc']"
+  },
+  "key": {
+   "tip": "A sorted, a min, a max és a sort key= paramétere: egy függvény, amely minden elemhez megadja, mi alapján hasonlítsuk össze őket.",
+   "ex": "szavak = ['alma', 'fa', 'kocka']\nprint(sorted(szavak, key=len))   # ['fa', 'alma', 'kocka']"
+  },
+  "del": {
+   "tip": "Töröl: egy változót, vagy egy lista elemét a sorszáma alapján.",
+   "ex": "a = ['x', 'y', 'z']\ndel a[0]\nprint(a)   # ['y', 'z']"
+  },
+  "class": {
+   "tip": "Osztályt ad meg: egy saját adattípus tervét, amely adatokat (attribútumokat) és hozzájuk tartozó függvényeket (metódusokat) foglal egybe.",
+   "ex": "class Kutya:\n    def __init__(self, nev):\n        self.nev = nev\n\nk = Kutya('Bodri')\nprint(k.nev)   # Bodri"
+  },
+  "self": {
+   "tip": "Az osztály metódusaiban az éppen használt objektumot jelöli: a self.nev az adott objektum nev adata."
+  },
+  "raise": {
+   "tip": "Hibát (kivételt) vált ki szándékosan, ha valami nem megengedett érték érkezik.",
+   "ex": "def gyok(x):\n    if x < 0:\n        raise ValueError('negatív szám')\n    return x ** 0.5\n\nprint(gyok(9))   # 3.0"
+  },
+  "try": {
+   "tip": "A try ágban lévő kód hibáját az except ág elkapja, így a program nem áll le.",
+   "ex": "try:\n    print(1 / 0)\nexcept ZeroDivisionError:\n    print('nullával nem lehet osztani')\n# kiírja: nullával nem lehet osztani"
+  },
+  "except": {
+   "tip": "A try párja: itt folytatódik a program, ha a try ágban a megadott hiba történt.",
+   "ex": "try:\n    int('abc')\nexcept ValueError:\n    print('nem szám')   # ezt írja ki"
+  },
+  "global": {
+   "tip": "Jelzi, hogy a függvényen belül a modul szintű (globális) változót módosítjuk, nem egy új helyit hozunk létre.",
+   "ex": "n = 0\ndef novel():\n    global n\n    n += 1\n\nnovel()\nprint(n)   # 1"
+  },
+  "any": {
+   "tip": "any(…): igaz, ha legalább egy elem igaz. Párja az all(…), amely akkor igaz, ha minden elem igaz.",
+   "ex": "print(any([False, True]))        # True\nprint(any(x > 5 for x in [1, 2]))  # False"
+  },
+  "all": {
+   "tip": "all(…): igaz, ha minden elem igaz (üres sorozatra is igaz).",
+   "ex": "print(all([True, True]))   # True\nprint(all([1, 0]))         # False"
+  },
+  "add": {
+   "tip": "halmaz.add(x): az x-et a halmazba teszi. A halmazban minden elem csak egyszer szerepel.",
+   "ex": "h = {1, 2}\nh.add(2)\nh.add(3)\nprint(h)   # {1, 2, 3}"
+  },
+  "tuple": {
+   "tip": "tuple(x): rendezett, nem módosítható sorozat (n-es), kerek zárójellel írjuk: (1, 2).",
+   "ex": "t = tuple([1, 2])\nprint(t)      # (1, 2)\nprint(t[0])   # 1"
+  },
+  "set": {
+   "tip": "set(x): halmaz, vagyis ismétlődés nélküli elemek gyűjteménye.",
+   "ex": "print(set([1, 1, 2]))   # {1, 2}"
+  },
+  "random.choices": {
+   "tip": "random.choices(lista, weights=…, k=…): k elemet húz visszatevéssel; a weights a súlyokat adja (nagyobb súly, nagyobb esély). Az eredmény lista.",
+   "ex": "import random\nh = random.choices(['a', 'b'], weights=[1, 0], k=3)\nprint(h)   # ['a', 'a', 'a']: b súlya 0"
+  },
+  "math.exp": {
+   "tip": "math.exp(x): e^x, vagyis az e ≈ 2,718 szám x-edik hatványa.",
+   "ex": "import math\nprint(math.exp(0))            # 1.0\nprint(round(math.exp(1), 3))  # 2.718"
+  },
+  "math.sqrt": {
+   "tip": "math.sqrt(x): x négyzetgyöke.",
+   "ex": "import math\nprint(math.sqrt(16))   # 4.0"
+  }
+ },
+ "prolog": {
+  ":-": {
+   "tip": "A szabály „ha” jele: a bal oldal (a fej) igaz, ha a jobb oldal (a törzs) igaz. A törzsben a vessző ÉS-t jelent.",
+   "ex": "nagyszulo(X, Z) :- szulo(X, Y), szulo(Y, Z).\n% X nagyszülője Z-nek, ha X szülője valakinek,\n% aki Z szülője"
+  },
+  "is": {
+   "tip": "Számolás: a jobb oldali kifejezést kiszámítja, és az eredményt a bal oldali változóhoz köti. Az = nem számol, csak alakra egyeztet.",
+   "ex": "?- X is 5*7.     % X = 35\n?- X = 5*7.      % X = 5*7 (nem számol)"
+  },
+  "!": {
+   "tip": "Vágás (cut): ha a Prolog idáig eljutott, a szabály többi alternatíváját és a vágás előtti célok más megoldásait már nem próbálja ki.",
+   "ex": "max(X, Y, X) :- X >= Y, !.\nmax(_, Y, Y).\n?- max(5, 3, M).   % M = 5, egyetlen válasz"
+  },
+  "fail": {
+   "tip": "Mindig meghiúsuló cél. Visszalépést kényszerít ki: a Prolog visszamegy, és új megoldást keres.",
+   "ex": "minden :- szebb(X, Y), write(X-Y), nl, fail.\nminden.\n% kiírja az összes szebb/2 párt"
+  },
+  "true": {
+   "tip": "Mindig sikerülő cél."
+  },
+  "\\+": {
+   "tip": "Negáció mint kudarc: a \\+ G akkor sikerül, ha a G nem bizonyítható. Nem logikai tagadás: ami nincs a programban, azt hamisnak veszi (zárt világ feltételezés).",
+   "ex": "szebb(gina, ursula).\n?- \\+ szebb(ursula, gina).   % true: nem bizonyítható"
+  },
+  "assertz": {
+   "tip": "assertz(T): futás közben új tényt (vagy szabályt) fűz az adatbázis végére.",
+   "ex": "?- assertz(szebb(anna, gina)).\n?- szebb(anna, gina).   % true"
+  },
+  "asserta": {
+   "tip": "asserta(T): futás közben új tényt fűz az adatbázis elejére."
+  },
+  "retract": {
+   "tip": "retract(T): az első illeszkedő tényt törli az adatbázisból.",
+   "ex": "?- retract(szebb(anna, gina)).\n?- szebb(anna, gina).   % false"
+  },
+  "write": {
+   "tip": "write(X): kiírja X értékét.",
+   "ex": "?- X = gina, write(X), nl.   % gina"
+  },
+  "nl": {
+   "tip": "Új sort kezd a kiírásban (new line)."
+  },
+  "?-": {
+   "tip": "Kérdés (lekérdezés) a Prolog-értelmezőnek: bizonyítható-e a cél, és ha változó van benne, milyen értékkel.",
+   "ex": "szebb(gina, ursula).\n?- szebb(gina, X).   % X = ursula"
+  },
+  "=": {
+   "tip": "Egyesítés: a két oldalt alakra azonossá teszi, közben a változók értéket kapnak. Nem számol (arra az is való).",
+   "ex": "?- f(X, b) = f(a, Y).   % X = a, Y = b\n?- X = 2+3.             % X = 2+3"
+  }
+ }
+}

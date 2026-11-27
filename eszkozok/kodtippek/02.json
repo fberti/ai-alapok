@@ -1,0 +1,122 @@
+{
+ "_leiras": "A 2. fejezet kódrészleteinek saját tippjei (pyDatalog-családfa, előreláncoló ciklus). Az általános elemeket a kozos.json adja. A családfa kimenete nem kap tippet.",
+ "csaladfa-kod": {
+  "lang": "python",
+  "tips": {
+   "igaz_e": {
+    "tip": "Saját segédfüggvény: True-t ad, ha egy pyDatalog-kérdésre van legalább egy válasz, vagyis az állítás levezethető. Különben False-t.",
+    "ex": "def igaz_e(kifejezes):\n    return len(kifejezes) > 0\n\nprint(igaz_e([('Platon',)]))   # True\nprint(igaz_e([]))              # False"
+   },
+   "kifejezes": {
+    "tip": "Az igaz_e paramétere: egy pyDatalog-kérdés eredménye, vagyis a válaszok (a változók lekötéseinek) listája. Ha a kérdésben nincs változó, egy igaz állításnál egy üres lekötés van benne: [()]."
+   },
+   "len": {
+    "tip": "len(kifejezes): hány válasz jött a kérdésre. A 0 azt jelenti, hogy az állítás nem vezethető le a tényekből és a szabályokból.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa')\n+Apa('Platon', 'Arisztotelesz')\nprint(len(Apa('Platon', 'Arisztotelesz')))   # 1\nprint(len(Apa('Zeusz', 'Arisztotelesz')))    # 0"
+   },
+   ">": {
+    "tip": "Nagyobb-e: igaz (True), ha a bal oldal nagyobb a jobb oldalnál. A len(…) > 0 tehát azt jelenti: van legalább egy elem.",
+    "ex": "print(1 > 0)   # True\nprint(0 > 0)   # False"
+   },
+   "Apa": {
+    "tip": "Predikátum, vagyis reláció két szereplő között: az Apa(X, Y) jelentése: X apja Y-nak. Tényekkel töltjük fel."
+   },
+   "Anya": {
+    "tip": "Predikátum: az Anya(X, Y) jelentése: X anyja Y-nak."
+   },
+   "Szulo": {
+    "tip": "Predikátum, amelyet nem tényekből, hanem két szabályból vezetünk le: Szulo(X, Y), ha X apja vagy anyja Y-nak. A print(Szulo(X,\"Platon\")) kérdés: kik X helyére írhatók."
+   },
+   "Nagyszulo": {
+    "tip": "Levezetett predikátum: Nagyszulo(X, Z), ha X szülője valakinek (Y), aki Z szülője."
+   },
+   "X": {
+    "tip": "Logikai változó: a helyére bármelyik szereplő kerülhet. Szabályban azt jelenti: „mindenkire”; kérdésben azt: „kik azok, akikre igaz?”. Pythonban ezek a nagybetűs nevek a create_terms sorral jönnek létre."
+   },
+   "Y": {
+    "tip": "Logikai változó. A nagyszülő-szabályban kétszer szerepel, ezért mindkét helyen ugyanazt a személyt jelenti: ő a középső nemzedék."
+   },
+   "Z": {
+    "tip": "Logikai változó: a nagyszülő-szabályban az unoka helye."
+   },
+   "+Apa": {
+    "tip": "A + jel a predikátum előtt tényt vesz fel a ténybázisba: a +Apa(\"Szokratesz\",\"Platon\") azt rögzíti, hogy Szokratesz apja Platónnak. (Pythonban egyébként a + összeadás; itt a pyDatalog adott neki új jelentést.)",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, X')\n+Apa('Platon', 'Arisztotelesz')\nprint(Apa(X, 'Arisztotelesz'))\n# kiírja:\n# X\n# ------\n# Platon"
+   },
+   "+Anya": {
+    "tip": "Tény felvétele: a +Anya(\"Diado\",\"Platon\") azt rögzíti, hogy Diado anyja Platónnak."
+   },
+   "<=": {
+    "tip": "A pyDatalog szabályának „ha” jele (a Prolog :- jele). A bal oldal a következmény, a jobb oldal a feltétel: Szulo(X,Y) <= Apa(X,Y) azt jelenti: X szülője Y-nak, HA X apja Y-nak. Itt nem a „kisebb vagy egyenlő” összehasonlítás.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, Szulo, X, Y')\n+Apa('Platon', 'Arisztotelesz')\nSzulo(X, Y) <= Apa(X, Y)\nprint(len(Szulo('Platon', 'Arisztotelesz')))   # 1"
+   },
+   "&": {
+    "tip": "A pyDatalog szabályában az „ÉS”: a szabály feltétele akkor teljesül, ha mindkét oldala igaz, ugyanazokkal a változóértékekkel.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Sz, N, X, Y, Z')\n+Sz('A', 'B')\n+Sz('B', 'C')\nN(X, Z) <= Sz(X, Y) & Sz(Y, Z)\nprint(len(N('A', 'C')))   # 1"
+   },
+   "print": {
+    "tip": "Kiírja a zárójelben lévő értéket. Egy pyDatalog-kérdést táblázatként ír ki: fejlécben a változó neve, alatta soronként a válaszok. Logikai értéket True vagy False alakban.",
+    "ex": "x = 3\nprint('x értéke:', x)   # x értéke: 3"
+   }
+  }
+ },
+ "ciklus-kod": {
+  "lang": "python",
+  "tips": {
+   "szabalyok": {
+    "tip": "A szabálybázis: egy lista, minden eleme egy (feltételek, következmény) pár. A feltételek halmaza kapcsos zárójelben áll, például ({\"a\", \"b\"}, \"e\"): HA a ÉS b, AKKOR e."
+   },
+   "tenyek": {
+    "tip": "A ténybázis egy halmazban (set). A halmaz kapcsos zárójelben felsorolt elemek gyűjteménye, amelyben minden elem csak egyszer szerepel, és nincs sorrendje. A ciklus közben új tényekkel bővül.",
+    "ex": "h = {'a', 'b', 'a'}\nprint(len(h))      # 2\nprint('a' in h)    # True"
+   },
+   "konfliktushalmaz": {
+    "tip": "Az alkalmazható szabályok listája (feltételek, következmény) párokban: azok, amelyeknek minden feltétele tény, a következményük pedig még nem az. Ha üres, nincs több alkalmazható szabály."
+   },
+   "for": {
+    "tip": "Itt listaértelmezés (list comprehension): a [kifejezés for … in lista if feltétel] alak új listát épít a lista azon elemeiből, amelyekre a feltétel igaz. Itt minden szabályt sorra vesz, és megtartja az alkalmazhatókat.",
+    "ex": "szamok = [1, 2, 3, 4]\nparos = [x for x in szamok if x % 2 == 0]\nprint(paros)   # [2, 4]"
+   },
+   "f": {
+    "tip": "Egy szabály feltételhalmaza, például {\"a\", \"b\"}."
+   },
+   "k": {
+    "tip": "Egy szabály következménye, például \"e\"."
+   },
+   "if": {
+    "tip": "Feltétel. A listaértelmezésben (a szögletes zárójelen belül) azt adja meg, mely elemek kerüljenek be. Önálló sorban (if not konfliktushalmaz:) elágazás: a behúzott rész csak akkor fut le, ha a feltétel igaz.",
+    "ex": "print([x for x in [1, 5, 8] if x > 3])   # [5, 8]\nif not []:\n    print('üres')                        # üres"
+   },
+   "<=": {
+    "tip": "Halmazok között a „része-e” vizsgálat: az f <= tenyek akkor igaz, ha f minden eleme benne van a tenyek halmazban. Ez a mintaillesztés: a szabály minden feltétele tény-e.",
+    "ex": "print({'a', 'b'} <= {'a', 'b', 'c'})   # True\nprint({'a', 'x'} <= {'a', 'b', 'c'})   # False"
+   },
+   "not in": {
+    "tip": "Igaz, ha az elem nincs benne a halmazban. A k not in tenyek feltétel miatt egy már levezetett következmény szabálya nem sül el újra.",
+    "ex": "tenyek = {'a', 'b'}\nprint('e' not in tenyek)   # True\nprint('a' not in tenyek)   # False"
+   },
+   "not": {
+    "tip": "Logikai tagadás. A not konfliktushalmaz akkor igaz, ha a lista üres: ilyenkor nincs több alkalmazható szabály, és a break leállítja a ciklust.",
+    "ex": "print(not [])         # True (üres lista)\nprint(not [('x', 1)])   # False"
+   },
+   "konfliktushalmaz[0]": {
+    "tip": "A konfliktushalmaz első eleme: ez a konfliktusfeloldás legegyszerűbb módja, a sorrendben első szabály nyer. A pár két részét a bal oldali feltetel, kovetkezmeny = … egyszerre két változóba bontja szét.",
+    "ex": "parok = [({'a', 'b'}, 'e'), ({'c'}, 'h')]\nfeltetel, kovetkezmeny = parok[0]\nprint(kovetkezmeny)   # e"
+   },
+   "feltetel": {
+    "tip": "A kiválasztott szabály feltételhalmaza. A ciklus már nem használja, csak a pár szétbontásához kell."
+   },
+   "kovetkezmeny": {
+    "tip": "A kiválasztott szabály következménye: ez lesz az új tény."
+   },
+   "add": {
+    "tip": "halmaz.add(elem): hozzáadja az elemet a halmazhoz. Ha már benne volt, nem történik semmi. Itt ez a szabályalkalmazás: az új tény bekerül a ténybázisba.",
+    "ex": "h = {'a'}\nh.add('e')\nh.add('a')\nprint(sorted(h))   # ['a', 'e']"
+   },
+   "sorted": {
+    "tip": "sorted(tenyek): a halmaz elemeit ábécérendbe tett listaként adja vissza. A halmaznak nincs sorrendje, ezért a kiíráshoz rendezzük.",
+    "ex": "print(sorted({'c', 'a', 'b'}))   # ['a', 'b', 'c']"
+   }
+  }
+ }
+}

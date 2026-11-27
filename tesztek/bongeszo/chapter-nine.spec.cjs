@@ -168,3 +168,35 @@ test('A kezdőlap és a nyolcadik fejezet ide vezet', async ({page}) => {
   await page.locator('.u-links a[href="09-neminformalt-kereses.html"]').click();
   await expect(page).toHaveURL(new RegExp(chapter + '$'));
 });
+
+test('A szélességi kód szavai rámutatásra, fókuszra és koppintásra kezdőknek szóló magyarázatot adnak', async ({page}) => {
+  await page.goto(chapter);
+  const fig = page.locator('#kod20-bfs');
+  await expect(fig.locator('pre')).toContainText('def bfs(graph, start, goal):');
+  expect(await fig.locator('.u-tok[data-tip]').count()).toBeGreaterThan(40);
+  const tip = page.locator('.u-tooltip');
+  const def = fig.locator('.u-tok[tabindex="0"]').first();
+  await def.evaluate(el => el.scrollIntoView({block: 'center', behavior: 'instant'}));
+  await def.focus();
+  await expect(tip).toBeVisible();
+  await expect(tip).toContainText('függvényt adunk meg');
+  await expect(def).toHaveAttribute('aria-describedby', 'kod-tipp');
+  await expect(fig.locator('.u-tok[tabindex="0"]')).toHaveCount(1);
+  await page.keyboard.press('ArrowRight');
+  await expect(fig.locator('.u-tok[tabindex="0"]')).toHaveText('bfs');
+  await expect(tip).toContainText('szélességi keresés');
+  await page.keyboard.press('Escape');
+  await expect(tip).toBeHidden();
+  const pop = fig.locator('.u-tok', {hasText: 'pop(0)'});
+  await pop.evaluate(el => el.scrollIntoView({block: 'center', behavior: 'instant'}));
+  await pop.click();
+  await expect(tip).toContainText('0-tól számoz');
+  await expect(tip.locator('.u-tooltip-ex')).toContainText("sor.pop(0)");
+  await expect(tip.locator('.u-tooltip-ex .hl-fn')).toHaveText(['print', 'print']);
+  await expect(tip.locator('.u-tooltip-ex .hl-com').first()).toHaveText('# a');
+  const box = await tip.boundingBox();
+  expect(box.x).toBeGreaterThanOrEqual(0);
+  expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize().width);
+  await page.locator('h1').click();
+  await expect(tip).toBeHidden();
+});

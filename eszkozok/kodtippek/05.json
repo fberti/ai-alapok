@@ -1,0 +1,440 @@
+{
+ "_leiras": "Az 5. fejezet kódrészleteinek saját tippjei (Python, pyDatalog, Prolog, Turbo Prolog, scikit-fuzzy). Az általános elemeket a kozos.json adja. A program-kimenetek (fuzzy-kimenet, fuzzylev-kimenet) és a JavaScripttel kitöltött prolog-program nem kap tippet.",
+ "imperativ-python": {
+  "lang": "python",
+  "tips": {
+   "szulok": {
+    "tip": "A szülő–gyerek párok listája. Minden eleme egy kételemű pár (tuple): az első tag a szülő, a második a gyereke. Például [(\"szokratesz\", \"platon\"), (\"platon\", \"arisztotelesz\")]."
+   },
+   "(x, y)": {
+    "tip": "Kicsomagolás: a for ciklus minden lépésben egy párt vesz ki a listából, és a két tagját rögtön két változóba teszi. Itt x a szülő, y a gyereke.",
+    "ex": "szulok = [(\"platon\", \"arisztotelesz\"), (\"szokratesz\", \"platon\")]\nfor (x, y) in szulok:\n    print(x, \"->\", y)\n# platon -> arisztotelesz\n# szokratesz -> platon"
+   },
+   "(y2, z)": {
+    "tip": "A belső ciklus párja: y2 a szülő, z a gyereke. A belső ciklus minden x–y párhoz újra végignézi az összes párt, hogy találjon egy y2–z párt, amelyben y2 ugyanaz, mint y."
+   },
+   "y2": {
+    "tip": "A belső pár szülője. Ha y == y2, akkor a két pár összeér: x szülője y-nak, y pedig szülője z-nek, tehát x nagyszülője z-nek."
+   },
+   "z": {
+    "tip": "A belső pár gyereke: a lehetséges unoka. Csak akkor írunk ki valamit, ha z éppen \"arisztotelesz\"."
+   },
+   "x": {
+    "tip": "A külső pár szülője: a lehetséges nagyszülő. Ezt írja ki a program, ha a két pár összeér, és az unoka Arisztotelész."
+   }
+  }
+ },
+ "deklarativ-prolog": {
+  "lang": "prolog",
+  "tips": {
+   "nagyszulo": {
+    "tip": "A szabály feje: a nagyszulo(X, Z) predikátum, olvasata „X nagyszülője Z-nek”. A predikátum a Prologban egy kapcsolat neve, amely igaz vagy hamis az argumentumaira. Kisbetűvel kezdődik."
+   },
+   "szulo": {
+    "tip": "A szulo(X, Y) predikátum: „X szülője Y-nak”. Ebben a részletben nem szerepelnek a tényei, csak a szabályban használjuk."
+   },
+   "X": {
+    "tip": "Változó: a Prologban a nagybetűvel kezdődő nevek változók. A kérdésben ez a keresett nagyszülő: a Prolog olyan értéket keres X-nek, amellyel a cél igaz."
+   },
+   "Y": {
+    "tip": "Változó, amely csak a szabály törzsében fordul elő. Jelentése „van olyan Y”: a középső nemzedék, X gyereke és Z szülője."
+   },
+   "Z": {
+    "tip": "Változó: az unoka. A kérdésben a helyén az arisztotelesz konstans áll."
+   },
+   "arisztotelesz": {
+    "tip": "Konstans (a Prologban atom): kisbetűvel kezdődő név, egy konkrét személy. Nem változó, ezért nem kap új értéket."
+   },
+   "?-": {
+    "tip": "A kérdés jele. Utána a cél áll, amelyet a Prolognak be kell bizonyítania. A válaszban megkapjuk a változók értékét, vagy azt, hogy a cél nem bizonyítható (false).",
+    "ex": "szulo(platon, arisztotelesz).\n?- szulo(X, arisztotelesz).   % X = platon\n?- szulo(arisztotelesz, X).   % false"
+   }
+  }
+ },
+ "datalog-pydatalog": {
+  "lang": "python",
+  "tips": {
+   "+Apa": {
+    "tip": "A + jel a pyDatalogban új tényt vesz fel a tudásbázisba. Az Apa(\"Szokratesz\", \"Platon\") tény jelentése: Szókratész Platón apja. A Prologban ez az apa(szokratesz, platon). sor.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, X')\n+Apa('Szokratesz', 'Platon')\nprint(Apa('Szokratesz', X))\n# X     \n# ------\n# Platon"
+   },
+   "+Anya": {
+    "tip": "Új tény felvétele: Diadó Platón anyja. Ugyanúgy működik, mint a +Apa."
+   },
+   "Apa": {
+    "tip": "Predikátum (reláció) két argumentummal: Apa(X, Y) jelentése „X apja Y-nak”. A neveket a teljes programban a pyDatalog.create_terms sor jelenti be."
+   },
+   "Anya": {
+    "tip": "Predikátum két argumentummal: Anya(X, Y) jelentése „X anyja Y-nak”."
+   },
+   "Szulo": {
+    "tip": "Szabállyal megadott predikátum: Szulo(X, Y) igaz, ha X apja vagy anyja Y-nak. A két külön szabály együtt adja a VAGY-ot: elég, ha az egyik teljesül."
+   },
+   "Nagyszulo": {
+    "tip": "Szabállyal megadott predikátum: Nagyszulo(X, Z) igaz, ha X szülője valakinek (Y), aki Z szülője."
+   },
+   "X": {
+    "tip": "Logikai változó (nem közönséges Python-változó). A szabályban bármely személy állhat a helyén. Kérdésnél a pyDatalog kiírja, milyen értékekkel lesz igaz a cél."
+   },
+   "Y": {
+    "tip": "Logikai változó. A Nagyszulo szabályban csak a jobb oldalon szerepel: ez a középső nemzedék, X gyereke és Z szülője."
+   },
+   "Z": {
+    "tip": "Logikai változó: a Nagyszulo szabályban az unoka."
+   },
+   "<=": {
+    "tip": "A pyDatalog szabályaiban nem „kisebb vagy egyenlő”, hanem a Prolog :- jele, és „ha”-nak olvassuk: a bal oldal (a fej) igaz, ha a jobb oldal (a törzs) igaz.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, Szulo, X, Y')\n+Apa('Platon', 'Arisztotelesz')\nSzulo(X, Y) <= Apa(X, Y)\nprint(Szulo(X, 'Arisztotelesz'))\n# X     \n# ------\n# Platon"
+   },
+   "&": {
+    "tip": "A pyDatalog szabályaiban a logikai ÉS: a szabály akkor teljesül, ha mindkét oldala igaz. A Prologban ennek a vessző felel meg.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Szulo, Nagyszulo, X, Y, Z')\n+Szulo('Szokratesz', 'Platon')\n+Szulo('Platon', 'Arisztotelesz')\nNagyszulo(X, Z) <= Szulo(X, Y) & Szulo(Y, Z)\nprint(Nagyszulo(X, 'Arisztotelesz'))\n# X         \n# ----------\n# Szokratesz"
+   }
+  }
+ },
+ "datalog-prolog-kod": {
+  "lang": "prolog",
+  "tips": {
+   "apa": {
+    "tip": "Predikátum két argumentummal: apa(X, Y) jelentése „X apja Y-nak”. Az első három sor tény: pont zárja, és nincs törzse, ezért feltétel nélkül igaz."
+   },
+   "anya": {
+    "tip": "Predikátum két argumentummal: anya(X, Y) jelentése „X anyja Y-nak”."
+   },
+   "szulo": {
+    "tip": "Két szabállyal megadott predikátum. Ha ugyanannak a predikátumnak több szabálya van, elég, ha az egyik teljesül: így írjuk le a VAGY-ot. szulo(X, Y) igaz, ha X apja vagy anyja Y-nak."
+   },
+   "nagyszulo": {
+    "tip": "Szabállyal megadott predikátum: nagyszulo(X, Z) igaz, ha X szülője valakinek (Y), aki Z szülője."
+   },
+   "szokratesz": {
+    "tip": "Konstans (a Prologban atom): kisbetűvel kezdődő név. A pyDatalogban szövegként írtuk: \"Szokratesz\". Ugyanígy konstans a platon, az arisztotelesz és a diado."
+   },
+   "X": {
+    "tip": "Változó: a Prologban a nagybetűvel kezdődő nevek változók. Egy szabályon belül ugyanaz a név ugyanazt az értéket jelenti."
+   },
+   "Y": {
+    "tip": "Változó. A nagyszulo szabályban csak a törzsben fordul elő, ezért „van olyan Y” az olvasata: a középső nemzedék."
+   },
+   "Z": {
+    "tip": "Változó: a nagyszulo szabályban az unoka."
+   }
+  }
+ },
+ "hossz-kod": {
+  "lang": "prolog",
+  "tips": {
+   "hossz": {
+    "tip": "A program saját predikátuma: hossz(L, N) jelentése „az L lista hossza N”. Két klózból áll: az első az üres listát, a második a nem üres listát kezeli.",
+    "ex": "?- hossz([a, b, c], N).   % N = 3\n?- hossz([], N).          % N = 0"
+   },
+   "[]": {
+    "tip": "Az üres lista. Az első klóz azt mondja ki, hogy hossza 0. Ez a rekurzió vége: ide jut a számolás, amikor minden elemet levettünk."
+   },
+   "[_ | Farok]": {
+    "tip": "Lista-minta: minden nem üres listára illeszkedik. A | előtt az első elem (a fej) áll, utána a maradék lista (a farok). Az _ névtelen változó: az első elem értéke itt nem érdekes, csak az, hogy van.",
+    "ex": "?- [H | T] = [a, b, c].   % H = a, T = [b, c]\n?- [H | T] = [a].         % H = a, T = []\n?- [H | T] = [].          % false"
+   },
+   "Farok": {
+    "tip": "Változó: a lista maradéka az első elem nélkül, maga is lista. A [a, b, c] listánál Farok = [b, c]. Erre hívjuk meg újra a hossz-t."
+   },
+   "M": {
+    "tip": "Változó: a farok hossza. A rekurzív hívás, a hossz(Farok, M) adja az értékét."
+   },
+   "N": {
+    "tip": "Változó: a teljes lista hossza, ez a válasz. A második klózban az N is M + 1 számolja ki: eggyel több, mint a farok hossza."
+   },
+   "+": {
+    "tip": "Összeadás. Az M + 1 önmagában csak egy kifejezés, a Prolog nem számolja ki. Az is predikátum számolja ki az értékét.",
+    "ex": "?- X is 2 + 1.   % X = 3\n?- X = 2 + 1.    % X = 2+1 (nem számol)"
+   }
+  }
+ },
+ "assert-kod": {
+  "lang": "prolog",
+  "tips": {
+   ":- dynamic": {
+    "tip": "Utasítás (direktíva) a Prolog-rendszernek: a latogatas/1 predikátum tényei futás közben változhatnak. Enélkül a retract és az assertz sok rendszerben hibát adna. Itt a :- nem „ha”, mert nincs előtte fej: a betöltéskor végrehajtandó parancsot jelöli."
+   },
+   "latogatas/1": {
+    "tip": "Predikátum megnevezése: a név és a perjel után az argumentumok száma. A latogatas/1 az egyargumentumú latogatas predikátum."
+   },
+   "latogatas": {
+    "tip": "A számláló tárolója: egyetlen tény, latogatas(N), amelyben N az eddigi látogatók száma. Kezdetben latogatas(0)."
+   },
+   "uj_latogato": {
+    "tip": "Argumentum nélküli szabály, egy látogató érkezése. Kiveszi a régi számot, eggyel nagyobbat számol, és ezt teszi vissza.",
+    "ex": "?- uj_latogato, uj_latogato.\n?- latogatas(X).   % X = 2"
+   },
+   "N": {
+    "tip": "Változó: a régi szám. A retract(latogatas(N)) illesztés adja az értékét, és közben a tényt törli is."
+   },
+   "N1": {
+    "tip": "Változó: az új szám, N + 1. Ezt teszi vissza az assertz."
+   },
+   "+": {
+    "tip": "Összeadás. Az N + 1 kifejezést az is predikátum számolja ki.",
+    "ex": "?- X is 2 + 1.   % X = 3"
+   }
+  }
+ },
+ "kleopatra-turbo": {
+  "lang": "prolog",
+  "tips": {
+   "domains": {
+    "tip": "Turbo Prolog-blokk: a típusok (tartományok, angolul domains) megadása. Itt bevezeti a hölgy típust. A mai ISO Prologban nincs ilyen blokk."
+   },
+   "hölgy": {
+    "tip": "A program saját típusa: a hölgyek nevei. A predicates blokk ezzel mondja meg, hogy a szebb és a sokkal_szebb két hölgyet kapcsol össze."
+   },
+   "=": {
+    "tip": "Itt típusmegadás: a hölgy típus értékei symbol típusúak, vagyis nevek. Nem egyenlőségvizsgálat és nem értékadás."
+   },
+   "symbol": {
+    "tip": "A Turbo Prolog beépített típusa: név (szimbólum), például cleopátra vagy gina. A mai Prolog ezt atomnak hívja, és nem kell bejelenteni."
+   },
+   "predicates": {
+    "tip": "Turbo Prolog-blokk: a predikátumok bejelentése az argumentumaik típusával. A szebb(hölgy, hölgy) azt mondja: a szebb két hölgy között áll fenn."
+   },
+   "szebb": {
+    "tip": "Predikátum: szebb(A, B) jelentése „A szebb B-nél”. Két tény adja meg: Kleopátra szebb Ginánál, és Gina szebb Ursulánál."
+   },
+   "sokkal_szebb": {
+    "tip": "Szabállyal megadott predikátum: A sokkal szebb C-nél, ha van olyan B, akinél A szebb, és aki szebb C-nél."
+   },
+   "goal": {
+    "tip": "Turbo Prolog-blokk: a cél, vagyis a feltett kérdés. A mai Prologban a ?- jel után írjuk."
+   },
+   "Valaki": {
+    "tip": "Változó (nagybetűvel kezdődik): a keresett hölgy. A program erre a kérdésre azt feleli, hogy Valaki = cleopátra."
+   },
+   "ursula": {
+    "tip": "Konstans (kisbetűs név): Ursula. A kérdés: ki sokkal szebb nála?"
+   },
+   "clauses": {
+    "tip": "Turbo Prolog-blokk: a klózok, vagyis a tények és a szabályok. A mai Prologban csak ez a rész marad meg."
+   },
+   "cleopátra": {
+    "tip": "Konstans: Kleopátra neve. A Turbo Prolog megengedte az ékezetet, a mai átiratban biztonságosabb a kleopatra alak."
+   },
+   "if": {
+    "tip": "Turbo Prologban a szabály „ha” jele: a bal oldal igaz, ha a jobb oldal igaz. A mai Prologban a :- felel meg neki.",
+    "ex": "% Turbo Prolog:\na if b and c.\n% ugyanez mai (ISO) Prologban:\na :- b, c."
+   },
+   "and": {
+    "tip": "Turbo Prologban a szabály törzsében a logikai ÉS: mindkét feltételnek teljesülnie kell. A mai Prologban a vessző felel meg neki."
+   },
+   "A": {
+    "tip": "Változó: a sokkal szebb hölgy, a szabály első argumentuma."
+   },
+   "B": {
+    "tip": "Változó, amely csak a szabály törzsében fordul elő. Jelentése „van olyan B”: a hölgy, aki A és C között áll."
+   },
+   "C": {
+    "tip": "Változó: akinél A sokkal szebb, a szabály második argumentuma."
+   }
+  }
+ },
+ "kleopatra-iso": {
+  "lang": "prolog",
+  "tips": {
+   "szebb": {
+    "tip": "Predikátum: szebb(A, B) jelentése „A szebb B-nél”. Az első két sor két tény: pont zárja, és nincs törzse, ezért feltétel nélkül igaz."
+   },
+   "sokkal_szebb": {
+    "tip": "Szabállyal megadott predikátum: A sokkal szebb C-nél, ha van olyan B, akinél A szebb, és aki szebb C-nél."
+   },
+   "kleopatra": {
+    "tip": "Konstans (a Prologban atom): kisbetűvel kezdődő név. Ékezet nélkül írjuk, mert így minden Prolog-rendszer elfogadja."
+   },
+   "gina": {
+    "tip": "Konstans: Gina. Ő a középső láncszem: Kleopátra szebb nála, ő pedig szebb Ursulánál."
+   },
+   "ursula": {
+    "tip": "Konstans: Ursula. A kérdés: ki sokkal szebb nála?"
+   },
+   "A": {
+    "tip": "Változó (nagybetűvel kezdődik): a sokkal szebb hölgy. A kérdésben a Valaki változóval lesz azonos."
+   },
+   "B": {
+    "tip": "Változó, amely csak a szabály törzsében fordul elő. Jelentése „van olyan B”: a hölgy, aki A és C között áll."
+   },
+   "C": {
+    "tip": "Változó: akinél A sokkal szebb. A kérdésben az ursula konstans kerül a helyére."
+   },
+   "Valaki": {
+    "tip": "Változó: a keresett hölgy. A válasz: Valaki = kleopatra."
+   },
+   "?-": {
+    "tip": "A kérdés jele. Utána a cél áll, amelyet a Prolognak be kell bizonyítania. A válaszban megkapjuk a változók értékét.",
+    "ex": "?- sokkal_szebb(Valaki, ursula).   % Valaki = kleopatra\n?- sokkal_szebb(gina, ursula).     % false"
+   }
+  }
+ },
+ "fuzzy-forras": {
+  "lang": "python",
+  "tips": {
+   "matplotlib": {
+    "tip": "Rajzoló (grafikonkészítő) könyvtár. Itt csak a tagsági függvények és az eredmény kirajzolásához kell, a számításhoz nem. Az import matplotlib as matplotlib sor feleslegesen ugyanazt a nevet adja becenévnek."
+   },
+   "matplotlib.use": {
+    "tip": "Beállítja, milyen ablakban jelenjenek meg a grafikonok. A \"TkAgg\" a Tk grafikus ablakot választja. Ha nincs grafikus felület, ezt a sort ki kell hagyni."
+   },
+   "matplotlib.pyplot": {
+    "tip": "A matplotlib rajzoló része. A plt becenévvel érjük el."
+   },
+   "plt": {
+    "tip": "A matplotlib.pyplot modul beceneve. A program a végén a plt.show() hívással jeleníti meg a grafikonokat."
+   },
+   "plt.show": {
+    "tip": "Megnyitja az összes addig elkészített grafikon ablakát. Amíg az ablakok nyitva vannak, a program itt vár."
+   },
+   "skfuzzy": {
+    "tip": "A scikit-fuzzy könyvtár Python-neve: fuzzy halmazok, tagsági függvények és fuzzy szabályozók. Telepítése: pip install scikit-fuzzy. Itt a fuzz becenevet kapja."
+   },
+   "fuzz": {
+    "tip": "A skfuzzy beceneve. Ezen keresztül érhetők el a tagsági függvények, például a fuzz.trimf (háromszög) vagy a fuzz.trapmf (trapéz). A kódban csak a kikommentezett sorok használják."
+   },
+   "control": {
+    "tip": "A scikit-fuzzy szabályozó része: változók, szabályok és a következtetést végző rendszer. Itt a ctrl becenevet kapja."
+   },
+   "ctrl": {
+    "tip": "A skfuzzy.control modul beceneve. Ebből jön az Antecedent, a Consequent, a Rule, a ControlSystem és a ControlSystemSimulation."
+   },
+   "numpy": {
+    "tip": "Számolókönyvtár: számtömbökkel (array) gyorsan számol. Itt a változók tartományát (a lehetséges értékek listáját) adja. Szokásos beceneve np."
+   },
+   "np": {
+    "tip": "A numpy beceneve."
+   },
+   "scipy": {
+    "tip": "Tudományos számolókönyvtár. A scikit-fuzzy használja. A program közvetlenül nem hívja, a sor csak azt ellenőrzi, hogy telepítve van-e."
+   },
+   "packaging": {
+    "tip": "Segédkönyvtár (verziószámok kezelése). A program közvetlenül nem használja, a sor csak azt ellenőrzi, hogy telepítve van-e."
+   },
+   "networkx": {
+    "tip": "Gráfkönyvtár. A scikit-fuzzy szabályozója ezzel tárolja a szabályok és változók kapcsolatait. A program közvetlenül nem hívja."
+   },
+   "ctrl.Antecedent": {
+    "tip": "Bemeneti fuzzy változót hoz létre (antecedent: előzmény, a szabály HA része). Első argumentuma a tartomány, azaz a lehetséges értékek tömbje, a második a változó neve.",
+    "ex": "import numpy as np\nfrom skfuzzy import control as ctrl\nt = ctrl.Antecedent(np.arange(0, 41, 1), \"temperature\")\nprint(t.label, t.universe[0], t.universe[-1])\n# temperature 0 40"
+   },
+   "ctrl.Consequent": {
+    "tip": "Kimeneti fuzzy változót hoz létre (consequent: következmény, a szabály AKKOR része). A kiszámított fuzzy eredményt egyetlen számmá alakítja (defuzzifikálja), alapértelmezés szerint a súlypont (centroid) módszerrel.",
+    "ex": "import numpy as np\nfrom skfuzzy import control as ctrl\na = ctrl.Consequent(np.arange(0, 4, 1), \"action\")\nprint(a.universe)           # [0 1 2 3]\nprint(a.defuzzify_method)   # centroid"
+   },
+   "np.arange": {
+    "tip": "np.arange(kezdet, vég, lépés): egyenletesen növekvő számok tömbje. A vég már nincs benne. A np.arange(0, 41, 1) a 0, 1, …, 40 egész fokokat adja, a np.arange(0, 4, 1) a 0, 1, 2, 3 pontokat.",
+    "ex": "import numpy as np\nprint(np.arange(0, 4, 1))        # [0 1 2 3]\nprint(len(np.arange(0, 41, 1)))  # 41"
+   },
+   "temperature": {
+    "tip": "Az első bemenet: a mért hőmérséklet, 0 és 40 °C között. A temperature[\"cold\"] alak a „cold” nyelvi értéket (tagsági függvényt) adja vissza, ezt használják a szabályok."
+   },
+   "target": {
+    "tip": "A második bemenet: a kívánt (cél-) hőmérséklet, szintén 0 és 40 °C között, ugyanazzal az öt nyelvi értékkel."
+   },
+   "action": {
+    "tip": "A kimenet: a beavatkozás egy 0 és 3 közötti skálán, csak a 0, 1, 2, 3 pontokban. Három nyelvi értéke a „Cool” (hűtés), a „No change” (nincs változás) és a „Heat” (fűtés)."
+   },
+   "tempnames": {
+    "tip": "Az öt nyelvi érték neve egy listában, a hidegtől a melegig: [\"very cold\", \"cold\", \"warm\", \"hot\", \"very hot\"]. Mindkét bemenet ezt kapja."
+   },
+   "automf": {
+    "tip": "Automatikusan elkészíti a változó tagsági függvényeit (automatic membership functions): az első argumentum a darabszám, a names a nevek listája. Egyenletesen elosztott, egymást átfedő háromszögeket rajzol a tartományra.",
+    "ex": "import numpy as np\nfrom skfuzzy import control as ctrl\nt = ctrl.Antecedent(np.arange(0, 41, 1), \"t\")\nt.automf(3, names=[\"hideg\", \"meleg\", \"forró\"])\nprint(list(t.terms))   # ['hideg', 'meleg', 'forró']\nprint(t[\"meleg\"].mf[10], t[\"meleg\"].mf[20])   # 0.5 1.0"
+   },
+   "names": {
+    "tip": "Kulcsszavas argumentum: a nyelvi értékek nevei, a tartomány elejétől a végéig. Annyi név kell, ahány tagsági függvényt kérünk."
+   },
+   "view": {
+    "tip": "Kirajzolja a változó tagsági függvényeit egy grafikonra. A sim=temp argumentummal a szimuláció állapotát is mutatja: hol van a bemenet, és mennyire aktív az egyes halmaz."
+   },
+   "sim": {
+    "tip": "A view kulcsszavas argumentuma: melyik szimuláció eredményét rajzolja rá a grafikonra. Itt a temp."
+   },
+   "ctrl.Rule": {
+    "tip": "Egy fuzzy szabály: ctrl.Rule(feltétel, következmény), vagyis HA feltétel AKKOR következmény. A feltétel nyelvi értékekből áll, a | VAGY, a & ÉS jellel összekötve.",
+    "ex": "import numpy as np\nfrom skfuzzy import control as ctrl\nx = ctrl.Antecedent(np.arange(0, 11, 1), \"x\")\nx.automf(3, names=[\"kicsi\", \"közepes\", \"nagy\"])\ny = ctrl.Consequent(np.arange(0, 11, 1), \"y\")\ny.automf(3, names=[\"kicsi\", \"közepes\", \"nagy\"])\nr = ctrl.Rule(x[\"nagy\"], y[\"nagy\"])   # HA x nagy AKKOR y nagy\nprint(r.antecedent, \"->\", r.consequent)   # x[nagy] -> [y[nagy]]"
+   },
+   "|": {
+    "tip": "Fuzzy VAGY két nyelvi érték között: a tagsági fokok maximuma. A 16 °C-nál a cold 0,4, a very cold 0, a VAGY értéke max(0,4; 0) = 0,4.",
+    "ex": "print(max(0.4, 0.0))   # 0.4  (VAGY = maximum)"
+   },
+   "&": {
+    "tip": "Fuzzy ÉS két feltétel között: a tagsági fokok minimuma. Az első szabálynál min(0,4; 0,8) = 0,4, ennyire érvényes a „Heat”.",
+    "ex": "print(min(0.4, 0.8))   # 0.4  (ÉS = minimum)"
+   },
+   "rule1": {
+    "tip": "1. szabály: HA (hideg VAGY nagyon hideg) ÉS a cél meleg, AKKOR fűts (Heat)."
+   },
+   "rule2": {
+    "tip": "2. szabály: HA (forró VAGY nagyon forró) ÉS a cél meleg, AKKOR hűts (Cool)."
+   },
+   "rule3": {
+    "tip": "3. szabály: HA meleg van ÉS a cél meleg, AKKOR ne változtass (No change)."
+   },
+   "ctrl.ControlSystem": {
+    "tip": "A szabálybázis: a szabályok listájából összeállítja a fuzzy szabályozót. Önmagában még nem számol, ahhoz szimuláció kell."
+   },
+   "temperature_control": {
+    "tip": "A három szabályból összeállított szabályozó (ControlSystem)."
+   },
+   "ctrl.ControlSystemSimulation": {
+    "tip": "Egy szabályozóhoz tartozó számoló objektum. Ebbe írjuk a bemeneteket (input), a compute() elvégzi a fuzzifikálást, a következtetést és a defuzzifikálást, az eredmény az output-ban lesz.",
+    "ex": "import numpy as np\nfrom skfuzzy import control as ctrl\nx = ctrl.Antecedent(np.arange(0, 11, 1), \"x\")\nx.automf(3, names=[\"kicsi\", \"közepes\", \"nagy\"])\ny = ctrl.Consequent(np.arange(0, 11, 1), \"y\")\ny.automf(3, names=[\"kicsi\", \"közepes\", \"nagy\"])\nr = ctrl.Rule(x[\"nagy\"], y[\"nagy\"])\nsim = ctrl.ControlSystemSimulation(ctrl.ControlSystem([r]))\nsim.input[\"x\"] = 10\nsim.compute()\nprint(round(sim.output[\"y\"], 2))   # 8.33"
+   },
+   "temp": {
+    "tip": "A szimuláció (ControlSystemSimulation) a temperature_control szabályozóhoz. Rövid neve ellenére nem hőmérséklet, hanem a számolást végző objektum."
+   },
+   "temp.input": {
+    "tip": "A bemenetek beállítása, a változó nevével, mint egy szótárban: temp.input[\"temperature\"] = 16 azt jelenti, hogy a mért hőmérséklet 16 °C."
+   },
+   "temp.compute": {
+    "tip": "Elvégzi a teljes számítást: fuzzifikálás, a szabályok kiértékelése, a levágott halmazok egyesítése és a defuzzifikálás. Nem ad vissza értéket, az eredményt a temp.output tárolja."
+   },
+   "temp.output": {
+    "tip": "A kimenetek, a változó nevével elérve: a temp.output[\"action\"] a defuzzifikált, éles szám. Itt 1.6499999999999997, vagyis kb. 1,65: enyhe fűtés."
+   },
+   "defuzzify_method": {
+    "tip": "A kimeneti változó defuzzifikálási módszerének neve, szövegként. Alapértelmezés szerint \"centroid\", azaz súlypont. A program ezt írja ki második sorként."
+   }
+  }
+ },
+ "fuzzylev-regi": {
+  "lang": "python",
+  "tips": {
+   "action": {
+    "tip": "A kimeneti fuzzy változó (Consequent): a beavatkozás a 0, 1, 2, 3 pontokon."
+   },
+   "automf": {
+    "tip": "Három egyenletesen elosztott háromszöget készít a megadott nevekkel. A középső, a „No change” csúcsa 1,5-nél van, ezért a rács pontjaiban 0; 0,67; 0,67; 0.",
+    "ex": "import numpy as np\nfrom skfuzzy import control as ctrl\na = ctrl.Consequent(np.arange(0, 4, 1), \"a\")\na.automf(3, names=[\"Cool\", \"No change\", \"Heat\"])\nprint(a[\"No change\"].mf.round(2))   # [0.   0.67 0.67 0.  ]"
+   },
+   "names": {
+    "tip": "A három nyelvi érték neve, a skála elejétől a végéig: hűtés, nincs változás, fűtés."
+   }
+  }
+ },
+ "fuzzylev-uj": {
+  "lang": "python",
+  "tips": {
+   "action": {
+    "tip": "A kimeneti fuzzy változó (Consequent). Az action[\"Nincs akcio\"] = … sor a már elkészült „Nincs akcio” tagsági függvényt egy újra cseréli."
+   },
+   "automf": {
+    "tip": "Három egyenletesen elosztott háromszöget készít a megadott nevekkel. A következő sor ezek közül a középsőt trapézra cseréli."
+   },
+   "names": {
+    "tip": "A három nyelvi érték neve magyarul: hűtés, nincs akció, fűtés."
+   },
+   "fuzz.trapmf": {
+    "tip": "Trapéz alakú tagsági függvény (trapezoidal membership function). Az első argumentum a tartomány, a második a négy töréspont [a, b, c, d]: a-ig 0, b és c között 1, d-től újra 0. Visszaadja a tagsági fokokat a tartomány minden pontjában.",
+    "ex": "import numpy as np\nimport skfuzzy as fuzz\nx = np.arange(0, 4, 1)\nprint(fuzz.trapmf(x, [0, 1, 2, 3]))   # [0. 1. 1. 0.]"
+   },
+   "universe": {
+    "tip": "A változó tartománya (universe of discourse): a lehetséges értékek tömbje, itt [0 1 2 3]."
+   }
+  }
+ }
+}

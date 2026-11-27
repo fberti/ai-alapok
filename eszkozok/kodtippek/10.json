@@ -1,0 +1,174 @@
+{
+ "_leiras": "A 10. fejezet kódrészleteinek saját tippjei. Az általános elemeket a kozos.json adja.",
+ "kod19-bestfirst": {
+  "lang": "python",
+  "tips": {
+   "bestfirst": {
+    "tip": "A függvény neve: best-first, azaz legjobbat először keresés (mohó keresés). Mindig azt az utat folytatja, amelynek utolsó csomópontja a becslés szerint a legközelebb van a célhoz. Ezt adja vissza: a talált utat, például ['S', 'B', 'C', 'F', 'G'], vagy None-t, ha nincs út."
+   },
+   "graph": {
+    "tip": "1. paraméter: a gráf szótárként (dict). A kulcs egy csomópont neve, az érték a szomszédai listában. Például {'S': ['A', 'B'], 'A': ['S', 'D']} azt jelenti, hogy S-ből A-ba és B-be, A-ból S-be és D-be vezet él.",
+    "ex": "graph = {'S': ['A', 'B'], 'A': ['S', 'D']}\nprint(graph['S'])    # ['A', 'B']\nprint('A' in graph)  # True"
+   },
+   "heuristics": {
+    "tip": "2. paraméter: a becslések szótára. A kulcs a csomópont neve, az érték a h(n), vagyis a célig hátralévő út becsült költsége. Például {'S': 30, 'B': 20, 'G': 0}; a cél becslése 0.",
+    "ex": "h = {'S': 30, 'B': 20, 'G': 0}\nprint(h['B'])   # 20"
+   },
+   "heuristics.get": {
+    "tip": "heuristics.get(név): a csomópont h-értéke, vagyis becsült távolsága a céltól. Ha a név nem kulcs a szótárban, None-t ad.",
+    "ex": "h = {'S': 30, 'B': 20}\nprint(h.get('B'))   # 20\nprint(h.get('X'))   # None"
+   },
+   "start": {
+    "tip": "3. paraméter: a kiinduló csomópont neve, például 'S' (egy szöveg, vagyis string)."
+   },
+   "goal": {
+    "tip": "4. paraméter: a cél csomópont neve, például 'G'."
+   },
+   "queue": {
+    "tip": "A front. Egy lista, amelynek minden eleme egy teljes út, például [['S', 'A'], ['S', 'B']]. Minden kör végén az utak utolsó csomópontjának h-értéke szerint rendezzük. A while queue: azt jelenti: amíg van még út a frontban."
+   },
+   "[start]": {
+    "tip": "Egyelemű lista, benne csak a kiinduló csomópont: ['S']. Ez az első út, amely még csak a Startból áll.",
+    "ex": "start = 'S'\nut = [start]\nprint(ut)        # ['S']\nprint(len(ut))   # 1"
+   },
+   "pop(0)": {
+    "tip": "queue.pop(0): kiveszi a front 0. (első) elemét, és visszaadja. A rendezés miatt ez a legkisebb h-értékű, vagyis a célhoz legközelebbinek becsült út.",
+    "ex": "sor = ['a', 'b', 'c']\nelso = sor.pop(0)\nprint(elso)   # a\nprint(sor)    # ['b', 'c']"
+   },
+   "path": {
+    "tip": "Az éppen vizsgált út: csomópontok listája, például ['S', 'B']. A lambda path : … sorban viszont a path a lambda saját paramétere: ott a front éppen rendezett útját jelenti."
+   },
+   "end_node": {
+    "tip": "Az út utolsó csomópontja (a path[-1] a lista utolsó eleme): az a hely, ahol a keresés éppen áll. Innen lépünk tovább a szomszédok felé."
+   },
+   "get": {
+    "tip": "graph.get(end_node, []): end_node szomszédainak listája. Ha a csomópont nem kulcs a szótárban (nincs kimenő éle, mint itt G-nek), hibaüzenet helyett az alapértéket, az üres listát adja, és a for ciklus egyszer sem fut le.",
+    "ex": "g = {'S': ['A', 'B']}\nprint(g.get('S', []))   # ['A', 'B']\nprint(g.get('G', []))   # []"
+   },
+   "adjacent": {
+    "tip": "Egy szomszéd: olyan csomópont, ahová end_node-ból egyetlen éllel eljutunk. Az adjacent angolul szomszédost jelent."
+   },
+   "new_path": {
+    "tip": "Az új, eggyel hosszabb út: a régi út, a végén a szomszéddal. Ez kerül a front végére, a rendezés teszi a helyére."
+   },
+   "+": {
+    "tip": "Két lista összefűzése egy új listába: ['S', 'A'] + ['D'] eredménye ['S', 'A', 'D']. A szomszédot ezért tesszük szögletes zárójelbe: a + jellel listához csak listát lehet hozzáadni.",
+    "ex": "ut = ['S', 'A']\nprint(ut + ['D'])   # ['S', 'A', 'D']\nprint(ut)           # ['S', 'A']"
+   },
+   "sorted": {
+    "tip": "sorted(queue, key=…): a front rendezett másolata, az utak utolsó csomópontjának h-értéke szerint növekvő sorrendben. Egyenlő értéknél a korábban betett út marad elöl (a rendezés stabil). Az eredményt visszaírjuk a queue-ba.",
+    "ex": "h = {'A': 25, 'B': 20}\nfront = [['S', 'A'], ['S', 'B']]\nprint(sorted(front, key=lambda p: h.get(p[-1])))\n# [['S', 'B'], ['S', 'A']]"
+   },
+   "key": {
+    "tip": "A sorted key paramétere egy függvény. A rendezés minden elemre meghívja, és az eredmények szerint rendez, nem maguk az elemek szerint.",
+    "ex": "szavak = ['körte', 'fa', 'alma']\nprint(sorted(szavak, key=len))   # ['fa', 'alma', 'körte']"
+   },
+   "lambda": {
+    "tip": "Rövid, névtelen függvény egy sorban: lambda bemenet: eredmény. A lambda path : heuristics.get(path[-1]) egy útból az utolsó csomópontjának h-értékét adja vissza; a sorted ez alapján rendez.",
+    "ex": "h = {'A': 25, 'B': 20}\nbecsles = lambda p: h.get(p[-1])\nprint(becsles(['S', 'B']))   # 20"
+   }
+  }
+ },
+ "kod18-astar": {
+  "lang": "python",
+  "tips": {
+   "HEURISTICS": {
+    "tip": "A program becslései szótárban. A kulcs a csomópont neve, az érték h(n), a célig hátralévő út becsült költsége. A cél, G becslése 0. A programban ezt kapja meg az astar a heuristics paraméterben."
+   },
+   "astar": {
+    "tip": "Az A* keresés függvénye. A frontból mindig a legkisebb f = g + h értékű utat veszi ki: g az eddig megtett út költsége, h a hátralévő út becslése. Ezt adja vissza: a talált utat, például ['S', 'A', 'D', 'C', 'E', 'G'], vagy None-t, ha nincs út."
+   },
+   "graph": {
+    "tip": "1. paraméter: a gráf szótárként (dict). A kulcs egy csomópont neve, az érték a kimenő élek listája, és minden él egy (szomszéd, költség) pár. Például {'S': [('A', 2), ('B', 12)]}: S-ből A-ba 2, B-be 12 a költség.",
+    "ex": "graph = {'S': [('A', 2), ('B', 12)]}\nprint(graph['S'])        # [('A', 2), ('B', 12)]\nprint(graph['S'][0][1])  # 2"
+   },
+   "heuristics": {
+    "tip": "2. paraméter: a becslések szótára (itt a HEURISTICS). A kulcs a csomópont neve, az érték a h(n)."
+   },
+   "heuristics.get": {
+    "tip": "heuristics.get(név): a csomópont h-értéke, vagyis a célig hátralévő út becsült költsége. Itt például heuristics.get('S') értéke 30. Ha a név nem kulcs, None-t ad.",
+    "ex": "h = {'S': 30, 'A': 25}\nprint(h.get('S'))   # 30\nprint(h.get('X'))   # None"
+   },
+   "start": {
+    "tip": "3. paraméter: a kiinduló csomópont neve, például 'S' (egy szöveg, vagyis string)."
+   },
+   "goal": {
+    "tip": "4. paraméter: a cél csomópont neve, például 'G'."
+   },
+   "queue": {
+    "tip": "A front. Egy lista, amelynek minden eleme egy hármas: (út, g, f), például (['S', 'A'], 2, 27). Minden kör végén f szerint rendezzük, így az eleje mindig a legkisebb f-ű út. A while queue: azt jelenti: amíg van még út a frontban."
+   },
+   "[start]": {
+    "tip": "Egyelemű lista, benne csak a kiinduló csomópont: ['S']. Az első frontelem tehát az (['S'], 0, 30) hármas: az út, a költsége (0), és f = 0 + h(S). A kerek zárójelbe írt értékek sorozata a tuple: olyan, mint a lista, de utólag nem módosítható.",
+    "ex": "elem = (['S'], 0, 30)\nprint(elem[0])    # ['S']\nprint(elem[-1])   # 30"
+   },
+   "pop(0)": {
+    "tip": "queue.pop(0): kiveszi a front 0. (első) elemét, és visszaadja. A rendezés miatt ez a legkisebb f-értékű út.",
+    "ex": "sor = ['a', 'b', 'c']\nelso = sor.pop(0)\nprint(elso)   # a\nprint(sor)    # ['b', 'c']"
+   },
+   "first_element": {
+    "tip": "A frontból kivett hármas: (út, g, f), például (['S', 'A'], 2, 27). A következő sorok szedik szét."
+   },
+   "first_element[0]": {
+    "tip": "A hármas 0. eleme: maga az út, például ['S', 'A']. A [0] az első elemet jelenti, mert a Python 0-tól számoz.",
+    "ex": "elem = (['S', 'A'], 2, 27)\nprint(elem[0])   # ['S', 'A']"
+   },
+   "first_element[1]": {
+    "tip": "A hármas 1. eleme: g, az út eddigi költsége, például 2.",
+    "ex": "elem = (['S', 'A'], 2, 27)\nprint(elem[1])   # 2"
+   },
+   "path": {
+    "tip": "Az éppen vizsgált út: csomópontok listája, például ['S', 'A']. Az első csomópontja mindig a Start."
+   },
+   "end_node": {
+    "tip": "Az út utolsó csomópontja (a path[-1] a lista utolsó eleme): az a hely, ahol a keresés éppen áll. Innen lépünk tovább a szomszédok felé."
+   },
+   "current_cost": {
+    "tip": "g: az út eddigi költsége, az élek költségének összege a Starttól end_node-ig. Például az S → A út költsége 2."
+   },
+   "get": {
+    "tip": "graph.get(end_node, []): end_node kimenő éleinek listája, például [('D', 6), ('S', 2)]. Ha a csomópont nem kulcs a szótárban (nincs kimenő éle, mint itt G-nek), hibaüzenet helyett az üres listát adja.",
+    "ex": "g = {'S': [('A', 2)]}\nprint(g.get('S', []))   # [('A', 2)]\nprint(g.get('G', []))   # []"
+   },
+   "adjacent": {
+    "tip": "Egy kimenő él: (szomszéd, költség) pár, vagyis tuple, például ('D', 6). A for ciklus end_node minden kimenő élén végigmegy."
+   },
+   "adjacent[0]": {
+    "tip": "Az él 0. eleme: a szomszéd neve, például 'D'. A [0] az első elemet jelenti, mert a Python 0-tól számoz.",
+    "ex": "el = ('D', 6)\nprint(el[0])   # D"
+   },
+   "adjacent[1]": {
+    "tip": "Az él 1. eleme: az él költsége, például 6.",
+    "ex": "el = ('D', 6)\nprint(el[1])   # 6"
+   },
+   "new_path": {
+    "tip": "Az új, eggyel hosszabb út: a régi út, a végén a szomszéddal. A g és f értékével együtt ez kerül a frontba."
+   },
+   "new_cost": {
+    "tip": "Az új út g értéke: az eddigi költség plusz az új él költsége. Az f ebből lesz: new_cost + a szomszéd h-értéke."
+   },
+   "+": {
+    "tip": "Két jelentése van itt. Listák között összefűzés: ['S', 'A'] + ['D'] eredménye az új ['S', 'A', 'D'] lista. Számok között összeadás: current_cost + adjacent[1] az új út g értéke, a new_cost+heuristics.get(…) pedig az f = g + h.",
+    "ex": "print(['S', 'A'] + ['D'])   # ['S', 'A', 'D']\nprint(2 + 6)               # 8"
+   },
+   "sorted": {
+    "tip": "sorted(queue, key=…): a front rendezett másolata, az elemek utolsó tagja, f szerint növekvő sorrendben. Egyenlő f-nél a korábban betett út marad elöl (a rendezés stabil). Az eredményt visszaírjuk a queue-ba.",
+    "ex": "front = [(['S', 'B'], 12, 32), (['S', 'A'], 2, 27)]\nprint(sorted(front, key=lambda e: e[-1]))\n# [(['S', 'A'], 2, 27), (['S', 'B'], 12, 32)]"
+   },
+   "key": {
+    "tip": "A sorted key paramétere egy függvény. A rendezés minden elemre meghívja, és az eredmények szerint rendez, nem maguk az elemek szerint.",
+    "ex": "szavak = ['körte', 'fa', 'alma']\nprint(sorted(szavak, key=len))   # ['fa', 'alma', 'körte']"
+   },
+   "lambda": {
+    "tip": "Rövid, névtelen függvény egy sorban: lambda bemenet: eredmény. A lambda element: element[-1] egy frontelemből az f-értékét adja vissza; a sorted ez alapján rendez.",
+    "ex": "f_ertek = lambda e: e[-1]\nprint(f_ertek((['S', 'A'], 2, 27)))   # 27"
+   },
+   "element": {
+    "tip": "A lambda paramétere: a front egy eleme, vagyis egy (út, g, f) hármas."
+   },
+   "element[-1]": {
+    "tip": "A hármas utolsó eleme, itt az f = g + h. A [-1] hátulról számol: mindig az utolsó elemet adja."
+   }
+  }
+ }
+}

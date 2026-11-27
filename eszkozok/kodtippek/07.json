@@ -1,0 +1,55 @@
+{
+ "_leiras": "A 7. fejezet kódrészleteinek saját tippjei. Az általános elemeket a kozos.json adja.",
+ "kod-hatizsak": {
+  "lang": "python",
+  "tips": {
+   "calculate_fitness": {
+    "tip": "Saját függvény: kiszámolja egy jelölt megoldás fitneszét, vagyis jóságát (calculate fitness: számold ki a rátermettséget). Ha a kiválasztott tárgyak túl nehezek, 0-t ad vissza, különben az összértéküket."
+   },
+   "candidate": {
+    "tip": "A jelölt megoldás (candidate: jelölt): 0-kból és 1-ekből álló lista, tárgyanként egy szám. Az 1 azt jelenti, hogy a tárgyat betesszük a hátizsákba, a 0, hogy nem. Például [1, 0, 0, 1, 1, 0]."
+   },
+   "total_weight": {
+    "tip": "Az eddig kiválasztott tárgyak összsúlya. 0-ról indul, és minden betett tárggyal nő."
+   },
+   "total_value": {
+    "tip": "Az eddig kiválasztott tárgyak összértéke. 0-ról indul, és minden betett tárggyal nő."
+   },
+   "i": {
+    "tip": "A tárgy sorszáma, 0-tól len(candidate) − 1-ig. Ugyanazzal az i-vel érjük el a jelölt i. bitjét és az i. tárgy adatait."
+   },
+   "candidate[i]": {
+    "tip": "A jelölt lista i. eleme: 1, ha az i. tárgyat betesszük, 0, ha nem. A számozás 0-tól indul.",
+    "ex": "candidate = [1, 0, 1]\nprint(candidate[0])   # 1\nprint(candidate[1])   # 0"
+   },
+   "items[i][0]": {
+    "tip": "Az i. tárgy súlya. Az items[i] az i. tárgy [súly, érték] párja, ennek a [0] indexű, vagyis első eleme a súly.",
+    "ex": "items = [[1, 2], [2, 3]]\nprint(items[1])      # [2, 3]\nprint(items[1][0])   # 2"
+   },
+   "items[i][1]": {
+    "tip": "Az i. tárgy értéke: az [súly, érték] pár [1] indexű, vagyis második eleme.",
+    "ex": "items = [[1, 2], [2, 3]]\nprint(items[1][1])   # 3"
+   },
+   "items": {
+    "tip": "A tárgyak listája. Minden eleme egy kételemű lista: [súly, érték]. Például az [1,2] egy 1 súlyú, 2 értékű tárgy. Itt ez egy saját változó, nem a szótárak items() metódusa."
+   },
+   "max_weight": {
+    "tip": "A hátizsák teherbírása, a súlykorlát: itt 10. Ennél nagyobb összsúlyú jelölt fitnesze 0."
+   },
+   "+=": {
+    "tip": "Hozzáadás helyben: a total_weight += items[i][0] ugyanaz, mint a total_weight = total_weight + items[i][0]. Így gyűlik az összeg.",
+    "ex": "osszeg = 0\nfor s in [1, 4, 3]:\n    osszeg += s\nprint(osszeg)   # 8"
+   },
+   "==": {
+    "tip": "Egyenlőség vizsgálata: a candidate[i] == 1 igaz, ha az i. tárgy ki van választva. Két egyenlőségjel kell, az egy darab = értékadás.",
+    "ex": "candidate = [1, 0]\nprint(candidate[0] == 1)   # True\nprint(candidate[1] == 1)   # False"
+   },
+   "[1,0,0,1,1,0]": {
+    "tip": "Egy jelölt: az 1., 4. és 5. tárgy van benne. Összsúlya 1 + 4 + 3 = 8, ez belefér a 10-be, értéke 2 + 5 + 7 = 14. A program ezért 14-et ír ki."
+   },
+   "[1,0,0,1,1,1]": {
+    "tip": "Egy jelölt: az 1., 4., 5. és 6. tárgy. Összsúlya 1 + 4 + 3 + 6 = 14, ez több a 10-nél, ezért a fitnesze 0. A program 0-t ír ki."
+   }
+  }
+ }
+}

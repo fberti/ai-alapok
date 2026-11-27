@@ -10,6 +10,7 @@
 <script src="../assets/js/theme.js?v=3"></script>
 <script defer src="../assets/js/xref.js"></script>
 <script defer src="../assets/js/labor-teljes.js"></script>
+<script defer src="../assets/js/kod-tippek.js"></script>
 <link rel="stylesheet" href="../assets/css/course.css?v=5">
 <link rel="stylesheet" href="../assets/css/chapter-eleven.css">
 <script defer src="../assets/js/zh.js"></script>
@@ -436,15 +437,15 @@
 <p>Az öt eredmény egy táblázatban mutatja, mit garantál az egyes eljárás, és mit nem.</p>
 <!--@g2-summary-->
 <p>A <a class="xref" href="10-informalt-kereses.html#kod-18">kurzus A*-programja</a> (<code>resources/code/18_A_csillag_algoritmus.py</code>) ezen a gráfon is lefuttatható. Csak a két szótárat kell kicserélni; a program az A* függvényt változatlanul futtatja.</p>
-<figure class="u-code"><pre><code>GRAPH = {
+<figure class="u-code" id="kod18-gyakorlo"><pre><code><span class="u-tok" data-tip="A gyakorló gráf szótárként. A kulcs egy csomópont, az érték a kimenő élek listája, és minden él egy (szomszéd, költség) pár. Például &quot;S&quot;: [(&quot;A&quot;,1), …] azt jelenti, hogy S-ből A-ba 1 a költség. G-ből nem indul él, ezért nem is kulcs." data-ex="GRAPH = {&quot;S&quot;: [(&quot;A&quot;, 1), (&quot;B&quot;, 4)]}&#10;print(GRAPH[&quot;S&quot;][1])       # ('B', 4)&#10;print(GRAPH.get(&quot;G&quot;, []))  # []" tabindex="0">GRAPH</span> <span class="u-tok" data-tip="Értékadás: a bal oldali név (változó) a jobb oldali értéket kapja. Függvényhívásban (pl. k=1) a paramétert a nevével adjuk meg. Nem összehasonlítás: arra a == való." data-ex="x = 5&#10;x = x + 1&#10;print(x)   # 6" tabindex="0">=</span> {
     "S": [("A",1),("B",4),("C",2)], "A": [("D",5),("E",6)],
     "B": [("E",1),("G",9)],         "C": [("D",2),("F",3)],
     "D": [("E",2),("H",6)],         "E": [("G",6)],
     "F": [("H",2)],                 "H": [("G",3)]
 }
-HEURISTICS = {"S":9, "A":10, "B":7, "C":8, "D":7, "E":6, "F":5, "H":3, "G":0}
+<span class="u-tok" data-tip="A becslések szótára: a kulcs a csomópont neve, az érték h(n), a célig hátralévő út becsült költsége. A cél, G becslése 0." tabindex="0">HEURISTICS</span> <span class="u-tok" data-tip="Értékadás: a bal oldali név (változó) a jobb oldali értéket kapja. Függvényhívásban (pl. k=1) a paramétert a nevével adjuk meg. Nem összehasonlítás: arra a == való." data-ex="x = 5&#10;x = x + 1&#10;print(x)   # 6">=</span> {"S":9, "A":10, "B":7, "C":8, "D":7, "E":6, "F":5, "H":3, "G":0}
 
-print(astar(GRAPH, HEURISTICS, "S", "G"))   # ['S', 'C', 'F', 'H', 'G']</code></pre><figcaption>A <code>18_A_csillag_algoritmus.py</code> két szótára a gyakorló gráffal; az <code>astar</code> függvény változatlan. Python 3-mal futtatva a kimenet <code>['S', 'C', 'F', 'H', 'G']</code>. A <code>"F":9</code> becsléssel <code>['S', 'B', 'E', 'G']</code> lesz, mint a 7. feladatban. A program a gyerekeket a szótár sorrendjében veszi fel, és egyenlő f-nél a korábbi utat tartja elöl; ezen a gráfon ez ugyanazt adja, mint az ABC-szabály.</figcaption></figure>
+<span class="u-tok" data-tip="Kiírja a zárójelben lévő értékeket a képernyőre (a konzolra). Több értéket vesszővel elválasztva, szóközzel kiír." data-ex="x = 3&#10;print('x értéke:', x)   # x értéke: 3" tabindex="0">print</span>(<span class="u-tok" data-tip="A 10. fejezet A*-függvénye a 18_A_csillag_algoritmus.py-ból, változatlanul; ez a részlet nem mutatja, a fájlban e sorok fölött áll. Bemenete a gráf, a becslések, a Start és a cél, és a talált utat adja vissza csomópontok listájaként." tabindex="0">astar</span>(<span class="u-tok" data-tip="A gyakorló gráf szótárként. A kulcs egy csomópont, az érték a kimenő élek listája, és minden él egy (szomszéd, költség) pár. Például &quot;S&quot;: [(&quot;A&quot;,1), …] azt jelenti, hogy S-ből A-ba 1 a költség. G-ből nem indul él, ezért nem is kulcs." data-ex="GRAPH = {&quot;S&quot;: [(&quot;A&quot;, 1), (&quot;B&quot;, 4)]}&#10;print(GRAPH[&quot;S&quot;][1])       # ('B', 4)&#10;print(GRAPH.get(&quot;G&quot;, []))  # []">GRAPH</span>, <span class="u-tok" data-tip="A becslések szótára: a kulcs a csomópont neve, az érték h(n), a célig hátralévő út becsült költsége. A cél, G becslése 0.">HEURISTICS</span>, "S", "G"))   # ['S', 'C', 'F', 'H', 'G']</code></pre><figcaption><span class="u-js-only u-tok-hint"><strong>Tipp:</strong> vidd az egeret egy pontozottan aláhúzott szóra, koppints rá, vagy lépj a kódra a Tab billentyűvel, és a nyilakkal lépkedj a szavak között: rövid magyarázat és példa jelenik meg. </span>A <code>18_A_csillag_algoritmus.py</code> két szótára a gyakorló gráffal; az <code>astar</code> függvény változatlan. Python 3-mal futtatva a kimenet <code>['S', 'C', 'F', 'H', 'G']</code>. A <code>"F":9</code> becsléssel <code>['S', 'B', 'E', 'G']</code> lesz, mint a 7. feladatban. A program a gyerekeket a szótár sorrendjében veszi fel, és egyenlő f-nél a korábbi utat tartja elöl; ezen a gráfon ez ugyanazt adja, mint az ABC-szabály.</figcaption></figure>
 </section>
 
 <!-- 11 · GENETIKUS -->

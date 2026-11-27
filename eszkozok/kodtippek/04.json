@@ -1,0 +1,102 @@
+{
+ "_leiras": "A 4. fejezet kódrészleteinek saját tippjei. Az általános elemeket a kozos.json adja. A rezolúciós pszeudokód nem Python, ezért nem kap tippet.",
+ "logika-kod": {
+  "lang": "python",
+  "tips": {
+   "igaz_e": {
+    "tip": "A program saját segédfüggvénye. Egy pyDatalog-kérdés válaszait kapja meg, és True-t ad, ha van legalább egy válasz, vagyis a kérdezett állítás levezethető. Különben False-t ad.",
+    "ex": "def igaz_e(kifejezes):\n    return len(kifejezes) > 0\n\nprint(igaz_e(['Platon']))   # True\nprint(igaz_e([]))           # False"
+   },
+   "kifejezes": {
+    "tip": "Az igaz_e paramétere: egy pyDatalog-kérdés eredménye, a válaszok listája. Itt például a Nagyszulo(\"Szokratesz\",\"Arisztotelesz\") kérdésé."
+   },
+   "len": {
+    "tip": "len(x): az elemek száma. Egy pyDatalog-kérdésre alkalmazva a válaszok számát adja: 0, ha a kérdés nem vezethető le.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, X')\n+Apa('Szokratesz', 'Platon')\nprint(len(Apa(X, 'Platon')))   # 1\nprint(len(Apa(X, 'Zeusz')))    # 0"
+   },
+   ">": {
+    "tip": "Nagyobb, mint. A len(kifejezes) > 0 akkor igaz, ha a válaszok száma legalább 1.",
+    "ex": "print(5 > 0)   # True\nprint(0 > 0)   # False"
+   },
+   "+": {
+    "tip": "A pyDatalogban a + egy tényt vesz fel a tudásbázisba. A +Apa(\"Szokratesz\",\"Platon\") jelentése: Szokratesz apja Platonnak. Ez itt nem összeadás. A logikában ez egy egyliterálos klóz.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, X')\n+Apa('Szokratesz', 'Platon')\nprint(Apa(X, 'Platon'))\n# X\n# ----------\n# Szokratesz"
+   },
+   "<=": {
+    "tip": "A pyDatalog szabályában a „ha” jele (a Prologban :-). A bal oldal, a szabály feje, akkor igaz, ha a jobb oldal igaz. A Szulo(X,Y) <= Apa(X,Y) jelentése: X szülője Y-nak, ha X apja Y-nak. Formulaként: Apa(x, y) → Szulo(x, y).",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Ember, Halando, X')\n+Ember('Szokratesz')\nHalando(X) <= Ember(X)\nprint(len(Halando('Szokratesz')) > 0)   # True\nprint(len(Halando('Zeusz')) > 0)        # False"
+   },
+   "&": {
+    "tip": "A pyDatalog szabályában az „és” jele. A Szulo(X,Y) & Szulo(Y,Z) akkor teljesül, ha mindkét tag igaz, és a közös Y mindkét helyen ugyanaz a személy: X szülője Y-nak, Y pedig szülője Z-nek."
+   },
+   "Apa": {
+    "tip": "Predikátum, két argumentummal: Apa(x, y) azt rögzíti, hogy x apja y-nak. Csak tények adják meg."
+   },
+   "Anya": {
+    "tip": "Predikátum: Anya(x, y) azt rögzíti, hogy x anyja y-nak."
+   },
+   "Szulo": {
+    "tip": "Szabállyal megadott predikátum: Szulo(x, y) igaz, ha x apja vagy anyja y-nak. A két külön szabály együtt adja a VAGY-ot. A Szulo(X,\"Platon\") kérdés Platon összes szülőjét felsorolja."
+   },
+   "Nagyszulo": {
+    "tip": "Szabállyal megadott predikátum: Nagyszulo(x, z) igaz, ha van olyan y, aki x gyermeke és z szülője. Klózként: ¬Szulo(x, y) ∨ ¬Szulo(y, z) ∨ Nagyszulo(x, z)."
+   },
+   "X": {
+    "tip": "Logikai változó (nagybetűvel kezdődik). A szabályban bármelyik személyt jelölheti. A kérdésben, például a Szulo(X,\"Platon\")-ban, ez a keresett érték: a pyDatalog az összes megfelelő X-et kiírja."
+   },
+   "Y": {
+    "tip": "Logikai változó. A Nagyszulo szabályban a közbülső személy, a szülő, aki összeköti a nagyszülőt az unokával."
+   },
+   "Z": {
+    "tip": "Logikai változó: a Nagyszulo szabályban az unoka."
+   },
+   "print": {
+    "tip": "print(x): kiírja x értékét. Ha x egy pyDatalog-kérdés, például Szulo(X,\"Platon\"), táblázatot ír ki: fejlécként a változó neve, alatta soronként egy-egy válasz. A print(\"\\n\") üres sort ír ki.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, X')\n+Apa('Szokratesz', 'Platon')\nprint(Apa(X, 'Platon'))\n# X\n# ----------\n# Szokratesz"
+   }
+  }
+ },
+ "ertik-kod": {
+  "lang": "python",
+  "tips": {
+   "+": {
+    "tip": "A pyDatalogban a + egy tényt vesz fel a tudásbázisba. A +Hallgato(\"Anna\") jelentése: Anna hallgató. Ez itt nem összeadás.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, X')\n+Apa('Szokratesz', 'Platon')\nprint(Apa(X, 'Platon'))\n# X\n# ----------\n# Szokratesz"
+   },
+   "<=": {
+    "tip": "A pyDatalog szabályában a „ha” jele (a Prologban :-). A bal oldal akkor igaz, ha a jobb oldal igaz. Az Ertelmes(X) <= Hallgato(X) a feladat (1) premisszája: minden hallgató értelmes.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Ember, Halando, X')\n+Ember('Szokratesz')\nHalando(X) <= Ember(X)\nprint(len(Halando('Szokratesz')) > 0)   # True\nprint(len(Halando('Zeusz')) > 0)        # False"
+   },
+   "&": {
+    "tip": "A pyDatalog szabályában az „és” jele: X csak akkor érti Y-t, ha X értelmes, és Y egyszerű neki. A két tagban ugyanaz az X és Y szerepel, ezért ugyanarra a személyre és témára kell teljesülniük."
+   },
+   "Hallgato": {
+    "tip": "Predikátum: Hallgato(x) azt rögzíti, hogy x hallgató. Csak a két tény adja meg: Anna és Bence."
+   },
+   "Ertelmes": {
+    "tip": "Szabállyal megadott predikátum: Ertelmes(x) igaz, ha x hallgató. Ez a feladat (1) premisszája."
+   },
+   "EgyszeruNeki": {
+    "tip": "Szabállyal megadott, kétargumentumú predikátum: EgyszeruNeki(x, y) azt jelenti, hogy az y téma x-nek egyszerű. A (3) szabály szerint a rezolúció minden értelmes személynek egyszerű.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Ertelmes, EgyszeruNeki, X')\n+Ertelmes('Anna')\nEgyszeruNeki(X, 'rezolúció') <= Ertelmes(X)\nprint(EgyszeruNeki('Anna', X))\n# X\n# ---------\n# rezolúció"
+   },
+   "Erti": {
+    "tip": "Szabállyal megadott predikátum: Erti(x, y) igaz, ha x értelmes, és y egyszerű neki. Ez a (2) premissza. Az Erti(X, \"rezolúció\") kérdés mindenkit felsorol, aki érti a rezolúciót."
+   },
+   "X": {
+    "tip": "Logikai változó: egy személy helye. A kérdésben, az Erti(X, \"rezolúció\")-ban, ez a keresett érték: a pyDatalog minden olyan X-et kiír, amelyre a szabályok láncolata a Hallgato tényekig visszavezethető."
+   },
+   "Y": {
+    "tip": "Logikai változó: egy téma helye az Erti szabályban. A kérdés a \"rezolúció\" értéket adja neki (ez az Y ← rezolúció helyettesítés)."
+   },
+   "len": {
+    "tip": "len(x): az elemek száma. A len(Erti(\"Anna\", \"rezolúció\")) a válaszok számát adja; ha ez nagyobb 0-nál, az állítás levezethető.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, X')\n+Apa('Szokratesz', 'Platon')\nprint(len(Apa(X, 'Platon')))   # 1\nprint(len(Apa(X, 'Zeusz')))    # 0"
+   },
+   ">": {
+    "tip": "Nagyobb, mint. A len(…) > 0 akkor igaz, ha a kérdésre van legalább egy válasz.",
+    "ex": "print(5 > 0)   # True\nprint(0 > 0)   # False"
+   }
+  }
+ }
+}

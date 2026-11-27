@@ -120,3 +120,16 @@ test('Minden xref kereszthivatkozás létező oldalra és horgonyra mutat', () =
     }
   }
 });
+test('A kódtippek naprakészek, és minden tipp létező, nem üres szöveg', () => {
+  const {execFileSync} = require('node:child_process');
+  execFileSync(process.execPath, [path.join(root, 'eszkozok', 'kodtippek.cjs'), '--check'], {stdio: 'pipe'});
+  const dir = path.join(root, 'eszkozok', 'kodtippek');
+  for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.json'))) {
+    const data = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+    const groups = f === 'kozos.json' ? [data.python, data.prolog] : Object.entries(data).filter(([k]) => !k.startsWith('_')).map(([, v]) => v.tips || {});
+    for (const g of groups) for (const [k, v] of Object.entries(g)) {
+      const tip = typeof v === 'string' ? v : v.tip;
+      assert.ok(tip && tip.length > 10, `${f}: ${k} tippje hiányzik`);
+    }
+  }
+});

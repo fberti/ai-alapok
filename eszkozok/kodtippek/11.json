@@ -1,0 +1,18 @@
+{
+ "_leiras": "A 11. fejezet kódrészleteinek saját tippjei. Az általános elemeket a kozos.json adja.",
+ "kod18-gyakorlo": {
+  "lang": "python",
+  "tips": {
+   "GRAPH": {
+    "tip": "A gyakorló gráf szótárként. A kulcs egy csomópont, az érték a kimenő élek listája, és minden él egy (szomszéd, költség) pár. Például \"S\": [(\"A\",1), …] azt jelenti, hogy S-ből A-ba 1 a költség. G-ből nem indul él, ezért nem is kulcs.",
+    "ex": "GRAPH = {\"S\": [(\"A\", 1), (\"B\", 4)]}\nprint(GRAPH[\"S\"][1])       # ('B', 4)\nprint(GRAPH.get(\"G\", []))  # []"
+   },
+   "HEURISTICS": {
+    "tip": "A becslések szótára: a kulcs a csomópont neve, az érték h(n), a célig hátralévő út becsült költsége. A cél, G becslése 0."
+   },
+   "astar": {
+    "tip": "A 10. fejezet A*-függvénye a 18_A_csillag_algoritmus.py-ból, változatlanul; ez a részlet nem mutatja, a fájlban e sorok fölött áll. Bemenete a gráf, a becslések, a Start és a cél, és a talált utat adja vissza csomópontok listájaként."
+   }
+  }
+ }
+}

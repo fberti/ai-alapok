@@ -1,0 +1,246 @@
+{
+ "_leiras": "A 3. fejezet kódrészleteinek saját tippjei. Az általános elemeket a kozos.json adja.",
+ "szograf-kod": {
+  "lang": "python",
+  "tips": {
+   "GRAPH": {
+    "tip": "A szógráf szótárként (dict). A kulcs egy szó, az érték azoknak a szavaknak a listája, amelyek a magyarázatában szerepelnek. Például a \"sírni\" kulcshoz a [\"szomorú\", \"könny\", \"hang\"] lista tartozik. A csupa nagybetűs név a Pythonban azt jelzi, hogy az érték a program futása alatt nem változik.",
+    "ex": "GRAPH = {\"sírni\": [\"szomorú\", \"könny\"]}\nprint(GRAPH[\"sírni\"])      # ['szomorú', 'könny']\nprint(\"sírni\" in GRAPH)    # True"
+   },
+   "bfs": {
+    "tip": "A függvény neve: breadth-first search, azaz szélességi keresés. Ezt adja vissza: a két szó közötti legrövidebb láncot szavak listájaként, például ['sírni', 'szomorú', 'kényelem'], vagy None-t, ha nincs lánc."
+   },
+   "graph": {
+    "tip": "1. paraméter: a gráf szótárként. Itt a GRAPH szógráf kerül bele: kulcsa egy szó, értéke a szomszédos szavak listája."
+   },
+   "start": {
+    "tip": "2. paraméter: a kiinduló szó, például \"sírni\" (egy szöveg, vagyis string)."
+   },
+   "goal": {
+    "tip": "3. paraméter: a cél szó, például \"kényelem\"."
+   },
+   "queue": {
+    "tip": "A még meg nem vizsgált útvonalak listája. Minden eleme maga is lista, egy teljes út: például [['sírni', 'szomorú'], ['sírni', 'könny']]. A queue angolul sort jelent: elöl veszünk ki belőle, hátul teszünk bele. A while queue: feltétel azt jelenti: amíg van még vizsgálandó út (egy lista feltételként akkor igaz, ha nem üres)."
+   },
+   "path": {
+    "tip": "Az éppen vizsgált út: szavak listája, például ['sírni', 'szomorú']. Az első eleme mindig a kiinduló szó."
+   },
+   "end_node": {
+    "tip": "Az út utolsó szava: ahol a keresés éppen áll. Ha ez a cél, kész vagyunk; ha nem, innen lépünk tovább a szomszédok felé."
+   },
+   "adjacent": {
+    "tip": "Egy szomszéd szó: olyan szó, amely end_node magyarázatában szerepel, vagyis egy éllel elérhető. Az adjacent angolul szomszédost jelent."
+   },
+   "new_path": {
+    "tip": "Az új, eggyel hosszabb út: a régi út, a végén a szomszéd szóval. Ez kerül a sor végére."
+   },
+   "[start]": {
+    "tip": "Egyelemű lista, benne csak a kiinduló szó: ['sírni']. Ez az első út, amely még csak a kiinduló szóból áll.",
+    "ex": "start = \"sírni\"\nut = [start]\nprint(ut)        # ['sírni']\nprint(len(ut))   # 1"
+   },
+   "pop(0)": {
+    "tip": "lista.pop(0): kiveszi a listából a 0. elemet, és visszaadja. A Python 0-tól számoz, így a 0. elem az első. Mindig a legrégebben betett utat kapjuk meg: ettől lesz a keresés szélességi.",
+    "ex": "sor = []\nsor.append(['sírni'])\nprint(sor)          # [['sírni']]\nprint(sor.pop(0))   # ['sírni']\nprint(sor)          # []"
+   },
+   "get": {
+    "tip": "szótár.get(kulcs, alapérték): visszaadja a kulcshoz tartozó értéket, itt end_node szomszédainak listáját. Ha a szó nincs a szótárban kulcsként, hibaüzenet helyett az alapértéket, az üres listát adja.",
+    "ex": "g = {'sírni': ['szomorú', 'könny']}\nprint(g.get('sírni', []))     # ['szomorú', 'könny']\nprint(g.get('pihenés', []))   # []"
+   },
+   "list": {
+    "tip": "A list(path) a path másolata. Szigorúan véve itt nem is kellene, mert a + amúgy is új listát hoz létre. Azt jelzi, hogy az eredeti utat nem módosítjuk, hiszen abból más szomszédok felé is továbbmegyünk.",
+    "ex": "regi = ['sírni', 'szomorú']\nuj = list(regi)\nuj.append('hang')\nprint(regi)   # ['sírni', 'szomorú']\nprint(uj)     # ['sírni', 'szomorú', 'hang']"
+   },
+   "+": {
+    "tip": "Két lista összefűzése egy új listába. Az adjacent-et ezért tesszük szögletes zárójelbe: a + jellel listához csak listát lehet hozzáadni.",
+    "ex": "ut = ['sírni', 'szomorú']\nprint(ut + ['kényelem'])   # ['sírni', 'szomorú', 'kényelem']\nprint(ut)                  # ['sírni', 'szomorú']"
+   },
+   "not in": {
+    "tip": "Tartalmazás vizsgálata: igaz, ha az elem nincs benne a listában. Itt: ha a szomszéd szó még nem szerepel az úton. Így a keresés nem jár körbe-körbe.",
+    "ex": "ut = ['sírni', 'könny']\nprint('sírni' not in ut)   # False\nprint('szem' not in ut)    # True"
+   },
+   "None": {
+    "tip": "A None a Python „nincs érték” jelzése. Ha a sor kiürült, és közben nem értük el a cél szót, akkor nincs lánc: ezt jelzi a None."
+   }
+  }
+ },
+ "orokles-kod": {
+  "lang": "python",
+  "tips": {
+   "pyDatalog.create_terms": {
+    "tip": "pyDatalog.create_terms('…'): bejelenti a használt neveket: a predikátumokat (Egyede, Ose…) és a logikai változókat (X, Y, Z, P, Q). A két egymás mellé írt szöveget a Python egyetlen szöveggé fűzi össze, így a hosszú névsor két sorba fér.",
+    "ex": "nevek = ('Egyede, Ose, '\n         'X, Y')\nprint(nevek)   # Egyede, Ose, X, Y"
+   },
+   "+": {
+    "tip": "A pyDatalogban a + egy tényt vesz fel a tudásbázisba. A +Alosztalya(\"madár\", \"állat\") jelentése: a madár az állat alosztálya. Ez itt nem összeadás.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, X')\n+Apa('Szokratesz', 'Platon')\nprint(Apa(X, 'Platon'))\n# X\n# ----------\n# Szokratesz"
+   },
+   "<=": {
+    "tip": "A pyDatalog szabályában a „ha” jele (a Prologban :-). A bal oldal, a szabály feje, akkor igaz, ha a jobb oldal igaz. Az Ose(X, Y) <= Egyede(X, Y) jelentése: Y őse X-nek, ha X egyede Y-nak.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Madar, Repul, X')\n+Madar('Csipcsirip')\nRepul(X) <= Madar(X)\nprint(Repul(X))\n# X\n# ----------\n# Csipcsirip"
+   },
+   "&": {
+    "tip": "A pyDatalog szabályában az „és” jele: a szabály csak akkor teljesül, ha mindkét oldala igaz, és a közös változók (itt Y) ugyanazt az értéket kapják.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Madar, Kicsi, Csoppenet, X')\n+Madar('Csipcsirip')\n+Madar('Holló')\n+Kicsi('Csipcsirip')\nCsoppenet(X) <= Madar(X) & Kicsi(X)\nprint(Csoppenet(X))\n# X\n# ----------\n# Csipcsirip"
+   },
+   "~": {
+    "tip": "A pyDatalogban a tagadás jele: a ~Elnyomott(X, P) akkor igaz, ha az Elnyomott(X, P) a tényekből és szabályokból nem vezethető le. Ezzel kapcsolja ki a program az örökölt tulajdonságot, ha a saját jellemző ellentmond neki.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Madar, Pingvin, Repul, X')\n+Madar('Csipcsirip')\n+Madar('Pingu')\n+Pingvin('Pingu')\nRepul(X) <= Madar(X) & ~Pingvin(X)\nprint(Repul(X))\n# X\n# ----------\n# Csipcsirip"
+   },
+   "Egyede": {
+    "tip": "Predikátum, két argumentummal: Egyede(x, y) azt rögzíti, hogy x egy konkrét egyed, amely az y osztályba tartozik. Itt: Pityuka egy papagáj. A hálóban ez az „egyede” él."
+   },
+   "Alosztalya": {
+    "tip": "Predikátum: Alosztalya(x, y) azt rögzíti, hogy az x osztály az y osztály alosztálya, például a madár az állaté. A hálóban ez az „alosztálya” él."
+   },
+   "Jellemzoje": {
+    "tip": "Predikátum: Jellemzoje(x, p) azt rögzíti, hogy a p tulajdonság közvetlenül az x csomópontnál van tárolva, például a madárnál a „repülni tud”."
+   },
+   "Ellentete": {
+    "tip": "Predikátum: Ellentete(p, q) azt rögzíti, hogy a p és a q tulajdonság kizárja egymást, például „repülni tud” és „repülni nem tud”."
+   },
+   "Ose": {
+    "tip": "Szabállyal megadott predikátum: Ose(x, y) igaz, ha y fölötte van x-nek a hálóban, egy vagy több lépésre. A harmadik sor rekurzív: Ose önmagára hivatkozik, így a lánc tetszőleges hosszú lehet. Kérdésként az Ose(\"Pityuka\", Y) Pityuka összes ősét adja.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Apa, Os, X, Y, Z')\n+Apa('A', 'B')\n+Apa('B', 'C')\nOs(X, Y) <= Apa(X, Y)\nOs(X, Z) <= Os(X, Y) & Apa(Y, Z)\nprint(sorted(r[0] for r in Os('A', Y)))   # ['B', 'C']"
+   },
+   "Tulajdonsaga": {
+    "tip": "Szabállyal megadott predikátum: Tulajdonsaga(x, p) igaz, ha x-nek saját jellemzője p, vagy egy ősétől örökli p-t, és ez az öröklés nincs elnyomva."
+   },
+   "Elnyomott": {
+    "tip": "Szabállyal megadott predikátum: Elnyomott(x, p) igaz, ha x-nek van egy saját jellemzője, amely p ellentéte. Ilyenkor x nem örökli p-t. Pityukánál a „repülni nem tud” elnyomja a „repülni tud” tulajdonságot."
+   },
+   "X": {
+    "tip": "Logikai változó (nagybetűvel kezdődik). A helyére a pyDatalog bármelyik csomópontot beírhatja, amely a szabályt igazzá teszi. Egy szabályon belül ugyanaz a betű mindenhol ugyanazt az értéket jelöli."
+   },
+   "Y": {
+    "tip": "Logikai változó: a szabályokban többnyire a közbülső csomópont, például az ős. A kérdésben, az Ose(\"Pityuka\", Y)-ban, ez a keresett érték: a pyDatalog az összes megfelelő Y-t visszaadja."
+   },
+   "Z": {
+    "tip": "Logikai változó: az Ose harmadik szabályában a távolabbi ős. Ha X-nek őse Y, és Y-nak őse Z, akkor X-nek őse Z is."
+   },
+   "P": {
+    "tip": "Logikai változó egy tulajdonság helyén, például „színes” vagy „repülni tud”."
+   },
+   "Q": {
+    "tip": "Logikai változó: a P tulajdonság ellentéte az Elnyomott szabályban."
+   },
+   "r[0]": {
+    "tip": "A pyDatalog kérdés válaszai sorok (tuple-ök): minden válasz egy zárójeles csoport, egy értékkel minden változóhoz, például ('madár',). Az r egy ilyen válasz, az r[0] az első (itt az egyetlen) értéke. A sorted(r[0] for r in …) így ábécérendbe szedett listát készít a válaszokból.",
+    "ex": "from pyDatalog import pyDatalog\npyDatalog.create_terms('Szulo, Y')\n+Szulo('Anna', 'Béla')\n+Szulo('Anna', 'Cili')\nprint(sorted(r[0] for r in Szulo('Anna', Y)))\n# ['Béla', 'Cili']"
+   }
+  }
+ },
+ "halo-mutato-kod": {
+  "lang": "python",
+  "tips": {
+   "HALO": {
+    "tip": "Az állatháló egy ága, szótárak szótáraként. A külső kulcs a csomópont neve, az érték egy belső szótár két mezővel: \"szulo\" (a fölötte lévő csomópont neve, vagy None) és \"jellemzok\" (a helyben tárolt tulajdonságok listája). A HALO[csomopont] egy lépésben adja a csomópont adatait.",
+    "ex": "halo = {\"Hal\": {\"szulo\": \"Állat\"}}\nprint(halo[\"Hal\"])            # {'szulo': 'Állat'}\nprint(halo[\"Hal\"][\"szulo\"])   # Állat"
+   },
+   "hol_van": {
+    "tip": "A program saját függvénye. Bemenet: egy csomópont neve és egy tulajdonság. Visszaadja, melyik csomópontnál van tárolva a tulajdonság, és hány lépést kellett felfelé menni, például ('Állat', 2). Ha nem találja: (None, lépésszám)."
+   },
+   "csomopont": {
+    "tip": "Az a csomópont (szöveg, például \"Cápa\"), ahol a keresés éppen áll. Minden körben a szülőjére cseréljük, így halad felfelé a láncon. Ha None lesz, elértük a lánc tetejét."
+   },
+   "jellemzo": {
+    "tip": "A keresett tulajdonság szövegként, például \"lélegzik\"."
+   },
+   "lepes": {
+    "tip": "Számláló: hány mutatót követtünk eddig, vagyis hány szinttel mentünk feljebb. 0-ról indul."
+   },
+   "is not": {
+    "tip": "Az x is not None akkor igaz, ha x nem a None érték. A None-nal való összevetést a Pythonban így szokás írni (== helyett). Itt: amíg van még csomópont a láncban.",
+    "ex": "x = None\nprint(x is not None)   # False\ny = 'Hal'\nprint(y is not None)   # True"
+   },
+   "None": {
+    "tip": "A None a „nincs érték” jelzése. Az Állat szülője None: fölötte már nincs semmi, itt ér véget a lánc. A függvény is None-t ad vissza csomópontként, ha nem találta a tulajdonságot."
+   },
+   "return": {
+    "tip": "Kilép a függvényből, és visszaadja az értéket. A return csomopont, lepes két értéket ad vissza egyszerre, egy sorként (tuple), például ('Cápa', 0).",
+    "ex": "def ketto():\n    return 'Cápa', 0\n\nprint(ketto())   # ('Cápa', 0)\nnev, lepes = ketto()\nprint(nev)       # Cápa"
+   }
+  }
+ },
+ "butor-kod": {
+  "lang": "python",
+  "tips": {
+   "class": {
+    "tip": "Osztály megadása. Az osztály egy minta, amelyből objektumokat (egyedeket) készíthetünk. Az osztályban megadott változók az osztály tulajdonságai, a benne megadott függvények az eljárásai. Itt az osztály a keret szerepét játssza.",
+    "ex": "class Kutya:\n    labak = 4\n\nrex = Kutya()\nprint(rex.labak)   # 4"
+   },
+   "Butor": {
+    "tip": "A legfelső keret osztályként: minden bútor közös értékeit (anyag, fajsúly) és eljárásait (súly kiszámítása, magasság ellenőrzése) tartalmazza."
+   },
+   "(Butor)": {
+    "tip": "A zárójelben a szülőosztály áll: a class Szek(Butor) azt jelenti, hogy a Szék a Bútor alosztálya, és örökli minden értékét és eljárását. Amit az alosztály maga is megad, az felülírja az örököltet.",
+    "ex": "class Allat:\n    labak = 4\nclass Madar(Allat):\n    labak = 2\nclass Papagaj(Madar):\n    pass\nprint(Papagaj().labak)   # 2"
+   },
+   "(Szek)": {
+    "tip": "A Bárszék a Szék alosztálya, a Szék pedig a Bútoré. A Bárszék így mindkettőtől örököl: ami nála nincs megadva (például a szín), azt a Széknél, ha ott sincs, a Bútornál keresi a Python."
+   },
+   "anyag": {
+    "tip": "Rés (slot) az anyaghoz, osztályváltozóként. A Bútornál az alapértéke \"fa\", a Bárszék felülírja \"alumínium\"-ra."
+   },
+   "fajsuly": {
+    "tip": "Rés a fajsúlyhoz, kg/dm³-ben. A súly kiszámításához kell. A Bárszék saját értéke 2.7 (alumínium)."
+   },
+   "@property": {
+    "tip": "Dekorátor: a következő függvényt tulajdonsággá teszi. Zárójel nélkül olvassuk ki (b17.suly), mint egy változót, de valójában a függvény fut le, és kiszámítja az értéket. Ez az IF_NEEDED démon: az érték csak kérésre készül el.",
+    "ex": "class Doboz:\n    @property\n    def terfogat(self):\n        return self.a * self.b * self.c\n\nd = Doboz()\nd.a, d.b, d.c = 2, 3, 4\nprint(d.terfogat)   # 24"
+   },
+   "suly": {
+    "tip": "Számított tulajdonság: a térfogat és a fajsúly szorzata, két tizedesre kerekítve. Nincs eltárolva, minden kiolvasáskor újra kiszámolódik."
+   },
+   "self": {
+    "tip": "Az az objektum, amelyre a függvényt meghívtuk. A b17.suly kiolvasásakor a self maga a b17. A self.terfogat így a b17 térfogatát jelenti.",
+    "ex": "class Pont:\n    def kiir(self):\n        print(self.x, self.y)\n\np = Pont()\np.x = 3\np.y = 5\np.kiir()   # 3 5"
+   },
+   "terfogat": {
+    "tip": "A bútor térfogata dm³-ben. Nem az osztályban, hanem az egyeden állítjuk be: b17.terfogat = 1.1."
+   },
+   "round": {
+    "tip": "round(x, 2): x két tizedesre kerekítve. Itt azért kell, mert a gépi tört számítás apró hibát hagy: 1.1 * 2.7 eredménye 2.9700000000000006.",
+    "ex": "print(1.1 * 2.7)             # 2.9700000000000006\nprint(round(1.1 * 2.7, 2))   # 2.97"
+   },
+   "magassag": {
+    "tip": "Ellenőrzött tulajdonság. Kiolvasáskor a tárolt _magassag értéket adja, beíráskor (b17.magassag = 1.2) a setter függvény fut le, és ellenőrzi az értéket."
+   },
+   "_magassag": {
+    "tip": "Itt tárolódik ténylegesen a magasság. Az aláhúzásjel a név elején a Pythonban azt jelzi: belső használatra szánt változó, kívülről a magassag tulajdonságon át érjük el."
+   },
+   "@magassag.setter": {
+    "tip": "Dekorátor: a következő függvény fut le, amikor a magassag tulajdonságnak értéket adunk (b17.magassag = 1.2). Ez az IF_ADDED démon: értékadáskor ellenőriz.",
+    "ex": "class Ember:\n    @property\n    def kor(self):\n        return self._kor\n\n    @kor.setter\n    def kor(self, ertek):\n        if ertek < 0:\n            raise ValueError(\"negatív kor\")\n        self._kor = ertek\n\ne = Ember()\ne.kor = 30\nprint(e.kor)   # 30\ne.kor = -5     # ValueError: negatív kor"
+   },
+   "ertek": {
+    "tip": "A beírni kívánt új magasság méterben, például 1.2."
+   },
+   "<": {
+    "tip": "Kisebb, mint. A 0.2 < ertek < 4 láncolt összehasonlítás: akkor igaz, ha az érték 0,2 és 4 között van. A not elé téve megfordul: igaz, ha az érték kívül esik ezen a sávon.",
+    "ex": "x = 1.2\nprint(0.2 < x < 4)       # True\nprint(not 0.2 < 5 < 4)   # True"
+   },
+   "raise": {
+    "tip": "Hibát vált ki, és megszakítja a függvény futását. A hibás érték így nem kerül be az objektumba.",
+    "ex": "def gyok(x):\n    if x < 0:\n        raise ValueError(\"negatív szám\")\n    return x ** 0.5\n\nprint(gyok(9))   # 3.0\ngyok(-1)         # ValueError: negatív szám"
+   },
+   "ValueError": {
+    "tip": "Beépített hibatípus: „értékhiba”, vagyis a típus jó (szám), de az érték nem megengedett. A zárójelben a hibaüzenet áll."
+   },
+   "Szek": {
+    "tip": "A Szék keret osztályként, a Bútor alosztálya. Saját értékei: szín és lábszám."
+   },
+   "szin": {
+    "tip": "Rés a színhez. A Széknél \"barna\"; a Bárszék nem adja meg, ezért a Széktől örökli."
+   },
+   "labszam": {
+    "tip": "Rés a lábak számához. A Széknél 4, a Bárszék felülírja 3-ra."
+   },
+   "Barszek": {
+    "tip": "A Bárszék keret osztályként, a Szék alosztálya. A lábszámot, az anyagot és a fajsúlyt felülírja. A Barszek() zárójellel egy új egyedet készít belőle."
+   },
+   "b17": {
+    "tip": "Egy konkrét bárszék, vagyis a Barszek osztály egy egyede (objektuma). Saját értéket kap a térfogatra és a magasságra, a többit az osztályaitól örökli."
+   }
+  }
+ }
+}

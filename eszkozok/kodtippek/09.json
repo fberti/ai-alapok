@@ -1,0 +1,212 @@
+{
+ "_leiras": "A 9. fejezet kódrészleteinek saját tippjei. Az általános elemeket a kozos.json adja.",
+ "kod20-bfs": {
+  "lang": "python",
+  "tips": {
+   "bfs": {
+    "tip": "A függvény neve: breadth-first search, azaz szélességi keresés. Ezt adja vissza: a megtalált utat csomópontok listájaként, például ['S', 'A', 'D', 'G'], vagy None-t, ha nincs út a célig."
+   },
+   "graph": {
+    "tip": "1. paraméter: a gráf szótárként (dict). A szótár kulcs–érték párokat tárol: a kulcs egy csomópont neve, az érték a szomszédai listában. Például {'S': ['A', 'B'], 'A': ['D']} azt jelenti, hogy S-ből A-ba és B-be, A-ból D-be vezet él.",
+    "ex": "graph = {'S': ['A', 'B'], 'A': ['D']}\nprint(graph['S'])   # ['A', 'B']\nprint('A' in graph) # True"
+   },
+   "start": {
+    "tip": "2. paraméter: a kiinduló csomópont neve, például 'S' (egy szöveg, vagyis string)."
+   },
+   "goal": {
+    "tip": "3. paraméter: a cél csomópont neve, például 'G'."
+   },
+   "queue": {
+    "tip": "A front. Egy lista, amelynek minden eleme egy teljes út, és minden út maga is lista: például [['S', 'A'], ['S', 'B']]. A queue angolul sort jelent: elöl veszünk ki belőle, hátul teszünk bele, mint egy bolti sorban. A while queue: feltétel azt jelenti: amíg van még út a frontban (egy lista feltételként akkor igaz, ha nem üres)."
+   },
+   "path": {
+    "tip": "Az éppen vizsgált út: csomópontok listája, például ['S', 'A']. Az első csomópontja mindig a Start."
+   },
+   "end_node": {
+    "tip": "Az út utolsó csomópontja: az a hely, ahol a keresés éppen áll. Innen lépünk tovább a szomszédok felé."
+   },
+   "adjacent": {
+    "tip": "Egy szomszéd: olyan csomópont, ahová end_node-ból egyetlen éllel eljutunk. Az adjacent angolul szomszédost jelent."
+   },
+   "new_path": {
+    "tip": "Az új, eggyel hosszabb út: a régi út, a végén a szomszéddal. Ez kerül a front végére."
+   },
+   "[start]": {
+    "tip": "Egyelemű lista, benne csak a kiinduló csomópont: ['S']. Ez az első út, amely még csak a Startból áll.",
+    "ex": "start = 'S'\nut = [start]\nprint(ut)        # ['S']\nprint(len(ut))   # 1"
+   },
+   "pop(0)": {
+    "tip": "lista.pop(0): kiveszi a listából a 0. elemet, és visszaadja. A Python 0-tól számoz, így a 0. elem az első. Mindig a legrégebben betett utat kapjuk meg: ettől lesz a keresés szélességi.",
+    "ex": "sor = ['a', 'b', 'c']\nelso = sor.pop(0)\nprint(elso)   # a\nprint(sor)    # ['b', 'c']"
+   },
+   "get": {
+    "tip": "szótár.get(kulcs, alapérték): visszaadja a kulcshoz tartozó értéket, itt end_node szomszédainak listáját. Ha a kulcs nincs a szótárban (ennek a csomópontnak nincs kimenő éle), hibaüzenet helyett az alapértéket, az üres listát adja.",
+    "ex": "g = {'S': ['A', 'B']}\nprint(g.get('S', []))   # ['A', 'B']\nprint(g.get('X', []))   # []\nprint(g['X'])           # KeyError: hiba!"
+   },
+   "list": {
+    "tip": "A list(path) a path másolata. Szigorúan véve itt nem is kellene, mert a + amúgy is új listát hoz létre. Azt jelzi, hogy az eredeti utat nem módosítjuk, hiszen abból más szomszédok felé is továbbmegyünk.",
+    "ex": "regi = ['S', 'A']\nuj = list(regi)\nuj.append('D')\nprint(regi)   # ['S', 'A']\nprint(uj)     # ['S', 'A', 'D']"
+   },
+   "+": {
+    "tip": "Két lista összefűzése egy új listába: ['S', 'A'] + ['D'] eredménye ['S', 'A', 'D']. Az adjacent-et ezért tesszük szögletes zárójelbe: a + jellel listához csak listát lehet hozzáadni.",
+    "ex": "ut = ['S', 'A']\nprint(ut + ['D'])   # ['S', 'A', 'D']\nprint(ut)           # ['S', 'A']"
+   },
+   "not in": {
+    "tip": "Tartalmazás vizsgálata: igaz, ha az elem nincs benne a listában. Itt: ha a szomszéd még nem szerepel az úton. Így az út nem megy körbe, nem lép vissza oda, ahol már járt.",
+    "ex": "ut = ['S', 'A']\nprint('A' not in ut)   # False\nprint('D' not in ut)   # True"
+   },
+   "None": {
+    "tip": "A None a Python „nincs érték” jelzése. Ha a front kiürült, és közben nem értük el a célt, akkor nincs út: ezt jelzi a None.",
+    "ex": "def keres(lista, x):\n    for v in lista:\n        if v == x:\n            return v\n    return None\n\nprint(keres(['A'], 'B'))   # None"
+   }
+  }
+ },
+ "kod21-bandb": {
+  "lang": "python",
+  "tips": {
+   "bandb": {
+    "tip": "A függvény neve a branch and bound rövidítése (a PDF-ben: elágaztatás és ugrálás). Valójában egyenletes költségű keresés: mindig a legolcsóbb utat folytatja. Ezt adja vissza: a legolcsóbb utat csomópontok listájaként, például ['S', 'A', 'D', 'C', 'E', 'G'], vagy None-t, ha nincs út a célig."
+   },
+   "graph": {
+    "tip": "1. paraméter: a gráf szótárként (dict). A kulcs egy csomópont neve, az érték a kimenő élek listája, és minden él egy (szomszéd, költség) pár. Például {'S': [('A', 2), ('B', 12)]}: S-ből A-ba 2, B-be 12 a költség.",
+    "ex": "graph = {'S': [('A', 2), ('B', 12)]}\nprint(graph['S'])        # [('A', 2), ('B', 12)]\nprint(graph['S'][0][1])  # 2"
+   },
+   "start": {
+    "tip": "2. paraméter: a kiinduló csomópont neve, például 'S' (egy szöveg, vagyis string)."
+   },
+   "goal": {
+    "tip": "3. paraméter: a cél csomópont neve, például 'G'."
+   },
+   "queue": {
+    "tip": "A front. Egy lista, amelynek minden eleme egy (út, költség) pár, például [(['S', 'A'], 2), (['S', 'B'], 12)]. Minden kör végén költség szerint rendezzük, így az eleje mindig a legolcsóbb út. A while queue: azt jelenti: amíg van még út a frontban."
+   },
+   "([start],0)": {
+    "tip": "Az első frontelem: egy pár, benne az egyelemű út, ['S'], és az eddigi költség, 0. A kerek zárójelbe írt, vesszővel elválasztott értékek sorozata a tuple (rendezett n-es): olyan, mint a lista, de utólag nem módosítható.",
+    "ex": "elem = (['S'], 0)\nprint(elem[0])   # ['S']\nprint(elem[1])   # 0"
+   },
+   "pop(0)": {
+    "tip": "queue.pop(0): kiveszi a front 0. (első) elemét, és visszaadja. Mivel a frontot költség szerint rendeztük, ez mindig a legolcsóbb út, a költségével együtt.",
+    "ex": "sor = ['a', 'b', 'c']\nelso = sor.pop(0)\nprint(elso)   # a\nprint(sor)    # ['b', 'c']"
+   },
+   "first_element": {
+    "tip": "A frontból kivett pár: (út, költség), például (['S', 'A'], 2). A következő sorok szedik szét a két részére."
+   },
+   "first_element[0]": {
+    "tip": "A pár 0. eleme: maga az út, például ['S', 'A']. A [0] az első elemet jelenti, mert a Python 0-tól számoz.",
+    "ex": "elem = (['S', 'A'], 2)\nprint(elem[0])   # ['S', 'A']"
+   },
+   "first_element[1]": {
+    "tip": "A pár 1. eleme: az út eddigi költsége, például 2.",
+    "ex": "elem = (['S', 'A'], 2)\nprint(elem[1])   # 2"
+   },
+   "path": {
+    "tip": "Az éppen vizsgált út: csomópontok listája, például ['S', 'A']. Az első csomópontja mindig a Start."
+   },
+   "end_node": {
+    "tip": "Az út utolsó csomópontja (a path[-1] a lista utolsó eleme): az a hely, ahol a keresés éppen áll. Innen lépünk tovább a szomszédok felé."
+   },
+   "current_cost": {
+    "tip": "Az út eddigi költsége: az élek költségének összege a Starttól end_node-ig. Például az S → A út költsége 2."
+   },
+   "get": {
+    "tip": "graph.get(end_node, []): end_node kimenő éleinek listája, például [('D', 6), ('S', 2)]. Ha a csomópont nem kulcs a szótárban (nincs kimenő éle, mint itt G-nek), hibaüzenet helyett az üres listát adja.",
+    "ex": "g = {'S': [('A', 2)]}\nprint(g.get('S', []))   # [('A', 2)]\nprint(g.get('G', []))   # []"
+   },
+   "adjacent": {
+    "tip": "Egy kimenő él: (szomszéd, költség) pár, vagyis tuple, például ('D', 6). A for ciklus end_node minden kimenő élén végigmegy."
+   },
+   "adjacent[0]": {
+    "tip": "Az él 0. eleme: a szomszéd neve, például 'D'. A [0] az első elemet jelenti, mert a Python 0-tól számoz.",
+    "ex": "el = ('D', 6)\nprint(el[0])   # D"
+   },
+   "adjacent[1]": {
+    "tip": "Az él 1. eleme: az él költsége, például 6.",
+    "ex": "el = ('D', 6)\nprint(el[1])   # 6"
+   },
+   "new_path": {
+    "tip": "Az új, eggyel hosszabb út: a régi út, a végén a szomszéddal. A költségével együtt ez kerül a frontba."
+   },
+   "new_cost": {
+    "tip": "Az új út költsége: az eddigi költség plusz az új él költsége. Például ha S → A 2, és A → D 6, akkor S → A → D 8."
+   },
+   "+": {
+    "tip": "Két jelentése van itt. Listák között összefűzés: ['S', 'A'] + ['D'] eredménye az új ['S', 'A', 'D'] lista. Számok között összeadás: current_cost + adjacent[1] az eddigi költséghez hozzáadja az új él költségét.",
+    "ex": "print(['S', 'A'] + ['D'])   # ['S', 'A', 'D']\nprint(2 + 6)               # 8"
+   },
+   "sorted": {
+    "tip": "sorted(queue, key=…): a front rendezett másolata, az elemek utolsó tagja, a költség szerint növekvő sorrendben. Egyenlő értéknél a korábban betett elem marad elöl (a rendezés stabil). Az eredményt visszaírjuk a queue-ba, így a front elején mindig a legjobb út áll.",
+    "ex": "front = [(['S', 'B'], 12), (['S', 'A'], 2)]\nprint(sorted(front, key=lambda e: e[-1]))\n# [(['S', 'A'], 2), (['S', 'B'], 12)]"
+   },
+   "key": {
+    "tip": "A sorted key paramétere egy függvény. A rendezés minden elemre meghívja, és az eredmények szerint rendez, nem maguk az elemek szerint.",
+    "ex": "szavak = ['körte', 'fa', 'alma']\nprint(sorted(szavak, key=len))   # ['fa', 'alma', 'körte']"
+   },
+   "lambda": {
+    "tip": "Rövid, névtelen függvény egy sorban: lambda bemenet: eredmény. A lambda element: element[-1] egy frontelemből a költségét adja vissza; a sorted ez alapján rendez.",
+    "ex": "koltseg = lambda e: e[-1]\nprint(koltseg((['S', 'A'], 2)))   # 2"
+   },
+   "element": {
+    "tip": "A lambda paramétere: a front egy eleme, vagyis egy (út, költség) pár."
+   },
+   "element[-1]": {
+    "tip": "A pár utolsó eleme, itt a költség. A [-1] hátulról számol: mindig az utolsó elemet adja."
+   }
+  }
+ },
+ "kod20-dfs": {
+  "lang": "python",
+  "tips": {
+   "dfs": {
+    "tip": "A függvény neve: depth-first search, azaz mélységi keresés. Ezt adja vissza: az első megtalált utat csomópontok listájaként, például ['S', 'A', 'D', 'C', 'E', 'G'], vagy None-t, ha nincs út a célig. Az első talált út nem feltétlenül a legrövidebb."
+   },
+   "graph": {
+    "tip": "1. paraméter: a gráf szótárként (dict). A kulcs egy csomópont neve, az érték a szomszédai listában. Például {'S': ['A', 'B'], 'A': ['S', 'D']} azt jelenti, hogy S-ből A-ba és B-be, A-ból S-be és D-be vezet él.",
+    "ex": "graph = {'S': ['A', 'B'], 'A': ['S', 'D']}\nprint(graph['S'])    # ['A', 'B']\nprint('A' in graph)  # True"
+   },
+   "start": {
+    "tip": "2. paraméter: a kiinduló csomópont neve, például 'S' (egy szöveg, vagyis string)."
+   },
+   "goal": {
+    "tip": "3. paraméter: a cél csomópont neve, például 'G'."
+   },
+   "queue": {
+    "tip": "A front. Egy lista, amelynek minden eleme egy teljes út, és minden út maga is lista: például [['S', 'A'], ['S', 'B']]. A neve queue (sor), de itt veremként (angolul stack) működik: az új utak az elejére kerülnek, és onnan is vesszük ki őket. Ettől lesz a keresés mélységi."
+   },
+   "[start]": {
+    "tip": "Egyelemű lista, benne csak a kiinduló csomópont: ['S']. Ez az első út, amely még csak a Startból áll.",
+    "ex": "start = 'S'\nut = [start]\nprint(ut)        # ['S']\nprint(len(ut))   # 1"
+   },
+   "pop(0)": {
+    "tip": "queue.pop(0): kiveszi a front 0. (első) elemét, és visszaadja. Mivel az új utakat is a front elejére tesszük, mindig a legutóbb kiterjesztett csomópont első gyereke jön: így halad a keresés lefelé.",
+    "ex": "sor = ['a', 'b', 'c']\nelso = sor.pop(0)\nprint(elso)   # a\nprint(sor)    # ['b', 'c']"
+   },
+   "path": {
+    "tip": "Az éppen vizsgált út: csomópontok listája, például ['S', 'A']. Az első csomópontja mindig a Start."
+   },
+   "end_node": {
+    "tip": "Az út utolsó csomópontja (a path[-1] a lista utolsó eleme): az a hely, ahol a keresés éppen áll. Innen lépünk tovább a szomszédok felé."
+   },
+   "new_paths": {
+    "tip": "Ebbe a listába gyűjtjük az end_node-ból kiinduló összes új utat, a szomszédok sorrendjében. A ciklus után egyszerre tesszük be őket a front elejére."
+   },
+   "get": {
+    "tip": "graph.get(end_node, []): end_node szomszédainak listája. Ha a csomópont nem kulcs a szótárban (nincs kimenő éle, mint itt G-nek), hibaüzenet helyett az alapértéket, az üres listát adja, és a for ciklus egyszer sem fut le.",
+    "ex": "g = {'S': ['A', 'B']}\nprint(g.get('S', []))   # ['A', 'B']\nprint(g.get('G', []))   # []"
+   },
+   "adjacent": {
+    "tip": "Egy szomszéd: olyan csomópont, ahová end_node-ból egyetlen éllel eljutunk. Az adjacent angolul szomszédost jelent."
+   },
+   "new_path": {
+    "tip": "Az új, eggyel hosszabb út: a régi út, a végén a szomszéddal."
+   },
+   "+": {
+    "tip": "Két lista összefűzése egy új listába: ['S', 'A'] + ['D'] eredménye ['S', 'A', 'D']. A szomszédot ezért tesszük szögletes zárójelbe: a + jellel listához csak listát lehet hozzáadni.",
+    "ex": "ut = ['S', 'A']\nprint(ut + ['D'])   # ['S', 'A', 'D']\nprint(ut)           # ['S', 'A']"
+   },
+   "[0:0]": {
+    "tip": "Szeletelés (angolul slice): a lista[a:b] a lista a-tól b-ig tartó része (a b. elem már nem tartozik bele). A [0:0] üres szelet a lista legelején. Ha értéket adunk neki, a new_paths elemei a front elejére kerülnek, eredeti sorrendjükben.",
+    "ex": "front = ['X', 'Y']\nfront[0:0] = ['A', 'B']\nprint(front)   # ['A', 'B', 'X', 'Y']"
+   }
+  }
+ }
+}

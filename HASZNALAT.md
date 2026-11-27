@@ -56,6 +56,7 @@ A 9. és a 10. fejezet statikus ábráit (gráfok, keresőfák, fronttáblázato
 - `eszkozok/10-sablon.html` és `eszkozok/10-abrak.cjs` → `fejezetek/10-informalt-kereses.html`;
 - `eszkozok/11-sablon.html` és `eszkozok/11-abrak.cjs` → `fejezetek/11-zh-gyakorlo.html` (a minta-zh gráfja és hálója, a gyakorló gráf keresőfái és táblázatai);
 - `eszkozok/fogalomtar.cjs` → `fogalomtar.html` (a fejezetek fogalomkártyáiból és tartalomjegyzékéből).
+- `eszkozok/kodtippek.cjs` → a kódrészletek magyarázó tippjei (`eszkozok/kodtippek/*.json`).
 
 A két fejezet szövegét a sablonban kell szerkeszteni, nem a kész HTML-ben. A sablon `<!--@név-->` jelölői helyére a script a tesztelt `assets/js/search.js` modellből rajzolt SVG-ket és táblázatokat illeszti. Szerkesztés után a projekt gyökeréből:
 
@@ -63,8 +64,11 @@ A két fejezet szövegét a sablonban kell szerkeszteni, nem a kész HTML-ben. A
 node eszkozok/09-abrak.cjs
 node eszkozok/10-abrak.cjs
 node eszkozok/11-abrak.cjs
+node eszkozok/kodtippek.cjs
 node eszkozok/fogalomtar.cjs
 ```
+
+A `kodtippek.cjs` a kódrészletek magyarázó tippjeit csomagolja be az `eszkozok/kodtippek/` JSON-fájljaiból (közös szótár és fejezetenkénti tippek). Kódrészlet módosítása után ezt is futtatni kell.
 
 A fogalomtárat minden fejezetmódosítás után újra kell generálni. Az `npm test` ellenőrzi, hogy a három kimenet megegyezik a script friss eredményével.
 

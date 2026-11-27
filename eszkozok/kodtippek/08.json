@@ -1,0 +1,484 @@
+{
+ "_leiras": "A 8. fejezet kódrészleteinek saját tippjei. Az általános elemeket a kozos.json adja.",
+ "kod-sakkminta-fitnesz": {
+  "lang": "python",
+  "tips": {
+   "reference": {
+    "tip": "A célminta: 9 gén (bit) listában, a 3 × 3-as kép három sora egymás után írva. Az 1 az átló mezőit jelöli. A def sorban a függvény 2. paramétere is ez a név: a hívó ezen keresztül adja át a mintát."
+   },
+   "calculate_fitness_to_goal": {
+    "tip": "A program saját függvénye: az egész populáció rátermettségét egyszerre számolja ki. Bemenet: a populáció és a célminta. Kimenet: numpy-tömb, egyedenként egy 0 és 9 közötti szám, vagyis hogy hány gén egyezik a mintával.",
+    "ex": "import numpy as np\npop = np.array([[1, 0, 0, 0, 1, 0, 0, 0, 1],\n                [0, 0, 0, 0, 1, 0, 0, 0, 0]])\nref = [1, 0, 0, 0, 1, 0, 0, 0, 1]\nprint((pop == ref).sum(axis=1))   # [9 7]"
+   },
+   "population": {
+    "tip": "1. paraméter: a populáció numpy-tömbként. Ez kétdimenziós tömb, olyan, mint egy táblázat: minden sora egy egyed 9 génnel (0 vagy 1), például [1, 0, 0, 1, 1, 0, 0, 0, 1]. 20 egyednél 20 sora van."
+   },
+   "identicals": {
+    "tip": "Egyezéstábla: ugyanolyan alakú tömb, mint a population, de számok helyett True és False áll benne. True ott, ahol az egyed génje egyezik a minta azonos helyen álló génjével."
+   },
+   "==": {
+    "tip": "Numpy-tömbnél az == nem egyetlen True vagy False értéket ad, hanem elemenként hasonlít. A tömb minden sorát összeveti a 9 hosszú reference-szel, helyről helyre, és egy True/False tömböt ad vissza.",
+    "ex": "import numpy as np\npop = np.array([[1, 0, 1], [0, 0, 1]])\nprint(pop == [1, 0, 0])\n# [[ True  True False]\n#  [False  True False]]"
+   },
+   "sum": {
+    "tip": "tömb.sum(axis=1): numpy-metódus, a tömb sorait külön-külön összegzi. A True 1-nek, a False 0-nak számít, így soronként megszámolja az egyezéseket. Az axis (tengely) adja meg az irányt: axis=1 soronként, axis=0 oszloponként összegez, axis nélkül az egész tömböt.",
+    "ex": "import numpy as np\nt = np.array([[True, True, False], [False, True, False]])\nprint(t.sum(axis=1))   # [2 1]\nprint(t.sum(axis=0))   # [1 2 0]\nprint(t.sum())         # 3"
+   },
+   "fitness_scores": {
+    "tip": "Az egyedenkénti rátermettségek numpy-tömbje, például [9 5 7]: az i-edik szám az i-edik egyed egyező génjeinek száma. Ezt adja vissza a függvény."
+   }
+  }
+ },
+ "kod-rulettkerek": {
+  "lang": "python",
+  "tips": {
+   "select_k_individual_wheel": {
+    "tip": "A program saját függvénye: k egyedet választ rulettkerékkel, vagyis rátermettséggel arányos eséllyel. Kimenet: lista k egyeddel, például két szülő: [[1, 0, 0, 1, 1, 0], [0, 1, 0, 1, 1, 0]]."
+   },
+   "population": {
+    "tip": "1. paraméter: a populáció. Lista, minden eleme egy egyed, azaz egy 6 bitből álló lista, például [1, 0, 0, 1, 1, 0]: az i-edik bit 1, ha az i-edik tárgyat visszük."
+   },
+   "k": {
+    "tip": "2. paraméter: hány egyedet válasszon a függvény. A k=1 alapértelmezett érték: ha a hívó nem ad meg k-t, 1 lesz."
+   },
+   "k = k": {
+    "tip": "A random.choices k nevű paramétere (bal oldal) megkapja a függvényünk k paraméterének értékét (jobb oldal). A két k csak a nevében egyezik: az egyik a random.choices-é, a másik a miénk."
+   },
+   "scores": {
+    "tip": "A rátermettségek listája, ugyanabban a sorrendben, mint a population: scores[i] a population[i] egyed rátermettsége, például [14, 0, 9, …]."
+   },
+   "candidate": {
+    "tip": "Ciklusváltozó: sorra felveszi a populáció minden egyedét (egy 6 bites listát)."
+   },
+   "calculate_fitness": {
+    "tip": "A program másik saját függvénye: egy egyed rátermettsége. Ez a bevitt tárgyak értékének összege, vagy 0, ha a súlyuk meghaladja a 10 kg-ot. Például a calculate_fitness([1, 0, 0, 1, 1, 0]) értéke 14."
+   },
+   "random.choices": {
+    "tip": "random.choices(lista, weights=súlyok, k=db): k darab elemet húz a listából visszatevéssel, vagyis ugyanaz az elem többször is kijöhet. Minden elem esélye a súlyával arányos: ez maga a rulettkerék. Mindig listát ad vissza, k=1 esetén is.",
+    "ex": "import random\nhuzas = random.choices(['A', 'B', 'C'], weights=[1, 0, 3], k=5)\nprint(len(huzas))     # 5\nprint('B' in huzas)   # False (a 0 súlyú sosem jön ki)\nprint(huzas)          # pl. ['C', 'C', 'A', 'C', 'C']"
+   },
+   "weights": {
+    "tip": "A random.choices súlyparamétere, itt a scores lista: az i-edik egyed esélye a scores[i]-vel arányos. A súlyoknak nem kell 1-re összegződniük, az arányokat a függvény maga számolja ki. Ha minden súly 0, hibát jelez (ValueError)."
+   },
+   "selected": {
+    "tip": "A kiválasztott egyedek listája. Ezt adja vissza a függvény."
+   }
+  }
+ },
+ "kod-verseny": {
+  "lang": "python",
+  "tips": {
+   "tournament": {
+    "tip": "A program saját függvénye: versenyeztetéses kiválasztás (tournament angolul versenyt jelent). Két véletlen egyedet sorsol, és a nagyobb rátermettségűt adja vissza. Egyetlen egyedet ad, nem listát."
+   },
+   "population": {
+    "tip": "1. paraméter: a populáció numpy-tömbként. Minden sora egy 9 génből álló egyed."
+   },
+   "scores": {
+    "tip": "2. paraméter: a rátermettségek tömbje (a calculate_fitness_to_goal eredménye). A scores[i] az i-edik egyed rátermettsége."
+   },
+   "fighter1": {
+    "tip": "Az első versenyző indexe, vagyis a sorszáma a populációban: egész szám 0 és len(population) − 1 között. Nem maga az egyed, csak a helye."
+   },
+   "fighter2": {
+    "tip": "A második versenyző indexe. A program itt len(scores)-t ír, de ez ugyanannyi, mert minden egyednek egy rátermettsége van. A két sorsolás független, így fighter2 lehet ugyanaz, mint fighter1: ez a visszatevéses eset."
+   },
+   "- 1": {
+    "tip": "Az utolsó érvényes index. A Python 0-tól számoz, ezért egy n elemű lista indexei 0, 1, …, n − 1. A random.randint mindkét végpontot beleérti, ezért kell a − 1: e nélkül nem létező helyet is sorsolhatna.",
+    "ex": "lista = ['a', 'b', 'c']\nprint(len(lista) - 1)          # 2\nprint(lista[len(lista) - 1])   # c\nprint(lista[3])                # IndexError: hiba!"
+   },
+   "fighter1_score": {
+    "tip": "Az első versenyző rátermettsége: a scores lista fighter1 sorszámú eleme."
+   },
+   "fighter2_score": {
+    "tip": "A második versenyző rátermettsége: a scores lista fighter2 sorszámú eleme."
+   },
+   ">=": {
+    "tip": "Nagyobb vagy egyenlő: igaz, ha az első versenyző rátermettsége legalább akkora, mint a másodiké. Az egyenlőség miatt döntetlennél az első versenyző nyer.",
+    "ex": "print(7 >= 5)   # True\nprint(5 >= 5)   # True (döntetlen)\nprint(4 >= 5)   # False"
+   },
+   "winner": {
+    "tip": "A győztes indexe: annak a versenyzőnek a sorszáma, akinek nagyobb a rátermettsége. A return population[winner] a győztes egyedet adja vissza, a tömb winner sorszámú sorát."
+   }
+  }
+ },
+ "kod-egypontos-keresztezes": {
+  "lang": "python",
+  "tips": {
+   "crossover": {
+    "tip": "A program saját függvénye: egypontos keresztezés (crossover angolul keresztezést jelent). Két szülőből két utódot készít, és párban adja vissza őket. Ha nem történik keresztezés, a pár mindkét tagja None."
+   },
+   "parent1": {
+    "tip": "Az első szülő: 9 génből álló numpy-tömb, például [1, 0, 0, 1, 1, 0, 0, 0, 1]."
+   },
+   "parent2": {
+    "tip": "A második szülő, ugyanolyan hosszú tömb, mint a parent1."
+   },
+   "crossover_rate": {
+    "tip": "A keresztezési ráta: ekkora valószínűséggel történik keresztezés. A =0.9 alapértelmezett érték: ha a hívó nem ad meg mást, 0.9, vagyis 90%."
+   },
+   "crossover_chance": {
+    "tip": "Egy 0 és 1 közötti véletlen szám. Ha legfeljebb akkora, mint a crossover_rate, keresztezünk. 0.9-es rátánál ez az esetek nagyjából 90%-ában teljesül."
+   },
+   "<=": {
+    "tip": "Kisebb vagy egyenlő: igaz, ha a sorsolt szám nem nagyobb a rátánál. Mivel a random.random() egyenletesen sorsol 0 és 1 között, a feltétel nagyjából crossover_rate valószínűséggel igaz.",
+    "ex": "print(0.5 <= 0.9)   # True\nprint(0.9 <= 0.9)   # True\nprint(0.95 <= 0.9)  # False"
+   },
+   "crossover_point": {
+    "tip": "A vágási pont: egész szám 1 és len(parent1) − 1 között. Az utód a vágási pont előtti géneket az egyik szülőtől, a vágási ponttól kezdődőket a másiktól kapja."
+   },
+   "-1": {
+    "tip": "len(parent1)-1: az utolsó index, mert a Python 0-tól számoz. A vágási pont 1 és ez között van, így mindkét darab legalább egy gént kap, és mindkét utód mindkét szülőtől örököl.",
+    "ex": "szulo = [1, 0, 0, 1]\nprint(len(szulo) - 1)   # 3\nprint(szulo[0:3])       # [1, 0, 0]\nprint(szulo[3:])        # [1]"
+   },
+   "[0:crossover_point]": {
+    "tip": "Szeletelés: a tömb eleje, a 0. elemtől a crossover_point előtti elemig. A záró index már nem tartozik bele.",
+    "ex": "a = [10, 11, 12, 13, 14]\nprint(a[0:2])   # [10, 11]\nprint(a[2:])    # [12, 13, 14]"
+   },
+   "[crossover_point:]": {
+    "tip": "Szeletelés: a tömb vége, a crossover_point indexű elemtől az utolsóig. A [0:crossover_point] szelettel együtt minden helyet pontosan egyszer lefed.",
+    "ex": "a = [10, 11, 12, 13, 14]\nprint(a[2:])    # [12, 13, 14]\nprint(a[0:2] + a[2:])   # [10, 11, 12, 13, 14]"
+   },
+   "np.hstack": {
+    "tip": "np.hstack((a, b)): numpy-függvény, a tömböket egymás után fűzi egy új tömbbe (horizontal stack: vízszintes egymás mellé rakás). Egyetlen paramétert vár, a tömbök sorozatát, ezért kell a dupla zárójel.",
+    "ex": "import numpy as np\na = np.array([1, 1, 1])\nb = np.array([0, 0])\nprint(np.hstack((a, b)))   # [1 1 1 0 0]"
+   },
+   "child1": {
+    "tip": "Az első utód: a parent1 eleje és a parent2 vége egy tömbbe fűzve."
+   },
+   "child2": {
+    "tip": "A második utód: fordítva, a parent2 eleje és a parent1 vége."
+   },
+   "None": {
+    "tip": "A None a Python „nincs érték” jelzése. A return None, None két None-t ad vissza, ha nem történt keresztezés: ilyenkor nincs utód, és ezt a hívónak kezelnie kell.",
+    "ex": "def f():\n    return None, None\n\na, b = f()\nprint(a, b)   # None None"
+   }
+  }
+ },
+ "kod-bitmutacio": {
+  "lang": "python",
+  "tips": {
+   "mutate": {
+    "tip": "A program saját függvénye: bitátfordításos mutáció. mutation_rate eséllyel kiválaszt egy véletlen gént, és 0-ról 1-re vagy 1-ről 0-ra fordítja. Az egyedet helyben módosítja, ezért nem ad vissza semmit (pontosabban None-t)."
+   },
+   "candidate": {
+    "tip": "1. paraméter: a mutálandó egyed, 0-kból és 1-esekből álló lista, például [1, 0, 0, 1, 1, 0]. A függvény ezt a listát változtatja meg, és a változás a hívónál is látszik, mert ugyanarról a listáról van szó."
+   },
+   "mutation_rate": {
+    "tip": "2. paraméter: a mutációs ráta, vagyis a mutáció valószínűsége, egy 0 és 1 közötti szám. A hátizsákprogramban 0.2."
+   },
+   "mutation_chance": {
+    "tip": "Egy 0 és 1 közötti véletlen szám. Ha kisebb a mutation_rate-nél, mutálunk."
+   },
+   "<": {
+    "tip": "Kisebb mint: igaz, ha a bal oldal kisebb a jobb oldalnál. Mivel a random.random() egyenletesen sorsol 0 és 1 között, a random.random() < 0.2 az esetek nagyjából 20%-ában igaz.",
+    "ex": "print(0.15 < 0.2)   # True\nprint(0.2 < 0.2)    # False"
+   },
+   "mutation_point": {
+    "tip": "A mutálandó gén indexe: egész szám 0 és len(candidate) − 1 között."
+   },
+   "-1": {
+    "tip": "Az utolsó érvényes index. A Python 0-tól számoz, ezért egy n elemű lista indexei 0, 1, …, n − 1. A random.randint mindkét végpontot beleérti, ezért kell a − 1: e nélkül nem létező helyet is sorsolhatna.",
+    "ex": "lista = ['a', 'b', 'c']\nprint(len(lista) - 1)          # 2\nprint(lista[len(lista) - 1])   # c\nprint(lista[3])                # IndexError: hiba!"
+   },
+   "[mutation_point]": {
+    "tip": "Indexelés: a candidate lista mutation_point sorszámú eleme, vagyis a kiválasztott gén. Az egyenlőségjel bal oldalán (candidate[mutation_point] = 1) ugyanez az elemet felülírja.",
+    "ex": "gen = [1, 0, 0]\nprint(gen[1])   # 0\ngen[1] = 1\nprint(gen)      # [1, 1, 0]"
+   }
+  }
+ },
+ "kod-allel-mutacio": {
+  "lang": "python",
+  "tips": {
+   "mutate": {
+    "tip": "A program saját függvénye, az újabb változat: mutation_rate eséllyel kiválaszt egy gént, és a helyére az allélok listájából a régitől eltérő értéket sorsol. Az egyedet helyben módosítja, és vissza is adja."
+   },
+   "candidate": {
+    "tip": "1. paraméter: a mutálandó egyed, gének listája, például [1, 0, 0, 1, 1, 0]."
+   },
+   "mutation_rate": {
+    "tip": "2. paraméter: a mutáció valószínűsége, egy 0 és 1 közötti szám."
+   },
+   "allel": {
+    "tip": "3. paraméter: a gén lehetséges értékeinek (alléljainak) listája, például [0, 1] vagy [1, 2, 3]. Legalább két különböző érték kell benne, különben a while ciklus sosem érne véget."
+   },
+   "chance": {
+    "tip": "Egy 0 és 1 közötti véletlen szám. Ha legfeljebb akkora, mint a mutation_rate, mutálunk."
+   },
+   "<=": {
+    "tip": "Kisebb vagy egyenlő: igaz, ha a sorsolt szám nem nagyobb a rátánál. A feltétel így nagyjából mutation_rate valószínűséggel teljesül.",
+    "ex": "print(0.1 <= 0.2)   # True\nprint(0.3 <= 0.2)   # False"
+   },
+   "mutation_point": {
+    "tip": "A kiválasztott gén indexe: egész szám 0 és len(candidate) − 1 között."
+   },
+   "-1": {
+    "tip": "Az utolsó érvényes index. A Python 0-tól számoz, ezért egy n elemű lista indexei 0, 1, …, n − 1. A random.randint mindkét végpontot beleérti, ezért kell a − 1: e nélkül nem létező helyet is sorsolhatna.",
+    "ex": "lista = ['a', 'b', 'c']\nprint(len(lista) - 1)          # 2\nprint(lista[len(lista) - 1])   # c\nprint(lista[3])                # IndexError: hiba!"
+   },
+   "[mutation_point]": {
+    "tip": "Indexelés: a candidate lista mutation_point sorszámú eleme, vagyis a kiválasztott gén. Az egyenlőségjel bal oldalán (candidate[mutation_point] = 1) ugyanez az elemet felülírja.",
+    "ex": "gen = [1, 0, 0]\nprint(gen[1])   # 0\ngen[1] = 1\nprint(gen)      # [1, 1, 0]"
+   },
+   "old": {
+    "tip": "A kiválasztott gén régi értéke, a változtatás előttről. Ehhez hasonlítjuk az újonnan sorsolt értéket."
+   },
+   "success": {
+    "tip": "Logikai jelző: False, amíg nem sikerült a régitől eltérő értéket sorsolni, utána True. Ez állítja le a while ciklust."
+   },
+   "not": {
+    "tip": "Logikai tagadás. A while not success: ciklus addig ismétel, amíg a success hamis, vagyis amíg nem sikerült új értéket sorsolni.",
+    "ex": "success = False\nprint(not success)   # True\nsuccess = True\nprint(not success)   # False"
+   },
+   "random.choice": {
+    "tip": "random.choice(lista): a lista egy véletlenszerűen választott eleme. Itt egy allél: [0, 1] esetén 0 vagy 1. Ugyanazt a régi értéket is kihúzhatja, ezért kell a while ciklus.",
+    "ex": "import random\nertek = random.choice([0, 1])\nprint(ertek in [0, 1])   # True"
+   },
+   "!=": {
+    "tip": "Nem egyenlő: igaz, ha az új générték különbözik a régitől. Ekkor sikerült a mutáció.",
+    "ex": "print(0 != 1)   # True\nprint(1 != 1)   # False"
+   }
+  }
+ },
+ "kod-elit-kivalasztas": {
+  "lang": "python",
+  "tips": {
+   "selection_population_elite": {
+    "tip": "A program saját függvénye: elitizmus. k-szor kiveszi a populációból a legjobb egyedet, és ezek listáját adja vissza. Közben a population listából törli őket, így az eredeti lista is fogy."
+   },
+   "population": {
+    "tip": "1. paraméter: a populáció, egyedek listája. Minden egyed egy 6 bites lista, például [1, 0, 0, 1, 1, 0]."
+   },
+   "k": {
+    "tip": "2. paraméter: hány elit egyedet tartsunk meg. A főciklus 3-mal hívja."
+   },
+   "new": {
+    "tip": "Az elit egyedek gyűjtőlistája. Üresen indul, minden körben a legjobb egyed kerül a végére, és ezt adja vissza a függvény."
+   },
+   "i": {
+    "tip": "Ciklusváltozó, amelynek az értékét nem használjuk: a ciklus csak k-szor ismétel."
+   },
+   "get_best": {
+    "tip": "A program saját függvénye: megkeresi a populáció legjobb egyedét. Három értéket ad vissza: az egyedet, a rátermettségét és az indexét (a helyét a listában)."
+   },
+   "cadidate": {
+    "tip": "A legjobb egyed, egy 6 bites lista. A név elírás, candidate akart lenni. A program attól még helyes, mert a változót mindenhol így írja."
+   },
+   "_": {
+    "tip": "Az aláhúzás a Pythonban a „nem érdekel” változó szokásos neve. A sor három változónak ad értéket a get_best három visszaadott értékéből. Az _ a másodikat, a rátermettséget kapja, amelyet nem használunk.",
+    "ex": "def harom():\n    return 'A', 14, 2\n\negyed, _, index = harom()\nprint(egyed, index)   # A 2"
+   },
+   "index": {
+    "tip": "A legjobb egyed helye a population listában, 0-tól számolva."
+   },
+   "del": {
+    "tip": "del lista[i]: törli a lista i-edik elemét, a mögötte lévők eggyel előrébb lépnek. Itt azért kell, hogy a következő körben a get_best a következő legjobbat találja meg, ne újra ugyanazt.",
+    "ex": "lista = ['A', 'B', 'C']\ndel lista[1]\nprint(lista)   # ['A', 'C']"
+   }
+  }
+ },
+ "kod-rangsor-kivalasztas": {
+  "lang": "python",
+  "tips": {
+   "exponential_probs": {
+    "tip": "A program saját függvénye: n darab, mértani sorozat szerint (exponenciálisan) növekvő valószínűséget ad listában, a leggyengébb helytől a legjobbig. A számok összege 1.",
+    "ex": "def exponential_probs(n, q=0.9):\n    weights = [(1-q)*q**(n-i) for i in range(1, n+1)]\n    total = sum(weights)\n    return [w/total for w in weights]\nprint([round(p, 3) for p in exponential_probs(4)])  # [0.212, 0.236, 0.262, 0.291]"
+   },
+   "n": {
+    "tip": "1. paraméter: hány valószínűség kell, vagyis a populáció mérete."
+   },
+   "q": {
+    "tip": "2. paraméter: az arányszám. A rangsorban eggyel lejjebb álló hely súlya a felette állóénak q-szorosa. Alapértelmezése 0.9."
+   },
+   "weights": {
+    "tip": "Két szerepben áll. Az exponential_probs-ban a súlyok listája: az i-edik hely súlya (1 − q) · q^(n − i), így az utolsó, legjobb hely súlya a legnagyobb. A random.choices hívásban (weights=probs) a húzás súlyait adja meg."
+   },
+   "for": {
+    "tip": "Itt listaépítő kifejezésben (list comprehension) áll. A [kifejezés for i in sorozat] alak a sorozat minden elemére kiszámolja a kifejezést, és az eredményekből új listát épít.",
+    "ex": "print([i * i for i in range(1, 4)])   # [1, 4, 9]\nprint([x / 10 for x in [5, 3, 2]])    # [0.5, 0.3, 0.2]"
+   },
+   "**": {
+    "tip": "Hatványozás: a q**(n-i) a q szám (n − i)-edik hatványa. Minél nagyobb az i, annál kisebb a kitevő, és 1-nél kisebb q esetén annál nagyobb az eredmény.",
+    "ex": "q = 0.9\nprint(round(q ** 2, 2))   # 0.81\nprint(q ** 0)             # 1.0"
+   },
+   "i": {
+    "tip": "Egy sorszám. A súlyoknál a hely sorszáma 1-től n-ig, a lambdában egy egyed indexe a populációban."
+   },
+   "total": {
+    "tip": "A súlyok összege. Ezzel osztva a súlyok összege 1 lesz, így valószínűségként használhatók."
+   },
+   "w": {
+    "tip": "Ciklusváltozó: sorra felveszi a weights lista minden súlyát."
+   },
+   "select_based_on_rank": {
+    "tip": "A program saját függvénye: rangsor alapú kiválasztás. Rátermettség szerint sorba rendezi az egyedeket, és a helyük alapján, exponenciális súlyokkal választ közülük egyet. Kimenet: egyetlen egyed."
+   },
+   "population": {
+    "tip": "1. paraméter: a populáció, egyedek listája."
+   },
+   "scores": {
+    "tip": "2. paraméter: a rátermettségek listája, a population sorrendjében: scores[i] az i-edik egyed rátermettsége."
+   },
+   "ranks": {
+    "tip": "Az egyedek indexei rátermettség szerint növekvő sorrendben: az első a leggyengébb, az utolsó a legjobb egyed indexe. Például scores = [5, 9, 1] esetén [2, 0, 1]."
+   },
+   "sorted": {
+    "tip": "Itt nem az egyedeket, hanem az indexeiket (0, 1, …, n − 1) rendezi, és nem a saját értékük, hanem a hozzájuk tartozó rátermettség szerint. A sorted új listát ad, az eredeti nem változik.",
+    "ex": "scores = [5, 9, 1]\nprint(sorted(range(len(scores)), key=lambda i: scores[i]))   # [2, 0, 1]"
+   },
+   "key": {
+    "tip": "A sorted key paramétere: egy függvény, amely minden elemhez megadja, mi szerint kell rendezni. Itt az i indexhez a scores[i] rátermettséget rendeli."
+   },
+   "lambda": {
+    "tip": "lambda i: scores[i]: névtelen, egysoros függvény. A kettőspont előtt a paraméter (i), utána a visszaadott érték (scores[i]). Ugyanazt jelenti, mint a def f(i): return scores[i].",
+    "ex": "duplaz = lambda x: 2 * x\nprint(duplaz(5))   # 10"
+   },
+   "probs": {
+    "tip": "A rangsor helyeihez tartozó valószínűségek listája: probs[j] annak az esélye, hogy a rangsor j-edik helyén álló egyedet választjuk."
+   },
+   "random.choices": {
+    "tip": "random.choices(lista, weights=súlyok, k=db): k darab elemet húz a listából visszatevéssel, vagyis ugyanaz az elem többször is kijöhet. Minden elem esélye a súlyával arányos: ez maga a rulettkerék. Mindig listát ad vissza, k=1 esetén is.",
+    "ex": "import random\nhuzas = random.choices(['A', 'B', 'C'], weights=[1, 0, 3], k=5)\nprint(len(huzas))     # 5\nprint('B' in huzas)   # False (a 0 súlyú sosem jön ki)\nprint(huzas)          # pl. ['C', 'C', 'A', 'C', 'C']"
+   },
+   "k=1": {
+    "tip": "A random.choices k paramétere: egyetlen elemet húzunk."
+   },
+   "[0]": {
+    "tip": "A random.choices mindig listát ad, k=1 esetén is, csak egyeleműt. A [0] ennek az egyetlen elemét veszi ki.",
+    "ex": "lista = [7]\nprint(lista)      # [7]\nprint(lista[0])   # 7"
+   },
+   "selected_index": {
+    "tip": "A kiválasztott egyed indexe a populációban, a ranks lista egyik eleme. A return population[selected_index] ezt az egyedet adja vissza."
+   }
+  }
+ },
+ "kod-fociklus-hatizsak": {
+  "lang": "python",
+  "tips": {
+   "_": {
+    "tip": "A ciklusváltozó szokásos neve, ha az értékére nincs szükség: a ciklus csak generation-szer ismétel."
+   },
+   "generation": {
+    "tip": "A generációk száma, itt 10: ennyiszer fut le a ciklus."
+   },
+   "new_population": {
+    "tip": "Az új generáció listája. Minden kör elején üresen indul, a kör végén a population = new_population sor ezt teszi meg aktuális populációnak."
+   },
+   "parents": {
+    "tip": "A rulettkerékkel kiválasztott két szülő listája."
+   },
+   "select_k_individual_wheel": {
+    "tip": "A fenti rulettkerekes függvény: itt k = 2 szülőt választ a populációból, és listában adja vissza őket."
+   },
+   "parent1": {
+    "tip": "parent1, parent2 = parents[0], parents[1]: egy sorban két értékadás. A bal oldali első változó a jobb oldali első értéket kapja, a második a másodikat. A parent1 így a parents lista első eleme.",
+    "ex": "a, b = 1, 2\nprint(a)   # 1\nprint(b)   # 2"
+   },
+   "parent2": {
+    "tip": "A második szülő, a parents lista 1. indexű eleme."
+   },
+   "crossover": {
+    "tip": "A hátizsákprogram saját keresztezése: kétpontos, és nem a fenti, numpy-s egypontos változat. Itt nincs keresztezési ráta, ezért mindig két utódot ad vissza."
+   },
+   "child1": {
+    "tip": "Az első utód, egy 6 bites lista. A child1, child2 = … sor a crossover két visszaadott értékét két változóba bontja."
+   },
+   "child2": {
+    "tip": "A második utód, egy 6 bites lista."
+   },
+   "mutate": {
+    "tip": "A fenti bitátfordító mutate: helyben módosítja az utódot, ezért nem kell az eredményét eltárolni."
+   },
+   "mutation_rate": {
+    "tip": "A mutációs ráta, itt 0.2: minden utód 20% eséllyel mutálódik."
+   },
+   "population": {
+    "tip": "A populáció, egyedek listája. Az első körben 50 egyedből áll, a két append után 52-ből. Utána minden kör végén 3 + 5 = 8 egyed marad."
+   },
+   "append": {
+    "tip": "population.append(child1): az utódot a régi populáció végére fűzi, így ő is versenyezhet a túlélésért."
+   },
+   "extend": {
+    "tip": "lista.extend(masik): a másik lista minden elemét egyenként a lista végére fűzi. Itt a kiválasztó függvény által visszaadott egyedek kerülnek így az új populációba. Az append ezzel szemben az egész listát egyetlen elemként tenné be.",
+    "ex": "uj = []\nuj.extend([[1, 0], [0, 1]])\nprint(uj)        # [[1, 0], [0, 1]]\nuj.append([[1, 1]])\nprint(len(uj))   # 3"
+   },
+   "selection_population_elite": {
+    "tip": "A fenti elitista függvény: a 3 legjobb egyedet adja vissza, és közben törli őket a population listából."
+   },
+   "selection_population_relative_wheel": {
+    "tip": "A program saját függvénye: a population maradékából 5 egyedet választ rulettkerékkel. A súlyok a rátermettségek, elosztva az összegükkel (relatív rátermettség). Ha minden rátermettség 0, üres listát ad."
+   }
+  }
+ },
+ "kod-fociklus-hatizsak-uj": {
+  "lang": "python",
+  "tips": {
+   "i": {
+    "tip": "Ciklusváltozó: a generáció sorszáma, 0-tól. Az eredeti programban az itt elhagyott, 10 generációnként kiíró sorok használják."
+   },
+   "generation": {
+    "tip": "A generációk száma, itt 100: ennyiszer fut le a ciklus."
+   },
+   "new_population": {
+    "tip": "Az új generáció listája. Minden kör elején üresen indul, a population = new_population sor ezt teszi meg aktuális populációnak."
+   },
+   "parents": {
+    "tip": "A rulettkerékkel kiválasztott két szülő listája."
+   },
+   "population": {
+    "tip": "A populáció, 50 egyed listája. Minden egyed gének listája."
+   },
+   "fitness": {
+    "tip": "A rátermettségek listája, a population sorrendjében: fitness[i] a population[i] egyed rátermettsége. A ciklus végén az új populációhoz újraszámoljuk."
+   },
+   "select_k_individual_wheel": {
+    "tip": "Az újabb változat rulettkereke. A rátermettségek listáját (fitness) is megkapja, így nem számolja újra. A harmadik paraméter a kért egyedek száma: itt először 2, később 45."
+   },
+   "parent1": {
+    "tip": "parent1, parent2 = parents[0], parents[1]: egy sorban két értékadás. A bal oldali első változó a jobb oldali első értéket kapja, a második a másodikat.",
+    "ex": "a, b = 1, 2\nprint(a)   # 1\nprint(b)   # 2"
+   },
+   "parent2": {
+    "tip": "A második szülő, a parents lista 1. indexű eleme."
+   },
+   "crossover_two_points": {
+    "tip": "Az újabb változat kétpontos keresztezése: két véletlen vágási pont között kicseréli a két szülő génjeit. Két utódot ad vissza."
+   },
+   "child1": {
+    "tip": "Az első utód. A child1, child2 = … sor a keresztezés két visszaadott értékét két változóba bontja."
+   },
+   "child2": {
+    "tip": "A második utód."
+   },
+   "mutate": {
+    "tip": "A fenti, allél-listás mutate. Visszaadja a (talán) megváltozott egyedet, ezért az eredményt a child1 = mutate(…) visszaírja."
+   },
+   "mutation_rate": {
+    "tip": "A mutációs ráta: ekkora eséllyel mutálódik egy utód."
+   },
+   "allel": {
+    "tip": "A gén lehetséges értékeinek listája, itt [0, 1]."
+   },
+   "extend": {
+    "tip": "lista.extend(masik): a másik lista minden elemét egyenként a lista végére fűzi. Itt a kiválasztó függvény által visszaadott egyedek kerülnek így az új populációba. Az append ezzel szemben az egész listát egyetlen elemként tenné be.",
+    "ex": "uj = []\nuj.extend([[1, 0], [0, 1]])\nprint(uj)        # [[1, 0], [0, 1]]\nuj.append([[1, 1]])\nprint(len(uj))   # 3"
+   },
+   "selection_k_elite": {
+    "tip": "Az újabb elitista függvény: a 3 legjobb egyedet adja vissza. Közben törli őket a population és a fitness listából is, így a két lista együtt fogy."
+   },
+   "append": {
+    "tip": "new_population.append(child1): az utódot kiválasztás nélkül az új populáció végére fűzi."
+   },
+   "[]": {
+    "tip": "Üres lista. A new_population = [] üres új generációval kezdi a kört. A fitness = [] a régi rátermettségeket dobja el, és az utána következő ciklus az új populációhoz tölti fel újra.",
+    "ex": "fitness = [14, 9]\nfitness = []\nfitness.append(7)\nprint(fitness)   # [7]"
+   },
+   "candidate": {
+    "tip": "Ciklusváltozó: sorra felveszi az új populáció minden egyedét."
+   },
+   "calculate_fitness": {
+    "tip": "A program saját függvénye: egy egyed rátermettsége, vagyis a bevitt tárgyak értékének összege, vagy 0, ha a súlyuk túllépi a teherbírást."
+   }
+  }
+ }
+}

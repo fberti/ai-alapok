@@ -197,6 +197,8 @@ Az interaktív elemek segítsék a megértést.
 
 Ne legyen öncélú animáció.
 
+Minden kódrészlet nem triviális szavai kezdőknek szóló magyarázó tippet kapnak, a függvények és műveletek futtatható, kimenettel ellátott példát is. A tippeket nem kézzel írjuk a HTML-be: az általános elemek az `eszkozok/kodtippek/kozos.json`-ban, a fejezet saját szavai az `eszkozok/kodtippek/NN.json`-ban vannak, és a `node eszkozok/kodtippek.cjs` csomagolja be őket. Új vagy módosított kódrészlet után ezt újra kell futtatni; a tesztek ellenőrzik, hogy a kimenet naprakész. A tippet az `assets/js/kod-tippek.js` jeleníti meg rámutatásra, koppintásra és billentyűzetes fókuszra. A tipp kiegészítés: a kód lényegét a körülötte lévő szöveg JavaScript nélkül is magyarázza.
+
 Minden `.u-lab` labor „Teljes méret” gombot kap (`assets/js/labor-teljes.js`). Teljes méretben a rajzos panelek (`.u-panel` benne SVG-vel) jobbra, nagyba kerülnek, a vezérlők balra. Új fejezet a `<head>`-ben töltse be: `<script defer src="../assets/js/labor-teljes.js"></script>`.
 
 Minden interaktív elem működjön billentyűzettel is.

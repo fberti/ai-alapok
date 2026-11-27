@@ -1,0 +1,137 @@
+{
+ "_leiras": "Az 1. fejezet kódrészleteinek saját tippjei (mélységi keresés, nyolc vezér). Az általános elemeket a kozos.json adja. A táblák (u-board-static) szöveges rajzok, nem kapnak tippet.",
+ "dfs-kod": {
+  "lang": "python",
+  "tips": {
+   "dfs": {
+    "tip": "A függvény neve: depth-first search, azaz mélységi keresés. Ezt adja vissza: az első megtalált utat csomópontok listájaként, például ['S', 'A', 'D', 'G'], vagy None-t, ha nincs út a célig."
+   },
+   "graph": {
+    "tip": "1. paraméter: a gráf szótárként (dict). A kulcs egy csomópont neve, az érték a szomszédai listában. Például {'S': ['A', 'B'], 'A': ['D']} azt jelenti, hogy S-ből A-ba és B-be, A-ból D-be vezet él.",
+    "ex": "graph = {'S': ['A', 'B'], 'A': ['D']}\nprint(graph['S'])   # ['A', 'B']\nprint('A' in graph) # True"
+   },
+   "start": {
+    "tip": "2. paraméter: a kiinduló csomópont neve, például 'S' (egy szöveg, vagyis string)."
+   },
+   "goal": {
+    "tip": "3. paraméter: a cél csomópont neve, például 'G'."
+   },
+   "queue": {
+    "tip": "A még folytatandó utak listája. Minden eleme egy teljes út, és minden út maga is lista: például [['S', 'A'], ['S', 'B']]. A neve sort jelent, de itt veremként működik: az új utak az elejére kerülnek, és onnan is vesszük ki őket. A while queue: azt jelenti: amíg van még út a listában."
+   },
+   "[start]": {
+    "tip": "Egyelemű lista, benne csak a kiinduló csomópont: ['S']. Ez az első út, amely még csak a Startból áll.",
+    "ex": "start = 'S'\nut = [start]\nprint(ut)        # ['S']\nprint(len(ut))   # 1"
+   },
+   "path": {
+    "tip": "Az éppen vizsgált út: csomópontok listája, például ['S', 'A']. Az első csomópontja mindig a Start."
+   },
+   "pop(0)": {
+    "tip": "lista.pop(0): kiveszi a listából a 0. (vagyis az első) elemet, és visszaadja. Mivel az új utak a lista elejére kerülnek, így mindig a legutóbb betett, legmélyebb utat kapjuk meg: ettől lesz a keresés mélységi.",
+    "ex": "sor = ['a', 'b', 'c']\nelso = sor.pop(0)\nprint(elso)   # a\nprint(sor)    # ['b', 'c']"
+   },
+   "end_node": {
+    "tip": "Az út utolsó csomópontja (path[-1]): az a hely, ahol a keresés éppen áll. Innen lépünk tovább a szomszédok felé."
+   },
+   "new_paths": {
+    "tip": "Ebben a listában gyűjtjük az ebből az útból egy lépéssel továbbvezető új utakat. A ciklus végén mind egyszerre kerülnek a queue elejére."
+   },
+   "adjacent": {
+    "tip": "Egy szomszéd: olyan csomópont, ahová end_node-ból egyetlen éllel eljutunk. Az adjacent angolul szomszédost jelent."
+   },
+   "get": {
+    "tip": "szótár.get(kulcs, alapérték): visszaadja a kulcshoz tartozó értéket, itt end_node szomszédainak listáját. Ha a kulcs nincs a szótárban (ennek a csomópontnak nincs kimenő éle), hibaüzenet helyett az alapértéket, az üres listát adja.",
+    "ex": "g = {'S': ['A', 'B']}\nprint(g.get('S', []))   # ['A', 'B']\nprint(g.get('X', []))   # []"
+   },
+   "not in": {
+    "tip": "Tartalmazás vizsgálata: igaz, ha az elem nincs benne a listában. Itt: ha a szomszéd még nem szerepel az úton. Így az út nem megy körbe, nem lép vissza oda, ahol már járt.",
+    "ex": "ut = ['S', 'A']\nprint('A' not in ut)   # False\nprint('D' not in ut)   # True"
+   },
+   "new_path": {
+    "tip": "Az új, eggyel hosszabb út: a régi út, a végén a szomszéddal. Előbb a new_paths listába kerül."
+   },
+   "list": {
+    "tip": "A list(path) a path másolata. Azt jelzi, hogy az eredeti utat nem módosítjuk, hiszen abból más szomszédok felé is továbbmegyünk. (Itt szigorúan véve nem kellene, mert a + amúgy is új listát hoz létre.)",
+    "ex": "regi = ['S', 'A']\nuj = list(regi)\nuj.append('D')\nprint(regi)   # ['S', 'A']\nprint(uj)     # ['S', 'A', 'D']"
+   },
+   "+": {
+    "tip": "Két lista összefűzése egy új listába: ['S', 'A'] + ['D'] eredménye ['S', 'A', 'D']. Az adjacent-et ezért tesszük szögletes zárójelbe: a + jellel listához csak listát lehet hozzáadni.",
+    "ex": "ut = ['S', 'A']\nprint(ut + ['D'])   # ['S', 'A', 'D']\nprint(ut)           # ['S', 'A']"
+   },
+   "[0:0]": {
+    "tip": "Szeletre (slice) való értékadás: a lista[0:0] = újak az újak elemeit a lista legelejére szúrja be, a meglévők elé. Ez a sor teszi a keresést mélységivé; a bfs ugyanitt a lista végére fűz.",
+    "ex": "sor = ['x', 'y']\nsor[0:0] = ['a', 'b']\nprint(sor)   # ['a', 'b', 'x', 'y']"
+   },
+   "None": {
+    "tip": "A None a Python „nincs érték” jelzése. Ha a lista kiürült, és közben nem értük el a célt, akkor nincs út: ezt jelzi a None.",
+    "ex": "def keres(lista, x):\n    for v in lista:\n        if v == x:\n            return v\n    return None\n\nprint(keres(['A'], 'B'))   # None"
+   }
+  }
+ },
+ "nyolc-vezer-kod": {
+  "lang": "python",
+  "tips": {
+   "utkozik": {
+    "tip": "Saját függvény: megmondja, hogy egy új vezér a következő sor adott oszlopában ütésben állna-e. True-t ad, ha valamelyik már lerakott vezér üti, különben False-t.",
+    "ex": "def utkozik(vezerek, oszlop):\n    sor = len(vezerek)\n    return any(o == oszlop or abs(o - oszlop) == sor - s\n               for s, o in enumerate(vezerek))\n\nprint(utkozik((0,), 1))   # True (átló)\nprint(utkozik((0,), 2))   # False"
+   },
+   "vezerek": {
+    "tip": "A már lerakott vezérek oszlopai soronként, egy tuple-ben (rendezett, nem módosítható sorozat, kerek zárójellel). Például (0, 4) azt jelenti: az 1. sorban a 0. oszlopban, a 2. sorban a 4. oszlopban áll vezér."
+   },
+   "oszlop": {
+    "tip": "Annak az oszlopnak a száma (0–7), ahová a következő vezért tenni próbáljuk."
+   },
+   "sor": {
+    "tip": "Az új vezér sorának száma (0-tól). Annyi, ahány vezér már a táblán van, hiszen soronként egyet rakunk le."
+   },
+   "any": {
+    "tip": "any(…): True-t ad, ha a felsorolt értékek közül legalább egy igaz, különben False-t. Itt: ha legalább egy lerakott vezér üti az új mezőt. Az első igaz értéknél abbahagyja a vizsgálatot.",
+    "ex": "print(any([False, True, False]))   # True\nprint(any([False, False]))         # False\nprint(any(x > 2 for x in [1, 5]))   # True"
+   },
+   "o": {
+    "tip": "Egy már lerakott vezér oszlopa. Az o == oszlop azt vizsgálja, hogy ugyanabban az oszlopban áll-e."
+   },
+   "abs": {
+    "tip": "abs(x): x abszolút értéke, előjel nélkül. Itt az átlós ütést vizsgálja: két vezér akkor áll egy átlón, ha az oszlopaik távolsága egyenlő a soraik távolságával.",
+    "ex": "print(abs(-3))       # 3\n# (1. sor, 2. oszlop) és (3. sor, 4. oszlop):\nprint(abs(2 - 4) == 3 - 1)   # True: egy átlón"
+   },
+   "s": {
+    "tip": "Egy már lerakott vezér sorának száma (0-tól); az enumerate adja. A sor - s a két vezér sorainak távolsága."
+   },
+   "for": {
+    "tip": "Ciklus: egy sorozat elemein megy végig, és mindegyikre végrehajtja a behúzott sorokat. Az utkozik függvényben az any(… for …) zárójelén belül nem önálló ciklus, hanem generátorkifejezés: minden elemre kiszámít egy értéket, és ezeket adja át az any-nek.",
+    "ex": "for i in range(3):\n    print(i)\n# kiírja: 0, 1, 2\nprint(any(x == 2 for x in [1, 2, 3]))   # True"
+   },
+   "enumerate": {
+    "tip": "enumerate(vezerek): a vezérek oszlopait a sorszámukkal együtt adja, (sor, oszlop) párokban. Így az s a vezér sora, az o az oszlopa.",
+    "ex": "for s, o in enumerate((0, 4)):\n    print(s, o)\n# kiírja: 0 0, majd 1 4"
+   },
+   "nyolc_vezer": {
+    "tip": "Saját, rekurzív függvény: önmagát hívja meg, mindig eggyel több lerakott vezérrel. Visszaadja az első teljes megoldást oszloplistaként, vagy None-t, ha ebből az állásból nincs megoldás."
+   },
+   "vezerek=()": {
+    "tip": "Alapértelmezett paraméterérték: ha a függvényt bemenet nélkül hívjuk (nyolc_vezer()), a vezerek az üres tuple lesz, vagyis üres táblával indulunk.",
+    "ex": "def koszon(nev='Világ'):\n    print('Szia,', nev)\n\nkoszon()        # Szia, Világ\nkoszon('Anna')  # Szia, Anna"
+   },
+   "len": {
+    "tip": "len(vezerek): hány vezér van már a táblán. Ha 8, kész a megoldás.",
+    "ex": "print(len((0, 4, 7)))   # 3\nprint(len(()))          # 0"
+   },
+   "list": {
+    "tip": "list(vezerek): a tuple-ből azonos elemű listát készít, mert a megoldást listaként adjuk vissza.",
+    "ex": "print(list((0, 4, 7)))   # [0, 4, 7]"
+   },
+   "megoldas": {
+    "tip": "A rekurzív hívás eredménye: egy teljes megoldás listaként, vagy None, ha erről az ágról nincs megoldás. Az if megoldas: feltétel akkor igaz, ha nem None (és nem üres)."
+   },
+   "+": {
+    "tip": "Két tuple összefűzése egy új tuple-be: (0, 4) + (7,) eredménye (0, 4, 7). Az eredeti vezerek nem változik, így visszalépéskor a régi állás érintetlen marad.",
+    "ex": "v = (0, 4)\nprint(v + (7,))   # (0, 4, 7)\nprint(v)          # (0, 4)"
+   },
+   "(oszlop,)": {
+    "tip": "Egyelemű tuple. A vessző kötelező: (oszlop) csak egy zárójelezett szám volna, a (oszlop,) viszont egy egyelemű sorozat.",
+    "ex": "print((7,))        # (7,)\nprint(type((7)))   # <class 'int'>\nprint(type((7,)))  # <class 'tuple'>"
+   }
+  }
+ }
+}

@@ -1,0 +1,450 @@
+{
+ "_leiras": "A 6. fejezet kódrészleteinek saját tippjei. Az általános elemeket a kozos.json adja.",
+ "kod-aktivaciok": {
+  "lang": "python",
+  "tips": {
+   "sigmoid": {
+    "tip": "A szigmoid (S alakú) aktivációs függvény: 1 / (1 + e⁻ˣ). Bármilyen x számot 0 és 1 közé eső számmá alakít: nagy negatív x-re közel 0, x = 0-ra 0,5, nagy pozitív x-re közel 1.",
+    "ex": "import math\ndef sigmoid(x):\n    return 1.0 / (1.0 + math.exp(-x))\nprint(sigmoid(0))             # 0.5\nprint(round(sigmoid(4), 3))   # 0.982"
+   },
+   "x": {
+    "tip": "A függvények bemenete: a neuron aktivációja, vagyis a súlyozott bemenetek összege. Egyetlen szám, például 0.7 vagy -2."
+   },
+   "math.exp": {
+    "tip": "math.exp(x): az eˣ értéke, ahol e ≈ 2,718 (a természetes alapú exponenciális függvény). A math modulban van, ezért kell elé a math. előtag. Nagyon nagy x-re (kb. 710 fölött) OverflowError hibával leáll, mert az eredmény nem fér el egy lebegőpontos számban.",
+    "ex": "import math\nprint(math.exp(0))             # 1.0\nprint(round(math.exp(1), 3))   # 2.718\nmath.exp(1000)                 # OverflowError: hiba!"
+   },
+   "/": {
+    "tip": "Osztás. Pythonban az eredménye mindig tört (float) szám, akkor is, ha két egész számot osztunk.",
+    "ex": "print(1.0 / 4)   # 0.25\nprint(6 / 3)     # 2.0"
+   },
+   "+": {
+    "tip": "Két szám összeadása.",
+    "ex": "print(1.0 + 2)   # 3.0"
+   },
+   "-": {
+    "tip": "Egy szám elé írva (-x) a szám ellentettjét, −1-szeresét adja. A szigmoid így számolja az e⁻ˣ-et.",
+    "ex": "x = 3\nprint(-x)    # -3\nx = -2\nprint(-x)    # 2"
+   },
+   "*": {
+    "tip": "Szorzás: itt az alpha meredekség és az x bemenet szorzata.",
+    "ex": "alpha = 2\nprint(alpha * 3)   # 6"
+   },
+   "linear": {
+    "tip": "A lineáris aktivációs függvény: alpha · x. Az alapértelmezett alpha = 1 mellett a bemenetet változatlanul adja tovább (ez az identitás).",
+    "ex": "def linear(x, alpha=1):\n    return alpha * x\nprint(linear(3))      # 3\nprint(linear(3, 2))   # 6"
+   },
+   "alpha=1": {
+    "tip": "Alapértelmezett értékű paraméter: ha a hívó nem ad meg alpha-t, akkor alpha = 1 lesz. Az alpha az egyenes meredeksége.",
+    "ex": "def linear(x, alpha=1):\n    return alpha * x\nprint(linear(5))            # 5\nprint(linear(5, alpha=3))   # 15"
+   },
+   "alpha": {
+    "tip": "Az egyenes meredeksége: ennyiszeresére nagyítja a függvény a bemenetet."
+   },
+   "threshold=0": {
+    "tip": "A küszöb paramétere, alapértelmezett értéke 0. Vigyázat: ugyanaz a neve, mint magának a függvénynek. A függvény belsejében a threshold szó ezért ezt a számot jelenti, nem a függvényt.",
+    "ex": "def threshold(x, threshold=0):\n    return threshold\nprint(threshold(5))       # 0\nprint(threshold(5, 2))    # 2"
+   },
+   "threshold": {
+    "tip": "A küszöbfüggvény (threshold: küszöb): 0-t ad, ha x a küszöb alatt van, különben 1-et. A függvényen belül a threshold név a küszöbértéket tároló paramétert jelenti, például 0-t.",
+    "ex": "def threshold(x, threshold=0):\n    if x < threshold:\n        return 0\n    else:\n        return 1\nprint(threshold(-0.5), threshold(0), threshold(2))   # 0 1 1"
+   },
+   "<": {
+    "tip": "Kisebb-e: igaz (True), ha a bal oldal kisebb a jobb oldalnál. Egyenlő értékekre hamis (False).",
+    "ex": "print(-1 < 0)   # True\nprint(0 < 0)    # False"
+   },
+   "relu": {
+    "tip": "A ReLU (rectified linear unit, egyenirányított lineáris egység) aktivációs függvény: negatív x-re 0, egyébként maga az x. Röviden: max(0, x).",
+    "ex": "def relu(x):\n    if x < 0:\n        return 0\n    else:\n        return x\nprint(relu(-3), relu(2.5))   # 0 2.5"
+   }
+  }
+ },
+ "kod-kezzel": {
+  "lang": "python",
+  "tips": {
+   "predict": {
+    "tip": "Saját függvény: a háló előrehaladó számolása (predict: megjósol). Két bemenetből és egy aktivációs függvényből kiszámolja a háló kimenetét, és ezt az egy számot adja vissza."
+   },
+   "activation": {
+    "tip": "3. paraméter: maga az aktivációs függvény, például sigmoid vagy relu, zárójel nélkül. Pythonban függvényt is át lehet adni paraméterként: az activation(a1) a kapott függvényt hívja meg az a1 számmal.",
+    "ex": "def dupla(x):\n    return 2 * x\ndef alkalmaz(f, x):\n    return f(x)\nprint(alkalmaz(dupla, 5))   # 10"
+   },
+   "w11": {
+    "tip": "Súly (weight): az 1. bemenettől (x1) a 1. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w21": {
+    "tip": "Súly (weight): a 2. bemenettől (x2) a 1. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w12": {
+    "tip": "Súly (weight): az 1. bemenettől (x1) a 2. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w22": {
+    "tip": "Súly (weight): a 2. bemenettől (x2) a 2. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w13": {
+    "tip": "Súly (weight): az 1. bemenettől (x1) a 3. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w23": {
+    "tip": "Súly (weight): a 2. bemenettől (x2) a 3. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w14": {
+    "tip": "Súly (weight): az 1. rejtett neurontól a kimeneti, 4. neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás."
+   },
+   "w24": {
+    "tip": "Súly (weight): az 2. rejtett neurontól a kimeneti, 4. neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás."
+   },
+   "w34": {
+    "tip": "Súly (weight): az 3. rejtett neurontól a kimeneti, 4. neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás."
+   },
+   "b1": {
+    "tip": "A 1. rejtett neuron torzítása (bias): egy szám, kezdetben 0. Mindig hozzáadódik a súlyozott összeghez, mintha egy állandóan 1 értékű bemenet súlya volna."
+   },
+   "b2": {
+    "tip": "A 2. rejtett neuron torzítása (bias): egy szám, kezdetben 0. Mindig hozzáadódik a súlyozott összeghez, mintha egy állandóan 1 értékű bemenet súlya volna."
+   },
+   "b3": {
+    "tip": "A 3. rejtett neuron torzítása (bias): egy szám, kezdetben 0. Mindig hozzáadódik a súlyozott összeghez, mintha egy állandóan 1 értékű bemenet súlya volna."
+   },
+   "b4": {
+    "tip": "A kimeneti, 4. neuron torzítása (bias): egy szám, kezdetben 0. Mindig hozzáadódik a súlyozott összeghez, mintha egy állandóan 1 értékű bemenet súlya volna."
+   },
+   "a1": {
+    "tip": "A 1. rejtett neuron aktivációja: a torzítás és a súlyozott bemenetek összege, egyetlen szám. Ebből számolja az aktivációs függvény a neuron kimenetét."
+   },
+   "a2": {
+    "tip": "A 2. rejtett neuron aktivációja: a torzítás és a súlyozott bemenetek összege, egyetlen szám. Ebből számolja az aktivációs függvény a neuron kimenetét."
+   },
+   "a3": {
+    "tip": "A 3. rejtett neuron aktivációja: a torzítás és a súlyozott bemenetek összege, egyetlen szám. Ebből számolja az aktivációs függvény a neuron kimenetét."
+   },
+   "a4": {
+    "tip": "A kimeneti, 4. neuron aktivációja: a torzítás és a három rejtett kimenet súlyozott összege, egyetlen szám."
+   },
+   "o1": {
+    "tip": "A 1. rejtett neuron kimenete (output): az aktivációs függvény értéke, szigmoidnál 0 és 1 közötti szám. Ez megy tovább a kimeneti neuronba."
+   },
+   "o2": {
+    "tip": "A 2. rejtett neuron kimenete (output): az aktivációs függvény értéke, szigmoidnál 0 és 1 közötti szám. Ez megy tovább a kimeneti neuronba."
+   },
+   "o3": {
+    "tip": "A 3. rejtett neuron kimenete (output): az aktivációs függvény értéke, szigmoidnál 0 és 1 közötti szám. Ez megy tovább a kimeneti neuronba."
+   },
+   "o4": {
+    "tip": "A háló kimenete, vagyis a jóslata: a 4. neuron kimenete. Szigmoidnál 0 és 1 közötti szám, például 0.93. Kerekítve ez a háló válasza az XOR-ra."
+   },
+   "x1": {
+    "tip": "Az 1. bemenet: az XOR egyik bitje, 0 vagy 1."
+   },
+   "x2": {
+    "tip": "A 2. bemenet: az XOR másik bitje, 0 vagy 1."
+   },
+   "target": {
+    "tip": "Az elvárt kimenet (target: cél): amit a háló erre a mintára mondania kellene. Az XOR-nál 0 vagy 1, például x1 = 1, x2 = 0 esetén 1."
+   },
+   "alpha": {
+    "tip": "A tanulási ráta (α): egy kis szám, amely megmondja, mekkorát lépjen egy súly egy javításkor. Ha nem adunk meg mást, 0.2."
+   },
+   "learn_delta": {
+    "tip": "Saját függvény: egyetlen tanítólépés egy mintára. Előbb kiszámolja a háló kimenetét, aztán a hibával (target − o4) minden súlyt és torzítást módosít. Nem ad vissza semmit, a globális súlyokat írja át."
+   },
+   "alpha=0.2": {
+    "tip": "Alapértelmezett értékű paraméter: az alpha tanulási ráta 0.2, ha a hívó nem ad meg mást.",
+    "ex": "def lepes(hiba, alpha=0.2):\n    return hiba * alpha\nprint(lepes(1.0))        # 0.2\nprint(lepes(1.0, 0.5))   # 0.5"
+   },
+   "global": {
+    "tip": "Jelzi, hogy a felsorolt nevek a függvényen kívül, a fájl szintjén létrehozott (globális) változók. Enélkül a w11 += … sor hibát adna (UnboundLocalError), mert a Python a függvény saját, még üres változójának venné a w11-et.",
+    "ex": "n = 0\ndef novel():\n    global n\n    n += 1\nnovel()\nnovel()\nprint(n)   # 2"
+   },
+   "error": {
+    "tip": "A kimeneti hiba (error): az elvárt és a kapott kimenet különbsége, target − o4. Egy szám −1 és 1 között. Pozitív, ha a háló túl kicsit mondott, negatív, ha túl nagyot."
+   },
+   "*": {
+    "tip": "Szorzás. Itt mindig két szám szorzata, például a bemenet és a hozzá tartozó súly szorzata.",
+    "ex": "x1 = 1\nw11 = 0.5\nprint(x1 * w11)   # 0.5"
+   },
+   "+": {
+    "tip": "Két szám összeadása. A neuron a súlyozott bemeneteket és a torzítást így adja össze egyetlen számmá.",
+    "ex": "b1 = 0.1\nprint(b1 + 1 * 0.5 + 0 * 0.3)   # 0.6"
+   },
+   "-": {
+    "tip": "Kivonás: az elvárt kimenetből levonjuk a kapottat, így kapjuk a hibát.",
+    "ex": "target = 1\no4 = 0.75\nprint(target - o4)   # 0.25"
+   },
+   "+=": {
+    "tip": "Hozzáadás helyben: a w11 += d ugyanaz, mint a w11 = w11 + d. Itt így módosul egy súly: a jobb oldal a változtatás mértéke. Ha a jobb oldal negatív, a súly csökken.",
+    "ex": "w11 = 0.5\nw11 += -0.25\nprint(w11)   # 0.25"
+   }
+  }
+ },
+ "kod-javitott": {
+  "lang": "python",
+  "tips": {
+   "d4": {
+    "tip": "A kimeneti neuron δ-ja (delta): a hiba (target − o4) szorozva a szigmoid deriváltjával, o4 · (1 − o4). Egy szám, ez mutatja, merre és mennyire kell változnia a kimeneti neuron aktivációjának."
+   },
+   "d1": {
+    "tip": "A 1. rejtett neuron δ-ja: a kimeneti δ visszavetítve erre a neuronra. A w14 súllyal szorozzuk, mert ezen át hat a neuron a kimenetre, és a saját szigmoid-deriváltjával, o1 · (1 − o1)."
+   },
+   "d2": {
+    "tip": "A 2. rejtett neuron δ-ja: a kimeneti δ visszavetítve erre a neuronra. A w24 súllyal szorozzuk, mert ezen át hat a neuron a kimenetre, és a saját szigmoid-deriváltjával, o2 · (1 − o2)."
+   },
+   "d3": {
+    "tip": "A 3. rejtett neuron δ-ja: a kimeneti δ visszavetítve erre a neuronra. A w34 súllyal szorozzuk, mert ezen át hat a neuron a kimenetre, és a saját szigmoid-deriváltjával, o3 · (1 − o3)."
+   },
+   "w11": {
+    "tip": "Súly (weight): az 1. bemenettől (x1) a 1. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w21": {
+    "tip": "Súly (weight): a 2. bemenettől (x2) a 1. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w12": {
+    "tip": "Súly (weight): az 1. bemenettől (x1) a 2. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w22": {
+    "tip": "Súly (weight): a 2. bemenettől (x2) a 2. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w13": {
+    "tip": "Súly (weight): az 1. bemenettől (x1) a 3. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w23": {
+    "tip": "Súly (weight): a 2. bemenettől (x2) a 3. rejtett neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás. A név első számjegye a kiinduló, a második a cél neuron."
+   },
+   "w14": {
+    "tip": "Súly (weight): az 1. rejtett neurontól a kimeneti, 4. neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás."
+   },
+   "w24": {
+    "tip": "Súly (weight): az 2. rejtett neurontól a kimeneti, 4. neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás."
+   },
+   "w34": {
+    "tip": "Súly (weight): az 3. rejtett neurontól a kimeneti, 4. neuronba vezető él súlya. Egy szám, kezdetben −0,8 és 0,8 közötti véletlen érték, ezt módosítja a tanítás."
+   },
+   "b1": {
+    "tip": "A 1. rejtett neuron torzítása (bias): egy szám, kezdetben 0. Mindig hozzáadódik a súlyozott összeghez, mintha egy állandóan 1 értékű bemenet súlya volna."
+   },
+   "b2": {
+    "tip": "A 2. rejtett neuron torzítása (bias): egy szám, kezdetben 0. Mindig hozzáadódik a súlyozott összeghez, mintha egy állandóan 1 értékű bemenet súlya volna."
+   },
+   "b3": {
+    "tip": "A 3. rejtett neuron torzítása (bias): egy szám, kezdetben 0. Mindig hozzáadódik a súlyozott összeghez, mintha egy állandóan 1 értékű bemenet súlya volna."
+   },
+   "b4": {
+    "tip": "A kimeneti, 4. neuron torzítása (bias): egy szám, kezdetben 0. Mindig hozzáadódik a súlyozott összeghez, mintha egy állandóan 1 értékű bemenet súlya volna."
+   },
+   "o1": {
+    "tip": "A 1. rejtett neuron kimenete (output): az aktivációs függvény értéke, szigmoidnál 0 és 1 közötti szám. Ez megy tovább a kimeneti neuronba."
+   },
+   "o2": {
+    "tip": "A 2. rejtett neuron kimenete (output): az aktivációs függvény értéke, szigmoidnál 0 és 1 közötti szám. Ez megy tovább a kimeneti neuronba."
+   },
+   "o3": {
+    "tip": "A 3. rejtett neuron kimenete (output): az aktivációs függvény értéke, szigmoidnál 0 és 1 közötti szám. Ez megy tovább a kimeneti neuronba."
+   },
+   "o4": {
+    "tip": "A háló kimenete, vagyis a jóslata: a 4. neuron kimenete. Szigmoidnál 0 és 1 közötti szám, például 0.93. Kerekítve ez a háló válasza az XOR-ra."
+   },
+   "x1": {
+    "tip": "Az 1. bemenet: az XOR egyik bitje, 0 vagy 1."
+   },
+   "x2": {
+    "tip": "A 2. bemenet: az XOR másik bitje, 0 vagy 1."
+   },
+   "target": {
+    "tip": "Az elvárt kimenet (target: cél): amit a háló erre a mintára mondania kellene. Az XOR-nál 0 vagy 1, például x1 = 1, x2 = 0 esetén 1."
+   },
+   "*": {
+    "tip": "Szorzás. Itt mindig két szám szorzata, például a bemenet és a hozzá tartozó súly szorzata.",
+    "ex": "x1 = 1\nw11 = 0.5\nprint(x1 * w11)   # 0.5"
+   },
+   "-": {
+    "tip": "Kivonás. Az 1 - o4 és a target - o4 is két szám különbsége.",
+    "ex": "o4 = 0.75\nprint(1 - o4)          # 0.25\nprint(o4 * (1 - o4))   # 0.1875"
+   },
+   "+=": {
+    "tip": "Hozzáadás helyben: a w11 += d ugyanaz, mint a w11 = w11 + d. Itt így módosul egy súly: a jobb oldal a változtatás mértéke. Ha a jobb oldal negatív, a súly csökken.",
+    "ex": "w11 = 0.5\nw11 += -0.25\nprint(w11)   # 0.25"
+   },
+   ";": {
+    "tip": "A pontosvessző egy sorban több utasítást választ el. A w14 += …; w24 += … ugyanaz, mintha külön sorokba írnánk őket. Pythonban ritka, itt csak a tömörség kedvéért áll.",
+    "ex": "a = 1; b = 2\nprint(a + b)   # 3"
+   }
+  }
+ },
+ "kod-keras": {
+  "lang": "python",
+  "tips": {
+   "keras": {
+    "tip": "A Keras neurális hálók építésére szolgáló könyvtár. Rétegekből rakjuk össze vele a hálót, a tanítást és a hibavisszaterjesztést pedig ő végzi. Egy számoló háttérkönyvtár fölött fut, itt a TensorFlow fölött."
+   },
+   "tensorflow": {
+    "tip": "A TensorFlow a Google gépi tanulási könyvtára. Ez végzi a Keras alatt a tényleges számolást. A kód közvetlenül nem használja, a betöltése csak azt biztosítja, hogy telepítve van."
+   },
+   "pandas": {
+    "tip": "A pandas táblázatos adatok kezelésére szolgáló könyvtár. Egy táblázatot DataFrame-ként (adatkeretként) tárol: sorokkal és oszlopokkal, mint egy táblázatkezelőben. Szokásos beceneve pd."
+   },
+   "pd.read_csv": {
+    "tip": "pd.read_csv(fájlnév): beolvas egy CSV fájlt (vesszővel elválasztott értékek soronként), és DataFrame-et, vagyis táblázatot ad vissza. Alapból a fájl első sorát fejlécnek, az oszlopok nevének veszi.",
+    "ex": "import io\nimport pandas as pd\nszoveg = 'a,b,faj\\n1,2,x\\n3,4,y\\n'\ndf = pd.read_csv(io.StringIO(szoveg))\nprint(df.shape)   # (2, 3)"
+   },
+   "pd": {
+    "tip": "A pandas könyvtár beceneve, amelyet az import pandas as pd sor ad neki."
+   },
+   "sklearn.preprocessing": {
+    "tip": "A scikit-learn (röviden sklearn) gépi tanulási könyvtár előfeldolgozó része (preprocessing: előfeldolgozás). Az adatok átalakítására szolgáló eszközöket tartalmazza, mielőtt egy modell megkapná őket."
+   },
+   "OneHotEncoder": {
+    "tip": "One-hot kódoló a scikit-learnből: minden kategóriát (itt fajnevet) egy olyan számsorrá alakít, amelyben egyetlen 1-es van, a többi 0. Három fajnál például (1, 0, 0), (0, 1, 0) és (0, 0, 1).",
+    "ex": "import numpy as np\nfrom sklearn.preprocessing import OneHotEncoder\nenc = OneHotEncoder(sparse_output=False)\nY = np.array(['a', 'b', 'a']).reshape(-1, 1)\nprint(enc.fit_transform(Y).tolist())\n# [[1.0, 0.0], [0.0, 1.0], [1.0, 0.0]]"
+   },
+   "keras.models": {
+    "tip": "A Keras modelljeinek (hálóinak) modulja. Innen töltjük be a Sequential hálótípust."
+   },
+   "keras.layers": {
+    "tip": "A Keras rétegeinek modulja. Innen töltjük be a Dense réteget."
+   },
+   "Sequential": {
+    "tip": "Rétegenként épülő, előrecsatolt háló (sequential: egymás után következő). A Sequential() üres hálót ad, ehhez fűzzük hozzá sorban a rétegeket a .add(…) metódussal.",
+    "ex": "import keras\nfrom keras.models import Sequential\nfrom keras.layers import Dense\nmodel = Sequential([keras.Input((4,)), Dense(3)])\nprint(len(model.layers))   # 1"
+   },
+   "Dense": {
+    "tip": "Teljesen összekötött réteg (dense: sűrű): minden neuronja az előző réteg minden kimenetét megkapja. Az első szám a neuronok száma, az activation= az aktivációs függvény.",
+    "ex": "import keras\nfrom keras.layers import Dense\nmodel = keras.Sequential([keras.Input((4,)), Dense(20), Dense(3)])\nprint(model.count_params())   # 163  (4·20+20 és 20·3+3)"
+   },
+   "df": {
+    "tip": "A beolvasott Iris-táblázat (DataFrame, df: data frame). 150 sor, minden sor egy virág. Az első négy oszlop a négy méret centiméterben, az utolsó a faj neve."
+   },
+   "X": {
+    "tip": "A bemenetek: 150 × 4-es numpy tömb (számtáblázat). Minden sora egy virág négy mérete, például [5.1, 3.5, 1.4, 0.2]."
+   },
+   "Y": {
+    "tip": "Az elvárt kimenetek. Előbb a 150 fajnév, például 'Iris-setosa'. A one-hot kódolás után 150 × 3-as tömb, minden sora például [1., 0., 0.]."
+   },
+   "iloc": {
+    "tip": "df.iloc[sorok, oszlopok]: a táblázat egy része sor- és oszlopszám szerint (iloc: integer location, egész számos hely). A számozás 0-tól indul.",
+    "ex": "import pandas as pd\ndf = pd.DataFrame({'a': [1, 2], 'b': [3, 4], 'faj': ['x', 'y']})\nprint(df.iloc[0, 2])   # x"
+   },
+   "[:, :-1]": {
+    "tip": "Kijelölés: minden sor (az első :), és az oszlopok az utolsó kivételével (:-1, vagyis „a végéről egyet elhagyva”). Itt ez a négy méret oszlopa.",
+    "ex": "import pandas as pd\ndf = pd.DataFrame({'a': [1, 2], 'b': [3, 4], 'faj': ['x', 'y']})\nprint(df.iloc[:, :-1].values.tolist())   # [[1, 3], [2, 4]]"
+   },
+   "[:,-1]": {
+    "tip": "Kijelölés: minden sor, és csak az utolsó oszlop (-1: hátulról az első). Itt ez a faj neve.",
+    "ex": "import pandas as pd\ndf = pd.DataFrame({'a': [1, 2], 'faj': ['x', 'y']})\nprint(df.iloc[:,-1].values.tolist())   # ['x', 'y']"
+   },
+   "values": {
+    "tip": "A .values a pandas-táblázatból vagy -oszlopból kiveszi a nyers számokat, numpy tömbként (névtelen sorok és oszlopok nélkül). A Keras és a scikit-learn ilyen tömböket vár.",
+    "ex": "import pandas as pd\ndf = pd.DataFrame({'a': [1, 2], 'b': [3, 4]})\nprint(df.values.shape)   # (2, 2)"
+   },
+   "encoder": {
+    "tip": "A one-hot kódoló példánya: ez alakítja a fajneveket háromelemű 0/1-es sorokká."
+   },
+   "sparse_output=False": {
+    "tip": "Azt kéri, hogy a kódoló közönséges, „sűrű” tömböt adjon vissza. Alapból ritka (sparse) mátrixot adna, amely csak a nem nulla elemeket tárolja, de ezt a Keras nem fogadja el. (Régebbi scikit-learn változatokban a neve sparse volt.)"
+   },
+   "fit_transform": {
+    "tip": "encoder.fit_transform(adat): két lépés egyben. A fit megtanulja, milyen kategóriák vannak (itt a három faj), a transform át is alakítja az adatot. Az eredmény egy tömb, soronként egy one-hot kód.",
+    "ex": "import numpy as np\nfrom sklearn.preprocessing import OneHotEncoder\nenc = OneHotEncoder(sparse_output=False)\nkod = enc.fit_transform(np.array([['b'], ['a'], ['c']]))\nprint(kod[0].tolist())   # [0.0, 1.0, 0.0]"
+   },
+   "reshape": {
+    "tip": "tömb.reshape(-1, 1): a tömböt egyetlen oszloppá alakítja át. A -1 azt jelenti: „annyi sor, amennyi kijön”. Az OneHotEncoder ilyen kétdimenziós, oszlop alakú bemenetet vár.",
+    "ex": "import numpy as np\na = np.array(['x', 'y', 'z'])\nprint(a.shape)                  # (3,)\nprint(a.reshape(-1, 1).shape)   # (3, 1)"
+   },
+   "build_model": {
+    "tip": "Saját függvény: felépít, betanít és kiértékel egy hálót a megadott aktivációs függvénnyel, és kiírja a pontosságát. Nem ad vissza semmit."
+   },
+   "activation": {
+    "tip": "Az aktivációs függvény. A build_model paramétereként a neve szövegként, például \"relu\". A Dense(…, activation=…) alakban a réteg aktivációs függvényét állítja be: itt egy név vagy maga a függvény is megadható."
+   },
+   "model": {
+    "tip": "A háló, egy Sequential objektum. Ehhez adjuk a rétegeket, ezt tanítjuk és értékeljük ki."
+   },
+   "add": {
+    "tip": "model.add(réteg): egy újabb réteget fűz a háló végére. Az első hozzáadott réteg a rejtett, az utolsó a kimeneti réteg.",
+    "ex": "import keras\nfrom keras.layers import Dense\nmodel = keras.Sequential()\nmodel.add(keras.Input((4,)))\nmodel.add(Dense(3))\nprint(model.output_shape)   # (None, 3)"
+   },
+   "input_dim=4": {
+    "tip": "A bemenetek száma: négy, a virág négy mérete. Csak az első rétegnél kell megadni, a többi réteg az előzőből tudja. Az újabb Keras figyelmeztet, hogy helyette keras.Input((4,)) réteget ajánl, de így is működik."
+   },
+   "lambda": {
+    "tip": "Névtelen, egysoros függvény. A lambda x: kifejezés ugyanaz, mint egy def-fel írt függvény, amely x-et kap, és a kifejezés értékét adja vissza.",
+    "ex": "dupla = lambda x: 2 * x\nprint(dupla(5))   # 10"
+   },
+   "x": {
+    "tip": "A lambda függvény bemenete: a réteg neuronjainak aktivációi."
+   },
+   "keras.activations.threshold": {
+    "tip": "keras.activations.threshold(x, küszöb, alapérték): x-et adja vissza, ahol x nagyobb a küszöbnél, máshol az alapértéket. A (x, 0, 0) hívás tehát nem lépcsőfüggvény, hanem éppen a ReLU.",
+    "ex": "import keras, numpy as np\nx = np.array([-2.0, 0.5, 3.0])\nprint(keras.activations.threshold(x, 0, 0))\n# [0.  0.5 3. ]"
+   },
+   "compile": {
+    "tip": "model.compile(…): a tanítás előkészítése. Megadjuk vele a veszteségfüggvényt (loss), az optimalizálót (optimizer) és a kiírandó mérőszámokat (metrics). Maga a tanítás még nem indul el.",
+    "ex": "import keras\nmodel = keras.Sequential([keras.Input((2,)), keras.layers.Dense(1)])\nmodel.compile(loss=\"mse\", optimizer=\"adam\", metrics=[\"accuracy\"])\nprint(model.optimizer.name)   # adam"
+   },
+   "loss": {
+    "tip": "A veszteségfüggvény (loss: veszteség): ez méri, mennyire tér el a háló kimenete az elvárttól. A tanítás ezt próbálja csökkenteni."
+   },
+   "keras.losses.CategoricalCrossentropy": {
+    "tip": "Kategorikus keresztentrópia: osztályozásnál szokásos hibafüggvény. One-hot kódolt elvárt kimenetet vár. Kicsi, ha a háló a helyes osztálynak nagy valószínűséget ad.",
+    "ex": "import keras\nloss = keras.losses.CategoricalCrossentropy()\nprint(round(float(loss([[0, 1, 0]], [[0.1, 0.8, 0.1]])), 3))   # 0.223\nprint(round(float(loss([[0, 1, 0]], [[0.6, 0.2, 0.2]])), 3))   # 1.609"
+   },
+   "optimizer": {
+    "tip": "Az optimalizáló: az az eljárás, amely a hibából kiszámolt gradiens alapján módosítja a súlyokat."
+   },
+   "keras.optimizers.Adam": {
+    "tip": "Az Adam optimalizáló: a gradienscsökkentés egy okosabb változata, amely minden súlynak saját, menet közben igazított lépésközt ad. Ma az egyik leggyakoribb alapértelmezés.",
+    "ex": "import keras\nopt = keras.optimizers.Adam(learning_rate=1e-3)\nprint(round(float(opt.learning_rate), 4))   # 0.001"
+   },
+   "learning_rate": {
+    "tip": "A tanulási ráta: mekkorát lépjen az optimalizáló egy javításkor. Itt 0,001."
+   },
+   "1e-3": {
+    "tip": "Tudományos (normál alakos) számírás: 1e-3 = 1 · 10⁻³ = 0,001.",
+    "ex": "print(1e-3)          # 0.001\nprint(2e2)           # 200.0"
+   },
+   "metrics": {
+    "tip": "A tanítás és a kiértékelés közben figyelt mérőszámok listája. Az \"accuracy\" a pontosság: a helyesen besorolt minták aránya."
+   },
+   "fit": {
+    "tip": "model.fit(X, Y, epochs=…): a tanítás. A háló az X bemenetekre adott válaszát az Y elvárt kimenetekhez igazítja, hibavisszaterjesztéssel módosítva a súlyokat.",
+    "ex": "import numpy as np, keras\nX = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])\nY = np.array([[0], [1], [1], [1]])\nmodel = keras.Sequential([keras.Input((2,)), keras.layers.Dense(1, activation=\"sigmoid\")])\nmodel.compile(loss=\"binary_crossentropy\", optimizer=\"adam\")\nh = model.fit(X, Y, epochs=5, verbose=0)\nprint(len(h.history[\"loss\"]))   # 5  (korszakonként egy veszteség)"
+   },
+   "epochs": {
+    "tip": "A korszakok (epoch) száma: hányszor menjen végig a tanítás a teljes adathalmazon. Itt 200-szor."
+   },
+   "verbose": {
+    "tip": "Mennyit írjon ki tanítás közben (verbose: bőbeszédű). A 0 azt jelenti, hogy semmit."
+   },
+   "evaluate": {
+    "tip": "model.evaluate(X, Y): kiértékeli a hálót a megadott adatokon. Egy listát ad vissza: első eleme a veszteség, utána a metrics-ben kért mérőszámok, itt a pontosság. Itt ugyanazon az adaton értékel, amelyen tanított.",
+    "ex": "import numpy as np, keras\nX = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])\nY = np.array([[0], [1], [1], [1]])\nmodel = keras.Sequential([keras.Input((2,)), keras.layers.Dense(1, activation=\"sigmoid\")])\nmodel.compile(loss=\"binary_crossentropy\", optimizer=\"adam\", metrics=[\"accuracy\"])\neredmeny = model.evaluate(X, Y, verbose=0)\nprint(len(eredmeny))   # 2  (veszteség, pontosság)"
+   },
+   "_": {
+    "tip": "Az aláhúzás jel szokásos neve annak a változónak, amelynek az értéke nem kell. Az evaluate két értéket ad vissza: a veszteség az _-ba kerül (eldobjuk), a pontosság az accuracy-ba.",
+    "ex": "_, b = [0.31, 0.97]\nprint(b)   # 0.97"
+   },
+   "accuracy": {
+    "tip": "A pontosság: a helyesen besorolt virágok aránya, 0 és 1 közötti szám. Például 0.96 azt jelenti, hogy a 150-ből 144 helyes."
+   },
+   "%": {
+    "tip": "Szövegformázás: a bal oldali szövegben a %.2f helyére a jobb oldali szám kerül, két tizedesjegyre kerekítve.",
+    "ex": "accuracy = 0.9667\nprint(\"Accuracy: %.2f\" % (accuracy * 100))   # Accuracy: 96.67"
+   },
+   "*": {
+    "tip": "Szorzás: az accuracy * 100 a 0 és 1 közötti pontosságot százalékká alakítja.",
+    "ex": "print(0.5 * 100)   # 50.0"
+   },
+   "predict": {
+    "tip": "model.predict(X): a betanított háló kimenete minden bemenetre. Itt 150 × 3-as tömb: soronként a három faj „valószínűsége”.",
+    "ex": "import numpy as np, keras\nX = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])\nY = np.array([[0], [1], [1], [1]])\nmodel = keras.Sequential([keras.Input((2,)), keras.layers.Dense(1, activation=\"sigmoid\")])\nprint(model.predict(X, verbose=0).shape)   # (4, 1)  (4 minta, 1 kimenet)"
+   },
+   "y_pred": {
+    "tip": "A háló jóslatai (prediction: előrejelzés): 150 × 3-as tömb. A kód kiszámolja, de utána nem használja."
+   },
+   "activations": {
+    "tip": "A kipróbálandó aktivációs függvények nevei, szövegek listájában. A Keras ezeket a neveket ismeri, a \"threshold\"-ot a build_model külön kezeli."
+   },
+   "func": {
+    "tip": "A ciklusváltozó: sorban felveszi az activations lista minden elemét, például \"relu\"."
+   }
+  }
+ }
+}
