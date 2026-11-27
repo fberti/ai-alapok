@@ -299,3 +299,14 @@ svg .u-tnode-goal .u-tname{font-weight:bold}
 }
 @media print{details.u-practice::details-content,details.u-sol::details-content{content-visibility:visible;display:block}}
 .u-add .u-more{margin-top:.7rem}.u-add .u-more>summary{color:var(--u-add)}.u-add .u-more>p{border-left-color:var(--u-add)}
+/* Hasítótábla: rekeszek sora */
+.u-hash{margin:1rem 0;padding:0 0 0 .9rem}
+.u-hash ol{list-style:none;margin:0;padding:0;display:grid;gap:.3rem;max-width:26rem}
+.u-hash li{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;padding:.25rem .4rem;border:1px solid var(--line);border-radius:6px;background:var(--u-card)}
+.u-hash li.u-hash-clash{border-color:var(--u-fix);background:var(--u-fix-bg)}
+.u-hash-i{display:inline-grid;place-items:center;width:1.8rem;height:1.8rem;border-radius:4px;background:var(--u-accent);color:var(--paper);font-weight:bold;font-size:14px;font-family:"DejaVu Sans Mono",Consolas,monospace}
+.u-hash-key{border:2px solid var(--u-accent);border-radius:999px;padding:0 .6rem;font-size:15px;background:var(--u-accent-bg)}
+.u-hash-empty{color:var(--muted);font-style:italic;font-size:14px}
+.u-hash-arrow{color:var(--u-fix);font-weight:bold}
+.u-hash figcaption{font-size:13px;color:var(--muted);margin-top:.4rem}
+@media print{.u-hash li{print-color-adjust:exact;-webkit-print-color-adjust:exact}}

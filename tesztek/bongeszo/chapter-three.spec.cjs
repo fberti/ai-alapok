@@ -145,3 +145,15 @@ test('A szógráf labor teljes méretben a rajzot a vezérlők mellé rendezi', 
   await lab.locator(':scope > .lab-full-btn').click();
   await expect(lab.locator('.lab-split')).toHaveCount(0);
 });
+
+test('A hasítótábla kiegészítése lenyíló, és JavaScript nélkül is a teljes példát adja', async ({page}) => {
+  await page.goto(chapter);
+  const more = page.locator('#hasitotabla-pelda');
+  expect(await more.getAttribute('open')).toBeNull();
+  await more.locator('summary').click();
+  await expect(page.locator('#hasito-ertekek tbody tr')).toHaveCount(5);
+  await expect(page.locator('#hasito-rekeszek li')).toHaveCount(7);
+  await expect(page.locator('#hasito-rekeszek .u-hash-clash')).toContainText('Madár');
+  await expect(page.locator('#hasito-kereses > li')).toHaveCount(4);
+  await expect(page.locator('#s-clrs')).toHaveCount(1);
+});
