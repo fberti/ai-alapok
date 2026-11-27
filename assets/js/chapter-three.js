@@ -28,6 +28,132 @@
     byId.forEach((_, id) => { const s = document.getElementById(id); if (s) observer.observe(s); });
   }
 
+  /* 0 · Szógráf: a bfs függvény lépésről lépésre – a #szograf-kod szótára és kódja */
+  /** @type {Record<string, string[]>} */
+  const wordGraph = {
+    'sírni': ['szomorú', 'könny', 'hang'],
+    'könny': ['sírni', 'szem'],
+    'hang': ['sírni', 'szomorú', 'zene'],
+    'szomorú': ['sírni', 'kényelem', 'hang'],
+    'kényelem': ['szomorú', 'fotel', 'pihenés'],
+    'fotel': ['kényelem', 'bútor'],
+    'pihenés': ['kényelem']
+  };
+  /**
+   * A kurzus bfs függvényének hű másolata, amely minden kört feljegyez.
+   * @param {string} start @param {string} goal
+   */
+  function bfsTrace(start, goal) {
+    /** @type {string[][]} */ const queue = [[start]];
+    /** @type {Array<{path: string[]|null, added: string[][], skipped: string[], found: boolean, queue: string[][]}>} */
+    const frames = [{ path: null, added: [[start]], skipped: [], found: false, queue: [[start]] }];
+    while (queue.length) {
+      const path = /** @type {string[]} */ (queue.shift());
+      const end = path[path.length - 1];
+      if (end === goal) { frames.push({ path, added: [], skipped: [], found: true, queue: queue.map((q) => q.slice()) }); return frames; }
+      /** @type {string[][]} */ const added = []; /** @type {string[]} */ const skipped = [];
+      for (const adj of wordGraph[end] || []) {
+        if (!path.includes(adj)) { const np = [...path, adj]; queue.push(np); added.push(np); } else skipped.push(adj);
+      }
+      frames.push({ path, added, skipped, found: false, queue: queue.map((q) => q.slice()) });
+    }
+    return frames;
+  }
+
+  function initWordGraph() {
+    const box = $('#szograf-labor');
+    if (!box) return;
+    const out = $('#szograf-ki'), stat = $('#szograf-stat'), list = $('#szograf-sor');
+    const nodes = /** @type {SVGGElement[]} */ ([...box.querySelectorAll('.u-wg-n')]);
+    const edges = /** @type {SVGLineElement[]} */ ([...box.querySelectorAll('.u-wg-e')]);
+    const calls = [['sírni', 'kényelem'], ['könny', 'fotel']];
+    const callBtns = [$('#szograf-h1'), $('#szograf-h2')];
+    let call = 0, pos = 0;
+    let frames = bfsTrace(calls[0][0], calls[0][1]);
+    /** @param {string[]} p */
+    const show = (p) => p.join(' → ');
+    /** @param {string[]} p */
+    const py = (p) => `[${p.map((w) => `"${w}"`).join(', ')}]`;
+    /** @param {string} a @param {string} b */
+    const key = (a, b) => [a, b].sort().join('|');
+    /** @param {string} w */
+    const art = (w) => (/^[aáeéiíoóöőuúüű]/i.test(w) ? 'Az' : 'A');
+    function render() {
+      const [start, goal] = calls[call];
+      const f = frames[pos];
+      const end = f.path ? f.path[f.path.length - 1] : null;
+      /** @type {Set<string>} */ const seen = new Set();
+      frames.slice(1, pos).forEach((x) => { if (x.path) seen.add(x.path[x.path.length - 1]); });
+      const repeat = end !== null && seen.has(end);
+      const fronts = new Set(f.queue.map((q) => q[q.length - 1]));
+      const onPath = new Set(f.path || []);
+      /** @type {Set<string>} */ const pathEdges = new Set();
+      if (f.path) for (let i = 1; i < f.path.length; i++) pathEdges.add(key(f.path[i - 1], f.path[i]));
+      const newEdges = new Set(f.path ? f.added.map((p) => key(p[p.length - 2], p[p.length - 1])) : []);
+      nodes.forEach((g) => {
+        const n = g.dataset.n || '';
+        g.classList.toggle('is-start', n === start);
+        g.classList.toggle('is-goal', n === goal);
+        g.classList.toggle('is-vis', seen.has(n) && !onPath.has(n));
+        g.classList.toggle('is-front', fronts.has(n) && !onPath.has(n));
+        g.classList.toggle('is-path', onPath.has(n));
+        g.classList.toggle('is-cur', n === end && !f.found);
+        g.classList.toggle('is-found', f.found && n === end);
+      });
+      edges.forEach((e) => {
+        const k = e.dataset.e || '';
+        e.classList.toggle('is-path', pathEdges.has(k));
+        e.classList.toggle('is-new', newEdges.has(k) && !pathEdges.has(k));
+      });
+      let msg;
+      if (!f.path) {
+        msg = `Kezdés: queue = [${py([start])}]. A sorban egyetlen útvonal van, amely csak a kiinduló szóból („${start}”) áll. A cél: „${goal}”.`;
+      } else {
+        msg = `${pos}. kör: a queue.pop(0) kiveszi a sor elejéről a legrégebbi útvonalat: ${show(f.path)}. Az utolsó szava (end_node): „${end}”.`;
+        if (f.found) {
+          msg += ` Ez a cél, ezért a függvény visszaadja ezt az útvonalat: ${py(f.path)}. A lánc ${f.path.length - 1} lépésből áll, és mivel a rövidebb útvonalak mindig előbb kerülnek sorra, ez a legrövidebb.`;
+        } else {
+          msg += ' Nem a cél.';
+          if (repeat) msg += ` ${art(end)} „${end}” szót egy másik útvonal végén már megvizsgáltuk. Ez a kód nem jegyzi meg a meglátogatott szavakat, csak az útvonalon belüli kört tiltja, ezért ugyanaz a szó többször is sorra kerülhet.`;
+          if (!wordGraph[end]) msg += ` ${art(end)} „${end}” nem kulcs a GRAPH szótárban, ezért a graph.get(end_node, []) üres listát ad: ez az útvonal zsákutca, a sorba nem kerül új útvonal.`;
+          else {
+            if (f.skipped.length) msg += ` ${f.skipped.map((w) => `„${w}”`).join(' és ')} már szerepel az útvonalon, ezért kimarad (if adjacent not in path).`;
+            msg += f.added.length
+              ? ` Az új útvonalak a sor végére kerülnek: ${f.added.map(show).join('; ')}.`
+              : ' Minden szomszéd szerepel már az útvonalon, ezért a sorba nem kerül új útvonal.';
+          }
+        }
+      }
+      out.textContent = msg;
+      stat.innerHTML = '';
+      [['Kivett útvonal', String(pos)], ['Útvonal a sorban', String(f.queue.length)], ['A mostani út hossza', f.path ? `${f.path.length - 1} lépés` : '–']].forEach(([a, b]) => {
+        const d = document.createElement('div'); const v = document.createElement('b'); v.textContent = b; d.append(v, a); stat.append(d);
+      });
+      list.innerHTML = '';
+      const fresh = new Set(f.added.map((p) => p.join('|')));
+      if (!f.queue.length) {
+        const li = document.createElement('li'); li.className = 'is-empty';
+        li.textContent = f.found ? 'A függvény itt visszatér, a sorban maradt útvonalakat már nem vizsgálja.' : 'A sor üres.';
+        list.append(li);
+      }
+      f.queue.forEach((p) => { const li = document.createElement('li'); li.textContent = show(p); if (fresh.has(p.join('|'))) li.className = 'is-new'; list.append(li); });
+      $('#szograf-vissza').disabled = $('#szograf-elejere').disabled = pos === 0;
+      $('#szograf-elore').disabled = $('#szograf-vegere').disabled = pos === frames.length - 1;
+    }
+    /** @param {number} p */
+    const go = (p) => { pos = Math.max(0, Math.min(frames.length - 1, p)); render(); };
+    callBtns.forEach((b, i) => b.addEventListener('click', () => {
+      call = i; frames = bfsTrace(calls[i][0], calls[i][1]);
+      callBtns.forEach((x, j) => x.setAttribute('aria-pressed', String(j === i)));
+      go(0);
+    }));
+    $('#szograf-elejere').addEventListener('click', () => go(0));
+    $('#szograf-vissza').addEventListener('click', () => go(pos - 1));
+    $('#szograf-elore').addEventListener('click', () => go(pos + 1));
+    $('#szograf-vegere').addEventListener('click', () => go(frames.length - 1));
+    render();
+  }
+
   /* 1 · Kérdezd a hálót – a PDF 70. oldalának hálója */
   /** @type {Record<string, {up: string|null, edge: string, props: string[]}>} */
   const net = {
@@ -315,6 +441,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     initToc();
     initPrint();
+    initWordGraph();
     initNet();
     initConflict();
     initFrames();

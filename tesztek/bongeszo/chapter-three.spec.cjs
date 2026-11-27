@@ -103,3 +103,40 @@ test('JavaScript nélkül is olvasható minden levezetés', async ({browser}) =>
   await expect(page.locator('#halo-csomopont')).toBeHidden();
   await context.close();
 });
+
+test('A szógráf labor lépésenként követi a bfs függvényt mindkét hívásra', async ({page}) => {
+  await page.goto(chapter);
+  const lab = page.locator('#szograf-labor');
+  await expect(lab.locator('.u-wg-n')).toHaveCount(10);
+  await expect(page.locator('#szograf-ki')).toContainText('queue = [["sírni"]]');
+  await expect(page.locator('#szograf-vissza')).toBeDisabled();
+  await page.locator('#szograf-elore').click();
+  await expect(page.locator('#szograf-ki')).toContainText('1. kör');
+  await expect(page.locator('#szograf-sor li')).toHaveCount(3);
+  await expect(lab.locator('.u-wg-n.is-cur')).toHaveAttribute('data-n', 'sírni');
+  await page.locator('#szograf-vegere').click();
+  await expect(page.locator('#szograf-ki')).toContainText('["sírni", "szomorú", "kényelem"]');
+  await expect(lab.locator('.u-wg-n.is-found')).toHaveAttribute('data-n', 'kényelem');
+  await expect(page.locator('#szograf-elore')).toBeDisabled();
+  await page.locator('#szograf-h2').click();
+  await expect(page.locator('#szograf-h2')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#szograf-ki')).toContainText('queue = [["könny"]]');
+  for (let i = 0; i < 3; i++) await page.locator('#szograf-elore').click();
+  await expect(page.locator('#szograf-ki')).toContainText('nem kulcs a GRAPH szótárban');
+  await page.locator('#szograf-vegere').click();
+  await expect(page.locator('#szograf-ki')).toContainText('["könny", "sírni", "szomorú", "kényelem", "fotel"]');
+  await expect(page.locator('#szograf-stat')).toContainText('10');
+});
+
+test('A szógráf labor teljes méretben a rajzot a vezérlők mellé rendezi', async ({page}) => {
+  await page.goto(chapter);
+  const lab = page.locator('#szograf-labor');
+  await lab.locator(':scope > .lab-full-btn').click();
+  await expect(lab.locator('.lab-split-main #szograf-rajz')).toHaveCount(1);
+  await expect(lab.locator('.lab-split-side #szograf-elore')).toHaveCount(1);
+  const box = await lab.locator('#szograf-rajz').boundingBox();
+  const vh = page.viewportSize().height;
+  expect(box.height).toBeLessThanOrEqual(vh);
+  await lab.locator(':scope > .lab-full-btn').click();
+  await expect(lab.locator('.lab-split')).toHaveCount(0);
+});

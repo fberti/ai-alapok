@@ -55,7 +55,7 @@
       return;
     }
     if (done) return;
-    const box = /** @type {HTMLElement | null} */ (lab.querySelector(':scope > .u-js-only'));
+    const box = /** @type {HTMLElement | null} */ (lab.querySelector(':scope > .u-js-only, :scope > .lab-body'));
     if (!box) return;
     const visual = [...box.children].filter((c) => c.classList.contains('u-panel') && c.querySelector('svg, canvas, .u-scroll'));
     if (!visual.length) return;

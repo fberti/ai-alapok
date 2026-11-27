@@ -38,7 +38,7 @@ A második fejezet öt interaktív bemutatót és kilenc opcionális kvízkérd�
 
 Az átdolgozott második fejezet a PDF nélkül is követhető. Látható lépéssorok, összevetések és szerkesztett párbeszéd tagolják. A kézikönyv és a részletes tudás teljes tartalma kattintás nélkül olvasható. Mindkét láncolási irányhoz írásos levezetés tartozik. Az oktatói `resources/code/12_Logika.py` szabályait a kapcsolódó magyarázat mutatja be.
 
-A harmadik fejezet négy interaktív labort és nyolc opcionális kvízkérdést tartalmaz.
+A harmadik fejezet öt interaktív labort és nyolc opcionális kvízkérdést tartalmaz.
 
 Az átdolgozott harmadik fejezet a PDF 65–88. oldalát önállóan olvasható leckévé szervezi. A kanári útvonalai, Pityuka adatlapja és a két biztosítási ág segítik a hálók megértését. A keretek teljes adatlapokat, az öröklés és az esethasonlóság végigvezetett megoldásokat kapott. Minden szükséges magyarázat kattintás és JavaScript nélkül is olvasható.
 
