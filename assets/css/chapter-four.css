@@ -273,3 +273,14 @@ details.u-practice>p{margin:.6rem 1.1rem}
 }
 .u-lab>p code{white-space:nowrap}
 @media print{details.u-practice::details-content,details.u-sol::details-content{content-visibility:visible;display:block}}
+/* Definíciódoboz: kiemelt fogalom, meghatározás, példa */
+.u-defs{margin:1.2rem 0;padding:.6rem 1rem .7rem;border:1px solid var(--u-accent);border-left:6px solid var(--u-accent);border-radius:8px;background:var(--u-card)}
+.u-defs::before{content:"Definíciók";display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;color:var(--u-accent);margin-bottom:.2rem}
+.u-defs>div{display:grid;grid-template-columns:minmax(110px,150px) minmax(0,1fr);gap:.2rem 1rem;padding:.55rem 0;border-top:1px dashed var(--line)}
+.u-defs>div:first-of-type{border-top:0}
+.u-defs dt{font-family:Georgia,serif;font-size:1.15rem;font-weight:bold;color:var(--u-accent)}
+.u-defs dd{margin:0}
+.u-defs dd p{margin:.1rem 0}
+.u-defs .u-defs-ex{font-size:14px;color:var(--muted)}
+@media(max-width:560px){.u-defs>div{grid-template-columns:1fr}}
+@media print{.u-defs{break-inside:avoid}}

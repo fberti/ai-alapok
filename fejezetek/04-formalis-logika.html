@@ -346,12 +346,19 @@
 <p>A <strong>tétel</strong> igaz állításokból és egy, azokból állítólag következő konklúzióból áll. A jelölése egy tört: a vonal fölött a premisszák, alatta a konklúzió.</p>
 <div class="u-formula" id="tetel-jeloles"><span class="u-frac"><span>α, β, γ</span><span>δ</span></span><span>ahol α, β, γ tények, δ a konklúzió.</span></div>
 <p>A <strong>tételbizonyítás</strong> feladata az, hogy formális szabályok gépies alkalmazásával igazolja: a konklúzió a premisszák következménye. Egy propozíciós formula érvényességének igazolására öt módszert érdemes ismerni. Az alábbiakban mindet ugyanazon a formulán mutatjuk be. Ez a <a class="xref" href="#menzai-rejtveny">menzai rejtvény</a> formája: ha p → q és p, akkor q. Formulaként: <code>((p → q) ∧ p) → q</code>.</p>
+<p id="kloz-elozetes">Az ötödik módszer, a rezolúció, három új fogalommal dolgozik, ezért előbb ezeket vezetjük be.</p>
+<dl class="u-defs" id="kloz-definiciok" aria-label="Definíciók: literál, klóz, üres klóz">
+<div><dt>Literál</dt><dd><p>Egy ítéletváltozó vagy annak tagadása.</p><p class="u-defs-ex">Példa: <code>p</code>, <code>¬p</code></p></dd></div>
+<div><dt>Klóz</dt><dd><p>Literálok VAGY-kapcsolata. Egyetlen literál is klóz. Akkor igaz, ha legalább egy literálja igaz.</p><p class="u-defs-ex">Példa: <code>¬p ∨ q</code>, <code>p</code>, <code>¬q</code></p></dd></div>
+<div><dt>Üres klóz</dt><dd><p>Az a klóz, amelyből minden literál kiesett. Nincs benne igaz literál, ezért mindig hamis. A rezolúcióban az ellentmondást jelzi.</p><p class="u-defs-ex">Jele: <code>□</code> vagy <code>NIL</code></p></dd></div>
+</dl>
+<p>Hogy minden formula klózokra bontható, és hogyan, azt <a class="xref" href="#knf">a 9. rész</a> mutatja meg.</p>
 <div class="u-compare" id="modszerek">
 <div><span class="u-tag">1 · IGAZSÁGTÁBLA</span><h3>Mindent végignézünk</h3><p>A 2<sup>2</sup> = 4 interpretáció mindegyikében kiértékeljük a formulát. Mind a négyben igaz, tehát érvényes. Egyszerű, de n változónál 2<sup>n</sup> sor kell: 30 változónál már egymilliárdnál is több.</p></div>
 <div><span class="u-tag">2 · FORMÁLIS LEVEZETÉS</span><h3>Szabályokkal lépünk</h3><p>Kiinduló igazságokból, azaz axiómákból, és következtetési szabályokból építünk egy láncot. A leghíresebb szabály a <strong><a class="xref" href="02-tudasbazisok.html#modus-ponens-pelda">modus ponens</a></strong>: p → q és p ismeretében leírhatjuk q-t. Itt egyetlen lépés elég.</p></div>
 <div><span class="u-tag">3 · QUINE ALGORITMUSA</span><h3>Esetszétválasztás</h3><p>Egy változót előbb igaznak, aztán hamisnak veszünk, és mindkét esetben egyszerűsítünk. p = F: a bal oldal hamis, a formula igaz. p = T: a formula <code>q → q</code> lesz, ami mindig igaz. Willard Van Orman Quine írta le 1950-ben.</p></div>
 <div><span class="u-tag">4 · WANG ALGORITMUSA</span><h3>Szekvenciák bontása</h3><p>A „premisszák ⊢ konklúzió” alakú sort, az úgynevezett <strong>szekvenciát</strong> szabályokkal bontja, amíg minden ágon ugyanaz a változó áll mindkét oldalon. Hao Wang 1960-ban ezzel géppel igazolta a <em>Principia Mathematica</em> propozíciós tételeit, néhány perc alatt.</p></div>
-<div><span class="u-tag">5 · REZOLÚCIÓ</span><h3>Ellentmondást keresünk</h3><p>Tagadjuk a konklúziót, és megmutatjuk, hogy a premisszákkal együtt ellentmondásra vezet. Klózok: <code>¬p ∨ q</code>, <code>p</code>, <code>¬q</code>. Az első kettőből q, ebből és a <code>¬q</code>-ból az üres klóz. Részletesen <a class="xref" href="#rezolucio">a 10. rész</a> mutatja be.</p></div>
+<div><span class="u-tag">5 · REZOLÚCIÓ</span><h3>Ellentmondást keresünk</h3><p>Indirekt bizonyítás: feltesszük, hogy a premisszák igazak, a konklúzió mégis hamis. A premisszákat és a tagadott konklúziót klózokra bontjuk, és egyetlen szabállyal, a rezolúcióval vonunk össze klózpárokat. Ha végül előáll az üres klóz, a feltevés lehetetlen, tehát a konklúzió következik. A menzai formula levezetését <a class="xref" href="#menza-rezolucio-lepesek">lent, lépésenként</a> mutatjuk be.</p></div>
 </div>
 <p>A rezolúció kiemelkedik a többi közül, mert a <strong>predikátumlogikában is alkalmazható</strong>. Egyetlen szabályból áll:</p>
 <div class="u-formula" id="rezolucio-szabaly"><span class="u-frac"><span>α ∨ β,  ¬β ∨ γ</span><span>α ∨ γ</span></span><span>A rezolúció szabálya.</span></div>
@@ -362,6 +369,16 @@
 <li><p><strong>KNF-re hozás.</strong> Az összetett formulát, vagyis a premisszák és a tagadott konklúzió ÉS-kapcsolatát <strong>konjunktív normálforma (KNF)</strong> alakra hozzuk. Ez klózok ÉS-kapcsolata. A klóz literálok VAGY-kapcsolata, a literál pedig egy ítéletváltozó vagy annak tagadása. <a class="xref" href="#knf-lepesek">A 9. rész</a> mutatja meg, hogyan.</p></li>
 <li><p><strong>Rezolválás.</strong> A klózokon a rezolúciót addig alkalmazzuk, amíg el nem jutunk az ellentmondáshoz, vagy már nem tudunk továbbmenni. Az utóbbi eset a leállást is rögzíti. Pontos jelentését <a class="xref" href="#telitodes">a 10. rész egyik kiigazítása</a> adja meg.</p></li>
 </ol>
+<div class="u-example" id="menza-rezolucio-lepesek"><strong>Végigvezetett példa · A menzai formula rezolúcióval</strong>
+<p>Bizonyítsuk be, hogy a <code>p → q</code> és a <code>p</code> premisszákból következik <code>q</code>. A három lépés a következőképpen alakul.</p>
+<p><strong>1. Tagadás.</strong> Feltesszük a konklúzió ellenkezőjét: <code>¬q</code>. Most azt állítjuk, hogy egyszerre igaz <code>p → q</code>, <code>p</code> és <code>¬q</code>. Ha ebből ellentmondás jön ki, a feltevés lehetetlen, és <code>q</code> valóban következik.</p>
+<p><strong>2. KNF-re hozás, azaz klózokra bontás.</strong> A <code>p</code> és a <code>¬q</code> egyetlen literálból áll, tehát már klóz. A <code>p → q</code> implikáció viszont nem klóz, mert nem VAGY-kapcsolat. Helyette az ekvivalens <code>¬p ∨ q</code> alakot írjuk. A kettő pontosan ugyanabban az egy esetben hamis: amikor p igaz és q hamis. A klózhalmaz így: <code>{¬p ∨ q, p, ¬q}</code>.</p>
+<p><strong>3. Rezolválás.</strong> Két klózt akkor vonhatunk össze, ha az egyikben egy literál, a másikban pedig annak tagadása szerepel. Ez a pár kiesik, a többi literál VAGY-kapcsolata marad. Ez a <a class="xref" href="#rezolucio-szabaly">rezolúció szabálya</a>.</p>
+<ol class="u-ladder" id="menza-letra">
+<li><span class="u-clause">¬p ∨ q</span><span class="u-plus">+</span><span class="u-clause">p</span><span class="u-res">⇒ <span class="u-clause">q</span></span><small>kiesik: ¬p, p. Mivel p igaz, ¬p hamis, ezért a ¬p ∨ q klóz csak úgy lehet igaz, ha q igaz.</small></li>
+<li><span class="u-clause">q</span><span class="u-plus">+</span><span class="u-clause">¬q</span><span class="u-res">⇒ <span class="u-clause u-nil">NIL</span></span><small>kiesik: q, ¬q. Nem marad egyetlen literál sem: ez az üres klóz. Azt fejezi ki, hogy q-nak egyszerre kellene igaznak és hamisnak lennie.</small></li>
+</ol>
+<p>Megkaptuk az üres klózt, vagyis a feltevésünk ellentmondásra vezetett. Nem lehet, hogy a premisszák igazak, a konklúzió pedig hamis. A tétel tehát érvényes: <code>p → q</code> és <code>p</code> ismeretében <code>q</code> következik. Hosszabb levezetést és a módszer pontos algoritmusát <a class="xref" href="#rezolucio">a 10. rész</a> mutatja be.</p></div>
 <p>A propozíciós logikában a rezolúció alkalmazása ugyanakkor korlátozott. Ez a logika ugyanis nem ad eszközt bonyolultabb problémák leírására. Ezt <a class="xref" href="#szocseples-feladat">a 11. rész</a> mutatja meg.</p>
 </section>
 
