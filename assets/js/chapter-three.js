@@ -28,8 +28,8 @@
     byId.forEach((_, id) => { const s = document.getElementById(id); if (s) observer.observe(s); });
   }
 
-  /* 0 · Szógráf: a bfs függvény lépésről lépésre – a #szograf-kod szótára és kódja */
-  /** @type {Record<string, string[]>} */
+  /* 0 · Szógráf: keresés lépésenként – a #szograf-kod szótára, a 9. fejezet keresőmodelljével (search.js) */
+  /** A kód GRAPH szótára; minden él költsége 1, a gyerekek sorrendje a listáké. */
   const wordGraph = {
     'sírni': ['szomorú', 'könny', 'hang'],
     'könny': ['sírni', 'szem'],
@@ -39,119 +39,115 @@
     'fotel': ['kényelem', 'bútor'],
     'pihenés': ['kényelem']
   };
-  /**
-   * A kurzus bfs függvényének hű másolata, amely minden kört feljegyez.
-   * @param {string} start @param {string} goal
-   */
-  function bfsTrace(start, goal) {
-    /** @type {string[][]} */ const queue = [[start]];
-    /** @type {Array<{path: string[]|null, added: string[][], skipped: string[], found: boolean, queue: string[][]}>} */
-    const frames = [{ path: null, added: [[start]], skipped: [], found: false, queue: [[start]] }];
-    while (queue.length) {
-      const path = /** @type {string[]} */ (queue.shift());
-      const end = path[path.length - 1];
-      if (end === goal) { frames.push({ path, added: [], skipped: [], found: true, queue: queue.map((q) => q.slice()) }); return frames; }
-      /** @type {string[][]} */ const added = []; /** @type {string[]} */ const skipped = [];
-      for (const adj of wordGraph[end] || []) {
-        if (!path.includes(adj)) { const np = [...path, adj]; queue.push(np); added.push(np); } else skipped.push(adj);
-      }
-      frames.push({ path, added, skipped, found: false, queue: queue.map((q) => q.slice()) });
-    }
-    return frames;
-  }
 
   function initWordGraph() {
     const box = $('#szograf-labor');
-    if (!box) return;
-    const out = $('#szograf-ki'), stat = $('#szograf-stat'), list = $('#szograf-sor');
+    /** @type {any} */
+    const K = typeof CourseSearch === 'undefined' ? null : CourseSearch;
+    /** @param {string} w */
+    const art = (w) => (/^[aáeéiíoóöőuúüű]/i.test(w) ? 'az' : 'a');
+    if (!box || !K) return;
+    /** @type {Record<string, Array<[string, number]>>} */
+    const adj = {};
+    Object.entries(wordGraph).forEach(([w, list]) => { adj[w] = list.map((t) => /** @type {[string, number]} */ ([t, 1])); });
+    Object.values(wordGraph).flat().forEach((t) => { if (!adj[t]) adj[t] = []; });
+    const sSel = $('#szograf-start'), cSel = $('#szograf-cel'), alg = $('#szograf-alg');
+    const out = $('#szograf-ki'), stat = $('#szograf-stat'), tree = $('#szograf-fa'), play = $('#szograf-lejatszas');
     const nodes = /** @type {SVGGElement[]} */ ([...box.querySelectorAll('.u-wg-n')]);
     const edges = /** @type {SVGLineElement[]} */ ([...box.querySelectorAll('.u-wg-e')]);
-    const calls = [['sírni', 'kényelem'], ['könny', 'fotel']];
-    const callBtns = [$('#szograf-h1'), $('#szograf-h2')];
-    let call = 0, pos = 0;
-    let frames = bfsTrace(calls[0][0], calls[0][1]);
-    /** @param {string[]} p */
-    const show = (p) => p.join(' → ');
-    /** @param {string[]} p */
-    const py = (p) => `[${p.map((w) => `"${w}"`).join(', ')}]`;
+    const names = K.states(adj);
+    fill(sSel, names); fill(cSel, names);
+    sSel.value = 'sírni'; cSel.value = 'kényelem';
+    /** @type {any} */ let trace = null;
+    let pos = 0;
+    /** @type {number|undefined} */ let timer;
     /** @param {string} a @param {string} b */
     const key = (a, b) => [a, b].sort().join('|');
-    /** @param {string} w */
-    const art = (w) => (/^[aáeéiíoóöőuúüű]/i.test(w) ? 'Az' : 'A');
+    const li = (/** @type {string} */ text) => { const x = document.createElement('li'); x.textContent = text; return x; };
+    function compute() {
+      stop();
+      trace = K.search(adj, sSel.value, cSel.value, { strategy: alg.value, goalTest: 'expand', repeats: 'path', order: 'given' });
+      pos = 0;
+      render();
+    }
     function render() {
-      const [start, goal] = calls[call];
-      const f = frames[pos];
-      const end = f.path ? f.path[f.path.length - 1] : null;
-      /** @type {Set<string>} */ const seen = new Set();
-      frames.slice(1, pos).forEach((x) => { if (x.path) seen.add(x.path[x.path.length - 1]); });
-      const repeat = end !== null && seen.has(end);
-      const fronts = new Set(f.queue.map((q) => q[q.length - 1]));
-      const onPath = new Set(f.path || []);
+      const t = trace, k = pos;
+      const snap = K.snapshot(t, k);
+      const labs = K.labels(t.nodes);
+      const last = k === t.steps.length;
+      const curState = snap.current === null ? null : t.nodes[snap.current].state;
+      const explored = new Set(snap.explored);
+      const fronts = new Set(snap.front.map((/** @type {number} */ id) => t.nodes[id].state));
+      const path = last && t.found ? t.path : [];
+      const onPath = new Set(path);
       /** @type {Set<string>} */ const pathEdges = new Set();
-      if (f.path) for (let i = 1; i < f.path.length; i++) pathEdges.add(key(f.path[i - 1], f.path[i]));
-      const newEdges = new Set(f.path ? f.added.map((p) => key(p[p.length - 2], p[p.length - 1])) : []);
+      for (let i = 1; i < path.length; i++) pathEdges.add(key(path[i - 1], path[i]));
       nodes.forEach((g) => {
         const n = g.dataset.n || '';
-        g.classList.toggle('is-start', n === start);
-        g.classList.toggle('is-goal', n === goal);
-        g.classList.toggle('is-vis', seen.has(n) && !onPath.has(n));
-        g.classList.toggle('is-front', fronts.has(n) && !onPath.has(n));
+        g.classList.toggle('is-start', n === sSel.value);
+        g.classList.toggle('is-goal', n === cSel.value);
         g.classList.toggle('is-path', onPath.has(n));
-        g.classList.toggle('is-cur', n === end && !f.found);
-        g.classList.toggle('is-found', f.found && n === end);
+        g.classList.toggle('is-cur', !onPath.has(n) && n === curState);
+        g.classList.toggle('is-vis', !onPath.has(n) && n !== curState && explored.has(n));
+        g.classList.toggle('is-front', !onPath.has(n) && n !== curState && !explored.has(n) && fronts.has(n));
       });
-      edges.forEach((e) => {
-        const k = e.dataset.e || '';
-        e.classList.toggle('is-path', pathEdges.has(k));
-        e.classList.toggle('is-new', newEdges.has(k) && !pathEdges.has(k));
-      });
+      edges.forEach((e) => e.classList.toggle('is-path', pathEdges.has(e.dataset.e || '')));
+      const gap = window.innerWidth < 600 ? 74 : 92;
+      tree.innerHTML = K.treeSvg(t, { id: 'szograf-t', title: 'A keresőfa eddig feltárt része', step: k, current: true, gap });
+      const fl = $('#szograf-front'), vl = $('#szograf-bejart');
+      fl.innerHTML = ''; vl.innerHTML = '';
+      snap.front.forEach((/** @type {number} */ id) => fl.append(li(K.labelText(labs[id]))));
+      snap.explored.forEach((/** @type {string} */ s) => vl.append(li(s)));
+      const head = `${alg.value === 'bfs' ? 'Szélességi' : 'Mélységi'} keresés, ${sSel.value} → ${cSel.value}. `;
       let msg;
-      if (!f.path) {
-        msg = `Kezdés: queue = [${py([start])}]. A sorban egyetlen útvonal van, amely csak a kiinduló szóból („${start}”) áll. A cél: „${goal}”.`;
+      if (k === 0) {
+        msg = `Kezdés: a front egyetlen eleme a start (${sSel.value}).`;
       } else {
-        msg = `${pos}. kör: a queue.pop(0) kiveszi a sor elejéről a legrégebbi útvonalat: ${show(f.path)}. Az utolsó szava (end_node): „${end}”.`;
-        if (f.found) {
-          msg += ` Ez a cél, ezért a függvény visszaadja ezt az útvonalat: ${py(f.path)}. A lánc ${f.path.length - 1} lépésből áll, és mivel a rövidebb útvonalak mindig előbb kerülnek sorra, ez a legrövidebb.`;
-        } else {
-          msg += ' Nem a cél.';
-          if (repeat) msg += ` ${art(end)} „${end}” szót egy másik útvonal végén már megvizsgáltuk. Ez a kód nem jegyzi meg a meglátogatott szavakat, csak az útvonalon belüli kört tiltja, ezért ugyanaz a szó többször is sorra kerülhet.`;
-          if (!wordGraph[end]) msg += ` ${art(end)} „${end}” nem kulcs a GRAPH szótárban, ezért a graph.get(end_node, []) üres listát ad: ez az útvonal zsákutca, a sorba nem kerül új útvonal.`;
-          else {
-            if (f.skipped.length) msg += ` ${f.skipped.map((w) => `„${w}”`).join(' és ')} már szerepel az útvonalon, ezért kimarad (if adjacent not in path).`;
-            msg += f.added.length
-              ? ` Az új útvonalak a sor végére kerülnek: ${f.added.map(show).join('; ')}.`
-              : ' Minden szomszéd szerepel már az útvonalon, ezért a sorba nem kerül új útvonal.';
-          }
+        const step = t.steps[k - 1], node = t.nodes[step.visit];
+        msg = `${k}. lépés: belépünk ide: ${K.labelText(labs[step.visit])} (mélység ${node.depth}). `;
+        if (step.goal) msg += 'Ez a cél.';
+        else if (step.children.length) {
+          msg += `Feltárt gyerekek: ${step.children.map((/** @type {number} */ c) => K.labelText(labs[c])).join(', ')}. `;
+          msg += alg.value === 'bfs' ? 'A front végére kerülnek, ezért előbb a sekélyebb csomópontok jönnek sorra.' : 'A front elejére kerülnek, ezért a keresés ezen az ágon megy tovább.';
+        } else if (!wordGraph[node.state]) msg += `Zsákutca: ${art(node.state)} „${node.state}” magyarázatát nem vettük fel, ezért nincs gyereke.`;
+        else msg += 'Nincs új gyereke.';
+        if (step.skipped.length) msg += ` Kihagyva, mert már az úton van: ${step.skipped.join(', ')}.`;
+        if (!step.goal && explored.has(node.state) && t.steps.slice(0, k - 1).some((/** @type {any} */ s) => t.nodes[s.visit].state === node.state)) {
+          msg += ` ${art(node.state) === 'az' ? 'Az' : 'A'} „${node.state}” szóba most nem először lépünk be: egy másik úton már jártunk itt. A fakeresés csak az úton lévő szót hagyja ki.`;
         }
       }
-      out.textContent = msg;
+      if (last) msg += t.found ? ` Kész: ${t.path.join(' → ')}, ${t.path.length - 1} lépés.` : ' A front kiürült: innen nem érhető el a cél.';
+      out.textContent = head + msg;
       stat.innerHTML = '';
-      [['Kivett útvonal', String(pos)], ['Útvonal a sorban', String(f.queue.length)], ['A mostani út hossza', f.path ? `${f.path.length - 1} lépés` : '–']].forEach(([a, b]) => {
+      [['Belelépés eddig', String(k)], ['Feltárt csomópont', String(snap.generated)], ['A front mérete', String(snap.front.length)], ['Lépés', `${k} / ${t.steps.length}`]].forEach(([a, b]) => {
         const d = document.createElement('div'); const v = document.createElement('b'); v.textContent = b; d.append(v, a); stat.append(d);
       });
-      list.innerHTML = '';
-      const fresh = new Set(f.added.map((p) => p.join('|')));
-      if (!f.queue.length) {
-        const li = document.createElement('li'); li.className = 'is-empty';
-        li.textContent = f.found ? 'A függvény itt visszatér, a sorban maradt útvonalakat már nem vizsgálja.' : 'A sor üres.';
-        list.append(li);
-      }
-      f.queue.forEach((p) => { const li = document.createElement('li'); li.textContent = show(p); if (fresh.has(p.join('|'))) li.className = 'is-new'; list.append(li); });
-      $('#szograf-vissza').disabled = $('#szograf-elejere').disabled = pos === 0;
-      $('#szograf-elore').disabled = $('#szograf-vegere').disabled = pos === frames.length - 1;
+      $('#szograf-vissza').disabled = $('#szograf-elejere').disabled = k === 0;
+      $('#szograf-lep').disabled = $('#szograf-vegig').disabled = last;
+    }
+    function stop() {
+      if (timer !== undefined) { clearInterval(timer); timer = undefined; }
+      play.textContent = 'Lejátszás'; play.setAttribute('aria-pressed', 'false');
     }
     /** @param {number} p */
-    const go = (p) => { pos = Math.max(0, Math.min(frames.length - 1, p)); render(); };
-    callBtns.forEach((b, i) => b.addEventListener('click', () => {
-      call = i; frames = bfsTrace(calls[i][0], calls[i][1]);
-      callBtns.forEach((x, j) => x.setAttribute('aria-pressed', String(j === i)));
-      go(0);
+    const go = (p) => { pos = Math.max(0, Math.min(trace.steps.length, p)); render(); };
+    [sSel, cSel, alg].forEach((x) => x.addEventListener('change', compute));
+    box.querySelectorAll('[data-szg]').forEach((/** @type {HTMLButtonElement} */ b) => b.addEventListener('click', () => {
+      const [s, c, a] = (b.dataset.szg || '').split(',');
+      sSel.value = s; cSel.value = c; alg.value = a;
+      compute();
     }));
-    $('#szograf-elejere').addEventListener('click', () => go(0));
-    $('#szograf-vissza').addEventListener('click', () => go(pos - 1));
-    $('#szograf-elore').addEventListener('click', () => go(pos + 1));
-    $('#szograf-vegere').addEventListener('click', () => go(frames.length - 1));
-    render();
+    $('#szograf-elejere').addEventListener('click', () => { stop(); go(0); });
+    $('#szograf-vissza').addEventListener('click', () => { stop(); go(pos - 1); });
+    $('#szograf-lep').addEventListener('click', () => { stop(); go(pos + 1); });
+    $('#szograf-vegig').addEventListener('click', () => { stop(); go(trace.steps.length); });
+    play.addEventListener('click', () => {
+      if (timer !== undefined) { stop(); return; }
+      if (pos === trace.steps.length) go(0);
+      play.textContent = 'Megállítás'; play.setAttribute('aria-pressed', 'true');
+      timer = window.setInterval(() => { if (pos >= trace.steps.length) stop(); else go(pos + 1); }, 1100);
+    });
+    compute();
   }
 
   /* 1 · Kérdezd a hálót – a PDF 70. oldalának hálója */
